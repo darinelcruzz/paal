@@ -37,6 +37,8 @@ Vue.component('ptable', require('./components/lte/ProductTable.vue'));
 Vue.component('prow', require('./components/lte/ProductRow.vue'));
 Vue.component('dropdown', require('./components/lte/DropdownButton.vue'));
 Vue.component('ddi', require('./components/lte/DropdownItem.vue'));
+Vue.component('file-upload', require('./components/lte/FileUploadInput.vue'));
+Vue.component('pdf-button', require('./components/lte/FileUploadButton.vue'));
 
 const app = new Vue({
     el: '#app'
