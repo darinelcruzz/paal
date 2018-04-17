@@ -18,14 +18,13 @@ class RouteServiceProvider extends ServiceProvider
 
     public function map()
     {
-        $this->mapApiRoutes();
 
-        $this->mapPublicRoutes();
         $this->mapCoffeeRoutes();
         $this->mapMailboxesRoutes();
         $this->mapPaalRoutes();
+        $this->mapPublicRoutes();
 
-        //
+        $this->mapApiRoutes();
     }
 
     protected function mapPublicRoutes()
@@ -37,21 +36,21 @@ class RouteServiceProvider extends ServiceProvider
 
     protected function mapCoffeeRoutes()
     {
-        Route::middleware(['auth', 'coffee'])
+        Route::middleware(['web', 'auth', 'coffee'])
              ->namespace($this->namespace)
              ->group(base_path('routes/coffee.php'));
     }
 
     protected function mapMailboxesRoutes()
     {
-        Route::middleware(['auth', 'mailboxes'])
+        Route::middleware(['web', 'auth', 'mailboxes'])
              ->namespace($this->namespace)
              ->group(base_path('routes/mailboxes.php'));
     }
 
     protected function mapPaalRoutes()
     {
-        Route::middleware(['auth', 'paal'])
+        Route::middleware(['web', 'auth', 'paal'])
              ->namespace($this->namespace)
              ->group(base_path('routes/paal.php'));
     }

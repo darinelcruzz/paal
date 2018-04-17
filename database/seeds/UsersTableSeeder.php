@@ -13,6 +13,12 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         factory(\App\User::class)->create([
+            'username' => 'lab3',
+            'password' => Hash::make('helefante'),
+            'company' => 'owner'
+        ]);
+
+        factory(\App\User::class)->create([
         	'username' => 'coffee',
         	'password' => Hash::make('coffeed'),
         	'company' => 'coffee'

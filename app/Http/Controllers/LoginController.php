@@ -12,10 +12,12 @@ class LoginController extends Controller
         $credentials = $request->only('username', 'password');
 
         if (Auth::attempt($credentials)) {
-            return redirect()->intended();
+            return redirect()->intended($request->company);
         }
 
-        return view('auth.login');
+        $company = substr(redirect()->intended()->getTargetUrl(), strlen('http://paal.test/'));
+
+        return view('auth.login', compact('company'));
     }
     
 }

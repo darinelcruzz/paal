@@ -1,95 +1,76 @@
-<!doctype html>
-<html lang="{{ app()->getLocale() }}">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<!DOCTYPE html>
+<html lang="en">
 
-        <title>Laravel</title>
+@include('lte.htmlhead')
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+<body class="hold-transition lockscreen">
+<!-- Automatic element centering -->
+<div class="lockscreen-wrapper">
+  <div class="lockscreen-logo">
+    <b>PAAL</b>
+  </div>
 
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Raleway', sans-serif;
-                font-weight: 100;
-                height: 100vh;
-                margin: 0;
-            }
+  <div class="lockscreen-item">
+    
+    <div class="lockscreen-image">
+      <img src="{{ asset('/img/paal.png') }}" alt="Paal Admin">
+    </div>
 
-            .full-height {
-                height: 100vh;
-            }
+    <div class="lockscreen-credentials">
+      <div class="input-group">
+        <input type="text" class="form-control" value="ADMIN" disabled>
 
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-                        <a href="{{ route('register') }}">Register</a>
-                    @endauth
-                </div>
-            @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
-            </div>
+        <div class="input-group-btn">
+          <a href="/paal" class="btn"><i class="fa fa-arrow-right text-muted"></i></a>
         </div>
-    </body>
+      </div>
+    </div>
+
+  </div>
+
+  <br>
+
+  <div class="lockscreen-item">
+
+    <div class="lockscreen-image">
+      <img src="{{ asset('/img/coffee.png')  }}" alt="Coffee Depot">
+    </div>
+
+    <div class="lockscreen-credentials">
+      <div class="input-group">
+        <input type="text" class="form-control" value="COFFEE" disabled>
+
+        <div class="input-group-btn">
+          <a href="/coffee" class="btn"><i class="fa fa-arrow-right text-muted"></i></a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <br>
+
+  <div class="lockscreen-item">
+
+    <div class="lockscreen-image">
+      <img src="{{ asset('/img/mbe.png')  }}" alt="Mailboxes etc">
+    </div>
+
+    <div class="lockscreen-credentials">
+      <div class="input-group">
+        <input type="text" class="form-control" value="MAILBOXES" disabled>
+
+        <div class="input-group-btn">
+          <a href="/mbe" class="btn"><i class="fa fa-arrow-right text-muted"></i></a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="help-block text-center">
+    Elija a qué sitio quiere dirigirse
+  </div>
+</div>
+</body>
 </html>

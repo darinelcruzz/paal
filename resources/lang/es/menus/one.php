@@ -13,11 +13,11 @@ return [
         'submenu' => [
             'submenu1' => [
                 'title' => 'Lista',
-                'route' => 'provider.index'
+                'route' => 'coffee.provider.index'
             ],
             'submenu2' => [
                 'title' => 'Agregar',
-                'route' => 'provider.create'
+                'route' => 'coffee.provider.create'
             ]
         ]
     ],
@@ -28,12 +28,18 @@ return [
         'submenu' => [
             'submenu1' => [
                 'title' => 'Lista',
-                'route' => 'egress.index'
+                'route' => 'coffee.egress.index'
             ],
             'submenu2' => [
                 'title' => 'Agregar',
-                'route' => 'egress.create'
+                'route' => 'coffee.egress.create'
             ]
         ]
+    ],
+
+    'logout' => [
+        'title' => 'Salir',
+        'icon' => 'fa fa-sign-out',
+        'route' => 'logout'
     ],
 ];

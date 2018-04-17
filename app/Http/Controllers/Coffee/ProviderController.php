@@ -33,6 +33,6 @@ class ProviderController extends Controller
 
         CProvider::create($request->all());
 
-        return redirect(route('provider.index'));
+        return redirect(route('coffee.provider.index'));
     }
 }

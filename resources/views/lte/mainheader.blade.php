@@ -25,7 +25,11 @@
             <!-- The user image in the navbar-->
             <img src="{{ asset('adminlte/dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image">
             <!-- hidden-xs hides the username on small devices so only the image appears. -->
-            <span class="hidden-xs">Nombre Apellido</span>
+            <span class="hidden-xs">
+              @auth
+                {{ auth()->user()->name }}
+              @endauth
+            </span>
           </a>
         </li>
       </ul>

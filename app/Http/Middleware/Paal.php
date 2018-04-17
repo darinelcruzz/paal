@@ -15,7 +15,7 @@ class Paal
      */
     public function handle($request, Closure $next)
     {
-        if ($request->user()->company == 'paal') {
+        if ($request->user()->company == 'paal' || $request->user()->company == 'owner') {
             return $next($request);
         }
 

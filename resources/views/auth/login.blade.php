@@ -11,7 +11,7 @@
                 <div class="row">
                     <div class="col-md-2"></div>
                     <div class="col-md-8" align="center" valign="middle">
-                        <img width="100%" height="100%" src="{{ asset('/adminlte/dist/img/avatar5.png') }}">
+                        <img width="100%" height="100%" src="{{ asset("/img/$company.png") }}">
                     </div>
                 </div>
 
@@ -39,8 +39,9 @@
                 <div class="row">
                     <div class="col-md-2"></div>
                     <div class="col-md-8">
-                        <button type="submit" class="btn btn-success btn-block">
-                            E N T R A R &nbsp;&nbsp;&nbsp;&nbsp; <i class="fa fa-forward"></i> 
+                        <input type="hidden" value="{{ $company }}" name="company">
+                        <button type="submit" class="btn btn-default btn-block">
+                            <b>E N T R A R &nbsp;&nbsp;&nbsp;&nbsp; <i class="fa fa-forward"></i> </b>
                         </button>
                     </div>
                 </div>

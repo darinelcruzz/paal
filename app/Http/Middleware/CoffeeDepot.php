@@ -15,7 +15,7 @@ class CoffeeDepot
      */
     public function handle($request, Closure $next)
     {
-        if ($request->user()->company == 'coffee') {
+        if ($request->user()->company == 'coffee' || $request->user()->company == 'owner') {
             return $next($request);
         }
 

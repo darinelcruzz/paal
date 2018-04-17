@@ -1,5 +1,6 @@
 <?php
 
-Route::get('/mbe', function () {
-    return "MAILBOXES ETC";
+Route::group(['prefix' => 'mbe', 'as' => 'mbe.'], function () {
+	
+	Route::get('/', usesas('Mailboxes\HomeController', 'index'));
 });

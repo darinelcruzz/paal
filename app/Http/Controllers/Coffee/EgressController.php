@@ -47,7 +47,7 @@ class EgressController extends Controller
             'xml' => $path_to_xml,
         ]);
 
-        return redirect(route('egress.index'));
+        return redirect(route('coffee.egress.index'));
     }
 
     function show($id)
@@ -87,6 +87,6 @@ class EgressController extends Controller
             'status' => 'pagado'
         ]);
 
-        return redirect(route('egress.index'));
+        return redirect(route('coffee.egress.index'));
     }
 }
