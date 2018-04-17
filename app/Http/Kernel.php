@@ -60,5 +60,8 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'coffee' => \App\Http\Middleware\CoffeeDepot::class,
+        'mailboxes' => \App\Http\Middleware\MailboxesEtc::class,
+        'paal' => \App\Http\Middleware\Paal::class,
     ];
 }
