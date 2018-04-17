@@ -6,8 +6,8 @@
     <body class="hold-transition skin-green sidebar-mini">
         <div id="app">
             <div class="wrapper">
-                @include('lte.mainheader', ['logoMini' => "<b>C</b>D", 'logoLg' => "<b>Coffee</b>Depot"])
-                @include('lte.sidebar')
+                @include('lte.mainheader', ['logoMini' => "<b>M</b>BE", 'logoLg' => "<b>Mail</b>boxes"])
+                @include('lte.sidebar', ['site' => 'mailboxes'])
 
                 <div class="content-wrapper">
                     <section class="content-header">

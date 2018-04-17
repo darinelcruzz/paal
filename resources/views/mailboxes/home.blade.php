@@ -1,4 +1,4 @@
-@extends('lte.root')
+@extends('mailboxes.root')
 
 @push('pageTitle')
     Mailboxes | Inicio

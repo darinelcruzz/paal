@@ -4,7 +4,7 @@ return [
     'example1' => [
         'title' => 'Ejemplo',
         'icon' => 'fa fa-user',
-        'route' => 'home'
+        'route' => 'coffee.index'
     ],
 
     'providers' => [

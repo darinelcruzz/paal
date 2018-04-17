@@ -7,7 +7,7 @@
     <ul class="sidebar-menu" data-widget="tree">
       <li class="header">MENÚ</li>
 
-      @each('lte.items', trans('menus/one'), 'item')
+      @each('lte.items', trans('menus/' . $site . '/one'), 'item')
 
     </ul>
     <!-- /.sidebar-menu -->

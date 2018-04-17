@@ -1,4 +1,4 @@
-@extends('lte.root')
+@extends('coffee.root')
 
 @push('pageTitle')
     PAAL | Proveedores | Lista
