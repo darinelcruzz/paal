@@ -38,7 +38,7 @@
                             {!! Field::number('amount', ['tpl' => 'withicon'], ['icon' => 'money']) !!}
                         </div>
                         <div class="col-md-6">
-                            {!! Field::number('iva', ['tpl' => 'withicon'], ['icon' => 'bank']) !!}
+                            {!! Field::number('iva', ['tpl' => 'withicon', 'step' => '0.1'], ['icon' => 'bank']) !!}
                         </div>
                     </div>
 

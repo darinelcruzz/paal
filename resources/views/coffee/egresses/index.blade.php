@@ -11,7 +11,7 @@
                 
                 <data-table example="1">
 
-                    {{ drawHeader('ID', 'compra', 'factura', 'I.V.A.', 'total', 'fecha pago', 'PDF', 'estado') }}
+                    {{ drawHeader('ID', 'compra', 'factura', 'I.V.A.', 'total', 'fecha pago', 'PDF pago', 'estado') }}
 
                     <template slot="body">
                         @foreach($egresses as $egress)
@@ -33,7 +33,7 @@
                                         <button class="btn btn-default btn-xs"><i class="fa fa-file-code-o"></i></button>
                                     </modal-button>
                                 </td>
-                                <td>{{ $egress->iva}} %</td>
+                                <td>$ {{ number_format($egress->iva, 2) }}</td>
                                 <td>$  {{ number_format($egress->amount, 2) }}</td>
                                 <td>
                                     {{ fdate($egress->payment_date, 'd M Y', 'Y-m-d') }}
