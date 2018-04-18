@@ -15,7 +15,7 @@ class LoginController extends Controller
             return redirect()->intended($request->company);
         }
 
-        $company = substr(redirect()->intended()->getTargetUrl(), strlen('http://paal.test/'));
+        $company = substr(redirect()->intended()->getTargetUrl(), strlen('http://paaltest.frb.io/'));
 
         return view('auth.login', compact('company'));
     }
