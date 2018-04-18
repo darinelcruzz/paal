@@ -11,8 +11,8 @@
 @section('content')
     <div class="row">
         <div class="col-md-6">
-            <simple-box title="" color="success" button>
-                {!! Form::open(['method' => 'POST', 'route' => 'egress.store', 'enctype' => 'multipart/form-data']) !!}
+            <solid-box title="" color="danger" button>
+                {!! Form::open(['method' => 'POST', 'route' => 'coffee.egress.store', 'enctype' => 'multipart/form-data']) !!}
 
                     {!! Field::select('provider', $providers, null,
                         ['tpl' => 'withicon', 'empty' => 'Seleccione un proveedor'], 
@@ -44,10 +44,10 @@
 
                     <hr>
 
-                    {!! Form::submit('Agregar', ['class' => 'btn btn-success pull-right']) !!}
+                    {!! Form::submit('Agregar', ['class' => 'btn btn-danger pull-right']) !!}
                     
                 {!! Form::close() !!}
-            </simple-box>
+            </solid-box>
         </div>
     </div>
 

@@ -11,8 +11,8 @@
 @section('content')
     <div class="row">
         <div class="col-md-6">
-            <solid-box title="Una caja" color="success" button>
-                {!! Form::open(['method' => 'POST', 'route' => 'provider.store']) !!}
+            <solid-box title="Una caja" color="danger" button>
+                {!! Form::open(['method' => 'POST', 'route' => 'coffee.provider.store']) !!}
 
                     {!! Field::text('social', ['label' => 'Razón social', 'tpl' => 'withicon'], ['icon' => 'truck']) !!}
                     {!! Field::text('name', ['label' => 'Nombre comercial', 'tpl' => 'withicon'], ['icon' => 'comment-o']) !!}
@@ -35,7 +35,7 @@
                         </div>
                     </div>
 
-                    {!! Form::submit('Agregar', ['class' => 'btn btn-success pull-right']) !!}
+                    {!! Form::submit('Agregar', ['class' => 'btn btn-danger pull-right']) !!}
                     
                 {!! Form::close() !!}
             </solid-box>

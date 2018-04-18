@@ -11,7 +11,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <simple-box title="" color="success" button>
+            <solid-box title="" color="danger" button>
                 
                 <data-table example="1">
 
@@ -32,7 +32,7 @@
                     
                 </data-table>
 
-            </simple-box>
+            </solid-box>
         </div>
     </div>
 

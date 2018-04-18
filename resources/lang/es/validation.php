@@ -149,5 +149,10 @@ return [
         'time' => 'hora',
         'subject' => 'asunto',
         'message' => 'mensaje',
+        'provider' => 'proveedor',
+        'buying_date' => 'fecha de compra',
+        'payment_date' => 'fecha de pago',
+        'amount' => 'total',
+        'iva' => 'I.V.A.',
     ],
 ];
