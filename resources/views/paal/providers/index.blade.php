@@ -1,18 +1,18 @@
-@extends('coffee.root')
+@extends('paal.root')
 
 @push('pageTitle')
-    PAAL | Proveedores | Lista
+    Proveedores | Lista
 @endpush
 
 @push('headerTitle')
-    Proveedores <small>LISTA</small>
+    <a href="{{ route('paal.provider.create') }}" class="btn btn-info btn-xs"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR</a>
 @endpush
 
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <solid-box title="" color="danger" button>
-                
+            <solid-box title="Lista de proveedores" color="primary" button>
+
                 <data-table example="1">
 
                     {{ drawHeader('id', 'proveedor', 'R.F.C', 'dirección', 'correo', 'teléfono') }}

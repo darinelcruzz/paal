@@ -7,34 +7,10 @@ return [
         'route' => 'coffee.index'
     ],
 
-    'providers' => [
-        'title' => 'Proveedores',
-        'icon' => 'fa fa-truck',
-        'submenu' => [
-            'submenu1' => [
-                'title' => 'Lista',
-                'route' => 'coffee.provider.index'
-            ],
-            'submenu2' => [
-                'title' => 'Agregar',
-                'route' => 'coffee.provider.create'
-            ]
-        ]
-    ],
-
     'egresses' => [
         'title' => 'Egresos',
         'icon' => 'fa fa-share',
-        'submenu' => [
-            'submenu1' => [
-                'title' => 'Lista',
-                'route' => 'coffee.egress.index'
-            ],
-            'submenu2' => [
-                'title' => 'Agregar',
-                'route' => 'coffee.egress.create'
-            ]
-        ]
+        'route' => 'coffee.egress.index'
     ],
 
     'paal' => [

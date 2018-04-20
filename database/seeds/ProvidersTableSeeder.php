@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class CoffeeProvidersTableSeeder extends Seeder
+class ProvidersTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class CoffeeProvidersTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\Models\Coffee\CProvider::class, 7)->create();
+        factory(\App\Provider::class, 10)->create();
     }
 }

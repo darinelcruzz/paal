@@ -1,7 +1,11 @@
 @extends('coffee.root')
 
 @push('pageTitle')
-    PAAL | Egresos | Lista
+    Egresos | Lista
+@endpush
+
+@push('headerTitle')
+    <a href="{{ route('coffee.egress.create') }}" class="btn btn-danger btn-xs"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR</a>
 @endpush
 
 @section('content')

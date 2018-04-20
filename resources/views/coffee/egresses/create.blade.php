@@ -1,17 +1,13 @@
 @extends('coffee.root')
 
 @push('pageTitle')
-    PAAL | Proveedores | Agregar
-@endpush
-
-@push('headerTitle')
-    Proveedor <small>AGREGAR</small>
+    Egresos | Agregar
 @endpush
 
 @section('content')
     <div class="row">
         <div class="col-md-6">
-            <solid-box title="" color="danger" button>
+            <solid-box title="Agregar egreso" color="danger" button>
                 {!! Form::open(['method' => 'POST', 'route' => 'coffee.egress.store', 'enctype' => 'multipart/form-data']) !!}
 
                     {!! Field::select('provider', $providers, null,
@@ -19,8 +15,14 @@
                         ['icon' => 'truck']) 
                     !!}
 
-                    {!! Field::date('buying_date', Date::now(), ['tpl' => 'withicon'], ['icon' => 'shopping-cart']) !!}
-                    {!! Field::date('payment_date', Date::now(), ['tpl' => 'withicon'], ['icon' => 'dollar']) !!}
+                    <div class="row">
+                        <div class="col-md-6">
+                            {!! Field::date('buying_date', Date::now(), ['tpl' => 'withicon'], ['icon' => 'shopping-cart']) !!}
+                        </div>
+                        <div class="col-md-6">
+                            {!! Field::date('payment_date', Date::now(), ['tpl' => 'withicon'], ['icon' => 'dollar']) !!}
+                        </div>
+                    </div>
 
                     <label>Factura</label>
 
@@ -30,6 +32,17 @@
                         </div>
                         <div class="col-md-6">
                             <file-upload fname="xml" ext="xml"></file-upload>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            {!! Field::date('emission', Date::now(), ['tpl' => 'withicon'], ['icon' => 'shopping-cart']) !!}
+                        </div>
+                        <div class="col-md-6">
+                            {!! Field::date('expiration', Date::now(), ['tpl' => 'withicon'], ['icon' => 'dollar']) !!}
                         </div>
                     </div>
 

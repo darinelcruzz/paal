@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Coffee;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
-use App\Models\Coffee\{CEgress, CProvider};
+use App\Models\Coffee\CEgress;
+use App\Provider;
 
 class EgressController extends Controller
 {
@@ -17,7 +18,7 @@ class EgressController extends Controller
 
     function create()
     {
-        $providers = CProvider::pluck('name', 'id')->toArray();
+        $providers = Provider::where('company', '!=', 'mbe')->pluck('name', 'id')->toArray();
         return view('coffee.egresses.create', compact('providers'));
     }
 

@@ -154,5 +154,11 @@ return [
         'payment_date' => 'fecha de pago',
         'amount' => 'total',
         'iva' => 'I.V.A.',
+        'social' => 'razón social',
+        'postcode' => 'código postal',
+        'type' => 'tipo',
+        'company' => 'empresa',
+        'emission' => 'emisión',
+        'expiration' => 'vencimiento',
     ],
 ];

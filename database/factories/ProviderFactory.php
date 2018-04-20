@@ -2,7 +2,7 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(App\Models\Coffee\CProvider::class, function (Faker $faker) {
+$factory->define(App\Provider::class, function (Faker $faker) {
     return [
         'social' => "{$faker->company} {$faker->companySuffix}",
         'name' => $faker->jobTitle,
@@ -11,5 +11,9 @@ $factory->define(App\Models\Coffee\CProvider::class, function (Faker $faker) {
         'email' => $faker->freeEmail,
         'contact' => $faker->name,
         'phone' => $faker->tollFreePhoneNumber,
-    ];
+        'type' => $faker->randomElement(array('cv','gg')),
+        'city' => $faker->city,
+        'postcode' => $faker->postcode,
+        'company' => $faker->randomElement(array('mbe','coffee', 'both')),
+   ];
 });
