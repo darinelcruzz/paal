@@ -48,11 +48,9 @@
                                             <button class="btn btn-default btn-xs"><i class="fa fa-file-pdf-o"></i></button>
                                         </modal-button>
                                     @else
-                                        {!! Form::open(['method' => 'POST', 'route' => 'coffee.egress.upload', 'enctype' => 'multipart/form-data']) !!}
-                                            <pdf-button fname="pdf_payment" ext="pdf" color="default"></pdf-button>
-                                            <input type="hidden" name="id" value="{{ $egress->id }}">
-                                            <button type="submit" class="btn btn-xs btn-danger"><i class="fa fa-check"></i></button>
-                                        {!! Form::close() !!}
+                                        <a href="{{ route('coffee.egress.pay', ['egress' => $egress->id]) }}">
+                                            <i class="fa fa-dollar"></i>
+                                        </a>
                                     @endif
                                 </td>
                                 <td>

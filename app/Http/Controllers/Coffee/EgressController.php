@@ -52,27 +52,12 @@ class EgressController extends Controller
         return redirect(route('coffee.egress.index'));
     }
 
-    function show($id)
+    function pay(Egress $egress)
     {
-        //
+        return view('coffee.egresses.pay', compact('egress'));
     }
 
-    function edit($id)
-    {
-        //
-    }
-
-    function update(Request $request, $id)
-    {
-        //
-    }
-
-    function destroy($id)
-    {
-        //
-    }
-
-    function upload(Request $request)
+    function settle(Request $request)
     {
         $this->validate($request, [
             'pdf_payment' => 'required',

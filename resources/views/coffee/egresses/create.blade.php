@@ -20,12 +20,6 @@
                             {!! Field::date('buying_date', Date::now(), ['tpl' => 'withicon'], ['icon' => 'shopping-cart']) !!}
                         </div>
                         <div class="col-md-6">
-                            {!! Field::date('payment_date', Date::now(), ['tpl' => 'withicon'], ['icon' => 'dollar']) !!}
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
                             {!! Field::text('folio', ['tpl' => 'withicon'], ['icon' => 'barcode']) !!}
                         </div>
                     </div>

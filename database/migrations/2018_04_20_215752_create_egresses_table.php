@@ -29,6 +29,8 @@ class CreateEgressesTable extends Migration
             $table->date('payment_date')->nullable();
             $table->string('status')->default('pendiente');
             $table->string('company');
+            $table->string('method')->nullable();
+            $table->string('mfolio')->nullable();
             $table->string('observations')->nullable();
             $table->string('user')->nullable();
 
