@@ -4,11 +4,16 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCEgressesTable extends Migration
+class CreateEgressesTable extends Migration
 {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
-        Schema::create('c_egresses', function (Blueprint $table) {
+        Schema::create('egresses', function (Blueprint $table) {
             $table->increments('id');
 
             $table->integer('provider');
@@ -23,14 +28,21 @@ class CreateCEgressesTable extends Migration
             $table->double('amount');
             $table->date('payment_date')->nullable();
             $table->string('status')->default('pendiente');
+            $table->string('company');
             $table->string('observations')->nullable();
+            $table->string('user')->nullable();
 
             $table->timestamps();
         });
     }
 
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
-        Schema::dropIfExists('c_egresses');
+        Schema::dropIfExists('egresses');
     }
 }

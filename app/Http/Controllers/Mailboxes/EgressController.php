@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Coffee;
+namespace App\Http\Controllers\Mailboxes;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -11,16 +11,16 @@ class EgressController extends Controller
 {
     function index()
     {
-        $egresses = Egress::where('company', 'coffee')
+        $egresses = Egress::where('company', 'mbe')
                         ->where('status', '!=', 'cancelado')
                         ->get();
-        return view('coffee.egresses.index', compact('egresses'));
+        return view('mailboxes.egresses.index', compact('egresses'));
     }
 
     function create()
     {
-        $providers = Provider::where('company', '!=', 'mbe')->pluck('name', 'id')->toArray();
-        return view('coffee.egresses.create', compact('providers'));
+        $providers = Provider::where('company', '!=', 'coffee')->pluck('name', 'id')->toArray();
+        return view('mailboxes.egresses.create', compact('providers'));
     }
 
     function store(Request $request)
@@ -37,11 +37,11 @@ class EgressController extends Controller
         $egress = Egress::create($request->except(['pdf_bill', 'xml']));
 
         $path_to_pdf = Storage::putFileAs(
-            "public/coffee/bills", $request->file("pdf_bill"), $egress->buying_date . "_" . $egress->id . ".pdf"
+            "public/mailboxes/bills", $request->file("pdf_bill"), $egress->buying_date . "_" . $egress->id . ".pdf"
         );
 
         $path_to_xml = Storage::putFileAs(
-            "public/coffee/bills", $request->file("xml"), $egress->buying_date . "_" . $egress->id . ".xml"
+            "public/mailboxes/bills", $request->file("xml"), $egress->buying_date . "_" . $egress->id . ".xml"
         );
 
         $egress->update([
@@ -49,7 +49,27 @@ class EgressController extends Controller
             'xml' => $path_to_xml,
         ]);
 
-        return redirect(route('coffee.egress.index'));
+        return redirect(route('mbe.egress.index'));
+    }
+
+    function upload(Request $request)
+    {
+        $this->validate($request, [
+            'pdf_payment' => 'required',
+        ]);
+
+        $egress = Egress::find($request->id);
+
+        $path_to_pdf = Storage::putFileAs(
+            "public/mailboxes/payments", $request->file("pdf_payment"), $egress->payment_date . "_" . $egress->id . ".pdf"
+        );
+
+        $egress->update([
+            'pdf_payment' => $path_to_pdf,
+            'status' => 'pagado'
+        ]);
+
+        return redirect(route('mbe.egress.index'));
     }
 
     function show($id)
@@ -70,25 +90,5 @@ class EgressController extends Controller
     function destroy($id)
     {
         //
-    }
-
-    function upload(Request $request)
-    {
-        $this->validate($request, [
-            'pdf_payment' => 'required',
-        ]);
-
-        $egress = Egress::find($request->id);
-
-        $path_to_pdf = Storage::putFileAs(
-            "public/coffee/payments", $request->file("pdf_payment"), $egress->payment_date . "_" . $egress->id . ".pdf"
-        );
-
-        $egress->update([
-            'pdf_payment' => $path_to_pdf,
-            'status' => 'pagado'
-        ]);
-
-        return redirect(route('coffee.egress.index'));
     }
 }

@@ -1,26 +1,32 @@
-@extends('coffee.root')
+@extends('paal.root')
 
 @push('pageTitle')
     Egresos | Lista
 @endpush
 
-@push('headerTitle')
-    <a href="{{ route('coffee.egress.create') }}" class="btn btn-danger btn-xs"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR</a>
-@endpush
-
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <solid-box title="Egresos" color="danger" button>
+            <solid-box title="Egresos" color="primary" button>
                 
                 <data-table example="1">
 
-                    {{ drawHeader('ID', 'compra', 'factura', 'I.V.A.', 'total', 'fecha pago', 'PDF pago', 'estado') }}
+                    {{ drawHeader('ID', 'empresa', 'compra', 'factura', 'I.V.A.', 'total', 'fecha pago', 'PDF pago', 'estado') }}
 
                     <template slot="body">
                         @foreach($egresses as $egress)
                             <tr>
                                 <td>{{ $egress->id }}</td>
+                                <td>
+                                    {{ strtoupper($egress->company) }}
+                                    &nbsp;&nbsp;
+                                    <modal id="cancel_{{ $egress->id}}" title="¿Cancelar egreso?">
+                                        @include('paal.egresses.cancel')
+                                    </modal>
+                                    <modal-button target="cancel_{{ $egress->id}}">
+                                        <button class="btn btn-default btn-xs"><i class="fa fa-trash"></i></button>
+                                    </modal-button>
+                                </td>
                                 <td>{{ fdate($egress->buying_date, 'd M Y', 'Y-m-d') }}</td>
                                 <td>
                                     <modal id="pdf{{ $egress->id}}" title="Factura (pdf)">
@@ -29,7 +35,6 @@
                                     <modal-button target="pdf{{ $egress->id}}">
                                         <button class="btn btn-default btn-xs"><i class="fa fa-file-pdf-o"></i></button>
                                     </modal-button>
-
                                     <a href="{{ Storage::url($egress->xml) }}" download class="btn btn-default btn-xs">
                                        <i class="fa fa-file-code-o"></i> 
                                     </a> 
@@ -48,10 +53,10 @@
                                             <button class="btn btn-default btn-xs"><i class="fa fa-file-pdf-o"></i></button>
                                         </modal-button>
                                     @else
-                                        {!! Form::open(['method' => 'POST', 'route' => 'coffee.egress.upload', 'enctype' => 'multipart/form-data']) !!}
+                                        {!! Form::open(['method' => 'POST', 'route' => 'mbe.egress.upload', 'enctype' => 'multipart/form-data']) !!}
                                             <pdf-button fname="pdf_payment" ext="pdf" color="default"></pdf-button>
                                             <input type="hidden" name="id" value="{{ $egress->id }}">
-                                            <button type="submit" class="btn btn-xs btn-danger"><i class="fa fa-check"></i></button>
+                                            <button type="submit" class="btn btn-xs btn-primary"><i class="fa fa-check"></i></button>
                                         {!! Form::close() !!}
                                     @endif
                                 </td>

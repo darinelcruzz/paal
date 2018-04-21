@@ -1,4 +1,4 @@
-@extends('coffee.root')
+@extends('mailboxes.root')
 
 @push('pageTitle')
     Egresos | Agregar
@@ -7,8 +7,8 @@
 @section('content')
     <div class="row">
         <div class="col-md-6">
-            <solid-box title="Agregar egreso" color="danger" button>
-                {!! Form::open(['method' => 'POST', 'route' => 'coffee.egress.store', 'enctype' => 'multipart/form-data']) !!}
+            <solid-box title="Agregar egreso" color="success" button>
+                {!! Form::open(['method' => 'POST', 'route' => 'mbe.egress.store', 'enctype' => 'multipart/form-data']) !!}
 
                     {!! Field::select('provider', $providers, null,
                         ['tpl' => 'withicon', 'empty' => 'Seleccione un proveedor'], 
@@ -62,8 +62,8 @@
                     </div>
 
                     <hr>
-                    <input type="hidden" name="company" value="coffee">
-                    {!! Form::submit('Agregar', ['class' => 'btn btn-danger pull-right']) !!}
+                    <input type="hidden" name="company" value="mbe">
+                    {!! Form::submit('Agregar', ['class' => 'btn btn-success pull-right']) !!}
                     
                 {!! Form::close() !!}
             </solid-box>

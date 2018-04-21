@@ -10,4 +10,10 @@ Route::group(['prefix' => 'paal', 'as' => 'paal.'], function () {
 	    Route::get('agregar', usesas($ctrl, 'create'));
 	    Route::post('agregar', usesas($ctrl, 'store'));
 	});
+
+	Route::group(['prefix' => 'egresos', 'as' => 'egress.'], function () {
+	    $ctrl = 'EgressController';
+	    Route::get('/', usesas($ctrl, 'index'));
+	    Route::post('cancelar', usesas($ctrl, 'destroy'));
+	});
 });
