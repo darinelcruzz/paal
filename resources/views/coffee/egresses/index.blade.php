@@ -48,7 +48,7 @@
                                             <button class="btn btn-default btn-xs"><i class="fa fa-file-pdf-o"></i></button>
                                         </modal-button>
                                     @else
-                                        <a href="{{ route('coffee.egress.pay', ['egress' => $egress->id]) }}">
+                                        <a href="{{ route('coffee.egress.pay', ['egress' => $egress->id]) }}" class="btn btn-xs">
                                             <i class="fa fa-dollar"></i>
                                         </a>
                                     @endif

@@ -9,6 +9,7 @@ Route::group(['prefix' => 'mbe', 'as' => 'mbe.'], function () {
 	    Route::get('/', usesas($ctrl, 'index'));
 	    Route::get('agregar', usesas($ctrl, 'create'));
 	    Route::post('agregar', usesas($ctrl, 'store'));
-	    Route::post('subir', usesas($ctrl, 'upload'));
+	    Route::get('pagar/{egress}', usesas($ctrl, 'pay'));
+	    Route::post('pagar', usesas($ctrl, 'settle'));
 	});
 });

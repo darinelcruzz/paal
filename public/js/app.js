@@ -14336,7 +14336,10 @@ Vue.component('file-upload', __webpack_require__(111));
 Vue.component('pdf-button', __webpack_require__(116));
 
 var app = new Vue({
-  el: '#app'
+  el: '#app',
+  data: {
+    pmethod: ''
+  }
 });
 
 /***/ }),

@@ -1,4 +1,4 @@
-@extends('coffee.root')
+@extends('mailboxes.root')
 
 @push('pageTitle')
     Egresos | Pagar
@@ -7,8 +7,8 @@
 @section('content')
     <div class="row">
         <div class="col-md-6">
-            <solid-box title="Detalles del pago" color="danger" button>
-                {!! Form::open(['method' => 'POST', 'route' => 'coffee.egress.settle', 'enctype' => 'multipart/form-data']) !!}
+            <solid-box title="Detalles del pago" color="success" button>
+                {!! Form::open(['method' => 'POST', 'route' => 'mbe.egress.settle', 'enctype' => 'multipart/form-data']) !!}
 
                     <div class="row">
                         <div class="col-md-6">
@@ -35,7 +35,7 @@
 
                     <hr>
                     <input type="hidden" name="id" value="{{ $egress->id }}">
-                    {!! Form::submit('Pagar', ['class' => 'btn btn-danger pull-right']) !!}
+                    {!! Form::submit('Pagar', ['class' => 'btn btn-success pull-right']) !!}
                     
                 {!! Form::close() !!}
             </solid-box>

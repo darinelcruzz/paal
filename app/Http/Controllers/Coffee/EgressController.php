@@ -61,6 +61,9 @@ class EgressController extends Controller
     {
         $this->validate($request, [
             'pdf_payment' => 'required',
+            'payment_date' => 'required',
+            'method' => 'required',
+            'mfolio' => 'sometimes|required',
         ]);
 
         $egress = Egress::find($request->id);
@@ -69,9 +72,11 @@ class EgressController extends Controller
             "public/coffee/payments", $request->file("pdf_payment"), $egress->payment_date . "_" . $egress->id . ".pdf"
         );
 
+        $egress->update($request->only(['payment_date', 'method', 'mfolio']));
+
         $egress->update([
             'pdf_payment' => $path_to_pdf,
-            'status' => 'pagado'
+            'status' => 'pagado',
         ]);
 
         return redirect(route('coffee.egress.index'));

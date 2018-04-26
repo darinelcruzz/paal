@@ -52,10 +52,18 @@ class EgressController extends Controller
         return redirect(route('mbe.egress.index'));
     }
 
-    function upload(Request $request)
+    function pay(Egress $egress)
+    {
+        return view('mailboxes.egresses.pay', compact('egress'));
+    }
+
+    function settle(Request $request)
     {
         $this->validate($request, [
             'pdf_payment' => 'required',
+            'payment_date' => 'required',
+            'method' => 'required',
+            'mfolio' => 'sometimes|required',
         ]);
 
         $egress = Egress::find($request->id);
@@ -64,31 +72,13 @@ class EgressController extends Controller
             "public/mailboxes/payments", $request->file("pdf_payment"), $egress->payment_date . "_" . $egress->id . ".pdf"
         );
 
+        $egress->update($request->only(['payment_date', 'method', 'mfolio']));
+
         $egress->update([
             'pdf_payment' => $path_to_pdf,
-            'status' => 'pagado'
+            'status' => 'pagado',
         ]);
 
         return redirect(route('mbe.egress.index'));
-    }
-
-    function show($id)
-    {
-        //
-    }
-
-    function edit($id)
-    {
-        //
-    }
-
-    function update(Request $request, $id)
-    {
-        //
-    }
-
-    function destroy($id)
-    {
-        //
     }
 }
