@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-@include('lte.htmlhead')
+@include('lte.htmlhead', ['company' => 'paal'])
 
 <body class="hold-transition lockscreen">
 <!-- Automatic element centering -->
@@ -11,7 +11,7 @@
   </div>
 
   <div class="lockscreen-item">
-    
+
     <div class="lockscreen-image">
       <img src="{{ asset('/img/paal.png') }}" alt="Paal Admin">
     </div>

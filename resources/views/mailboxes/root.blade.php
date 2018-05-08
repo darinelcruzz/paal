@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 
-    @include('lte.htmlhead')
+    @include('lte.htmlhead', ['company' => 'mbe'])
 
     <body class="hold-transition skin-green sidebar-mini">
         <div id="app">
