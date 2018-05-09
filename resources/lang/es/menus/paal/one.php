@@ -1,11 +1,6 @@
 <?php
 
 return [
-    'example1' => [
-        'title' => 'Ejemplo',
-        'icon' => 'fa fa-user',
-        'route' => 'paal.index'
-    ],
 
     'providers' => [
         'title' => 'Proveedores',

@@ -15,7 +15,7 @@
                 
                 <data-table example="1">
 
-                    {{ drawHeader('ID', 'compra', 'factura', 'I.V.A.', 'total', 'fecha pago', 'PDF pago', 'estado') }}
+                    {{ drawHeader('ID', 'compra', 'factura', 'I.V.A.', 'total', 'pago', 'estado') }}
 
                     <template slot="body">
                         @foreach($egresses as $egress)
@@ -36,11 +36,9 @@
                                 </td>
                                 <td>$ {{ number_format($egress->iva, 2) }}</td>
                                 <td>$  {{ number_format($egress->amount, 2) }}</td>
-                                <td>
-                                    {{ fdate($egress->payment_date, 'd M Y', 'Y-m-d') }}
-                                </td>
                                 <td align="center">
                                     @if($egress->pdf_payment)
+                                        {{ fdate($egress->payment_date, 'd M Y', 'Y-m-d') }} &nbsp;
                                         <modal id="ppdf{{ $egress->id}}" title="Pago (pdf)">
                                             <iframe src="{{ Storage::url($egress->pdf_payment) }}#view=FitH" width="100%" height="600"></iframe>
                                         </modal>
@@ -48,8 +46,8 @@
                                             <button class="btn btn-default btn-xs"><i class="fa fa-file-pdf-o"></i></button>
                                         </modal-button>
                                     @else
-                                        <a href="{{ route('coffee.egress.pay', ['egress' => $egress->id]) }}" class="btn btn-xs">
-                                            <i class="fa fa-dollar"></i>
+                                        <a href="{{ route('coffee.egress.pay', ['egress' => $egress->id]) }}" class="btn btn-success btn-xs pull-left">
+                                            <i class="fa fa-upload"></i>&nbsp;&nbsp; SUBIR PDF
                                         </a>
                                     @endif
                                 </td>

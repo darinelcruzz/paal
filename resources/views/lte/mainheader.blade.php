@@ -19,17 +19,48 @@
       <ul class="nav navbar-nav">
 
         <!-- User Account Menu -->
-        <li class="dropdown user user-menu">
-          <!-- Menu Toggle Button -->
-          <a href="#">
-            <!-- hidden-xs hides the username on small devices so only the image appears. -->
-            <span class="hidden-xs">
-              @auth
-                {{ auth()->user()->name }}
-              @endauth
-            </span>
-          </a>
-        </li>
+        @if(auth()->user()->company != 'owner')
+            <li class="dropdown user user-menu">
+              <!-- Menu Toggle Button -->
+              <a href="#">
+                <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                <span class="hidden-xs">
+                  @auth
+                    {{ auth()->user()->name }}
+                  @endauth
+                </span>
+              </a>
+            </li>
+        @else
+            <li class="dropdown user user-menu">
+              <!-- Menu Toggle Button -->
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                <span class="hidden-xs">
+                  @auth
+                    {{ auth()->user()->name }}
+                  @endauth
+                </span>
+              </a>
+
+              <ul class="dropdown-menu">
+                  <li class="user-footer">
+                      <div class="row">
+                        <div class="col-md-4">
+                            <a href="coffee" class="btn btn-danger btn-xs">Coffee</a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="mbe" class="btn btn-success btn-xs">MBE</a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="paal" class="btn btn-primary btn-xs">PAAL</a>
+                        </div>
+                      </div>
+                  </li>
+              </ul>
+            </li>
+        @endif
+
       </ul>
     </div>
   </nav>

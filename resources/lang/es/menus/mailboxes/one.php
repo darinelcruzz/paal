@@ -1,11 +1,6 @@
 <?php
 
 return [
-    'example1' => [
-        'title' => 'Ejemplo',
-        'icon' => 'fa fa-user',
-        'route' => 'mbe.index'
-    ],
 
     'egresses' => [
         'title' => 'Egresos',
