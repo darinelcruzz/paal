@@ -16,7 +16,7 @@ class CreateEgressesTable extends Migration
         Schema::create('egresses', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->integer('provider');
+            $table->integer('provider_id');
             $table->date('buying_date');
             $table->string('pdf_bill')->nullable();
             $table->string('pdf_payment')->nullable();

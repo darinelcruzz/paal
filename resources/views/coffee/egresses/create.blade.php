@@ -10,9 +10,9 @@
             <solid-box title="Agregar egreso" color="danger" button>
                 {!! Form::open(['method' => 'POST', 'route' => 'coffee.egress.store', 'enctype' => 'multipart/form-data']) !!}
 
-                    {!! Field::select('provider', $providers, null,
-                        ['tpl' => 'withicon', 'empty' => 'Seleccione un proveedor'], 
-                        ['icon' => 'truck']) 
+                    {!! Field::select('provider_id', $providers, null,
+                        ['tpl' => 'withicon', 'empty' => 'Seleccione un proveedor'],
+                        ['icon' => 'truck'])
                     !!}
 
                     <div class="row">
@@ -48,17 +48,17 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            {!! Field::number('amount', ['tpl' => 'withicon'], ['icon' => 'money']) !!}
+                            {!! Field::number('amount', ['tpl' => 'withicon', 'step' => '0.01'], ['icon' => 'money']) !!}
                         </div>
                         <div class="col-md-6">
-                            {!! Field::number('iva', ['tpl' => 'withicon', 'step' => '0.1'], ['icon' => 'bank']) !!}
+                            {!! Field::number('iva', ['tpl' => 'withicon', 'step' => '0.01'], ['icon' => 'bank']) !!}
                         </div>
                     </div>
 
                     <hr>
                     <input type="hidden" name="company" value="coffee">
                     {!! Form::submit('Agregar', ['class' => 'btn btn-danger pull-right']) !!}
-                    
+
                 {!! Form::close() !!}
             </solid-box>
         </div>

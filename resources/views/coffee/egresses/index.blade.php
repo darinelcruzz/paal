@@ -12,15 +12,16 @@
     <div class="row">
         <div class="col-md-12">
             <solid-box title="Egresos" color="danger" button>
-                
+
                 <data-table example="1">
 
-                    {{ drawHeader('ID', 'compra', 'factura', 'I.V.A.', 'total', 'pago', 'estado') }}
+                    {{ drawHeader('ID', 'Proveedor','compra', 'factura', 'I.V.A.', 'total', 'pago', 'estado') }}
 
                     <template slot="body">
                         @foreach($egresses as $egress)
                             <tr>
                                 <td>{{ $egress->id }}</td>
+                                <td>{{ $egress->provider->name }}</td>
                                 <td>{{ fdate($egress->buying_date, 'd M Y', 'Y-m-d') }}</td>
                                 <td>
                                     <modal id="pdf{{ $egress->id}}" title="Factura (pdf)">
@@ -31,8 +32,8 @@
                                     </modal-button>
 
                                     <a href="{{ Storage::url($egress->xml) }}" download class="btn btn-default btn-xs">
-                                       <i class="fa fa-file-code-o"></i> 
-                                    </a> 
+                                       <i class="fa fa-file-code-o"></i>
+                                    </a>
                                 </td>
                                 <td>$ {{ number_format($egress->iva, 2) }}</td>
                                 <td>$  {{ number_format($egress->amount, 2) }}</td>
@@ -59,7 +60,7 @@
                             </tr>
                         @endforeach
                     </template>
-                    
+
                 </data-table>
 
             </solid-box>

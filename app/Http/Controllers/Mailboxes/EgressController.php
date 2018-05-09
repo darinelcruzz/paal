@@ -26,7 +26,7 @@ class EgressController extends Controller
     function store(Request $request)
     {
         $this->validate($request, [
-            'provider' => 'required',
+            'provider_id' => 'required',
             'buying_date' => 'required',
             'pdf_bill' => 'required',
             'xml' => 'required',

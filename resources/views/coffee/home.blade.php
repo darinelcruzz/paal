@@ -5,7 +5,7 @@
 @endpush
 
 @push('headerTitle')
-    Inicio <small>COMIENZA AQUÍ</small>
+    Bienvenido(a), {{ auth()->user()->name }}
 @endpush
 
 @section('content')
@@ -13,5 +13,5 @@
 	<div align="center">
     	<img width="40%" height="20%" src="{{ asset('/img/coffee.png') }}">
     </div>
-    
+
 @endsection
