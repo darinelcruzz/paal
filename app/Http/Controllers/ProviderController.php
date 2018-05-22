@@ -9,7 +9,7 @@ class ProviderController extends Controller
 {
     function index()
     {
-        $providers = Provider::all();
+        $providers = Provider::where('status','activo')->get();
         return view('paal.providers.index', compact('providers'));
     }
 
@@ -48,16 +48,18 @@ class ProviderController extends Controller
 
     function edit(Provider $provider)
     {
-        // todo
+        return view('paal.providers.edit', compact('provider'));
     }
 
-    function update(Request $request, Provider $provider)
+    function update(Request $request)
     {
-        // todo
+        $provider = Provider::find($request->id)->update($request->all());
+        return redirect(route('paal.provider.index'));
     }
 
     function destroy(Provider $provider)
     {
-        // todo
+        $provider->update(['status'=>'cancelado']);
+        return back();
     }
 }

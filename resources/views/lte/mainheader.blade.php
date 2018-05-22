@@ -47,13 +47,13 @@
                   <li class="user-footer">
                       <div class="row">
                         <div class="col-md-4">
-                            <a href="coffee" class="btn btn-danger btn-xs">Coffee</a>
+                            <a href="/coffee" class="btn btn-danger btn-xs">Coffee</a>
                         </div>
                         <div class="col-md-4">
-                            <a href="mbe" class="btn btn-success btn-xs">MBE</a>
+                            <a href="/mbe" class="btn btn-success btn-xs">MBE</a>
                         </div>
                         <div class="col-md-4">
-                            <a href="paal" class="btn btn-primary btn-xs">PAAL</a>
+                            <a href="/paal" class="btn btn-primary btn-xs">PAAL</a>
                         </div>
                       </div>
                   </li>

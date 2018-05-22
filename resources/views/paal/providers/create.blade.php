@@ -34,13 +34,13 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            {!! Field::select('type', 
+                            {!! Field::select('type',
                             	['cv' => 'Costo/Venta', 'gg' => 'Gastos generales'], null,
                             	['empty' => 'Seleccione tipo', 'tpl' => 'withicon'], ['icon' => 'object-ungroup'])
                             !!}
                         </div>
                         <div class="col-md-6">
-                            {!! Field::select('company', 
+                            {!! Field::select('company',
                             	['coffee' => 'Coffee Depot', 'mbe' => 'Mailboxes E', 'both' => 'Ambas'], null,
                             	['empty' => 'Seleccione empresa', 'tpl' => 'withicon'], ['icon' => 'trademark'])
                             !!}
@@ -66,10 +66,10 @@
                     </div>
 
                     {!! Form::submit('Agregar', ['class' => 'btn btn-primary pull-right']) !!}
-                    
+
                 {!! Form::close() !!}
             </solid-box>
         </div>
     </div>
-    
+
 @endsection

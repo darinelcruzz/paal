@@ -29,6 +29,7 @@ class CreateProvidersTable extends Migration
             $table->string('company');
             $table->double('amount')->default(0);
             $table->integer('bills')->default(0);
+            $table->string('status')->default('activo');
 
             $table->timestamps();
         });

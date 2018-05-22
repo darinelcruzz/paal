@@ -15,7 +15,7 @@
 
                 <data-table example="1">
 
-                    {{ drawHeader('id', 'proveedor', 'R.F.C', 'dirección', 'correo', 'teléfono') }}
+                    {{ drawHeader('id','proveedor', 'R.F.C', 'dirección', 'correo', 'teléfono','') }}
 
                     <template slot="body">
                         @foreach($providers as $provider)
@@ -26,10 +26,16 @@
                                 <td>{{ $provider->address }}</td>
                                 <td>{{ $provider->email }}</td>
                                 <td>{{ $provider->phone }}</td>
+                                <td>
+                                    <dropdown icon="cogs" color="primary">
+                                        <ddi to="{{ route('paal.provider.edit', ['id'=>$provider->id]) }}" icon="edit" text="Editar"></ddi>
+                                        <ddi to="{{ route('paal.provider.destroy', ['id'=>$provider->id]) }}" icon="times" text="Dar de baja"></ddi>
+                                    </dropdown>
+                                </td>
                             </tr>
                         @endforeach
                     </template>
-                    
+
                 </data-table>
 
             </solid-box>
