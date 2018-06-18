@@ -4,6 +4,10 @@
     Egresos | Lista
 @endpush
 
+@push('headerTitle')
+    <a href="{{ route('paal.egress.export') }}" class="btn btn-danger btn-xs"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;EXPORTAR</a>
+@endpush
+
 @section('content')
     <div class="row">
         <div class="col-md-12">
@@ -53,7 +57,7 @@
                                             <button class="btn btn-default btn-xs"><i class="fa fa-file-pdf-o"></i></button>
                                         </modal-button>
                                     @else
-                                        {!! Form::open(['method' => 'POST', 'route' => 'mbe.egress.upload', 'enctype' => 'multipart/form-data']) !!}
+                                        {!! Form::open(['method' => 'POST', 'route' => 'mbe.egress.settle', 'enctype' => 'multipart/form-data']) !!}
                                             <pdf-button fname="pdf_payment" ext="pdf" color="default"></pdf-button>
                                             <input type="hidden" name="id" value="{{ $egress->id }}">
                                             <button type="submit" class="btn btn-xs btn-primary"><i class="fa fa-check"></i></button>

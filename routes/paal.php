@@ -18,5 +18,6 @@ Route::group(['prefix' => 'paal', 'as' => 'paal.'], function () {
 	    $ctrl = 'EgressController';
 	    Route::get('/', usesas($ctrl, 'index'));
 	    Route::post('cancelar', usesas($ctrl, 'destroy'));
+	    Route::get('exportar', usesas($ctrl, 'export'));
 	});
 });
