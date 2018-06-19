@@ -15,11 +15,6 @@ class EgressController extends Controller
         return view('paal.egresses.index', compact('egresses'));
     }
 
-    function show(Egress $egress)
-    {
-        //
-    }
-
     function destroy(Request $request)
     {
         $this->validate($request, [

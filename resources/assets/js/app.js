@@ -43,6 +43,7 @@ Vue.component('pdf-button', require('./components/lte/FileUploadButton.vue'));
 const app = new Vue({
     el: '#app',
     data: {
-    	pmethod: ''
+    	pmethod: '',
+    	complement: null,
     }
 });

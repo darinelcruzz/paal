@@ -18,7 +18,9 @@ class CreateEgressesTable extends Migration
 
             $table->integer('provider_id');
             $table->date('buying_date');
+            $table->date('complement_date');
             $table->string('pdf_bill')->nullable();
+            $table->string('pdf_complement')->nullable();
             $table->string('pdf_payment')->nullable();
             $table->string('xml')->nullable();
             $table->double('iva');
@@ -26,6 +28,7 @@ class CreateEgressesTable extends Migration
             $table->date('expiration');
             $table->string('folio');
             $table->double('amount');
+            $table->double('complement_amount')->default(0);
             $table->date('payment_date')->nullable();
             $table->string('status')->default('pendiente');
             $table->string('company');

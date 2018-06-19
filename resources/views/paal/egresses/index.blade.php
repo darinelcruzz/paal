@@ -5,7 +5,7 @@
 @endpush
 
 @push('headerTitle')
-    <a href="{{ route('paal.egress.export') }}" class="btn btn-danger btn-xs"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;EXPORTAR</a>
+    <a href="{{ route('paal.egress.export') }}" class="btn btn-primary btn-xs"><i class="fa fa-file-excel-o"></i>&nbsp;&nbsp;EXPORTAR</a>
 @endpush
 
 @section('content')
