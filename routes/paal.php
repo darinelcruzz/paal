@@ -25,6 +25,6 @@ Route::group(['prefix' => 'paal', 'as' => 'paal.'], function () {
 	    Route::get('/', usesas($ctrl, 'index'));
 	    Route::post('pendientes', usesas($ctrl, 'pending'));
 	    Route::post('pagadas', usesas($ctrl, 'paid'));
-	    Route::get('proveedores', usesas($ctrl, 'providers'));
+	    Route::post('proveedores', usesas($ctrl, 'providers'));
 	});
 });

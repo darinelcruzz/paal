@@ -85,7 +85,7 @@
 
                     <hr>
                     <input type="hidden" name="company" value="mbe">
-                    {!! Form::submit('Agregar', ['class' => 'btn btn-success pull-right']) !!}
+                    <button type="submit" class="btn btn-success pull-right" onclick="submitForm(this);">Agregar</button>
 
                 {!! Form::close() !!}
             </solid-box>

@@ -18,7 +18,7 @@ class CreateEgressesTable extends Migration
 
             $table->integer('provider_id');
             $table->date('buying_date');
-            $table->date('complement_date');
+            $table->date('complement_date')->nullable();
             $table->string('pdf_bill')->nullable();
             $table->string('pdf_complement')->nullable();
             $table->string('pdf_payment')->nullable();

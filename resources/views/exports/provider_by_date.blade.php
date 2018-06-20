@@ -1,7 +1,6 @@
 <table>
     <thead>
     <tr>
-        <th>Proveedor</th>
         <th>Folio</th>
         <th>Fecha</th>
         <th>Total Com</th>
@@ -12,10 +11,8 @@
     </tr>
     </thead>
     <tbody>
-    @foreach($egresses as $provider_id => $egresses_group)
-        @foreach($egresses_group as $egress)
+        @foreach($egresses as $egress)
             <tr>
-                <td>{{ App\Provider::find($provider_id)->name }}</td>
                 <td>{{ $egress->folio }}</td>
                 <td>{{ fdate($egress->buying_date, 'd M Y', 'Y-m-d') }}</td>
                 <td>{{ number_format($egress->complement_amount, 2) }}</td>
@@ -25,6 +22,5 @@
                 <td>{{ number_format($egress->amount, 2) }}</td>
             </tr>
         @endforeach
-    @endforeach
     </tbody>
 </table>
