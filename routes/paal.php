@@ -18,6 +18,13 @@ Route::group(['prefix' => 'paal', 'as' => 'paal.'], function () {
 	    $ctrl = 'EgressController';
 	    Route::get('/', usesas($ctrl, 'index'));
 	    Route::post('cancelar', usesas($ctrl, 'destroy'));
-	    Route::get('exportar', usesas($ctrl, 'export'));
+	});
+
+	Route::group(['prefix' => 'reportes', 'as' => 'report.'], function () {
+	    $ctrl = 'ReportController';
+	    Route::get('/', usesas($ctrl, 'index'));
+	    Route::post('pendientes', usesas($ctrl, 'pending'));
+	    Route::post('pagadas', usesas($ctrl, 'paid'));
+	    Route::get('proveedores', usesas($ctrl, 'providers'));
 	});
 });

@@ -14,6 +14,12 @@ return [
         'route' => 'paal.egress.index'
     ],
 
+    'reports' => [
+        'title' => 'Reportes',
+        'icon' => 'fa fa-bar-chart',
+        'route' => 'paal.report.index'
+    ],
+
     'logout' => [
         'title' => 'Salir',
         'icon' => 'fa fa-sign-out',

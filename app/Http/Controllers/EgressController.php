@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Egress;
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\EgressesByDateExport;
 
 class EgressController extends Controller
 {
@@ -30,10 +28,5 @@ class EgressController extends Controller
         ]);
 
         return redirect(route('paal.egress.index'));
-    }
-
-    function export()
-    {
-        return Excel::download(new EgressesByDateExport, 'egresos.xlsx');
     }
 }
