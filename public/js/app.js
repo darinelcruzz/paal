@@ -14286,7 +14286,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(15);
-module.exports = __webpack_require__(127);
+module.exports = __webpack_require__(124);
 
 
 /***/ }),
@@ -50902,7 +50902,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             inputs: [],
-            products: [{ id: 1, description: 'coca-cola', price: 10.0, pricer: 5.5, limit: 100 }, { id: 2, description: 'sprite', price: 9.0, pricer: 4.5, limit: 100 }, { id: 3, description: 'fanta', price: 9.5, pricer: 5.0, limit: 100 }, { id: 4, description: 'manzanita', price: 8.5, pricer: 4.0, limit: 100 }, { id: 5, description: 'senzao', price: 8.0, pricer: 3.0, limit: 100 }]
+            products: [{ id: 1, description: 'coca-cola', price: 10.0, pricer: 5.5, limit: 20 }, { id: 2, description: 'sprite', price: 9.0, pricer: 4.5, limit: 30 }, { id: 3, description: 'fanta', price: 9.5, pricer: 5.0, limit: 50 }, { id: 4, description: 'manzanita', price: 8.5, pricer: 4.0, limit: 100 }, { id: 5, description: 'senzao', price: 8.0, pricer: 3.0, limit: 200 }]
         };
     },
 
@@ -50920,18 +50920,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         deleteRow: function deleteRow(index) {
             this.inputs.splice(index, 1);
         },
-        updatePrice: function updatePrice(index) {
+        productSelected: function productSelected(index) {
             this.inputs[index].price = this.products[this.inputs[index].id - 1].price;
-            // this.inputs[index].pricer = this.products[this.inputs[index].id - 1].pricer;
-            // this.inputs[index].limit = this.products[this.inputs[index].id - 1].limit;
+            this.inputs[index].pricer = this.products[this.inputs[index].id - 1].pricer;
+            this.inputs[index].limit = this.products[this.inputs[index].id - 1].limit;
+            this.quantitySettled(index);
         },
-        updateTotal: function updateTotal(index) {
-            // if (this.input[index].quantity >= this.input[index].limit) {
-            //     this.inputs[index].total = this.inputs[index].pricer * this.inputs[index].quantity
-            // } else {
-            //     this.inputs[index].total = this.inputs[index].price * this.inputs[index].quantity
-            // }
-            this.inputs[index].total = this.inputs[index].price * this.inputs[index].quantity;
+        quantitySettled: function quantitySettled(index) {
+            if (this.inputs[index].quantity >= this.inputs[index].limit) {
+                this.inputs[index].total = this.inputs[index].pricer * this.inputs[index].quantity;
+            } else {
+                this.inputs[index].total = this.inputs[index].price * this.inputs[index].quantity;
+            }
         }
     },
     computed: {
@@ -50994,7 +50994,7 @@ var render = function() {
                             )
                           },
                           function($event) {
-                            _vm.updatePrice(index)
+                            _vm.productSelected(index)
                           }
                         ]
                       }
@@ -51019,7 +51019,11 @@ var render = function() {
                 _c("td", [
                   _vm._v(
                     "\n                    $ " +
-                      _vm._s(input.price.toFixed(2)) +
+                      _vm._s(
+                        input.quantity >= input.limit
+                          ? input.pricer.toFixed(2)
+                          : input.price.toFixed(2)
+                      ) +
                       "\n                "
                   )
                 ]),
@@ -51044,7 +51048,7 @@ var render = function() {
                     domProps: { value: input.quantity },
                     on: {
                       change: function($event) {
-                        _vm.updateTotal(index)
+                        _vm.quantitySettled(index)
                       },
                       input: function($event) {
                         if ($event.target.composing) {
@@ -51143,10 +51147,7 @@ if (false) {
 }
 
 /***/ }),
-/* 124 */,
-/* 125 */,
-/* 126 */,
-/* 127 */
+/* 124 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

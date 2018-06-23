@@ -16,17 +16,17 @@
                 <tr v-for="(input, index) in inputs">
                     <td>{{ index + 1 }}</td>
                     <td>
-                        <select v-model="input.id" @change="updatePrice(index)">
+                        <select v-model="input.id" @change="productSelected(index)">
                             <option value="0" selected>Seleccione uno...</option>
                             <option v-for="product in products" :value="product.id">{{ product.description }}</option>
                         </select>
                     </td>
                     <td>
-                        $ {{ input.price.toFixed(2) }}
+                        $ {{ input.quantity >= input.limit ? input.pricer.toFixed(2) : input.price.toFixed(2) }}
                     </td>
                     <td>
                         <input class="form-control input-sm" type="number" min="0" step="0.01" value=0 
-                            v-model="input.quantity" @change="updateTotal(index)">
+                            v-model="input.quantity" @change="quantitySettled(index)">
                     </td>
                     <td>
                         $ {{ input.total.toFixed(2) }}
@@ -57,11 +57,11 @@ export default {
         return {
             inputs: [],
             products: [
-                {id: 1, description: 'coca-cola', price: 10.0, pricer: 5.5, limit: 100},
-                {id: 2, description: 'sprite', price: 9.0, pricer: 4.5, limit: 100},
-                {id: 3, description: 'fanta', price: 9.5, pricer: 5.0, limit: 100},
+                {id: 1, description: 'coca-cola', price: 10.0, pricer: 5.5, limit: 20},
+                {id: 2, description: 'sprite', price: 9.0, pricer: 4.5, limit: 30},
+                {id: 3, description: 'fanta', price: 9.5, pricer: 5.0, limit: 50},
                 {id: 4, description: 'manzanita', price: 8.5, pricer: 4.0, limit: 100},
-                {id: 5, description: 'senzao', price: 8.0, pricer: 3.0, limit: 100},
+                {id: 5, description: 'senzao', price: 8.0, pricer: 3.0, limit: 200},
             ]
         };
     },
@@ -79,18 +79,18 @@ export default {
         deleteRow(index) {
           this.inputs.splice(index, 1)
         },
-        updatePrice(index) {
+        productSelected(index) {
           this.inputs[index].price = this.products[this.inputs[index].id - 1].price;
-          // this.inputs[index].pricer = this.products[this.inputs[index].id - 1].pricer;
-          // this.inputs[index].limit = this.products[this.inputs[index].id - 1].limit;
+          this.inputs[index].pricer = this.products[this.inputs[index].id - 1].pricer;
+          this.inputs[index].limit = this.products[this.inputs[index].id - 1].limit;
+          this.quantitySettled(index);
         },
-        updateTotal(index) {
-            // if (this.input[index].quantity >= this.input[index].limit) {
-            //     this.inputs[index].total = this.inputs[index].pricer * this.inputs[index].quantity
-            // } else {
-            //     this.inputs[index].total = this.inputs[index].price * this.inputs[index].quantity
-            // }
-            this.inputs[index].total = this.inputs[index].price * this.inputs[index].quantity
+        quantitySettled(index) {
+            if (this.inputs[index].quantity >= this.inputs[index].limit) {
+                this.inputs[index].total = this.inputs[index].pricer * this.inputs[index].quantity
+            } else {
+                this.inputs[index].total = this.inputs[index].price * this.inputs[index].quantity
+            }
         }
     },
     computed: {
