@@ -63,6 +63,14 @@
 				{!! Form::close() !!}
 			</solid-box>
 		</div>
+
+		<div class="col-md-6">
+			<solid-box title="prueba" color="danger" solid>
+				<dynamic-inputs>
+					
+				</dynamic-inputs>
+			</solid-box>
+		</div>
 	</div>
 
 @endsection

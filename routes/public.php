@@ -16,4 +16,4 @@ Route::get('salir', function () {
 
 Route::get('inicio', function () {
 	return view('index');
-})->name('home');
+})->name('home')->middleware('auth');

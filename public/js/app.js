@@ -14286,7 +14286,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(15);
-module.exports = __webpack_require__(121);
+module.exports = __webpack_require__(127);
 
 
 /***/ }),
@@ -14334,6 +14334,7 @@ Vue.component('dropdown', __webpack_require__(105));
 Vue.component('ddi', __webpack_require__(108));
 Vue.component('file-upload', __webpack_require__(111));
 Vue.component('pdf-button', __webpack_require__(116));
+Vue.component('dynamic-inputs', __webpack_require__(121));
 
 var app = new Vue({
   el: '#app',
@@ -50792,6 +50793,360 @@ if (false) {
 
 /***/ }),
 /* 121 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(122)
+/* template */
+var __vue_template__ = __webpack_require__(123)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\lte\\DynamicInputs.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-07bf6262", Component.options)
+  } else {
+    hotAPI.reload("data-v-07bf6262", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 122 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            inputs: [],
+            products: [{ id: 1, description: 'coca-cola', price: 10.0, pricer: 5.5, limit: 100 }, { id: 2, description: 'sprite', price: 9.0, pricer: 4.5, limit: 100 }, { id: 3, description: 'fanta', price: 9.5, pricer: 5.0, limit: 100 }, { id: 4, description: 'manzanita', price: 8.5, pricer: 4.0, limit: 100 }, { id: 5, description: 'senzao', price: 8.0, pricer: 3.0, limit: 100 }]
+        };
+    },
+
+    methods: {
+        addRow: function addRow() {
+            this.inputs.push({
+                id: 0,
+                price: 0,
+                pricer: 0,
+                quantity: 0,
+                limit: 0,
+                total: 0
+            });
+        },
+        deleteRow: function deleteRow(index) {
+            this.inputs.splice(index, 1);
+        },
+        updatePrice: function updatePrice(index) {
+            this.inputs[index].price = this.products[this.inputs[index].id - 1].price;
+            // this.inputs[index].pricer = this.products[this.inputs[index].id - 1].pricer;
+            // this.inputs[index].limit = this.products[this.inputs[index].id - 1].limit;
+        },
+        updateTotal: function updateTotal(index) {
+            // if (this.input[index].quantity >= this.input[index].limit) {
+            //     this.inputs[index].total = this.inputs[index].pricer * this.inputs[index].quantity
+            // } else {
+            //     this.inputs[index].total = this.inputs[index].price * this.inputs[index].quantity
+            // }
+            this.inputs[index].total = this.inputs[index].price * this.inputs[index].quantity;
+        }
+    },
+    computed: {
+        total: function total() {
+            return this.inputs.reduce(function (total, input) {
+                return total + input.total;
+            }, 0);
+        }
+    }
+});
+
+/***/ }),
+/* 123 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "table-responsive" }, [
+    _vm.inputs.length > 0
+      ? _c("table", { staticClass: "table table-bordered table-striped" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c(
+            "tbody",
+            _vm._l(_vm.inputs, function(input, index) {
+              return _c("tr", [
+                _c("td", [_vm._v(_vm._s(index + 1))]),
+                _vm._v(" "),
+                _c("td", [
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: input.id,
+                          expression: "input.id"
+                        }
+                      ],
+                      on: {
+                        change: [
+                          function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              input,
+                              "id",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          },
+                          function($event) {
+                            _vm.updatePrice(index)
+                          }
+                        ]
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "0", selected: "" } }, [
+                        _vm._v("Seleccione uno...")
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(_vm.products, function(product) {
+                        return _c(
+                          "option",
+                          { domProps: { value: product.id } },
+                          [_vm._v(_vm._s(product.description))]
+                        )
+                      })
+                    ],
+                    2
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _vm._v(
+                    "\n                    $ " +
+                      _vm._s(input.price.toFixed(2)) +
+                      "\n                "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: input.quantity,
+                        expression: "input.quantity"
+                      }
+                    ],
+                    staticClass: "form-control input-sm",
+                    attrs: {
+                      type: "number",
+                      min: "0",
+                      step: "0.01",
+                      value: "0"
+                    },
+                    domProps: { value: input.quantity },
+                    on: {
+                      change: function($event) {
+                        _vm.updateTotal(index)
+                      },
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(input, "quantity", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _vm._v(
+                    "\n                    $ " +
+                      _vm._s(input.total.toFixed(2)) +
+                      "\n                "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger btn-xs",
+                      on: {
+                        click: function($event) {
+                          _vm.deleteRow(index)
+                        }
+                      }
+                    },
+                    [_c("i", { staticClass: "fa fa-trash" })]
+                  )
+                ])
+              ])
+            })
+          ),
+          _vm._v(" "),
+          _c("tfoot", [
+            _c("tr", [
+              _vm._m(1),
+              _vm._v(" "),
+              _c("td", [_vm._v("$ " + _vm._s(_vm.total.toFixed(2)))]),
+              _vm._v(" "),
+              _c("td")
+            ])
+          ])
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _c("div", { attrs: { align: "center" } }, [
+      _c(
+        "button",
+        { staticClass: "btn btn-success btn-xs", on: { click: _vm.addRow } },
+        [_c("i", { staticClass: "fa fa-plus" }), _vm._v(" Agregar")]
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("ID")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Producto")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Precio")]),
+        _vm._v(" "),
+        _c("th", { staticStyle: { width: "20%" } }, [_vm._v("Cantidad")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Subtotal")]),
+        _vm._v(" "),
+        _c("th", [_c("i", { staticClass: "fa fa-trash" })])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", { attrs: { colspan: "4" } }, [
+      _c("span", { staticClass: "pull-right" }, [_vm._v("Total:")])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-07bf6262", module.exports)
+  }
+}
+
+/***/ }),
+/* 124 */,
+/* 125 */,
+/* 126 */,
+/* 127 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

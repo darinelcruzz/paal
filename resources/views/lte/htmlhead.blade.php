@@ -6,7 +6,7 @@
   </title>
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <link rel="icon" href="{{ asset("/img/$company.ico")}}" />
+  <link rel="icon" href="{{ asset("/img/$company.ico") }}" />
   <link rel="stylesheet" href="{{ asset('adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
 
   <!-- Font Awesome -->

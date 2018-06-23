@@ -39,6 +39,7 @@ Vue.component('dropdown', require('./components/lte/DropdownButton.vue'));
 Vue.component('ddi', require('./components/lte/DropdownItem.vue'));
 Vue.component('file-upload', require('./components/lte/FileUploadInput.vue'));
 Vue.component('pdf-button', require('./components/lte/FileUploadButton.vue'));
+Vue.component('dynamic-inputs', require('./components/lte/DynamicInputs.vue'));
 
 const app = new Vue({
     el: '#app',
