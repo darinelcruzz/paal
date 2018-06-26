@@ -14,6 +14,18 @@ return [
         'route' => 'paal.egress.index'
     ],
 
+    'clients' => [
+        'title' => 'Clientes',
+        'icon' => 'fa fa-user',
+        'route' => 'paal.client.index'
+    ],
+
+    'products' => [
+        'title' => 'Productos',
+        'icon' => 'fa fa-tag',
+        'route' => 'paal.product.index'
+    ],
+
     'reports' => [
         'title' => 'Reportes',
         'icon' => 'fa fa-bar-chart',

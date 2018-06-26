@@ -20,11 +20,35 @@ Route::group(['prefix' => 'paal', 'as' => 'paal.'], function () {
 	    Route::post('cancelar', usesas($ctrl, 'destroy'));
 	});
 
+	Route::group(['prefix' => 'ingresos', 'as' => 'ingress.'], function () {
+	    $ctrl = 'IngressController';
+	    Route::get('/', usesas($ctrl, 'index'));
+	    Route::post('cancelar', usesas($ctrl, 'destroy'));
+	});
+
 	Route::group(['prefix' => 'reportes', 'as' => 'report.'], function () {
 	    $ctrl = 'ReportController';
 	    Route::get('/', usesas($ctrl, 'index'));
 	    Route::post('pendientes', usesas($ctrl, 'pending'));
 	    Route::post('pagadas', usesas($ctrl, 'paid'));
 	    Route::post('proveedores', usesas($ctrl, 'providers'));
+	});
+
+	Route::group(['prefix' => 'productos', 'as' => 'product.'], function () {
+	    $ctrl = 'ProductController';
+	    Route::get('/', usesas($ctrl, 'index'));
+	    Route::get('agregar', usesas($ctrl, 'create'));
+	    Route::post('agregar', usesas($ctrl, 'store'));
+	    Route::get('editar/{product}', usesas($ctrl, 'edit'));
+	    Route::post('editar/{product}', usesas($ctrl, 'update'));
+	});
+
+	Route::group(['prefix' => 'clientes', 'as' => 'client.'], function () {
+	    $ctrl = 'ClientController';
+	    Route::get('/', usesas($ctrl, 'index'));
+	    Route::get('agregar', usesas($ctrl, 'create'));
+	    Route::post('agregar', usesas($ctrl, 'store'));
+	    Route::get('editar/{client}', usesas($ctrl, 'edit'));
+	    Route::post('editar/{client}', usesas($ctrl, 'update'));
 	});
 });
