@@ -32,7 +32,7 @@
                         $ {{ input.total.toFixed(2) }}
                     </td>
                     <td>
-                        <button class="btn btn-danger btn-xs" @click="deleteRow(index)"><i class="fa fa-trash"></i></button>
+                        <a class="btn btn-danger btn-xs" @click="deleteRow(index)"><i class="fa fa-trash"></i></a>
                     </td>
                 </tr>
             </tbody>
@@ -46,7 +46,7 @@
             </tfoot>
         </table>
         <div align="center">
-            <button class="btn btn-success btn-xs" @click="addRow"><i class="fa fa-plus"></i> Agregar</button>
+            <a class="btn btn-success btn-xs" @click="addRow"><i class="fa fa-plus"></i> Agregar</a>
         </div>
     </div>
 </template>
@@ -56,13 +56,7 @@ export default {
     data() {
         return {
             inputs: [],
-            products: [
-                {id: 1, description: 'coca-cola', price: 10.0, pricer: 5.5, limit: 20},
-                {id: 2, description: 'sprite', price: 9.0, pricer: 4.5, limit: 30},
-                {id: 3, description: 'fanta', price: 9.5, pricer: 5.0, limit: 50},
-                {id: 4, description: 'manzanita', price: 8.5, pricer: 4.0, limit: 100},
-                {id: 5, description: 'senzao', price: 8.0, pricer: 3.0, limit: 200},
-            ]
+            products: []
         };
     },
     methods: {
@@ -80,9 +74,9 @@ export default {
           this.inputs.splice(index, 1)
         },
         productSelected(index) {
-          this.inputs[index].price = this.products[this.inputs[index].id - 1].price;
-          this.inputs[index].pricer = this.products[this.inputs[index].id - 1].pricer;
-          this.inputs[index].limit = this.products[this.inputs[index].id - 1].limit;
+          this.inputs[index].price = this.products[this.inputs[index].id - 1].retail_price;
+          this.inputs[index].pricer = this.products[this.inputs[index].id - 1].wholesale_price;
+          this.inputs[index].limit = this.products[this.inputs[index].id - 1].wholesale_quantity;
           this.quantitySettled(index);
         },
         quantitySettled(index) {
@@ -97,6 +91,12 @@ export default {
         total() {
             return this.inputs.reduce((total, input) => total + input.total, 0)
         }
+    },
+    created() {
+        const t = this;
+        axios.get('/paal/productos/axios').then(({data}) => {
+            t.products = data;
+        });
     }
 };
 </script>

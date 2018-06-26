@@ -6,26 +6,23 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateIngressesTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
+    function up()
     {
         Schema::create('ingresses', function (Blueprint $table) {
             $table->increments('id');
+
+            $table->integer('client_id');
+            $table->date('bought_at');
+            $table->longText('products');
+            $table->string('company');
+            $table->string('status');
+            $table->double('amount');
 
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
+    function down()
     {
         Schema::dropIfExists('ingresses');
     }

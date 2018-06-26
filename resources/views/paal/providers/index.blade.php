@@ -5,7 +5,7 @@
 @endpush
 
 @push('headerTitle')
-    <a href="{{ route('paal.provider.create') }}" class="btn btn-info btn-xs"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR</a>
+    <a href="{{ route('paal.provider.create') }}" class="btn btn-primary btn-xs"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR</a>
 @endpush
 
 @section('content')

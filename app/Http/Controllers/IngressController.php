@@ -2,83 +2,44 @@
 
 namespace App\Http\Controllers;
 
-use App\Ingress;
+use App\{Ingress, Client};
 use Illuminate\Http\Request;
 
 class IngressController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    function index()
+    {
+        $ingresses = Ingress::all();
+        return view('paal.ingresses.index', compact('ingresses'));
+    }
+
+    function create()
+    {
+        $clients = Client::pluck('name', 'id')->toArray();
+        return view('paal.ingresses.create', compact('clients'));
+    }
+
+    function store(Request $request)
     {
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    function show(Ingress $ingress)
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    function edit(Ingress $ingress)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Ingress  $ingress
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Ingress $ingress)
+    function update(Request $request, Ingress $ingress)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Ingress  $ingress
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Ingress $ingress)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Ingress  $ingress
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Ingress $ingress)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Ingress  $ingress
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Ingress $ingress)
+    function destroy(Ingress $ingress)
     {
         //
     }

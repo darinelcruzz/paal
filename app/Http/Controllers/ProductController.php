@@ -56,6 +56,12 @@ class ProductController extends Controller
         return redirect(route('paal.product.index'));
     }
 
+    function axios()
+    {
+        $products = Product::all();
+        return response($products, 200);
+    }
+
     function destroy(Product $product)
     {
         //

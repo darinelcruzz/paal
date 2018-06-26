@@ -14,6 +14,12 @@ return [
         'route' => 'paal.egress.index'
     ],
 
+    'ingresses' => [
+        'title' => 'Ingresos',
+        'icon' => 'fa fa-mail-reply',
+        'route' => 'paal.ingress.index'
+    ],
+
     'clients' => [
         'title' => 'Clientes',
         'icon' => 'fa fa-user',

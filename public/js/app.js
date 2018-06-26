@@ -50902,7 +50902,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             inputs: [],
-            products: [{ id: 1, description: 'coca-cola', price: 10.0, pricer: 5.5, limit: 20 }, { id: 2, description: 'sprite', price: 9.0, pricer: 4.5, limit: 30 }, { id: 3, description: 'fanta', price: 9.5, pricer: 5.0, limit: 50 }, { id: 4, description: 'manzanita', price: 8.5, pricer: 4.0, limit: 100 }, { id: 5, description: 'senzao', price: 8.0, pricer: 3.0, limit: 200 }]
+            products: []
         };
     },
 
@@ -50921,9 +50921,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.inputs.splice(index, 1);
         },
         productSelected: function productSelected(index) {
-            this.inputs[index].price = this.products[this.inputs[index].id - 1].price;
-            this.inputs[index].pricer = this.products[this.inputs[index].id - 1].pricer;
-            this.inputs[index].limit = this.products[this.inputs[index].id - 1].limit;
+            this.inputs[index].price = this.products[this.inputs[index].id - 1].retail_price;
+            this.inputs[index].pricer = this.products[this.inputs[index].id - 1].wholesale_price;
+            this.inputs[index].limit = this.products[this.inputs[index].id - 1].wholesale_quantity;
             this.quantitySettled(index);
         },
         quantitySettled: function quantitySettled(index) {
@@ -50940,6 +50940,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return total + input.total;
             }, 0);
         }
+    },
+    created: function created() {
+        var t = this;
+        axios.get('/paal/productos/axios').then(function (_ref) {
+            var data = _ref.data;
+
+            t.products = data;
+        });
     }
 });
 
@@ -51070,7 +51078,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("td", [
                   _c(
-                    "button",
+                    "a",
                     {
                       staticClass: "btn btn-danger btn-xs",
                       on: {
@@ -51100,7 +51108,7 @@ var render = function() {
     _vm._v(" "),
     _c("div", { attrs: { align: "center" } }, [
       _c(
-        "button",
+        "a",
         { staticClass: "btn btn-success btn-xs", on: { click: _vm.addRow } },
         [_c("i", { staticClass: "fa fa-plus" }), _vm._v(" Agregar")]
       )
