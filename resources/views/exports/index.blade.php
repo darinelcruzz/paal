@@ -46,7 +46,7 @@
 
 	<div class="row">
 		<div class="col-md-6">
-			<solid-box title="PROVEEDORES" color="warning" solid>
+			<solid-box title="POR PROVEEDOR" color="warning" solid>
 				{!! Form::open(['method' => 'POST', 'route' => 'paal.report.providers']) !!}
 					{!! Field::select('provider_id', App\Provider::pluck('name', 'id')->toArray(), null, ['tpl' => 'nolabel', 'empty' => 'Seleccione un proveedor'], ['icon' => 'truck']) !!}
 				<div class="row">
@@ -61,14 +61,6 @@
 					</div>
 				</div>
 				{!! Form::close() !!}
-			</solid-box>
-		</div>
-
-		<div class="col-md-6">
-			<solid-box title="prueba" color="danger" solid>
-				<dynamic-inputs>
-					
-				</dynamic-inputs>
 			</solid-box>
 		</div>
 	</div>
