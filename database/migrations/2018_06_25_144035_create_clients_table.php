@@ -19,7 +19,10 @@ class CreateClientsTable extends Migration
             $table->string('name');
             $table->string('address');
             $table->string('city');
+            $table->string('postcode');
+            $table->string('state');
             $table->string('phone');
+            $table->string('rfc');
             $table->string('email');
             $table->integer('credit')->default(0);
             

@@ -17,7 +17,7 @@ class EgressesByDateExport implements FromView, ShouldAutoSize
 	
 	function view(): View
 	{
-		$egresses = Egress::whereBetween('buying_date', [$this->start, $this->end])->get();
+		$egresses = Egress::whereBetween('emission', [$this->start, $this->end])->get();
 		return view('exports.egresses_by_date', compact('egresses'));
 	}
 }

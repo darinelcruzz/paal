@@ -6,7 +6,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-10">
             <solid-box title="Agregar egreso" color="success" button>
                 {!! Form::open(['method' => 'POST', 'route' => 'mbe.egress.store', 'enctype' => 'multipart/form-data']) !!}
 
@@ -17,37 +17,11 @@
                                 ['icon' => 'truck'])
                             !!}
                         </div>
-                        <div class="col-md-6">
-                            {!! Field::select('complement', [1 => 'Sí', 0 => 'No'], null,
-                                ['tpl' => 'withicon','empty' => '¿Hay complemento?', 'label' => 'Complemento', 'v-model' => 'complement'],
-                                ['icon' => 'plus'])
-                            !!}
-                        </div>
-                    </div>
-
-                    <div v-if="complement == '1'" class="row">
                         <div class="col-md-4">
-                            {!! Field::date('complement_date', Date::now(), 
-                                ['tpl' => 'withicon', 'label' => 'Fecha complemento'], ['icon' => 'calendar']) 
-                            !!}
+                            {!! Field::date('emission', Date::now(), ['tpl' => 'withicon'], ['icon' => 'shopping-cart']) !!}
                         </div>
-                        <div class="col-md-4">
-                            {!! Field::number('complement_amount', 0,
-                                ['tpl' => 'withicon', 'step' => '0.01', 'label' => 'Monto complemento', 'min' => '0'], 
-                                ['icon' => 'money']) 
-                            !!}
-                        </div>
-                        <div class="col-md-2 col-md-offset-1"><br>
-                            <file-upload fname="pdf_complement" ext="pdf"></file-upload>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            {!! Field::date('buying_date', Date::now(), ['tpl' => 'withicon'], ['icon' => 'shopping-cart']) !!}
-                        </div>
-                        <div class="col-md-6">
-                            {!! Field::text('folio', ['tpl' => 'withicon'], ['icon' => 'barcode']) !!}
+                        <div class="col-md-2">
+                            {!! Field::number('expiration', ['tpl' => 'withicon'], ['icon' => 'clock-o']) !!}
                         </div>
                     </div>
 
@@ -66,20 +40,41 @@
                     <hr>
 
                     <div class="row">
-                        <div class="col-md-6">
-                            {!! Field::date('emission', Date::now(), ['tpl' => 'withicon'], ['icon' => 'shopping-cart']) !!}
+                        <div class="col-md-3">
+                            {!! Field::text('folio', ['tpl' => 'withicon'], ['icon' => 'barcode']) !!}
                         </div>
-                        <div class="col-md-6">
-                            {!! Field::date('expiration', Date::now(), ['tpl' => 'withicon'], ['icon' => 'dollar']) !!}
+                        <div class="col-md-3">
+                            {!! Field::number('amount', 0, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0'], ['icon' => 'money']) !!}
+                        </div>
+                        <div class="col-md-3">
+                            {!! Field::number('iva', 0, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0'], ['icon' => 'bank']) !!}
+                        </div>
+                        <div class="col-md-3">
+                            <label>&nbsp;</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" disabled value="¿Complemento?">
+                                <span class="input-group-addon">
+                                  <input type="checkbox" v-model="complement">
+                                </span>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-6">
-                            {!! Field::number('amount', 0, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0'], ['icon' => 'money']) !!}
+                    <div v-if="complement" class="row">
+                        <hr>
+                        <div class="col-md-4">
+                            {!! Field::date('complement_date', Date::now(), 
+                                ['tpl' => 'withicon', 'label' => 'Fecha complemento'], ['icon' => 'calendar']) 
+                            !!}
                         </div>
-                        <div class="col-md-6">
-                            {!! Field::number('iva', 0, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0'], ['icon' => 'bank']) !!}
+                        <div class="col-md-4">
+                            {!! Field::number('complement_amount', 0,
+                                ['tpl' => 'withicon', 'step' => '0.01', 'label' => 'Monto complemento', 'min' => '0'], 
+                                ['icon' => 'money']) 
+                            !!}
+                        </div>
+                        <div class="col-md-2 col-md-offset-1"><br>
+                            <file-upload fname="pdf_complement" ext="pdf"></file-upload>
                         </div>
                     </div>
 

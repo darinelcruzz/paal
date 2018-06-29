@@ -23,7 +23,10 @@ class ClientController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'address' => 'required',
+            'postcode' => 'required',
             'city' => 'required',
+            'state' => 'required',
+            'ref' => 'required',
             'phone' => 'required',
             'email' => 'required',
         ]);
@@ -48,7 +51,10 @@ class ClientController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'address' => 'required',
+            'postcode' => 'required',
             'city' => 'required',
+            'state' => 'required',
+            'ref' => 'required',
             'phone' => 'required',
             'email' => 'required',
         ]);

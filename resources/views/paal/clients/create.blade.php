@@ -13,9 +13,12 @@
 
                     {!! Field::text('name', ['tpl' => 'withicon'], ['icon' => 'user']) !!}
                     {!! Field::email('email', ['tpl' => 'withicon'], ['icon' => 'at']) !!}
+                    {!! Field::text('rfc', ['tpl' => 'withicon'], ['icon' => 'barcode']) !!}
                     {!! Field::text('phone', ['tpl' => 'withicon'], ['icon' => 'phone']) !!}
                     {!! Field::text('address', ['tpl' => 'withicon'], ['icon' => 'map-signs']) !!}
-                    {!! Field::text('city', ['tpl' => 'withicon'], ['icon' => 'globe']) !!}
+                    {!! Field::text('postcode', ['tpl' => 'withicon'], ['icon' => 'envelope']) !!}
+                    {!! Field::text('city', ['tpl' => 'withicon'], ['icon' => 'location-arrow']) !!}
+                    {!! Field::text('state', ['tpl' => 'withicon'], ['icon' => 'globe']) !!}
 
                     <button type="submit" class="btn btn-primary pull-right">AGREGAR</button>
 

@@ -14,7 +14,6 @@ $factory->define(App\Egress::class, function (Faker $faker) {
         'provider_id' => function () {
     		return factory(App\Provider::class)->create()->id;
     	},
-        'buying_date' => $bought_at,
         'pdf_bill' => $files[0],
         'pdf_payment' => $files[0],
         'xml' => $files[1],
