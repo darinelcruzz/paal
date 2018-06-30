@@ -41,6 +41,13 @@ class EgressController extends Controller
             'complement_amount.lt' => 'No puede ser mayor que el total',
         ]);
 
+        $provider = Provider::find($request->provider_id);
+
+        if ($provider->remaining < $request->amount) {
+            $message = "$provider->name tiene un monto máximo mensual de $provider->amount solamente le quedan $ $provider->remaining";
+            return redirect()->back()->with('message', $message);
+        }
+
         $expiration = strtotime($request->emission) + ($request->expiration * 86400);
 
         $egress = Egress::create($request->except(['pdf_bill', 'xml', 'pdf_complement', 'complement', 'expiration']));

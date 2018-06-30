@@ -29,7 +29,7 @@ class Provider extends Model
         return $this->amount - $this->monthly_sum;
     }
 
-    function getCanCreateAttribute()
+    function getIsValidAttribute()
     {
         return $this->remaining > 0;
     }
