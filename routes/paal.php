@@ -17,7 +17,9 @@ Route::group(['prefix' => 'paal', 'as' => 'paal.'], function () {
 	Route::group(['prefix' => 'egresos', 'as' => 'egress.'], function () {
 	    $ctrl = 'EgressController';
 	    Route::get('/', usesas($ctrl, 'index'));
-	    Route::post('cancelar', usesas($ctrl, 'destroy'));
+	    Route::get('cancelar/{egress}', usesas($ctrl, 'cancel'));
+	    Route::post('cancelar/{egress}', usesas($ctrl, 'destroy'));
+	    Route::post('pagar/{egress}', usesas($ctrl, 'settle'));
 	});
 
 	Route::group(['prefix' => 'ingresos', 'as' => 'ingress.'], function () {
