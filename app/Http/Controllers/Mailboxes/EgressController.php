@@ -27,25 +27,37 @@ class EgressController extends Controller
     {
         $this->validate($request, [
             'provider_id' => 'required',
-            'buying_date' => 'required',
             'folio' => 'required',
             'pdf_bill' => 'required',
             'xml' => 'required',
-            'amount' => 'required',
+            'expiration' => 'required',
+            'amount' => 'required|gt:iva',
             'iva' => 'required',
             'pdf_complement' => 'sometimes|required',
-            'complement_amount' => 'sometimes|required',
+            'complement_amount' => 'sometimes|required|lt:amount',
             'complement_date' => 'sometimes|required',
+        ],[
+            'amount.gt' => 'No puede ser menor que IVA',
+            'complement_amount.lt' => 'No puede ser mayor que el total',
         ]);
 
-        $egress = Egress::create($request->except(['pdf_bill', 'xml', 'pdf_complement', 'complement']));
+        $provider = Provider::find($request->provider_id);
+
+        if ($provider->remaining < $request->amount) {
+            $message = "$provider->name tiene un monto máximo mensual de $provider->amount solamente le quedan $ $provider->remaining";
+            return redirect()->back()->with('message', $message);
+        }
+
+        $expiration = strtotime($request->emission) + ($request->expiration * 86400);
+
+        $egress = Egress::create($request->except(['pdf_bill', 'xml', 'pdf_complement', 'complement', 'expiration']));
 
         $path_to_pdf = Storage::putFileAs(
-            "public/mailboxes/bills", $request->file("pdf_bill"), $egress->buying_date . "_" . $egress->id . ".pdf"
+            "public/mailboxes/bills", $request->file("pdf_bill"), $egress->emission . "_" . $egress->id . ".pdf"
         );
 
         $path_to_xml = Storage::putFileAs(
-            "public/mailboxes/bills", $request->file("xml"), $egress->buying_date . "_" . $egress->id . ".xml"
+            "public/mailboxes/bills", $request->file("xml"), $egress->emission . "_" . $egress->id . ".xml"
         );
 
         $path_to_complement = $request->file("pdf_complement") ? Storage::putFileAs(
@@ -55,6 +67,7 @@ class EgressController extends Controller
             'pdf_bill' => $path_to_pdf,
             'pdf_complement' => $path_to_complement,
             'xml' => $path_to_xml,
+            'expiration' => date('Y-m-d', $expiration),
         ]);
 
         return redirect(route('mbe.egress.index'));

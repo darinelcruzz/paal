@@ -17,6 +17,8 @@ class CreateProductsTable extends Migration
             $table->increments('id');
 
             $table->string('description');
+            $table->string('code');
+            $table->string('family');
             $table->double('wholesale_price');
             $table->double('retail_price');
             $table->integer('wholesale_quantity');

@@ -15,13 +15,22 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            {!! Field::number('retail_price', $product->retail_price, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0'], ['icon' => 'dollar']) !!}
+                            {!! Field::text('code', $product->code, ['tpl' => 'withicon'], ['icon' => 'barcode']) !!}
                         </div>
                         <div class="col-md-6">
-                            {!! Field::number('wholesale_price', $product->wholesale_price, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0'], ['icon' => 'dollar']) !!}
+                            {!! Field::text('family', $product->family, ['tpl' => 'withicon'], ['icon' => 'group']) !!}
                         </div>
                     </div>
                     
+                    <div class="row">
+                        <div class="col-md-6">
+                            {!! Field::number('retail_price', $product->retail_price, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0'], ['icon' => 'dollar']) !!}
+                        </div>
+                        <div class="col-md-6">
+                            {!! Field::number('wholesale_price', $product->wholesale_price, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0'], ['icon' => 'money']) !!}
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="col-md-6"></div>
                         <div class="col-md-6">

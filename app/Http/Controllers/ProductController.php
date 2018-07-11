@@ -22,9 +22,13 @@ class ProductController extends Controller
     {
         $this->validate($request, [
             'description' => 'required',
+            'code' => 'required',
+            'family' => 'required',
             'retail_price' => 'required',
-            'wholesale_price' => 'required',
+            'wholesale_price' => 'required|lt:retail_price',
             'wholesale_quantity' => 'required',
+        ],[
+            'wholesale_price.lt' => 'Precio de mayoreo debe ser menor al de menudeo'
         ]);
 
         $product = Product::create($request->all());
@@ -46,9 +50,13 @@ class ProductController extends Controller
     {
         $this->validate($request, [
             'description' => 'required',
+            'code' => 'required',
+            'family' => 'required',
             'retail_price' => 'required',
-            'wholesale_price' => 'required',
+            'wholesale_price' => 'required|lt:retail_price',
             'wholesale_quantity' => 'required',
+        ], [
+            'wholesale_price.lt' => 'Precio de mayoreo debe ser menor al de menudeo'
         ]);
 
         $product->update($request->all());

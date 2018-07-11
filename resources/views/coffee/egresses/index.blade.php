@@ -22,7 +22,7 @@
                             <tr>
                                 <td>{{ $egress->id }}</td>
                                 <td>{{ $egress->provider->name }}</td>
-                                <td>{{ fdate($egress->buying_date, 'd M Y', 'Y-m-d') }}</td>
+                                <td>{{ fdate($egress->emission, 'd M Y', 'Y-m-d') }}</td>
                                 <td>
                                     <modal id="pdf{{ $egress->id}}" title="Factura (pdf)">
                                         <iframe src="{{ Storage::url($egress->pdf_bill) }}#view=FitH" width="100%" height="600"></iframe>

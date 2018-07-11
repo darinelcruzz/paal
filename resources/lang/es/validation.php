@@ -163,5 +163,9 @@ return [
         'retail_price' => 'precio menudeo',
         'wholesale_price' => 'precio mayoreo',
         'wholesale_quantity' => 'cantidad mayoreo',
+        'method' => 'método',
+        'bought_at' => 'fecha de compra',
+        'paid_at' => 'fecha de pago',
+        'operation_number' => '# Operación',
     ],
 ];

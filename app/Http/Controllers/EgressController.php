@@ -13,13 +13,16 @@ class EgressController extends Controller
         return view('paal.egresses.index', compact('egresses'));
     }
 
-    function destroy(Request $request)
+    function cancel(Egress $egress)
+    {
+        return view('paal.egresses.cancel', compact('egress'));
+    }
+
+    function destroy(Request $request, Egress $egress)
     {
         $this->validate($request, [
             'observations' => 'required'
         ]);
-
-        $egress = Egress::find($request->id);
 
         $egress->update([
             'observations' => $request->observations,
@@ -28,5 +31,10 @@ class EgressController extends Controller
         ]);
 
         return redirect(route('paal.egress.index'));
+    }
+
+    function settle()
+    {
+        return;
     }
 }

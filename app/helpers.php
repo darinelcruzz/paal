@@ -17,7 +17,7 @@ function fdate($original_date, $format = 'Y-m-d', $original_format = 'Y-m-d H:i:
         return $date->format($format);
     }
         
-    return '-';
+    return '';
 }
 
 function drawHeader(...$titles)
