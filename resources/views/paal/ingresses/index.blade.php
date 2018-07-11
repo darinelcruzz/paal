@@ -5,7 +5,8 @@
 @endpush
 
 @push('headerTitle')
-    <a href="{{ route('paal.ingress.create') }}" class="btn btn-primary btn-xs"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR</a>
+    <a href="{{ route('paal.ingress.create', ['company' => 'coffee']) }}" class="btn btn-danger btn-xs"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR COFFEE</a>
+    <a href="{{ route('paal.ingress.create', ['company' => 'mbe']) }}" class="btn btn-success btn-xs"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR MBE</a>
 @endpush
 
 @section('content')

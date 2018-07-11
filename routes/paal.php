@@ -25,7 +25,7 @@ Route::group(['prefix' => 'paal', 'as' => 'paal.'], function () {
 	Route::group(['prefix' => 'ingresos', 'as' => 'ingress.'], function () {
 	    $ctrl = 'IngressController';
 	    Route::get('/', usesas($ctrl, 'index'));
-	    Route::get('agregar', usesas($ctrl, 'create'));
+	    Route::get('agregar/{company}', usesas($ctrl, 'create'));
 	    Route::post('agregar', usesas($ctrl, 'store'));
 	    Route::post('cancelar', usesas($ctrl, 'destroy'));
 	});
