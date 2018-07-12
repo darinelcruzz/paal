@@ -9,8 +9,9 @@ class IngressController extends Controller
 {
     function index()
     {
-        $ingresses = Ingress::all();
-        return view('paal.ingresses.index', compact('ingresses'));
+        $coffee = Ingress::where('company', 'coffee')->get();
+        $mbe = Ingress::where('company', 'mbe')->get();
+        return view('paal.ingresses.index', compact('coffee', 'mbe'));
     }
 
     function create($company)
@@ -28,6 +29,8 @@ class IngressController extends Controller
             'amount' => 'required',
             'iva' => 'required|lt:amount',
             'method' => 'required',
+        ],[
+            'iva.lt' => 'No puede ser mayor que total'
         ]);
 
         Ingress::create($request->all());

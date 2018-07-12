@@ -46,7 +46,11 @@ class EgressController extends Controller
         if ($provider->remaining < $request->amount) {
             $message = "$provider->name tiene un monto máximo mensual de $provider->amount solamente le quedan $ $provider->remaining";
             return redirect()->back()->with('message', $message);
+        } elseif ($provider->bills <= $provider->created_bills) {
+            $message = "$provider->name tiene una cantidad máxima mensual de $provider->bills facturas";
+            return redirect()->back()->with('message', $message);
         }
+
 
         $expiration = strtotime($request->emission) + ($request->expiration * 86400);
 

@@ -164,8 +164,11 @@ return [
         'wholesale_price' => 'precio mayoreo',
         'wholesale_quantity' => 'cantidad mayoreo',
         'method' => 'método',
-        'bought_at' => 'fecha de compra',
+        'bought_at' => 'fecha de venta',
         'paid_at' => 'fecha de pago',
         'operation_number' => '# Operación',
+        'state' => 'estado',
+        'client_id' => 'cliente',
+        'client' => 'cliente'
     ],
 ];

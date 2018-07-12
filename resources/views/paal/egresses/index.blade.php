@@ -8,22 +8,17 @@
     <div class="row">
         <div class="col-md-12">
             <solid-box title="Egresos" color="primary" button>
-                
+
                 <data-table example="1">
 
-                    {{ drawHeader('ID', 'empresa', 'compra', 'I.V.A.', 'total', 'pago', 'estado') }}
+                    {{ drawHeader('ID', 'empresa', 'proveedor', 'compra', 'I.V.A.', 'total', 'pago', 'estado') }}
 
                     <template slot="body">
                         @foreach($egresses as $egress)
                             <tr>
                                 <td>{{ $egress->id }}</td>
-                                <td>
-                                    {{ strtoupper($egress->company) }}
-                                    &nbsp;&nbsp;
-                                    <a style="color: black;" href="{{ route('paal.egress.cancel', ['id' => $egress->id]) }}">
-                                        <i class="fa fa-trash"></i>
-                                    </a>
-                                </td>
+                                <td>{{ strtoupper($egress->company) }}</td>
+                                <td>{{ $egress->provider->name }}</td>
                                 <td>
                                     {{ fdate($egress->emission, 'd M Y', 'Y-m-d') }}
                                     &nbsp;&nbsp;
@@ -35,7 +30,7 @@
                                     </modal-button>
                                     &nbsp;
                                     <a href="{{ Storage::url($egress->xml) }}" download title="FACTURA XML">
-                                       <i class="fa fa-file-code-o"></i> 
+                                       <i class="fa fa-file-code-o"></i>
                                     </a>
                                 </td>
                                 <td>$ {{ number_format($egress->iva, 2) }}</td>
@@ -52,24 +47,29 @@
                                         </modal-button>
                                     @else
                                         {!! Form::open([
-                                            'method' => 'POST', 
-                                            'route' => ['paal.egress.settle', $egress->id], 
+                                            'method' => 'POST',
+                                            'route' => ['paal.egress.settle', $egress->id],
                                             'enctype' => 'multipart/form-data'
-                                            ]) 
+                                            ])
                                         !!}
                                             <pdf-button fname="pdf_payment" ext="pdf" color="default"></pdf-button>
                                             <input type="hidden" name="id" value="{{ $egress->id }}">
                                             <button type="submit" class="btn btn-xs btn-primary"><i class="fa fa-check"></i></button>
                                         {!! Form::close() !!}
                                     @endif
+
                                 </td>
                                 <td>
                                     {!! $egress->status_label !!}
+                                    &nbsp;&nbsp;
+                                    <a style="color: black;" href="{{ route('paal.egress.cancel', ['id' => $egress->id]) }}">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach
                     </template>
-                    
+
                 </data-table>
 
             </solid-box>

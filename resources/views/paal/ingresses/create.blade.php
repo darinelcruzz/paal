@@ -9,9 +9,9 @@
         <div class="col-md-7">
             <solid-box title="Agregar ingreso" color="{{ $company == 'coffee' ? 'danger': 'success'}}" button>
                 {!! Form::open(['method' => 'POST', 'route' => 'paal.ingress.store']) !!}
-                    
+
                     {!! Field::select('client_id', $clients, null,
-                        ['tpl' => 'withicon', 'label' => 'Cliente','empty' => 'Seleccione un cliente'],
+                        ['tpl' => 'withicon', 'empty' => 'Seleccione un cliente'],
                         ['icon' => 'user'])
                     !!}
 
@@ -35,9 +35,9 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            {!! Field::select('method', ['transfer' => 'Transferencia', 'check' => 'Cheque', 
-                                'debit' => 'Tarjeta de débito', 'credit' => 'Tarjeta de crédito', 'cash' => 'Efectivo'],
-                                null, ['tpl' => 'withicon', 'empty' => 'Elija forma de pago'], ['icon' => 'credit-card']) 
+                            {!! Field::select('method', ['1' => 'Efectivo', '2' => 'Transferencia', '3' => 'Cheque',
+                                '4' => 'Tarjeta de débito', '5' => 'Tarjeta de crédito'],
+                                null, ['tpl' => 'withicon', 'empty' => 'Elija forma de pago'], ['icon' => 'credit-card'])
                             !!}
                         </div>
                         <div class="col-md-6">

@@ -29,8 +29,12 @@ class Provider extends Model
         return $this->amount - $this->monthly_sum;
     }
 
-    function getIsValidAttribute()
+    function getCreatedBillsAttribute()
     {
-        return $this->remaining > 0;
+        $date = date('Y-m');
+        return $this->egresses
+        ->where('emission', '>=', "$date-01")
+        ->where('emission', '<=', "$date-31")
+        ->count();
     }
 }

@@ -21,7 +21,7 @@
                         @foreach($providers as $provider)
                             <tr>
                                 <td>{{ $provider->id }}</td>
-                                <td>{{ $provider->social }}</td>
+                                <td><b>{{ $provider->social }}</b> <br> {{ $provider->name }}</td>
                                 <td>{{ $provider->rfc }}</td>
                                 <td>{{ $provider->address }}</td>
                                 <td>{{ $provider->email }}</td>

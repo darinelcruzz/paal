@@ -22,6 +22,9 @@
     $("#example1").DataTable({
       "order":[[ 0 , "desc"]]
     });
+    $("#example2").DataTable({
+      "order":[[ 0 , "desc"]]
+    });
 
     $(window).keydown(function(event){
       if(event.keyCode == 13) {
@@ -35,7 +38,7 @@
     function submitForm(btn) {
         // disable the button
         btn.disabled = true;
-        // submit the form    
+        // submit the form
         btn.form.submit();
     }
 </script>
