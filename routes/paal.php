@@ -56,4 +56,13 @@ Route::group(['prefix' => 'paal', 'as' => 'paal.'], function () {
 	    Route::get('editar/{client}', usesas($ctrl, 'edit'));
 	    Route::post('editar/{client}', usesas($ctrl, 'update'));
 	});
+
+	Route::group(['prefix' => 'usuarios', 'as' => 'user.', 'middleware' => 'admin'], function () {
+	    $ctrl = 'UserController';
+	    Route::get('/', usesas($ctrl, 'index'));
+	    Route::get('agregar', usesas($ctrl, 'create'));
+	    Route::post('agregar', usesas($ctrl, 'store'));
+	    Route::get('editar/{user}', usesas($ctrl, 'edit'));
+	    Route::post('editar/{user}', usesas($ctrl, 'update'));
+	});
 });

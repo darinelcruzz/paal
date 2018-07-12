@@ -26,12 +26,6 @@ return [
         'route' => 'paal.client.index'
     ],
 
-    'users' => [
-        'title' => 'Usuarios',
-        'icon' => 'fa fa-key',
-        'route' => 'paal.user.index'
-    ],
-
     'products' => [
         'title' => 'Productos',
         'icon' => 'fa fa-tag',

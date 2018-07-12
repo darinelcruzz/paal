@@ -63,5 +63,6 @@ class Kernel extends HttpKernel
         'coffee' => \App\Http\Middleware\CoffeeDepot::class,
         'mailboxes' => \App\Http\Middleware\MailboxesEtc::class,
         'paal' => \App\Http\Middleware\Paal::class,
+        'admin' => \App\Http\Middleware\Admin::class,
     ];
 }
