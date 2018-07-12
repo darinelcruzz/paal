@@ -19,7 +19,7 @@ class CreateIngressesTable extends Migration
             $table->string('status');
             $table->double('amount');
             $table->double('iva');
-            $table->string('method');
+            $table->integer('method')->default(1);
             $table->string('operation_number')->nullable();
 
             $table->timestamps();

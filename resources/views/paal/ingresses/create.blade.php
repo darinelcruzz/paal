@@ -35,8 +35,8 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            {!! Field::select('method', ['1' => 'Efectivo', '2' => 'Transferencia', '3' => 'Cheque',
-                                '4' => 'Tarjeta de débito', '5' => 'Tarjeta de crédito'],
+                            {!! Field::select('method', [1 => 'Efectivo', 2 => 'Transferencia', 3 => 'Cheque',
+                                4 => 'Tarjeta de débito', 5 => 'Tarjeta de crédito'],
                                 null, ['tpl' => 'withicon', 'empty' => 'Elija forma de pago'], ['icon' => 'credit-card'])
                             !!}
                         </div>

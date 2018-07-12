@@ -9,7 +9,5 @@ class ClientsTableSeeder extends Seeder
         factory(\App\Client::class)->create([
         	'name' => 'CLIENTE MOSTRADOR',
         ]);
-
-        factory(\App\Client::class, 4)->create();
     }
 }
