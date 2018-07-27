@@ -26,9 +26,10 @@ class ClientController extends Controller
             'postcode' => 'required',
             'city' => 'required',
             'state' => 'required',
-            'ref' => 'required',
+            'rfc' => 'required',
             'phone' => 'required',
             'email' => 'required',
+            'company' => 'required',
         ]);
 
         Client::create($request->all());
@@ -57,6 +58,7 @@ class ClientController extends Controller
             'ref' => 'required',
             'phone' => 'required',
             'email' => 'required',
+            'company' => 'required',
         ]);
 
         $client->update($request->all());

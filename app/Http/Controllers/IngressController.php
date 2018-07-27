@@ -16,7 +16,7 @@ class IngressController extends Controller
 
     function create($company)
     {
-        $clients = Client::pluck('name', 'id')->toArray();
+        $clients = Client::where('company', $company)->orWhere('company', 'both')->pluck('name', 'id')->toArray();
         return view('paal.ingresses.create', compact('clients', 'company'));
     }
 

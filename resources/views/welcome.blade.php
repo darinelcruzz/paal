@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-@include('lte.htmlhead', ['company' => 'paal'])
+@include('lte.htmlhead', ['company' => '/paal'])
 
 <body class="hold-transition lockscreen">
 <!-- Automatic element centering -->

@@ -21,13 +21,11 @@
                         </div>
                     </div>
 
-                    <div v-if="pmethod == 'check'" class="row">
+                    <div class="row">
                         <div class="col-md-6">
                             {!! Field::text('mfolio', ['label' => 'Folio', 'tpl' => 'withicon'], ['icon' => 'barcode']) !!}
                         </div>
-                    </div>
-
-                    <div class="row">
+                        
                         <div class="col-md-6">
                             <file-upload fname="pdf_payment" ext="pdf"></file-upload>
                         </div>

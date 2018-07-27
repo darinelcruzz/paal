@@ -24,6 +24,7 @@ class CreateClientsTable extends Migration
             $table->string('phone');
             $table->string('rfc');
             $table->string('email');
+            $table->string('company');
             $table->integer('credit')->default(0);
             
             $table->timestamps();

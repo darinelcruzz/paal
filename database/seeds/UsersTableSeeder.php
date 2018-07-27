@@ -22,7 +22,7 @@ class UsersTableSeeder extends Seeder
         factory(\App\User::class)->create([
             'name' => 'Héctor Palacios',
             'username' => 'hpalacios22',
-            'password' => Hash::make('titoBB19'),
+            'password' => Hash::make('titobb19'),
             'company' => 'owner'
         ]);
     }
