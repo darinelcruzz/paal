@@ -16,10 +16,15 @@
                 <tr v-for="(input, index) in inputs">
                     <td>{{ index + 1 }}</td>
                     <td>
-                        <select v-model="input.id" @change="productSelected(index)">
+                        <!-- <select v-model="input.id" @change="productSelected(index)">
                             <option value="0" selected>Seleccione uno...</option>
                             <option v-for="product in products" :value="product.id">{{ product.description }}</option>
-                        </select>
+                        </select> -->
+                        <v-select label="description" :options="products" v-model="input.id" placeholder="Seleccione un producto..." @change="productSelected(index)">
+                            <template slot="option" slot-scope="option" :value="option.id">
+                                {{ option.code + " - " + option.description }}
+                            </template>
+                        </v-select>
                     </td>
                     <td>
                         $ {{ input.quantity >= input.limit ? input.pricer.toFixed(2) : input.price.toFixed(2) }}
@@ -59,6 +64,23 @@ export default {
             products: []
         };
     },
+    watch: {
+        inputs: {
+            handler: function(val, oldVal) {
+
+                var newArray = $.map(val[0], function(value, index) {
+                    return [value];
+                });
+                var oldArray = $.map(oldVal[0], function(value, index) {
+                    return [value];
+                });
+
+                console.log(newArray, oldArray);
+                console.log(val, oldVal);
+            },
+            deep: true  
+        }
+    },
     methods: {
         addRow() {
           this.inputs.push({
@@ -74,9 +96,11 @@ export default {
           this.inputs.splice(index, 1)
         },
         productSelected(index) {
-          this.inputs[index].price = this.products[this.inputs[index].id - 1].retail_price;
-          this.inputs[index].pricer = this.products[this.inputs[index].id - 1].wholesale_price;
-          this.inputs[index].limit = this.products[this.inputs[index].id - 1].wholesale_quantity;
+          this.inputs[index].price = this.inputs[index].id.retail_price;
+          // this.inputs[index].pricer = this.products[this.inputs[index].id - 1].wholesale_price;
+          this.inputs[index].pricer = this.inputs[index].id.wholesale_price;
+          // this.inputs[index].limit = this.products[this.inputs[index].id - 1].wholesale_quantity;
+          this.inputs[index].limit = this.inputs[index].id.wholesale_quantity;
           this.quantitySettled(index);
         },
         quantitySettled(index) {

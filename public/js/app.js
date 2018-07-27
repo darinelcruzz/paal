@@ -14304,6 +14304,8 @@ __webpack_require__(16);
 
 window.Vue = __webpack_require__(39);
 
+Vue.component('v-select', VueSelect.VueSelect);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -50897,6 +50899,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -50906,6 +50913,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         };
     },
 
+    watch: {
+        inputs: {
+            handler: function handler(val, oldVal) {
+
+                var newArray = $.map(val[0], function (value, index) {
+                    return [value];
+                });
+                var oldArray = $.map(oldVal[0], function (value, index) {
+                    return [value];
+                });
+
+                console.log(newArray, oldArray);
+                console.log(val, oldVal);
+            },
+            deep: true
+        }
+    },
     methods: {
         addRow: function addRow() {
             this.inputs.push({
@@ -50921,9 +50945,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.inputs.splice(index, 1);
         },
         productSelected: function productSelected(index) {
-            this.inputs[index].price = this.products[this.inputs[index].id - 1].retail_price;
-            this.inputs[index].pricer = this.products[this.inputs[index].id - 1].wholesale_price;
-            this.inputs[index].limit = this.products[this.inputs[index].id - 1].wholesale_quantity;
+            this.inputs[index].price = this.inputs[index].id.retail_price;
+            // this.inputs[index].pricer = this.products[this.inputs[index].id - 1].wholesale_price;
+            this.inputs[index].pricer = this.inputs[index].id.wholesale_price;
+            // this.inputs[index].limit = this.products[this.inputs[index].id - 1].wholesale_quantity;
+            this.inputs[index].limit = this.inputs[index].id.wholesale_quantity;
             this.quantitySettled(index);
         },
         quantitySettled: function quantitySettled(index) {
@@ -50970,59 +50996,47 @@ var render = function() {
               return _c("tr", [
                 _c("td", [_vm._v(_vm._s(index + 1))]),
                 _vm._v(" "),
-                _c("td", [
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: input.id,
-                          expression: "input.id"
-                        }
-                      ],
+                _c(
+                  "td",
+                  [
+                    _c("v-select", {
+                      attrs: {
+                        label: "description",
+                        options: _vm.products,
+                        placeholder: "Seleccione un producto..."
+                      },
                       on: {
-                        change: [
-                          function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              input,
-                              "id",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          },
-                          function($event) {
-                            _vm.productSelected(index)
+                        change: function($event) {
+                          _vm.productSelected(index)
+                        }
+                      },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "option",
+                          fn: function(option) {
+                            return [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(
+                                    option.code + " - " + option.description
+                                  ) +
+                                  "\n                        "
+                              )
+                            ]
                           }
-                        ]
-                      }
-                    },
-                    [
-                      _c("option", { attrs: { value: "0", selected: "" } }, [
-                        _vm._v("Seleccione uno...")
+                        }
                       ]),
-                      _vm._v(" "),
-                      _vm._l(_vm.products, function(product) {
-                        return _c(
-                          "option",
-                          { domProps: { value: product.id } },
-                          [_vm._v(_vm._s(product.description))]
-                        )
-                      })
-                    ],
-                    2
-                  )
-                ]),
+                      model: {
+                        value: input.id,
+                        callback: function($$v) {
+                          _vm.$set(input, "id", $$v)
+                        },
+                        expression: "input.id"
+                      }
+                    })
+                  ],
+                  1
+                ),
                 _vm._v(" "),
                 _c("td", [
                   _vm._v(

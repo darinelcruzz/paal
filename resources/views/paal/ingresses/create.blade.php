@@ -50,8 +50,15 @@
                     <button type="submit" class="btn btn-{{ $company == 'coffee' ? 'danger': 'success'}} pull-right" onclick="submitForm(this);">Agregar</button>
 
                 {!! Form::close() !!}
+
             </solid-box>
         </div>
+
+        {{-- <div class="col-md-10">
+            <solid-box title="vue select" color="danger">
+                <dynamic-inputs></dynamic-inputs>
+            </solid-box>
+        </div> --}}
     </div>
 
 @endsection
