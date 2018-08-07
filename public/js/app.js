@@ -50904,12 +50904,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             inputs: [],
-            products: []
+            products: [],
+            families: [],
+            selectedFamilies: []
         };
     },
 
@@ -50940,16 +50953,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 limit: 0,
                 total: 0
             });
+            this.selectedFamilies.push(0);
         },
         deleteRow: function deleteRow(index) {
             this.inputs.splice(index, 1);
         },
         productSelected: function productSelected(index) {
-            this.inputs[index].price = this.inputs[index].id.retail_price;
-            // this.inputs[index].pricer = this.products[this.inputs[index].id - 1].wholesale_price;
-            this.inputs[index].pricer = this.inputs[index].id.wholesale_price;
-            // this.inputs[index].limit = this.products[this.inputs[index].id - 1].wholesale_quantity;
-            this.inputs[index].limit = this.inputs[index].id.wholesale_quantity;
+            this.inputs[index].price = this.products[this.inputs[index].id - 1].retail_price;
+            // this.inputs[index].price = this.inputs[index].id.retail_price;
+            this.inputs[index].pricer = this.products[this.inputs[index].id - 1].wholesale_price;
+            // this.inputs[index].pricer = this.inputs[index].id.wholesale_price;
+            this.inputs[index].limit = this.products[this.inputs[index].id - 1].wholesale_quantity;
+            // this.inputs[index].limit = this.inputs[index].id.wholesale_quantity;
             this.quantitySettled(index);
         },
         quantitySettled: function quantitySettled(index) {
@@ -50973,6 +50988,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var data = _ref.data;
 
             t.products = data;
+            var arr = t.products.map(function (item) {
+                return item.family;
+            });
+            var families = [];
+            for (var i = 0; i < arr.length; i++) {
+                if (families.indexOf(arr[i]) == -1) {
+                    families.push(arr[i]);
+                }
+            }
+            t.families = families;
         });
     }
 });
@@ -50996,47 +51021,108 @@ var render = function() {
               return _c("tr", [
                 _c("td", [_vm._v(_vm._s(index + 1))]),
                 _vm._v(" "),
-                _c(
-                  "td",
-                  [
-                    _c("v-select", {
-                      attrs: {
-                        label: "description",
-                        options: _vm.products,
-                        placeholder: "Seleccione un producto..."
-                      },
+                _c("td", [
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.selectedFamilies[index],
+                          expression: "selectedFamilies[index]"
+                        }
+                      ],
+                      attrs: { name: "families" },
                       on: {
                         change: function($event) {
-                          _vm.productSelected(index)
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.selectedFamilies,
+                            index,
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
                         }
-                      },
-                      scopedSlots: _vm._u([
-                        {
-                          key: "option",
-                          fn: function(option) {
-                            return [
-                              _vm._v(
-                                "\n                            " +
-                                  _vm._s(
-                                    option.code + " - " + option.description
-                                  ) +
-                                  "\n                        "
-                              )
-                            ]
-                          }
-                        }
-                      ]),
-                      model: {
-                        value: input.id,
-                        callback: function($$v) {
-                          _vm.$set(input, "id", $$v)
-                        },
-                        expression: "input.id"
                       }
-                    })
-                  ],
-                  1
-                ),
+                    },
+                    [
+                      _c("option", { attrs: { value: "0", selected: "" } }, [
+                        _vm._v("Seleccione una...")
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(_vm.families, function(family) {
+                        return _c("option", { domProps: { value: family } }, [
+                          _vm._v(_vm._s(family))
+                        ])
+                      })
+                    ],
+                    2
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: input.id,
+                          expression: "input.id"
+                        }
+                      ],
+                      attrs: { name: "products[]" },
+                      on: {
+                        change: [
+                          function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              input,
+                              "id",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          },
+                          function($event) {
+                            _vm.productSelected(index)
+                          }
+                        ]
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "0", selected: "" } }, [
+                        _vm._v("Seleccione uno...")
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(_vm.products, function(product) {
+                        return product.family == _vm.selectedFamilies[index]
+                          ? _c("option", { domProps: { value: product.id } }, [
+                              _vm._v(_vm._s(product.description))
+                            ])
+                          : _vm._e()
+                      })
+                    ],
+                    2
+                  )
+                ]),
                 _vm._v(" "),
                 _c("td", [
                   _vm._v(
@@ -51062,6 +51148,7 @@ var render = function() {
                     ],
                     staticClass: "form-control input-sm",
                     attrs: {
+                      name: "quantities[]",
                       type: "number",
                       min: "0",
                       step: "0.01",
@@ -51086,8 +51173,12 @@ var render = function() {
                   _vm._v(
                     "\n                    $ " +
                       _vm._s(input.total.toFixed(2)) +
-                      "\n                "
-                  )
+                      "\n                    "
+                  ),
+                  _c("input", {
+                    attrs: { name: "subtotals[]", type: "hidden" },
+                    domProps: { value: input.total.toFixed(2) }
+                  })
                 ]),
                 _vm._v(" "),
                 _c("td", [
@@ -51112,7 +51203,17 @@ var render = function() {
             _c("tr", [
               _vm._m(1),
               _vm._v(" "),
-              _c("td", [_vm._v("$ " + _vm._s(_vm.total.toFixed(2)))]),
+              _c("td", [
+                _vm._v(
+                  "\n                    $ " +
+                    _vm._s(_vm.total.toFixed(2)) +
+                    "\n                    "
+                ),
+                _c("input", {
+                  attrs: { type: "hidden", name: "total" },
+                  domProps: { value: _vm.total.toFixed(2) }
+                })
+              ]),
               _vm._v(" "),
               _c("td")
             ])
@@ -51138,6 +51239,8 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_vm._v("ID")]),
         _vm._v(" "),
+        _c("th", [_vm._v("Familia")]),
+        _vm._v(" "),
         _c("th", [_vm._v("Producto")]),
         _vm._v(" "),
         _c("th", [_vm._v("Precio")]),
@@ -51154,7 +51257,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("th", { attrs: { colspan: "4" } }, [
+    return _c("th", { attrs: { colspan: "5" } }, [
       _c("span", { staticClass: "pull-right" }, [_vm._v("Total:")])
     ])
   }

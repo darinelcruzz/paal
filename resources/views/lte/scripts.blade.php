@@ -41,4 +41,8 @@
         // submit the form
         btn.form.submit();
     }
+    
+    function printTicket() {
+        window.print();
+    }
 </script>

@@ -6,7 +6,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-7">
+        {{-- <div class="col-md-7">
             <solid-box title="Agregar ingreso" color="{{ $company == 'coffee' ? 'danger': 'success'}}" button>
                 {!! Form::open(['method' => 'POST', 'route' => 'paal.ingress.store']) !!}
 
@@ -52,13 +52,16 @@
                 {!! Form::close() !!}
 
             </solid-box>
-        </div>
-
-        {{-- <div class="col-md-10">
-            <solid-box title="vue select" color="danger">
-                <dynamic-inputs></dynamic-inputs>
-            </solid-box>
         </div> --}}
+
+        <div class="col-md-10">
+            {!! Form::open(['method' => 'POST', 'route' => 'paal.ingress.print']) !!}
+                <solid-box title="vue select" color="danger">
+                    <dynamic-inputs></dynamic-inputs>
+                    <button type="submit" class="btn btn-danger pull-right" onclick="submitForm(this);">Crear</button>
+                </solid-box>
+            {!! Form::close() !!}
+        </div>
     </div>
 
 @endsection

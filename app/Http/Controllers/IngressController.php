@@ -53,6 +53,12 @@ class IngressController extends Controller
         //
     }
 
+    function print(Request $request)
+    {
+        $info = $request->all();
+        return view('paal.ingresses.print', compact('info'));
+    }
+
     function destroy(Ingress $ingress)
     {
         //
