@@ -23,8 +23,8 @@
                 <div class="col-sm-4 invoice-col">
                   Cliente
                   <address>
-                    <strong>Fulanito</strong><br>
-                    795 Folsom Ave, Suite 600<br>
+                    <strong>{{ App\Client::find($info['client_id'])->name }}</strong><br>
+                    {{ App\Client::find($info['client_id'])->address }}<br>
                   </address>
                 </div>
                 <!-- /.col -->

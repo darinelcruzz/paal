@@ -66,7 +66,7 @@ class ProductController extends Controller
 
     function axios()
     {
-        $products = Product::all();
+        $products = Product::orderBy('description')->get();
         return response($products, 200);
     }
 

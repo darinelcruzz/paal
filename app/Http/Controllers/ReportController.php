@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\{EgressesByDateExport, PaidByProviderExport, ProviderByDateExport};
-use App\Provider;
+use App\{Provider, Product};
 
 class ReportController extends Controller
 {

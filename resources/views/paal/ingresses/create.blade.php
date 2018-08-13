@@ -55,9 +55,14 @@
         </div> --}}
 
         <div class="col-md-10">
-            {!! Form::open(['method' => 'POST', 'route' => 'paal.ingress.print']) !!}
+            {!! Form::open(['method' => 'POST', 'route' => 'paal.ingress.futureStore']) !!}
                 <solid-box title="vue select" color="danger">
+                    {!! Field::select('client_id', $clients, null,
+                        ['tpl' => 'withicon', 'empty' => 'Seleccione un cliente'],
+                        ['icon' => 'user'])
+                    !!}
                     <dynamic-inputs></dynamic-inputs>
+                    <input type="hidden" name="company" value="{{ $company }}">
                     <button type="submit" class="btn btn-danger pull-right" onclick="submitForm(this);">Crear</button>
                 </solid-box>
             {!! Form::close() !!}

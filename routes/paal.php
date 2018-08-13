@@ -27,6 +27,7 @@ Route::group(['prefix' => 'paal', 'as' => 'paal.'], function () {
 	    Route::get('/', usesas($ctrl, 'index'));
 	    Route::get('agregar/{company}', usesas($ctrl, 'create'));
 	    Route::post('agregar', usesas($ctrl, 'store'));
+	    Route::post('agregar2', usesas($ctrl, 'futureStore'));
 	    Route::post('imprimir', usesas($ctrl, 'print'));
 	    Route::post('cancelar', usesas($ctrl, 'destroy'));
 	});

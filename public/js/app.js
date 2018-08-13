@@ -50915,6 +50915,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -51132,8 +51134,17 @@ var render = function() {
                           ? input.pricer.toFixed(2)
                           : input.price.toFixed(2)
                       ) +
-                      "\n                "
-                  )
+                      "\n                     "
+                  ),
+                  _c("input", {
+                    attrs: { name: "prices[]", type: "hidden" },
+                    domProps: {
+                      value:
+                        input.quantity >= input.limit
+                          ? input.pricer.toFixed(2)
+                          : input.price.toFixed(2)
+                    }
+                  })
                 ]),
                 _vm._v(" "),
                 _c("td", [
@@ -51210,8 +51221,13 @@ var render = function() {
                     "\n                    "
                 ),
                 _c("input", {
-                  attrs: { type: "hidden", name: "total" },
+                  attrs: { type: "hidden", name: "amount" },
                   domProps: { value: _vm.total.toFixed(2) }
+                }),
+                _vm._v(" "),
+                _c("input", {
+                  attrs: { type: "hidden", name: "iva" },
+                  domProps: { value: _vm.total.toFixed(2) * 0.16 / 1.16 }
                 })
               ]),
               _vm._v(" "),
@@ -51245,7 +51261,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Precio")]),
         _vm._v(" "),
-        _c("th", { staticStyle: { width: "20%" } }, [_vm._v("Cantidad")]),
+        _c("th", { staticStyle: { width: "15%" } }, [_vm._v("Cantidad")]),
         _vm._v(" "),
         _c("th", [_vm._v("Subtotal")]),
         _vm._v(" "),

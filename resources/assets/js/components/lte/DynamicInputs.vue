@@ -7,7 +7,7 @@
                     <th>Familia</th>
                     <th>Producto</th>
                     <th>Precio</th>
-                    <th style="width: 20%">Cantidad</th>
+                    <th style="width: 15%">Cantidad</th>
                     <th>Subtotal</th>
                     <th><i class="fa fa-trash"></i></th>
                 </tr>
@@ -35,6 +35,7 @@
                     </td>
                     <td>
                         $ {{ input.quantity >= input.limit ? input.pricer.toFixed(2) : input.price.toFixed(2) }}
+                         <input name="prices[]" type="hidden" :value="input.quantity >= input.limit ? input.pricer.toFixed(2) : input.price.toFixed(2)">
                     </td>
                     <td>
                         <input name="quantities[]" class="form-control input-sm" type="number" min="0" step="0.01" value=0 
@@ -55,7 +56,8 @@
                     <th colspan="5"><span class="pull-right">Total:</span></th>
                     <td>
                         $ {{ total.toFixed(2) }}
-                        <input type="hidden" name="total" :value="total.toFixed(2)">
+                        <input type="hidden" name="amount" :value="total.toFixed(2)">
+                        <input type="hidden" name="iva" :value="total.toFixed(2) * 0.16/1.16">
                     </td>
                     <td></td>
                 </tr>

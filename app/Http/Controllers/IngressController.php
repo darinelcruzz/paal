@@ -38,6 +38,19 @@ class IngressController extends Controller
         return redirect(route('paal.ingress.index'));
     }
 
+    function futureStore(Request $request)
+    {
+        $this->validate($request, [
+            'client_id' => 'required',
+            'amount' => 'required',
+        ]);
+
+        $ingress = Ingress::create($request->only('client_id', 'total', 'iva', 'company'));
+        $ingress->storeProducts($request);
+
+        return redirect(route('paal.ingress.index'));
+    }
+
     function show(Ingress $ingress)
     {
         //
