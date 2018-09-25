@@ -43,10 +43,45 @@ Vue.component('file-upload', require('./components/lte/FileUploadInput.vue'));
 Vue.component('pdf-button', require('./components/lte/FileUploadButton.vue'));
 Vue.component('dynamic-inputs', require('./components/lte/DynamicInputs.vue'));
 
+Vue.component('add-product', require('./components/AddProductButton.vue'));
+
 const app = new Vue({
     el: '#app',
     data: {
     	pmethod: '',
     	complement: null,
-    }
+    	inputs: [],
+    },
+    methods: {
+        addRow(id, description, wholesale, retail, limit, iva) {
+          this.inputs.push({
+            id: id,
+            quantity: 1,
+            description: description,
+            priceW: wholesale,
+            priceR: retail,
+            limit: limit,
+            total: retail,
+            iva: iva
+          })
+        },
+        deleteRow(index) {
+            this.inputs.splice(index, 1)
+        },
+        changeQuantity(index) {
+        	if (this.inputs[index].quantity >= this.inputs[index].limit) {
+        		this.inputs[index].total = this.inputs[index].priceW * this.inputs[index].quantity
+        	} else {
+        		this.inputs[index].total = this.inputs[index].priceR * this.inputs[index].quantity
+        	}
+        }
+    },
+    computed: {
+        total() {
+            return this.inputs.reduce((total, input) => total + input.total, 0)
+        },
+        iva() {
+            return this.inputs.reduce((iva, input) => iva + (input.total*0.16*input.iva), 0)
+        }
+    },
 });

@@ -14286,7 +14286,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(15);
-module.exports = __webpack_require__(124);
+module.exports = __webpack_require__(127);
 
 
 /***/ }),
@@ -14338,12 +14338,51 @@ Vue.component('file-upload', __webpack_require__(111));
 Vue.component('pdf-button', __webpack_require__(116));
 Vue.component('dynamic-inputs', __webpack_require__(121));
 
+Vue.component('add-product', __webpack_require__(124));
+
 var app = new Vue({
-  el: '#app',
-  data: {
-    pmethod: '',
-    complement: null
-  }
+    el: '#app',
+    data: {
+        pmethod: '',
+        complement: null,
+        inputs: []
+    },
+    methods: {
+        addRow: function addRow(id, description, wholesale, retail, limit, iva) {
+            this.inputs.push({
+                id: id,
+                quantity: 1,
+                description: description,
+                priceW: wholesale,
+                priceR: retail,
+                limit: limit,
+                total: retail,
+                iva: iva
+            });
+        },
+        deleteRow: function deleteRow(index) {
+            this.inputs.splice(index, 1);
+        },
+        changeQuantity: function changeQuantity(index) {
+            if (this.inputs[index].quantity >= this.inputs[index].limit) {
+                this.inputs[index].total = this.inputs[index].priceW * this.inputs[index].quantity;
+            } else {
+                this.inputs[index].total = this.inputs[index].priceR * this.inputs[index].quantity;
+            }
+        }
+    },
+    computed: {
+        total: function total() {
+            return this.inputs.reduce(function (total, input) {
+                return total + input.total;
+            }, 0);
+        },
+        iva: function iva() {
+            return this.inputs.reduce(function (iva, input) {
+                return iva + input.total * 0.16 * input.iva;
+            }, 0);
+        }
+    }
 });
 
 /***/ }),
@@ -51289,6 +51328,125 @@ if (false) {
 
 /***/ }),
 /* 124 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(125)
+/* template */
+var __vue_template__ = __webpack_require__(126)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\AddProductButton.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6594c552", Component.options)
+  } else {
+    hotAPI.reload("data-v-6594c552", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 125 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			id: 0,
+			description: '',
+			wholesaleP: 0,
+			retailP: 0,
+			limit: 0,
+			iva: 0
+		};
+	},
+
+	props: ['product'],
+	methods: {
+		buttonPressed: function buttonPressed() {
+			var t = this;
+			this.$emit('add-product', t.id, t.description, t.wholesaleP, t.retailP, t.limit, t.iva);
+		}
+	},
+	created: function created() {
+		var t = this;
+
+		axios.get('/paal/productos/axios/' + this.product).then(function (_ref) {
+			var data = _ref.data;
+
+			t.id = data.id;
+			t.description = data.description;
+			t.wholesaleP = data.wholesale_price;
+			t.retailP = data.retail_price;
+			t.limit = data.wholesale_quantity;
+			t.iva = data.iva;
+		});
+	}
+});
+
+/***/ }),
+/* 126 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "a",
+    { staticClass: "btn btn-success btn-xs", on: { click: _vm.buttonPressed } },
+    [_c("i", { staticClass: "fa fa-plus" })]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-6594c552", module.exports)
+  }
+}
+
+/***/ }),
+/* 127 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

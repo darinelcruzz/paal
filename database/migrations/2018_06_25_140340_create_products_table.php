@@ -22,6 +22,7 @@ class CreateProductsTable extends Migration
             $table->double('wholesale_price');
             $table->double('retail_price');
             $table->integer('wholesale_quantity');
+            $table->integer('iva')->default(0);
             
             $table->timestamps();
         });

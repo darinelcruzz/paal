@@ -64,10 +64,9 @@ class ProductController extends Controller
         return redirect(route('paal.product.index'));
     }
 
-    function axios()
+    function axios(Product $product)
     {
-        $products = Product::orderBy('description')->get();
-        return response($products, 200);
+        return response($product, 200);
     }
 
     function destroy(Product $product)

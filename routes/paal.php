@@ -47,7 +47,7 @@ Route::group(['prefix' => 'paal', 'as' => 'paal.'], function () {
 	    Route::post('agregar', usesas($ctrl, 'store'));
 	    Route::get('editar/{product}', usesas($ctrl, 'edit'));
 	    Route::post('editar/{product}', usesas($ctrl, 'update'));
-	    Route::get('axios', usesas($ctrl, 'axios'));
+	    Route::get('axios/{product}', usesas($ctrl, 'axios'));
 	});
 
 	Route::group(['prefix' => 'clientes', 'as' => 'client.'], function () {

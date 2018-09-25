@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\{Ingress, Client};
+use App\{Ingress, Client, Product};
 use Illuminate\Http\Request;
 
 class IngressController extends Controller
@@ -17,7 +17,8 @@ class IngressController extends Controller
     function create($company)
     {
         $clients = Client::where('company', $company)->orWhere('company', 'both')->pluck('name', 'id')->toArray();
-        return view('paal.ingresses.create', compact('clients', 'company'));
+        $products = Product::all();
+        return view('paal.ingresses.create', compact('clients', 'company', 'products'));
     }
 
     function store(Request $request)
@@ -45,8 +46,27 @@ class IngressController extends Controller
             'amount' => 'required',
         ]);
 
-        $ingress = Ingress::create($request->only('client_id', 'total', 'iva', 'company'));
-        $ingress->storeProducts($request);
+        $products = [];
+
+        for ($i=0; $i < count($request->items); $i++) { 
+            array_push($products, [
+                'i' => $request->items[$i],
+                'q' => $request->quantities[$i],
+                'p' => $request->prices[$i],
+                't' => $request->subtotals[$i],
+            ]);
+        }
+
+        $ingress = Ingress::create([
+            'client_id' => $request->client_id,
+            'amount' => $request->amount,
+            'iva' => $request->iva,
+            'company' => 'coffee',
+            'products' => serialize($products),
+            'bought_at' => date('Y-m-d'),
+            'paid_at' => date('Y-m-d'),
+            'status' => 'pagada',
+        ]);
 
         return redirect(route('paal.ingress.index'));
     }
