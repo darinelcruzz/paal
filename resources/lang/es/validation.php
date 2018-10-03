@@ -169,6 +169,9 @@ return [
         'operation_number' => '# Operación',
         'state' => 'estado',
         'client_id' => 'cliente',
-        'client' => 'cliente'
+        'client' => 'cliente',
+        'family' => 'familia',
+        'barcode' => 'código de barras',
+        'code' => 'código',
     ],
 ];

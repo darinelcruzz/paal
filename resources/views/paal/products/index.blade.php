@@ -15,7 +15,7 @@
                 
                 <data-table example="1">
 
-                    {{ drawHeader('ID', 'descripción', 'menudeo', 'mayoreo', 'cantidad') }}
+                    {{ drawHeader('ID', 'descripción', 'familia', 'menudeo', 'mayoreo', 'cantidad') }}
 
                     <template slot="body">
                         @foreach($products as $product)
@@ -27,6 +27,7 @@
                                         <i class="fa fa-pencil"></i>
                                     </a>
                                 </td>
+                                <td>{{ $product->family }}</td>
                                 <td>$ {{ number_format($product->retail_price, 2) }}</td>
                                 <td>$ {{ number_format($product->wholesale_price, 2) }}</td>
                                 <td>{{ $product->wholesale_quantity }}</td>

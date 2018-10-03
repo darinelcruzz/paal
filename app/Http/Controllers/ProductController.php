@@ -23,6 +23,7 @@ class ProductController extends Controller
         $this->validate($request, [
             'description' => 'required',
             'code' => 'required',
+            'barcode' => 'required',
             'family' => 'required',
             'retail_price' => 'required',
             'wholesale_price' => 'required|lt:retail_price',
@@ -51,6 +52,7 @@ class ProductController extends Controller
         $this->validate($request, [
             'description' => 'required',
             'code' => 'required',
+            'barcode' => 'required',
             'family' => 'required',
             'retail_price' => 'required',
             'wholesale_price' => 'required|lt:retail_price',

@@ -6,7 +6,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-5">
             <solid-box title="Editar producto" color="primary" button>
 
                 {!! Form::open(['method' => 'POST', 'route' => ['paal.product.update', $product->id]]) !!}
@@ -15,10 +15,19 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            {!! Field::text('code', $product->code, ['tpl' => 'withicon'], ['icon' => 'barcode']) !!}
+                            {!! Field::text('code', $product->code, ['tpl' => 'withicon'], ['icon' => 'code']) !!}
                         </div>
                         <div class="col-md-6">
-                            {!! Field::text('family', $product->family, ['tpl' => 'withicon'], ['icon' => 'group']) !!}
+                            {!! Field::text('barcode', $product->barcode, ['tpl' => 'withicon'], ['icon' => 'barcode']) !!}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            {!! Field::select('family', 
+                                ['ACCESORIOS' => 'ACCESORIOS', 'BARRAS' => 'BARRAS', 'EQUIPOS' => 'EQUIPOS', 'INSUMOS' => 'INSUMOS', 'SERVICIOS' => 'SERVICIOS','REFACCIONES' => 'REFACCIONES', 'OTROS' => 'OTROS'], 
+                                $product->family, ['tpl' => 'withicon', 'empty' => 'Seleccione una familia'], ['icon' => 'group']) 
+                            !!}  
                         </div>
                     </div>
                     
