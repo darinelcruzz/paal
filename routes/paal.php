@@ -27,9 +27,11 @@ Route::group(['prefix' => 'paal', 'as' => 'paal.'], function () {
 	    Route::get('/', usesas($ctrl, 'index'));
 	    Route::get('agregar/{company}', usesas($ctrl, 'create'));
 	    Route::post('agregar', usesas($ctrl, 'store'));
-	    Route::post('agregar2', usesas($ctrl, 'futureStore'));
+	    Route::get('pagar/{ingress}', usesas($ctrl, 'charge'));
+	    Route::post('pagar/{ingress}', usesas($ctrl, 'pay'));
 	    Route::post('imprimir', usesas($ctrl, 'print'));
 	    Route::post('cancelar', usesas($ctrl, 'destroy'));
+	    Route::get('{ingress}', usesas($ctrl, 'show'));
 	});
 
 	Route::group(['prefix' => 'reportes', 'as' => 'report.'], function () {

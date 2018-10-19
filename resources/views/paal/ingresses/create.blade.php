@@ -51,12 +51,14 @@
                                             min="1" v-model.number="input.quantity" @change="changeQuantity(index)">
                                     </td>
                                     <td>
-                                        <input name="discounts[]" class="form-control input-sm" type="number" step="0.01" 
-                                            min="0" v-model.number="input.discount" @change="changeQuantity(index)" :disabled="input.is_variable == 0">
+                                        <input v-if="input.is_variable == 1" name="discounts[]" class="form-control input-sm" type="number" step="0.01" value="0"
+                                            min="0" v-model.number="input.discount" @change="changeQuantity(index)">
+
+                                        <input v-else name="discounts[]" type="hidden" value="0">
                                     </td>
                                     <td>
                                         $ @{{ input.total.toFixed(2) }}
-                                        <input name="prices[]" type="hidden" :value="input.priceW.toFixed(2)">
+                                        <input name="prices[]" type="hidden" :value="input.quantity >= input.limit ? input.priceW.toFixed(2): input.priceR.toFixed(2)">
                                         <input name="subtotals[]" type="hidden" :value="input.total.toFixed(2)">
                                     </td>
                                 </tr>
@@ -106,7 +108,7 @@
                         <template v-if="is_retained == 0">
                             <div class="row">
                                 <div class="col-md-6">
-                                    {!! Field::select('methodA', ['Efectivo', 'T. Débito', 'T. Crédito', 'Cheque', 'Transferencia', 'Crédito'], null,
+                                    {!! Field::select('methodA', ['Efectivo', 'T. Débito', 'T. Crédito', 'Cheque', 'Transferencia'], null,
                                         ['tpl' => 'withicon', 'empty' => 'Seleccione un método', 'v-model.number' => 'payment_method','required' => 'true'],
                                         ['icon' => 'credit-card'])
                                     !!}
@@ -170,7 +172,7 @@
 
                             <div v-if="payment_method > 0">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div v-if="payment_method < 4" class="col-md-6">
                                         {!! Field::text('reference', ['tpl' => 'withicon', 'ph' => 'XXX-XXXX-XXXX', 'required' => 'true'], ['icon' => 'registered']) !!}
                                     </div>
 
@@ -241,8 +243,9 @@
                                 </td>
                                 <td>
                                     @if ($product->dollars)
+                                        $ {{ number_format($product->retail_price * env('EXCHANGE_RATE'), 2) }}
+                                    @elseif ($product->is_variable)
                                         $ {{ number_format($product->retail_price, 2) }}
-                                        <span class="flag-icon flag-icon-us pull-right"></span>
                                     @else
                                         $ {{ number_format($product->retail_price, 2) }} <br>
                                         $ {{ number_format($product->wholesale_price, 2) }} (a partir de {{ $product->wholesale_quantity }} pzs)

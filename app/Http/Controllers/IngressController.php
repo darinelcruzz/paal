@@ -45,6 +45,7 @@ class IngressController extends Controller
                 'i' => $request->items[$i],
                 'q' => $request->quantities[$i],
                 'p' => $request->prices[$i],
+                'd' => $request->discounts[$i],
                 't' => $request->subtotals[$i],
             ]);
         }
@@ -58,7 +59,8 @@ class IngressController extends Controller
         } else {
             $ingress->update([
                 'products' => serialize($products),
-                'paid_at' => date('Y-m-d')
+                'paid_at' => date('Y-m-d'),
+                'status' => $request->method == 5 ? 'crédito' :'pendiente'
             ]);
         }
 
@@ -67,7 +69,28 @@ class IngressController extends Controller
 
     function show(Ingress $ingress)
     {
-        //
+        return view('paal.ingresses.show', compact('ingress'));
+    }
+
+    function charge(Ingress $ingress)
+    {
+        return view('paal.ingresses.charge',compact('ingress'));
+    }
+
+    function pay(Request $request, Ingress $ingress)
+    {
+        $validated = $this->validate($request, [
+            'method' => 'required',
+            'reference' => 'sometimes|required'
+        ]);
+
+        $ingress->update($validated);
+        $ingress->update([
+            'status' => 'pagado',
+            'paid_at' => date('Y-m-d')
+        ]);
+
+        return redirect(route('paal.ingress.index'));
     }
 
     function edit(Ingress $ingress)

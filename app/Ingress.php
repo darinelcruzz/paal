@@ -18,7 +18,7 @@ class Ingress extends Model
 
     function getRetainerMethodAttribute()
     {
-        $methods = ['Efectivo', 'T. Débito', 'T. Crédito', 'Cheque', 'Transferencia', 'Crédito'];
+        $methods = ['Efectivo', 'T. Débito', 'T. Crédito', 'Cheque', 'Transferencia'];
                     
         return $methods[$this->methodA];
     }
@@ -28,6 +28,29 @@ class Ingress extends Model
         $methods = ['Efectivo', 'T. Débito', 'T. Crédito', 'Cheque', 'Transferencia', 'Crédito'];
                     
         return $methods[$this->method];
+    }
+
+    function getDebtAttribute()
+    {
+        return $this->amount - $this->retainer;
+    }
+
+    function getStatusColorAttribute()
+    {
+        switch ($this->status) {
+            case 'pendiente':
+                return 'warning';
+                break;
+            case 'vencido':
+                return 'danger';
+                break;
+            case 'crédito':
+                return 'default';
+                break;
+            default:
+                return 'success';
+                break;
+        }
     }
 
     function storeProducts($request)

@@ -14352,7 +14352,7 @@ var app = new Vue({
         inputs: []
     },
     methods: {
-        addRow: function addRow(id, description, wholesale, retail, limit, iva, dollars, is_variable, exchange) {
+        addRow: function addRow(id, description, wholesale, retail, limit, iva, is_variable) {
             this.inputs.push({
                 id: id,
                 quantity: 1,
@@ -14363,9 +14363,7 @@ var app = new Vue({
                 limit: limit,
                 total: retail,
                 iva: iva,
-                dollars: dollars,
-                is_variable: is_variable,
-                exchange: exchange
+                is_variable: is_variable
             });
         },
         deleteRow: function deleteRow(index) {
@@ -14375,11 +14373,9 @@ var app = new Vue({
             var product = this.inputs[index];
 
             if (product.quantity >= product.limit) {
-                var price = product.dollars == 0 ? product.priceW : product.priceW * product.exchange;
-                product.total = price * product.quantity - product.discount;
+                product.total = product.priceW * product.quantity - product.discount;
             } else {
-                var _price = product.dollars == 0 ? product.priceR : product.priceR * product.exchange;
-                product.total = _price * product.quantity - product.discount;
+                product.total = product.priceR * product.quantity - product.discount;
             }
         }
     },
@@ -51430,7 +51426,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	methods: {
 		buttonPressed: function buttonPressed() {
 			var t = this;
-			this.$emit('add-product', t.id, t.description, t.wholesaleP, t.retailP, t.limit, t.iva, t.dollars, t.is_variable, t.exchange);
+			this.$emit('add-product', t.id, t.description, t.wholesaleP, t.retailP, t.limit, t.iva, t.is_variable);
 		}
 	},
 	created: function created() {
@@ -51441,12 +51437,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			t.id = data.id;
 			t.description = data.description;
-			t.wholesaleP = data.wholesale_price;
-			t.retailP = data.retail_price;
 			t.limit = data.wholesale_quantity;
 			t.iva = data.iva;
 			t.dollars = data.dollars;
 			t.is_variable = data.is_variable;
+			t.retailP = data.dollars == 0 ? data.retail_price : data.retail_price * t.exchange;
+			t.wholesaleP = data.dollars == 0 ? data.wholesale_price : data.wholesale_price * t.exchange;
 		});
 	}
 });

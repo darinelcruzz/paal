@@ -22,7 +22,7 @@
 		methods: {
 			buttonPressed() {
 				const t = this;
-				this.$emit('add-product', t.id, t.description, t.wholesaleP, t.retailP, t.limit, t.iva, t.dollars, t.is_variable, t.exchange);
+				this.$emit('add-product', t.id, t.description, t.wholesaleP, t.retailP, t.limit, t.iva, t.is_variable);
 			}
 		},
 		created() {
@@ -31,12 +31,12 @@
 	        axios.get('/paal/productos/axios/' + this.product).then(({data}) => {
 	            t.id = data.id;
 				t.description = data.description;
-				t.wholesaleP = data.wholesale_price;
-				t.retailP = data.retail_price;
 				t.limit = data.wholesale_quantity;
 				t.iva = data.iva;
 				t.dollars = data.dollars;
 				t.is_variable = data.is_variable;
+				t.retailP = data.dollars == 0 ? data.retail_price: data.retail_price * t.exchange;
+				t.wholesaleP = data.dollars == 0 ? data.wholesale_price: data.wholesale_price * t.exchange;
 	        });
             
 	    }

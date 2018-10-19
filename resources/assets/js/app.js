@@ -57,7 +57,7 @@ const app = new Vue({
     	inputs: [],
     },
     methods: {
-        addRow(id, description, wholesale, retail, limit, iva, dollars, is_variable, exchange) {
+        addRow(id, description, wholesale, retail, limit, iva, is_variable) {
           this.inputs.push({
             id: id,
             quantity: 1,
@@ -68,9 +68,7 @@ const app = new Vue({
             limit: limit,
             total: retail,
             iva: iva,
-            dollars: dollars,
             is_variable: is_variable,
-            exchange: exchange
           })
         },
         deleteRow(index) {
@@ -80,11 +78,9 @@ const app = new Vue({
             var product = this.inputs[index]
 
         	if (product.quantity >= product.limit) {
-                let price = product.dollars == 0 ? product.priceW : product.priceW * product.exchange;
-        		product.total = (price * product.quantity) - product.discount
+        		product.total = (product.priceW * product.quantity) - product.discount
         	} else {
-                let price = product.dollars == 0 ? product.priceR : product.priceR * product.exchange;
-        		product.total = (price * product.quantity) - product.discount
+        		product.total = (product.priceR * product.quantity) - product.discount
         	}
         }
     },
