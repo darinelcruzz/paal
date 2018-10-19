@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Ingress extends Model
 {
     protected $fillable = [
-    	'client_id', 'bought_at', 'products', 'company', 'amount',
-    	'status', 'iva', 'paid_at', 'method', 'operation_number'
+    	'client_id', 'bought_at', 'products', 'company', 'amount', 'retained_at', 'retainer',
+    	'status', 'iva', 'paid_at', 'method', 'reference', 'methodA', 'referenceA'
     ];
 
     function client()
@@ -16,12 +16,18 @@ class Ingress extends Model
     	return $this->belongsTo(Client::class);
     }
 
+    function getRetainerMethodAttribute()
+    {
+        $methods = ['Efectivo', 'T. Débito', 'T. Crédito', 'Cheque', 'Transferencia', 'Crédito'];
+                    
+        return $methods[$this->methodA];
+    }
+
     function getPayFormAttribute()
     {
-        $methods = ['Efectivo', 'Transferencia', 'Cheque',
-                    'Tarjeta de débito', 'Tarjeta de crédito'];
+        $methods = ['Efectivo', 'T. Débito', 'T. Crédito', 'Cheque', 'Transferencia', 'Crédito'];
                     
-        return $methods[$this->method - 1];
+        return $methods[$this->method];
     }
 
     function storeProducts($request)

@@ -21,6 +21,8 @@ class CreateProductsTable extends Migration
             $table->string('family');
             $table->double('wholesale_price');
             $table->double('retail_price');
+            $table->integer('dollars');
+            $table->integer('is_variable');
             $table->integer('wholesale_quantity');
             $table->integer('iva')->default(0);
             

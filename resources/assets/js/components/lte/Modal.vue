@@ -2,7 +2,7 @@
     <div class="modal fade" :id="id">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header" :style="'background: ' + modalColor + '; color: white'">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">{{ title }}</h4>
@@ -23,6 +23,11 @@
 
 <script>
 export default {
-    props: ['title', 'id'],
+    props: ['title', 'id', 'color'],
+    computed: {
+        modalColor() {
+            return this.color != '' ? '#3c8dbc': this.color;
+        }
+    },
 }
 </script>

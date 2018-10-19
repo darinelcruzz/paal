@@ -14345,29 +14345,41 @@ var app = new Vue({
     data: {
         pmethod: '',
         complement: null,
+        payment_method: 0,
+        is_retained: 1,
+        retainer: 0,
+        amount_received: 0,
         inputs: []
     },
     methods: {
-        addRow: function addRow(id, description, wholesale, retail, limit, iva) {
+        addRow: function addRow(id, description, wholesale, retail, limit, iva, dollars, is_variable, exchange) {
             this.inputs.push({
                 id: id,
                 quantity: 1,
+                discount: 0,
                 description: description,
                 priceW: wholesale,
                 priceR: retail,
                 limit: limit,
                 total: retail,
-                iva: iva
+                iva: iva,
+                dollars: dollars,
+                is_variable: is_variable,
+                exchange: exchange
             });
         },
         deleteRow: function deleteRow(index) {
             this.inputs.splice(index, 1);
         },
         changeQuantity: function changeQuantity(index) {
-            if (this.inputs[index].quantity >= this.inputs[index].limit) {
-                this.inputs[index].total = this.inputs[index].priceW * this.inputs[index].quantity;
+            var product = this.inputs[index];
+
+            if (product.quantity >= product.limit) {
+                var price = product.dollars == 0 ? product.priceW : product.priceW * product.exchange;
+                product.total = price * product.quantity - product.discount;
             } else {
-                this.inputs[index].total = this.inputs[index].priceR * this.inputs[index].quantity;
+                var _price = product.dollars == 0 ? product.priceR : product.priceR * product.exchange;
+                product.total = _price * product.quantity - product.discount;
             }
         }
     },
@@ -49589,7 +49601,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['title', 'id']
+    props: ['title', 'id', 'color'],
+    computed: {
+        modalColor: function modalColor() {
+            return this.color != '' ? '#3c8dbc' : this.color;
+        }
+    }
 });
 
 /***/ }),
@@ -49603,11 +49620,20 @@ var render = function() {
   return _c("div", { staticClass: "modal fade", attrs: { id: _vm.id } }, [
     _c("div", { staticClass: "modal-dialog" }, [
       _c("div", { staticClass: "modal-content" }, [
-        _c("div", { staticClass: "modal-header" }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _c("h4", { staticClass: "modal-title" }, [_vm._v(_vm._s(_vm.title))])
-        ]),
+        _c(
+          "div",
+          {
+            staticClass: "modal-header",
+            style: "background: " + _vm.modalColor + "; color: white"
+          },
+          [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("h4", { staticClass: "modal-title" }, [
+              _vm._v(_vm._s(_vm.title))
+            ])
+          ]
+        ),
         _vm._v(" "),
         _c("div", { staticClass: "modal-body" }, [_vm._t("default")], 2),
         _vm._v(" "),
@@ -51394,15 +51420,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			wholesaleP: 0,
 			retailP: 0,
 			limit: 0,
-			iva: 0
+			iva: 0,
+			dollars: 0,
+			is_variable: 0
 		};
 	},
 
-	props: ['product'],
+	props: ['product', 'exchange'],
 	methods: {
 		buttonPressed: function buttonPressed() {
 			var t = this;
-			this.$emit('add-product', t.id, t.description, t.wholesaleP, t.retailP, t.limit, t.iva);
+			this.$emit('add-product', t.id, t.description, t.wholesaleP, t.retailP, t.limit, t.iva, t.dollars, t.is_variable, t.exchange);
 		}
 	},
 	created: function created() {
@@ -51417,6 +51445,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			t.retailP = data.retail_price;
 			t.limit = data.wholesale_quantity;
 			t.iva = data.iva;
+			t.dollars = data.dollars;
+			t.is_variable = data.is_variable;
 		});
 	}
 });

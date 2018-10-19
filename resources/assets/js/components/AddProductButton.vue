@@ -14,13 +14,15 @@
 				retailP: 0,
 				limit: 0,
 				iva: 0,
+				dollars: 0,
+				is_variable: 0,
 			};
 		},
-		props: ['product'],
+		props: ['product', 'exchange'],
 		methods: {
 			buttonPressed() {
 				const t = this;
-				this.$emit('add-product', t.id, t.description, t.wholesaleP, t.retailP, t.limit, t.iva);
+				this.$emit('add-product', t.id, t.description, t.wholesaleP, t.retailP, t.limit, t.iva, t.dollars, t.is_variable, t.exchange);
 			}
 		},
 		created() {
@@ -33,6 +35,8 @@
 				t.retailP = data.retail_price;
 				t.limit = data.wholesale_quantity;
 				t.iva = data.iva;
+				t.dollars = data.dollars;
+				t.is_variable = data.is_variable;
 	        });
             
 	    }

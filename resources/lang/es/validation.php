@@ -164,6 +164,7 @@ return [
         'wholesale_price' => 'precio mayoreo',
         'wholesale_quantity' => 'cantidad mayoreo',
         'method' => 'método',
+        'methodA' => 'método (anticipo)',
         'bought_at' => 'fecha de venta',
         'paid_at' => 'fecha de pago',
         'operation_number' => '# Operación',
@@ -173,5 +174,10 @@ return [
         'family' => 'familia',
         'barcode' => 'código de barras',
         'code' => 'código',
+        'reference' => 'referencia',
+        'referenceA' => 'referencia (anticipo)',
+        'received' => 'recibido',
+        'is_retained' => 'anticipo',
+        'retainer' => 'anticipo',
     ],
 ];

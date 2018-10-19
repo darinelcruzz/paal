@@ -23,28 +23,20 @@ class IngressController extends Controller
 
     function store(Request $request)
     {
-        $this->validate($request, [
+        $validated = $this->validate($request, [
             'client_id' => 'required',
+            'amount' => 'required',
+            'iva' => 'required',
+            'company' => 'required',
             'bought_at' => 'required',
-            'paid_at' => 'required',
-            'amount' => 'required',
-            'iva' => 'required|lt:amount',
-            'method' => 'required',
-        ],[
-            'iva.lt' => 'No puede ser mayor que total'
+            'method' => 'sometimes|required',
+            'reference' => 'sometimes|required',
+            'methodA' => 'sometimes|required',
+            'referenceA' => 'sometimes|required',
+            'retainer' => 'sometimes|required',
         ]);
 
-        Ingress::create($request->all());
-
-        return redirect(route('paal.ingress.index'));
-    }
-
-    function futureStore(Request $request)
-    {
-        $this->validate($request, [
-            'client_id' => 'required',
-            'amount' => 'required',
-        ]);
+        $ingress = Ingress::create($validated);
 
         $products = [];
 
@@ -57,16 +49,18 @@ class IngressController extends Controller
             ]);
         }
 
-        $ingress = Ingress::create([
-            'client_id' => $request->client_id,
-            'amount' => $request->amount,
-            'iva' => $request->iva,
-            'company' => 'coffee',
-            'products' => serialize($products),
-            'bought_at' => date('Y-m-d'),
-            'paid_at' => date('Y-m-d'),
-            'status' => 'pagada',
-        ]);
+        if (isset($request->methodA)) {
+            $ingress->update([
+                'products' => serialize($products),
+                'retained_at' => date('Y-m-d'),
+                'status' => 'pendiente'
+            ]);
+        } else {
+            $ingress->update([
+                'products' => serialize($products),
+                'paid_at' => date('Y-m-d')
+            ]);
+        }
 
         return redirect(route('paal.ingress.index'));
     }

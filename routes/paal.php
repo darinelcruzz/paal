@@ -67,4 +67,17 @@ Route::group(['prefix' => 'paal', 'as' => 'paal.'], function () {
 	    Route::get('editar/{user}', usesas($ctrl, 'edit'));
 	    Route::post('editar/{user}', usesas($ctrl, 'update'));
 	});
+
+	Route::get('tipo_de_cambio', function ()
+	{
+		return view('auth.exchange');
+	})->name('exchange.index');
+
+	Route::post('tipo_de_cambio', function ()
+	{
+		updateEnv('EXCHANGE_RATE', request()->exchange_rate);
+
+		return redirect(route('paal.exchange.index'));
+		
+	})->name('exchange.update');
 });

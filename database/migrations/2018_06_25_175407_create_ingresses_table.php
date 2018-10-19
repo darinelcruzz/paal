@@ -13,14 +13,18 @@ class CreateIngressesTable extends Migration
 
             $table->integer('client_id');
             $table->date('bought_at');
-            $table->date('paid_at');
+            $table->date('paid_at')->nullable();
+            $table->date('retained_at')->nullable();
             $table->longText('products')->nullable();
             $table->string('company');
-            $table->string('status');
+            $table->string('status')->default('pagado');
             $table->double('amount');
+            $table->double('retainer')->default(0);
             $table->double('iva');
-            $table->integer('method')->default(1);
-            $table->string('operation_number')->nullable();
+            $table->integer('methodA')->default(0);
+            $table->integer('method')->default(0);
+            $table->string('referenceA')->nullable();
+            $table->string('reference')->nullable();
 
             $table->timestamps();
         });

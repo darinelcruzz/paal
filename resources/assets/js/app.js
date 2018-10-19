@@ -50,29 +50,41 @@ const app = new Vue({
     data: {
     	pmethod: '',
     	complement: null,
+        payment_method: 0,
+        is_retained: 1,
+        retainer: 0,
+        amount_received: 0,
     	inputs: [],
     },
     methods: {
-        addRow(id, description, wholesale, retail, limit, iva) {
+        addRow(id, description, wholesale, retail, limit, iva, dollars, is_variable, exchange) {
           this.inputs.push({
             id: id,
             quantity: 1,
+            discount: 0,
             description: description,
             priceW: wholesale,
             priceR: retail,
             limit: limit,
             total: retail,
-            iva: iva
+            iva: iva,
+            dollars: dollars,
+            is_variable: is_variable,
+            exchange: exchange
           })
         },
         deleteRow(index) {
             this.inputs.splice(index, 1)
         },
         changeQuantity(index) {
-        	if (this.inputs[index].quantity >= this.inputs[index].limit) {
-        		this.inputs[index].total = this.inputs[index].priceW * this.inputs[index].quantity
+            var product = this.inputs[index]
+
+        	if (product.quantity >= product.limit) {
+                let price = product.dollars == 0 ? product.priceW : product.priceW * product.exchange;
+        		product.total = (price * product.quantity) - product.discount
         	} else {
-        		this.inputs[index].total = this.inputs[index].priceR * this.inputs[index].quantity
+                let price = product.dollars == 0 ? product.priceR : product.priceR * product.exchange;
+        		product.total = (price * product.quantity) - product.discount
         	}
         }
     },

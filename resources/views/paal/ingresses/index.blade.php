@@ -26,7 +26,7 @@
                                 <td>{{ $ingress->client->name }}</td>
                                 <td>$ {{ number_format($ingress->iva, 2) }}</td>
                                 <td>$ {{ number_format($ingress->amount, 2) }}</td>
-                                <td>{{ $ingress->pay_form }} <br> {{ $ingress->operation_number }}</td>
+                                <td>{{ $ingress->status == 'pendiente' ? $ingress->retainer_method: $ingress->pay_form }} <br> {{ $ingress->operation_number }}</td>
                                 <td>
                                     <span class="label label-{{ $ingress->status != 'pendiente' ? 'success': 'danger'}}">
                                         {{ ucfirst($ingress->status) }}
