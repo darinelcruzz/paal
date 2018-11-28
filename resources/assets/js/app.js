@@ -44,6 +44,8 @@ Vue.component('pdf-button', require('./components/lte/FileUploadButton.vue'));
 Vue.component('dynamic-inputs', require('./components/lte/DynamicInputs.vue'));
 
 Vue.component('add-product', require('./components/AddProductButton.vue'));
+Vue.component('p-table', require('./components/ProductsTable.vue'));
+Vue.component('p-row', require('./components/ProductRow.vue'));
 
 const app = new Vue({
     el: '#app',
@@ -57,19 +59,11 @@ const app = new Vue({
     	inputs: [],
     },
     methods: {
-        addRow(id, description, wholesale, retail, limit, iva, is_variable) {
-          this.inputs.push({
-            id: id,
-            quantity: 1,
-            discount: 0,
-            description: description,
-            priceW: wholesale,
-            priceR: retail,
-            limit: limit,
-            total: retail,
-            iva: iva,
-            is_variable: is_variable,
-          })
+        addRow(product) {
+            product.quantity = 1
+            product.discount = 0
+            product.total = 1 * product.retail_price
+            this.inputs.push(product)
         },
         deleteRow(index) {
             this.inputs.splice(index, 1)
@@ -77,10 +71,10 @@ const app = new Vue({
         changeQuantity(index) {
             var product = this.inputs[index]
 
-        	if (product.quantity >= product.limit) {
-        		product.total = (product.priceW * product.quantity) - product.discount
+        	if (product.quantity >= product.wholesale_quantity) {
+        		product.total = (product.wholesale_price * product.quantity) - product.discount
         	} else {
-        		product.total = (product.priceR * product.quantity) - product.discount
+        		product.total = (product.retail_price * product.quantity) - product.discount
         	}
         }
     },

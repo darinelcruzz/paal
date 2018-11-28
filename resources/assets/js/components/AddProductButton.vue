@@ -22,7 +22,7 @@
 		methods: {
 			buttonPressed() {
 				const t = this;
-				this.$emit('add-product', t.id, t.description, t.wholesaleP, t.retailP, t.limit, t.iva, t.is_variable);
+				this.$emit('add-product', t.id, t.description, t.wholesaleP, t.retailP, t.limit, t.iva, t.is_variable, t.family);
 			}
 		},
 		created() {
@@ -34,6 +34,7 @@
 				t.limit = data.wholesale_quantity;
 				t.iva = data.iva;
 				t.dollars = data.dollars;
+				t.family = data.family;
 				t.is_variable = data.is_variable;
 				t.retailP = data.dollars == 0 ? data.retail_price: data.retail_price * t.exchange;
 				t.wholesaleP = data.dollars == 0 ? data.wholesale_price: data.wholesale_price * t.exchange;

@@ -2,6 +2,12 @@
 
 return [
 
+    'ingresses' => [
+        'title' => 'Ingresos',
+        'icon' => 'fa fa-money',
+        'route' => 'coffee.ingress.index'
+    ],
+
     'egresses' => [
         'title' => 'Egresos',
         'icon' => 'fa fa-share',
