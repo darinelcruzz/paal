@@ -26,13 +26,30 @@ class ProductController extends Controller
             'barcode' => 'required',
             'family' => 'required',
             'retail_price' => 'required',
-            'wholesale_price' => 'required|lt:retail_price',
-            'wholesale_quantity' => 'required',
+            'wholesale_price' => 'sometimes|required|lt:retail_price',
+            'wholesale_quantity' => 'sometimes|required',
+            'iva' => 'sometimes|required',
         ],[
             'wholesale_price.lt' => 'Precio de mayoreo debe ser menor al de menudeo'
         ]);
 
         $product = Product::create($request->all());
+
+        switch ($request->options) {
+            case 1:
+                $product->update([
+                    'dollars' => 1,
+                    'is_variable' => 1,
+                    'iva' => 1,
+                ]);
+                break;
+            
+            case 2:
+                $product->update([
+                    'is_variable' => 1,
+                ]);
+                break;
+        }
 
         return redirect(route('paal.product.index'));
     }
@@ -55,8 +72,9 @@ class ProductController extends Controller
             'barcode' => 'required',
             'family' => 'required',
             'retail_price' => 'required',
-            'wholesale_price' => 'required|lt:retail_price',
-            'wholesale_quantity' => 'required',
+            'wholesale_price' => 'sometimes|required|lt:retail_price',
+            'wholesale_quantity' => 'sometimes|required',
+            'iva' => 'sometimes|required',
         ], [
             'wholesale_price.lt' => 'Precio de mayoreo debe ser menor al de menudeo'
         ]);

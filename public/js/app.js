@@ -14351,7 +14351,8 @@ var app = new Vue({
         is_retained: 1,
         retainer: 0,
         amount_received: 0,
-        inputs: []
+        inputs: [],
+        product_option: ''
     },
     methods: {
         addRow: function addRow(product) {
@@ -14366,23 +14367,25 @@ var app = new Vue({
         changeQuantity: function changeQuantity(index) {
             var product = this.inputs[index];
 
-            if (product.quantity >= product.wholesale_quantity) {
+            if (product.wholesale_quantity > 0 && product.quantity >= product.wholesale_quantity) {
                 product.total = product.wholesale_price * product.quantity - product.discount;
             } else {
                 product.total = product.retail_price * product.quantity - product.discount;
             }
+            console.log("total", product.total);
         }
     },
     computed: {
-        total: function total() {
+        subtotal: function subtotal() {
+            console.log("products", this.inputs);
             return this.inputs.reduce(function (total, input) {
                 return total + input.total;
             }, 0);
         },
         iva: function iva() {
-            return this.inputs.reduce(function (iva, input) {
-                return iva + input.total * 0.16 * input.iva;
-            }, 0);
+            products = this.inputs;
+            // return products.reduce((iva, input) => iva + input.total, 0)
+            return 0;
         }
     }
 });
@@ -51568,8 +51571,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['color', 'exchange'],
@@ -51793,11 +51794,7 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_c("i", { staticClass: "fa fa-plus" })]),
         _vm._v(" "),
-        _c("th", [_vm._v("Descripción")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Precio")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Familia")])
+        _c("th", [_vm._v("Producto")])
       ])
     ])
   }
@@ -51891,6 +51888,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	props: ['product', 'color', 'exchange'],
@@ -51934,52 +51941,67 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("td", [
-      _vm._v("\n            " + _vm._s(_vm.product.description) + " "),
-      _c("br"),
-      _vm._v(" "),
-      _c("span", { staticStyle: { color: "orange" } }, [
-        _vm._v(_vm._s(_vm.product.code))
-      ])
-    ]),
-    _vm._v(" "),
-    _c("td", [
-      _vm.product.dollars == 1
-        ? _c("div", [
-            _c("span", { staticStyle: { color: "olive" } }, [
-              _vm._v(
-                "$ " +
-                  _vm._s((_vm.product.retail_price * _vm.exchange).toFixed(2))
-              )
-            ])
-          ])
-        : _vm.product.is_variable == 1
-          ? _c("div", [
-              _vm._v(
-                "\n                $ " +
-                  _vm._s(_vm.product.retail_price.toFixed(2)) +
-                  "\n            "
-              )
-            ])
-          : _c("div", [
-              _vm._v(
-                "\n                $ " +
-                  _vm._s(_vm.product.retail_price.toFixed(2)) +
-                  " /"
-              ),
-              _c("br"),
-              _vm._v(
-                "\n                " +
-                  _vm._s(_vm.product.wholesale_price.toFixed(2)) +
-                  " "
-              ),
-              _c("small", [
-                _vm._v("(+ " + _vm._s(_vm.product.wholesale_quantity) + " pzs)")
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-7" }, [
+          _vm._v(
+            "\n                    " +
+              _vm._s(_vm.product.description) +
+              "\n                "
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-5 pull-right" }, [
+          _vm.product.dollars == 1
+            ? _c("div", { staticClass: "pull-right" }, [
+                _c("span", { staticStyle: { color: "olive" } }, [
+                  _vm._v(
+                    "$ " +
+                      _vm._s(
+                        (_vm.product.retail_price * _vm.exchange).toFixed(2)
+                      )
+                  )
+                ])
               ])
-            ])
-    ]),
-    _vm._v(" "),
-    _c("td", { staticStyle: { color: "red" } }, [
-      _vm._v(_vm._s(_vm.product.family))
+            : _vm.product.is_variable == 1
+              ? _c("div", { staticClass: "pull-right" }, [
+                  _vm._v(
+                    "\n                        $ " +
+                      _vm._s(_vm.product.retail_price.toFixed(2)) +
+                      "\n                    "
+                  )
+                ])
+              : _c("div", { staticClass: "pull-right" }, [
+                  _vm._v(
+                    "\n                        $ " +
+                      _vm._s(_vm.product.retail_price.toFixed(2)) +
+                      " /\n                        " +
+                      _vm._s(_vm.product.wholesale_price.toFixed(2)) +
+                      " "
+                  ),
+                  _c("small", [
+                    _vm._v(
+                      "(+ " + _vm._s(_vm.product.wholesale_quantity) + " pzs)"
+                    )
+                  ])
+                ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-7" }, [
+          _c("span", { staticStyle: { color: "orange" } }, [
+            _c("b", [_vm._v(_vm._s(_vm.product.code))])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-5" }, [
+          _c(
+            "span",
+            { staticClass: "pull-right", staticStyle: { color: "red" } },
+            [_c("small", [_vm._v(_vm._s(_vm.product.family))])]
+          )
+        ])
+      ])
     ])
   ])
 }

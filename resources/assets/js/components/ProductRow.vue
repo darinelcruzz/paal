@@ -6,22 +6,32 @@
             </button>
         </td>
         <td>
-            {{ product.description }} <br>
-            <span style="color: orange">{{ product.code }}</span>
+            <div class="row">
+                <div class="col-md-7">
+                    {{ product.description }}
+                </div>
+                <div class="col-md-5 pull-right">
+                    <div v-if="product.dollars == 1" class="pull-right">
+                        <span style="color: olive">$ {{ (product.retail_price * exchange).toFixed(2) }}</span>
+                    </div>
+                    <div v-else-if="product.is_variable == 1" class="pull-right">
+                        $ {{ product.retail_price.toFixed(2) }}
+                    </div>
+                    <div v-else class="pull-right">
+                        $ {{ product.retail_price.toFixed(2) }} /
+                        {{ product.wholesale_price.toFixed(2) }} <small>(+ {{ product.wholesale_quantity }} pzs)</small>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-7">
+                    <span style="color: orange"><b>{{ product.code }}</b></span>
+                </div>
+                <div class="col-md-5">
+                    <span class="pull-right" style="color: red"><small>{{ product.family }}</small></span>
+                </div>
+            </div>
         </td>
-        <td>
-            <div v-if="product.dollars == 1">
-                <span style="color: olive">$ {{ (product.retail_price * exchange).toFixed(2) }}</span>
-            </div>
-            <div v-else-if="product.is_variable == 1">
-                $ {{ product.retail_price.toFixed(2) }}
-            </div>
-            <div v-else>
-                $ {{ product.retail_price.toFixed(2) }} /<br>
-                {{ product.wholesale_price.toFixed(2) }} <small>(+ {{ product.wholesale_quantity }} pzs)</small>
-            </div>
-        </td>
-        <td style="color: red">{{ product.family }}</td>
     </tr>
 </template>
 

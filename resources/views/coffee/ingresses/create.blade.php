@@ -30,7 +30,8 @@
                             <thead>
                                 <tr>
                                     <th><i class="fa fa-times"></i></th>
-                                    <th>Producto</th>
+                                    <th>Descripción</th>
+                                    <th style="width: 15%">Precio</th>
                                     <th style="width: 15%">Cantidad</th>
                                     <th style="width: 15%">Descuento</th>
                                     <th style="width: 15%">Importe</th>
@@ -47,22 +48,30 @@
                                         <input name="items[]" type="hidden" :value="input.id">
                                     </td>
                                     <td>
-                                        <input name="quantities[]" class="form-control input-sm" type="number" 
-                                            min="1" v-model.number="input.quantity" @change="changeQuantity(index)">
+                                        @{{ input.quantity >= input.limit ? input.wholesale_price.toFixed(2): input.retail_price.toFixed(2) }}
+                                        <input name="prices[]" type="hidden" :value="input.quantity >= input.limit ? input.wholesale_price.toFixed(2): input.retail_price.toFixed(2)">
                                     </td>
                                     <td>
-                                        <input v-if="input.is_variable == 1 && input.family != 'SERVS'" name="discounts[]" class="form-control input-sm" type="number" step="0.01" value="0"
+                                        <div v-if="input.family == 'SERVICIOS'">
+                                            1 <input type="hidden" name="quantities[]" :value="1">
+                                        </div>
+                                        <div v-else>
+                                            <input name="quantities[]" class="form-control input-sm" type="number" 
+                                                min="1" v-model.number="input.quantity" @change="changeQuantity(index)">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <input v-if="input.is_variable == 1 && input.family != 'SERVICIOS' && input.dollars != 1" name="discounts[]" class="form-control input-sm" type="number" step="0.01" value="0"
                                             min="0" v-model.number="input.discount" @change="changeQuantity(index)">
 
                                         <input v-else name="discounts[]" type="hidden" value="0">
                                     </td>
                                     <td>
-                                        <div v-if="input.family == 'SERVS'">
-                                            <input class="form-control input-sm" name="prices[]" type="number" :value="input.retail_price" step="0.01" :min="input.retail_price">
+                                        <div v-if="input.family == 'SERVICIOS'">
+                                            <input class="form-control input-sm" name="subtotals[]" type="number" step="0.01" :min="input.retail_price" :value="input.retail_price" @change="changeQuantity(index)">
                                         </div>
                                         <div v-else>
                                             $ @{{ input.total.toFixed(2) }}
-                                            <input name="prices[]" type="hidden" :value="input.quantity >= input.limit ? input.wholesale_price.toFixed(2): input.retail_price.toFixed(2)">
                                             <input name="subtotals[]" type="hidden" :value="input.total.toFixed(2)">
                                         </div>
                                     </td>
@@ -71,23 +80,23 @@
 
                             <tfoot>
                                 <tr>
-                                    <th colspan="4"><span class="pull-right">Subtotal:</span></th>
+                                    <th colspan="5"><span class="pull-right">Subtotal:</span></th>
                                     <td>
-                                        $ @{{ total.toFixed(2) }}
+                                        <span class="pull-right">$ @{{ subtotal.toFixed(2) }}</span>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th colspan="4"><span class="pull-right">IVA:</span></th>
+                                    <th colspan="5"><span class="pull-right">IVA:</span></th>
                                     <td>
-                                        $ @{{ iva.toFixed(2) }}
+                                        <span class="pull-right">$ @{{ iva.toFixed(2) }}</span>
                                         <input type="hidden" name="iva" :value="iva.toFixed(2)">
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th colspan="4"><span class="pull-right">Total:</span></th>
+                                    <th colspan="5"><span class="pull-right">Total:</span></th>
                                     <td>
-                                        $ @{{ (total + iva).toFixed(2) }}
-                                        <input type="hidden" name="amount" :value="(total + iva).toFixed(2)">
+                                        <span class="pull-right">$ @{{ (subtotal + iva).toFixed(2) }}</span>
+                                        <input type="hidden" name="amount" :value="(subtotal + iva).toFixed(2)">
                                     </td>
                                 </tr>
                             </tfoot>
@@ -200,7 +209,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Total</label>
-                                            <span class="form-control">@{{ (total + iva).toFixed(2) }}</span>
+                                            <span class="form-control">@{{ (subtotal + iva).toFixed(2) }}</span>
                                         </div>
                                     </div>                                    
                                 </div>
@@ -208,7 +217,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Cambio</label>
-                                            <span class="form-control" style="color: green">@{{ (amount_received - total - iva).toFixed(2) }}</span>
+                                            <span class="form-control" style="color: green">@{{ (amount_received - subtotal - iva).toFixed(2) }}</span>
                                         </div>
                                     </div>
                                     <div class="col-md-6">

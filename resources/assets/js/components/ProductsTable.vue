@@ -34,9 +34,7 @@
             <thead>
                 <tr>
                     <th><i class="fa fa-plus"></i></th>
-                    <th>Descripción</th>
-                    <th>Precio</th>
-                    <th>Familia</th>
+                    <th>Producto</th>
                 </tr>
             </thead>
 

@@ -57,6 +57,7 @@ const app = new Vue({
         retainer: 0,
         amount_received: 0,
     	inputs: [],
+        product_option: '',
     },
     methods: {
         addRow(product) {
@@ -71,19 +72,23 @@ const app = new Vue({
         changeQuantity(index) {
             var product = this.inputs[index]
 
-        	if (product.quantity >= product.wholesale_quantity) {
+        	if (product.wholesale_quantity > 0 && product.quantity >= product.wholesale_quantity) {
         		product.total = (product.wholesale_price * product.quantity) - product.discount
         	} else {
         		product.total = (product.retail_price * product.quantity) - product.discount
-        	}
+            }
+            console.log("total", product.total);
         }
     },
     computed: {
-        total() {
+        subtotal() {
+            console.log("products", this.inputs);
             return this.inputs.reduce((total, input) => total + input.total, 0)
         },
         iva() {
-            return this.inputs.reduce((iva, input) => iva + (input.total*0.16*input.iva), 0)
-        }
+            products = this.inputs
+            // return products.reduce((iva, input) => iva + input.total, 0)
+            return 0
+        },
     },
 });

@@ -179,5 +179,6 @@ return [
         'received' => 'recibido',
         'is_retained' => 'anticipo',
         'retainer' => 'anticipo',
+        'options' => 'opciones',
     ],
 ];
