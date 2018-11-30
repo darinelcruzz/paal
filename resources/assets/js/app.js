@@ -11,12 +11,6 @@ window.Vue = require('vue');
 
 Vue.component('v-select', VueSelect.VueSelect);
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 Vue.component('solid-box', require('./components/lte/SolidBox.vue'));
 Vue.component('simple-box', require('./components/lte/SimpleBox.vue'));
@@ -60,5 +54,11 @@ const app = new Vue({
         retainer: 0,
         amount_received: 0,
         product_option: '',
+        product_family: '',
     },
+    methods: {
+        reset() {
+            this.product_option = ''
+        }
+    }
 });

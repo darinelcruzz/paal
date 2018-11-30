@@ -17,6 +17,11 @@
                     <div v-else-if="product.is_variable == 1" class="pull-right">
                         $ {{ product.retail_price.toFixed(2) }}
                     </div>
+                    <div v-else-if="product.family == 'SERVICIOS'" class="pull-right">
+                        <div v-if="product.retail_price > 0">
+                            $ {{ product.retail_price.toFixed(2) }} <small>(mínimo)</small>
+                        </div>
+                    </div>
                     <div v-else class="pull-right">
                         $ {{ product.retail_price.toFixed(2) }} /
                         {{ product.wholesale_price.toFixed(2) }} <small>(+ {{ product.wholesale_quantity }} pzs)</small>
@@ -45,8 +50,26 @@
 		},
 		methods: {
             buttonPressed() {
-                this.$root.$emit('add-element', this.product);
-            }
+                var product = this.product
+                product.quantity = 1
+                product.discount = 0
+                product.price = this.setPrice(product)
+                product.total =  1 * product.price
+                this.$root.$emit('add-element', product);
+            },
+            setPrice(product) {
+                if (product.dollars) {
+                    return product.retail_price * this.exchange
+                } else if (product.is_variable) {
+                    return product.retail_price / (1 + 0.16 * product.iva)
+                } else if (product.family == 'SERVICIOS') {
+                    return product.retail_price
+                } else {
+                    var after_iva = product.wholesale_quantity > 0 && product.quantity >= product.wholesale_quantity ? 
+                        product.wholesale_price: product.retail_price
+                    return after_iva / (1 + 0.16 * product.iva)
+                }
+            },
 		},
         filters: {
             translate: date => {

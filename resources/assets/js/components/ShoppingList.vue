@@ -43,7 +43,7 @@
                         </td>
                         <td>
                             <div v-if="input.family == 'SERVICIOS'">
-                                <input class="form-control input-sm" name="subtotals[]" type="number" step="0.01" :min="input.retail_price" :value="input.retail_price" @change="changeRow(index)">
+                                <input class="form-control input-sm" name="subtotals[]" type="number" step="0.01" :min="input.retail_price" v-model.number="input.price" @change="changeRow(index)">
                             </div>
                             <div v-else>
                                 $ {{ input.total.toFixed(2) }}
@@ -81,6 +81,11 @@
         <div v-else align="center">
             <p style="color: #f56954"><b>No se han agregado produtos a la compra.</b></p>
         </div>
+
+        <hr>
+        <a data-toggle="modal" data-target="#netx-step" class="btn btn-danger pull-right" :disabled="inputs.length == 0">
+            SIGUIENTE
+        </a>
     </div>
 </template>
 
@@ -96,18 +101,14 @@
 		},
 		methods: {
 			addRow(product) {
-                this.setPrice(product)
-                product.quantity = 1
-                product.discount = 0
-                // product.price = 0
-                product.price = this.setPrice(product)
-                product.total =  1 * product.price
-                this.subtotal =  1 * product.price
-                this.iva = this.calculateIva()
                 this.inputs.push(product)
+                this.iva = this.calculateIva()
+                this.subtotal = this.inputs.reduce((total, input) => total + input.total, 0)
             },
             deleteRow(index) {
                 this.inputs.splice(index, 1)
+                this.iva = this.calculateIva()
+                this.subtotal = this.inputs.reduce((total, input) => total + input.total, 0)
             },
             changeRow(index) {
                 var product = this.inputs[index]
@@ -122,26 +123,13 @@
                 if (product.dollars) {
                     product.price = product.retail_price * this.exchange
                 } else if (product.is_variable) {
-                    product.price = product.retail_price - product.retail_price * 0.16 * product.iva
+                    product.price = product.retail_price / (1 + 0.16 * product.iva)
                 } else if (product.family == 'SERVICIOS') {
-                    product.price = product.retail_price
+                    product.price = product.price
                 } else {
                     var after_iva = product.wholesale_quantity > 0 && product.quantity >= product.wholesale_quantity ? 
                         product.wholesale_price: product.retail_price
-                    product.price = after_iva - after_iva * 0.16 * product.iva
-                }
-            },
-            setPrice(product) {
-                if (product.dollars) {
-                    return product.retail_price * this.exchange
-                } else if (product.is_variable) {
-                    return product.retail_price - product.retail_price * 0.16 * product.iva
-                } else if (product.family == 'SERVICIOS') {
-                    return product.retail_price
-                } else {
-                    var after_iva = product.wholesale_quantity > 0 && product.quantity >= product.wholesale_quantity ? 
-                        product.wholesale_price: product.retail_price
-                    return after_iva - after_iva * 0.16 * product.iva
+                    product.price = after_iva / (1 + 0.16 * product.iva)
                 }
             },
             calculateIva() {
@@ -149,11 +137,11 @@
                     if (input.dollars) {
                         return iva + (input.total * 0.16 * input.iva)
                     } else if (input.is_variable) {
-                        return iva + (input.total * 16 / 84 * input.iva)
+                        return iva + (input.total * 0.16 * input.iva)
                     } else if (input.family == 'SERVICIOS') {
                         return iva + 0
                     } else {
-                        return iva + (input.total * 16 / 84 * input.iva)
+                        return iva + (input.total * 0.16 * input.iva)
                     }
                 }, 0)
             }

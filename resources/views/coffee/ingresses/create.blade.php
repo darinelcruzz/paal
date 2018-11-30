@@ -27,17 +27,7 @@
 
                     <shopping-list color="danger" :exchange="{{ env('EXCHANGE_RATE') }}"></shopping-list>
 
-                    <hr>
-
-                    <input type="hidden" name="bought_at" value="{{ date('Y-m-d') }}">
-
-                    {{-- <modal-button target="next-step">
-                        <button class="btn btn-danger pull-right" :disabled="inputs.length == 0">
-                            SIGUIENTE
-                        </button>
-                    </modal-button> --}}
-
-                    {{-- <modal title="Método de pago" id="next-step">
+                    <modal title="Método de pago" id="next-step">
                         <template v-if="is_retained == 0">
                             <div class="row">
                                 <div class="col-md-6">
@@ -151,7 +141,7 @@
                             </div>
                         </template>
                         
-                    </modal> --}}
+                    </modal>
 
                 {!! Form::close() !!}
             </solid-box>
