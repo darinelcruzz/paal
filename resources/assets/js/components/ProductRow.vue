@@ -45,7 +45,7 @@
 		},
 		methods: {
             buttonPressed() {
-                this.$emit('add-element')
+                this.$root.$emit('add-element', this.product);
             }
 		},
         filters: {

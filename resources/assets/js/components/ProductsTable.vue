@@ -40,7 +40,7 @@
 
             <tbody>
                 <tr v-for="(product, index) in products" :key="index" is="p-row" :exchange="exchange"
-                    :product="product" :color="color" @add-element="addProduct(index)">
+                    :product="product" :color="color">
                 </tr>
             </tbody>
         </table>
@@ -103,10 +103,10 @@
             search() {
                 this.searchProducts(this.pagination.current_page, this.keyword)
             },
-            addProduct(index) {
-                const product = this.products[index]
-                this.$emit('added', product);
-            }
+            // addProduct(index) {
+            //     const product = this.products[index]
+            //     this.$root.$emit('added', product);
+            // }
 		},
 		created() {
 			this.fetchProducts()

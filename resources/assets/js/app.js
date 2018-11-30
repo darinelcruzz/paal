@@ -46,6 +46,9 @@ Vue.component('dynamic-inputs', require('./components/lte/DynamicInputs.vue'));
 Vue.component('add-product', require('./components/AddProductButton.vue'));
 Vue.component('p-table', require('./components/ProductsTable.vue'));
 Vue.component('p-row', require('./components/ProductRow.vue'));
+Vue.component('shopping-list', require('./components/ShoppingList.vue'));
+
+const Bus = new Vue({});
 
 const app = new Vue({
     el: '#app',
@@ -56,39 +59,6 @@ const app = new Vue({
         is_retained: 1,
         retainer: 0,
         amount_received: 0,
-    	inputs: [],
         product_option: '',
-    },
-    methods: {
-        addRow(product) {
-            product.quantity = 1
-            product.discount = 0
-            product.total = 1 * product.retail_price
-            this.inputs.push(product)
-        },
-        deleteRow(index) {
-            this.inputs.splice(index, 1)
-        },
-        changeQuantity(index) {
-            var product = this.inputs[index]
-
-        	if (product.wholesale_quantity > 0 && product.quantity >= product.wholesale_quantity) {
-        		product.total = (product.wholesale_price * product.quantity) - product.discount
-        	} else {
-        		product.total = (product.retail_price * product.quantity) - product.discount
-            }
-            console.log("total", product.total);
-        }
-    },
-    computed: {
-        subtotal() {
-            console.log("products", this.inputs);
-            return this.inputs.reduce((total, input) => total + input.total, 0)
-        },
-        iva() {
-            products = this.inputs
-            // return products.reduce((iva, input) => iva + input.total, 0)
-            return 0
-        },
     },
 });

@@ -14286,7 +14286,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(15);
-module.exports = __webpack_require__(133);
+module.exports = __webpack_require__(136);
 
 
 /***/ }),
@@ -14341,6 +14341,9 @@ Vue.component('dynamic-inputs', __webpack_require__(121));
 Vue.component('add-product', __webpack_require__(124));
 Vue.component('p-table', __webpack_require__(127));
 Vue.component('p-row', __webpack_require__(130));
+Vue.component('shopping-list', __webpack_require__(133));
+
+var Bus = new Vue({});
 
 var app = new Vue({
     el: '#app',
@@ -14351,42 +14354,7 @@ var app = new Vue({
         is_retained: 1,
         retainer: 0,
         amount_received: 0,
-        inputs: [],
         product_option: ''
-    },
-    methods: {
-        addRow: function addRow(product) {
-            product.quantity = 1;
-            product.discount = 0;
-            product.total = 1 * product.retail_price;
-            this.inputs.push(product);
-        },
-        deleteRow: function deleteRow(index) {
-            this.inputs.splice(index, 1);
-        },
-        changeQuantity: function changeQuantity(index) {
-            var product = this.inputs[index];
-
-            if (product.wholesale_quantity > 0 && product.quantity >= product.wholesale_quantity) {
-                product.total = product.wholesale_price * product.quantity - product.discount;
-            } else {
-                product.total = product.retail_price * product.quantity - product.discount;
-            }
-            console.log("total", product.total);
-        }
-    },
-    computed: {
-        subtotal: function subtotal() {
-            console.log("products", this.inputs);
-            return this.inputs.reduce(function (total, input) {
-                return total + input.total;
-            }, 0);
-        },
-        iva: function iva() {
-            products = this.inputs;
-            // return products.reduce((iva, input) => iva + input.total, 0)
-            return 0;
-        }
     }
 });
 
@@ -51629,10 +51597,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         search: function search() {
             this.searchProducts(this.pagination.current_page, this.keyword);
-        },
-        addProduct: function addProduct(index) {
-            var product = this.products[index];
-            this.$emit('added', product);
         }
     },
     created: function created() {
@@ -51773,11 +51737,6 @@ var render = function() {
               exchange: _vm.exchange,
               product: product,
               color: _vm.color
-            },
-            on: {
-              "add-element": function($event) {
-                _vm.addProduct(index)
-              }
             }
           })
         })
@@ -51909,7 +51868,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 	methods: {
 		buttonPressed: function buttonPressed() {
-			this.$emit('add-element');
+			this.$root.$emit('add-element', this.product);
 		}
 	},
 	filters: {
@@ -52017,6 +51976,530 @@ if (false) {
 
 /***/ }),
 /* 133 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(134)
+/* template */
+var __vue_template__ = __webpack_require__(135)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\ShoppingList.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5c5e83c6", Component.options)
+  } else {
+    hotAPI.reload("data-v-5c5e83c6", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 134 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['color', 'exchange'],
+    data: function data() {
+        return {
+            inputs: [],
+            subtotal: 0,
+            iva: 0
+        };
+    },
+
+    methods: {
+        addRow: function addRow(product) {
+            this.setPrice(product);
+            product.quantity = 1;
+            product.discount = 0;
+            // product.price = 0
+            product.price = this.setPrice(product);
+            product.total = 1 * product.price;
+            this.subtotal = 1 * product.price;
+            this.iva = this.calculateIva();
+            this.inputs.push(product);
+        },
+        deleteRow: function deleteRow(index) {
+            this.inputs.splice(index, 1);
+        },
+        changeRow: function changeRow(index) {
+            var product = this.inputs[index];
+            this.changePrice(product);
+
+            product.total = product.price * product.quantity - product.discount;
+
+            this.subtotal = this.inputs.reduce(function (total, input) {
+                return total + input.total;
+            }, 0);
+            this.iva = this.calculateIva();
+        },
+        changePrice: function changePrice(product) {
+            if (product.dollars) {
+                product.price = product.retail_price * this.exchange;
+            } else if (product.is_variable) {
+                product.price = product.retail_price - product.retail_price * 0.16 * product.iva;
+            } else if (product.family == 'SERVICIOS') {
+                product.price = product.retail_price;
+            } else {
+                var after_iva = product.wholesale_quantity > 0 && product.quantity >= product.wholesale_quantity ? product.wholesale_price : product.retail_price;
+                product.price = after_iva - after_iva * 0.16 * product.iva;
+            }
+        },
+        setPrice: function setPrice(product) {
+            if (product.dollars) {
+                return product.retail_price * this.exchange;
+            } else if (product.is_variable) {
+                return product.retail_price - product.retail_price * 0.16 * product.iva;
+            } else if (product.family == 'SERVICIOS') {
+                return product.retail_price;
+            } else {
+                var after_iva = product.wholesale_quantity > 0 && product.quantity >= product.wholesale_quantity ? product.wholesale_price : product.retail_price;
+                return after_iva - after_iva * 0.16 * product.iva;
+            }
+        },
+        calculateIva: function calculateIva() {
+            return this.inputs.reduce(function (iva, input) {
+                if (input.dollars) {
+                    return iva + input.total * 0.16 * input.iva;
+                } else if (input.is_variable) {
+                    return iva + input.total * 16 / 84 * input.iva;
+                } else if (input.family == 'SERVICIOS') {
+                    return iva + 0;
+                } else {
+                    return iva + input.total * 16 / 84 * input.iva;
+                }
+            }, 0);
+        }
+    },
+    created: function created() {
+        var _this = this;
+
+        this.$root.$on('add-element', function (product) {
+            _this.addRow(product);
+        });
+    }
+});
+
+/***/ }),
+/* 135 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { attrs: { id: "shopping_list" } }, [
+    _vm.inputs.length > 0
+      ? _c("div", [
+          _c("table", { staticClass: "table table-striped" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c(
+              "tbody",
+              _vm._l(_vm.inputs, function(input, index) {
+                return _c("tr", [
+                  _c("td", [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "btn btn-danger btn-xs",
+                        on: {
+                          click: function($event) {
+                            _vm.deleteRow(index)
+                          }
+                        }
+                      },
+                      [_c("i", { staticClass: "fa fa-times" })]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm._v(
+                      "\n                            " +
+                        _vm._s(input.description) +
+                        "\n                            "
+                    ),
+                    _c("input", {
+                      attrs: { name: "items[]", type: "hidden" },
+                      domProps: { value: input.id }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm._v(
+                      "\n                            " +
+                        _vm._s(input.price.toFixed(2)) +
+                        "\n                            "
+                    ),
+                    _c("input", {
+                      attrs: { name: "prices[]", type: "hidden" },
+                      domProps: { value: input.price.toFixed(2) }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    input.family == "SERVICIOS"
+                      ? _c("div", [
+                          _vm._v("\n                                1 "),
+                          _c("input", {
+                            attrs: { type: "hidden", name: "quantities[]" },
+                            domProps: { value: 1 }
+                          })
+                        ])
+                      : _c("div", [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model.number",
+                                value: input.quantity,
+                                expression: "input.quantity",
+                                modifiers: { number: true }
+                              }
+                            ],
+                            staticClass: "form-control input-sm",
+                            attrs: {
+                              name: "quantities[]",
+                              type: "number",
+                              min: "1"
+                            },
+                            domProps: { value: input.quantity },
+                            on: {
+                              change: function($event) {
+                                _vm.changeRow(index)
+                              },
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  input,
+                                  "quantity",
+                                  _vm._n($event.target.value)
+                                )
+                              },
+                              blur: function($event) {
+                                _vm.$forceUpdate()
+                              }
+                            }
+                          })
+                        ])
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    input.is_variable == 1 &&
+                    input.family != "SERVICIOS" &&
+                    input.dollars != 1
+                      ? _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model.number",
+                              value: input.discount,
+                              expression: "input.discount",
+                              modifiers: { number: true }
+                            }
+                          ],
+                          staticClass: "form-control input-sm",
+                          attrs: {
+                            name: "discounts[]",
+                            type: "number",
+                            step: "0.01",
+                            value: "0",
+                            min: "0"
+                          },
+                          domProps: { value: input.discount },
+                          on: {
+                            change: function($event) {
+                              _vm.changeRow(index)
+                            },
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                input,
+                                "discount",
+                                _vm._n($event.target.value)
+                              )
+                            },
+                            blur: function($event) {
+                              _vm.$forceUpdate()
+                            }
+                          }
+                        })
+                      : _c("input", {
+                          attrs: {
+                            name: "discounts[]",
+                            type: "hidden",
+                            value: "0"
+                          }
+                        })
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    input.family == "SERVICIOS"
+                      ? _c("div", [
+                          _c("input", {
+                            staticClass: "form-control input-sm",
+                            attrs: {
+                              name: "subtotals[]",
+                              type: "number",
+                              step: "0.01",
+                              min: input.retail_price
+                            },
+                            domProps: { value: input.retail_price },
+                            on: {
+                              change: function($event) {
+                                _vm.changeRow(index)
+                              }
+                            }
+                          })
+                        ])
+                      : _c("div", [
+                          _vm._v(
+                            "\n                                $ " +
+                              _vm._s(input.total.toFixed(2)) +
+                              "\n                                "
+                          ),
+                          _c("input", {
+                            attrs: { name: "subtotals[]", type: "hidden" },
+                            domProps: { value: input.total.toFixed(2) }
+                          })
+                        ])
+                  ])
+                ])
+              })
+            ),
+            _vm._v(" "),
+            _c("tfoot", [
+              _c("tr", [
+                _vm._m(1),
+                _vm._v(" "),
+                _c("td", [
+                  _c("span", { staticClass: "pull-right" }, [
+                    _vm._v("$ " + _vm._s(_vm.subtotal.toFixed(2)))
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _vm._m(2),
+                _vm._v(" "),
+                _c("td", [
+                  _c("span", { staticClass: "pull-right" }, [
+                    _vm._v("$ " + _vm._s(_vm.iva.toFixed(2)))
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    attrs: { type: "hidden", name: "iva" },
+                    domProps: { value: _vm.iva.toFixed(2) }
+                  })
+                ])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _vm._m(3),
+                _vm._v(" "),
+                _c("td", [
+                  _c("span", { staticClass: "pull-right" }, [
+                    _vm._v("$ " + _vm._s((_vm.subtotal + _vm.iva).toFixed(2)))
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    attrs: { type: "hidden", name: "amount" },
+                    domProps: { value: (_vm.subtotal + _vm.iva).toFixed(2) }
+                  })
+                ])
+              ])
+            ])
+          ])
+        ])
+      : _c("div", { attrs: { align: "center" } }, [_vm._m(4)])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_c("i", { staticClass: "fa fa-times" })]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Descripción")]),
+        _vm._v(" "),
+        _c("th", { staticStyle: { width: "15%" } }, [_vm._v("Precio")]),
+        _vm._v(" "),
+        _c("th", { staticStyle: { width: "15%" } }, [_vm._v("Cantidad")]),
+        _vm._v(" "),
+        _c("th", { staticStyle: { width: "15%" } }, [_vm._v("Descuento")]),
+        _vm._v(" "),
+        _c("th", { staticStyle: { width: "15%" } }, [_vm._v("Importe")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", { attrs: { colspan: "5" } }, [
+      _c("span", { staticClass: "pull-right" }, [_vm._v("Subtotal:")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", { attrs: { colspan: "5" } }, [
+      _c("span", { staticClass: "pull-right" }, [_vm._v("IVA:")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", { attrs: { colspan: "5" } }, [
+      _c("span", { staticClass: "pull-right" }, [_vm._v("Total:")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", { staticStyle: { color: "#f56954" } }, [
+      _c("b", [_vm._v("No se han agregado produtos a la compra.")])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-5c5e83c6", module.exports)
+  }
+}
+
+/***/ }),
+/* 136 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
