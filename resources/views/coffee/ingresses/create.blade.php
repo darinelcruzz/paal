@@ -25,6 +25,18 @@
                         </div>
                     </div>
 
+                    <form-wizard>
+                      <tab-content title="Personal details">
+                        My first tab content
+                      </tab-content>
+                      <tab-content title="Additional Info">
+                          My second tab content
+                       </tab-content>
+                       <tab-content title="Last step">
+                         Yuhuuu! This seems pretty damn simple
+                       </tab-content>
+                    </form-wizard>
+
                     <shopping-list color="danger" :exchange="{{ env('EXCHANGE_RATE') }}"></shopping-list>
 
                     <hr>
