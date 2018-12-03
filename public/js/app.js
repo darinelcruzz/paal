@@ -14364,6 +14364,7 @@ var app = new Vue({
         payment_method: 0,
         is_retained: 1,
         retainer: 0,
+        ingress_total: 0,
         amount_received: 0,
         product_option: '',
         product_family: ''
@@ -14372,6 +14373,13 @@ var app = new Vue({
         reset: function reset() {
             this.product_option = '';
         }
+    },
+    created: function created() {
+        var _this = this;
+
+        this.$on('update-total', function (total) {
+            _this.ingress_total = total;
+        });
     }
 });
 
@@ -52672,9 +52680,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['color', 'exchange'],
@@ -52693,6 +52698,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.subtotal = this.inputs.reduce(function (total, input) {
                 return total + input.total;
             }, 0);
+            this.$root.$emit('update-total', this.subtotal + this.iva);
         },
         deleteRow: function deleteRow(index) {
             this.inputs.splice(index, 1);
@@ -52711,6 +52717,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return total + input.total;
             }, 0);
             this.iva = this.calculateIva();
+            this.$root.$emit('update-total', this.subtotal + this.iva);
         },
         changePrice: function changePrice(product) {
             if (product.dollars) {
@@ -53006,20 +53013,7 @@ var render = function() {
         ])
       : _c("div", { attrs: { align: "center" } }, [_vm._m(4)]),
     _vm._v(" "),
-    _c("hr"),
-    _vm._v(" "),
-    _c(
-      "a",
-      {
-        staticClass: "btn btn-danger pull-right",
-        attrs: {
-          "data-toggle": "modal",
-          "data-target": "#netx-step",
-          disabled: _vm.inputs.length == 0
-        }
-      },
-      [_vm._v("\n            SIGUIENTE\n        ")]
-    )
+    _c("hr")
   ])
 }
 var staticRenderFns = [

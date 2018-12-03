@@ -83,9 +83,6 @@
         </div>
 
         <hr>
-        <a data-toggle="modal" data-target="#netx-step" class="btn btn-danger pull-right" :disabled="inputs.length == 0">
-            SIGUIENTE
-        </a>
     </div>
 </template>
 
@@ -104,6 +101,7 @@
                 this.inputs.push(product)
                 this.iva = this.calculateIva()
                 this.subtotal = this.inputs.reduce((total, input) => total + input.total, 0)
+                this.$root.$emit('update-total', this.subtotal + this.iva);
             },
             deleteRow(index) {
                 this.inputs.splice(index, 1)
@@ -118,6 +116,7 @@
 
                 this.subtotal = this.inputs.reduce((total, input) => total + input.total, 0)
                 this.iva = this.calculateIva()
+                this.$root.$emit('update-total', this.subtotal + this.iva);
             },
             changePrice(product) {
                 if (product.dollars) {

@@ -63,6 +63,7 @@ const app = new Vue({
         payment_method: 0,
         is_retained: 1,
         retainer: 0,
+        ingress_total: 0,
         amount_received: 0,
         product_option: '',
         product_family: '',
@@ -71,5 +72,10 @@ const app = new Vue({
         reset() {
             this.product_option = ''
         }
+    },
+    created() {
+        this.$on('update-total', (total) => {
+            this.ingress_total = total
+        })
     }
 });
