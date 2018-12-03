@@ -65,5 +65,11 @@ const app = new Vue({
         retainer: 0,
         amount_received: 0,
         product_option: '',
+        product_family: '',
     },
+    methods: {
+        reset() {
+            this.product_option = ''
+        }
+    }
 });

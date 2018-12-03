@@ -26,10 +26,15 @@
                         <div class="col-md-6">
                             {!! Field::select('family', 
                                 ['ACCESORIOS' => 'ACCESORIOS', 'BARRAS' => 'BARRAS', 'EQUIPOS' => 'EQUIPOS', 'INSUMOS' => 'INSUMOS', 'SERVICIOS' => 'SERVICIOS', 'REFACCIONES' => 'REFACCIONES', 'OTROS' => 'OTROS'], 
-                                null, ['tpl' => 'withicon', 'empty' => 'Seleccione una familia'], ['icon' => 'group']) 
+                                null, 
+                                ['tpl' => 'withicon', 'empty' => 'Seleccione una familia', 'v-model' => 'product_family', 'v-on:change' => 'reset'], 
+                                ['icon' => 'group']) 
                             !!}  
                         </div>
-                        <div class="col-md-6">
+                        <div v-if="product_family == 'SERVICIOS'" class="col-md-6">
+                            {!! Field::number('retail_price', 0, ['label' => 'Precio', 'tpl' => 'withicon', 'step' => '0.01', 'min' => '0'], ['icon' => 'dollar']) !!}
+                        </div>
+                        <div v-if="product_family != '' && product_family != 'SERVICIOS'" class="col-md-6">
                             {!! Field::select('options', 
                                 [1 => 'Precio en dólares', 2 => 'Aplica descuento', 3 => 'Ninguna'], 
                                 null, ['tpl' => 'withicon', 'empty' => 'Seleccione una opción', 'v-model.number' => 'product_option'], ['icon' => 'money']) 
