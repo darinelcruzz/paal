@@ -8,13 +8,13 @@
     <div class="row">
         <div class="col-md-6">
             <solid-box title="Crear ingreso" color="danger">
-                {!! Form::open(['method' => 'POST', 'route' => 'coffee.ingress.store']) !!}
+                {!! Form::open(['method' => 'POST', 'route' => 'coffee.ingress.store', 'ref' => 'cform']) !!}
 
                     <form-wizard
                         title=""
                         subtitle=""
                         color="#dd4b39"
-                        {{-- @on-complete="enableButton" --}}
+                        @on-complete="submit"
                         {{-- @on-change="disableButton" --}}
                         back-button-text="Anterior"
                         next-button-text="Siguiente"
@@ -135,6 +135,9 @@
                        </tab-content>
 
                     </form-wizard>
+
+                    <input type="hidden" name="bought_at" value="{{ date('Y-m-d') }}">
+                    <input type="hidden" name="company" value="coffee">
 
                 {!! Form::close() !!}
             </solid-box>

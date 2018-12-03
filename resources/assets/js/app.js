@@ -71,6 +71,9 @@ const app = new Vue({
     methods: {
         reset() {
             this.product_option = ''
+        },
+        submit() {
+            this.$refs.cform.submit()
         }
     },
     created() {

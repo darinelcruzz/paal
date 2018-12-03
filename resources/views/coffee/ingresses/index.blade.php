@@ -24,7 +24,7 @@
                                 <td>
                                     <dropdown icon="cogs" color="danger">
                                         <ddi v-if="{{ $ingress->status == 'pagado' ? 0: 1 }}" to="{{ route('paal.ingress.charge', $ingress) }}" icon="money" text="Pagar"></ddi>
-                                        <ddi to="{{ route('paal.ingress.show', $ingress) }}" icon="eye" text="Detalles"></ddi>
+                                        <ddi to="{{ route('coffee.ingress.show', $ingress) }}" icon="eye" text="Detalles"></ddi>
                                     </dropdown>
                                 </td>
                                 <td>{{ fdate($ingress->bought_at, 'd M Y', 'Y-m-d') }}</td>

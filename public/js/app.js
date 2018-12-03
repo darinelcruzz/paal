@@ -14372,6 +14372,9 @@ var app = new Vue({
     methods: {
         reset: function reset() {
             this.product_option = '';
+        },
+        submit: function submit() {
+            this.$refs.cform.submit();
         }
     },
     created: function created() {

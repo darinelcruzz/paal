@@ -26,56 +26,56 @@ class IngressController extends Controller
 
     function store(Request $request)
     {
-        $this->validate($request, [
-            'provider_id' => 'required',
-            'folio' => 'required',
-            'pdf_bill' => 'required',
-            'xml' => 'required',
-            'expiration' => 'required',
-            'amount' => 'required|gt:iva',
+        // dd($request->all());
+        $validated = $this->validate($request, [
+            'client_id' => 'required',
+            'amount' => 'required',
             'iva' => 'required',
-            'pdf_complement' => 'sometimes|required',
-            'complement_amount' => 'sometimes|required|lt:amount',
-            'complement_date' => 'sometimes|required',
-        ],[
-            'amount.gt' => 'No puede ser menor que IVA',
-            'complement_amount.lt' => 'No puede ser mayor que el total',
+            'bought_at' => 'required',
+            'company' => 'required',
+            'method' => 'required',
+            'items' => 'required|array|min:1',
+            'method' => 'sometimes|required',
+            'reference' => 'sometimes|required',
+            'methodA' => 'sometimes|required',
+            'referenceA' => 'sometimes|required',
+            'retainer' => 'sometimes|required',
         ]);
 
-        $provider = Provider::find($request->provider_id);
+        $ingress = Ingress::create($validated);
 
-        if ($provider->remaining < $request->amount) {
-            $message = "$provider->name tiene un monto máximo mensual de $provider->amount solamente le quedan $ $provider->remaining";
-            return redirect()->back()->with('message', $message);
-        } elseif ($provider->bills <= $provider->created_bills) {
-            $message = "$provider->name tiene una cantidad máxima mensual de $provider->bills facturas";
-            return redirect()->back()->with('message', $message);
+        $products = [];
+
+        for ($i=0; $i < count($request->items); $i++) { 
+            array_push($products, [
+                'i' => $request->items[$i],
+                'q' => $request->quantities[$i],
+                'p' => $request->prices[$i],
+                'd' => $request->discounts[$i],
+                't' => $request->subtotals[$i],
+            ]);
         }
 
+        if (isset($request->methodA)) {
+            $ingress->update([
+                'products' => serialize($products),
+                'retained_at' => date('Y-m-d'),
+                'status' => 'pendiente'
+            ]);
+        } else {
+            $ingress->update([
+                'products' => serialize($products),
+                'paid_at' => date('Y-m-d'),
+                'status' => $request->method == 5 ? 'crédito' :'pagado'
+            ]);
+        }
 
-        $expiration = strtotime($request->emission) + ($request->expiration * 86400);
+        return redirect(route('coffee.ingress.index'));
+    }
 
-        $ingress = Ingress::create($request->except(['pdf_bill', 'xml', 'pdf_complement', 'complement', 'expiration']));
-
-        $path_to_pdf = Storage::putFileAs(
-            "public/coffee/bills", $request->file("pdf_bill"), $ingress->emission . "_" . $ingress->id . ".pdf"
-        );
-
-        $path_to_xml = Storage::putFileAs(
-            "public/coffee/bills", $request->file("xml"), $ingress->emission . "_" . $ingress->id . ".xml"
-        );
-
-        $path_to_complement = $request->file("pdf_complement") ? Storage::putFileAs(
-            "public/coffee/complements", $request->file("pdf_complement"), $ingress->complement_date . "_" . $egress->id . ".pdf") : null;
-
-        $egress->update([
-            'pdf_bill' => $path_to_pdf,
-            'pdf_complement' => $path_to_complement,
-            'xml' => $path_to_xml,
-            'expiration' => date('Y-m-d', $expiration),
-        ]);
-
-        return redirect(route('coffee.egress.index'));
+    function show(Ingress $ingress)
+    {
+        return view('coffee.ingresses.show', compact('ingress'));
     }
 
     function pay(Ingress $ingress)
