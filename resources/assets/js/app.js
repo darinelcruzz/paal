@@ -79,6 +79,6 @@ const app = new Vue({
     created() {
         this.$on('update-total', (total) => {
             this.ingress_total = total
-        })
+        });
     }
 });

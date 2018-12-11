@@ -36,7 +36,7 @@
                             </div>
                         </td>
                         <td>
-                            <input v-if="input.is_variable == 1 && input.family != 'SERVICIOS' && input.dollars != 1" name="discounts[]" class="form-control input-sm" type="number" step="0.01" value="0"
+                            <input v-if="input.apply_discount" name="discounts[]" class="form-control input-sm" type="number" step="0.01" value="0"
                                 min="0" v-model.number="input.discount" @change="changeRow(index)">
 
                             <input v-else name="discounts[]" type="hidden" value="0">
@@ -98,6 +98,7 @@
 		},
 		methods: {
 			addRow(product) {
+                product.apply_discount = product.is_variable == 1 && product.family != 'SERVICIOS' && product.dollars != 1
                 this.inputs.push(product)
                 this.iva = this.calculateIva()
                 this.subtotal = this.inputs.reduce((total, input) => total + input.total, 0)
