@@ -15,7 +15,6 @@
                         subtitle=""
                         color="#dd4b39"
                         @on-complete="submit"
-                        {{-- @on-change="disableButton" --}}
                         back-button-text="Anterior"
                         next-button-text="Siguiente"
                         finish-button-text="Completado">
