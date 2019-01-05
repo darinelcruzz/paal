@@ -52,6 +52,7 @@ Vue.component('add-product', require('./components/AddProductButton.vue'));
 Vue.component('p-table', require('./components/ProductsTable.vue'));
 Vue.component('p-row', require('./components/ProductRow.vue'));
 Vue.component('shopping-list', require('./components/ShoppingList.vue'));
+Vue.component('shopping-list-item', require('./components/ShoppingListItem.vue'));
 
 const Bus = new Vue({});
 
@@ -77,7 +78,7 @@ const app = new Vue({
         }
     },
     created() {
-        this.$on('update-total', (total) => {
+        this.$on('set-total', (total) => {
             this.ingress_total = total
         });
     }
