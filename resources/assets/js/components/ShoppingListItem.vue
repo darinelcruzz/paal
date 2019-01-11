@@ -8,8 +8,8 @@
             <input name="items[]" type="hidden" :value="product.id">
         </td>
         <td>
-            {{ product.price.toFixed(2) }}
-            <input name="prices[]" type="hidden" :value="product.price.toFixed(2)">
+            {{ computed_price.toFixed(2) }}
+            <input name="prices[]" type="hidden" :value="computed_price.toFixed(2)">
         </td>
         <td>
             <div v-if="product.family == 'SERVICIOS'">
@@ -28,7 +28,7 @@
         </td>
         <td>
             <div v-if="product.family == 'SERVICIOS'">
-                <input class="form-control input-sm" name="subtotals[]" type="number" step="0.01" :min="product.retail_price" v-model.number="price" @change="updateTotal">
+                <input class="form-control input-sm" name="subtotals[]" type="number" step="0.01" :min="product.retail_price" v-model.number="computed_price" @change="updateTotal">
             </div>
             <div v-else>
                 $ {{ total.toFixed(2) }}
@@ -43,7 +43,7 @@ export default {
     data() {
         return {
             quantity: 1,
-            price: 0,
+            // price: 0,
             discount: 0,
         };
     },
@@ -58,7 +58,7 @@ export default {
     },
     computed: {
     	total() {
-    		return ((this.quantity * this.price) - this.discount)
+    		return ((this.quantity * this.computed_price) - this.discount)
     	},
     	apply_discount() {
     		return this.product.is_variable == 1 && this.product.family != 'SERVICIOS' && this.product.dollars != 1;
@@ -66,10 +66,23 @@ export default {
     	computed_iva() {
     		if (this.product.family == 'SERVICIOS') return 0
             return this.total * 0.16 * this.product.iva
-    	}
+    	},
+        computed_price() {
+            if (this.product.dollars) {
+                return this.product.retail_price * this.exchange
+            } else if (this.product.is_variable) {
+                return this.product.retail_price / (1 + 0.16 * this.product.iva)
+            } else if (this.product.family == 'SERVICIOS') {
+                return this.product.retail_price
+            } else {
+                var after_iva = this.quantity >= this.product.wholesale_quantity ? 
+                    this.product.wholesale_price: this.product.retail_price
+                return after_iva / (1 + 0.16 * this.product.iva)
+            }
+        }
     },
-    created() {
-        this.price = this.product.price
-    },
+    // created() {
+    //     this.price = this.product.price
+    // },
 };
 </script>

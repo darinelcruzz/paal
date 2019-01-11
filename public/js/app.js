@@ -53204,7 +53204,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             quantity: 1,
-            price: 0,
+            // price: 0,
             discount: 0
         };
     },
@@ -53220,7 +53220,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     computed: {
         total: function total() {
-            return this.quantity * this.price - this.discount;
+            return this.quantity * this.computed_price - this.discount;
         },
         apply_discount: function apply_discount() {
             return this.product.is_variable == 1 && this.product.family != 'SERVICIOS' && this.product.dollars != 1;
@@ -53228,11 +53228,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         computed_iva: function computed_iva() {
             if (this.product.family == 'SERVICIOS') return 0;
             return this.total * 0.16 * this.product.iva;
+        },
+        computed_price: function computed_price() {
+            if (this.product.dollars) {
+                return this.product.retail_price * this.exchange;
+            } else if (this.product.is_variable) {
+                return this.product.retail_price / (1 + 0.16 * this.product.iva);
+            } else if (this.product.family == 'SERVICIOS') {
+                return this.product.retail_price;
+            } else {
+                var after_iva = this.quantity >= this.product.wholesale_quantity ? this.product.wholesale_price : this.product.retail_price;
+                return after_iva / (1 + 0.16 * this.product.iva);
+            }
         }
-    },
-    created: function created() {
-        this.price = this.product.price;
     }
+    // created() {
+    //     this.price = this.product.price
+    // },
 });
 
 /***/ }),
@@ -53265,12 +53277,12 @@ var render = function() {
     _c("td", [
       _vm._v(
         "\n            " +
-          _vm._s(_vm.product.price.toFixed(2)) +
+          _vm._s(_vm.computed_price.toFixed(2)) +
           "\n            "
       ),
       _c("input", {
         attrs: { name: "prices[]", type: "hidden" },
-        domProps: { value: _vm.product.price.toFixed(2) }
+        domProps: { value: _vm.computed_price.toFixed(2) }
       })
     ]),
     _vm._v(" "),
@@ -53360,8 +53372,8 @@ var render = function() {
                 {
                   name: "model",
                   rawName: "v-model.number",
-                  value: _vm.price,
-                  expression: "price",
+                  value: _vm.computed_price,
+                  expression: "computed_price",
                   modifiers: { number: true }
                 }
               ],
@@ -53372,14 +53384,14 @@ var render = function() {
                 step: "0.01",
                 min: _vm.product.retail_price
               },
-              domProps: { value: _vm.price },
+              domProps: { value: _vm.computed_price },
               on: {
                 change: _vm.updateTotal,
                 input: function($event) {
                   if ($event.target.composing) {
                     return
                   }
-                  _vm.price = _vm._n($event.target.value)
+                  _vm.computed_price = _vm._n($event.target.value)
                 },
                 blur: function($event) {
                   _vm.$forceUpdate()
