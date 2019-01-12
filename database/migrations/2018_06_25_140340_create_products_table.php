@@ -18,13 +18,16 @@ class CreateProductsTable extends Migration
 
             $table->string('description');
             $table->string('code');
-            $table->string('family');
-            $table->double('wholesale_price');
+            $table->string('barcode')->nullable();
             $table->double('retail_price');
-            $table->integer('dollars');
-            $table->integer('is_variable');
+            $table->double('wholesale_price');
             $table->integer('wholesale_quantity');
+            $table->integer('is_variable')->default(0);
             $table->integer('iva')->default(0);
+            $table->integer('dollars')->default(0);
+            $table->integer('is_summable')->default(0);
+            $table->string('family');
+            $table->string('category');
             
             $table->timestamps();
         });

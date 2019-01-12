@@ -15,6 +15,23 @@
 
                     <div class="row">
                         <div class="col-md-6">
+                            {!! Field::select('family', 
+                                ['POLVOS' => 'POLVOS', 'JARABES' => 'JARABES', 'JUGOS' => 'JUGOS'], 
+                                null, 
+                                ['tpl' => 'withicon', 'empty' => 'Seleccione una familia'], 
+                                ['icon' => 'group']) 
+                            !!}  
+                        </div>
+                        <div class="col-md-6">
+                            {!! Field::select('is_summable', ['No', 'Sí'], null, 
+                                ['tpl' => 'withicon', 'empty' => '¿Se suma?', 'label' => '¿Se suma?'], 
+                                ['icon' => 'plus']) 
+                            !!}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
                             {!! Field::text('code', ['tpl' => 'withicon'], ['icon' => 'code']) !!}
                         </div>
                         <div class="col-md-6">
@@ -24,11 +41,11 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            {!! Field::select('family', 
+                            {!! Field::select('category', 
                                 ['ACCESORIOS' => 'ACCESORIOS', 'BARRAS' => 'BARRAS', 'EQUIPOS' => 'EQUIPOS', 'INSUMOS' => 'INSUMOS', 'SERVICIOS' => 'SERVICIOS', 'REFACCIONES' => 'REFACCIONES', 'OTROS' => 'OTROS'], 
                                 null, 
-                                ['tpl' => 'withicon', 'empty' => 'Seleccione una familia', 'v-model' => 'product_family', 'v-on:change' => 'reset'], 
-                                ['icon' => 'group']) 
+                                ['tpl' => 'withicon', 'empty' => 'Seleccione una categoría', 'v-model' => 'product_family', 'v-on:change' => 'reset'], 
+                                ['icon' => 'tag']) 
                             !!}  
                         </div>
                         <div v-if="product_family == 'SERVICIOS'" class="col-md-6">
