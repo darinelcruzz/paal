@@ -63,6 +63,7 @@
 			return {
                 inputs: [],
                 subtotals: [],
+                families: [],
                 total: 0,
                 iva: 0
 			}
@@ -74,7 +75,24 @@
                     amount: product.price * 1,
                     iva: product.family == 'SERVICIOS' ? 0: product.price * 0.16 * product.iva
                 })
+
+                this.families[product.family] = 1
+
+                var family = product.family
+
+                if (this.families.length == 0 ) {
+                    this.families[product.family] = 1
+                } else {
+                    if (this.families[family] === undefined) {
+                        this.families[family] = 1
+                    } else {
+                        this.families[family] = this.families[family] + 1
+                    }
+                }
+
                 this.setTotal()
+
+                console.log(this.families)
             },
             deleteRow(index) {
                 this.inputs.splice(index, 1)

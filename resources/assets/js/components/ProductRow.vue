@@ -22,6 +22,9 @@
                             $ {{ product.retail_price.toFixed(2) }} <small>(mínimo)</small>
                         </div>
                     </div>
+                    <div v-else-if="product.wholesale_quantity == 0" class="pull-right">
+                        $ {{ product.retail_price.toFixed(2) }}
+                    </div>
                     <div v-else class="pull-right">
                         $ {{ product.retail_price.toFixed(2) }} /
                         {{ product.wholesale_price.toFixed(2) }} <small>(+ {{ product.wholesale_quantity }} pzs)</small>

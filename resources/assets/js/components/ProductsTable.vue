@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-md-4 pull-right">
                 <div class="input-group input-group-sm">
-                    <input type="text" v-model="keyword" class="form-control" @change="search">
+                    <input type="text" v-model="keyword" class="form-control" @keyup.enter="search" @change="search">
                     <span class="input-group-btn">
                       <button type="button" :class="'btn btn-' + color + ' btn-flat'">
                           <i class="fa fa-search"></i>
@@ -58,30 +58,10 @@
 			}
 		},
 		methods: {
-			fetchProducts(page_url) {
-                page_url = page_url || '/api/products'
-                axios.get(page_url)
-                    .then((response) => {
-                        var productsReady = response.data.data.map((product) => {
-                            return product
-                        })
-
-                        var pagination = {
-                            current_page: response.data.current_page,
-                            last_page: response.data.last_page,
-                            next_page_url: response.data.next_page_url,
-                            prev_page_url: response.data.prev_page_url,
-                            last_page_url: response.data.last_page_url,
-                            first_page_url: response.data.first_page_url,
-                        }
-
-                        this.products = productsReady
-                        this.pagination = pagination
-                    })
-            },
-            searchProducts(page_url, keyword) {
-                page_url = '/api/products/' + keyword
-                axios.get(page_url)
+			fetchProducts(page_url, keyword) {
+                keyword = keyword || ''
+                page_url = page_url || '/api/products/'
+                axios.get(page_url + keyword)
                     .then((response) => {
                         var productsReady = response.data.data.map((product) => {
                             return product
@@ -101,12 +81,8 @@
                     })
             },
             search() {
-                this.searchProducts(this.pagination.current_page, this.keyword)
+                this.fetchProducts('/api/products/', this.keyword)
             },
-            // addProduct(index) {
-            //     const product = this.products[index]
-            //     this.$root.$emit('added', product);
-            // }
 		},
 		created() {
 			this.fetchProducts()
