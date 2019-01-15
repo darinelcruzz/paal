@@ -76,23 +76,35 @@
                     iva: product.family == 'SERVICIOS' ? 0: product.price * 0.16 * product.iva
                 })
 
-                this.families[product.family] = 1
+                if (this.families.length > 0) {
+                    // this.families[product.family] += 1
+                    var has_family = false
 
-                var family = product.family
-
-                if (this.families.length == 0 ) {
-                    this.families[product.family] = 1
-                } else {
-                    if (this.families[family] === undefined) {
-                        this.families[family] = 1
-                    } else {
-                        this.families[family] = this.families[family] + 1
+                    for (var i = 0; i < this.families.length; i++) {
+                        if (this.families[i].name == product.family) {
+                            has_family = this.families[i].name == product.family
+                            break
+                        }
                     }
+
+                    if (has_family) {
+                        this.families[i].quantity += 1
+                    } else {
+                       this.families.push({
+                            name: product.family,
+                            quantity: 1
+                        }) 
+                    }
+                } else {
+                    this.families.push({
+                        name: product.family,
+                        quantity: 1
+                    })
                 }
 
-                this.setTotal()
+                console.log("families: ", this.families);
 
-                console.log(this.families)
+                this.setTotal()
             },
             deleteRow(index) {
                 this.inputs.splice(index, 1)
@@ -109,6 +121,12 @@
                 this.subtotals[index].iva = iva
                 this.total = this.subtotals.reduce((total, subtotal) => total + subtotal.amount, 0)
                 this.iva = this.subtotals.reduce((total, subtotal) => total + subtotal.iva, 0)
+            },
+            updateFamilyCount(family, quantity) {
+                for (var i = 0; i < this.families.length; i++) {
+                    if (this.families[i].name == family) break
+                }
+                this.families[i].quantity = quantity
             }
 		},
         created() {
@@ -120,6 +138,9 @@
             })
             this.$root.$on('update-total', (data) => {
                 this.updateTotal(data[0], data[1], data[2])
+            })
+            this.$root.$on('update-family-count', (data) => {
+                this.updateFamilyCount(data[0], data[1])
             })
         }
 	};

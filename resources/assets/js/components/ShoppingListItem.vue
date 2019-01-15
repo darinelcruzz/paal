@@ -54,6 +54,7 @@ export default {
         },
         updateTotal() {
             this.$root.$emit('update-total', [this.index, this.total, this.computed_iva])
+            this.$root.$emit('update-family-count', [this.product.family, this.quantity])
         },
     },
     computed: {
