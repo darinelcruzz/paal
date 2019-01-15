@@ -19,6 +19,7 @@
                         :key="index"
                         is="shopping-list-item" 
                         :product="product"
+                        :familycount="getFamilyCount(product.family)"
                         :exchange="exchange">
                     </tr>
                 </tbody>
@@ -126,7 +127,13 @@
                 for (var i = 0; i < this.families.length; i++) {
                     if (this.families[i].name == family) break
                 }
-                this.families[i].quantity = quantity
+                this.families[i].quantity += quantity
+            },
+            getFamilyCount(family) {
+                for (var i = 0; i < this.families.length; i++) {
+                    if (this.families[i].name == family) break
+                }
+                return this.families[i].quantity
             }
 		},
         created() {

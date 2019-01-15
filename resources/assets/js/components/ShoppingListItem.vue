@@ -47,14 +47,13 @@ export default {
             discount: 0,
         };
     },
-    props: ['product', 'index', 'exchange'],
+    props: ['product', 'index', 'exchange', 'familycount'],
     methods: {
         deleteItem() {
             this.$root.$emit('delete-item', this.index)
         },
         updateTotal() {
             this.$root.$emit('update-total', [this.index, this.total, this.computed_iva])
-            this.$root.$emit('update-family-count', [this.product.family, this.quantity])
         },
     },
     computed: {
@@ -69,21 +68,38 @@ export default {
             return this.total * 0.16 * this.product.iva
     	},
         computed_price() {
-            if (this.product.dollars) {
-                return this.product.retail_price * this.exchange
-            } else if (this.product.is_variable) {
-                return this.product.retail_price / (1 + 0.16 * this.product.iva)
-            } else if (this.product.family == 'SERVICIOS') {
-                return this.product.retail_price
+            var price;
+
+            if (this.product.is_summable) {
+                price = this.quantity >= this.familycount ? this.product.wholesale_price: this.product.retail_price
             } else {
-                var after_iva = this.quantity >= this.product.wholesale_quantity ? 
-                    this.product.wholesale_price: this.product.retail_price
-                return after_iva / (1 + 0.16 * this.product.iva)
+                price = this.quantity >= this.product.wholesale_quantity ? this.product.wholesale_price: this.product.retail_price
             }
+            // if (this.product.dollars) {
+            //     return this.product.retail_price * this.exchange
+            // } else if (this.product.is_variable) {
+            //     return this.product.retail_price / (1 + 0.16 * this.product.iva)
+            // } else if (this.product.family == 'SERVICIOS') {
+            //     return this.product.retail_price
+            // } else if (this.product.is_summable) {
+            //     var after_iva = this.quantity >= this.familycount ? 
+            //         this.product.wholesale_price: this.product.retail_price
+            //     return after_iva / (1 + 0.16 * this.product.iva)
+            // } else {
+            //     var after_iva = this.quantity >= this.product.wholesale_quantity ? 
+            //         this.product.wholesale_price: this.product.retail_price
+            //     return after_iva / (1 + 0.16 * this.product.iva)
+            // }
+
+            return price;
         }
     },
-    // created() {
-    //     this.price = this.product.price
-    // },
+    watch: {
+        quantity: function (newVal, oldVal) {
+            if (this.product.is_summable) {
+                this.$root.$emit('update-family-count', [this.product.family, newVal - oldVal])
+            }
+        }
+    }
 };
 </script>

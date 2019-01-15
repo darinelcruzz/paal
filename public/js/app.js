@@ -52768,6 +52768,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['color', 'exchange'],
@@ -52847,7 +52848,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             for (var i = 0; i < this.families.length; i++) {
                 if (this.families[i].name == family) break;
             }
-            this.families[i].quantity = quantity;
+            this.families[i].quantity += quantity;
+        },
+        getFamilyCount: function getFamilyCount(family) {
+            for (var i = 0; i < this.families.length; i++) {
+                if (this.families[i].name == family) break;
+            }
+            return this.families[i].quantity;
         }
     },
     created: function created() {
@@ -52891,6 +52898,7 @@ var render = function() {
                   attrs: {
                     index: index,
                     product: product,
+                    familycount: _vm.getFamilyCount(product.family),
                     exchange: _vm.exchange
                   }
                 })
@@ -53111,14 +53119,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         };
     },
 
-    props: ['product', 'index', 'exchange'],
+    props: ['product', 'index', 'exchange', 'familycount'],
     methods: {
         deleteItem: function deleteItem() {
             this.$root.$emit('delete-item', this.index);
         },
         updateTotal: function updateTotal() {
             this.$root.$emit('update-total', [this.index, this.total, this.computed_iva]);
-            this.$root.$emit('update-family-count', [this.product.family, this.quantity]);
         }
     },
     computed: {
@@ -53133,21 +53140,39 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return this.total * 0.16 * this.product.iva;
         },
         computed_price: function computed_price() {
-            if (this.product.dollars) {
-                return this.product.retail_price * this.exchange;
-            } else if (this.product.is_variable) {
-                return this.product.retail_price / (1 + 0.16 * this.product.iva);
-            } else if (this.product.family == 'SERVICIOS') {
-                return this.product.retail_price;
+            var price;
+
+            if (this.product.is_summable) {
+                price = this.quantity >= this.familycount ? this.product.wholesale_price : this.product.retail_price;
             } else {
-                var after_iva = this.quantity >= this.product.wholesale_quantity ? this.product.wholesale_price : this.product.retail_price;
-                return after_iva / (1 + 0.16 * this.product.iva);
+                price = this.quantity >= this.product.wholesale_quantity ? this.product.wholesale_price : this.product.retail_price;
+            }
+            // if (this.product.dollars) {
+            //     return this.product.retail_price * this.exchange
+            // } else if (this.product.is_variable) {
+            //     return this.product.retail_price / (1 + 0.16 * this.product.iva)
+            // } else if (this.product.family == 'SERVICIOS') {
+            //     return this.product.retail_price
+            // } else if (this.product.is_summable) {
+            //     var after_iva = this.quantity >= this.familycount ? 
+            //         this.product.wholesale_price: this.product.retail_price
+            //     return after_iva / (1 + 0.16 * this.product.iva)
+            // } else {
+            //     var after_iva = this.quantity >= this.product.wholesale_quantity ? 
+            //         this.product.wholesale_price: this.product.retail_price
+            //     return after_iva / (1 + 0.16 * this.product.iva)
+            // }
+
+            return price;
+        }
+    },
+    watch: {
+        quantity: function quantity(newVal, oldVal) {
+            if (this.product.is_summable) {
+                this.$root.$emit('update-family-count', [this.product.family, newVal - oldVal]);
             }
         }
     }
-    // created() {
-    //     this.price = this.product.price
-    // },
 });
 
 /***/ }),
