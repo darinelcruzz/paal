@@ -11,6 +11,8 @@
                     {{ product.description }}
                 </div>
                 <div class="col-md-5 pull-right">
+                    <i v-if="product.iva != 0" class="fas fa-hand-holding-usd"></i> &nbsp;
+                    <i v-if="product.is_summable != 0" class="fas fa-layer-group"></i> &nbsp;
                     <div v-if="product.dollars == 1" class="pull-right">
                         <span style="color: olive">$ {{ (product.retail_price * exchange).toFixed(2) }}</span>
                     </div>

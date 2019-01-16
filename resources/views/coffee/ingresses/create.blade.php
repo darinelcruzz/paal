@@ -22,7 +22,7 @@
                       <tab-content title="Cliente" icon="fa fa-user">
                         <div class="row">
                             <div class="col-md-6">
-                                {!! Field::select('client_id', $clients, null,
+                                {!! Field::select('client_id', $clients, 1,
                                     ['tpl' => 'withicon', 'empty' => 'Seleccione un cliente', 'required' => 'true'],
                                     ['icon' => 'user'])
                                 !!}

@@ -103,8 +103,6 @@
                     })
                 }
 
-                console.log("families: ", this.families);
-
                 this.setTotal()
             },
             deleteRow(index) {
