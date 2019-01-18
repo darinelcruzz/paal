@@ -52,7 +52,7 @@ return [
 
     'logout' => [
         'title' => 'Salir',
-        'icon' => 'fa fa-sign-out',
+        'icon' => 'fa fa-door-open',
         'route' => 'logout'
     ],
 ];

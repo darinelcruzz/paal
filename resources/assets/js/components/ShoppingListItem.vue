@@ -8,8 +8,13 @@
             <input name="items[]" type="hidden" :value="product.id">
         </td>
         <td>
-            {{ price.toFixed(2) }}
-            <input name="prices[]" type="hidden" :value="price.toFixed(2)">
+            <div v-if="product.dollars == 1">
+                <input name="prices[]" type="number" v-model="price" step="0.01" class="form-control input-sm">
+            </div>
+            <div v-else>
+                {{ price.toFixed(2) }}
+                <input name="prices[]" type="hidden" :value="price.toFixed(2)">
+            </div>
         </td>
         <td>
             <div v-if="product.family == 'SERVICIOS'">
@@ -21,7 +26,7 @@
             </div>
         </td>
         <td>
-            <input v-if="apply_discount" name="discounts[]" class="form-control input-sm" type="number" step="0.01" value="0"
+            <input v-if="apply_discount" name="discounts[]" class="form-control input-sm" type="number" step="1" value="0"
                 min="0" v-model.number="discount" @change="updateTotal">
 
             <input v-else name="discounts[]" type="hidden" value="0">
@@ -44,7 +49,7 @@ export default {
         return {
             quantity: 1,
             discount: 0,
-            price: 1
+            price: 0
         };
     },
     props: ['product', 'index', 'exchange', 'familycount'],
@@ -66,54 +71,35 @@ export default {
             } else {
                 price = this.quantity >= this.product.wholesale_quantity ? this.product.wholesale_price: this.product.retail_price
             }
-            
-            if (this.product.dollars) {
-                price *= this.exchange
-            }
 
             return price / (1 + 0.16 * this.product.iva)
         }
     },
     computed: {
     	total() {
-    		return ((this.quantity * this.price) - this.discount)
+    		return ((this.quantity * this.price) - ((this.quantity * this.price) * this.discount / 100))
     	},
     	apply_discount() {
-    		return this.product.is_variable == 1 && this.product.family != 'SERVICIOS' && this.product.dollars != 1;
+    		return this.product.is_variable == 1 && this.product.family != 'SERVICIOS';
     	},
     	computed_iva() {
     		if (this.product.family == 'SERVICIOS') return 0
             return this.total * 0.16 * this.product.iva
     	},
-        // price() {
-        //     var price;
-
-        //     if (this.product.is_summable) {
-        //         price = this.quantity >= this.familycount ? this.product.wholesale_price: this.product.retail_price
-        //     } else {
-        //         price = this.quantity >= this.product.wholesale_quantity ? this.product.wholesale_price: this.product.retail_price
-        //     }
-            
-        //     if (this.product.dollars) {
-        //         price *= this.exchange
-        //     }
-
-        //     return price / (1 + 0.16 * this.product.iva)
-        // }
     },
     watch: {
         quantity: function (newVal, oldVal) {
             if (this.product.is_summable) {
                 this.$root.$emit('update-family-count', [this.product.family, newVal - oldVal])
             }
-            this.price = this.computePrice()
+            this.price = this.product.dollars ? this.price: this.computePrice()
         },
         familycount: function (val) {
-            this.price = this.computePrice()
+            this.price = this.product.dollars ? this.price: this.computePrice()
         }
     },
     created() {
-        this.price = this.computePrice()
+        this.price = this.product.dollars ? 0.0: this.computePrice()
     }
 };
 </script>

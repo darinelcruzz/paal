@@ -3,8 +3,8 @@
 return [
 
     'ingresses' => [
-        'title' => 'Ingresos',
-        'icon' => 'fa fa-money',
+        'title' => 'Ventas',
+        'icon' => 'fa fa-shopping-cart',
         'route' => 'coffee.ingress.index'
     ],
 
@@ -14,9 +14,15 @@ return [
         'route' => 'coffee.egress.index'
     ],
 
+    'clients' => [
+        'title' => 'Clientes',
+        'icon' => 'fa fa-users',
+        'route' => 'coffee.client.index'
+    ],
+
     'logout' => [
         'title' => 'Salir',
-        'icon' => 'fa fa-sign-out',
+        'icon' => 'fa fa-door-open',
         'route' => 'logout'
     ],
 ];

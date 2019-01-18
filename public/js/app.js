@@ -53117,13 +53117,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             quantity: 1,
             discount: 0,
-            price: 1
+            price: 0
         };
     },
 
@@ -53147,19 +53152,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 price = this.quantity >= this.product.wholesale_quantity ? this.product.wholesale_price : this.product.retail_price;
             }
 
-            if (this.product.dollars) {
-                price *= this.exchange;
-            }
-
             return price / (1 + 0.16 * this.product.iva);
         }
     },
     computed: {
         total: function total() {
-            return this.quantity * this.price - this.discount;
+            return this.quantity * this.price - this.quantity * this.price * this.discount / 100;
         },
         apply_discount: function apply_discount() {
-            return this.product.is_variable == 1 && this.product.family != 'SERVICIOS' && this.product.dollars != 1;
+            return this.product.is_variable == 1 && this.product.family != 'SERVICIOS';
         },
         computed_iva: function computed_iva() {
             if (this.product.family == 'SERVICIOS') return 0;
@@ -53171,14 +53172,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (this.product.is_summable) {
                 this.$root.$emit('update-family-count', [this.product.family, newVal - oldVal]);
             }
-            this.price = this.computePrice();
+            this.price = this.product.dollars ? this.price : this.computePrice();
         },
         familycount: function familycount(val) {
-            this.price = this.computePrice();
+            this.price = this.product.dollars ? this.price : this.computePrice();
         }
     },
     created: function created() {
-        this.price = this.computePrice();
+        this.price = this.product.dollars ? 0.0 : this.computePrice();
     }
 });
 
@@ -53210,13 +53211,41 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("td", [
-      _vm._v(
-        "\n            " + _vm._s(_vm.price.toFixed(2)) + "\n            "
-      ),
-      _c("input", {
-        attrs: { name: "prices[]", type: "hidden" },
-        domProps: { value: _vm.price.toFixed(2) }
-      })
+      _vm.product.dollars == 1
+        ? _c("div", [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.price,
+                  expression: "price"
+                }
+              ],
+              staticClass: "form-control input-sm",
+              attrs: { name: "prices[]", type: "number", step: "0.01" },
+              domProps: { value: _vm.price },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.price = $event.target.value
+                }
+              }
+            })
+          ])
+        : _c("div", [
+            _vm._v(
+              "\n                " +
+                _vm._s(_vm.price.toFixed(2)) +
+                "\n                "
+            ),
+            _c("input", {
+              attrs: { name: "prices[]", type: "hidden" },
+              domProps: { value: _vm.price.toFixed(2) }
+            })
+          ])
     ]),
     _vm._v(" "),
     _c("td", [
@@ -53274,7 +53303,7 @@ var render = function() {
             attrs: {
               name: "discounts[]",
               type: "number",
-              step: "0.01",
+              step: "1",
               value: "0",
               min: "0"
             },
