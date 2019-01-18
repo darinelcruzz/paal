@@ -53126,9 +53126,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            quantity: 1,
+            quantity: 0,
             discount: 0,
-            price: 0
+            price: 0,
+            price_in_dollars: 0
         };
     },
 
@@ -53157,6 +53158,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     computed: {
         total: function total() {
+            if (this.product.dollars) {
+                return this.quantity * this.price_in_dollars - this.quantity * this.price_in_dollars * this.discount / 100;
+            }
             return this.quantity * this.price - this.quantity * this.price * this.discount / 100;
         },
         apply_discount: function apply_discount() {
@@ -53172,14 +53176,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (this.product.is_summable) {
                 this.$root.$emit('update-family-count', [this.product.family, newVal - oldVal]);
             }
-            this.price = this.product.dollars ? this.price : this.computePrice();
+            this.price = this.computePrice();
         },
         familycount: function familycount(val) {
-            this.price = this.product.dollars ? this.price : this.computePrice();
+            this.price = this.computePrice();
         }
     },
     created: function created() {
-        this.price = this.product.dollars ? 0.0 : this.computePrice();
+        this.price = this.computePrice();
     }
 });
 
@@ -53218,19 +53222,19 @@ var render = function() {
                 {
                   name: "model",
                   rawName: "v-model",
-                  value: _vm.price,
-                  expression: "price"
+                  value: _vm.price_in_dollars,
+                  expression: "price_in_dollars"
                 }
               ],
               staticClass: "form-control input-sm",
               attrs: { name: "prices[]", type: "number", step: "0.01" },
-              domProps: { value: _vm.price },
+              domProps: { value: _vm.price_in_dollars },
               on: {
                 input: function($event) {
                   if ($event.target.composing) {
                     return
                   }
-                  _vm.price = $event.target.value
+                  _vm.price_in_dollars = $event.target.value
                 }
               }
             })

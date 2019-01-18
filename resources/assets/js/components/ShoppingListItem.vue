@@ -9,7 +9,7 @@
         </td>
         <td>
             <div v-if="product.dollars == 1">
-                <input name="prices[]" type="number" v-model="price" step="0.01" class="form-control input-sm">
+                <input name="prices[]" type="number" v-model="price_in_dollars" step="0.01" class="form-control input-sm">
             </div>
             <div v-else>
                 {{ price.toFixed(2) }}
@@ -47,9 +47,10 @@
 export default {
     data() {
         return {
-            quantity: 1,
+            quantity: 0,
             discount: 0,
-            price: 0
+            price: 0,
+            price_in_dollars: 0
         };
     },
     props: ['product', 'index', 'exchange', 'familycount'],
@@ -77,6 +78,9 @@ export default {
     },
     computed: {
     	total() {
+            if (this.product.dollars) {
+                return ((this.quantity * this.price_in_dollars) - ((this.quantity * this.price_in_dollars) * this.discount / 100))
+            }
     		return ((this.quantity * this.price) - ((this.quantity * this.price) * this.discount / 100))
     	},
     	apply_discount() {
@@ -92,14 +96,14 @@ export default {
             if (this.product.is_summable) {
                 this.$root.$emit('update-family-count', [this.product.family, newVal - oldVal])
             }
-            this.price = this.product.dollars ? this.price: this.computePrice()
+            this.price = this.computePrice()
         },
         familycount: function (val) {
-            this.price = this.product.dollars ? this.price: this.computePrice()
+            this.price = this.computePrice()
         }
     },
     created() {
-        this.price = this.product.dollars ? 0.0: this.computePrice()
+        this.price = this.computePrice()
     }
 };
 </script>
