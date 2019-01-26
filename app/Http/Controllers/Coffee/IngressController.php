@@ -46,7 +46,7 @@ class IngressController extends Controller
 
         $products = [];
 
-        for ($i=0; $i < count($request->items); $i++) { 
+        for ($i=0; $i < count($request->items); $i++) {
             array_push($products, [
                 'i' => $request->items[$i],
                 'q' => $request->quantities[$i],
@@ -81,6 +81,11 @@ class IngressController extends Controller
     function pay(Ingress $ingress)
     {
         return view('coffee.ingresses.pay', compact('ingress'));
+    }
+
+    function ticket(Ingress $ingress)
+    {
+        return view('coffee.ingresses.ticket');
     }
 
     function settle(Request $request)

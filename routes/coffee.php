@@ -1,7 +1,7 @@
 <?php
 
 Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
-	
+
 	Route::get('/', usesas('Coffee\HomeController', 'index'));
 
 	Route::group(['prefix' => 'egresos', 'as' => 'egress.'], function () {
@@ -18,9 +18,10 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	    Route::get('/', usesas($ctrl, 'index'));
 	    Route::get('agregar', usesas($ctrl, 'create'));
 	    Route::post('agregar', usesas($ctrl, 'store'));
-	    Route::get('{ingress}', usesas($ctrl, 'show'));
 	    Route::get('pagar/{ingress}', usesas($ctrl, 'pay'));
 	    Route::post('pagar', usesas($ctrl, 'settle'));
+		Route::get('ticket/{ingress}', usesas($ctrl, 'ticket'));
+		Route::get('{ingress}', usesas($ctrl, 'show'));
 	});
 
 	Route::group(['prefix' => 'clientes', 'as' => 'client.'], function () {
