@@ -22,10 +22,10 @@
                       <tab-content title="Cliente" icon="fa fa-user">
                         <div class="row">
                             <div class="col-md-6">
-                                {!! Field::select('client_id', $clients, 1,
-                                    ['tpl' => 'withicon', 'empty' => 'Seleccione un cliente', 'required' => 'true'],
-                                    ['icon' => 'user'])
-                                !!}
+                                <label><b>Cliente</b></label><br>
+                                <v-select label="name" :options="{{ $clients }}" v-model="client" placeholder="Seleccione un cliente...">
+                                </v-select>
+                                <input type="hidden" name="client_id" :value="client.id">
                             </div>
                             <div class="col-md-6">
                                 {!! Field::select('is_retained', ['Sí', 'No'], 1,
@@ -42,99 +42,41 @@
                        </tab-content>
 
                        <tab-content title="Pago" icon="fa fa-dollar">
-                           <template v-if="is_retained == 0">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        {!! Field::select('methodA', ['Efectivo', 'T. Débito', 'T. Crédito', 'Cheque', 'Transferencia'], null,
-                                            ['tpl' => 'withicon', 'empty' => 'Seleccione un método', 'v-model.number' => 'payment_method','required' => 'true'],
-                                            ['icon' => 'credit-card'])
-                                        !!}
-                                    </div>
-                                    <div class="col-md-6">
-                                        {!! Field::number('retainer', ['tpl' => 'withicon', 'step' => '0.01', 'v-model.number' => 'retainer'], ['icon' => 'usd']) !!}
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="control-group">
+                                        <label>Total a pagar:</label>
+                                        <span class="form-control" style="color: green;">
+                                            <b>@{{ ingress_total.toFixed(2) }}</b>
+                                        </span>
                                     </div>
                                 </div>
-
-                                <div v-if="payment_method > 0">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            {!! Field::text('referenceA', ['tpl' => 'withicon', 'ph' => 'XXX-XXXX-XXXX', 'required' => 'true'], ['icon' => 'registered']) !!}
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>&nbsp;</label>
-                                                <button type="submit" class="form-control btn btn-success btn-xs">
-                                                    <i class="fa fa-plus-square"></i>&nbsp; A G R E G A R
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="col-md-6">
+                                    {!! Field::number('cash', 0, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0'], ['icon' => 'usd']) !!}
                                 </div>
-
-                                <div v-else>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            {!! Field::number('received', ['tpl' => 'withicon', 'v-model.number' => 'amount_received', 'required' => 'true'], ['icon' => 'money']) !!}
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>Cambio</label>
-                                                <span class="form-control" style="color: green">@{{ (amount_received - retainer).toFixed(2) }}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6"></div><div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>&nbsp;</label>
-                                                <button type="submit" class="form-control btn btn-success btn-xs">
-                                                    <i class="fa fa-plus-square"></i>&nbsp; A G R E G A R
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    {!! Field::number('debit_card', 0, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0'], ['icon' => 'usd']) !!}
+                                    {!! Field::number('transfer', 0, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0'], ['icon' => 'usd']) !!}
                                 </div>
-                            </template>
-
-                            <template v-else>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        {!! Field::select('method', ['Efectivo', 'T. Débito', 'T. Crédito', 'Cheque', 'Transferencia', 'Crédito'], null,
-                                            ['tpl' => 'withicon', 'empty' => 'Seleccione un método', 'v-model.number' => 'payment_method','required' => 'true'],
-                                            ['icon' => 'credit-card'])
-                                        !!}
-                                    </div>
-                                    <div v-if="payment_method < 5 && payment_method > 0" class="col-md-6">
-                                        {!! Field::text('reference', ['tpl' => 'withicon', 'ph' => 'XXX-XXXX-XXXX', 'required' => 'true'], ['icon' => 'registered']) !!}
-                                    </div>
-                                    <div v-if="payment_method == 0" class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Total</label>
-                                            <span class="form-control">@{{ (ingress_total).toFixed(2) }}</span>
-                                        </div>
-                                    </div>
+                                <div class="col-md-6">
+                                    {!! Field::number('credit_card', 0, ['tpl' => 'withicon', 'step' => '0.01'], ['icon' => 'usd']) !!}
+                                    {!! Field::number('check', 0, ['tpl' => 'withicon', 'step' => '0.01'], ['icon' => 'usd']) !!}
                                 </div>
+                            </div>
 
-                                <div v-if="payment_method == 0">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            {!! Field::number('received', ['tpl' => 'withicon', 'v-model.number' => 'amount_received', 'required' => 'true'], ['icon' => 'money']) !!}
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>Cambio</label>
-                                                <span class="form-control" style="color: green">@{{ (amount_received - ingress_total).toFixed(2) }}</span>
-                                            </div>
-                                        </div>                                                                          
-                                    </div>
+                            <div class="row">
+                                <div class="col-md-6 col-md-offset-3">
+                                    {!! Field::text('reference', ['tpl' => 'withicon'], ['icon' => 'barcode']) !!}
                                 </div>
-                            </template>
-                            <hr>
+                            </div>
+
                        </tab-content>
 
                     </form-wizard>
 
+                    <input type="hidden" name="type" :value="is_retained == 0 ? 'anticipo': 'contado'">
                     <input type="hidden" name="bought_at" value="{{ date('Y-m-d') }}">
                     <input type="hidden" name="company" value="coffee">
 

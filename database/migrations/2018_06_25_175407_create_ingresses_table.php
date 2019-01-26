@@ -21,10 +21,6 @@ class CreateIngressesTable extends Migration
             $table->double('amount');
             $table->double('retainer')->default(0);
             $table->double('iva');
-            $table->integer('methodA')->default(0);
-            $table->integer('method')->default(0);
-            $table->string('referenceA')->nullable();
-            $table->string('reference')->nullable();
 
             $table->timestamps();
         });

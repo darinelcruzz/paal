@@ -180,5 +180,10 @@ return [
         'is_retained' => 'anticipo',
         'retainer' => 'anticipo',
         'options' => 'opciones',
+        'cash' => 'efectivo',
+        'check' => 'cheque',
+        'transfer' => 'transferencia',
+        'credit_card' => 'tarjeta de crédito',
+        'debit_card' => 'tarjeta de débito',
     ],
 ];

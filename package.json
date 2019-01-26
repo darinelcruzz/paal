@@ -21,6 +21,6 @@
     },
     "dependencies": {
         "vue-form-wizard": "^0.8.4",
-        "vue-select": "^2.4.0"
+        "vue-select": "^2.5.1"
     }
 }
