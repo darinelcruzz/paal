@@ -9,6 +9,11 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+// import Vue from 'vue'
+// import vSelect from './components/Select.vue'
+
+// Vue.component('v-select', vSelect)
+
 Vue.component('v-select', VueSelect.VueSelect);
 
 //global registration
@@ -59,6 +64,7 @@ const Bus = new Vue({});
 const app = new Vue({
     el: '#app',
     data: {
+        client: '',
     	pmethod: '',
     	complement: null,
         payment_method: 0,

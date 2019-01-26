@@ -8,7 +8,7 @@ class Ingress extends Model
 {
     protected $fillable = [
     	'client_id', 'bought_at', 'products', 'company', 'amount', 'retained_at', 'retainer',
-    	'status', 'iva', 'paid_at', 'method', 'reference', 'methodA', 'referenceA'
+    	'status', 'iva', 'paid_at'
     ];
 
     function client()
@@ -16,19 +16,24 @@ class Ingress extends Model
     	return $this->belongsTo(Client::class);
     }
 
-    function getRetainerMethodAttribute()
+    function payments()
     {
-        $methods = ['Efectivo', 'T. Débito', 'T. Crédito', 'Cheque', 'Transferencia'];
-                    
-        return $methods[$this->methodA];
+        return $this->hasMany(Payment::class);
     }
 
-    function getPayFormAttribute()
-    {
-        $methods = ['Efectivo', 'T. Débito', 'T. Crédito', 'Cheque', 'Transferencia', 'Crédito'];
+    // function getRetainerMethodAttribute()
+    // {
+    //     $methods = ['Efectivo', 'T. Débito', 'T. Crédito', 'Cheque', 'Transferencia'];
                     
-        return $methods[$this->method];
-    }
+    //     return $methods[$this->methodA];
+    // }
+
+    // function getPayFormAttribute()
+    // {
+    //     $methods = ['Efectivo', 'T. Débito', 'T. Crédito', 'Cheque', 'Transferencia', 'Crédito'];
+                    
+    //     return $methods[$this->method];
+    // }
 
     function getDebtAttribute()
     {

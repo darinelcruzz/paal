@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Coffee;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
-use App\{Ingress, Product, Client};
+use App\{Ingress, Product, Client, Payment};
 
 class IngressController extends Controller
 {
@@ -19,30 +19,33 @@ class IngressController extends Controller
 
     function create()
     {
-        $clients = Client::where('company', '!=', 'mbe')->pluck('name', 'id')->toArray();
+        $clients = Client::where('company', '!=', 'mbe')->get(['id', 'name'])->toJson();
+        // dd($clients);
         $products = Product::all();
         return view('coffee.ingresses.create', compact('clients', 'products'));
     }
 
     function store(Request $request)
     {
-        // dd($request->all());
         $validated = $this->validate($request, [
             'client_id' => 'required',
             'amount' => 'required',
             'iva' => 'required',
-            'bought_at' => 'required',
             'company' => 'required',
-            'method' => 'required',
-            'items' => 'required|array|min:1',
-            'method' => 'sometimes|required',
-            'reference' => 'sometimes|required',
-            'methodA' => 'sometimes|required',
-            'referenceA' => 'sometimes|required',
-            'retainer' => 'sometimes|required',
+            'bought_at' => 'required',
         ]);
 
-        $ingress = Ingress::create($validated);
+        $total = $request->cash + $request->transfer + $request->check
+            + $request->debit_card + $request->credit_card;
+
+        $ingress = Ingress::create([
+            'client_id' => $request->client_id,
+            'amount' => $request->amount,
+            'iva' => $request->iva,
+            'company' => $request->company,
+            'bought_at' => $request->bought_at,
+            'retainer' => $request->type == 'anticipo' ? $total: 0,
+        ]);
 
         $products = [];
 
@@ -56,7 +59,7 @@ class IngressController extends Controller
             ]);
         }
 
-        if (isset($request->methodA)) {
+        if ($request->type == 'anticipo') {
             $ingress->update([
                 'products' => serialize($products),
                 'retained_at' => date('Y-m-d'),
@@ -66,9 +69,21 @@ class IngressController extends Controller
             $ingress->update([
                 'products' => serialize($products),
                 'paid_at' => date('Y-m-d'),
-                'status' => $request->method == 5 ? 'crédito' :'pagado'
+                // 'status' => $request->method == 5 ? 'crédito' :'pendiente'
+                'status' => 'pagado'
             ]);
         }
+
+        $payment = Payment::create([
+            'ingress_id' => $ingress->id,
+            'type' => $request->type,
+            'cash' => $request->cash,
+            'transfer' => $request->transfer,
+            'check' => $request->check,
+            'debit_card' => $request->debit_card,
+            'credit_card' => $request->credit_card,
+            'reference' => $request->reference,
+        ]);
 
         return redirect(route('coffee.ingress.index'));
     }
