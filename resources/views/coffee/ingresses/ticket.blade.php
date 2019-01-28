@@ -1,7 +1,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Holi</title>
+    <title>Ticket Coffee</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="{{ asset('/img/coffee.ico') }}" />
@@ -40,21 +40,20 @@
             </div>
             <div class="row">
                 <h5 style="font-family: 'Oswald', sans-serif;" align="center">
-                    <b>SUCURSAL TGZ <br>
+                    <big><b>SUCURSAL TGZ</b></big><br>
                     Blvd Angel Albino Corzo #955<br>
                     Loc A y B COl. Las Palmas CP 29040 <br>
                     <i class="fas fa-phone"></i> 01 (961) 121 57 04 - <i class="fab fa-whatsapp"></i> 961 330 65 28 <br>
-                    <i class="fas fa-envelope"></i> tuxtla@coffeedepot.com.mx - <i class="fab fa-facebook"></i> Coffee Depot TGZ <br>
+                    <i class="fas fa-envelope"></i> tuxtla@coffeedepot.com.mx - <i class="fab fa-facebook"></i> Coffee Depot TGZ
                 </h5>
             </div>
-            {{-- <div>
-                <big><b>LIBERADO</b></big>
+            <div style="font-family: 'Oswald', sans-serif;" align="center">
                 <span class="pull-right">
-                    <big><b>FOLIO: {{ $service->folio }}</b></big>
+                    <big><b>FOLIO: </b> <b>Fecha: </b>25/Ene/19</big>
                 </span>
             </div>
 
-            <h5 align="right">
+            {{-- <h5 align="right">
                 {{ fdate($service->date_out, 'd \d\e F \d\e\l Y') }} <br><br>
             </h5>
 
