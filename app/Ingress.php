@@ -21,41 +21,22 @@ class Ingress extends Model
         return $this->hasMany(Payment::class);
     }
 
-    // function getRetainerMethodAttribute()
-    // {
-    //     $methods = ['Efectivo', 'T. Débito', 'T. Crédito', 'Cheque', 'Transferencia'];
-                    
-    //     return $methods[$this->methodA];
-    // }
-
-    // function getPayFormAttribute()
-    // {
-    //     $methods = ['Efectivo', 'T. Débito', 'T. Crédito', 'Cheque', 'Transferencia', 'Crédito'];
-                    
-    //     return $methods[$this->method];
-    // }
-
     function getDebtAttribute()
     {
-        return $this->amount - $this->retainer;
+        $payments_total = 0;
+
+        foreach ($this->payments as $payment) {
+            $payments_total += $payment->cash + $payment->transfer + $payment->check + $payment->debit_card + $payment->credit_card;
+        }
+
+        return $this->amount - $payments_total;
     }
 
     function getStatusColorAttribute()
     {
-        switch ($this->status) {
-            case 'pendiente':
-                return 'warning';
-                break;
-            case 'vencido':
-                return 'danger';
-                break;
-            case 'crédito':
-                return 'default';
-                break;
-            default:
-                return 'success';
-                break;
-        }
+        $classes = ['pendiente' => 'warning', 'vencido' => 'danger', 'crédito' => 'default', 'pagado' => 'success'];
+
+        return $classes[$this->status];
     }
 
     function storeProducts($request)

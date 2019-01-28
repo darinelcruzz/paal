@@ -20,7 +20,6 @@ class IngressController extends Controller
     function create()
     {
         $clients = Client::where('company', '!=', 'mbe')->get(['id', 'name'])->toJson();
-        // dd($clients);
         $products = Product::all();
         return view('coffee.ingresses.create', compact('clients', 'products'));
     }
@@ -93,9 +92,9 @@ class IngressController extends Controller
         return view('coffee.ingresses.show', compact('ingress'));
     }
 
-    function pay(Ingress $ingress)
+    function charge(Ingress $ingress)
     {
-        return view('coffee.ingresses.pay', compact('ingress'));
+        return view('coffee.ingresses.charge', compact('ingress'));
     }
 
     function ticket(Ingress $ingress)
@@ -103,28 +102,26 @@ class IngressController extends Controller
         return view('coffee.ingresses.ticket');
     }
 
-    function settle(Request $request)
+    function pay(Request $request, Ingress $ingress)
     {
         $this->validate($request, [
-            'pdf_payment' => 'required',
-            'payment_date' => 'required',
-            'method' => 'required',
-            'mfolio' => 'sometimes|required',
+            'cash' => 'required',
+            'transfer' => 'required',
+            'check' => 'required',
+            'debit_card' => 'required',
+            'credit_card' => 'required',
+            'type' => 'required'
         ]);
 
-        $ingress = Ingress::find($request->id);
+        $payment = Payment::create($request->all());
 
-        $path_to_pdf = Storage::putFileAs(
-            "public/coffee/payments", $request->file("pdf_payment"), $ingress->payment_date . "_" . $ingress->id . ".pdf"
-        );
+        if ($payment->type == 'liquidación' || $ingress->debt == 0) {
+            $ingress->update([
+                'status' => 'pagado',
+                'paid_at' => date('Y-m-d')
+            ]);
+        }
 
-        $ingress->update($request->only(['payment_date', 'method', 'mfolio']));
-
-        $ingress->update([
-            'pdf_payment' => $path_to_pdf,
-            'status' => 'pagado',
-        ]);
-
-        return redirect(route('coffee.ingress.index'));
+        return view('coffee.ingresses.show', compact('ingress'));
     }
 }

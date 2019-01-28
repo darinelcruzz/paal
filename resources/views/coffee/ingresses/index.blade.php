@@ -10,12 +10,12 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-8 col-md-offset-2">
             <solid-box title="Coffee" color="danger" button>
 
                 <data-table example="1">
 
-                    {{ drawHeader('ID', '<i class="fa fa-cogs"></i>','fecha venta', 'cliente', 'IVA', 'total', 'método', 'estado') }}
+                    {{ drawHeader('ID', '<i class="fa fa-cogs"></i>','fecha venta', 'cliente', 'IVA', 'total', 'estado') }}
 
                     <template slot="body">
                         @foreach($ingresses as $ingress)
@@ -23,15 +23,15 @@
                                 <td>{{ $ingress->id }}</td>
                                 <td>
                                     <dropdown icon="cogs" color="danger">
-                                        <ddi v-if="{{ $ingress->status == 'pagado' ? 0: 1 }}" to="{{ route('paal.ingress.charge', $ingress) }}" icon="money" text="Pagar"></ddi>
+                                        <ddi v-if="{{ $ingress->status == 'pagado' ? 0: 1 }}" to="{{ route('coffee.ingress.charge', $ingress) }}" icon="money" text="Pagar"></ddi>
                                         <ddi to="{{ route('coffee.ingress.show', $ingress) }}" icon="eye" text="Detalles"></ddi>
+                                        <ddi to="{{ route('coffee.ingress.ticket', $ingress) }}" icon="print" text="Imprimir"></ddi>
                                     </dropdown>
                                 </td>
                                 <td>{{ fdate($ingress->bought_at, 'd M Y', 'Y-m-d') }}</td>
                                 <td>{{ $ingress->client->name }}</td>
                                 <td>$ {{ number_format($ingress->iva, 2) }}</td>
                                 <td>$ {{ number_format($ingress->amount, 2) }}</td>
-                                <td>{{ $ingress->status == 'pendiente' ? $ingress->retainer_method: $ingress->pay_form }} <br> {{ $ingress->operation_number }}</td>
                                 <td>
                                     <span class="label label-{{ $ingress->statusColor }}">
                                         {{ ucfirst($ingress->status) }}

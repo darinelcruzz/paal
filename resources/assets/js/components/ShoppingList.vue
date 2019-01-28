@@ -93,13 +93,13 @@
                     } else {
                        this.families.push({
                             name: product.family,
-                            quantity: 1
+                            quantity: 0
                         }) 
                     }
                 } else {
                     this.families.push({
                         name: product.family,
-                        quantity: 1
+                        quantity: 0
                     })
                 }
 
@@ -120,6 +120,8 @@
                 this.subtotals[index].iva = iva
                 this.total = this.subtotals.reduce((total, subtotal) => total + subtotal.amount, 0)
                 this.iva = this.subtotals.reduce((total, subtotal) => total + subtotal.iva, 0)
+
+                this.$root.$emit('set-total', this.total + this.iva)
             },
             updateFamilyCount(family, quantity) {
                 for (var i = 0; i < this.families.length; i++) {
