@@ -21,16 +21,28 @@
 
                       <tab-content title="Cliente" icon="fa fa-user">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-6 col-md-offset-3">
                                 <label><b>Cliente</b></label><br>
                                 <v-select label="name" :options="{{ $clients }}" v-model="client" placeholder="Seleccione un cliente...">
                                 </v-select>
                                 <input type="hidden" name="client_id" :value="client.id">
                             </div>
-                            <div class="col-md-6">
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-6 col-md-offset-3">
                                 {!! Field::select('is_retained', ['Sí', 'No'], 1,
                                     ['tpl' => 'withicon', 'empty' => '¿Se deja anticipo?', 'v-model.number' => 'is_retained','required' => 'true'],
                                     ['icon' => 'question'])
+                                !!}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 col-md-offset-3">
+                                {!! Field::select('invoice', ['no' => 'No require factura', 'G01' => 'G01 Adquisición de mercancías', 'G03' => 'G03 Gastos en general', 'P01' => 'P01 Por definir', 'otro' => 'Otro'], 'no',
+                                    ['label' => 'Uso de CFDI', 'tpl' => 'withicon', 'empty' => 'Elegir'],
+                                    ['icon' => 'file-invoice'])
                                 !!}
                             </div>
                         </div>
@@ -50,6 +62,7 @@
                     <input type="hidden" name="type" :value="is_retained == 0 ? 'anticipo': 'contado'">
                     <input type="hidden" name="bought_at" value="{{ date('Y-m-d') }}">
                     <input type="hidden" name="company" value="coffee">
+                    <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
 
                 {!! Form::close() !!}
             </solid-box>

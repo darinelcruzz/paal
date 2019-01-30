@@ -8,7 +8,7 @@ class Ingress extends Model
 {
     protected $fillable = [
     	'client_id', 'bought_at', 'products', 'company', 'amount', 'retained_at', 'retainer',
-    	'status', 'iva', 'paid_at'
+    	'status', 'iva', 'paid_at', 'user_id', 'invoice'
     ];
 
     function client()
@@ -37,6 +37,13 @@ class Ingress extends Model
         $classes = ['pendiente' => 'warning', 'vencido' => 'danger', 'crédito' => 'default', 'pagado' => 'success'];
 
         return $classes[$this->status];
+    }
+
+    function getCfdiAttribute()
+    {
+        $descriptions = ['G01' => 'G01 Adquisición de mercancías', 'G03' => 'G03 Gastos en general', 'P01' => 'P01 Por definir'];
+
+        return $descriptions[$this->invoice];
     }
 
     function storeProducts($request)

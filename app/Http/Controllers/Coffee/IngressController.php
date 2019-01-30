@@ -29,6 +29,7 @@ class IngressController extends Controller
         $validated = $this->validate($request, [
             'client_id' => 'required',
             'amount' => 'required',
+            'invoice' => 'required',
             'iva' => 'required',
             'company' => 'required',
             'bought_at' => 'required',
@@ -39,6 +40,8 @@ class IngressController extends Controller
 
         $ingress = Ingress::create([
             'client_id' => $request->client_id,
+            'user_id' => $request->user_id,
+            'invoice' => $request->invoice,
             'amount' => $request->amount,
             'iva' => $request->iva,
             'company' => $request->company,

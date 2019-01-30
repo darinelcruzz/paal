@@ -44,22 +44,30 @@
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <p>
-                <big><b>SUCURSAL TGZ</b></big><br>
+                <big><b>SUCURSAL CHS</b></big><br>
                 Blvd Angel Albino Corzo #955<br>
                 Loc A y B COl. Las Palmas CP 29040 <br>
-                <i class="fas fa-phone"></i> 01 (961) 121 57 04 - <i class="fab fa-whatsapp"></i> 961 330 65 28 <br>
-                <i class="fas fa-envelope"></i> tuxtla@coffeedepot.com.mx - <i class="fab fa-facebook"></i> Coffee Depot TGZ
+                <i class="fas fa-phone"></i> 01 (961) 121 34 04 - <i class="fab fa-whatsapp"></i> 961 330 65 28 <br>
+                <i class="fas fa-envelope"></i> ventas@coffeedepotchiapas.com.mx <br>
+                <i class="fab fa-facebook"></i> Coffee Depot TGZ
             </p>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <p>
-                {{ strtoupper($ingress->client->name) }}
-            </p>
+        <div class="col-md-12">
+            <span class="pull-left">{{ strtoupper($ingress->client->name) }}</span> 
+            @if ($ingress->invoice == 'otro')
+                <span class="pull-right">Otro:__________________________</span>
+            @elseif($ingress->invoice != 'no')
+                <span class="pull-right">{{ $ingress->cfdi }}</span>
+            @else
+                <span class="pull-right">S/F</span>
+            @endif
         </div>
     </div>
+
+    <br>
 
     <div class="row">
         <div class="col-md-12">
@@ -84,24 +92,34 @@
                 </thead>
 
                 <tbody>
+                    @php
+                        $subtotal = $discounts = 0 
+                    @endphp
                     @foreach (unserialize($ingress->products) as $product)
                         <tr>
                             <td style="text-align: center;">{{ $product['q'] }}</td>
-                            <td>{{ App\Product::find($product['i'])->description }}</td>
+                            <td>{{ App\Product::find($product['i'])->description }}{{ $product['d'] != 0 ? '*': ''}}</td>
                             <td style="text-align: right">$ {{ number_format($product['p'], 2) }}</td>
                             <td style="text-align: right">$ {{ number_format($product['t'], 2) }}</td>
                         </tr>
-                        @if ($product['d'] != 0)
-                            <tr>
-                                <td colspan="4" style="text-align: right">
-                                    - $ {{ number_format($product['d'], 2) }}</td>
-                                </td>
-                            </tr>
-                        @endif
+                        @php
+                            $subtotal += $product['t'];
+                            $discounts += $product['d'] == 0 ? 0: 1;
+                        @endphp
                     @endforeach
                 </tbody>
 
                 <tfoot>
+                    @if ($ingress->iva > 0)
+                        <tr>
+                            <th colspan="3" style="text-align: right">Subtotal</th>
+                            <td style="text-align: right">$ {{ number_format($subtotal, 2) }}</td>
+                        </tr>
+                        <tr>
+                            <th colspan="3" style="text-align: right">I.V.A.</th>
+                            <td style="text-align: right">$ {{ number_format($ingress->iva, 2) }}</td>
+                        </tr>
+                    @endif
                     <tr>
                         <th colspan="3" style="text-align: right">Total</th>
                         <td style="text-align: right">$ {{ number_format($ingress->amount, 2) }}</td>
@@ -124,6 +142,16 @@
                     <th>CHEQUE &nbsp; &nbsp; {!! $payment->check > 0 ? '<i class="far fa-check-square"></i>': '<i class="far fa-square"></i>' !!}</th>
                 </thead>
             </table>
+        </div>
+    </div>
+
+    <br><br>
+
+    <div class="row">
+        <div class="col-md-12">
+            <small>
+                {!! $discounts > 0 ? '* se aplicó descuento<br>': '' !!}
+            </small>
         </div>
     </div>
 

@@ -25,7 +25,11 @@
                                     <dropdown icon="cogs" color="danger">
                                         <ddi v-if="{{ $ingress->status == 'pagado' ? 0: 1 }}" to="{{ route('coffee.ingress.charge', $ingress) }}" icon="money" text="Pagar"></ddi>
                                         <ddi to="{{ route('coffee.ingress.show', $ingress) }}" icon="eye" text="Detalles"></ddi>
-                                        <ddi to="{{ route('coffee.ingress.ticket', $ingress) }}" icon="print" text="Imprimir"></ddi>
+                                        <li>
+                                            <a href="{{ route('coffee.ingress.ticket', $ingress) }}" target="_blank">
+                                                <i class="fa fa-print" aria-hidden="true"></i> Imprimir
+                                            </a>
+                                        </li>
                                     </dropdown>
                                 </td>
                                 <td>{{ fdate($ingress->bought_at, 'd M Y', 'Y-m-d') }}</td>
