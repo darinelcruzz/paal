@@ -73,12 +73,11 @@
 			addRow(product) {
                 this.inputs.push(product)
                 this.subtotals.push({
-                    amount: product.price * 1,
-                    iva: product.family == 'SERVICIOS' ? 0: product.price * 0.16 * product.iva
+                    amount: 0,
+                    iva: 0
                 })
 
                 if (this.families.length > 0) {
-                    // this.families[product.family] += 1
                     var has_family = false
 
                     for (var i = 0; i < this.families.length; i++) {
@@ -89,7 +88,7 @@
                     }
 
                     if (has_family) {
-                        this.families[i].quantity += 1
+                        this.families[i].quantity += 0
                     } else {
                        this.families.push({
                             name: product.family,
@@ -105,7 +104,7 @@
 
                 this.setTotal()
             },
-            deleteRow(index) {
+            deleteRow(index, family) {
                 this.inputs.splice(index, 1)
                 this.subtotals.splice(index, 1)
                 this.setTotal()
@@ -140,8 +139,8 @@
             this.$root.$on('add-element', (product) => {
                 this.addRow(product)
             })
-            this.$root.$on('delete-item', (index) => {
-                this.deleteRow(index)
+            this.$root.$on('delete-item', (data) => {
+                this.deleteRow(data[0], data[1])
             })
             this.$root.$on('update-total', (data) => {
                 this.updateTotal(data[0], data[1], data[2])

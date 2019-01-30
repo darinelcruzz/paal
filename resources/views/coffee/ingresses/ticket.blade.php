@@ -1,72 +1,134 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Ticket Coffee</title>
+    <title>Ventas | Comprobante</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="{{ asset('/img/coffee.ico') }}" />
+
+    <!-- Bootstrap 3.3.7 -->  
+    <link rel="stylesheet" href="{{ asset('adminlte/bower_components/bootstrap/dist/css/bootstrap-print.css') }}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ asset('adminlte/bower_components/font-awesome/css/font-awesome.min.css') }}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{{ asset('adminlte/dist/css/AdminLTE.css') }}">
+    <!-- AdminLTE skins -->
+    <link rel="stylesheet" href="{{ asset('adminlte/dist/css/skins/_all-skins.min.css') }}">
+
     <link href="{{ asset('/css/all.css') }}" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('/plugins/iCheck/all.css') }}">
-    <link rel="stylesheet" href="{{ asset('/plugins/select2.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('/plugins/dataTables.bootstrap.css') }}">
 
     <style>
-        p {
+        /*p {
             text-align:justify;
             text-indent:50px;
             font-family: 'Oswald', sans-serif;
-        },
+        },*/
         body {
             text-align:center;
-            text-indent:50px;
+            /*font-size: 11px;*/
             font-family: 'Oswald', sans-serif;
         },
-        td {
-            height: 10px;
-        }
     </style>
 </head>
 
 <body onload="window.print();">
-<div class="wrapper">
-    <section class="invoice">
-        <div class="wrapper">
-            <div class="row">
-                <center>
-                    <img width="300px" src="{{ asset('/img/coffee mono.png') }}">
-                </center>
-            </div>
-            <div class="row">
-                <h5 style="font-family: 'Oswald', sans-serif;" align="center">
-                    <big><b>SUCURSAL TGZ</b></big><br>
-                    Blvd Angel Albino Corzo #955<br>
-                    Loc A y B COl. Las Palmas CP 29040 <br>
-                    <i class="fas fa-phone"></i> 01 (961) 121 57 04 - <i class="fab fa-whatsapp"></i> 961 330 65 28 <br>
-                    <i class="fas fa-envelope"></i> tuxtla@coffeedepot.com.mx - <i class="fab fa-facebook"></i> Coffee Depot TGZ
-                </h5>
-            </div>
-            <div style="font-family: 'Oswald', sans-serif;" align="center">
-                <span class="pull-right">
-                    <big><b>FOLIO: </b> <b>Fecha: </b>25/Ene/19</big>
-                </span>
-            </div>
 
-            {{-- <h5 align="right">
-                {{ fdate($service->date_out, 'd \d\e F \d\e\l Y') }} <br><br>
-            </h5>
-
-            <h5 align="left">
-                <b>GRUAS MAPER HACE ENTREGA DEL VEHICULO:</b><br>
-            </h5>
-
-            <h5><b>MARCA: </b>{{ $service->brand }} <span class="pull-right"><b>TIPO: </b>{{ $service->type }}</span></h5>
-            <h5><b>MODELO: </b>{{ $service->model }} <span class="pull-right"><b>PLACAS: </b>{{ $service->plate }}</span></h5>
-            <h5><b>COLOR: </b>{{ $service->color }}</h5>
-            <h5><b>AL SR. (A): </b>{{ $service->releaser }}</h5> --}}
+    <div class="row">
+        <div class="col-xs-10 col-xs-offset-1">
+            <img width="300px" src="{{ asset('/img/coffee mono.png') }}">
         </div>
-    </section>
-</div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <p>
+                <big><b>SUCURSAL TGZ</b></big><br>
+                Blvd Angel Albino Corzo #955<br>
+                Loc A y B COl. Las Palmas CP 29040 <br>
+                <i class="fas fa-phone"></i> 01 (961) 121 57 04 - <i class="fab fa-whatsapp"></i> 961 330 65 28 <br>
+                <i class="fas fa-envelope"></i> tuxtla@coffeedepot.com.mx - <i class="fab fa-facebook"></i> Coffee Depot TGZ
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <p>
+                {{ strtoupper($ingress->client->name) }}
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <span class="pull-left"><b>Folio: </b> {{ substr("000{$ingress->id}", -3) }}</span> 
+            <span class="pull-right">{{ fdate($ingress->created_at, 'd/m/Y h:i a') }}</span>
+        </div>
+    </div>
+
+    <br><br>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <table align="center">
+                <thead>
+                    <tr>
+                        <th>CANT</th>
+                        <th style="width: 55%">DESCRIPCIÓN</th>
+                        <th>UNITARIO</th>
+                        <th>TOTAL</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (unserialize($ingress->products) as $product)
+                        <tr>
+                            <td style="text-align: center;">{{ $product['q'] }}</td>
+                            <td>{{ App\Product::find($product['i'])->description }}</td>
+                            <td style="text-align: right">$ {{ number_format($product['p'], 2) }}</td>
+                            <td style="text-align: right">$ {{ number_format($product['t'], 2) }}</td>
+                        </tr>
+                        @if ($product['d'] != 0)
+                            <tr>
+                                <td colspan="4" style="text-align: right">
+                                    - $ {{ number_format($product['d'], 2) }}</td>
+                                </td>
+                            </tr>
+                        @endif
+                    @endforeach
+                </tbody>
+
+                <tfoot>
+                    <tr>
+                        <th colspan="3" style="text-align: right">Total</th>
+                        <td style="text-align: right">$ {{ number_format($ingress->amount, 2) }}</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+    <br>
+    
+    <div class="row">
+        <div class="col-md-12">
+            <table>
+                <thead>
+                    <th>EFECTIVO {!! $payment->cash > 0 ? '<i class="far fa-check-square"></i>': '<i class="far fa-square"></i>' !!}</th>
+                    <th>TRANSFERENCIA {!! $payment->transfer > 0 ? '<i class="far fa-check-square"></i>': '<i class="far fa-square"></i>' !!}</th>
+                    <th>T.C. {!! $payment->credit_card > 0 ? '<i class="far fa-check-square"></i>': '<i class="far fa-square"></i>' !!}</th>
+                    <th>T.D. {!! $payment->debit_card > 0 ? '<i class="far fa-check-square"></i>': '<i class="far fa-square"></i>' !!}</th>
+                    <th>CHEQUE &nbsp; &nbsp; {!! $payment->check > 0 ? '<i class="far fa-check-square"></i>': '<i class="far fa-square"></i>' !!}</th>
+                </thead>
+            </table>
+        </div>
+    </div>
+
+    <br>
+    =============================================================================
+        
 </body>
 </html>

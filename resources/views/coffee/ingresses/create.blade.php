@@ -42,36 +42,7 @@
                        </tab-content>
 
                        <tab-content title="Pago" icon="fa fa-dollar">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="control-group">
-                                        <label>Total a pagar:</label>
-                                        <span class="form-control" style="color: green;">
-                                            <b>@{{ ingress_total.toFixed(2) }}</b>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    {!! Field::number('cash', 0, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0'], ['icon' => 'usd']) !!}
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    {!! Field::number('debit_card', 0, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0'], ['icon' => 'usd']) !!}
-                                    {!! Field::number('transfer', 0, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0'], ['icon' => 'usd']) !!}
-                                </div>
-                                <div class="col-md-6">
-                                    {!! Field::number('credit_card', 0, ['tpl' => 'withicon', 'step' => '0.01'], ['icon' => 'usd']) !!}
-                                    {!! Field::number('check', 0, ['tpl' => 'withicon', 'step' => '0.01'], ['icon' => 'usd']) !!}
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6 col-md-offset-3">
-                                    {!! Field::text('reference', ['tpl' => 'withicon'], ['icon' => 'barcode']) !!}
-                                </div>
-                            </div>
-
+                            <payment-methods :amount="ingress_total"></payment-methods>
                        </tab-content>
 
                     </form-wizard>

@@ -58,6 +58,7 @@ Vue.component('p-table', require('./components/ProductsTable.vue'));
 Vue.component('p-row', require('./components/ProductRow.vue'));
 Vue.component('shopping-list', require('./components/ShoppingList.vue'));
 Vue.component('shopping-list-item', require('./components/ShoppingListItem.vue'));
+Vue.component('payment-methods', require('./components/PaymentMethods.vue'));
 
 const Bus = new Vue({});
 

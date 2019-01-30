@@ -56,9 +56,9 @@ export default {
     props: ['product', 'index', 'exchange', 'familycount'],
     methods: {
         deleteItem() {
-            this.$root.$emit('delete-item', this.index)
+            this.$root.$emit('delete-item', [this.index, this.product.family])
             if (this.product.is_summable) {
-                this.$root.$emit('update-family-count', [this.product.family, - this.quantity])
+                this.$root.$emit('update-family-count', [this.product.family, - this.quantity, this.computed_iva])
             }
         },
         updateTotal() {
@@ -94,12 +94,15 @@ export default {
     watch: {
         quantity: function (newVal, oldVal) {
             if (this.product.is_summable) {
-                this.$root.$emit('update-family-count', [this.product.family, newVal - oldVal])
+                this.$root.$emit('update-family-count', [this.product.family, newVal - oldVal, this.computed_iva])
             }
             this.price = this.computePrice()
         },
         familycount: function (val) {
             this.price = this.computePrice()
+        },
+        price: function (val) {
+            this.$root.$emit('update-total', [this.index, this.total, this.computed_iva])
         }
     },
     created() {

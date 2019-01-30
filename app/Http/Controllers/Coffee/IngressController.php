@@ -99,7 +99,8 @@ class IngressController extends Controller
 
     function ticket(Ingress $ingress)
     {
-        return view('coffee.ingresses.ticket');
+        $payment = $ingress->payments->first();
+        return view('coffee.ingresses.ticket', compact('ingress', 'payment'));
     }
 
     function pay(Request $request, Ingress $ingress)
@@ -115,10 +116,14 @@ class IngressController extends Controller
 
         $payment = Payment::create($request->all());
 
-        if ($payment->type == 'liquidación' || $ingress->debt == 0) {
+        if ($ingress->debt == 0) {
             $ingress->update([
                 'status' => 'pagado',
                 'paid_at' => date('Y-m-d')
+            ]);
+
+            $payment->update([
+                'type' => 'liquidación'
             ]);
         }
 
