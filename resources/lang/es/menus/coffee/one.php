@@ -2,6 +2,12 @@
 
 return [
 
+    'admin' => [
+        'title' => 'Facturas',
+        'icon' => 'fa fa-receipt',
+        'route' => 'coffee.admin.index'
+    ],
+
     'ingresses' => [
         'title' => 'Ventas',
         'icon' => 'fa fa-shopping-cart',

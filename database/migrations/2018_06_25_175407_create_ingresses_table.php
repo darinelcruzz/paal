@@ -18,6 +18,7 @@ class CreateIngressesTable extends Migration
             $table->date('retained_at')->nullable();
             $table->longText('products')->nullable();
             $table->string('invoice')->nullable();
+            $table->string('invoice_id')->nullable();
             $table->string('status')->default('pagado');
             $table->double('amount');
             $table->double('retainer')->default(0);

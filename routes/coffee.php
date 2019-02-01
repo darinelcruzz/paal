@@ -32,4 +32,9 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	    Route::get('editar/{client}', usesas($ctrl, 'edit'));
 	    Route::post('editar/{client}', usesas($ctrl, 'update'));
 	});
+
+	Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+	    $ctrl = 'Coffee\AdminController';
+	    Route::get('/', usesas($ctrl, 'index'));
+	});
 });

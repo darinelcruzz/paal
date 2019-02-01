@@ -16,7 +16,7 @@ return [
 
     'ingresses' => [
         'title' => 'Ingresos',
-        'icon' => 'fa fa-mail-reply',
+        'icon' => 'fa fa-shopping-cart',
         'route' => 'paal.ingress.index'
     ],
 
