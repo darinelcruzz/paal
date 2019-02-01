@@ -84,6 +84,7 @@
 
                     <template slot="body">
                         @foreach($paid as $ingress)
+                            @if ($ingress->method == 'cash')
                             <tr>
                                 <td>{{ $ingress->id }}</td>
                                 <td>{{ fdate($ingress->bought_at, 'd M Y', 'Y-m-d') }}</td>
@@ -96,6 +97,7 @@
                                     </span>
                                 </td>
                             </tr>
+                            @endif
                         @endforeach
                     </template>
                     
@@ -111,6 +113,7 @@
 
                     <template slot="body">
                         @foreach($paid as $ingress)
+                            @if ($ingress->method == 'credit_card' || $ingress->method == 'debit_card')
                             <tr>
                                 <td>{{ $ingress->id }}</td>
                                 <td>{{ fdate($ingress->bought_at, 'd M Y', 'Y-m-d') }}</td>
@@ -123,6 +126,7 @@
                                     </span>
                                 </td>
                             </tr>
+                            @endif
                         @endforeach
                     </template>
                     

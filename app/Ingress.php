@@ -46,6 +46,16 @@ class Ingress extends Model
         return $descriptions[$this->invoice];
     }
 
+    function getMethodAttribute()
+    {
+        $payment = array_slice($this->payments
+                    ->where('type', 'contado')
+                    ->first()
+                    ->toArray(), 3, 5);
+
+        return array_search(max($payment), $payment);
+    }
+
     function storeProducts($request)
     {
         $products = [];
