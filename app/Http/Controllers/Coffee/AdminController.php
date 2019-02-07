@@ -12,7 +12,7 @@ class AdminController extends Controller
     {
         $payments = Payment::whereDate('created_at', date('Y-m-d'));
 
-        $deposits = $payments->where('type', '!=', 'contado')->get();
+        $deposits = Payment::whereDate('created_at', date('Y-m-d'))->where('type', '!=', 'contado')->get();
 
         $invoiced = Ingress::whereDate('created_at', date('Y-m-d'))
             ->where('invoice', '!=', 'no')

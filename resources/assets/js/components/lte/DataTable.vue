@@ -1,6 +1,6 @@
 <template lang="html">
     <div class="table-responsive">
-        <table :id="'example' + example" class="table table-bordered table-striped">
+        <table :id="'example' + example" class="table table-bordered table-striped spanish">
             <thead>
                 <slot name="header"></slot>
             </thead>

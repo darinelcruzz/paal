@@ -78,7 +78,7 @@
 
             <solid-box title="EFECTIVO SIN FACTURA" color="warning" button collapsed>
                 
-                <data-table example="1">
+                <data-table example="2">
 
                     {{ drawHeader('ID','fecha venta', 'cliente', 'IVA', 'total', 'estado') }}
 
@@ -107,7 +107,7 @@
 
             <solid-box title="TARJETA SIN FACTURA" color="danger" button collapsed>
                 
-                <data-table example="1">
+                <data-table example="3">
 
                     {{ drawHeader('ID','fecha venta', 'cliente', 'IVA', 'total', 'estado') }}
 
@@ -136,7 +136,7 @@
 
             <solid-box title="ABONOS Y ANTICIPOS" color="warning" button collapsed>
                 
-                <data-table example="1">
+                <data-table example="4">
 
                     {{ drawHeader('ID','tipo', 'cliente', 'cantidad', 'total', 'estado') }}
 

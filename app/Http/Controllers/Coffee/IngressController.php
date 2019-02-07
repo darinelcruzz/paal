@@ -13,6 +13,7 @@ class IngressController extends Controller
     {
         $ingresses = Ingress::where('company', 'coffee')
                         ->where('status', '!=', 'cancelado')
+                        ->orderByDesc('id')
                         ->get();
         return view('coffee.ingresses.index', compact('ingresses'));
     }

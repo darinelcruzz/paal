@@ -49607,7 +49607,7 @@ var render = function() {
     _c(
       "table",
       {
-        staticClass: "table table-bordered table-striped",
+        staticClass: "table table-bordered table-striped spanish",
         attrs: { id: "example" + _vm.example }
       },
       [
