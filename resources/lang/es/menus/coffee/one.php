@@ -3,8 +3,8 @@
 return [
 
     'admin' => [
-        'title' => 'Facturas',
-        'icon' => 'fa fa-receipt',
+        'title' => 'Corte',
+        'icon' => 'fa fa-cut',
         'route' => 'coffee.admin.index'
     ],
 

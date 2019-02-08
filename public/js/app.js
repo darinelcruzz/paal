@@ -53341,6 +53341,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.price = this.computePrice();
         } else {
             this.price = this.product.retail_price;
+            this.quantity = 1;
         }
     }
 });
@@ -53443,7 +53444,7 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("td", [
-      _vm.product.family == "SERVICIOS"
+      _vm.product.family == "ENVÍOS"
         ? _c("div", [
             _vm._v("\n                1 "),
             _c("input", {

@@ -8,23 +8,25 @@ use App\{Ingress, Payment};
 
 class AdminController extends Controller
 {
-    function index()
+    function index(Request $request)
     {
-        $payments = Payment::whereDate('created_at', date('Y-m-d'));
+        $date = isset($request->date) ? $request->date: date('Y-m-d');
 
-        $deposits = Payment::whereDate('created_at', date('Y-m-d'))->where('type', '!=', 'contado')->get();
+        $payments = Payment::whereDate('created_at', $date);
 
-        $invoiced = Ingress::whereDate('created_at', date('Y-m-d'))
+        $deposits = Payment::whereDate('created_at', $date)->where('type', '!=', 'contado')->get();
+
+        $invoiced = Ingress::whereDate('created_at', $date)
             ->where('invoice', '!=', 'no')
             ->where('retainer', 0)
             ->get();
 
-        $paid = Ingress::whereDate('created_at', date('Y-m-d'))
+        $paid = Ingress::whereDate('created_at', $date)
             ->where('invoice', 'no')
             ->where('retainer', 0)
             ->get();
 
-        return view('coffee.admin.index', compact('payments', 'paid', 'invoiced', 'deposits'));
+        return view('coffee.admin.index', compact('payments', 'paid', 'invoiced', 'deposits', 'date'));
     }
 
     function create()

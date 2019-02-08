@@ -20,7 +20,7 @@
             </div>
         </td>
         <td>
-            <div v-if="product.family == 'SERVICIOS'">
+            <div v-if="product.family == 'ENVÍOS'">
                 1 <input type="hidden" name="quantities[]" :value="1">
             </div>
             <div v-else>
@@ -117,6 +117,7 @@ export default {
             this.price = this.computePrice()
         } else {
             this.price = this.product.retail_price
+            this.quantity = 1
         }
     }
 };

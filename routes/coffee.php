@@ -36,5 +36,6 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 	    $ctrl = 'Coffee\AdminController';
 	    Route::get('/', usesas($ctrl, 'index'));
+	    Route::post('/', usesas($ctrl, 'index'));
 	});
 });

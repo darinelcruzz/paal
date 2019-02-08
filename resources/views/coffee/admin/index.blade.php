@@ -49,7 +49,26 @@
             </div>
         </div>
         <div class="col-md-9">
-            <solid-box title="CON FACTURA" color="danger" button>
+
+            {!! Form::open(['method' => 'post', 'route' => 'coffee.admin.index']) !!}
+                
+                <div class="row">
+                    <div class="col-md-3">
+                        {{-- {!! Field::date('date', $date, ['label' => 'Seleccione fecha', 'tpl' => 'withicon'], ['icon' => 'calendar']) !!} --}}
+                        <div class="input-group input-group-sm">
+                            <input type="date" name="date" class="form-control" value="{{ $date }}">
+                            <span class="input-group-btn">
+                                <button type="submit" class="btn btn-danger btn-flat"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            {!! Form::close() !!}
+
+            <br>
+
+            <solid-box title="CON FACTURA" color="danger" button collapsed>
                 
                 <data-table example="1">
 
@@ -134,9 +153,38 @@
 
             </solid-box>
 
-            <solid-box title="ABONOS Y ANTICIPOS" color="warning" button collapsed>
+            <solid-box title="TRANSFERENCIA SIN FACTURA" color="warning" button collapsed>
                 
                 <data-table example="4">
+
+                    {{ drawHeader('ID','fecha venta', 'cliente', 'IVA', 'total', 'estado') }}
+
+                    <template slot="body">
+                        @foreach($paid as $ingress)
+                            @if ($ingress->method == 'transfer')
+                            <tr>
+                                <td>{{ $ingress->id }}</td>
+                                <td>{{ fdate($ingress->bought_at, 'd M Y', 'Y-m-d') }}</td>
+                                <td>{{ $ingress->client->name }}</td>
+                                <td>$ {{ number_format($ingress->iva, 2) }}</td>
+                                <td>$ {{ number_format($ingress->amount, 2) }}</td>
+                                <td>
+                                    <span class="label label-{{ $ingress->statusColor }}">
+                                        {{ ucfirst($ingress->status) }}
+                                    </span>
+                                </td>
+                            </tr>
+                            @endif
+                        @endforeach
+                    </template>
+                    
+                </data-table>
+
+            </solid-box>
+
+            <solid-box title="ABONOS Y ANTICIPOS" color="danger" button collapsed>
+                
+                <data-table example="5">
 
                     {{ drawHeader('ID','tipo', 'cliente', 'cantidad', 'total', 'estado') }}
 
