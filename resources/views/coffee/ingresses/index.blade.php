@@ -5,17 +5,23 @@
 @endpush
 
 @push('headerTitle')
-    <a href="{{ route('coffee.ingress.create') }}" class="btn btn-danger btn-xs"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR</a>
+    
 @endpush
 
 @section('content')
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <solid-box title="Coffee" color="danger" button>
+        <div class="col-md-1">
+            <a href="{{ route('coffee.ingress.create') }}" class="btn btn-danger btn-sm">
+                <i class="fa fa-plus"></i>&nbsp;&nbsp;<i class="fa fa-mug-hot fa-2x"></i>
+            </a>
+        </div>
+
+        <div class="col-md-9">
+            <solid-box title="Ventas" color="danger" button>
 
                 <data-table example="1">
 
-                    {{ drawHeader('ID', '<i class="fa fa-cogs"></i>','fecha venta', 'cliente', 'IVA', 'total', 'estado') }}
+                    {{ drawHeader('ID', '<i class="fa fa-cogs"></i>','fecha venta', 'cliente', 'IVA', 'total', 'anticipo', 'estado') }}
 
                     <template slot="body">
                         @foreach($ingresses as $ingress)
@@ -36,6 +42,7 @@
                                 <td>{{ $ingress->client->name }}</td>
                                 <td>$ {{ number_format($ingress->iva, 2) }}</td>
                                 <td>$ {{ number_format($ingress->amount, 2) }}</td>
+                                <td>{{ $ingress->retainer > 0 ? "$ " . number_format($ingress->retainer, 2): '' }}</td>
                                 <td>
                                     <span class="label label-{{ $ingress->statusColor }}">
                                         {{ ucfirst($ingress->status) }}

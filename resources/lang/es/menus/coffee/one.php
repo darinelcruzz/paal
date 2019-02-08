@@ -10,7 +10,7 @@ return [
 
     'ingresses' => [
         'title' => 'Ventas',
-        'icon' => 'fa fa-shopping-cart',
+        'icon' => 'fa fa-mug-hot',
         'route' => 'coffee.ingress.index'
     ],
 

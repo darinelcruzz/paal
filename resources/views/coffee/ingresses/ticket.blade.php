@@ -120,10 +120,20 @@
                             <td style="text-align: right">$ {{ number_format($ingress->iva, 2) }}</td>
                         </tr>
                     @endif
-                    <tr>
+                    <tr style="border:1px solid black">
                         <th colspan="3" style="text-align: right">Total</th>
                         <td style="text-align: right">$ {{ number_format($ingress->amount, 2) }}</td>
                     </tr>
+                    @if ($ingress->retainer > 0)
+                        <tr>
+                            <th colspan="3" style="text-align: right">Anticipo</th>
+                            <td style="text-align: right">$ {{ number_format($ingress->retainer, 2) }}</td>
+                        </tr>
+                        <tr style="border:1px solid black">
+                            <th colspan="3" style="text-align: right">Pendiente</th>
+                            <td style="text-align: right">$ {{ number_format($ingress->debt, 2) }}</td>
+                        </tr>
+                    @endif
                 </tfoot>
             </table>
         </div>
