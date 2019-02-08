@@ -11,6 +11,9 @@
             <div v-if="product.dollars == 1">
                 <input name="prices[]" type="number" v-model="price_in_dollars" step="0.01" class="form-control input-sm">
             </div>
+            <div v-else-if="product.family == 'ENVÍOS'">
+                <input name="prices[]" type="number" class="form-control input-sm" :min="product.retail_price" v-model.number="price">
+            </div>
             <div v-else>
                 {{ price.toFixed(2) }}
                 <input name="prices[]" type="hidden" :value="price.toFixed(2)">
@@ -96,17 +99,25 @@ export default {
             if (this.product.is_summable) {
                 this.$root.$emit('update-family-count', [this.product.family, newVal - oldVal, this.computed_iva])
             }
-            this.price = this.computePrice()
+            if (this.product.family != 'ENVÍOS') {
+                this.price = this.computePrice()
+            }
         },
         familycount: function (val) {
-            this.price = this.computePrice()
+            if (this.product.family != 'ENVÍOS') {
+                this.price = this.computePrice()
+            }
         },
         price: function (val) {
             this.$root.$emit('update-total', [this.index, this.total, this.computed_iva])
         }
     },
     created() {
-        this.price = this.computePrice()
+        if (this.product.family != 'ENVÍOS') {
+            this.price = this.computePrice()
+        } else {
+            this.price = this.product.retail_price
+        }
     }
 };
 </script>

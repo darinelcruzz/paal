@@ -53266,6 +53266,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -53320,17 +53323,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (this.product.is_summable) {
                 this.$root.$emit('update-family-count', [this.product.family, newVal - oldVal, this.computed_iva]);
             }
-            this.price = this.computePrice();
+            if (this.product.family != 'ENVÍOS') {
+                this.price = this.computePrice();
+            }
         },
         familycount: function familycount(val) {
-            this.price = this.computePrice();
+            if (this.product.family != 'ENVÍOS') {
+                this.price = this.computePrice();
+            }
         },
         price: function price(val) {
             this.$root.$emit('update-total', [this.index, this.total, this.computed_iva]);
         }
     },
     created: function created() {
-        this.price = this.computePrice();
+        if (this.product.family != 'ENVÍOS') {
+            this.price = this.computePrice();
+        } else {
+            this.price = this.product.retail_price;
+        }
     }
 });
 
@@ -53382,6 +53393,38 @@ var render = function() {
                     return
                   }
                   _vm.price_in_dollars = $event.target.value
+                }
+              }
+            })
+          ])
+        : _vm.product.family == "ENVÍOS"
+        ? _c("div", [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model.number",
+                  value: _vm.price,
+                  expression: "price",
+                  modifiers: { number: true }
+                }
+              ],
+              staticClass: "form-control input-sm",
+              attrs: {
+                name: "prices[]",
+                type: "number",
+                min: _vm.product.retail_price
+              },
+              domProps: { value: _vm.price },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.price = _vm._n($event.target.value)
+                },
+                blur: function($event) {
+                  _vm.$forceUpdate()
                 }
               }
             })

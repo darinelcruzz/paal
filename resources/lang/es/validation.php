@@ -186,5 +186,6 @@ return [
         'credit_card' => 'tarjeta de crédito',
         'debit_card' => 'tarjeta de débito',
         'invoice' => 'factura',
+        'category' => 'categoría',
     ],
 ];

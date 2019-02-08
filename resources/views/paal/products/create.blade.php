@@ -11,12 +11,12 @@
 
                 {!! Form::open(['method' => 'POST', 'route' => 'paal.product.store']) !!}
 
-                    {!! Field::text('description', ['tpl' => 'withicon'], ['icon' => 'comment-o']) !!}
+                    {!! Field::text('description', ['tpl' => 'withicon'], ['icon' => 'comments']) !!}
 
                     <div class="row">
                         <div class="col-md-6">
                             {!! Field::select('family', 
-                                ['POLVOS' => 'POLVOS', 'JARABES' => 'JARABES', 'JUGOS' => 'JUGOS'], 
+                                $families, 
                                 null, 
                                 ['tpl' => 'withicon', 'empty' => 'Seleccione una familia'], 
                                 ['icon' => 'group']) 

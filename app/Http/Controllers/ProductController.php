@@ -15,7 +15,8 @@ class ProductController extends Controller
 
     function create()
     {
-        return view('paal.products.create');
+        $families = Product::groupBy('family')->pluck('family', 'family')->toArray();
+        return view('paal.products.create', compact('families'));
     }
 
     function store(Request $request)

@@ -24,7 +24,7 @@
                                 <td>
                                     {{ $product->description }} &nbsp;&nbsp;
                                     <a href="{{ route('paal.product.edit', ['product' => $product->id]) }}">
-                                        <i class="fa fa-pencil"></i>
+                                        <i class="fa fa-edit"></i>
                                     </a>
                                 </td>
                                 <td>{{ $product->family }}</td>

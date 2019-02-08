@@ -29,7 +29,7 @@ class AdminController extends Controller
 
     function create()
     {
-        //
+        
     }
 
     function store(Request $request)

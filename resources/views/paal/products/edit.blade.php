@@ -11,7 +11,7 @@
 
                 {!! Form::open(['method' => 'POST', 'route' => ['paal.product.update', $product->id]]) !!}
 
-                    {!! Field::text('description', $product->description, ['tpl' => 'withicon'], ['icon' => 'comment-o']) !!}
+                    {!! Field::text('description', $product->description, ['tpl' => 'withicon'], ['icon' => 'comments']) !!}
 
                     <div class="row">
                         <div class="col-md-6">
