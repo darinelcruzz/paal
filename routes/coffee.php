@@ -21,6 +21,7 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	    Route::get('pagar/{ingress}', usesas($ctrl, 'charge'));
 	    Route::post('pagar/{ingress}', usesas($ctrl, 'pay'));
 		Route::get('ticket/{ingress}', usesas($ctrl, 'ticket'));
+		Route::get('pagos/{ingress}', usesas($ctrl, 'payments'));
 		Route::get('{ingress}', usesas($ctrl, 'show'));
 	});
 

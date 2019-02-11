@@ -26,7 +26,12 @@
                     </div>
                 </div>
 
-                <h4 style="text-align:center;">PAGOS</h4>
+                <h4 style="text-align:center;">
+                    PAGOS 
+                    <a href="{{ route('coffee.ingress.payments', $ingress) }}" target="_blank">
+                        <i class="fa fa-print" aria-hidden="true"></i>
+                    </a>
+                </h4>
 
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered">
