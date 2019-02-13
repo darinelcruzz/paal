@@ -20,7 +20,7 @@ class IngressController extends Controller
 
     function create()
     {
-        $clients = Client::where('company', '!=', 'mbe')->get(['id', 'name'])->toJson();
+        $clients = Client::where('company', '!=', 'mbe')->get(['id', 'name', 'rfc'])->toJson();
         $products = Product::all();
         return view('coffee.ingresses.create', compact('clients', 'products'));
     }

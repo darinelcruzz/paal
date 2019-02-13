@@ -21,9 +21,12 @@
 
                       <tab-content title="Cliente" icon="fa fa-user">
                         <div class="row">
-                            <div class="col-md-6 col-md-offset-3">
+                            <div class="col-md-8 col-md-offset-2">
                                 <label><b>Cliente</b></label><br>
                                 <v-select label="name" :options="{{ $clients }}" v-model="client" placeholder="Seleccione un cliente...">
+                                    <template slot="option" slot-scope="option">
+                                        @{{ option.rfc }} - @{{ option.name }}
+                                    </template>
                                 </v-select>
                                 <input type="hidden" name="client_id" :value="client.id">
                             </div>
