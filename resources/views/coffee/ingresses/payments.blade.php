@@ -50,7 +50,14 @@
 
     <div class="row">
         <div class="col-md-12">
-            <span class="pull-left">{{ strtoupper($ingress->client->name) }}</span> 
+            <span class="pull-left">{{ strtoupper($ingress->client->name) }}</span> <br>
+            <span class="pull-left">{{ $ingress->client->rfc }}</span> <br>
+            <span class="pull-left">{{ $ingress->client->email }}</span> <br>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
             @if ($ingress->invoice == 'otro')
                 <span class="pull-right">Otro:__________________________</span>
             @elseif($ingress->invoice != 'no')
