@@ -20,14 +20,8 @@
     <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
 
     <style>
-        /*p {
-            text-align:justify;
-            text-indent:50px;
-            font-family: 'Oswald', sans-serif;
-        },*/
         body {
-            text-align:center;
-            /*font-size: 11px;*/
+            text-align: center;
             font-family: 'Oswald', sans-serif;
         },
     </style>
@@ -81,7 +75,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <table align="center">
+            <table style="width: 100%;">
                 <thead>
                     <tr>
                         <th>CANT</th>
