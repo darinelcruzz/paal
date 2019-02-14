@@ -103,10 +103,10 @@
                 <div class="box-header with-border">
                     <h3 class="box-title">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <i class="fas fa-exchange-alt fa-2x"></i>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-9">
                                 Transferencia <br>
                                 <b>$ {{ number_format($payments->sum('transfer'), 2) }}</b>
                             </div>
@@ -137,11 +137,11 @@
                 <div class="box-header with-border">
                     <h3 class="box-title">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <i class="fas fa-clock fa-2x"></i>
                             </div>
-                            <div class="col-md-8">
-                                T. Diario <br>
+                            <div class="col-md-9">
+                                Total Diario <br>
                                 <b>$ {{ number_format($payments->sum('cash') + $payments->sum('credit_card') + $payments->sum('debit_card') + $payments->sum('transfer') + $payments->sum('check'), 2) }}</b>
                             </div>
                         </div>
@@ -154,11 +154,11 @@
                 <div class="box-header with-border">
                     <h3 class="box-title">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <i class="fas fa-calendar-alt fa-2x"></i>
                             </div>
-                            <div class="col-md-8">
-                                T. Mensual <br>
+                            <div class="col-md-9">
+                                Total Mensual <br>
                                 <b>$ {{ number_format($month->sum('cash') + $month->sum('credit_card') + $month->sum('debit_card') + $month->sum('transfer') + $month->sum('check'), 2) }}</b>
                             </div>
                         </div>
