@@ -71,9 +71,9 @@ export default {
             var price;
 
             if (this.product.is_summable) {
-                price = this.familycount >= this.product.wholesale_quantity ? this.product.wholesale_price: this.product.retail_price
+                price = this.familycount > this.product.wholesale_quantity ? this.product.wholesale_price: this.product.retail_price
             } else {
-                price = this.quantity >= this.product.wholesale_quantity ? this.product.wholesale_price: this.product.retail_price
+                price = this.quantity > this.product.wholesale_quantity ? this.product.wholesale_price: this.product.retail_price
             }
 
             return price / (1 + 0.16 * this.product.iva)
