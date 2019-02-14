@@ -6,8 +6,8 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-3">
-            <div class="info-box">
+        <div class="col-md-2">
+            {{-- <div class="info-box">
                 <span class="info-box-icon bg-orange"><i class="far fa-money-bill-alt"></i></span>
 
                 <div class="info-box-content">
@@ -46,9 +46,131 @@
                     <span class="info-box-text">Cheque</span>
                     <span class="info-box-number">$ {{ number_format($payments->sum('check'), 2) }}</span>
                 </div>
+            </div> --}}
+
+            <div class="box box-warning box-solid collapsed-box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <i class="far fa-money-bill-alt fa-2x"></i>
+                            </div>
+                            <div class="col-md-8">
+                                Efectivo <br>
+                                <b>$ {{ number_format($payments->sum('cash'), 2) }}</b>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div class="box-body"></div>
             </div>
+
+            <div class="box box-danger box-solid collapsed-box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <i class="fa fa-credit-card fa-2x"></i>
+                            </div>
+                            <div class="col-md-8">
+                                T. Débito <br>
+                                <b>$ {{ number_format($payments->sum('debit_card'), 2) }}</b>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div class="box-body"></div>
+            </div>
+
+            <div class="box box-warning box-solid collapsed-box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <i class="fab fa-cc-visa fa-2x"></i>
+                            </div>
+                            <div class="col-md-8">
+                                T. Crédito <br>
+                                <b>$ {{ number_format($payments->sum('credit_card'), 2) }}</b>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div class="box-body"></div>
+            </div>
+
+            <div class="box box-danger box-solid collapsed-box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <i class="fas fa-exchange-alt fa-2x"></i>
+                            </div>
+                            <div class="col-md-8">
+                                Transferencia <br>
+                                <b>$ {{ number_format($payments->sum('transfer'), 2) }}</b>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div class="box-body"></div>
+            </div>
+
+            <div class="box box-warning box-solid collapsed-box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <i class="fas fa-money-check-alt fa-2x"></i>
+                            </div>
+                            <div class="col-md-8">
+                                Cheque <br>
+                                <b>$ {{ number_format($payments->sum('check'), 2) }}</b>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div class="box-body"></div>
+            </div>
+
+            <div class="box box-primary box-solid collapsed-box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <i class="fas fa-clock fa-2x"></i>
+                            </div>
+                            <div class="col-md-8">
+                                T. Diario <br>
+                                <b>$ {{ number_format($payments->sum('cash') + $payments->sum('credit_card') + $payments->sum('debit_card') + $payments->sum('transfer') + $payments->sum('check'), 2) }}</b>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div class="box-body"></div>
+            </div>
+
+            <div class="box box-success box-solid collapsed-box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <i class="fas fa-calendar-alt fa-2x"></i>
+                            </div>
+                            <div class="col-md-8">
+                                T. Mensual <br>
+                                <b>$ {{ number_format($month->sum('cash') + $month->sum('credit_card') + $month->sum('debit_card') + $month->sum('transfer') + $month->sum('check'), 2) }}</b>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div class="box-body"></div>
+            </div>
+
         </div>
-        <div class="col-md-9">
+
+
+        <div class="col-md-10">
 
             {!! Form::open(['method' => 'post', 'route' => 'coffee.admin.index']) !!}
                 

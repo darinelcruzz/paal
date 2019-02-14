@@ -16,6 +16,8 @@ class AdminController extends Controller
 
         $deposits = Payment::whereDate('created_at', $date)->where('type', '!=', 'contado')->get();
 
+        $month = Payment::whereMonth('created_at', substr($date, 5, 2));
+
         $invoiced = Ingress::whereDate('created_at', $date)
             ->where('invoice', '!=', 'no')
             ->where('retainer', 0)
@@ -26,7 +28,7 @@ class AdminController extends Controller
             ->where('retainer', 0)
             ->get();
 
-        return view('coffee.admin.index', compact('payments', 'paid', 'invoiced', 'deposits', 'date'));
+        return view('coffee.admin.index', compact('payments', 'paid', 'invoiced', 'deposits', 'date', 'month'));
     }
 
     function create()
