@@ -16,7 +16,7 @@
             </a>
         </div>
 
-        <div class="col-md-9">
+        <div class="col-md-10">
             <solid-box title="Ventas" color="danger" button>
 
                 <data-table example="1">
@@ -39,7 +39,7 @@
                                     </dropdown>
                                 </td>
                                 <td>{{ fdate($ingress->bought_at, 'd M Y', 'Y-m-d') }}</td>
-                                <td>{{ $ingress->client->name }}</td>
+                                <td style="width: 40%">{{ $ingress->client->name }}</td>
                                 <td>$ {{ number_format($ingress->iva, 2) }}</td>
                                 <td>$ {{ number_format($ingress->amount, 2) }}</td>
                                 <td>{{ $ingress->retainer > 0 ? "$ " . number_format($ingress->retainer, 2): '' }}</td>
