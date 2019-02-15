@@ -13,7 +13,7 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            {!! Field::text('name', $user->name, ['tpl' => 'withicon'], ['icon' => 'comment-o']) !!}
+                            {!! Field::text('name', $user->name, ['tpl' => 'withicon'], ['icon' => 'comment']) !!}
                         </div>
                         <div class="col-md-6">
                             {!! Field::text('username', $user->username, ['tpl' => 'withicon'], ['icon' => 'user']) !!}
@@ -24,12 +24,14 @@
                         <div class="col-md-6">
                             {!! Field::email('email', $user->email, ['tpl' => 'withicon'], ['icon' => 'at']) !!}
                         </div>
+                        @if($user->company != 'owner')
                         <div class="col-md-6">
                             {!! Field::select('company', 
                                 ['coffee' => 'Coffee Depot', 'mbe' => 'MBE', 'paal' => 'PAAL'], 
                                 $user->company, ['tpl' => 'withicon', 'empty' => 'Seleccione una empresa'], ['icon' => 'industry']) 
                             !!}
                         </div>
+                        @endif
                     </div>
 
                     <div class="row">

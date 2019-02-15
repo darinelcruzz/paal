@@ -24,7 +24,7 @@
                                 <td>
                                     {{ $user->name }} &nbsp;&nbsp;
                                     <a href="{{ route('paal.user.edit', ['user' => $user->id]) }}">
-                                        <i class="fa fa-pencil"></i>
+                                        <i class="fa fa-edit"></i>
                                     </a>
                                 </td>
                                 <td>{{ $user->username }}</td>

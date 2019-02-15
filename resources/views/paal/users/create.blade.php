@@ -13,7 +13,7 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            {!! Field::text('name', ['tpl' => 'withicon'], ['icon' => 'comment-o']) !!}
+                            {!! Field::text('name', ['tpl' => 'withicon'], ['icon' => 'comment']) !!}
                         </div>
                         <div class="col-md-6">
                             {!! Field::text('username', ['tpl' => 'withicon'], ['icon' => 'user']) !!}

@@ -52,7 +52,7 @@ class UserController extends Controller
             'email' => 'required',
             'username' => 'required',
             'password' => 'confirmed',
-            'company' => 'required',
+            'company' => 'sometimes|required',
         ]);
 
         $user->update($request->except('password', 'password_confirmation'));
