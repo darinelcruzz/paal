@@ -10,7 +10,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-8 col-md-offset-2">
             <solid-box title="Productos" color="primary" button>
                 
                 <data-table example="1">
@@ -24,7 +24,7 @@
                                 <td>
                                     {{ $client->name }} &nbsp;&nbsp;
                                     <a href="{{ route('paal.client.edit', ['client' => $client->id]) }}">
-                                        <i class="fa fa-pencil"></i>
+                                        <i class="fa fa-edit"></i>
                                     </a>
                                 </td>
                                 <td>{{ $client->address }}</td>

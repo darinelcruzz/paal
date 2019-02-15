@@ -62,7 +62,8 @@ class ProductController extends Controller
 
     function edit(Product $product)
     {
-        return view('paal.products.edit', compact('product'));
+        $families = Product::groupBy('family')->pluck('family', 'family')->toArray();
+        return view('paal.products.edit', compact('product', 'families'));
     }
 
     function update(Request $request, Product $product)

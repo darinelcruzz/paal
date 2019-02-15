@@ -1,6 +1,6 @@
 <template>
 	<div class="fileUpload btn btn-success pull-left">
-        <span><i class="fa fa-cloud-upload" aria-hidden="true"></i>&nbsp;&nbsp;{{ fileName }}</span>
+        <span><i class="fa fa-file-upload" aria-hidden="true"></i>&nbsp;&nbsp;{{ fileName }}</span>
         <input type="file" :name="fname" :accept="'application/' + ext" class="upload" @change="showFileName">
     </div>
 </template>

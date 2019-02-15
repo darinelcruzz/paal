@@ -12,7 +12,7 @@
                 {!! Form::open(['method' => 'POST', 'route' => 'paal.provider.store']) !!}
 
                     {!! Field::text('social', ['tpl' => 'withicon'], ['icon' => 'truck']) !!}
-                    {!! Field::text('name', ['label' => 'Nombre comercial', 'tpl' => 'withicon'], ['icon' => 'comment-o']) !!}
+                    {!! Field::text('name', ['label' => 'Nombre comercial', 'tpl' => 'withicon'], ['icon' => 'comment']) !!}
                     {!! Field::text('address', ['tpl' => 'withicon'], ['icon' => 'map-signs']) !!}
                     <div class="row">
                         <div class="col-md-6">
@@ -61,7 +61,7 @@
                             {!! Field::number('amount', ['label' => 'Importe', 'tpl' => 'withicon', 'step' => '0.01'], ['icon' => 'money']) !!}
                         </div>
                         <div class="col-md-6">
-                            {!! Field::number('bills', ['label' => '# Facturas', 'tpl' => 'withicon'], ['icon' => 'file-o']) !!}
+                            {!! Field::number('bills', ['label' => '# Facturas', 'tpl' => 'withicon'], ['icon' => 'file-invoice']) !!}
                         </div>
                     </div>
 

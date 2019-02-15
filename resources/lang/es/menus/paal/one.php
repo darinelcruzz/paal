@@ -38,12 +38,6 @@ return [
         'route' => 'paal.product.index'
     ],
 
-    'exchanges' => [
-        'title' => 'Dólar',
-        'icon' => 'fa fa-usd',
-        'route' => 'paal.exchange.index'
-    ],
-
     'reports' => [
         'title' => 'Reportes',
         'icon' => 'fa fa-bar-chart',

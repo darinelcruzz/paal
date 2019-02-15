@@ -12,7 +12,7 @@
                 {!! Form::open(['method' => 'POST', 'route' => 'paal.provider.update']) !!}
 
                     {!! Field::text('social', $provider->social, ['tpl' => 'withicon'], ['icon' => 'truck']) !!}
-                    {!! Field::text('name', $provider->name, ['label' => 'Nombre comercial', 'tpl' => 'withicon'], ['icon' => 'comment-o']) !!}
+                    {!! Field::text('name', $provider->name, ['label' => 'Nombre comercial', 'tpl' => 'withicon'], ['icon' => 'comment']) !!}
                     {!! Field::text('address', $provider->address, ['tpl' => 'withicon'], ['icon' => 'map-signs']) !!}
                     <div class="row">
                         <div class="col-md-6">
@@ -61,7 +61,7 @@
                             {!! Field::number('amount', $provider->amount, ['label' => 'Importe', 'tpl' => 'withicon', 'step' => '0.01'], ['icon' => 'money']) !!}
                         </div>
                         <div class="col-md-6">
-                            {!! Field::number('bills', $provider->bills, ['label' => '# Facturas', 'tpl' => 'withicon'], ['icon' => 'file-o']) !!}
+                            {!! Field::number('bills', $provider->bills, ['label' => '# Facturas', 'tpl' => 'withicon'], ['icon' => 'file-invoice']) !!}
                         </div>
                     </div>
 

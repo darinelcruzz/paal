@@ -51409,7 +51409,7 @@ var render = function() {
   return _c("div", { staticClass: "fileUpload btn btn-success pull-left" }, [
     _c("span", [
       _c("i", {
-        staticClass: "fa fa-cloud-upload",
+        staticClass: "fa fa-file-upload",
         attrs: { "aria-hidden": "true" }
       }),
       _vm._v("  " + _vm._s(_vm.fileName))

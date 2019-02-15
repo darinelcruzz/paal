@@ -40,74 +40,96 @@
                     </div>
                 </template>
 
-                <template v-if="{{ $ingress->status == 'pagado' ? 1: 0}}">
-                    <div class="row">
-                        <div class="col-xs-4">
-                            {!! Field::text('method', $ingress->pay_form, ['tpl' => 'withicon', 'disabled' => 'true'], ['icon' => 'credit-card']) !!}
-                        </div>
-                        <div class="col-xs-4">
-                            {!! Field::text('reference', $ingress->reference, ['tpl' => 'withicon', 'disabled' => 'true'], ['icon' => 'registered']) !!}
-                        </div>
-                        <div class="col-xs-4">
-                            {!! Field::text('paid_at', $ingress->paid_at, ['tpl' => 'withicon', 'disabled' => 'true'], ['icon' => 'registered']) !!}
-                        </div>
-                    </div>
-                </template>
+                <h4 style="text-align:center;">
+                    PAGOS 
+                    <a href="{{ route('coffee.ingress.payments', $ingress) }}" target="_blank">
+                        <i class="fa fa-print" aria-hidden="true"></i>
+                    </a>
+                </h4>
 
-                <hr><hr>
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Tipo</th>
+                                <th>Fecha</th>
+                                <th>Efectivo</th>
+                                <th>Transferencia</th>
+                                <th>Cheque</th>
+                                <th>T. Débito</th>
+                                <th>T. Crédito</th>
+                                <th>Referencia</th>
+                            </tr>
+                        </thead>
 
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
-                        <table class="table table-striped table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Producto</th>
-                                    <th>Precio</th>
-                                    <th>Cantidad</th>
-                                    <th>Descuento</th>
-                                    <th>Importe</th>
-                                </tr>
-                            </thead>
+                        <tbody>
+                        @foreach ($ingress->payments as $payment)
+                            <tr>
+                                <td>{{ strtoupper($payment->type) }}</td>
+                                <td>{{ fdate($payment->created_at, 'd M Y') }}</td>
+                                <td>{{ $payment->cash > 0 ? number_format($payment->cash, 2): '' }}</td>
+                                <td>{{ $payment->transfer > 0 ? number_format($payment->transfer, 2): '' }}</td>
+                                <td>{{ $payment->check > 0 ? number_format($payment->check, 2): '' }}</td>
+                                <td>{{ $payment->debit_card > 0 ? number_format($payment->debit_card, 2): '' }}</td>
+                                <td>{{ $payment->credit_card > 0 ? number_format($payment->credit_card, 2): '' }}</td>
+                                <td>{{ $payment->reference }}</td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
 
-                            <tbody>
+                <h4 style="text-align:center;">PRODUCTOS</h4>
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Descripción</th>
+                                <th>Precio</th>
+                                <th>Cantidad</th>
+                                <th>Descuento</th>
+                                <th>Importe</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                        @php
+                            $subtotal = 0;
+                        @endphp
+                        @foreach (unserialize($ingress->products) as $product)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ App\Product::find($product['i'])->description }}</td>
+                                <td>$ {{ number_format($product['p'], 2) }}</td>
+                                <td>{{ $product['q'] }}</td>
+                                <td>$ {{ number_format($product['d'], 2) }}</td>
+                                <td>$ {{ number_format($product['t'], 2) }}</td>
+                            </tr>
                             @php
-                                $subtotal = 0;
+                                $subtotal += $product['t'];
                             @endphp
-                            @foreach (unserialize($ingress->products) as $product)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ App\Product::find($product['i'])->description }}</td>
-                                    <td>$ {{ number_format($product['p'], 2) }}</td>
-                                    <td>{{ $product['q'] }}</td>
-                                    <td>$ {{ number_format($product['d'], 2) }}</td>
-                                    <td>$ {{ number_format($product['t'], 2) }}</td>
-                                </tr>
-                                @php
-                                    $subtotal += $product['t'];
-                                @endphp
-                            @endforeach
-                            </tbody>
+                        @endforeach
+                        </tbody>
 
-                            <tfoot>
-                                <tr>
-                                    <th colspan="4"></th>
-                                    <th>Subtotal</th>
-                                    <td>$ {{ number_format($subtotal, 2) }}</td>
-                                </tr>
-                                <tr>
-                                    <th colspan="4"></th>
-                                    <th>IVA</th>
-                                    <td>$ {{ number_format($ingress->iva, 2) }}</td>
-                                </tr>
-                                <tr>
-                                    <th colspan="4"></th>
-                                    <th>Total</th>
-                                    <td>$ {{ number_format($ingress->amount, 2) }}</td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
+                        <tfoot>
+                            <tr>
+                                <th colspan="4"></th>
+                                <th>Subtotal</th>
+                                <td>$ {{ number_format($subtotal, 2) }}</td>
+                            </tr>
+                            <tr>
+                                <th colspan="4"></th>
+                                <th>IVA</th>
+                                <td>$ {{ number_format($ingress->iva, 2) }}</td>
+                            </tr>
+                            <tr>
+                                <th colspan="4"></th>
+                                <th>Total</th>
+                                <td>$ {{ number_format($ingress->amount, 2) }}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
                 </div>
             </solid-box>
         </div>
