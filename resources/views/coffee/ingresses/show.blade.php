@@ -7,7 +7,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <solid-box title="Venta #{{ $ingress->id }}" color="danger" button>
+            <solid-box title="Venta #{{ $ingress->folio }}" color="danger" button>
                 <div class="row">
                     <div class="col-xs-6">
                         {!! Field::text('client_id', $ingress->client->name, ['tpl' => 'withicon', 'disabled' => 'true'], ['icon' => 'user']) !!}

@@ -22,7 +22,8 @@ class IngressController extends Controller
     {
         $clients = Client::where('company', '!=', 'mbe')->get(['id', 'name', 'rfc'])->toJson();
         $products = Product::all();
-        return view('coffee.ingresses.create', compact('clients', 'products'));
+        $last_folio = Ingress::where('company', 'coffee')->get()->last()->folio;
+        return view('coffee.ingresses.create', compact('clients', 'products', 'last_folio'));
     }
 
     function store(Request $request)
@@ -40,6 +41,7 @@ class IngressController extends Controller
             + $request->debit_card + $request->credit_card;
 
         $ingress = Ingress::create([
+            'folio' => $request->folio,
             'client_id' => $request->client_id,
             'user_id' => $request->user_id,
             'invoice' => $request->invoice,

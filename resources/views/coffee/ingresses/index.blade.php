@@ -21,12 +21,12 @@
 
                 <data-table example="1">
 
-                    {{ drawHeader('ID', '<i class="fa fa-cogs"></i>','fecha venta', 'cliente', 'IVA', 'total', 'anticipo', 'estado') }}
+                    {{ drawHeader('folio', '<i class="fa fa-cogs"></i>','fecha venta', 'cliente', 'IVA', 'total', 'anticipo', 'estado') }}
 
                     <template slot="body">
                         @foreach($ingresses as $ingress)
                             <tr>
-                                <td>{{ $ingress->id }}</td>
+                                <td>{{ $ingress->folio }}</td>
                                 <td>
                                     <dropdown icon="cogs" color="danger">
                                         <ddi v-if="{{ $ingress->status == 'pagado' ? 0: 1 }}" to="{{ route('coffee.ingress.charge', $ingress) }}" icon="money" text="Pagar"></ddi>

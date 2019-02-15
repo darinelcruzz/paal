@@ -7,7 +7,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-6">
-            <solid-box title="Crear ingreso" color="danger">
+            <solid-box title="Agregar venta [{{ $last_folio + 1 }}]" color="danger">
                 {!! Form::open(['method' => 'POST', 'route' => 'coffee.ingress.store', 'ref' => 'cform']) !!}
 
                     <form-wizard
@@ -66,6 +66,7 @@
                     <input type="hidden" name="bought_at" value="{{ date('Y-m-d') }}">
                     <input type="hidden" name="company" value="coffee">
                     <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+                    <input type="hidden" name="folio" value="{{ $last_folio + 1 }}">
 
                 {!! Form::close() !!}
             </solid-box>

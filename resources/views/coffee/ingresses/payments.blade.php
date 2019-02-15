@@ -72,7 +72,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <span class="pull-left"><b>Folio: </b> {{ substr("000{$ingress->id}", -3) }}</span> 
+            <span class="pull-left"><b>Folio: </b> {{ $ingress->folio }}</span> 
             <span class="pull-right">{{ fdate($ingress->created_at, 'd/m/Y h:i a') }}</span>
         </div>
     </div>
