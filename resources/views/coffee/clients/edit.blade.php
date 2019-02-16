@@ -13,6 +13,7 @@
 
                     {!! Field::text('name', $client->name, ['tpl' => 'withicon'], ['icon' => 'user']) !!}
                     {!! Field::text('rfc', $client->rfc, ['tpl' => 'withicon', 'label' => 'R.F.C.'], ['icon' => 'barcode']) !!}
+                    {!! Field::text('email', $client->email, ['tpl' => 'withicon'], ['icon' => 'at']) !!}
 
                     <hr>
                     

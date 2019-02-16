@@ -59,13 +59,13 @@ Vue.component('p-row', require('./components/ProductRow.vue'));
 Vue.component('shopping-list', require('./components/ShoppingList.vue'));
 Vue.component('shopping-list-item', require('./components/ShoppingListItem.vue'));
 Vue.component('payment-methods', require('./components/PaymentMethods.vue'));
+Vue.component('client-select', require('./components/ClientSelect.vue'));
 
 const Bus = new Vue({});
 
 const app = new Vue({
     el: '#app',
     data: {
-        client: '',
     	pmethod: '',
     	complement: null,
         payment_method: 0,

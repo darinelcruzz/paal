@@ -14338,7 +14338,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(15);
-module.exports = __webpack_require__(147);
+module.exports = __webpack_require__(150);
 
 
 /***/ }),
@@ -14412,13 +14412,13 @@ Vue.component('p-row', __webpack_require__(135));
 Vue.component('shopping-list', __webpack_require__(138));
 Vue.component('shopping-list-item', __webpack_require__(141));
 Vue.component('payment-methods', __webpack_require__(144));
+Vue.component('client-select', __webpack_require__(147));
 
 var Bus = new Vue({});
 
 var app = new Vue({
     el: '#app',
     data: {
-        client: '',
         pmethod: '',
         complement: null,
         payment_method: 0,
@@ -54112,6 +54112,173 @@ if (false) {
 
 /***/ }),
 /* 147 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(148)
+/* template */
+var __vue_template__ = __webpack_require__(149)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/ClientSelect.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7cad9244", Component.options)
+  } else {
+    hotAPI.reload("data-v-7cad9244", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 148 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			client: '',
+			clients: []
+		};
+	},
+
+	methods: {
+		refresh: function refresh() {
+			var t = this;
+
+			axios.get('/api/clients').then(function (_ref) {
+				var data = _ref.data;
+
+				t.clients = data;
+			});
+		}
+	},
+	created: function created() {
+		var t = this;
+
+		axios.get('/api/clients').then(function (_ref2) {
+			var data = _ref2.data;
+
+			t.clients = data;
+		});
+	}
+});
+
+/***/ }),
+/* 149 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _vm._m(0),
+      _c("br"),
+      _vm._v(" "),
+      _c("v-select", {
+        attrs: {
+          label: "name",
+          options: _vm.clients,
+          placeholder: "Seleccione un cliente...",
+          onChange: _vm.refresh
+        },
+        scopedSlots: _vm._u([
+          {
+            key: "option",
+            fn: function(option) {
+              return [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(option.rfc) +
+                    " - " +
+                    _vm._s(option.name) +
+                    "\n            "
+                )
+              ]
+            }
+          }
+        ]),
+        model: {
+          value: _vm.client,
+          callback: function($$v) {
+            _vm.client = $$v
+          },
+          expression: "client"
+        }
+      }),
+      _vm._v(" "),
+      _c("input", {
+        attrs: { type: "hidden", name: "client_id" },
+        domProps: { value: _vm.client.id }
+      })
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", [_c("b", [_vm._v("Cliente")])])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-7cad9244", module.exports)
+  }
+}
+
+/***/ }),
+/* 150 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

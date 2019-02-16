@@ -10,24 +10,25 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-7">
             <solid-box title="Clientes" color="danger" button>
                 
                 <data-table example="1">
 
-                    {{ drawHeader('ID', 'Nombre', 'R.F.C.') }}
+                    {{ drawHeader('ID', '<i class="fa fa-edit"></i>', 'Nombre', 'R.F.C.', 'correo') }}
 
                     <template slot="body">
                         @foreach($clients as $client)
                             <tr>
                                 <td>{{ $client->id }}</td>
                                 <td>
-                                    {{ $client->name }} &nbsp;&nbsp;
                                     <a href="{{ route('coffee.client.edit', ['client' => $client->id]) }}">
                                         <i class="fa fa-edit"></i>
                                     </a>
                                 </td>
+                                <td>{{ $client->name }}</td>
                                 <td>{{ $client->rfc }}</td>
+                                <td>{{ $client->email }}</td>
                             </tr>
                         @endforeach
                     </template>

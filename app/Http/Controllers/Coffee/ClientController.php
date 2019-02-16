@@ -35,7 +35,7 @@ class ClientController extends Controller
             'state' => ' ',
             'rfc' => $request->rfc,
             'phone' => ' ',
-            'email' => ' ',
+            'email' => $request->email,
             'company' => 'coffee',
         ]);
 
