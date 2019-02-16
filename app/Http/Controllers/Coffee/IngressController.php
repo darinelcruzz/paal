@@ -23,13 +23,12 @@ class IngressController extends Controller
         $clients = Client::where('company', '!=', 'mbe')->get(['id', 'name', 'rfc'])->toJson();
         $products = Product::all();
         $last_sale = Ingress::where('company', 'coffee')->get()->last();
-        $last_folio = $last_sale ? $last_sale->folio: 1;
+        $last_folio = $last_sale ? $last_sale->folio + 1: 1;
         return view('coffee.ingresses.create', compact('clients', 'products', 'last_folio'));
     }
 
     function store(Request $request)
     {
-        // dd($request->all());
         $validated = $this->validate($request, [
             'client_id' => 'required',
             'amount' => 'required',
@@ -58,26 +57,39 @@ class IngressController extends Controller
         ]);
 
         $products = [];
+        $special = [];
 
         for ($i=0; $i < count($request->items); $i++) {
-            array_push($products, [
-                'i' => $request->items[$i],
-                'q' => $request->quantities[$i],
-                'p' => $request->prices[$i],
-                'd' => $request->discounts[$i],
-                't' => $request->subtotals[$i],
-            ]);
+            if ($request->is_special[$i] == 0) {
+                array_push($products, [
+                    'i' => $request->items[$i],
+                    'q' => $request->quantities[$i],
+                    'p' => $request->prices[$i],
+                    'd' => $request->discounts[$i],
+                    't' => $request->subtotals[$i],
+                ]);
+            } else {
+                array_push($special, [
+                    'i' => $request->items[$i],
+                    'q' => $request->quantities[$i],
+                    'p' => $request->prices[$i],
+                    'd' => $request->discounts[$i],
+                    't' => $request->subtotals[$i],
+                ]);
+            }
         }
 
         if ($request->type == 'anticipo') {
             $ingress->update([
                 'products' => serialize($products),
+                'special_products' => serialize($special),
                 'retained_at' => date('Y-m-d'),
                 'status' => 'pendiente'
             ]);
         } else {
             $ingress->update([
                 'products' => serialize($products),
+                'special_products' => serialize($special),
                 'paid_at' => date('Y-m-d'),
                 // 'status' => $request->method == 5 ? 'crédito' :'pendiente'
                 'status' => 'pagado'

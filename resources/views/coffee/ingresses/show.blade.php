@@ -96,6 +96,22 @@
                                 $subtotal += $product['t'];
                             @endphp
                         @endforeach
+
+                        @if($ingress->special_products)
+                            @foreach (unserialize($ingress->special_products) as $product)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $product['i'] }}</td>
+                                    <td>$ {{ number_format($product['p'], 2) }}</td>
+                                    <td>{{ $product['q'] }}</td>
+                                    <td>$ {{ number_format($product['d'], 2) }}</td>
+                                    <td>$ {{ number_format($product['t'], 2) }}</td>
+                                </tr>
+                                @php
+                                    $subtotal += $product['t'];
+                                @endphp
+                            @endforeach
+                        @endif
                         </tbody>
 
                         <tfoot>

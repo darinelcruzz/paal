@@ -4,14 +4,21 @@
             <a class="btn btn-danger btn-xs" @click="deleteItem"><i class="fa fa-times"></i></a>
         </td>
         <td>
-            {{ product.description }}
-            <input name="items[]" type="hidden" :value="product.id">
+            <div v-if="product.family == 'ESPECIAL'">
+                <input name="items[]" type="text" class="form-control input-sm" :placeholder="product.description">
+                <input type="hidden" name="is_special[]" value="1">
+            </div>
+            <div v-else>
+                {{ product.description }}
+                <input name="items[]" type="hidden" :value="product.id">
+                <input type="hidden" name="is_special[]" value="0">
+            </div>
         </td>
         <td>
             <div v-if="product.dollars == 1">
                 <input name="prices[]" type="number" v-model="price_in_dollars" step="0.01" class="form-control input-sm">
             </div>
-            <div v-else-if="product.family == 'ENVÍOS'">
+            <div v-else-if="product.category == 'SERVICIOS'">
                 <input name="prices[]" type="number" class="form-control input-sm" :min="product.retail_price" v-model.number="price">
             </div>
             <div v-else>
@@ -20,7 +27,7 @@
             </div>
         </td>
         <td>
-            <div v-if="product.family == 'ENVÍOS'">
+            <div v-if="product.category == 'SERVICIOS'">
                 1 <input type="hidden" name="quantities[]" :value="1">
             </div>
             <div v-else>
@@ -99,12 +106,12 @@ export default {
             if (this.product.is_summable) {
                 this.$root.$emit('update-family-count', [this.product.family, newVal - oldVal, this.computed_iva])
             }
-            if (this.product.family != 'ENVÍOS') {
+            if (this.product.category != 'SERVICIOS') {
                 this.price = this.computePrice()
             }
         },
         familycount: function (val) {
-            if (this.product.family != 'ENVÍOS') {
+            if (this.product.category != 'SERVICIOS') {
                 this.price = this.computePrice()
             }
         },
@@ -113,8 +120,9 @@ export default {
         }
     },
     created() {
-        if (this.product.family != 'ENVÍOS') {
+        if (this.product.category != 'SERVICIOS') {
             this.price = this.computePrice()
+            // this.product.family != 'ENVÍOS' || this.product.family != 'ESPECIAL'
         } else {
             this.price = this.product.retail_price
             this.quantity = 1

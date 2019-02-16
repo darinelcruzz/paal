@@ -8,7 +8,7 @@ class Ingress extends Model
 {
     protected $fillable = [
     	'client_id', 'bought_at', 'products', 'company', 'amount', 'retained_at', 'retainer',
-    	'status', 'iva', 'paid_at', 'user_id', 'invoice', 'invoice_id', 'folio'
+    	'status', 'iva', 'paid_at', 'user_id', 'invoice', 'invoice_id', 'folio', 'special_products'
     ];
 
     function client()

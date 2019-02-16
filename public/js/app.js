@@ -53269,6 +53269,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -53323,12 +53330,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (this.product.is_summable) {
                 this.$root.$emit('update-family-count', [this.product.family, newVal - oldVal, this.computed_iva]);
             }
-            if (this.product.family != 'ENVÍOS') {
+            if (this.product.category != 'SERVICIOS') {
                 this.price = this.computePrice();
             }
         },
         familycount: function familycount(val) {
-            if (this.product.family != 'ENVÍOS') {
+            if (this.product.category != 'SERVICIOS') {
                 this.price = this.computePrice();
             }
         },
@@ -53337,8 +53344,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     created: function created() {
-        if (this.product.family != 'ENVÍOS') {
+        if (this.product.category != 'SERVICIOS') {
             this.price = this.computePrice();
+            // this.product.family != 'ENVÍOS' || this.product.family != 'ESPECIAL'
         } else {
             this.price = this.product.retail_price;
             this.quantity = 1;
@@ -53364,13 +53372,36 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("td", [
-      _vm._v(
-        "\n            " + _vm._s(_vm.product.description) + "\n            "
-      ),
-      _c("input", {
-        attrs: { name: "items[]", type: "hidden" },
-        domProps: { value: _vm.product.id }
-      })
+      _vm.product.family == "ESPECIAL"
+        ? _c("div", [
+            _c("input", {
+              staticClass: "form-control input-sm",
+              attrs: {
+                name: "items[]",
+                type: "text",
+                placeholder: _vm.product.description
+              }
+            }),
+            _vm._v(" "),
+            _c("input", {
+              attrs: { type: "hidden", name: "is_special[]", value: "1" }
+            })
+          ])
+        : _c("div", [
+            _vm._v(
+              "\n                " +
+                _vm._s(_vm.product.description) +
+                "\n                "
+            ),
+            _c("input", {
+              attrs: { name: "items[]", type: "hidden" },
+              domProps: { value: _vm.product.id }
+            }),
+            _vm._v(" "),
+            _c("input", {
+              attrs: { type: "hidden", name: "is_special[]", value: "0" }
+            })
+          ])
     ]),
     _vm._v(" "),
     _c("td", [
@@ -53398,7 +53429,7 @@ var render = function() {
               }
             })
           ])
-        : _vm.product.family == "ENVÍOS"
+        : _vm.product.category == "SERVICIOS"
         ? _c("div", [
             _c("input", {
               directives: [
@@ -53444,7 +53475,7 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("td", [
-      _vm.product.family == "ENVÍOS"
+      _vm.product.category == "SERVICIOS"
         ? _c("div", [
             _vm._v("\n                1 "),
             _c("input", {
