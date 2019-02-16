@@ -22,12 +22,14 @@ class IngressController extends Controller
     {
         $clients = Client::where('company', '!=', 'mbe')->get(['id', 'name', 'rfc'])->toJson();
         $products = Product::all();
-        $last_folio = Ingress::where('company', 'coffee')->get()->last()->folio;
+        $last_sale = Ingress::where('company', 'coffee')->get()->last();
+        $last_folio = $last_sale ? $last_sale->folio: 1;
         return view('coffee.ingresses.create', compact('clients', 'products', 'last_folio'));
     }
 
     function store(Request $request)
     {
+        // dd($request->all());
         $validated = $this->validate($request, [
             'client_id' => 'required',
             'amount' => 'required',
@@ -37,11 +39,14 @@ class IngressController extends Controller
             'bought_at' => 'required',
         ]);
 
+        $last_sale = Ingress::where('company', 'coffee')->get()->last();
+        $last_folio = $last_sale ? $last_sale->folio + 1: 1;
+
         $total = $request->cash + $request->transfer + $request->check
             + $request->debit_card + $request->credit_card;
 
         $ingress = Ingress::create([
-            'folio' => $request->folio,
+            'folio' => $last_folio,
             'client_id' => $request->client_id,
             'user_id' => $request->user_id,
             'invoice' => $request->invoice,

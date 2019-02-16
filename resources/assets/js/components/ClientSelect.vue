@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<label><b>Cliente</b></label><br>
-        <v-select label="name" :options="clients" v-model="client" placeholder="Seleccione un cliente..." :onChange="refresh">
+        <v-select label="name" :options="clients" v-model="client" placeholder="Seleccione un cliente...">
             <template slot="option" slot-scope="option">
                 {{ option.rfc }} - {{ option.name }}
             </template>
@@ -21,6 +21,7 @@
 		methods: {
 			refresh() {
 				const t = this;
+				t.client_id = client.id
 
 		        axios.get('/api/clients').then(({data}) => {
 		            t.clients = data;

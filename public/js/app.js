@@ -54187,6 +54187,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	methods: {
 		refresh: function refresh() {
 			var t = this;
+			t.client_id = client.id;
 
 			axios.get('/api/clients').then(function (_ref) {
 				var data = _ref.data;
@@ -54224,8 +54225,7 @@ var render = function() {
         attrs: {
           label: "name",
           options: _vm.clients,
-          placeholder: "Seleccione un cliente...",
-          onChange: _vm.refresh
+          placeholder: "Seleccione un cliente..."
         },
         scopedSlots: _vm._u([
           {
