@@ -9,13 +9,17 @@ use App\{Ingress, Product, Client, Payment};
 
 class IngressController extends Controller
 {
-    function index()
+    function index(Request $request)
     {
+        $date = isset($request->date) ? $request->date: date('Y-m');
+
         $ingresses = Ingress::where('company', 'coffee')
                         ->where('status', '!=', 'cancelado')
+                        ->whereMonth('created_at', substr($date, 5, 7))
+                        ->whereYear('created_at', substr($date, 0, 4))
                         ->orderByDesc('id')
                         ->get();
-        return view('coffee.ingresses.index', compact('ingresses'));
+        return view('coffee.ingresses.index', compact('ingresses', 'date'));
     }
 
     function create()

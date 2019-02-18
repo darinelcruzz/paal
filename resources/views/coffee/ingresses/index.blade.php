@@ -17,11 +17,29 @@
         </div>
 
         <div class="col-md-10">
+            {!! Form::open(['method' => 'post', 'route' => 'coffee.ingress.index']) !!}
+                
+                <div class="row">
+                    <div class="col-md-3">
+                        {{-- {!! Field::date('date', $date, ['label' => 'Seleccione fecha', 'tpl' => 'withicon'], ['icon' => 'calendar']) !!} --}}
+                        <div class="input-group input-group-sm">
+                            <input type="month" name="date" class="form-control" value="{{ $date }}">
+                            <span class="input-group-btn">
+                                <button type="submit" class="btn btn-danger btn-flat"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            {!! Form::close() !!}
+
+            <br>
+
             <solid-box title="Ventas" color="danger" button>
 
                 <data-table example="1">
 
-                    {{ drawHeader('folio', '<i class="fa fa-cogs"></i>','fecha venta', 'cliente', 'IVA', 'total', 'anticipo', 'estado') }}
+                    {{ drawHeader('folio', '<i class="fa fa-cogs"></i>','fecha venta', 'cliente', 'IVA', 'total', 'anticipo', 'método', 'estado') }}
 
                     <template slot="body">
                         @foreach($ingresses as $ingress)
@@ -43,6 +61,7 @@
                                 <td>$ {{ number_format($ingress->iva, 2) }}</td>
                                 <td>$ {{ number_format($ingress->amount, 2) }}</td>
                                 <td>{{ $ingress->retainer > 0 ? "$ " . number_format($ingress->retainer, 2): '' }}</td>
+                                <td>{{ $ingress->method_name }}</td>
                                 <td>
                                     <span class="label label-{{ $ingress->statusColor }}">
                                         {{ ucfirst($ingress->status) }}

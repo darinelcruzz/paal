@@ -7,170 +7,40 @@
 @section('content')
     <div class="row">
         <div class="col-md-2">
-            {{-- <div class="info-box">
-                <span class="info-box-icon bg-orange"><i class="far fa-money-bill-alt"></i></span>
 
-                <div class="info-box-content">
-                    <span class="info-box-text">EFECTIVO</span>
-                    <span class="info-box-number">$ {{ number_format($payments->sum('cash'), 2) }}</span>
-                </div>
-            </div>
-            <div class="info-box">
-                <span class="info-box-icon bg-red"><i class="fa fa-credit-card"></i></span>
+            <money-box color="danger" icon="fas fa-clock">
+                Diario <br>
+                <b>$ {{ number_format($payments->sum('cash') + $payments->sum('credit_card') + $payments->sum('debit_card') + $payments->sum('transfer') + $payments->sum('check'), 2) }}</b>
+            </money-box>
 
-                <div class="info-box-content">
-                    <span class="info-box-text">Tarjeta de débito</span>
-                    <span class="info-box-number">$ {{ number_format($payments->sum('debit_card'), 2) }}</span>
-                </div>
-            </div>
-            <div class="info-box">
-                <span class="info-box-icon bg-orange"><i class="fab fa-cc-visa"></i></span>
+            <money-box color="warning" icon="far fa-money-bill-alt">
+                Efectivo <br>
+                <b>$ {{ number_format($payments->sum('cash'), 2) }}</b>
+            </money-box>
 
-                <div class="info-box-content">
-                    <span class="info-box-text">Tarjeta de crédito</span>
-                    <span class="info-box-number">$ {{ number_format($payments->sum('credit_card'), 2) }}</span>
-                </div>
-            </div>
-            <div class="info-box">
-                <span class="info-box-icon bg-red"><i class="fas fa-exchange-alt"></i></span>
+            <money-box color="warning" icon="fa fa-credit-card">
+                T. Débito <br>
+                <b>$ {{ number_format($payments->sum('debit_card'), 2) }}</b>
+            </money-box>
 
-                <div class="info-box-content">
-                    <span class="info-box-text">Transferencia</span>
-                    <span class="info-box-number">$ {{ number_format($payments->sum('transfer'), 2) }}</span>
-                </div>
-            </div>
-            <div class="info-box">
-                <span class="info-box-icon bg-orange"><i class="fas fa-money-check-alt"></i></span>
+            <money-box color="warning" icon="fab fa-cc-visa">
+                T. Crédito <br>
+                <b>$ {{ number_format($payments->sum('credit_Card'), 2) }}</b>
+            </money-box>
 
-                <div class="info-box-content">
-                    <span class="info-box-text">Cheque</span>
-                    <span class="info-box-number">$ {{ number_format($payments->sum('check'), 2) }}</span>
-                </div>
-            </div> --}}
+            <money-box color="warning" icon="fas fa-exchange-alt">
+                Transferencia <br>
+                <b>$ {{ number_format($payments->sum('transfer'), 2) }}</b>
+            </money-box>
 
-            <div class="box box-warning box-solid collapsed-box">
-                <div class="box-header with-border">
-                    <h3 class="box-title">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <i class="far fa-money-bill-alt fa-2x"></i>
-                            </div>
-                            <div class="col-md-8">
-                                Efectivo <br>
-                                <b>$ {{ number_format($payments->sum('cash'), 2) }}</b>
-                            </div>
-                        </div>
-                    </h3>
-                </div>
-                <div class="box-body"></div>
-            </div>
-
-            <div class="box box-danger box-solid collapsed-box">
-                <div class="box-header with-border">
-                    <h3 class="box-title">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <i class="fa fa-credit-card fa-2x"></i>
-                            </div>
-                            <div class="col-md-8">
-                                T. Débito <br>
-                                <b>$ {{ number_format($payments->sum('debit_card'), 2) }}</b>
-                            </div>
-                        </div>
-                    </h3>
-                </div>
-                <div class="box-body"></div>
-            </div>
-
-            <div class="box box-warning box-solid collapsed-box">
-                <div class="box-header with-border">
-                    <h3 class="box-title">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <i class="fab fa-cc-visa fa-2x"></i>
-                            </div>
-                            <div class="col-md-8">
-                                T. Crédito <br>
-                                <b>$ {{ number_format($payments->sum('credit_card'), 2) }}</b>
-                            </div>
-                        </div>
-                    </h3>
-                </div>
-                <div class="box-body"></div>
-            </div>
-
-            <div class="box box-danger box-solid collapsed-box">
-                <div class="box-header with-border">
-                    <h3 class="box-title">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <i class="fas fa-exchange-alt fa-2x"></i>
-                            </div>
-                            <div class="col-md-9">
-                                Transferencia <br>
-                                <b>$ {{ number_format($payments->sum('transfer'), 2) }}</b>
-                            </div>
-                        </div>
-                    </h3>
-                </div>
-                <div class="box-body"></div>
-            </div>
-
-            <div class="box box-warning box-solid collapsed-box">
-                <div class="box-header with-border">
-                    <h3 class="box-title">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <i class="fas fa-money-check-alt fa-2x"></i>
-                            </div>
-                            <div class="col-md-8">
-                                Cheque <br>
-                                <b>$ {{ number_format($payments->sum('check'), 2) }}</b>
-                            </div>
-                        </div>
-                    </h3>
-                </div>
-                <div class="box-body"></div>
-            </div>
-
-            <div class="box box-primary box-solid collapsed-box">
-                <div class="box-header with-border">
-                    <h3 class="box-title">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <i class="fas fa-clock fa-2x"></i>
-                            </div>
-                            <div class="col-md-9">
-                                Total Diario <br>
-                                <b>$ {{ number_format($payments->sum('cash') + $payments->sum('credit_card') + $payments->sum('debit_card') + $payments->sum('transfer') + $payments->sum('check'), 2) }}</b>
-                            </div>
-                        </div>
-                    </h3>
-                </div>
-                <div class="box-body"></div>
-            </div>
-
-            <div class="box box-success box-solid collapsed-box">
-                <div class="box-header with-border">
-                    <h3 class="box-title">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <i class="fas fa-calendar-alt fa-2x"></i>
-                            </div>
-                            <div class="col-md-9">
-                                Total Mensual <br>
-                                <b>$ {{ number_format($month->sum('cash') + $month->sum('credit_card') + $month->sum('debit_card') + $month->sum('transfer') + $month->sum('check'), 2) }}</b>
-                            </div>
-                        </div>
-                    </h3>
-                </div>
-                <div class="box-body"></div>
-            </div>
-
+            <money-box color="warning" icon="fas fa-money-check-alt">
+                Cheque <br>
+                <b>$ {{ number_format($payments->sum('check'), 2) }}</b>
+            </money-box>
         </div>
 
 
-        <div class="col-md-10">
+        <div class="col-md-8">
 
             {!! Form::open(['method' => 'post', 'route' => 'coffee.admin.index']) !!}
                 
@@ -190,16 +60,16 @@
 
             <br>
 
-            <solid-box title="CON FACTURA" color="danger" button collapsed>
+            <solid-box title="CON FACTURA" color="default" button collapsed>
                 
                 <data-table example="1">
 
-                    {{ drawHeader('ID','fecha venta', 'cliente', 'IVA', 'total', 'estado') }}
+                    {{ drawHeader('folio','fecha venta', 'cliente', 'IVA', 'total', 'estado') }}
 
                     <template slot="body">
                         @foreach($invoiced as $sale)
                             <tr>
-                                <td>{{ $sale->id }}</td>
+                                <td>{{ $sale->folio }}</td>
                                 <td>{{ fdate($sale->bought_at, 'd M Y', 'Y-m-d') }}</td>
                                 <td>{{ $sale->client->name }}</td>
                                 <td>$ {{ number_format($sale->iva, 2) }}</td>
@@ -217,17 +87,28 @@
 
             </solid-box>
 
-            <solid-box title="EFECTIVO SIN FACTURA" color="warning" button collapsed>
+            <solid-box title="EFECTIVO SIN FACTURA" color="d" button collapsed>
                 
                 <data-table example="2">
 
-                    {{ drawHeader('ID','fecha venta', 'cliente', 'IVA', 'total', 'estado') }}
+                    {{ drawHeader('folio', '<i class="fa fa-eye"></i>', 'fecha venta', 'cliente', 'IVA', 'total', 'estado') }}
 
                     <template slot="body">
                         @foreach($paid as $ingress)
                             @if ($ingress->method == 'cash')
                             <tr>
-                                <td>{{ $ingress->id }}</td>
+                                <td>{{ $ingress->folio }}</td>
+                                <td>
+                                    <a href="" data-toggle="modal" data-target="#modal-e{{ $ingress->id }}">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+                                    <modal title="Lista de productos" id="modal-e{{ $ingress->id }}">
+                                        <sale-products-list sale="{{ $ingress->id }}" 
+                                            amount="{{ $ingress->amount }}"
+                                            iva="{{ $ingress->iva }}">
+                                        </sale-products-list>
+                                    </modal>
+                                </td>
                                 <td>{{ fdate($ingress->bought_at, 'd M Y', 'Y-m-d') }}</td>
                                 <td>{{ $ingress->client->name }}</td>
                                 <td>$ {{ number_format($ingress->iva, 2) }}</td>
@@ -246,17 +127,28 @@
 
             </solid-box>
 
-            <solid-box title="TARJETA SIN FACTURA" color="danger" button collapsed>
+            <solid-box title="TARJETA SIN FACTURA" color="default" button collapsed>
                 
                 <data-table example="3">
 
-                    {{ drawHeader('ID','fecha venta', 'cliente', 'IVA', 'total', 'estado') }}
+                    {{ drawHeader('folio', '<i class="fa fa-eye"></i>', 'fecha venta', 'cliente', 'IVA', 'total', 'estado') }}
 
                     <template slot="body">
                         @foreach($paid as $ingress)
                             @if ($ingress->method == 'credit_card' || $ingress->method == 'debit_card')
                             <tr>
-                                <td>{{ $ingress->id }}</td>
+                                <td>{{ $ingress->folio }}</td>
+                                <td>
+                                    <a href="" data-toggle="modal" data-target="#modal-tj{{ $ingress->id }}">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+                                    <modal title="Lista de productos" id="modal-tj{{ $ingress->id }}">
+                                        <sale-products-list sale="{{ $ingress->id }}" 
+                                            amount="{{ $ingress->amount }}"
+                                            iva="{{ $ingress->iva }}">
+                                        </sale-products-list>
+                                    </modal>
+                                </td>
                                 <td>{{ fdate($ingress->bought_at, 'd M Y', 'Y-m-d') }}</td>
                                 <td>{{ $ingress->client->name }}</td>
                                 <td>$ {{ number_format($ingress->iva, 2) }}</td>
@@ -275,17 +167,28 @@
 
             </solid-box>
 
-            <solid-box title="TRANSFERENCIA SIN FACTURA" color="warning" button collapsed>
+            <solid-box title="TRANSFERENCIA SIN FACTURA" color="d" button collapsed>
                 
                 <data-table example="4">
 
-                    {{ drawHeader('ID','fecha venta', 'cliente', 'IVA', 'total', 'estado') }}
+                    {{ drawHeader('folio', '<i class="fa fa-eye"></i>', 'fecha venta', 'cliente', 'IVA', 'total', 'estado') }}
 
                     <template slot="body">
                         @foreach($paid as $ingress)
                             @if ($ingress->method == 'transfer')
                             <tr>
-                                <td>{{ $ingress->id }}</td>
+                                <td>{{ $ingress->folio }}</td>
+                                <td>
+                                    <a href="" data-toggle="modal" data-target="#modal-tr{{ $ingress->id }}">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+                                    <modal title="Lista de productos" id="modal-tr{{ $ingress->id }}">
+                                        <sale-products-list sale="{{ $ingress->id }}" 
+                                            amount="{{ $ingress->amount }}"
+                                            iva="{{ $ingress->iva }}">
+                                        </sale-products-list>
+                                    </modal>
+                                </td>
                                 <td>{{ fdate($ingress->bought_at, 'd M Y', 'Y-m-d') }}</td>
                                 <td>{{ $ingress->client->name }}</td>
                                 <td>$ {{ number_format($ingress->iva, 2) }}</td>
@@ -304,16 +207,16 @@
 
             </solid-box>
 
-            <solid-box title="ABONOS Y ANTICIPOS" color="danger" button collapsed>
+            <solid-box title="ABONOS Y ANTICIPOS" color="default" button collapsed>
                 
                 <data-table example="5">
 
-                    {{ drawHeader('ID','tipo', 'cliente', 'cantidad', 'total', 'estado') }}
+                    {{ drawHeader('folio','tipo', 'cliente', 'cantidad', 'total', 'estado') }}
 
                     <template slot="body">
                         @foreach($deposits as $deposit)
                             <tr>
-                                <td>{{ $deposit->ingress->id }}</td>
+                                <td>{{ $deposit->ingress->folio }}</td>
                                 <td>{{ ucfirst($deposit->type) }}</td>
                                 <td>{{ $deposit->ingress->client->name }}</td>
                                 <td>{!! $deposit->methods !!}</td>
@@ -330,6 +233,40 @@
                 </data-table>
 
             </solid-box>
+        </div>
+
+
+        <div class="col-md-2">
+            <money-box color="primary" icon="fas fa-calendar-alt">
+                Mensual <br>
+                <b>$ {{ number_format($month->sum('cash') + $month->sum('credit_card') + $month->sum('debit_card') + $month->sum('transfer') + $month->sum('check'), 2) }}</b>
+            </money-box>
+
+            <money-box color="info" icon="far fa-money-bill-alt">
+                Efectivo <br>
+                <b>$ {{ number_format($month->sum('cash'), 2) }}</b>
+            </money-box>
+
+            <money-box color="info" icon="fa fa-credit-card">
+                T. Débito <br>
+                <b>$ {{ number_format($month->sum('debit_card'), 2) }}</b>
+            </money-box>
+
+            <money-box color="info" icon="fab fa-cc-visa">
+                T. Crédito <br>
+                <b>$ {{ number_format($month->sum('credit_Card'), 2) }}</b>
+            </money-box>
+
+            <money-box color="info" icon="fas fa-exchange-alt">
+                Transferencia <br>
+                <b>$ {{ number_format($month->sum('transfer'), 2) }}</b>
+            </money-box>
+
+            <money-box color="info" icon="fas fa-money-check-alt">
+                Cheque <br>
+                <b>$ {{ number_format($month->sum('check'), 2) }}</b>
+            </money-box>
+            
         </div>
     </div>
 

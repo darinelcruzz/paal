@@ -60,6 +60,8 @@ Vue.component('shopping-list', require('./components/ShoppingList.vue'));
 Vue.component('shopping-list-item', require('./components/ShoppingListItem.vue'));
 Vue.component('payment-methods', require('./components/PaymentMethods.vue'));
 Vue.component('client-select', require('./components/ClientSelect.vue'));
+Vue.component('money-box', require('./components/MoneyBox.vue'));
+Vue.component('sale-products-list', require('./components/SaleProductsList.vue'));
 
 const Bus = new Vue({});
 

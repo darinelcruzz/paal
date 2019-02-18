@@ -16,6 +16,7 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	Route::group(['prefix' => 'ingresos', 'as' => 'ingress.'], function () {
 	    $ctrl = 'Coffee\IngressController';
 	    Route::get('/', usesas($ctrl, 'index'));
+	    Route::post('/', usesas($ctrl, 'index'));
 	    Route::get('agregar', usesas($ctrl, 'create'));
 	    Route::post('agregar', usesas($ctrl, 'store'));
 	    Route::get('pagar/{ingress}', usesas($ctrl, 'charge'));

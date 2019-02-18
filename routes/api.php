@@ -10,5 +10,10 @@ Route::group(['prefix' => 'products', 'as' => 'api.product.'], function () {
 
 Route::group(['prefix' => 'clients', 'as' => 'api.client.'], function () {
 	$ctrl = 'Api\ClientController';
-	Route::get('', usesas($ctrl, 'index'));
+	Route::get('/', usesas($ctrl, 'index'));
+});
+
+Route::group(['prefix' => 'sales', 'as' => 'api.sale.'], function () {
+	$ctrl = 'Api\SaleController';
+	Route::get('show/{ingress}', usesas($ctrl, 'show'));
 });
