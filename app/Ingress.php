@@ -8,7 +8,7 @@ class Ingress extends Model
 {
     protected $fillable = [
     	'client_id', 'bought_at', 'products', 'company', 'amount', 'retained_at', 'retainer',
-    	'status', 'iva', 'paid_at', 'user_id', 'invoice', 'invoice_id', 'folio', 'special_products'
+    	'status', 'iva', 'paid_at', 'user_id', 'invoice', 'invoice_id', 'folio', 'special_products', 'canceled_for'
     ];
 
     function client()
@@ -34,7 +34,7 @@ class Ingress extends Model
 
     function getStatusColorAttribute()
     {
-        $classes = ['pendiente' => 'warning', 'vencido' => 'danger', 'crédito' => 'default', 'pagado' => 'success'];
+        $classes = ['pendiente' => 'warning', 'vencido' => 'danger', 'crédito' => 'default', 'pagado' => 'success', 'cancelado' => 'danger'];
 
         return $classes[$this->status];
     }

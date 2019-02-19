@@ -79,4 +79,24 @@
     function printTicket() {
         window.print();
     }
+
+    $(document).ready(function() {
+        $('tbody').on('click', '.deleteThisObject', function () {
+            id = $(this).attr('idInstance');
+            route = $(this).attr('route');
+
+            swal('¿Está seguro?', 'Si no lo está, puede cancelar la acción', 'warning', {buttons: true, dangerMode: true})
+            .then((result) => {
+                if(result) {
+                    swal('Escribe la razón de la cancelación:', {
+                      content: "input",
+                    }).then((value) => {
+                        window.location = route + "/cancelar/" + id + "/" + value;
+                    });
+                } else {
+                  swal('No se cancelará nada :)')
+                }
+            });
+        });
+    });
 </script>

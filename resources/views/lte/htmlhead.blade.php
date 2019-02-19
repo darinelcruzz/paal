@@ -34,4 +34,7 @@
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
   <link href="{{ asset('css/flag-icon.css') }}" rel="stylesheet">
+
+  <!-- Sweet Alert -->
+  <script src="{{ asset('adminlte/plugins/sweetalert/sweetalert.min.js') }}"></script>
 </head>

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use App\{Ingress, Product, Client, Payment};
+use Alert;
 
 class IngressController extends Controller
 {
@@ -14,7 +15,7 @@ class IngressController extends Controller
         $date = isset($request->date) ? $request->date: date('Y-m');
 
         $ingresses = Ingress::where('company', 'coffee')
-                        ->where('status', '!=', 'cancelado')
+                        // ->where('status', '!=', 'cancelado')
                         ->whereMonth('created_at', substr($date, 5, 7))
                         ->whereYear('created_at', substr($date, 0, 4))
                         ->orderByDesc('id')
@@ -160,5 +161,17 @@ class IngressController extends Controller
         }
 
         return view('coffee.ingresses.show', compact('ingress'));
+    }
+
+    function destroy(Ingress $ingress, $reason)
+    {
+        Alert::success('Venta cancelada', "La venta $ingress->folio se ha cancelado exitosamente")->persistent('Cerrar');
+
+        $ingress->update([
+            'status' => 'cancelado',
+            'canceled_for' => $reason
+        ]);
+
+        return back();
     }
 }

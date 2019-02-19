@@ -12,19 +12,31 @@ class AdminController extends Controller
     {
         $date = isset($request->date) ? $request->date: date('Y-m-d');
 
-        $payments = Payment::whereDate('created_at', $date);
+        $payments = Payment::whereDate('created_at', $date)
+            ->whereHas('ingress', function($query) {
+                $query->where('status', '!=', 'cancelado');
+            });
 
-        $deposits = Payment::whereDate('created_at', $date)->where('type', '!=', 'contado')->get();
+        $deposits = Payment::whereDate('created_at', $date)
+            ->whereHas('ingress', function($query) {
+                $query->where('status', '!=', 'cancelado');
+            })
+            ->where('type', '!=', 'contado')->get();
 
-        $month = Payment::whereMonth('created_at', substr($date, 5, 2));
+        $month = Payment::whereMonth('created_at', substr($date, 5, 2))
+            ->whereHas('ingress', function($query) {
+                $query->where('status', '!=', 'cancelado');
+            });
 
         $invoiced = Ingress::whereDate('created_at', $date)
             ->where('invoice', '!=', 'no')
+            ->where('status', '!=', 'cancelado')
             ->where('retainer', 0)
             ->get();
 
         $paid = Ingress::whereDate('created_at', $date)
             ->where('invoice', 'no')
+            ->where('status', '!=', 'cancelado')
             ->where('retainer', 0)
             ->get();
 

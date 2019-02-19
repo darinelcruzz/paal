@@ -54,6 +54,14 @@
                                                 <i class="fa fa-print" aria-hidden="true"></i> Imprimir
                                             </a>
                                         </li>
+                                        @if ($ingress->status != 'cancelado')
+                                            <li>
+                                                <a class="deleteThisObject" idInstance="{{ $ingress->id }}" route="ingresos">
+                                                    <i class="fa fa-ban" aria-hidden="true"></i> Cancelar
+                                                </a>
+                                            </li>
+                                        @endif
+
                                     </dropdown>
                                 </td>
                                 <td>{{ fdate($ingress->bought_at, 'd M Y', 'Y-m-d') }}</td>
@@ -76,5 +84,7 @@
             </solid-box>
         </div>
     </div>
+
+    @include('sweet::alert')
 
 @endsection
