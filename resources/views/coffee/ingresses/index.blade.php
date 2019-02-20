@@ -47,7 +47,7 @@
                                 <td>{{ $ingress->folio }}</td>
                                 <td>
                                     <dropdown icon="cogs" color="danger">
-                                        <ddi v-if="{{ $ingress->status == 'pagado' ? 0: 1 }}" to="{{ route('coffee.ingress.charge', $ingress) }}" icon="money" text="Pagar"></ddi>
+                                        <ddi v-if="{{ $ingress->status == 'pagado' || $ingress->status == 'cancelado' ? 0: 1 }}" to="{{ route('coffee.ingress.charge', $ingress) }}" icon="money" text="Pagar"></ddi>
                                         <ddi to="{{ route('coffee.ingress.show', $ingress) }}" icon="eye" text="Detalles"></ddi>
                                         <li>
                                             <a href="{{ route('coffee.ingress.ticket', $ingress) }}" target="_blank">
@@ -71,9 +71,29 @@
                                 <td>{{ $ingress->retainer > 0 ? "$ " . number_format($ingress->retainer, 2): '' }}</td>
                                 <td>{{ $ingress->method_name }}</td>
                                 <td>
-                                    <span class="label label-{{ $ingress->statusColor }}">
-                                        {{ ucfirst($ingress->status) }}
-                                    </span>
+                                    @if ($ingress->status == 'cancelado')
+                                        <a type="button" class="label label-danger" data-toggle="modal" data-target="#modal-cancelation-{{$ingress->id}}">
+                                            {{ ucfirst($ingress->status) }}
+                                        </a>
+
+                                        <div class="modal modal-danger fade" id="modal-cancelation-{{$ingress->id}}">
+                                          <div class="modal-dialog">
+                                            <div class="modal-content">
+                                              <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                  <span aria-hidden="true">&times;</span></button>
+                                                <h4 class="modal-title">Razones de la cancelación</h4>
+                                              </div>
+                                              <div class="modal-body">
+                                                    {{ $ingress->canceled_for }}
+                                              </div>
+                                          </div>
+                                        </div>
+                                    @else
+                                        <span class="label label-{{ $ingress->statusColor }}">
+                                            {{ ucfirst($ingress->status) }}
+                                        </span>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
