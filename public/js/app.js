@@ -14338,7 +14338,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(15);
-module.exports = __webpack_require__(153);
+module.exports = __webpack_require__(156);
 
 
 /***/ }),
@@ -14414,7 +14414,7 @@ Vue.component('shopping-list-item', __webpack_require__(141));
 Vue.component('payment-methods', __webpack_require__(144));
 Vue.component('client-select', __webpack_require__(147));
 Vue.component('money-box', __webpack_require__(150));
-Vue.component('sale-products-list', __webpack_require__(155));
+Vue.component('sale-products-list', __webpack_require__(153));
 
 var Bus = new Vue({});
 
@@ -54426,21 +54426,14 @@ if (false) {
 
 /***/ }),
 /* 153 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 154 */,
-/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(156)
+var __vue_script__ = __webpack_require__(154)
 /* template */
-var __vue_template__ = __webpack_require__(157)
+var __vue_template__ = __webpack_require__(155)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -54479,7 +54472,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 156 */
+/* 154 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -54559,7 +54552,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 157 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -54658,6 +54651,12 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-cde87880", module.exports)
   }
 }
+
+/***/ }),
+/* 156 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

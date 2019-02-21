@@ -43,74 +43,77 @@ class IngressController extends Controller
             'bought_at' => 'required',
         ]);
 
-        $last_sale = Ingress::where('company', 'coffee')->get()->last();
-        $last_folio = $last_sale ? $last_sale->folio + 1: 1;
+        if ($request->folio != Ingress::where('company', 'coffee')->get()->last()->folio) {
 
-        $total = $request->cash + $request->transfer + $request->check
-            + $request->debit_card + $request->credit_card;
+            $last_sale = Ingress::where('company', 'coffee')->get()->last();
+            $last_folio = $last_sale ? $last_sale->folio + 1: 1;
 
-        $ingress = Ingress::create([
-            'folio' => $last_folio,
-            'client_id' => $request->client_id,
-            'user_id' => $request->user_id,
-            'invoice' => $request->invoice,
-            'amount' => $request->amount,
-            'iva' => $request->iva,
-            'company' => $request->company,
-            'bought_at' => $request->bought_at,
-            'retainer' => $request->type == 'anticipo' ? $total: 0,
-        ]);
+            $total = $request->cash + $request->transfer + $request->check
+                + $request->debit_card + $request->credit_card;
 
-        $products = [];
-        $special = [];
+            $ingress = Ingress::create([
+                'folio' => $last_folio,
+                'client_id' => $request->client_id,
+                'user_id' => $request->user_id,
+                'invoice' => $request->invoice,
+                'amount' => $request->amount,
+                'iva' => $request->iva,
+                'company' => $request->company,
+                'bought_at' => $request->bought_at,
+                'retainer' => $request->type == 'anticipo' ? $total: 0,
+            ]);
 
-        for ($i=0; $i < count($request->items); $i++) {
-            if ($request->is_special[$i] == 0) {
-                array_push($products, [
-                    'i' => $request->items[$i],
-                    'q' => $request->quantities[$i],
-                    'p' => $request->prices[$i],
-                    'd' => $request->discounts[$i],
-                    't' => $request->subtotals[$i],
+            $products = [];
+            $special = [];
+
+            for ($i=0; $i < count($request->items); $i++) {
+                if ($request->is_special[$i] == 0) {
+                    array_push($products, [
+                        'i' => $request->items[$i],
+                        'q' => $request->quantities[$i],
+                        'p' => $request->prices[$i],
+                        'd' => $request->discounts[$i],
+                        't' => $request->subtotals[$i],
+                    ]);
+                } else {
+                    array_push($special, [
+                        'i' => $request->items[$i],
+                        'q' => $request->quantities[$i],
+                        'p' => $request->prices[$i],
+                        'd' => $request->discounts[$i],
+                        't' => $request->subtotals[$i],
+                    ]);
+                }
+            }
+
+            if ($request->type == 'anticipo') {
+                $ingress->update([
+                    'products' => serialize($products),
+                    'special_products' => serialize($special),
+                    'retained_at' => date('Y-m-d'),
+                    'status' => 'pendiente'
                 ]);
             } else {
-                array_push($special, [
-                    'i' => $request->items[$i],
-                    'q' => $request->quantities[$i],
-                    'p' => $request->prices[$i],
-                    'd' => $request->discounts[$i],
-                    't' => $request->subtotals[$i],
+                $ingress->update([
+                    'products' => serialize($products),
+                    'special_products' => serialize($special),
+                    'paid_at' => date('Y-m-d'),
+                    // 'status' => $request->method == 5 ? 'crédito' :'pendiente'
+                    'status' => 'pagado'
                 ]);
             }
-        }
 
-        if ($request->type == 'anticipo') {
-            $ingress->update([
-                'products' => serialize($products),
-                'special_products' => serialize($special),
-                'retained_at' => date('Y-m-d'),
-                'status' => 'pendiente'
-            ]);
-        } else {
-            $ingress->update([
-                'products' => serialize($products),
-                'special_products' => serialize($special),
-                'paid_at' => date('Y-m-d'),
-                // 'status' => $request->method == 5 ? 'crédito' :'pendiente'
-                'status' => 'pagado'
+            $payment = Payment::create([
+                'ingress_id' => $ingress->id,
+                'type' => $request->type,
+                'cash' => $request->cash,
+                'transfer' => $request->transfer,
+                'check' => $request->check,
+                'debit_card' => $request->debit_card,
+                'credit_card' => $request->credit_card,
+                'reference' => $request->reference,
             ]);
         }
-
-        $payment = Payment::create([
-            'ingress_id' => $ingress->id,
-            'type' => $request->type,
-            'cash' => $request->cash,
-            'transfer' => $request->transfer,
-            'check' => $request->check,
-            'debit_card' => $request->debit_card,
-            'credit_card' => $request->credit_card,
-            'reference' => $request->reference,
-        ]);
 
         return redirect(route('coffee.ingress.index'));
     }
