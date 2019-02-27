@@ -27,6 +27,17 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 		Route::get('{ingress}', usesas($ctrl, 'show'));
 	});
 
+	Route::group(['prefix' => 'cotizaciones', 'as' => 'quotation.'], function () {
+	    $ctrl = 'Coffee\QuotationController';
+	    Route::get('/', usesas($ctrl, 'index'));
+	    Route::post('/', usesas($ctrl, 'index'));
+	    Route::get('agregar', usesas($ctrl, 'create'));
+	    Route::post('agregar', usesas($ctrl, 'store'));
+		Route::get('descargar/{quotation}', usesas($ctrl, 'download'));
+		Route::get('transformar/{quotation}', usesas($ctrl, 'transform'));
+		Route::get('{quotation}', usesas($ctrl, 'show'));
+	});
+
 	Route::group(['prefix' => 'clientes', 'as' => 'client.'], function () {
 	    $ctrl = 'Coffee\ClientController';
 	    Route::get('/', usesas($ctrl, 'index'));

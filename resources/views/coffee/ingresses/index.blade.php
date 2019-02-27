@@ -1,7 +1,7 @@
 @extends('coffee.root')
 
 @push('pageTitle')
-    Ingresos
+    Ventas | Historial
 @endpush
 
 @push('headerTitle')
@@ -10,13 +10,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-1">
-            <a href="{{ route('coffee.ingress.create') }}" class="btn btn-danger btn-sm">
-                <i class="fa fa-plus"></i>&nbsp;&nbsp;<i class="fa fa-mug-hot fa-2x"></i>
-            </a>
-        </div>
-
-        <div class="col-md-10">
+        <div class="col-md-10 col-md-offset-1">
             {!! Form::open(['method' => 'post', 'route' => 'coffee.ingress.index']) !!}
                 
                 <div class="row">
@@ -35,7 +29,7 @@
 
             <br>
 
-            <solid-box title="Ventas" color="danger" button>
+            <solid-box title="Ventas" color="danger">
 
                 <data-table example="1">
 

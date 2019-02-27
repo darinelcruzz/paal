@@ -26,10 +26,9 @@ class IngressController extends Controller
     function create()
     {
         $clients = Client::where('company', '!=', 'mbe')->get(['id', 'name', 'rfc'])->toJson();
-        $products = Product::all();
         $last_sale = Ingress::where('company', 'coffee')->get()->last();
         $last_folio = $last_sale ? $last_sale->folio + 1: 1;
-        return view('coffee.ingresses.create', compact('clients', 'products', 'last_folio'));
+        return view('coffee.ingresses.create', compact('clients', 'last_folio'));
     }
 
     function store(Request $request)

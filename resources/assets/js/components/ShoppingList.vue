@@ -59,7 +59,7 @@
 
 <script>
 	export default {
-		props: ['color', 'exchange'],
+		props: ['color', 'exchange', 'qproducts'],
 		data() {
 			return {
                 inputs: [],
@@ -136,6 +136,11 @@
             }
 		},
         created() {
+            if (this.qproducts) {
+                for (var i = 0; i < this.qproducts.length; i++) {
+                    this.inputs.push(this.qproducts[i])
+                }
+            }
             this.$root.$on('add-element', (product) => {
                 this.addRow(product)
             })

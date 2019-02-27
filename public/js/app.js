@@ -52925,7 +52925,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['color', 'exchange'],
+    props: ['color', 'exchange', 'qproducts'],
     data: function data() {
         return {
             inputs: [],
@@ -53013,6 +53013,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     created: function created() {
         var _this = this;
 
+        if (this.qproducts) {
+            for (var i = 0; i < this.qproducts.length; i++) {
+                this.inputs.push(this.qproducts[i]);
+            }
+        }
         this.$root.$on('add-element', function (product) {
             _this.addRow(product);
         });

@@ -8,10 +8,46 @@ return [
         'route' => 'coffee.admin.index'
     ],
 
+    'quotations' => [
+        'title' => 'Cotizaciones',
+        'icon' => 'fas fa-file-invoice',
+        'submenu' => [
+            'create' => [
+                'title' => 'Agregar',
+                'route' => 'coffee.quotation.create'
+            ],
+            'index' => [
+                'title' => 'Historial',
+                'route' => 'coffee.quotation.index'
+            ]
+        ]
+    ],
+
     'ingresses' => [
         'title' => 'Ventas',
         'icon' => 'fa fa-mug-hot',
-        'route' => 'coffee.ingress.index'
+        'submenu' => [
+            'create' => [
+                'title' => 'Agregar',
+                'route' => 'coffee.ingress.create'
+            ],
+            'index' => [
+                'title' => 'Diarias',
+                'route' => 'coffee.ingress.index'
+            ],
+            'invoices' => [
+                'title' => 'Facturadas',
+                'route' => 'coffee.ingress.index'
+            ],
+            'monthly' => [
+                'title' => 'Corte mensual',
+                'route' => 'coffee.ingress.index'
+            ],
+            'daily' => [
+                'title' => 'Corte diario',
+                'route' => 'coffee.ingress.index'
+            ]
+        ]
     ],
 
     'egresses' => [

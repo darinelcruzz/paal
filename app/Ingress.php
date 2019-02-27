@@ -8,12 +8,17 @@ class Ingress extends Model
 {
     protected $fillable = [
     	'client_id', 'bought_at', 'products', 'company', 'amount', 'retained_at', 'retainer',
-    	'status', 'iva', 'paid_at', 'user_id', 'invoice', 'invoice_id', 'folio', 'special_products', 'canceled_for'
+    	'status', 'iva', 'paid_at', 'user_id', 'invoice', 'invoice_id', 'folio', 'special_products', 'canceled_for', 'quotation_id'
     ];
 
     function client()
     {
-    	return $this->belongsTo(Client::class);
+        return $this->belongsTo(Client::class);
+    }
+
+    function quotation()
+    {
+    	return $this->belongsTo(Quotation::class);
     }
 
     function payments()
