@@ -35,6 +35,8 @@ class IngressController extends Controller
     {
         $validated = $this->validate($request, [
             'client_id' => 'required',
+            'user_id' => 'required',
+            'quotation_id' => 'sometimes|required',
             'amount' => 'required',
             'invoice' => 'required',
             'iva' => 'required',
@@ -50,15 +52,8 @@ class IngressController extends Controller
             $total = $request->cash + $request->transfer + $request->check
                 + $request->debit_card + $request->credit_card;
 
-            $ingress = Ingress::create([
+            $ingress = Ingress::create($validated + [
                 'folio' => $last_folio,
-                'client_id' => $request->client_id,
-                'user_id' => $request->user_id,
-                'invoice' => $request->invoice,
-                'amount' => $request->amount,
-                'iva' => $request->iva,
-                'company' => $request->company,
-                'bought_at' => $request->bought_at,
                 'retainer' => $request->type == 'anticipo' ? $total: 0,
             ]);
 

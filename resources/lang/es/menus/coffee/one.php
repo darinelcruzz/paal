@@ -34,19 +34,19 @@ return [
             'index' => [
                 'title' => 'Diarias',
                 'route' => 'coffee.ingress.index'
-            ],
-            'invoices' => [
-                'title' => 'Facturadas',
-                'route' => 'coffee.ingress.index'
-            ],
-            'monthly' => [
-                'title' => 'Corte mensual',
-                'route' => 'coffee.ingress.index'
-            ],
-            'daily' => [
-                'title' => 'Corte diario',
-                'route' => 'coffee.ingress.index'
             ]
+            // 'invoices' => [
+            //     'title' => 'Facturadas',
+            //     'route' => 'coffee.ingress.index'
+            // ],
+            // 'monthly' => [
+            //     'title' => 'Corte mensual',
+            //     'route' => 'coffee.ingress.index'
+            // ],
+            // 'daily' => [
+            //     'title' => 'Corte diario',
+            //     'route' => 'coffee.ingress.index'
+            // ]
         ]
     ],
 

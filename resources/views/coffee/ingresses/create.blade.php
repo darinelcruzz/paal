@@ -53,7 +53,7 @@
                       </tab-content>
 
                       <tab-content title="Productos" icon="fa fa-tag">
-                          <shopping-list color="danger" :exchange="{{ env('EXCHANGE_RATE') }}"></shopping-list>
+                          <shopping-list color="danger" :exchange="1.0"></shopping-list>
                        </tab-content>
 
                        <tab-content title="Pago" icon="fa fa-dollar">
@@ -74,7 +74,7 @@
 
         <div class="col-md-6">
             <solid-box title="Productos" color="danger">
-                <p-table color="danger" :exchange="{{ env('EXCHANGE_RATE') }}"></p-table>
+                <p-table color="danger" :exchange="1.0"></p-table>
             </solid-box>
         </div>
     </div>

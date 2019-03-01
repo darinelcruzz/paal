@@ -94,6 +94,8 @@
                         </tfoot>
                     </table>
                 </div>
+
+                <a href="{{ route('coffee.quotation.transform', $quotation) }}" class="btn btn-warning pull-left">CREAR VENTA</a>
             </solid-box>
         </div>
     </div>

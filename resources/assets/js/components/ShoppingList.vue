@@ -133,12 +133,32 @@
                     if (this.families[i].name == family) break
                 }
                 return this.families[i].quantity
-            }
+            },
+            setPrice(product) {
+                if (product.dollars) {
+                    return product.retail_price * this.exchange
+                } else if (product.is_variable) {
+                    return product.retail_price / (1 + 0.16 * product.iva)
+                } else if (product.family == 'SERVICIOS') {
+                    return product.retail_price
+                } else {
+                    var after_iva = product.wholesale_quantity > 0 && product.quantity >= product.wholesale_quantity ? 
+                        product.wholesale_price: product.retail_price
+                    return after_iva / (1 + 0.16 * product.iva)
+                }
+            },
 		},
         created() {
             if (this.qproducts) {
                 for (var i = 0; i < this.qproducts.length; i++) {
-                    this.inputs.push(this.qproducts[i])
+                    var product = this.qproducts[i]
+                    // product.price = this.setPrice(product)
+                    product.total =  product.quantity * product.price
+                    if (product.special_description) {
+                        product.description = product.special_description
+                        product.retail_price = product.special_price
+                    }
+                    this.addRow(product)
                 }
             }
             this.$root.$on('add-element', (product) => {

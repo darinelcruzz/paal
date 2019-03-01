@@ -5,7 +5,7 @@
         </td>
         <td>
             <div v-if="product.family == 'ESPECIAL'">
-                <input name="items[]" type="text" class="form-control input-sm" :placeholder="product.description">
+                <input name="items[]" type="text" class="form-control input-sm" :placeholder="product.description" :value="product.description">
                 <input type="hidden" name="is_special[]" value="1">
             </div>
             <div v-else>
@@ -126,6 +126,10 @@ export default {
         } else {
             this.price = this.product.retail_price
             this.quantity = 1
+        }
+
+        if (this.product.quantity > 0) {
+            this.quantity = this.product.quantity
         }
     }
 };

@@ -9,7 +9,7 @@ class AddQuotationIdToIngressesTable extends Migration
     public function up()
     {
         Schema::table('ingresses', function($table) {
-            $table->longText('quotation_id')->nullable();
+            $table->integer('quotation_id')->nullable();
         });
     }
 

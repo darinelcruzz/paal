@@ -71,21 +71,21 @@
                             $total = 0
                         @endphp
 
-                        @foreach($invoiced as $sale)
+                        @foreach($invoiced as $ingress)
                             <tr>
-                                <td>{{ $sale->folio }}</td>
-                                <td>{{ fdate($sale->bought_at, 'd M Y', 'Y-m-d') }}</td>
-                                <td>{{ $sale->client->name }}</td>
+                                <td>{{ $ingress->folio }}</td>
+                                <td>{{ fdate($ingress->bought_at, 'd M Y', 'Y-m-d') }}</td>
+                                <td>{{ $ingress->client->name }}</td>
                                 <td>
-                                    <span class="label label-{{ $sale->statusColor }}">
-                                        {{ ucfirst($sale->status) }}
+                                    <span class="label label-{{ $ingress->statusColor }}">
+                                        {{ ucfirst($ingress->status) }}
                                     </span>
                                 </td>
-                                <td>$ {{ number_format($sale->iva, 2) }}</td>
-                                <td>$ {{ number_format($sale->amount, 2) }}</td>
+                                <td>$ {{ number_format($ingress->iva, 2) }}</td>
+                                <td>$ {{ number_format($ingress->amount, 2) }}</td>
                             </tr>
                             @php
-                                $total += $sale->amount
+                                $total += $ingress->amount
                             @endphp
                         @endforeach
                     </template>
@@ -139,7 +139,7 @@
                                 <td>$ {{ number_format($ingress->amount, 2) }}</td>
                             </tr>
                             @php
-                                $total += $sale->amount
+                                $total += $ingress->amount
                             @endphp
                             @endif
                         @endforeach
@@ -194,7 +194,7 @@
                                 <td>$ {{ number_format($ingress->amount, 2) }}</td>
                             </tr>
                             @php
-                                $total += $sale->amount
+                                $total += $ingress->amount
                             @endphp
                             @endif
                         @endforeach
@@ -249,7 +249,7 @@
                                 <td>$ {{ number_format($ingress->amount, 2) }}</td>
                             </tr>
                             @php
-                                $total += $sale->amount
+                                $total += $ingress->amount
                             @endphp
                             @endif
                         @endforeach
@@ -292,7 +292,7 @@
                                 <td>$ {{ number_format($deposit->total, 2) }}</td>
                             </tr>
                             @php
-                                $total += $sale->amount
+                                $total += $deposit->amount
                             @endphp
                         @endforeach
                     </template>
