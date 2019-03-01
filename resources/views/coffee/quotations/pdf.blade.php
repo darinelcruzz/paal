@@ -3,18 +3,18 @@
     <head>
         <meta charset="utf-8">
         <title>Cotización</title>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <!-- Bootstrap 3.3.7 -->  
         <link rel="stylesheet" href="{{ asset('adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
         <!-- Font Awesome -->
         <link rel="stylesheet" href="{{ asset('adminlte/bower_components/font-awesome/css/font-awesome.min.css') }}">
         <!-- Theme style -->
-        <link rel="stylesheet" href="{{ asset('adminlte/dist/css/AdminLTE.css') }}">
+        {{-- <link rel="stylesheet" href="{{ asset('adminlte/dist/css/AdminLTE.css') }}"> --}}
         <!-- AdminLTE skins -->
         {{-- <link rel="stylesheet" href="{{ asset('adminlte/dist/css/skins/_all-skins.min.css') }}"> --}}
         {{-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous"> --}}
         <!-- Google Font -->
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+        {{-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic"> --}}
         
         <!-- Salto de página -->
         <style>
@@ -39,10 +39,11 @@
                             <td width="60%">
                                 <b>COFFEE DEPOT</b> -
                                 SUCURSAL CHIAPAS<br>
-                                Blvd Angel Albino Corzo #955, Loc A y B COl. Las Palmas CP 29040 <br>
+                                Blvd Angel Albino Corzo #955, <br>
+                                Loc A y B COl. Las Palmas CP 29040 <br>
                                 <i class="fa fa-phone"></i> 01 (961) 121 34 04 &nbsp;&nbsp;&nbsp;&nbsp;
+                                <i class="fa fa-whatsapp"></i> 961 330 65 28<br>
                                 <i class="fa fa-envelope"></i> ventas@coffeedepotchiapas.com.mx <br>
-                                <i class="fa fa-whatsapp"></i> 961 330 65 28 &nbsp;&nbsp;&nbsp;&nbsp;
                                 <i class="fa fa-facebook"></i> Coffee Depot TGZ
                             </td>
                             <td style="text-align: right;">
@@ -60,7 +61,7 @@
 
         <div class="row">
             <div class="col-xs-12">
-                <table width="100%">
+                <table width="100%" class="table table-striped">
                     <thead>
                         <tr style="background-color: red; color: white;">
                             <th colspan="3" style="padding-top: 8px; padding-bottom: 8px; padding-left: 6px;">Cliente</th>
@@ -104,10 +105,11 @@
                     <tbody>
                     @php
                         $subtotal = 0;
+                        $item = 1;
                     @endphp
                     @foreach (unserialize($quotation->products) as $product)
                         <tr>
-                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $item }}</td>
                             <td>{{ App\Product::find($product['i'])->description }}</td>
                             <td>$ {{ number_format($product['p'], 2) }}</td>
                             <td>{{ $product['q'] }}</td>
@@ -116,13 +118,14 @@
                         </tr>
                         @php
                             $subtotal += $product['t'];
+                            $item += 1;
                         @endphp
                     @endforeach
 
                     @if($quotation->special_products)
                         @foreach (unserialize($quotation->special_products) as $product)
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $item }}</td>
                                 <td>{{ $product['i'] }}</td>
                                 <td>$ {{ number_format($product['p'], 2) }}</td>
                                 <td>{{ $product['q'] }}</td>
@@ -131,6 +134,7 @@
                             </tr>
                             @php
                                 $subtotal += $product['t'];
+                                $item += 1;
                             @endphp
                         @endforeach
                     @endif

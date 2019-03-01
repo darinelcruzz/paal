@@ -78,10 +78,11 @@ class QuotationController extends Controller
 
     function download(Quotation $quotation)
     {
-        $pdf = PDF::setOptions(['defaultFont' => 'sans serif', 'isRemoteEnabled' => true, 'isPhpEnabled' => true])
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->setOptions(['isRemoteEnabled' => true, 'isPhpEnabled' => true])
             ->loadView('coffee.quotations.pdf', compact('quotation'));
 
-        return $pdf->download(date('dmYHis') . "COT" . $quotation->id . ".pdf");
+        return $pdf->stream(date('dmYHis') . $quotation->id . ".pdf");
     }
 
     function transform(Quotation $quotation)

@@ -42,7 +42,7 @@
                                 <td>
                                     <dropdown icon="cogs" color="warning">
                                         <ddi to="{{ route('coffee.quotation.show', $quotation) }}" icon="eye" text="Detalles"></ddi>
-                                        <ddi to="{{ route('coffee.quotation.download', $quotation) }}" icon="download" text="Descargar"></ddi>
+                                        <ddi to="{{ route('coffee.quotation.download', $quotation) }}" icon="file-pdf" text="Ver PDF"></ddi>
                                         <ddi to="{{ route('coffee.quotation.transform', $quotation) }}" icon="mug-hot" text="Crear venta"></ddi>
                                     </dropdown>
                                 </td>
