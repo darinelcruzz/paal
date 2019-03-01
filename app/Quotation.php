@@ -29,7 +29,7 @@ class Quotation extends Model
         }
 
         foreach (unserialize($this->special_products) as $product) {
-    		$pmodel = Product::where('family', 'ESPECIAL')->first()->toArray();
+    		$pmodel = Product::find($product['id'])->toArray();
     		$pmodel += ['quantity' => $product['q'], 'discount' => $product['d'],
                 'special_description' => $product['i'], 'special_price' => $product['p']];
     		array_push($products, $pmodel);

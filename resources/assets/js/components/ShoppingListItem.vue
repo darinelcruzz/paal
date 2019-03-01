@@ -5,8 +5,14 @@
         </td>
         <td>
             <div v-if="product.family == 'ESPECIAL'">
-                <input name="items[]" type="text" class="form-control input-sm" :placeholder="product.description" :value="product.description">
+                <div v-if="product.special_description">
+                    <input name="items[]" type="text" class="form-control input-sm" :placeholder="product.description" :value="product.description">
+                </div>
+                <div v-else>
+                    <input name="items[]" type="text" class="form-control input-sm" :placeholder="product.description">
+                </div>
                 <input type="hidden" name="is_special[]" value="1">
+                <input type="hidden" name="ids[]" :value="product.id">
             </div>
             <div v-else>
                 {{ product.description }}

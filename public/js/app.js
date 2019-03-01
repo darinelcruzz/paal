@@ -53302,6 +53302,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -53404,18 +53410,36 @@ var render = function() {
     _c("td", [
       _vm.product.family == "ESPECIAL"
         ? _c("div", [
-            _c("input", {
-              staticClass: "form-control input-sm",
-              attrs: {
-                name: "items[]",
-                type: "text",
-                placeholder: _vm.product.description
-              },
-              domProps: { value: _vm.product.description }
-            }),
+            _vm.product.special_description
+              ? _c("div", [
+                  _c("input", {
+                    staticClass: "form-control input-sm",
+                    attrs: {
+                      name: "items[]",
+                      type: "text",
+                      placeholder: _vm.product.description
+                    },
+                    domProps: { value: _vm.product.description }
+                  })
+                ])
+              : _c("div", [
+                  _c("input", {
+                    staticClass: "form-control input-sm",
+                    attrs: {
+                      name: "items[]",
+                      type: "text",
+                      placeholder: _vm.product.description
+                    }
+                  })
+                ]),
             _vm._v(" "),
             _c("input", {
               attrs: { type: "hidden", name: "is_special[]", value: "1" }
+            }),
+            _vm._v(" "),
+            _c("input", {
+              attrs: { type: "hidden", name: "ids[]" },
+              domProps: { value: _vm.product.id }
             })
           ])
         : _c("div", [

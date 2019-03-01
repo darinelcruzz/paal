@@ -55,6 +55,7 @@ class QuotationController extends Controller
             } else {
                 array_push($special, [
                     'i' => $request->items[$i],
+                    'id' => $request->ids[$i],
                     'q' => $request->quantities[$i],
                     'p' => $request->prices[$i],
                     'd' => $request->discounts[$i],
