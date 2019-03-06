@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Product;
 use Alert;
+use App\Notifications\ProductPriceChanged;
 
 class ProductController extends Controller
 {
@@ -39,13 +40,18 @@ class ProductController extends Controller
                 'Precios modificados')
                 ->persistent('Cerrar');
 
+            $product->notify(new ProductPriceChanged(auth()->user()->name, [$r_old, $w_old]));
+
         } else {
             
             $old = $product->retail_price;
             $product->update($validated + ['wholesale_price' => $request->retail_price]);
             
             Alert::success("El precio se cambió de $" . number_format($old, 2) . " a $" . number_format($product->retail_price, 2), 'Precio modificado')->persistent('Cerrar');
+            
+            $product->notify(new ProductPriceChanged(auth()->user()->name, $old));
         }
+
 
 
         return redirect(route('coffee.product.edit', $product));
