@@ -28,13 +28,13 @@ class ProductPriceChanged extends Notification
     public function toTelegram($product)
     {
         if ($product->wholesale_quantity > 0) {
-            $message = "*$this->user* modificó los precios de *$product->description*:\nMENUDEO >> de $ " . number_format($this->old_values[0], 2) .
-            " a $ " . number_format($product->retail_price, 2) . 
-            "\nMAYOREO >> de $ " . number_format($this->old_values[1], 2) . " a $ " . number_format($product->wholesale_price, 2);
+            $message = "*$this->user* modificó los precios de *$product->description*:\nMENUDEO >> de $" . number_format($this->old_values[0], 2) .
+            " a $" . number_format($product->retail_price, 2) . 
+            "\nMAYOREO >> de $" . number_format($this->old_values[1], 2) . " a $" . number_format($product->wholesale_price, 2);
 
         } else {
-            $message = "$this->user modificó el precio de *$product->description*:\nDe $ " . number_format($this->old_values, 2)
-            . " a $ " . number_format($product->retail_price, 2);
+            $message = "$this->user modificó el precio de *$product->description*:\nDe $" . number_format($this->old_values, 2)
+            . " a $" . number_format($product->retail_price, 2);
         }
 
 
