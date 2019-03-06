@@ -50356,7 +50356,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     props: ['title', 'id', 'color'],
     computed: {
         modalColor: function modalColor() {
-            return this.color != '' ? '#3c8dbc' : this.color;
+            return this.color == '' ? '#3c8dbc' : this.color;
         }
     }
 });

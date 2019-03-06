@@ -47,6 +47,13 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	    Route::post('editar/{client}', usesas($ctrl, 'update'));
 	});
 
+	Route::group(['prefix' => 'productos', 'as' => 'product.'], function () {
+	    $ctrl = 'Coffee\ProductController';
+	    Route::get('/', usesas($ctrl, 'index'));
+	    Route::get('editar/{product}', usesas($ctrl, 'edit'));
+	    Route::post('editar/{product}', usesas($ctrl, 'update'));
+	});
+
 	Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 	    $ctrl = 'Coffee\AdminController';
 	    Route::get('/', usesas($ctrl, 'index'));
