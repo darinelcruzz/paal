@@ -33,6 +33,8 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	    Route::post('/', usesas($ctrl, 'index'));
 	    Route::get('agregar', usesas($ctrl, 'create'));
 	    Route::post('agregar', usesas($ctrl, 'store'));
+	    Route::get('editar/{quotation}', usesas($ctrl, 'edit'));
+	    Route::post('editar/{quotation}', usesas($ctrl, 'update'));
 		Route::get('descargar/{quotation}', usesas($ctrl, 'download'));
 		Route::get('transformar/{quotation}', usesas($ctrl, 'transform'));
 		Route::get('{quotation}', usesas($ctrl, 'show'));

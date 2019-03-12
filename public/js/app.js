@@ -53308,6 +53308,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -53455,6 +53456,11 @@ var render = function() {
             _vm._v(" "),
             _c("input", {
               attrs: { type: "hidden", name: "is_special[]", value: "0" }
+            }),
+            _vm._v(" "),
+            _c("input", {
+              attrs: { type: "hidden", name: "ids[]" },
+              domProps: { value: _vm.product.id }
             })
           ])
     ]),

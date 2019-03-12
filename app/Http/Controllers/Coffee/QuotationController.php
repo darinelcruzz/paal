@@ -23,8 +23,6 @@ class QuotationController extends Controller
 
     function create()
     {
-        $clients = Client::where('company', '!=', 'mbe')->get(['id', 'name', 'rfc'])->toJson();
-
         return view('coffee.quotations.create', compact('clients'));
     }
 
@@ -94,9 +92,51 @@ class QuotationController extends Controller
         return view('coffee.quotations.transform', compact('quotation', 'last_folio'));
     }
 
+    function edit(Quotation $quotation)
+    {
+        return view('coffee.quotations.edit', compact('quotation'));
+    }
+
     function update(Request $request, Quotation $quotation)
     {
-        //
+        $validated = $this->validate($request, [
+            'amount' => 'required',
+            'iva' => 'required',
+            'items' =>'required|min:1'
+        ]);
+
+        $products = [];
+        $special = [];
+
+        for ($i=0; $i < count($request->items); $i++) {
+            if ($request->is_special[$i] == 0) {
+                array_push($products, [
+                    'i' => $request->items[$i],
+                    'q' => $request->quantities[$i],
+                    'p' => $request->prices[$i],
+                    'd' => $request->discounts[$i],
+                    't' => $request->subtotals[$i],
+                ]);
+            } else {
+                array_push($special, [
+                    'i' => $request->items[$i],
+                    'id' => $request->ids[$i],
+                    'q' => $request->quantities[$i],
+                    'p' => $request->prices[$i],
+                    'd' => $request->discounts[$i],
+                    't' => $request->subtotals[$i],
+                ]);
+            }
+        }
+
+        $quotation->update([
+            'products' => serialize($products),
+            'special_products' => serialize($special),
+            'iva' => $request->iva,
+            'amount' => $request->amount,
+        ]);
+
+        return redirect(route('coffee.quotation.show', $quotation));
     }
 
     function destroy(Quotation $quotation)

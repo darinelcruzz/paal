@@ -18,6 +18,7 @@
                 {{ product.description }}
                 <input name="items[]" type="hidden" :value="product.id">
                 <input type="hidden" name="is_special[]" value="0">
+                <input type="hidden" name="ids[]" :value="product.id">
             </div>
         </td>
         <td>

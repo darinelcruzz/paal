@@ -95,7 +95,10 @@
                     </table>
                 </div>
 
-                <a href="{{ route('coffee.quotation.transform', $quotation) }}" class="btn btn-warning pull-left">CREAR VENTA</a>
+                <a href="{{ route('coffee.quotation.index') }}" class="btn btn-danger pull-left">
+                    <i class="fa fa-backward"></i>&nbsp; HISTORIAL
+                </a>
+                <a href="{{ route('coffee.quotation.transform', $quotation) }}" class="btn btn-warning pull-right">CREAR VENTA</a>
             </solid-box>
         </div>
     </div>
