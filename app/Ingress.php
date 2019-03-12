@@ -53,18 +53,19 @@ class Ingress extends Model
 
     function getMethodAttribute()
     {
-        $payment = array_slice($this->payments
-                    // ->where('type', 'contado')
-                    // ->orWhere('type', 'liquidación')
-                    ->first()
-                    ->toArray(), 3, 5);
+        if ($this->payments->first()) {
 
-        return array_search(max($payment), $payment);
+            $payment = array_slice($this->payments->first()->toArray(), 3, 5);
+
+            return array_search(max($payment), $payment);
+        }
+
+        return 'undefined';
     }
 
     function getMethodNameAttribute()
     {
-        $methods = ['cash' => 'Efectivo', 'transfer' => 'Transferencia', 'check' => 'Cheque', 'debit_card' => 'T. Débito', 'credit_card' => 'T. Crédito'];
+        $methods = ['undefined' => '?', 'cash' => 'Efectivo', 'transfer' => 'Transferencia', 'check' => 'Cheque', 'debit_card' => 'T. Débito', 'credit_card' => 'T. Crédito'];
 
         return $methods[$this->method];
     }
