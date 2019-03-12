@@ -18,6 +18,11 @@ class Quotation extends Model
     	return $this->belongsTo(User::class);
     }
 
+    function sales()
+    {
+        return $this->hasMany(Ingress::class, 'quotation_id');
+    }
+
     function getProductsListAttribute()
     {
     	$products = [];
