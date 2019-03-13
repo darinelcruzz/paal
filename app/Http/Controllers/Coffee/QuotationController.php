@@ -134,6 +134,7 @@ class QuotationController extends Controller
             'special_products' => serialize($special),
             'iva' => $request->iva,
             'amount' => $request->amount,
+            'editions_count' => $quotation->editions_count + 1,
         ]);
 
         return redirect(route('coffee.quotation.show', $quotation));

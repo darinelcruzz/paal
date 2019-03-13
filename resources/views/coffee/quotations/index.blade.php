@@ -33,7 +33,7 @@
 
                 <data-table example="1">
 
-                    {{ drawHeader('ID', '<i class="fa fa-cogs"></i>','fecha', 'cliente', 'IVA', 'total', 'ventas') }}
+                    {{ drawHeader('ID', '<i class="fa fa-cogs"></i>','fecha', 'cliente', 'IVA', 'total', 'ventas', 'ediciones') }}
 
                     <template slot="body">
                         @foreach($quotations as $quotation)
@@ -56,6 +56,12 @@
                                         {{ count($quotation->sales) > 0 ? 'VENTA': 'SIN VENTA' }}
                                     </span>
                                 </td>
+                                <td>
+                                    @if ($quotation->editions_count)
+                                        <code style="color: blue">EDICIONES: {{ $quotation->editions_count }}</code>
+                                    @else
+                                        <code>SIN EDITAR</code>
+                                    @endif
                             </tr>
                         @endforeach
                     </template>
