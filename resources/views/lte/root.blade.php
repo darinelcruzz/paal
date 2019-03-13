@@ -3,7 +3,7 @@
 
     @include('lte.htmlhead')
 
-    <body class="hold-transition skin-green sidebar-mini sidebar-collapse">
+    <body class="hold-transition skin-green sidebar-mini">
         <div id="app">
             <div class="wrapper">
                 @include('lte.mainheader', ['logoMini' => "<b>C</b>D", 'logoLg' => "<b>Coffee</b>Depot"])
