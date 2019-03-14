@@ -53506,7 +53506,7 @@ var render = function() {
               attrs: {
                 name: "prices[]",
                 type: "number",
-                min: _vm.product.retail_price
+                min: _vm.product.price
               },
               domProps: { value: _vm.price },
               on: {

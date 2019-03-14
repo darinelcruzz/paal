@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Jenssegers\Date\Date;
 
 class Quotation extends Model
 {
@@ -41,5 +42,15 @@ class Quotation extends Model
     	}
 
     	return collect($products)->toJson();
+    }
+
+    function getIsCanceledAttribute()
+    {
+        $limit = 30 + 30 * $this->client->credit;
+
+        $created_at = strtotime(Date::parse($this->created_at));
+        $elapsed_time = round((time() - $created_at) / (60 * 60 * 24));
+
+        return $elapsed_time > $limit;
     }
 }

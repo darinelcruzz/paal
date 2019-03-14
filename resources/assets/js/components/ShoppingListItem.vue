@@ -26,7 +26,7 @@
                 <input name="prices[]" type="number" v-model="price_in_dollars" step="0.01" class="form-control input-sm">
             </div>
             <div v-else-if="product.category == 'SERVICIOS'">
-                <input name="prices[]" type="number" class="form-control input-sm" :min="product.retail_price" v-model.number="price">
+                <input name="prices[]" type="number" class="form-control input-sm" :min="product.price" v-model.number="price">
             </div>
             <div v-else>
                 {{ price.toFixed(2) }}

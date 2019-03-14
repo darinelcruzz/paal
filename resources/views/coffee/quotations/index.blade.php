@@ -42,9 +42,11 @@
                                 <td>
                                     <dropdown icon="cogs" color="warning">
                                         <ddi to="{{ route('coffee.quotation.show', $quotation) }}" icon="eye" text="Detalles"></ddi>
-                                        <ddi to="{{ route('coffee.quotation.edit', $quotation) }}" icon="edit" text="Editar"></ddi>
                                         <ddi to="{{ route('coffee.quotation.download', $quotation) }}" icon="file-pdf" text="Ver PDF"></ddi>
-                                        <ddi to="{{ route('coffee.quotation.transform', $quotation) }}" icon="mug-hot" text="Crear venta"></ddi>
+                                        @if (!$quotation->is_canceled)
+                                            <ddi to="{{ route('coffee.quotation.edit', $quotation) }}" icon="edit" text="Editar"></ddi>
+                                            <ddi to="{{ route('coffee.quotation.transform', $quotation) }}" icon="mug-hot" text="Crear venta"></ddi>
+                                        @endif
                                     </dropdown>
                                 </td>
                                 <td>{{ fdate($quotation->created_at, 'd M Y') }}</td>
@@ -62,6 +64,7 @@
                                     @else
                                         <code>SIN EDITAR</code>
                                     @endif
+                                </td>
                             </tr>
                         @endforeach
                     </template>
