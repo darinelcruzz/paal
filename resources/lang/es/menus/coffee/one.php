@@ -51,7 +51,7 @@ return [
     ],
 
     'products' => [
-        'title' => 'Products',
+        'title' => 'Productos',
         'icon' => 'fa fa-tags',
         'route' => 'coffee.product.index'
     ],

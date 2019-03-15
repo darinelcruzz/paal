@@ -160,6 +160,46 @@ class IngressController extends Controller
         return view('coffee.ingresses.show', compact('ingress'));
     }
 
+    function invoice(Request $request, Ingress $ingress)
+    {
+        $validated = $request->validate([
+            'invoice_id' => 'required|unique:ingresses',
+            'xml' => 'required'
+        ]);
+        
+        $path = Storage::putFileAs(
+            "public/coffee/invoices", $request->file('xml'), "$request->invoice_id.xml"
+        );
+        
+        $ingress->update($request->only('invoice_id'));
+
+        return redirect(route('coffee.admin.index'));
+    }
+
+    function invoices(Request $request)
+    {
+        // dd($request->all());
+
+        $validated = $request->validate([
+            'invoice_id' => 'required',
+            'reference' => 'required',
+            'xml' => 'required'
+        ]);
+        
+        $path = Storage::putFileAs(
+            "public/coffee/invoices", $request->file('xml'), "$request->invoice_id.xml"
+        );
+        
+        foreach (Ingress::find($request->sales) as $sale) {
+            $sale->update($request->only('invoice_id'));
+            
+            $payment = Payment::where('ingress_id', $sale->id)->first();
+            $payment->update($request->only('reference'));
+        }
+
+        return redirect(route('coffee.admin.index'));
+    }
+
     function destroy(Ingress $ingress, $reason)
     {
         Alert::success('Venta cancelada', "La venta $ingress->folio se ha cancelado exitosamente")->persistent('Cerrar');

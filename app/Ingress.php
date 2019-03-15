@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Ingress extends Model
 {
@@ -68,6 +69,11 @@ class Ingress extends Model
         $methods = ['undefined' => '?', 'cash' => 'Efectivo', 'transfer' => 'Transferencia', 'check' => 'Cheque', 'debit_card' => 'T. Débito', 'credit_card' => 'T. Crédito'];
 
         return $methods[$this->method];
+    }
+
+    function getXmlAttribute()
+    {
+        return Storage::url("public/coffee/invoices/$this->invoice_id.xml");
     }
 
     function storeProducts($request)

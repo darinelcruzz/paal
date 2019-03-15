@@ -1,7 +1,7 @@
 <template>
-	<div class="fileUpload btn btn-success pull-left">
-        <span><i class="fa fa-file-upload" aria-hidden="true"></i>&nbsp;&nbsp;{{ fileName }}</span>
-        <input type="file" :name="fname" :accept="'application/' + ext" class="upload" @change="showFileName">
+	<div :class="'fileUpload btn btn-sm btn-' + buttonColor">
+        <span><i :class="icon" aria-hidden="true"></i> XML</span>
+        <input type="file" :name="fname" :accept="'application/' + ext" class="upload" @change="changeIcon">
     </div>
 </template>
 
@@ -10,20 +10,21 @@
 export default {
 	data() {
         return {
-            fileName: 'Subir archivo'
-        };
+            icon: 'fa fa-upload',
+            buttonColor: 'default',
+        }
     },
-    props: ['fname', 'ext'],
+    props: ['fname', 'ext', 'color'],
     methods: {
-    	showFileName() {
-    		this.fileName = "Listo";
+    	changeIcon() {
+    		this.icon = 'fa fa-check-double';
+            this.buttonColor = 'success';
     	}
     },
     created() {
-    	this.fileName += " ." + this.ext;
+        this.buttonColor = this.color != '' ? this.color: 'default'
     }
-
-}
+};
 	
 </script>
 

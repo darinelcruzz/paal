@@ -26,7 +26,7 @@ export default {
     props: ['title', 'id', 'color'],
     computed: {
         modalColor() {
-            return this.color == '' ? '#3c8dbc': this.color;
+            return this.color != '' ? this.color: '#3c8dbc'
         }
     },
 }

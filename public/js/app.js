@@ -50356,7 +50356,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     props: ['title', 'id', 'color'],
     computed: {
         modalColor: function modalColor() {
-            return this.color == '' ? '#3c8dbc' : this.color;
+            return this.color != '' ? this.color : '#3c8dbc';
         }
     }
 });
@@ -51385,18 +51385,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            fileName: 'Subir archivo'
+            icon: 'fa fa-upload',
+            buttonColor: 'default'
         };
     },
 
-    props: ['fname', 'ext'],
+    props: ['fname', 'ext', 'color'],
     methods: {
-        showFileName: function showFileName() {
-            this.fileName = "Listo";
+        changeIcon: function changeIcon() {
+            this.icon = 'fa fa-check-double';
+            this.buttonColor = 'success';
         }
     },
     created: function created() {
-        this.fileName += " ." + this.ext;
+        this.buttonColor = this.color != '' ? this.color : 'default';
     }
 });
 
@@ -51408,13 +51410,10 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "fileUpload btn btn-success pull-left" }, [
+  return _c("div", { class: "fileUpload btn btn-sm btn-" + _vm.buttonColor }, [
     _c("span", [
-      _c("i", {
-        staticClass: "fa fa-file-upload",
-        attrs: { "aria-hidden": "true" }
-      }),
-      _vm._v("  " + _vm._s(_vm.fileName))
+      _c("i", { class: _vm.icon, attrs: { "aria-hidden": "true" } }),
+      _vm._v(" XML")
     ]),
     _vm._v(" "),
     _c("input", {
@@ -51424,7 +51423,7 @@ var render = function() {
         name: _vm.fname,
         accept: "application/" + _vm.ext
       },
-      on: { change: _vm.showFileName }
+      on: { change: _vm.changeIcon }
     })
   ])
 }

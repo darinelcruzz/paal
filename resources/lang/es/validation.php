@@ -187,5 +187,6 @@ return [
         'debit_card' => 'tarjeta de débito',
         'invoice' => 'factura',
         'category' => 'categoría',
+        'invoice_id' => 'folio',
     ],
 ];
