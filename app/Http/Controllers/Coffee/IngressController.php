@@ -164,6 +164,7 @@ class IngressController extends Controller
     {
         $validated = $request->validate([
             'invoice_id' => 'required|unique:ingresses',
+            'reference' => 'sometimes|required',
             'xml' => 'required'
         ]);
         
@@ -173,13 +174,16 @@ class IngressController extends Controller
         
         $ingress->update($request->only('invoice_id'));
 
+        if (isset($request->reference)) {
+            $payment = Payment::where('ingress_id', $ingress->id)->first();
+            $payment->update($request->only('reference'));
+        }
+
         return redirect(route('coffee.admin.index'));
     }
 
     function invoices(Request $request)
     {
-        // dd($request->all());
-
         $validated = $request->validate([
             'invoice_id' => 'required',
             'reference' => 'required',

@@ -13,7 +13,6 @@
                 
                 <div class="row">
                     <div class="col-md-3">
-                        {{-- {!! Field::date('date', $date, ['label' => 'Seleccione fecha', 'tpl' => 'withicon'], ['icon' => 'calendar']) !!} --}}
                         <div class="input-group input-group-sm">
                             <input type="date" name="date" class="form-control" value="{{ $date }}">
                             <span class="input-group-btn">
@@ -27,7 +26,7 @@
 
             <br>
 
-            <solid-box title="CON FACTURA" color="danger" button>
+            <solid-box title="CON FACTURA" color="danger" button collapsed>
                 
                 <data-table example="1">
 
@@ -50,7 +49,7 @@
                                         </li>
                                         @if ($ingress->invoice_id)
                                             <li>
-                                                <a href="{{ $ingress->xml }}">
+                                                <a href="{{ $ingress->xml }}" target="_blank">
                                                     <i class="fa fa-file-code"></i> XML
                                                 </a>
                                             </li>
@@ -82,7 +81,18 @@
                                                 !!}
                                             </div>
                                         </div>
-
+                                        <br>
+                                        @if($ingress->method == 'cash')
+                                            <div class="row">
+                                                <div class="col-md-4 col-md-offset-4">
+                                                    {!! Field::number('reference', 
+                                                        ['tpl' => 'withicon', 'ph' => 'XXXXXXXXX', 'required' => 'true'], 
+                                                        ['icon' => 'exchange-alt']) 
+                                                    !!}
+                                                </div>
+                                            </div>
+                                            <br>
+                                        @endif
                                         <div class="row">
                                             <div class="col-md-2 col-md-offset-5">
                                                 <file-upload fname="xml" ext="xml" color="danger"></file-upload>
@@ -151,7 +161,7 @@
                                     <a href="" data-toggle="modal" data-target="#modal-e{{ $ingress->id }}">
                                         <i class="fa fa-eye"></i>
                                     </a>
-                                    <modal title="Lista de productos" id="modal-e{{ $ingress->id }}">
+                                    <modal title="Lista de productos" id="modal-e{{ $ingress->id }}" color="#97a1b3">
                                         <sale-products-list sale="{{ $ingress->id }}" 
                                             amount="{{ $ingress->amount }}"
                                             iva="{{ $ingress->iva }}">
@@ -179,14 +189,16 @@
                     <template slot="footer">
                         <tr>
                             <td>
-                                @if ($ingress->invoice_id)
-                                    <a href="{{ $ingress->xml }}" class="btn btn-success btn-xs" target="_blank">
-                                        <i class="fa fa-file-code"></i> XML
-                                    </a>
-                                @else
-                                    <a href="" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal-cash">
-                                        <i class="fa fa-file"></i>&nbsp; FACTURAR
-                                    </a>
+                                @if(isset($ingress))
+                                    @if ($ingress->invoice_id)
+                                        <a href="{{ $ingress->xml }}" class="btn btn-success btn-xs" target="_blank">
+                                            <i class="fa fa-file-code"></i> XML
+                                        </a>
+                                    @else
+                                        <a href="" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal-cash">
+                                            <i class="fa fa-file"></i>&nbsp; FACTURAR
+                                        </a>
+                                    @endif
                                 @endif
 
                                 <modal title="Agregar datos de la facturación" id="modal-cash" color="#dd4b39">
@@ -257,7 +269,7 @@
                                         </li>
                                         @if ($ingress->invoice_id)
                                             <li>
-                                                <a href="{{ $ingress->xml }}">
+                                                <a href="{{ $ingress->xml }}" target="_blank">
                                                     <i class="fa fa-file-code"></i> XML
                                                 </a>
                                             </li>
@@ -358,7 +370,7 @@
                                         </li>
                                         @if ($ingress->invoice_id)
                                             <li>
-                                                <a href="{{ $ingress->xml }}">
+                                                <a href="{{ $ingress->xml }}" target="_blank">
                                                     <i class="fa fa-file-code"></i> XML
                                                 </a>
                                             </li>
