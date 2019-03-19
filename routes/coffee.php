@@ -60,7 +60,8 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 
 	Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 	    $ctrl = 'Coffee\AdminController';
-	    Route::get('/', usesas($ctrl, 'index'));
-	    Route::post('/', usesas($ctrl, 'index'));
+	    Route::match(['get', 'post'], '/', usesas($ctrl, 'index'));
+	    Route::match(['get', 'post'], 'facturas', usesas($ctrl, 'invoices'));
+	    Route::match(['get', 'post'], 'referencia', usesas($ctrl, 'reference'));
 	});
 });

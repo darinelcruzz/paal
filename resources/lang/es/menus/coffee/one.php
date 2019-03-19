@@ -34,11 +34,11 @@ return [
             'index' => [
                 'title' => 'Diarias',
                 'route' => 'coffee.ingress.index'
-            ]
-            // 'invoices' => [
-            //     'title' => 'Facturadas',
-            //     'route' => 'coffee.ingress.index'
-            // ],
+            ],
+            'invoices' => [
+                'title' => 'Facturadas',
+                'route' => 'coffee.admin.invoices'
+            ],
             // 'monthly' => [
             //     'title' => 'Corte mensual',
             //     'route' => 'coffee.ingress.index'

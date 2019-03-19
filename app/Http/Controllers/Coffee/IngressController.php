@@ -164,7 +164,6 @@ class IngressController extends Controller
     {
         $validated = $request->validate([
             'invoice_id' => 'required|unique:ingresses',
-            'reference' => 'sometimes|required',
             'xml' => 'required'
         ]);
         
@@ -186,7 +185,6 @@ class IngressController extends Controller
     {
         $validated = $request->validate([
             'invoice_id' => 'required',
-            'reference' => 'required',
             'xml' => 'required'
         ]);
         

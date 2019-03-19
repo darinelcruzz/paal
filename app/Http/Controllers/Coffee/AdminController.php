@@ -43,19 +43,30 @@ class AdminController extends Controller
         return view('coffee.admin.index', compact('payments', 'paid', 'invoiced', 'deposits', 'date', 'month'));
     }
 
-    function create()
+    function invoices(Request $request)
     {
-        
+        $date = isset($request->date) ? $request->date: date('Y-m-d');
+
+        $invoices = Ingress::whereDate('created_at', $date)
+            ->where('invoice_id', '!=', null)
+            ->get()
+            ->groupBy('invoice_id');
+
+        return view('coffee.admin.invoices', compact('invoices', 'date'));
     }
 
-    function store(Request $request)
+    function reference(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'reference' => 'required'
+        ]);
     }
 
-    function show($id)
+    function references(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'reference' => 'required'
+        ]);
     }
 
     function edit($id)

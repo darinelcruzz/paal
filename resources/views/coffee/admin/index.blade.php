@@ -82,7 +82,7 @@
                                             </div>
                                         </div>
                                         <br>
-                                        @if($ingress->method == 'cash')
+                                        {{-- @if($ingress->method == 'cash')
                                             <div class="row">
                                                 <div class="col-md-4 col-md-offset-4">
                                                     {!! Field::number('reference', 
@@ -92,7 +92,7 @@
                                                 </div>
                                             </div>
                                             <br>
-                                        @endif
+                                        @endif --}}
                                         <div class="row">
                                             <div class="col-md-2 col-md-offset-5">
                                                 <file-upload fname="xml" ext="xml" color="danger"></file-upload>
@@ -212,7 +212,7 @@
                                         </div>
                                     </div>
                                     <br>
-                                    <div class="row">
+                                    {{-- <div class="row">
                                         <div class="col-md-4 col-md-offset-4">
                                             {!! Field::number('reference', 
                                                 ['tpl' => 'withicon', 'ph' => 'XXXXXXXXX', 'required' => 'true'], 
@@ -220,7 +220,7 @@
                                             !!}
                                         </div>
                                     </div>
-                                    <br>
+                                    <br> --}}
                                     <div class="row">
                                         <div class="col-md-2 col-md-offset-5">
                                             <file-upload fname="xml" ext="xml" color="danger"></file-upload>

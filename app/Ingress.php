@@ -64,6 +64,16 @@ class Ingress extends Model
         return 'undefined';
     }
 
+    function getReferenceAttribute()
+    {
+        if ($this->payments->first()) {
+
+            return $this->payments->first()->reference;
+        }
+
+        return 'undefined';
+    }
+
     function getMethodNameAttribute()
     {
         $methods = ['undefined' => '?', 'cash' => 'Efectivo', 'transfer' => 'Transferencia', 'check' => 'Cheque', 'debit_card' => 'T. Débito', 'credit_card' => 'T. Crédito'];
