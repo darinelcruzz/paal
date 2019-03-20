@@ -43,11 +43,30 @@ class AdminController extends Controller
         return view('coffee.admin.index', compact('payments', 'paid', 'invoiced', 'deposits', 'date', 'month'));
     }
 
+    function monthly(Request $request)
+    {
+        $date = isset($request->date) ? $request->date: date('Y-m');
+
+        $month = Payment::whereYear('created_at', substr($date, 0, 4))
+            ->whereMonth('created_at', substr($date, 5))
+            ->whereHas('ingress', function($query) {
+                $query->where('status', '!=', 'cancelado');
+            });
+
+        $pending = Payment::whereNull('reference')
+            ->whereHas('ingress', function($query) {
+                $query->where('status', '!=', 'cancelado');
+            });
+
+        return view('coffee.admin.monthly', compact('date', 'month', 'pending'));
+    }
+
     function invoices(Request $request)
     {
-        $date = isset($request->date) ? $request->date: date('Y-m-d');
+        $date = isset($request->date) ? $request->date: date('Y-m');
 
-        $invoices = Ingress::whereDate('created_at', $date)
+        $invoices = Ingress::whereYear('created_at', substr($date, 0, 4))
+            ->whereMonth('created_at', substr($date, 5))
             ->where('invoice_id', '!=', null)
             ->get()
             ->groupBy('invoice_id');
@@ -58,29 +77,14 @@ class AdminController extends Controller
     function reference(Request $request)
     {
         $validated = $request->validate([
-            'reference' => 'required'
+            'reference' => 'required',
         ]);
-    }
+        
+        foreach (Ingress::find($request->sales) as $sale) {            
+            $payment = Payment::where('ingress_id', $sale->id)->first();
+            $payment->update($request->only('reference'));
+        }
 
-    function references(Request $request)
-    {
-        $validated = $request->validate([
-            'reference' => 'required'
-        ]);
-    }
-
-    function edit($id)
-    {
-        //
-    }
-
-    function update(Request $request, $id)
-    {
-        //
-    }
-
-    function destroy($id)
-    {
-        //
+        return redirect(route('coffee.admin.invoices'));
     }
 }

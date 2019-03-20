@@ -14,7 +14,7 @@
                 <div class="row">
                     <div class="col-md-3">
                         <div class="input-group input-group-sm">
-                            <input type="date" name="date" class="form-control" value="{{ $date }}">
+                            <input type="month" name="date" class="form-control" value="{{ $date }}">
                             <span class="input-group-btn">
                                 <button type="submit" class="btn btn-danger btn-flat"><i class="fa fa-search"></i></button>
                             </span>
@@ -76,6 +76,10 @@
                                                     !!}
                                                 </div>
                                             </div>
+
+                                            @foreach ($sales as $sale)
+                                                <input type="hidden" name="sales[]" value="{{ $sale->id }}">
+                                            @endforeach
 
                                             <template slot="footer">
                                                 {!! Form::submit('Guardar', ['class' => 'btn btn-danger pull-right']) !!}

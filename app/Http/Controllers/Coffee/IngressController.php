@@ -160,28 +160,7 @@ class IngressController extends Controller
         return view('coffee.ingresses.show', compact('ingress'));
     }
 
-    function invoice(Request $request, Ingress $ingress)
-    {
-        $validated = $request->validate([
-            'invoice_id' => 'required|unique:ingresses',
-            'xml' => 'required'
-        ]);
-        
-        $path = Storage::putFileAs(
-            "public/coffee/invoices", $request->file('xml'), "$request->invoice_id.xml"
-        );
-        
-        $ingress->update($request->only('invoice_id'));
-
-        if (isset($request->reference)) {
-            $payment = Payment::where('ingress_id', $ingress->id)->first();
-            $payment->update($request->only('reference'));
-        }
-
-        return redirect(route('coffee.admin.index'));
-    }
-
-    function invoices(Request $request)
+    function invoice(Request $request)
     {
         $validated = $request->validate([
             'invoice_id' => 'required',
@@ -194,9 +173,6 @@ class IngressController extends Controller
         
         foreach (Ingress::find($request->sales) as $sale) {
             $sale->update($request->only('invoice_id'));
-            
-            $payment = Payment::where('ingress_id', $sale->id)->first();
-            $payment->update($request->only('reference'));
         }
 
         return redirect(route('coffee.admin.index'));

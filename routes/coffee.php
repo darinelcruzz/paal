@@ -21,8 +21,7 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	    Route::post('agregar', usesas($ctrl, 'store'));
 	    Route::get('pagar/{ingress}', usesas($ctrl, 'charge'));
 	    Route::post('pagar/{ingress}', usesas($ctrl, 'pay'));
-	    Route::post('facturar/efectivo', usesas($ctrl, 'invoices'));
-	    Route::post('facturar/{ingress}', usesas($ctrl, 'invoice'));
+	    Route::post('facturar', usesas($ctrl, 'invoice'));
 		Route::get('ticket/{ingress}', usesas($ctrl, 'ticket'));
 		Route::get('pagos/{ingress}', usesas($ctrl, 'payments'));
 		Route::get('cancelar/{ingress}/{reasons}', usesas($ctrl, 'destroy'));
@@ -60,8 +59,9 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 
 	Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 	    $ctrl = 'Coffee\AdminController';
-	    Route::match(['get', 'post'], '/', usesas($ctrl, 'index'));
+	    Route::match(['get', 'post'], 'diario', usesas($ctrl, 'index'));
+	    Route::match(['get', 'post'], 'mensual', usesas($ctrl, 'monthly'));
 	    Route::match(['get', 'post'], 'facturas', usesas($ctrl, 'invoices'));
-	    Route::match(['get', 'post'], 'referencia', usesas($ctrl, 'reference'));
+	    Route::post('referencia', usesas($ctrl, 'reference'));
 	});
 });

@@ -14,7 +14,7 @@ window.Vue = require('vue');
 
 // Vue.component('v-select', vSelect)
 
-Vue.component('v-select', VueSelect.VueSelect);
+// Vue.component('v-select', VueSelect.VueSelect);
 
 //global registration
 import VueFormWizard from 'vue-form-wizard'

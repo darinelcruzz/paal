@@ -2,12 +2,6 @@
 
 return [
 
-    'admin' => [
-        'title' => 'Corte',
-        'icon' => 'fa fa-cut',
-        'route' => 'coffee.admin.index'
-    ],
-
     'quotations' => [
         'title' => 'Cotizaciones',
         'icon' => 'fas fa-file-invoice',
@@ -32,21 +26,21 @@ return [
                 'route' => 'coffee.ingress.create'
             ],
             'index' => [
-                'title' => 'Diarias',
+                'title' => 'Historial',
                 'route' => 'coffee.ingress.index'
             ],
             'invoices' => [
                 'title' => 'Facturadas',
                 'route' => 'coffee.admin.invoices'
             ],
-            // 'monthly' => [
-            //     'title' => 'Corte mensual',
-            //     'route' => 'coffee.ingress.index'
-            // ],
-            // 'daily' => [
-            //     'title' => 'Corte diario',
-            //     'route' => 'coffee.ingress.index'
-            // ]
+            'daily' => [
+                'title' => 'Corte diario',
+                'route' => 'coffee.admin.index'
+            ],
+            'monthly' => [
+                'title' => 'Corte mensual',
+                'route' => 'coffee.admin.monthly'
+            ]
         ]
     ],
 

@@ -1,7 +1,7 @@
 @extends('coffee.root')
 
 @push('pageTitle')
-    Admin
+    Corte diario
 @endpush
 
 @section('content')
@@ -28,105 +28,22 @@
 
             <solid-box title="CON FACTURA" color="danger" button collapsed>
                 
-                <data-table example="1">
+                <data-table>
 
-                    {{ drawHeader('folio', '<i class="fa fa-cogs"></i>', 'fecha venta', 'cliente', 'estado', 'IVA', 'total') }}
+                    {{ drawHeader('folio', '<i class="fa fa-cogs"></i>', 'cliente', 'estado', 'IVA', 'total') }}
 
                     <template slot="body">
                         @php
-                            $total = 0
+                            $total = $invoiced->sum('amount')
                         @endphp
 
-                        @foreach($invoiced as $ingress)
-                            <tr>
-                                <td>{{ $ingress->folio }}</td>
-                                <td>
-                                    <dropdown icon="cogs" color="danger">
-                                        <li>
-                                            <a href="" data-toggle="modal" data-target="#modal-e{{ $ingress->id }}">
-                                                <i class="fa fa-eye"></i> Detalles
-                                            </a>
-                                        </li>
-                                        @if ($ingress->invoice_id)
-                                            <li>
-                                                <a href="{{ $ingress->xml }}" target="_blank">
-                                                    <i class="fa fa-file-code"></i> XML
-                                                </a>
-                                            </li>
-                                        @else
-                                            <li>
-                                                <a href="" data-toggle="modal" data-target="#modal-f{{ $ingress->id }}">
-                                                    <i class="fa fa-plus"></i> Facturar
-                                                </a>
-                                            </li>
-                                        @endif
-                                    </dropdown>
+                        @each('coffee.admin.sales', $invoiced, 'sale')
 
-                                    <modal title="Lista de productos" id="modal-e{{ $ingress->id }}">
-                                        <sale-products-list sale="{{ $ingress->id }}" 
-                                            amount="{{ $ingress->amount }}"
-                                            iva="{{ $ingress->iva }}">
-                                        </sale-products-list>
-                                    </modal>
-
-                                    {!! Form::open(['method' => 'POST', 'route' => ['coffee.ingress.invoice', $ingress ], 'files' => 'true']) !!}
-                                    
-                                    <modal title="Agregar datos de la facturación" id="modal-f{{ $ingress->id }}" color="#dd4b39">
-
-                                        <div class="row">
-                                            <div class="col-md-4 col-md-offset-4">
-                                                {!! Field::number('invoice_id', 
-                                                    ['tpl' => 'withicon', 'ph' => 'XXXXXXXXX', 'required' => 'true'], 
-                                                    ['icon' => 'file-invoice']) 
-                                                !!}
-                                            </div>
-                                        </div>
-                                        <br>
-                                        {{-- @if($ingress->method == 'cash')
-                                            <div class="row">
-                                                <div class="col-md-4 col-md-offset-4">
-                                                    {!! Field::number('reference', 
-                                                        ['tpl' => 'withicon', 'ph' => 'XXXXXXXXX', 'required' => 'true'], 
-                                                        ['icon' => 'exchange-alt']) 
-                                                    !!}
-                                                </div>
-                                            </div>
-                                            <br>
-                                        @endif --}}
-                                        <div class="row">
-                                            <div class="col-md-2 col-md-offset-5">
-                                                <file-upload fname="xml" ext="xml" color="danger"></file-upload>
-                                            </div>
-                                        </div>
-                                        
-
-
-                                        <template slot="footer">
-                                            {!! Form::submit('Guardar', ['class' => 'btn btn-danger pull-right']) !!}
-                                        </template>
-                                    </modal>
-
-                                    {!! Form::close() !!}
-                                </td>
-                                <td>{{ fdate($ingress->bought_at, 'd M Y', 'Y-m-d') }}</td>
-                                <td>{{ $ingress->client->name }}</td>
-                                <td>
-                                    <span class="label label-{{ $ingress->statusColor }}">
-                                        {{ ucfirst($ingress->status) }}
-                                    </span>
-                                </td>
-                                <td>$ {{ number_format($ingress->iva, 2) }}</td>
-                                <td>$ {{ number_format($ingress->amount, 2) }}</td>
-                            </tr>
-                            @php
-                                $total += $ingress->amount
-                            @endphp
-                        @endforeach
                     </template>
 
                     <template slot="footer">
                         <tr>
-                            <td colspan="5"></td>
+                            <td colspan="4"></td>
                             <th>Total</th>
                             <td>$ {{ number_format($total, 2) }}</td>
                         </tr>
@@ -138,50 +55,48 @@
 
             <solid-box title="EFECTIVO SIN FACTURA" color="default" button collapsed>
 
-                {!! Form::open(['method' => 'POST', 'route' => 'coffee.ingress.invoices', 'files' => 'true']) !!}
+                {!! Form::open(['method' => 'POST', 'route' => 'coffee.ingress.invoice', 'files' => 'true']) !!}
                 
                 <data-table example="2">
 
-                    {{ drawHeader('folio', '<i class="fa fa-eye"></i>', 'fecha venta', 'cliente', 'estado', 'IVA', 'total') }}
+                    {{ drawHeader('folio', '<i class="fa fa-eye"></i>', 'cliente', 'estado', 'IVA', 'total') }}
 
                     <template slot="body">
                         @php
-                            $total = 0;
-                            $sales = [];
+                            $total = 0
                         @endphp
 
                         @foreach($paid as $ingress)
                             @if ($ingress->method == 'cash')
-                            <tr>
-                                <td>
-                                    {{ $ingress->folio }}
-                                    <input type="hidden" name="sales[]" value="{{ $ingress->id }}">
-                                </td>
-                                <td>
-                                    <a href="" data-toggle="modal" data-target="#modal-e{{ $ingress->id }}">
-                                        <i class="fa fa-eye"></i>
-                                    </a>
-                                    <modal title="Lista de productos" id="modal-e{{ $ingress->id }}" color="#97a1b3">
-                                        <sale-products-list sale="{{ $ingress->id }}" 
-                                            amount="{{ $ingress->amount }}"
-                                            iva="{{ $ingress->iva }}">
-                                        </sale-products-list>
-                                    </modal>
-                                </td>
-                                <td>{{ fdate($ingress->bought_at, 'd M Y', 'Y-m-d') }}</td>
-                                <td>{{ $ingress->client->name }}</td>
-                                <td>
-                                    <span class="label label-{{ $ingress->statusColor }}">
-                                        {{ ucfirst($ingress->status) }}
-                                    </span>
-                                </td>
-                                <td>$ {{ number_format($ingress->iva, 2) }}</td>
-                                <td>$ {{ number_format($ingress->amount, 2) }}</td>
-                            </tr>
-                            @php
-                                $total += $ingress->amount;
-                                array_push($sales, $ingress->id);
-                            @endphp
+                                <tr>
+                                    <td>
+                                        {{ $ingress->folio }}
+                                        <input type="hidden" name="sales[]" value="{{ $ingress->id }}">
+                                    </td>
+                                    <td>
+                                        <a href="" data-toggle="modal" data-target="#modal-e{{ $ingress->id }}">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                        <modal title="Lista de productos" id="modal-e{{ $ingress->id }}" color="#97a1b3">
+                                            <sale-products-list sale="{{ $ingress->id }}" 
+                                                amount="{{ $ingress->amount }}"
+                                                iva="{{ $ingress->iva }}">
+                                            </sale-products-list>
+                                        </modal>
+                                    </td>
+                                    
+                                    <td>{{ $ingress->client->name }}</td>
+                                    <td>
+                                        <span class="label label-{{ $ingress->statusColor }}">
+                                            {{ ucfirst($ingress->status) }}
+                                        </span>
+                                    </td>
+                                    <td>$ {{ number_format($ingress->iva, 2) }}</td>
+                                    <td>$ {{ number_format($ingress->amount, 2) }}</td>
+                                </tr>
+                                @php
+                                    $total += $ingress->amount
+                                @endphp
                             @endif
                         @endforeach
                     </template>
@@ -189,8 +104,8 @@
                     <template slot="footer">
                         <tr>
                             <td>
-                                @if(isset($ingress))
-                                    @if ($ingress->invoice_id)
+                                @if($paid->count() > 0)
+                                    @if ($paid->first()->invoice_id != null)
                                         <a href="{{ $ingress->xml }}" class="btn btn-success btn-xs" target="_blank">
                                             <i class="fa fa-file-code"></i> XML
                                         </a>
@@ -212,15 +127,6 @@
                                         </div>
                                     </div>
                                     <br>
-                                    {{-- <div class="row">
-                                        <div class="col-md-4 col-md-offset-4">
-                                            {!! Field::number('reference', 
-                                                ['tpl' => 'withicon', 'ph' => 'XXXXXXXXX', 'required' => 'true'], 
-                                                ['icon' => 'exchange-alt']) 
-                                            !!}
-                                        </div>
-                                    </div>
-                                    <br> --}}
                                     <div class="row">
                                         <div class="col-md-2 col-md-offset-5">
                                             <file-upload fname="xml" ext="xml" color="danger"></file-upload>
@@ -233,7 +139,7 @@
                                 </modal>
                                 
                             </td>
-                            <td colspan="4"></td>
+                            <td colspan="3"></td>
                             <th>Total</th>
                             <td>$ {{ number_format($total, 2) }}</td>
                         </tr>
@@ -249,7 +155,7 @@
                 
                 <data-table example="3">
 
-                    {{ drawHeader('folio', '<i class="fa fa-cogs"></i>', 'fecha venta', 'cliente', 'estado', 'IVA', 'total') }}
+                    {{ drawHeader('folio', '<i class="fa fa-cogs"></i>', 'cliente', 'estado', 'IVA', 'total') }}
 
                     <template slot="body">
                         @php
@@ -317,7 +223,7 @@
 
                                     {!! Form::close() !!}
                                 </td>
-                                <td>{{ fdate($ingress->bought_at, 'd M Y', 'Y-m-d') }}</td>
+                                
                                 <td>{{ $ingress->client->name }}</td>
                                 <td>
                                     <span class="label label-{{ $ingress->statusColor }}">
@@ -336,7 +242,7 @@
 
                     <template slot="footer">
                         <tr>
-                            <td colspan="5"></td>
+                            <td colspan="4"></td>
                             <th>Total</th>
                             <td>$ {{ number_format($total, 2) }}</td>
                         </tr>
@@ -350,7 +256,7 @@
                 
                 <data-table example="4">
 
-                    {{ drawHeader('folio', '<i class="fa fa-cogs"></i>', 'fecha venta', 'cliente', 'estado', 'IVA', 'total') }}
+                    {{ drawHeader('folio', '<i class="fa fa-cogs"></i>', 'cliente', 'estado', 'IVA', 'total') }}
 
                     <template slot="body">
                         @php
@@ -362,7 +268,7 @@
                             <tr>
                                 <td>{{ $ingress->folio }}</td>
                                 <td>
-                                    <dropdown icon="cogs" color="danger">
+                                    <dropdown icon="cogs" color="default">
                                         <li>
                                             <a href="" data-toggle="modal" data-target="#modal-e{{ $ingress->id }}">
                                                 <i class="fa fa-eye"></i> Detalles
@@ -418,7 +324,7 @@
 
                                     {!! Form::close() !!}
                                 </td>
-                                <td>{{ fdate($ingress->bought_at, 'd M Y', 'Y-m-d') }}</td>
+                                
                                 <td>{{ $ingress->client->name }}</td>
                                 <td>
                                     <span class="label label-{{ $ingress->statusColor }}">
@@ -437,7 +343,7 @@
 
                     <template slot="footer">
                         <tr>
-                            <td colspan="5"></td>
+                            <td colspan="4"></td>
                             <th>Total</th>
                             <td>$ {{ number_format($total, 2) }}</td>
                         </tr>
