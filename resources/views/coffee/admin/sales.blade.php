@@ -1,5 +1,7 @@
 <tr>
-    <td>{{ $sale->folio }}</td>
+    <td>
+        {{ $sale->folio }}
+    </td>
     <td>
         <dropdown icon="cogs" color="danger">
             <li>
@@ -16,7 +18,7 @@
             @else
                 <li>
                     <a href="" data-toggle="modal" data-target="#modal-f{{ $sale->id }}">
-                        <i class="fa fa-plus"></i> Facturar
+                        <i class="fa fa-plus"></i> Agregar FI
                     </a>
                 </li>
             @endif
@@ -36,7 +38,7 @@
             <div class="row">
                 <div class="col-md-4 col-md-offset-4">
                     {!! Field::number('invoice_id', 
-                        ['tpl' => 'withicon', 'ph' => 'XXXXXXXXX', 'required' => 'true'], 
+                        ['label' => 'Agregar FI','tpl' => 'withicon', 'ph' => 'XXXXXXXXX', 'required' => 'true'], 
                         ['icon' => 'file-invoice']) 
                     !!}
                 </div>
@@ -59,7 +61,10 @@
         {!! Form::close() !!}
     </td>
     
-    <td>{{ $sale->client->name }}</td>
+    <td>
+        {{ $sale->client->name }}
+        <span class="pull-right" style="color: green">{!! $sale->invoice_id ? '<i class="fa fa-check"></i>': '' !!}</span>
+    </td>
     <td>
         <span class="label label-{{ $sale->statusColor }}">
             {{ ucfirst($sale->status) }}

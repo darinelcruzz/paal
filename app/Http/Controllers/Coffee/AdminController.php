@@ -63,15 +63,16 @@ class AdminController extends Controller
 
     function invoices(Request $request)
     {
-        $date = isset($request->date) ? $request->date: date('Y-m');
+        // $date = isset($request->date) ? $request->date: date('Y-m');
 
-        $invoices = Ingress::whereYear('created_at', substr($date, 0, 4))
-            ->whereMonth('created_at', substr($date, 5))
-            ->where('invoice_id', '!=', null)
+        $invoices = Ingress::where('invoice_id', '!=', null)
+            // ->whereMonth('created_at', substr($date, 5))
+            // ->whereYear('created_at', substr($date, 0, 4))
             ->get()
             ->groupBy('invoice_id');
 
-        return view('coffee.admin.invoices', compact('invoices', 'date'));
+        // return view('coffee.admin.invoices', compact('invoices', 'date'));
+        return view('coffee.admin.invoices', compact('invoices'));
     }
 
     function reference(Request $request)

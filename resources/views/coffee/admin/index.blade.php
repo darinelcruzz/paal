@@ -85,7 +85,10 @@
                                         </modal>
                                     </td>
                                     
-                                    <td>{{ $ingress->client->name }}</td>
+                                    <td>
+                                        {{ $ingress->client->name }}
+                                        <span class="pull-right" style="color: green">{!! $ingress->invoice_id ? '<i class="fa fa-check"></i>': '' !!}</span>
+                                    </td>
                                     <td>
                                         <span class="label label-{{ $ingress->statusColor }}">
                                             {{ ucfirst($ingress->status) }}
@@ -182,7 +185,7 @@
                                         @else
                                             <li>
                                                 <a href="" data-toggle="modal" data-target="#modal-f{{ $ingress->id }}">
-                                                    <i class="fa fa-plus"></i> Facturar
+                                                    <i class="fa fa-plus"></i> Agregar FI
                                                 </a>
                                             </li>
                                         @endif
@@ -224,7 +227,10 @@
                                     {!! Form::close() !!}
                                 </td>
                                 
-                                <td>{{ $ingress->client->name }}</td>
+                                <td>
+                                    {{ $ingress->client->name }}
+                                    <span class="pull-right" style="color: green">{!! $ingress->invoice_id ? '<i class="fa fa-check"></i>': '' !!}</span>
+                                </td>
                                 <td>
                                     <span class="label label-{{ $ingress->statusColor }}">
                                         {{ ucfirst($ingress->status) }}
@@ -283,7 +289,7 @@
                                         @else
                                             <li>
                                                 <a href="" data-toggle="modal" data-target="#modal-f{{ $ingress->id }}">
-                                                    <i class="fa fa-plus"></i> Facturar
+                                                    <i class="fa fa-plus"></i> Agregar FI
                                                 </a>
                                             </li>
                                         @endif
@@ -325,7 +331,10 @@
                                     {!! Form::close() !!}
                                 </td>
                                 
-                                <td>{{ $ingress->client->name }}</td>
+                                <td>
+                                    {{ $ingress->client->name }}
+                                    <span class="pull-right" style="color: green">{!! $ingress->invoice_id ? '<i class="fa fa-check"></i>': '' !!}</span>
+                                </td>
                                 <td>
                                     <span class="label label-{{ $ingress->statusColor }}">
                                         {{ ucfirst($ingress->status) }}
