@@ -14367,7 +14367,7 @@ window.Vue = __webpack_require__(39);
 
 // Vue.component('v-select', vSelect)
 
-// Vue.component('v-select', VueSelect.VueSelect);
+Vue.component('v-select', VueSelect.VueSelect);
 
 //global registration
 

@@ -56,7 +56,7 @@
                     </h3>
                 </div>
                 <div class="icon">
-                    <i class="fa fa-plus"></i>
+                    <i class="fa fa-piggy-bank"></i>
                 </div>
             </div>
 
@@ -70,7 +70,7 @@
                     </h3>
                 </div>
                 <div class="icon">
-                    <i class="fa fa-plus"></i>
+                    <i class="fa fa-chart-line"></i>
                 </div>
             </div>
         </div>
@@ -99,7 +99,7 @@
                             </h3>
                         </div>
                         <div class="icon">
-                            <i class="fa fa-cc-visa"></i>
+                            <i class="fab fa-cc-visa"></i>
                         </div>
                     </div>
                 </div>
