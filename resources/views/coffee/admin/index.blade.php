@@ -114,7 +114,7 @@
                                         </a>
                                     @else
                                         <a href="" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal-cash">
-                                            <i class="fa fa-file"></i>&nbsp; FACTURAR
+                                            <i class="fa fa-file"></i>&nbsp; AGREGAR FI
                                         </a>
                                     @endif
                                 @endif
@@ -124,7 +124,7 @@
                                     <div class="row">
                                         <div class="col-md-4 col-md-offset-4">
                                             {!! Field::number('invoice_id', 
-                                                ['tpl' => 'withicon', 'ph' => 'XXXXXXXXX', 'required' => 'true'], 
+                                                ['label' => 'Agregar FI', 'tpl' => 'withicon', 'ph' => 'XXXXXXXXX', 'required' => 'true'], 
                                                 ['icon' => 'file-invoice']) 
                                             !!}
                                         </div>
