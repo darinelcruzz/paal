@@ -53,7 +53,9 @@ class AdminController extends Controller
                 $query->where('status', '!=', 'cancelado');
             });
 
-        $pending = Payment::whereNull('reference')
+        $pending = Payment::whereYear('created_at', substr($date, 0, 4))
+            ->whereMonth('created_at', substr($date, 5))
+            ->whereNull('reference')
             ->whereHas('ingress', function($query) {
                 $query->where('status', '!=', 'cancelado');
             });
