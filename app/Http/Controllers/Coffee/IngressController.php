@@ -105,7 +105,8 @@ class IngressController extends Controller
                 'check' => $request->check,
                 'debit_card' => $request->debit_card,
                 'credit_card' => $request->credit_card,
-                'reference' => $request->reference,
+                'reference' => isset($request->reference) ? $request->reference: null,
+                'card_number' => isset($request->card_number) ? $request->card_number: null,
             ]);
         }
 
@@ -175,7 +176,7 @@ class IngressController extends Controller
             $sale->update($request->only('invoice_id'));
         }
 
-        return redirect(route('coffee.admin.index'));
+        return redirect(route('coffee.admin.index'))->with('redirected', session('date'));
     }
 
     function destroy(Ingress $ingress, $reason)

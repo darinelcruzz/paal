@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Payment extends Model
 {
-    protected $fillable = ['ingress_id', 'cash', 'transfer', 'check', 'debit_card', 'credit_card', 'type', 'reference'];
+    protected $fillable = ['ingress_id', 'cash', 'transfer', 'check', 'debit_card', 'credit_card', 'type', 'reference', 'card_number'];
 
     function ingress()
     {

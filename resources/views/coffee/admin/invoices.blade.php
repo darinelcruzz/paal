@@ -5,34 +5,12 @@
 @endpush
 
 @section('content')
-    {{-- <div class="row">
-            
-        <div class="col-md-12">
-
-            {!! Form::open(['method' => 'post', 'route' => 'coffee.admin.invoices']) !!}
-                
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="input-group input-group-sm">
-                            <input type="month" name="date" class="form-control" value="{{ $date }}">
-                            <span class="input-group-btn">
-                                <button type="submit" class="btn btn-danger btn-flat"><i class="fa fa-search"></i></button>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-            {!! Form::close() !!}
-
-            <br>
-        </div>
-    </div> --}}
 
     <div class="row">
         
         <div class="col-md-9">
 
-            <solid-box title="FACTURAS" color="danger">
+            <solid-box title="{{ strtoupper(fdate($date, 'l d \d\e F', 'Y-m-d')) }}" color="danger">
                 
                 <data-table example="1">
 
@@ -103,10 +81,49 @@
         </div>
 
         <div class="col-md-3">
-            <money-box color="warning" icon="fas fa-piggy-bank">
-                POR DEPOSITAR <br>
-                <b>$ {{ number_format($pending, 2) }}</b>
-            </money-box>
+
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <p>TOTAL POR DEPOSITAR</p>
+                    <h3>
+                        <em>$ {{ number_format($total, 2) }}</em>
+                    </h3>
+                </div>
+                {{-- <div class="icon">
+                    <i class="fa fa-piggy-bank"></i>
+                </div> --}}
+            </div>
+            <br>
+
+            {!! Form::open(['method' => 'post', 'route' => 'coffee.admin.invoices']) !!}
+                
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="input-group input-group-sm">
+                            <input type="date" name="date" class="form-control" value="{{ $date }}">
+                            <span class="input-group-btn">
+                                <button type="submit" class="btn btn-danger btn-flat"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            {!! Form::close() !!}
+            <br>
+
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <p>POR DEPOSITAR DEL DÍA</p>
+                    <h3>
+                        <em>$ {{ number_format($pending, 2) }}</em>
+                    </h3>
+                </div>
+                {{-- <div class="icon">
+                    <i class="fa fa-piggy-bank"></i>
+                </div> --}}
+            </div>
+
+
         </div>
     </div>
 

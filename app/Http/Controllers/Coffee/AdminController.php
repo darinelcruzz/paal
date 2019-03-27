@@ -10,7 +10,12 @@ class AdminController extends Controller
 {
     function index(Request $request)
     {
-        $date = isset($request->date) ? $request->date: date('Y-m-d');
+        if (session('redirected')) {
+            $date = session('redirected');
+        } else {
+            $date = isset($request->date) ? $request->date: date('Y-m-d');
+            session()->put('date', $date);
+        }
 
         $payments = Payment::whereDate('created_at', $date)
             ->whereHas('ingress', function($query) {
@@ -53,6 +58,8 @@ class AdminController extends Controller
                 $query->where('status', '!=', 'cancelado');
             });
 
+        $working_days = $month->selectRaw('DATE_FORMAT(created_at, "%Y-%m-%d") as date')->get()->groupBy('date')->count();
+
         $pending = Payment::whereYear('created_at', substr($date, 0, 4))
             ->whereMonth('created_at', substr($date, 5))
             ->whereNull('reference')
@@ -60,21 +67,33 @@ class AdminController extends Controller
                 $query->where('status', '!=', 'cancelado');
             });
 
-        return view('coffee.admin.monthly', compact('date', 'month', 'pending'));
+        return view('coffee.admin.monthly', compact('date', 'month', 'pending', 'working_days'));
     }
 
     function invoices(Request $request)
     {
-        // $date = isset($request->date) ? $request->date: date('Y-m');
+        if (session('redirected')) {
+            $date = session('redirected');
+        } else {
+            $date = isset($request->date) ? $request->date: date('Y-m-d');
+            session()->put('date', $date);
+        }
+
+        $sales = Ingress::where('invoice_id', '!=', null)->get();
+        $total = 0;
+
+        foreach ($sales as $sale) {
+            if (!$sale->reference) {
+                $total += $sale->amount;
+            }
+        }
 
         $invoices = Ingress::where('invoice_id', '!=', null)
-            // ->whereMonth('created_at', substr($date, 5))
-            // ->whereYear('created_at', substr($date, 0, 4))
+            ->whereDate('created_at', $date)
             ->get()
             ->groupBy('invoice_id');
 
-        // return view('coffee.admin.invoices', compact('invoices', 'date'));
-        return view('coffee.admin.invoices', compact('invoices'));
+        return view('coffee.admin.invoices', compact('invoices', 'date', 'total'));
     }
 
     function reference(Request $request)
@@ -88,6 +107,6 @@ class AdminController extends Controller
             $payment->update($request->only('reference'));
         }
 
-        return redirect(route('coffee.admin.invoices'));
+        return redirect(route('coffee.admin.invoices'))->with('redirected', session('date'));
     }
 }

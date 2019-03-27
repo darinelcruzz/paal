@@ -6,7 +6,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-10 col-md-offset-1">
             <solid-box title="Venta #{{ $ingress->folio }}" color="danger" button>
                 <div class="row">
                     <div class="col-xs-6">
@@ -44,7 +44,7 @@
                                 <th>Cheque</th>
                                 <th>T. Débito</th>
                                 <th>T. Crédito</th>
-                                <th>Referencia</th>
+                                <th style="text-align: center;">No. T / Ref</th>
                             </tr>
                         </thead>
 
@@ -58,7 +58,10 @@
                                 <td>{{ $payment->check > 0 ? number_format($payment->check, 2): '' }}</td>
                                 <td>{{ $payment->debit_card > 0 ? number_format($payment->debit_card, 2): '' }}</td>
                                 <td>{{ $payment->credit_card > 0 ? number_format($payment->credit_card, 2): '' }}</td>
-                                <td>{{ $payment->reference }}</td>
+                                <td style="text-align: center;">
+                                    {{ $payment->card_number }} <br>
+                                    {{ $payment->reference }}
+                                </td>
                             </tr>
                         @endforeach
                         </tbody>
