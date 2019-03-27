@@ -19,15 +19,16 @@
                     <template slot="body">
 
                         @php
-                            $pending = 0
+                            $pending = 0;
+                            $amount = 0;
                         @endphp
 
                         @foreach($invoices as $invoice => $sales)
                             <tr>
                                 <td>{{ $invoice }}</td>
                                 <td>{{ $sales->first()->method_name }}</td>
-                                <td>{{ $sales->first()->client->name }}</td>
-                                <td>
+                                <td style="width: 35%">{{ $sales->first()->client->name }}</td>
+                                <td style="width: 5%; text-align: center;">
                                     <a href="{{ $sales->first()->xml }}" target="_blank" style="color: green">
                                         <i class="fa fa-file-excel"></i>
                                     </a>
@@ -69,10 +70,21 @@
                                         {{ $sales->first()->reference }}
                                     @endif
                                 </td>
-                                <td>$ {{ number_format($sales->sum('iva'), 2) }}</td>
-                                <td>$ {{ number_format($sales->sum('amount'), 2) }}</td>
+                                <td style="text-align: right; width: 10%">$ {{ number_format($sales->sum('iva'), 2) }}</td>
+                                <td style="text-align: right;">$ {{ number_format($sales->sum('amount'), 2) }}</td>
                             </tr>
+                            @php
+                                $amount += $sales->sum('amount')
+                            @endphp
                         @endforeach
+                    </template>
+
+                    <template slot="footer">
+                        <tr>
+                            <td colspan="5"></td>
+                            <th style="text-align: right; width: 10%">Total</th>
+                            <td style="text-align: right;">$ {{ number_format($amount, 2) }}</td>
+                        </tr>
                     </template>
                     
                 </data-table>
