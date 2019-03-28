@@ -74,7 +74,7 @@
 	        </div>
 	    </div>
 
-	    <div v-if="debit_card + credit_card > 0" class="row">
+	    <div class="row">
 	        <div class="col-md-6">
 	            <div class="form-group">
 				    <label class="control-label">
