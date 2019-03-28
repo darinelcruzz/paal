@@ -75,7 +75,19 @@
 	    </div>
 
 	    <div class="row">
-	        <div class="col-md-6">
+	        <div v-if="credit_card + debit_card + transfer + check > 0" class="col-md-6">
+	            <div class="form-group">
+				    <label class="control-label">
+				        <b>Referencia</b>
+				    </label>				    
+				    <div class="input-group">
+				        <span class="input-group-addon"><i class="fa fa-barcode"></i></span>
+				        <input type="text" name="reference" value="" class="form-control">
+				    </div>
+				</div>
+	        </div>
+
+	        <div v-if="credit_card + debit_card > 0" class="col-md-6">
 	            <div class="form-group">
 				    <label class="control-label">
 				        <b>Número de tarjeta</b>
@@ -87,17 +99,6 @@
 				</div>
 	        </div>
 
-	        <div class="col-md-6">
-	            <div class="form-group">
-				    <label class="control-label">
-				        <b>Referencia</b>
-				    </label>				    
-				    <div class="input-group">
-				        <span class="input-group-addon"><i class="fa fa-barcode"></i></span>
-				        <input type="text" name="reference" value="" class="form-control">
-				    </div>
-				</div>
-	        </div>
 	    </div>
 	</div>
 </template>

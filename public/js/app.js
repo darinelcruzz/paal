@@ -53828,6 +53828,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -54094,7 +54095,15 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _vm._m(10)
+    _c("div", { staticClass: "row" }, [
+      _vm.credit_card + _vm.debit_card + _vm.transfer + _vm.check > 0
+        ? _c("div", { staticClass: "col-md-6" }, [_vm._m(10)])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.credit_card + _vm.debit_card > 0
+        ? _c("div", { staticClass: "col-md-6" }, [_vm._m(11)])
+        : _vm._e()
+    ])
   ])
 }
 var staticRenderFns = [
@@ -54182,43 +54191,41 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("div", { staticClass: "form-group" }, [
-          _c("label", { staticClass: "control-label" }, [
-            _c("b", [_vm._v("Número de tarjeta")])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "input-group" }, [
-            _c("span", { staticClass: "input-group-addon" }, [
-              _c("i", { staticClass: "fa fa-credit-card" })
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              staticClass: "form-control",
-              attrs: { type: "text", name: "card_number", value: "" }
-            })
-          ])
-        ])
+    return _c("div", { staticClass: "form-group" }, [
+      _c("label", { staticClass: "control-label" }, [
+        _c("b", [_vm._v("Referencia")])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("div", { staticClass: "form-group" }, [
-          _c("label", { staticClass: "control-label" }, [
-            _c("b", [_vm._v("Referencia")])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "input-group" }, [
-            _c("span", { staticClass: "input-group-addon" }, [
-              _c("i", { staticClass: "fa fa-barcode" })
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              staticClass: "form-control",
-              attrs: { type: "text", name: "reference", value: "" }
-            })
-          ])
-        ])
+      _c("div", { staticClass: "input-group" }, [
+        _c("span", { staticClass: "input-group-addon" }, [
+          _c("i", { staticClass: "fa fa-barcode" })
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "form-control",
+          attrs: { type: "text", name: "reference", value: "" }
+        })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group" }, [
+      _c("label", { staticClass: "control-label" }, [
+        _c("b", [_vm._v("Número de tarjeta")])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "input-group" }, [
+        _c("span", { staticClass: "input-group-addon" }, [
+          _c("i", { staticClass: "fa fa-credit-card" })
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "form-control",
+          attrs: { type: "text", name: "card_number", value: "" }
+        })
       ])
     ])
   }
