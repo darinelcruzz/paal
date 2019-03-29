@@ -211,6 +211,8 @@
                                             </div>
                                         </div>
 
+                                        <input type="hidden" name="sales[]" value="{{ $ingress->id }}">
+
                                         <div class="row">
                                             <div class="col-md-2 col-md-offset-5">
                                                 <file-upload fname="xml" ext="xml" color="danger"></file-upload>
@@ -314,6 +316,8 @@
                                                 !!}
                                             </div>
                                         </div>
+
+                                        <input type="hidden" name="sales[]" value="{{ $ingress->id }}">
 
                                         <div class="row">
                                             <div class="col-md-2 col-md-offset-5">
