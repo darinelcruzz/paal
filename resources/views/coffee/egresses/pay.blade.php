@@ -23,11 +23,12 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            {!! Field::text('mfolio', ['label' => 'Folio', 'tpl' => 'withicon'], ['icon' => 'barcode']) !!}
+                            {!! Field::text('mfolio', ['label' => 'Folio', 'tpl' => 'withicon', 'ph' => 'XXXXXX'], ['icon' => 'barcode']) !!}
                         </div>
                         
                         <div class="col-md-6">
-                            <file-upload fname="pdf_payment" ext="pdf"></file-upload>
+                            <label>Documento pago</label><br>
+                            <file-upload bname="SUBIR PDF" fname="pdf_payment" ext="pdf" color="danger"></file-upload>
                         </div>
                     </div>
 

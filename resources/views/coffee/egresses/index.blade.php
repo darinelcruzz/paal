@@ -4,10 +4,6 @@
     Egresos | Lista
 @endpush
 
-@push('headerTitle')
-    <a href="{{ route('coffee.egress.create') }}" class="btn btn-danger btn-xs"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR</a>
-@endpush
-
 @section('content')
     <div class="row">
         <div class="col-md-12">
@@ -28,19 +24,21 @@
                                         <iframe src="{{ Storage::url($egress->pdf_bill) }}#view=FitH" width="100%" height="600"></iframe>
                                     </modal>
                                     <modal-button target="pdf{{ $egress->id}}">
-                                        <button class="btn btn-primary btn-xs" title="FACTURA"><i class="fa fa-file-pdf-o"></i></button>
+                                        <button class="btn btn-danger btn-xs" title="FACTURA"><i class="fa fa-file-pdf-o"></i></button>
                                     </modal-button>
 
-                                    <a href="{{ Storage::url($egress->xml) }}" download class="btn btn-default btn-xs" title="XML">
+                                    <a href="{{ Storage::url($egress->xml) }}" download class="btn btn-primary btn-xs" title="XML">
                                        <i class="fa fa-file-code-o"></i>
                                     </a>
 
-                                    <modal id="pdf_complement_{{ $egress->id}}" title="Factura (pdf)">
-                                        <iframe src="{{ Storage::url($egress->pdf_complement) }}#view=FitH" width="100%" height="600"></iframe>
-                                    </modal>
-                                    <modal-button target="pdf_complement_{{ $egress->id}}">
-                                        <button class="btn btn-warning btn-xs" title="COMPLEMENTO"><i class="fa fa-file-pdf-o"></i></button>
-                                    </modal-button>
+                                    @if($egress->pdf_complement)
+                                        <modal id="pdf_complement_{{ $egress->id}}" title="Factura (pdf)">
+                                            <iframe src="{{ Storage::url($egress->pdf_complement) }}#view=FitH" width="100%" height="600"></iframe>
+                                        </modal>
+                                        <modal-button target="pdf_complement_{{ $egress->id}}">
+                                            <button class="btn btn-warning btn-xs" title="COMPLEMENTO"><i class="fa fa-file-pdf-o"></i></button>
+                                        </modal-button>
+                                    @endif
                                 </td>
                                 <td>$ {{ number_format($egress->iva, 2) }}</td>
                                 <td>$  {{ number_format($egress->amount, 2) }}</td>
@@ -51,7 +49,7 @@
                                             <iframe src="{{ Storage::url($egress->pdf_payment) }}#view=FitH" width="100%" height="600"></iframe>
                                         </modal>
                                         <modal-button target="ppdf{{ $egress->id}}">
-                                            <button class="btn btn-default btn-xs"><i class="fa fa-file-pdf-o"></i></button>
+                                            <button class="btn btn-danger btn-xs"><i class="fa fa-file-pdf-o"></i></button>
                                         </modal-button>
                                     @else
                                         <a href="{{ route('coffee.egress.pay', ['egress' => $egress->id]) }}" class="btn btn-success btn-xs pull-left">

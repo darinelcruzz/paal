@@ -6,47 +6,43 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-7">
+        <div class="col-md-10 col-md-offset-1">
             <solid-box title="Agregar egreso" color="danger" button>
                 {!! Form::open(['method' => 'POST', 'route' => 'coffee.egress.store', 'enctype' => 'multipart/form-data']) !!}
 
-                    {!! Field::select('provider_id', $providers, null,
-                        ['tpl' => 'withicon', 'label' => 'Proveedor','empty' => 'Seleccione un proveedor'],
-                        ['icon' => 'truck'])
-                    !!}
-
                     <div class="row">
-                        <div class="col-md-5">
+                        <div class="col-md-6">
+                            {!! Field::select('provider_id', $providers, null,
+                                ['tpl' => 'withicon', 'label' => 'Proveedor','empty' => 'Seleccione un proveedor'],
+                                ['icon' => 'truck'])
+                            !!}
+                        </div>
+                        <div class="col-md-3">
                             {!! Field::date('emission', Date::now(), ['tpl' => 'withicon'], ['icon' => 'shopping-cart']) !!}
                         </div>
                         <div class="col-md-3">
-                            {!! Field::number('expiration', ['tpl' => 'withicon', 'min' => '0'], ['icon' => 'clock-o']) !!}
-                        </div>
-                        <div class="col-md-4">
-                            {!! Field::text('folio', ['tpl' => 'withicon'], ['icon' => 'barcode']) !!}
+                            {!! Field::number('expiration', 0, ['tpl' => 'withicon', 'min' => '0'], ['icon' => 'clock-o']) !!}
                         </div>
                     </div>
 
-                    <label>Factura</label>
-
                     <div class="row">
-                        <div class="col-md-6">
-                            <file-upload fname="pdf_bill" ext="pdf"></file-upload>
+                        <div class="col-md-3">
+                            {!! Field::text('folio', ['tpl' => 'withicon', 'ph' => 'XXXXX'], ['icon' => 'barcode']) !!}
                         </div>
-                        <div class="col-md-6">
-                            <file-upload fname="xml" ext="xml"></file-upload>
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             {!! Field::number('amount', 0, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0'], ['icon' => 'money']) !!}
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             {!! Field::number('iva', 0, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0'], ['icon' => 'bank']) !!}
                         </div>
+                        <div class="col-md-3">
+                            <label>Archivos factura</label><br>
+                            <file-upload color="danger" bname="PDF" fname="pdf_bill" ext="pdf"></file-upload>
+                            <file-upload color="primary" bname="XML" fname="xml" ext="xml"></file-upload>
+                        </div>
+                    </div>
+
+                    <div class="row">
                         <div class="col-md-4">
                             <label>&nbsp;</label>
                             <div class="input-group">
@@ -58,9 +54,10 @@
                         </div>
                     </div>
 
-                    <div v-if="complement">
-                        <label>Complemento</label><br>
-                        <div class="row">
+                    <br>
+
+                    <div class="row">
+                        <div v-if="complement">
                             <div class="col-md-4">
                                 {!! Field::number('complement_amount', 0,
                                     ['tpl' => 'withicon', 'step' => '0.01', 'label' => 'Monto', 'min' => '0'], 
@@ -72,8 +69,11 @@
                                     ['tpl' => 'withicon', 'label' => 'Fecha'], ['icon' => 'calendar']) 
                                 !!}
                             </div>
+                            <div class="col-md-4">
+                                <label>Documento complemento</label><br>
+                                <file-upload bname="PDF COMPLEMENTO" fname="pdf_complement" ext="pdf" color="warning"></file-upload>
+                            </div>
                         </div>
-                        <file-upload fname="pdf_complement" ext="pdf"></file-upload>
                     </div>
 
                     <hr>

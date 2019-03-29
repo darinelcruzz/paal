@@ -132,7 +132,7 @@
                                     <br>
                                     <div class="row">
                                         <div class="col-md-2 col-md-offset-5">
-                                            <file-upload fname="xml" ext="xml" color="danger"></file-upload>
+                                            <file-upload bname=" SUBIR XML" fname="xml" ext="xml" color="danger"></file-upload>
                                         </div>
                                     </div>
 
@@ -215,7 +215,7 @@
 
                                         <div class="row">
                                             <div class="col-md-2 col-md-offset-5">
-                                                <file-upload fname="xml" ext="xml" color="danger"></file-upload>
+                                                <file-upload bname=" SUBIR XML" fname="xml" ext="xml" color="danger"></file-upload>
                                             </div>
                                         </div>
                                         
@@ -321,7 +321,7 @@
 
                                         <div class="row">
                                             <div class="col-md-2 col-md-offset-5">
-                                                <file-upload fname="xml" ext="xml" color="danger"></file-upload>
+                                                <file-upload bname=" SUBIR XML" fname="xml" ext="xml" color="danger"></file-upload>
                                             </div>
                                         </div>
                                         
