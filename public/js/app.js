@@ -51386,11 +51386,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             icon: 'fa fa-upload',
-            buttonColor: 'default'
+            buttonColor: 'default',
+            buttonName: 'XML'
         };
     },
 
-    props: ['fname', 'ext', 'color'],
+    props: ['fname', 'ext', 'color', 'bname'],
     methods: {
         changeIcon: function changeIcon() {
             this.icon = 'fa fa-check-double';
@@ -51399,6 +51400,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     created: function created() {
         this.buttonColor = this.color != '' ? this.color : 'default';
+        this.buttonName = this.bname != '' ? this.bname : 'XML';
     }
 });
 
@@ -51413,7 +51415,7 @@ var render = function() {
   return _c("div", { class: "fileUpload btn btn-sm btn-" + _vm.buttonColor }, [
     _c("span", [
       _c("i", { class: _vm.icon, attrs: { "aria-hidden": "true" } }),
-      _vm._v(" XML")
+      _vm._v("   " + _vm._s(_vm.buttonName))
     ]),
     _vm._v(" "),
     _c("input", {

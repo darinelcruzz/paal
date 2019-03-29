@@ -1,6 +1,6 @@
 <template>
 	<div :class="'fileUpload btn btn-sm btn-' + buttonColor">
-        <span><i :class="icon" aria-hidden="true"></i> {{ buttonName }}</span>
+        <span><i :class="icon" aria-hidden="true"></i>&nbsp;&nbsp; {{ buttonName }}</span>
         <input type="file" :name="fname" :accept="'application/' + ext" class="upload" @change="changeIcon">
     </div>
 </template>
@@ -24,7 +24,7 @@ export default {
     },
     created() {
         this.buttonColor = this.color != '' ? this.color: 'default'
-        this.buttonColor = this.bname != '' ? this.bname: 'XML'
+        this.buttonName = this.bname != '' ? this.bname: 'XML'
     }
 };
 	

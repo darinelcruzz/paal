@@ -47,7 +47,7 @@
             <br>
             <div class="row">
                 <div class="col-md-2 col-md-offset-5">
-                    <file-upload fname="xml" ext="xml" color="danger"></file-upload>
+                    <file-upload fname="xml" ext="xml" color="danger" bname=" SUBIR XML"></file-upload>
                 </div>
             </div>
             
