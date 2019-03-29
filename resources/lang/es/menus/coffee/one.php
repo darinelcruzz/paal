@@ -44,6 +44,21 @@ return [
         ]
     ],
 
+    'egresses' => [
+        'title' => 'Egresos',
+        'icon' => 'fa fa-share',
+        'submenu' => [
+            'create' => [
+                'title' => 'Agregar',
+                'route' => 'coffee.egress.create'
+            ],
+            'index' => [
+                'title' => 'Historial',
+                'route' => 'coffee.egress.index'
+            ],
+        ]
+    ],
+
     'products' => [
         'title' => 'Productos',
         'icon' => 'fa fa-tags',

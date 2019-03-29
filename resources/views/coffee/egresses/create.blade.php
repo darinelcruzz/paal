@@ -6,22 +6,26 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-7">
+        <div class="col-md-10 col-md-offset-1">
             <solid-box title="Agregar egreso" color="danger" button>
                 {!! Form::open(['method' => 'POST', 'route' => 'coffee.egress.store', 'enctype' => 'multipart/form-data']) !!}
 
-                    {!! Field::select('provider_id', $providers, null,
-                        ['tpl' => 'withicon', 'label' => 'Proveedor','empty' => 'Seleccione un proveedor'],
-                        ['icon' => 'truck'])
-                    !!}
-
                     <div class="row">
-                        <div class="col-md-5">
+                        <div class="col-md-6">
+                            {!! Field::select('provider_id', $providers, null,
+                                ['tpl' => 'withicon', 'label' => 'Proveedor','empty' => 'Seleccione un proveedor'],
+                                ['icon' => 'truck'])
+                            !!}
+                        </div>
+                        <div class="col-md-3">
                             {!! Field::date('emission', Date::now(), ['tpl' => 'withicon'], ['icon' => 'shopping-cart']) !!}
                         </div>
                         <div class="col-md-3">
-                            {!! Field::number('expiration', ['tpl' => 'withicon', 'min' => '0'], ['icon' => 'clock-o']) !!}
+                            {!! Field::number('expiration', 0, ['tpl' => 'withicon', 'min' => '0'], ['icon' => 'clock-o']) !!}
                         </div>
+                    </div>
+
+                    <div class="row">
                         <div class="col-md-4">
                             {!! Field::text('folio', ['tpl' => 'withicon'], ['icon' => 'barcode']) !!}
                         </div>
@@ -31,10 +35,10 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            <file-upload fname="pdf_bill" ext="pdf"></file-upload>
+                            <file-upload color="danger" bname=" SUBIR PDF" fname="pdf_bill" ext="pdf"></file-upload>
                         </div>
                         <div class="col-md-6">
-                            <file-upload fname="xml" ext="xml"></file-upload>
+                            <file-upload color="danger" bname=" SUBIR XML" fname="xml" ext="xml"></file-upload>
                         </div>
                     </div>
 

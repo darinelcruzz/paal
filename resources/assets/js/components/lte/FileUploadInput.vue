@@ -1,6 +1,6 @@
 <template>
 	<div :class="'fileUpload btn btn-sm btn-' + buttonColor">
-        <span><i :class="icon" aria-hidden="true"></i> XML</span>
+        <span><i :class="icon" aria-hidden="true"></i> {{ buttonName }}</span>
         <input type="file" :name="fname" :accept="'application/' + ext" class="upload" @change="changeIcon">
     </div>
 </template>
@@ -12,9 +12,10 @@ export default {
         return {
             icon: 'fa fa-upload',
             buttonColor: 'default',
+            buttonName: 'XML'
         }
     },
-    props: ['fname', 'ext', 'color'],
+    props: ['fname', 'ext', 'color', 'bname'],
     methods: {
     	changeIcon() {
     		this.icon = 'fa fa-check-double';
@@ -23,6 +24,7 @@ export default {
     },
     created() {
         this.buttonColor = this.color != '' ? this.color: 'default'
+        this.buttonColor = this.bname != '' ? this.bname: 'XML'
     }
 };
 	
