@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Coffee;
 
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\Controller;
 use App\{Ingress, Payment};
+use App\Exports\DailyPendingExport;
 
 class AdminController extends Controller
 {
@@ -65,7 +67,8 @@ class AdminController extends Controller
             ->whereNull('reference')
             ->whereHas('ingress', function($query) {
                 $query->where('status', '!=', 'cancelado');
-            });
+            })
+            ->sum('cash');
 
         return view('coffee.admin.monthly', compact('date', 'month', 'pending', 'working_days'));
     }
@@ -79,14 +82,13 @@ class AdminController extends Controller
             session()->put('date', $date);
         }
 
-        $sales = Ingress::where('invoice_id', '!=', null)->get();
-        $total = 0;
-
-        foreach ($sales as $sale) {
-            if (!$sale->reference) {
-                $total += $sale->amount;
-            }
-        }
+        $total = Payment::whereYear('created_at', substr($date, 0, 4))
+            ->whereMonth('created_at', substr($date, 5))
+            ->whereNull('reference')
+            ->whereHas('ingress', function($query) {
+                $query->where('status', '!=', 'cancelado');
+            })
+            ->sum('cash');
 
         $invoices = Ingress::where('invoice_id', '!=', null)
             ->whereDate('created_at', $date)
@@ -108,5 +110,27 @@ class AdminController extends Controller
         }
 
         return redirect(route('coffee.admin.invoices'))->with('redirected', session('date'));
+    }
+
+    function downloadExcel($date)
+    {
+        return Excel::download(new DailyPendingExport($date), "PENDIENTE_$date.xlsx");
+    }
+
+    function printDeposits()
+    {
+        $date = date('Y-m');
+        
+        $invoices = Ingress::whereYear('created_at', substr($date, 0, 4))
+            ->whereMonth('created_at', substr($date, 5))
+            ->where('invoice_id', '!=', null)
+            ->selectRaw('client_id, iva, amount, invoice_id, DATE_FORMAT(created_at, "%Y-%m-%d") as date')
+            ->with('client:id,name')
+            ->get()
+            ->groupBy('date');
+
+        // return $invoices;
+
+        return view('coffee.admin.invoices_print', compact('invoices'));
     }
 }

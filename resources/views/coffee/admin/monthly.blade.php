@@ -51,7 +51,7 @@
                     <p>Por depositar</p>
                     <h3>
                         <em>
-                            $ {{ number_format($pending->sum('cash') + $pending->sum('credit_card') + $pending->sum('debit_card') + $pending->sum('transfer') + $pending->sum('check'), 2) }}
+                            $ {{ number_format($pending, 2) }}
                         </em>
                     </h3>
                 </div>

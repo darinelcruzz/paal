@@ -101,10 +101,10 @@
                         <em>$ {{ number_format($total, 2) }}</em>
                     </h3>
                 </div>
-                {{-- <div class="icon">
-                    <i class="fa fa-piggy-bank"></i>
-                </div> --}}
             </div>
+            <a href="{{ route('coffee.admin.printDeposits') }}" class="btn btn-default btn-block" target="_blank">
+                <i class="fa fa-download"></i>&nbsp; DESCARGAR MES &nbsp;<i class="fa fa-file-pdf"></i>
+            </a>
             <br>
 
             {!! Form::open(['method' => 'post', 'route' => 'coffee.admin.invoices']) !!}
@@ -134,8 +134,9 @@
                     <i class="fa fa-piggy-bank"></i>
                 </div> --}}
             </div>
-
-
+            <a href="{{ route('coffee.admin.downloadExcel', $date) }}" class="btn btn-success btn-block">
+                <i class="fa fa-download"></i>&nbsp; DESCARGAR EXCEL &nbsp;<i class="fa fa-file-excel"></i>
+            </a>
         </div>
     </div>
 

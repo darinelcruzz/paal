@@ -63,5 +63,7 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	    Route::match(['get', 'post'], 'mensual', usesas($ctrl, 'monthly'));
 	    Route::match(['get', 'post'], 'facturas', usesas($ctrl, 'invoices'));
 	    Route::post('referencia', usesas($ctrl, 'reference'));
+	    Route::get('excel/{date}', usesas($ctrl, 'downloadExcel'));
+	    Route::get('depositos', usesas($ctrl, 'printDeposits'));
 	});
 });
