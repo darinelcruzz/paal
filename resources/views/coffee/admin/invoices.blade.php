@@ -102,7 +102,7 @@
                     </h3>
                 </div>
             </div>
-            <a href="{{ route('coffee.admin.printDeposits') }}" class="btn btn-default btn-block" target="_blank">
+            <a href="{{ route('coffee.admin.printDeposits', $date) }}" class="btn btn-default btn-block" target="_blank">
                 <i class="fa fa-download"></i>&nbsp; DESCARGAR MES &nbsp;<i class="fa fa-file-pdf"></i>
             </a>
             <br>

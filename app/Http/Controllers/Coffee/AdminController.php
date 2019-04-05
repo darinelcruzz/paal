@@ -117,19 +117,18 @@ class AdminController extends Controller
         return Excel::download(new DailyPendingExport($date), "PENDIENTE_$date.xlsx");
     }
 
-    function printDeposits()
-    {
-        $date = date('Y-m');
-        
+    function printDeposits($date)
+    {        
         $invoices = Ingress::whereYear('created_at', substr($date, 0, 4))
             ->whereMonth('created_at', substr($date, 5))
             ->where('invoice_id', '!=', null)
+            ->whereHas('payments', function($query) {
+                $query->whereNull('reference');
+            })
             ->selectRaw('client_id, iva, amount, invoice_id, DATE_FORMAT(created_at, "%Y-%m-%d") as date')
             ->with('client:id,name')
             ->get()
             ->groupBy('date');
-
-        // return $invoices;
 
         return view('coffee.admin.invoices_print', compact('invoices'));
     }

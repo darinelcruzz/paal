@@ -27,112 +27,77 @@
 </head>
 
 <body onload="window.print();">
+{{-- <body> --}}
 <div class="wrapper">
   <!-- Main content -->
   <section class="invoice">
     <!-- title row -->
     <div class="row">
       <div class="col-xs-12">
-        <h2 class="page-header">
-          <img width="50px" src="{{ asset('/img/coffee.png') }}">&nbsp;&nbsp; COFFEE DEPOT | SUCURSAL CHIAPAS
-          <small class="pull-right">{{ date('d-m-Y') }}</small>
-        </h2>
+        <h4 class="page-header">
+          <b>BANCOMER BBVA</b> <br>
+          GRUPO FINANCIERO PAAL SA DE CV <br>
+          CUENTA 0196214193
+        </h4>
       </div>
       <!-- /.col -->
     </div>
-    <!-- info row -->
-    <div class="row invoice-info">
-      <div class="col-sm-6 invoice-col">
-        <strong>Dirección</strong>
-        <address>
-          	Blvd Angel Albino Corzo #955<br>
-	        Loc A y B COl. Las Palmas CP 29040 <br>
-        </address>
-      </div>
-      <!-- /.col -->
-      <div class="col-sm-6 invoice-col">
-        <strong>Contacto</strong>
-        <address>
-          	<i class="fa fa-phone"></i> 01 (961) 121 34 04 <br>
-	        <i class="fa fa-whatsapp"></i> 961 330 65 28<br>
-	        <i class="fa fa-envelope"></i> ventas@coffeedepotchiapas.com.mx <br>
-        </address>
-      </div>
-    </div>
-    <!-- /.row -->
 
     <h4 align="center">DEPOSITOS A REALIZAR</h4>
 
     <!-- Table row -->
     <div class="row">
-      <div class="col-xs-12 table-responsive">
-        <table class="table table-striped">
+      <div class="col-md-12 table-responsive">
+        <table class="table">
           <thead>
           <tr>
-            <th>Fecha</th>
-            <th>I.V.A.</th>
-            <th>Importe</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+            <th style="border-bottom: double;">F E C H A</th>
+            <th style="text-align: right; border-bottom: double;">I M P O R T E</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
           </tr>
           </thead>
           <tbody>
 
           	@php
           		$amount = 0;
-          		$iva = 0;
           	@endphp
 
             @foreach($invoices as $date => $sales)
-            	<tr>
-                    <td>{{ fdate($date, 'd \d\e F Y', 'Y-m-d') }}</td>
-                    <td>$ {{ number_format($sales->sum('iva'), 2) }}</td>
-                    <td>$ {{ number_format($sales->sum('amount'), 2) }}</td>
-                </tr>
-                @php
-	              	$amount += $sales->sum('amount');
-	              	$iva += $sales->sum('iva');
-	             @endphp     
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>{{ strtoupper(fdate($date, 'd \d\e F \d\e\l Y', 'Y-m-d')) }}</td>
+                    <td style="text-align: right;">$ {{ number_format($sales->sum('amount'), 2) }}</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                  </tr>
+                  @php
+                    $amount += $sales->sum('amount');
+                 @endphp
             @endforeach
           </tbody>
+
+          <tfoot>
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td style="border-top: double;">
+                <span class="pull-left"><b>T O T A L</b></span>
+                <span class="pull-right">$ {{ number_format($amount, 2) }}</span>
+              </td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+          </tfoot>
         </table>
       </div>
       <!-- /.col -->
     </div>
-    <!-- /.row -->
 
-    <div class="row">
-      <!-- accepted payments column -->
-      <div class="col-xs-6">
-        <p class="lead">OBSERVACIONES:</p>
-
-        <p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
-          Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles, weebly ning heekya handango imeem plugg dopplr
-          jibjab, movity jajah plickers sifteo edmodo ifttt zimbra.
-        </p>
-      </div>
-      <!-- /.col -->
-      <div class="col-xs-6">
-        <p class="lead">A depositar</p>
-
-        <div class="table-responsive">
-          <table class="table">
-            <tr>
-              <th style="width:50%">Subtotal:</th>
-              <td>$ {{ number_format($amount - $iva, 2) }}</td>
-            </tr>
-            <tr>
-              <th>I.V.A.</th>
-              <td>$ {{ number_format($iva, 2) }}</td>
-            </tr>
-            <tr>
-              <th>Total:</th>
-              <td>$ {{ number_format($amount, 2) }}</td>
-            </tr>
-          </table>
-        </div>
-      </div>
-      <!-- /.col -->
-    </div>
-    <!-- /.row -->
   </section>
   <!-- /.content -->
 </div>
