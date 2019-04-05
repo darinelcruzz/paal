@@ -33,12 +33,22 @@
   <section class="invoice">
     <!-- title row -->
     <div class="row">
-      <div class="col-xs-12">
-        <h4 class="page-header">
-          <b>BANCOMER BBVA</b> <br>
-          GRUPO FINANCIERO PAAL SA DE CV <br>
-          CUENTA 0196214193
-        </h4>
+      <div class="col-md-12">
+        <table class="table">
+          <thead>
+          <tr>
+            <th colspan="2">              
+              <h4 class="page-header">
+                <b>BANCOMER BBVA</b> <br>
+                GRUPO FINANCIERO PAAL SA DE CV <br>
+                CUENTA 0196214193
+              </h4>
+            </th>
+          </tr>
+          </thead>
+          
+        </table>
+        
       </div>
       <!-- /.col -->
     </div>
@@ -51,12 +61,8 @@
         <table class="table">
           <thead>
           <tr>
-            <th>&nbsp;</th>
-            <th>&nbsp;</th>
             <th style="border-bottom: double;">F E C H A</th>
             <th style="text-align: right; border-bottom: double;">I M P O R T E</th>
-            <th>&nbsp;</th>
-            <th>&nbsp;</th>
           </tr>
           </thead>
           <tbody>
@@ -67,12 +73,8 @@
 
             @foreach($invoices as $date => $sales)
                 <tr>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>{{ strtoupper(fdate($date, 'd \d\e F \d\e\l Y', 'Y-m-d')) }}</td>
+                    <td>{{ fdate($date, 'd/m/Y', 'Y-m-d') }}</td>
                     <td style="text-align: right;">$ {{ number_format($sales->sum('amount'), 2) }}</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
                   </tr>
                   @php
                     $amount += $sales->sum('amount');
@@ -83,14 +85,10 @@
           <tfoot>
             <tr>
               <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
               <td style="border-top: double;">
                 <span class="pull-left"><b>T O T A L</b></span>
                 <span class="pull-right">$ {{ number_format($amount, 2) }}</span>
               </td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
             </tr>
           </tfoot>
         </table>
