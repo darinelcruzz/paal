@@ -63,42 +63,44 @@
 
                     <template slot="body">
                         @php
-                            $total = 0
+                            $total = 0;
+                            $last_of_these = null;
                         @endphp
 
-                        @foreach($paid as $ingress)
-                            @if ($ingress->method == 'cash')
+                        @foreach($paid as $paid_in_cash)
+                            @if ($paid_in_cash->method == 'cash')
                                 <tr>
                                     <td>
-                                        {{ $ingress->folio }}
-                                        <input type="hidden" name="sales[]" value="{{ $ingress->id }}">
+                                        {{ $paid_in_cash->folio }}
+                                        <input type="hidden" name="sales[]" value="{{ $paid_in_cash->id }}">
                                     </td>
                                     <td>
-                                        <a href="" data-toggle="modal" data-target="#modal-e{{ $ingress->id }}">
+                                        <a href="" data-toggle="modal" data-target="#modal-e{{ $paid_in_cash->id }}">
                                             <i class="fa fa-eye"></i>
                                         </a>
-                                        <modal title="Lista de productos" id="modal-e{{ $ingress->id }}" color="#97a1b3">
-                                            <sale-products-list sale="{{ $ingress->id }}" 
-                                                amount="{{ $ingress->amount }}"
-                                                iva="{{ $ingress->iva }}">
+                                        <modal title="Lista de productos" id="modal-e{{ $paid_in_cash->id }}" color="#97a1b3">
+                                            <sale-products-list sale="{{ $paid_in_cash->id }}" 
+                                                amount="{{ $paid_in_cash->amount }}"
+                                                iva="{{ $paid_in_cash->iva }}">
                                             </sale-products-list>
                                         </modal>
                                     </td>
                                     
                                     <td>
-                                        {{ $ingress->client->name }}
-                                        <span class="pull-right" style="color: green">{!! $ingress->invoice_id ? '<i class="fa fa-check"></i>': '' !!}</span>
+                                        {{ $paid_in_cash->client->name }}
+                                        <span class="pull-right" style="color: green">{!! $paid_in_cash->invoice_id ? '<i class="fa fa-check"></i>': '' !!}</span>
                                     </td>
                                     <td>
-                                        <span class="label label-{{ $ingress->statusColor }}">
-                                            {{ ucfirst($ingress->status) }}
+                                        <span class="label label-{{ $paid_in_cash->statusColor }}">
+                                            {{ ucfirst($paid_in_cash->status) }}
                                         </span>
                                     </td>
-                                    <td>$ {{ number_format($ingress->iva, 2) }}</td>
-                                    <td>$ {{ number_format($ingress->amount, 2) }}</td>
+                                    <td>$ {{ number_format($paid_in_cash->iva, 2) }}</td>
+                                    <td>$ {{ number_format($paid_in_cash->amount, 2) }}</td>
                                 </tr>
                                 @php
-                                    $total += $ingress->amount
+                                    $total += $paid_in_cash->amount;
+                                    $last_of_these = $paid_in_cash;
                                 @endphp
                             @endif
                         @endforeach
@@ -108,13 +110,13 @@
                         <tr>
                             <td>
                                 @if($paid->count() > 0)
-                                    @if ($paid->first()->invoice_id != null)
-                                        <a href="{{ $ingress->xml }}" class="btn btn-success btn-xs" target="_blank">
-                                            <i class="fa fa-file-code"></i> XML
+                                    @if ($last_of_these->invoice_id == null)
+                                        <a href="" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal-cash">
+                                            <i class="fa fa-file"></i>&nbsp; AGREGAR FI 
                                         </a>
                                     @else
-                                        <a href="" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal-cash">
-                                            <i class="fa fa-file"></i>&nbsp; AGREGAR FI
+                                        <a href="{{ $last_of_these->xml }}" class="btn btn-success btn-xs" target="_blank">
+                                            <i class="fa fa-file-code"></i> XML
                                         </a>
                                     @endif
                                 @endif
