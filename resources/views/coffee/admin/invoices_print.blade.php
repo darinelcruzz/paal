@@ -38,11 +38,11 @@
           <thead>
           <tr>
             <th colspan="2">              
-              <h4 class="page-header">
+              <h3>
                 <b>BANCOMER BBVA</b> <br>
-                GRUPO FINANCIERO PAAL SA DE CV <br>
-                CUENTA 0196214193
-              </h4>
+                <small>GRUPO FINANCIERO PAAL SA DE CV <br>
+                CUENTA <b>0196214193</b></small>
+              </h3>
             </th>
           </tr>
           </thead>
@@ -53,7 +53,7 @@
       <!-- /.col -->
     </div>
 
-    <h4 align="center">DEPOSITOS A REALIZAR</h4>
+    <h5 align="center">DEPOSITOS A REALIZAR</h5>
 
     <!-- Table row -->
     <div class="row">
@@ -62,7 +62,7 @@
           <thead>
           <tr>
             <th style="border-bottom: double;">F E C H A</th>
-            <th style="text-align: right; border-bottom: double;">I M P O R T E</th>
+            <th style="border-bottom: double; text-align: center;">I M P O R T E</th>
           </tr>
           </thead>
           <tbody>
@@ -74,7 +74,7 @@
             @foreach($invoices as $date => $sales)
                 <tr>
                     <td>{{ fdate($date, 'd/m/Y', 'Y-m-d') }}</td>
-                    <td style="text-align: right;">$ {{ number_format($sales->sum('amount'), 2) }}</td>
+                    <td style="text-align: center;">$ {{ number_format($sales->sum('amount'), 2) }}</td>
                   </tr>
                   @php
                     $amount += $sales->sum('amount');
@@ -83,11 +83,10 @@
           </tbody>
 
           <tfoot>
-            <tr>
-              <td>&nbsp;</td>
-              <td style="border-top: double;">
-                <span class="pull-left"><b>T O T A L</b></span>
-                <span class="pull-right">$ {{ number_format($amount, 2) }}</span>
+            <tr style="border-top: double;">
+              <th>T O T A L</th>
+              <td style="text-align: center;">
+                $ {{ number_format($amount, 2) }}
               </td>
             </tr>
           </tfoot>
