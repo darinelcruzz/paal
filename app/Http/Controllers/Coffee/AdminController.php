@@ -64,7 +64,7 @@ class AdminController extends Controller
 
         $pending = Payment::whereYear('created_at', substr($date, 0, 4))
             ->whereMonth('created_at', substr($date, 5))
-            ->whereNull('reference')
+            ->whereNull('cash_reference')
             ->whereHas('ingress', function($query) {
                 $query->where('status', '!=', 'cancelado');
             })
@@ -84,9 +84,10 @@ class AdminController extends Controller
 
         $total = Payment::whereYear('created_at', substr($date, 0, 4))
             ->whereMonth('created_at', substr($date, 5))
-            ->whereNull('reference')
+            ->whereNull('cash_reference')
             ->whereHas('ingress', function($query) {
-                $query->where('status', '!=', 'cancelado');
+                $query->where('status', '!=', 'cancelado')
+                    ->where('invoice_id', '!=', null);
             })
             ->sum('cash');
 
@@ -101,12 +102,12 @@ class AdminController extends Controller
     function reference(Request $request)
     {
         $validated = $request->validate([
-            'reference' => 'required',
+            'cash_reference' => 'required',
         ]);
         
         foreach (Ingress::find($request->sales) as $sale) {            
             $payment = Payment::where('ingress_id', $sale->id)->first();
-            $payment->update($request->only('reference'));
+            $payment->update($request->only('cash_reference'));
         }
 
         return redirect(route('coffee.admin.invoices'))->with('redirected', session('date'));
@@ -123,10 +124,10 @@ class AdminController extends Controller
             ->whereMonth('created_at', substr($date, 5))
             ->where('invoice_id', '!=', null)
             ->whereHas('payments', function($query) {
-                $query->whereNull('reference');
+                $query->whereNull('cash_reference');
             })
-            ->selectRaw('client_id, iva, amount, invoice_id, DATE_FORMAT(created_at, "%Y-%m-%d") as date')
-            ->with('client:id,name')
+            ->selectRaw('id, client_id, iva, amount, invoice_id, DATE_FORMAT(created_at, "%Y-%m-%d") as date')
+            ->with(['client:id,name', 'payments'])
             ->get()
             ->groupBy('date');
 

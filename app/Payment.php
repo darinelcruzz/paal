@@ -6,7 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Payment extends Model
 {
-    protected $fillable = ['ingress_id', 'cash', 'transfer', 'check', 'debit_card', 'credit_card', 'type', 'reference', 'card_number'];
+    protected $fillable = [
+        'ingress_id', 'cash', 'transfer', 'check', 'debit_card', 'credit_card', 'type', 
+        'reference', 'cash_reference', 'card_number'
+    ];
 
     function ingress()
     {
@@ -25,5 +28,12 @@ class Payment extends Model
     function getTotalAttribute()
     {
     	return $this->cash + $this->transfer + $this->check + $this->debit_card + $this->credit_card;
+    }
+
+    function getMethodAttribute()
+    {
+        $methods = array_slice($this->toArray(), 3, 5);
+
+        return array_search(max($methods), $methods);
     }
 }

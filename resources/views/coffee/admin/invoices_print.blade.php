@@ -72,13 +72,25 @@
           	@endphp
 
             @foreach($invoices as $date => $sales)
-                <tr>
+
+               @php
+                  $subamount = 0;
+                  foreach ($sales as $sale) {
+                      $subamount += $sale->payments->sum('cash');
+                  }
+               @endphp
+
+                @if ($subamount)
+                  <tr>
                     <td>{{ fdate($date, 'd/m/Y', 'Y-m-d') }}</td>
-                    <td style="text-align: center;">$ {{ number_format($sales->sum('amount'), 2) }}</td>
+                    <td style="text-align: center;">$ {{ number_format($subamount, 2) }}</td>
                   </tr>
-                  @php
-                    $amount += $sales->sum('amount');
-                 @endphp
+                @endif
+
+                @php
+                  $amount += $subamount;
+               @endphp
+
             @endforeach
           </tbody>
 

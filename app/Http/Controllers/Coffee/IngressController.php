@@ -190,4 +190,17 @@ class IngressController extends Controller
 
         return back();
     }
+
+    function references()
+    {
+        foreach (Payment::all() as $payment) {
+            if ($payment->method == 'cash') {
+                $payment->update([
+                    'cash_reference' => $payment->reference
+                ]);
+            }
+        }
+
+        return 'PROCEDIMIENTO EXITOSO';
+    }
 }

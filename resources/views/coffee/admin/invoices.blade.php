@@ -14,34 +14,51 @@
                 
                 <data-table example="1">
 
-                    {{ drawHeader('FI', 'método', 'cliente', 'XML', 'referencia', 'IVA', 'Importe') }}
+                    {{-- {{ drawHeader('FI', 'método', 'cliente', 'XML', 'referencia', 'Importe') }} --}}
+
+                    <template slot="header">
+                        <tr>
+                            <th>FI</th>
+                            <th>Método</th>
+                            <th>Cliente</th>
+                            <th>XML</th>
+                            <th style="text-align: center;">Referencia</th>
+                            <th style="text-align: right;">Importe</th>
+                        </tr>
+                    </template>
 
                     <template slot="body">
 
                         @php
                             $pending = 0;
-                            $amount = 0;
                         @endphp
 
                         @foreach($invoices as $invoice => $sales)
                             <tr>
-                                <td>{{ $invoice }}</td>
-                                <td>{{ $sales->first()->method_name }}</td>
+                                <td style="width: 7%">{{ $invoice }}</td>
+                                <td style="width: 17%">{{ $sales->first()->method_name }}</td>
                                 <td style="width: 35%">{{ $sales->first()->client->name }}</td>
                                 <td style="width: 5%; text-align: center;">
                                     <a href="{{ $sales->first()->xml }}" target="_blank" style="color: green">
                                         <i class="fa fa-file-excel"></i>
                                     </a>
                                 </td>
+                                @php
+                                    $subamount = 0;
+                                    foreach ($sales as $sale) {
+                                        $subamount += $sale->method == 'cash' ? $sale->payments->sum('cash'): $sale->amount;
+                                    }
+                                @endphp
                                 <td style="text-align: center">
-                                    @if (!$sales->first()->reference)
+                                    @if (!$sales->first()->cash_reference && $sales->first()->method == 'cash')
+                                        
+                                        @php
+                                            $pending += $subamount;
+                                        @endphp
+
                                         <a href="" data-toggle="modal" data-target="#details{{ $invoice }}">
                                             <em>agregar...</em>
                                         </a>
-
-                                        @php
-                                            $pending += $sales->sum('amount')
-                                        @endphp
 
                                         {!! Form::open(['method' => 'POST', 'route' => 'coffee.admin.reference']) !!}
                                 
@@ -49,7 +66,7 @@
 
                                             <div class="row">
                                                 <div class="col-md-4 col-md-offset-4">
-                                                    {!! Field::text('reference', 
+                                                    {!! Field::text('cash_reference', 
                                                         ['tpl' => 'withicon', 'ph' => 'XXXXXXXXX', 'required' => 'true'], 
                                                         ['icon' => 'exchange-alt']) 
                                                     !!}
@@ -67,24 +84,12 @@
 
                                         {!! Form::close() !!}
                                     @else
-                                        {{ $sales->first()->reference }}
+                                        {{ $sales->first()->cash_reference ?? $sales->first()->reference  }}
                                     @endif
                                 </td>
-                                <td style="text-align: right; width: 10%">$ {{ number_format($sales->sum('iva'), 2) }}</td>
-                                <td style="text-align: right;">$ {{ number_format($sales->sum('amount'), 2) }}</td>
+                                <td style="text-align: right; width: 15%;">$ {{ number_format($subamount, 2) }}</td>
                             </tr>
-                            @php
-                                $amount += $sales->sum('amount')
-                            @endphp
                         @endforeach
-                    </template>
-
-                    <template slot="footer">
-                        <tr>
-                            <td colspan="5"></td>
-                            <th style="text-align: right; width: 10%">Total</th>
-                            <td style="text-align: right;">$ {{ number_format($amount, 2) }}</td>
-                        </tr>
                     </template>
                     
                 </data-table>
