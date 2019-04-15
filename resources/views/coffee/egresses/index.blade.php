@@ -11,12 +11,13 @@
 
                 <data-table example="1">
 
-                    {{ drawHeader('ID', 'Proveedor','compra', 'factura', 'I.V.A.', 'total', 'pago', 'estado') }}
+                    {{ drawHeader('ID', 'folio', 'Proveedor','compra', 'factura', 'I.V.A.', 'total', 'pago', 'estado') }}
 
                     <template slot="body">
                         @foreach($egresses as $egress)
                             <tr>
                                 <td>{{ $egress->id }}</td>
+                                <td>{{ $egress->folio }}</td>
                                 <td>{{ $egress->provider->name }}</td>
                                 <td>{{ fdate($egress->emission, 'd M Y', 'Y-m-d') }}</td>
                                 <td>
