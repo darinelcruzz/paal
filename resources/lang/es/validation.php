@@ -188,5 +188,6 @@ return [
         'invoice' => 'factura',
         'category' => 'categoría',
         'invoice_id' => 'folio',
+        'cash_reference' => 'referencia',
     ],
 ];
