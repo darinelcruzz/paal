@@ -372,7 +372,7 @@
                 
                 <data-table example="5">
 
-                    {{ drawHeader('folio','tipo', 'cliente', 'estado', 'cantidad', 'total') }}
+                    {{ drawHeader('folio', '<i class="fa fa-cogs"></i>', 'tipo', 'cliente', 'estado', 'cantidad', 'total') }}
 
                     <template slot="body">
                         @php
@@ -382,8 +382,75 @@
                         @foreach($deposits as $deposit)
                             <tr>
                                 <td>{{ $deposit->ingress->folio }}</td>
-                                <td>{{ ucfirst($deposit->type) }}</td>
-                                <td>{{ $deposit->ingress->client->name }}</td>
+                                <td>
+                                    @if ($deposit->type == 'liquidación')
+                                        <dropdown icon="cogs" color="danger">
+                                            <li>
+                                                <a href="" data-toggle="modal" data-target="#modal-e{{ $deposit->ingress->id }}">
+                                                    <i class="fa fa-eye"></i> Detalles
+                                                </a>
+                                            </li>
+                                            @if ($deposit->ingress->invoice_id)
+                                                <li>
+                                                    <a href="{{ $deposit->ingress->xml }}" target="_blank">
+                                                        <i class="fa fa-file-code"></i> XML
+                                                    </a>
+                                                </li>
+                                            @else
+                                                <li>
+                                                    <a href="" data-toggle="modal" data-target="#modal-f{{ $deposit->ingress->id }}">
+                                                        <i class="fa fa-plus"></i> Agregar FI
+                                                    </a>
+                                                </li>
+                                            @endif
+                                        </dropdown>
+
+                                        <modal title="Lista de productos" id="modal-e{{ $deposit->ingress->id }}" color="#dd4b39">
+                                            <sale-products-list sale="{{ $deposit->ingress->id }}" 
+                                                amount="{{ $deposit->ingress->amount }}"
+                                                iva="{{ $deposit->ingress->iva }}">
+                                            </sale-products-list>
+                                        </modal>
+
+                                        {!! Form::open(['method' => 'POST', 'route' => ['coffee.ingress.invoice', $deposit->ingress ], 'files' => 'true']) !!}
+                                    
+                                        <modal title="Agregar datos de la facturación" id="modal-f{{ $deposit->ingress->id }}" color="#dd4b39">
+
+                                            <div class="row">
+                                                <div class="col-md-4 col-md-offset-4">
+                                                    {!! Field::number('invoice_id', 
+                                                        ['tpl' => 'withicon', 'ph' => 'XXXXXXXXX', 'required' => 'true'], 
+                                                        ['icon' => 'file-invoice']) 
+                                                    !!}
+                                                </div>
+                                            </div>
+
+                                            <input type="hidden" name="sales[]" value="{{ $deposit->ingress->id }}">
+
+                                            <div class="row">
+                                                <div class="col-md-2 col-md-offset-5">
+                                                    <file-upload bname=" SUBIR XML" fname="xml" ext="xml" color="danger"></file-upload>
+                                                </div>
+                                            </div>
+                                        
+
+
+                                            <template slot="footer">
+                                                {!! Form::submit('Guardar', ['class' => 'btn btn-danger pull-right']) !!}
+                                            </template>
+                                        </modal>
+
+                                        {!! Form::close() !!}
+                                    @endif
+                                </td>
+                                <td>
+                                    {{ ucfirst($deposit->type) }}
+
+                                </td>
+                                <td>
+                                    {{ $deposit->ingress->client->name }}
+                                    <span class="pull-right" style="color: green">{!! $deposit->ingress->invoice_id ? '<i class="fa fa-check"></i>': '' !!}</span>
+                                </td>
                                 <td>
                                     <span class="label label-{{ $deposit->ingress->statusColor }}">
                                         {{ ucfirst($deposit->ingress->status) }}
@@ -392,6 +459,7 @@
                                 <td>{!! $deposit->methods !!}</td>
                                 <td>$ {{ number_format($deposit->total, 2) }}</td>
                             </tr>
+
                             @php
                                 $total += $deposit->amount
                             @endphp
@@ -400,7 +468,7 @@
 
                     <template slot="footer">
                         <tr>
-                            <td colspan="4"></td>
+                            <td colspan="5"></td>
                             <th>Total</th>
                             <td>$ {{ number_format($total, 2) }}</td>
                         </tr>
