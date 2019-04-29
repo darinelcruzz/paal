@@ -53090,7 +53090,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("td", [
                   _c("span", { staticClass: "pull-right" }, [
-                    _vm._v("$ " + _vm._s(_vm.total.toFixed(2)))
+                    _vm._v("$ " + _vm._s(_vm.total.toFixed(4)))
                   ])
                 ])
               ]),
@@ -53100,12 +53100,12 @@ var render = function() {
                 _vm._v(" "),
                 _c("td", [
                   _c("span", { staticClass: "pull-right" }, [
-                    _vm._v("$ " + _vm._s(_vm.iva.toFixed(2)))
+                    _vm._v("$ " + _vm._s(_vm.iva.toFixed(4)))
                   ]),
                   _vm._v(" "),
                   _c("input", {
                     attrs: { type: "hidden", name: "iva" },
-                    domProps: { value: _vm.iva.toFixed(2) }
+                    domProps: { value: _vm.iva.toFixed(4) }
                   })
                 ])
               ]),
@@ -53115,12 +53115,12 @@ var render = function() {
                 _vm._v(" "),
                 _c("td", [
                   _c("span", { staticClass: "pull-right" }, [
-                    _vm._v("$ " + _vm._s((_vm.total + _vm.iva).toFixed(2)))
+                    _vm._v("$ " + _vm._s((_vm.total + _vm.iva).toFixed(4)))
                   ]),
                   _vm._v(" "),
                   _c("input", {
                     attrs: { type: "hidden", name: "amount" },
-                    domProps: { value: (_vm.total + _vm.iva).toFixed(2) }
+                    domProps: { value: (_vm.total + _vm.iva).toFixed(4) }
                   })
                 ])
               ])
@@ -53479,7 +53479,7 @@ var render = function() {
                 }
               ],
               staticClass: "form-control input-sm",
-              attrs: { name: "prices[]", type: "number", step: "0.01" },
+              attrs: { name: "prices[]", type: "number", step: "0.0001" },
               domProps: { value: _vm.price_in_dollars },
               on: {
                 input: function($event) {
@@ -53507,7 +53507,7 @@ var render = function() {
               attrs: {
                 name: "prices[]",
                 type: "number",
-                step: "0.01",
+                step: "0.0001",
                 min: _vm.product.price
               },
               domProps: { value: _vm.price },
@@ -53527,12 +53527,12 @@ var render = function() {
         : _c("div", [
             _vm._v(
               "\n                " +
-                _vm._s(_vm.price.toFixed(2)) +
+                _vm._s(_vm.price.toFixed(4)) +
                 "\n                "
             ),
             _c("input", {
               attrs: { name: "prices[]", type: "hidden" },
-              domProps: { value: _vm.price.toFixed(2) }
+              domProps: { value: _vm.price.toFixed(4) }
             })
           ])
     ]),
@@ -53653,12 +53653,12 @@ var render = function() {
         : _c("div", [
             _vm._v(
               "\n                $ " +
-                _vm._s(_vm.total.toFixed(2)) +
+                _vm._s(_vm.total.toFixed(4)) +
                 "\n                "
             ),
             _c("input", {
               attrs: { name: "subtotals[]", type: "hidden" },
-              domProps: { value: _vm.total.toFixed(2) }
+              domProps: { value: _vm.total.toFixed(4) }
             })
           ])
     ])

@@ -28,21 +28,21 @@
                     <tr>
                         <th colspan="5"><span class="pull-right">Subtotal:</span></th>
                         <td>
-                            <span class="pull-right">$ {{ total.toFixed(2) }}</span>
+                            <span class="pull-right">$ {{ total.toFixed(4) }}</span>
                         </td>
                     </tr>
                     <tr>
                         <th colspan="5"><span class="pull-right">IVA:</span></th>
                         <td>
-                            <span class="pull-right">$ {{ iva.toFixed(2) }}</span>
-                            <input type="hidden" name="iva" :value="iva.toFixed(2)">
+                            <span class="pull-right">$ {{ iva.toFixed(4) }}</span>
+                            <input type="hidden" name="iva" :value="iva.toFixed(4)">
                         </td>
                     </tr>
                     <tr>
                         <th colspan="5"><span class="pull-right">Total:</span></th>
                         <td>
-                            <span class="pull-right">$ {{ (total + iva).toFixed(2) }}</span>
-                            <input type="hidden" name="amount" :value="(total + iva).toFixed(2)">
+                            <span class="pull-right">$ {{ (total + iva).toFixed(4) }}</span>
+                            <input type="hidden" name="amount" :value="(total + iva).toFixed(4)">
                         </td>
                     </tr>
                 </tfoot>

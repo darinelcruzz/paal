@@ -23,14 +23,14 @@
         </td>
         <td>
             <div v-if="product.dollars == 1">
-                <input name="prices[]" type="number" v-model="price_in_dollars" step="0.01" class="form-control input-sm">
+                <input name="prices[]" type="number" v-model="price_in_dollars" step="0.0001" class="form-control input-sm">
             </div>
             <div v-else-if="product.category == 'SERVICIOS'">
-                <input name="prices[]" type="number" class="form-control input-sm" step="0.01" :min="product.price" v-model.number="price">
+                <input name="prices[]" type="number" class="form-control input-sm" step="0.0001" :min="product.price" v-model.number="price">
             </div>
             <div v-else>
-                {{ price.toFixed(2) }}
-                <input name="prices[]" type="hidden" :value="price.toFixed(2)">
+                {{ price.toFixed(4) }}
+                <input name="prices[]" type="hidden" :value="price.toFixed(4)">
             </div>
         </td>
         <td>
@@ -53,8 +53,8 @@
                 <input class="form-control input-sm" name="subtotals[]" type="number" step="0.01" :min="product.retail_price" v-model.number="price" @change="updateTotal">
             </div>
             <div v-else>
-                $ {{ total.toFixed(2) }}
-                <input name="subtotals[]" type="hidden" :value="total.toFixed(2)">
+                $ {{ total.toFixed(4) }}
+                <input name="subtotals[]" type="hidden" :value="total.toFixed(4)">
             </div>
         </td>
     </tr>
