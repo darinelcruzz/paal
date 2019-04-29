@@ -53507,6 +53507,7 @@ var render = function() {
               attrs: {
                 name: "prices[]",
                 type: "number",
+                step: "0.01",
                 min: _vm.product.price
               },
               domProps: { value: _vm.price },

@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="{{ asset('adminlte/dist/css/skins/_all-skins.min.css') }}">
 
   <script src="https://unpkg.com/vue-select@latest"></script>
+  <link rel="stylesheet" href="https://unpkg.com/vue-select@latest/dist/vue-select.css">
 
   <!-- DataTables -->
   <link rel="stylesheet" href="{{ asset('adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')}}">
