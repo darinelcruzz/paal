@@ -28,6 +28,10 @@
             <div v-else-if="product.category == 'SERVICIOS'">
                 <input name="prices[]" type="number" class="form-control input-sm" step="0.0001" :min="product.price" v-model.number="price">
             </div>
+
+            <div v-else-if="product.category == 'EQUIPO'">
+                <input name="prices[]" type="number" class="form-control input-sm" step="0.0001" :min="product.price" v-model.number="price">
+            </div>
             <div v-else>
                 {{ price.toFixed(4) }}
                 <input name="prices[]" type="hidden" :value="price.toFixed(4)">
@@ -128,8 +132,14 @@ export default {
     },
     created() {
         if (this.product.category != 'SERVICIOS') {
-            this.price = this.computePrice()
-            // this.product.family != 'ENVÍOS' || this.product.family != 'ESPECIAL'
+            if (this.product.category == 'EQUIPO') {
+                this.price = Number(this.product.price)
+                this.price_in_dollars = Number(this.product.price)
+
+            } else {
+                this.price = this.computePrice()
+            }
+
         } else {
             this.price = this.product.retail_price
             this.quantity = 1
@@ -137,6 +147,10 @@ export default {
 
         if (this.product.quantity > 0) {
             this.quantity = this.product.quantity
+        }
+
+        if (this.product.discount > 0) {
+            this.discount = this.product.discount
         }
     }
 };

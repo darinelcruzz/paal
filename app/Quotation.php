@@ -30,7 +30,7 @@ class Quotation extends Model
 
     	foreach (unserialize($this->products) as $product) {
             $pmodel = Product::find($product['i'])->toArray();
-            $pmodel += ['quantity' => $product['q'], 'discount' => $product['d']];
+            $pmodel += ['quantity' => $product['q'], 'discount' => $product['d'], 'price' => $product['p']];
             array_push($products, $pmodel);
         }
 
