@@ -53310,6 +53310,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -53379,8 +53383,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     created: function created() {
         if (this.product.category != 'SERVICIOS') {
-            this.price = this.computePrice();
-            // this.product.family != 'ENVÍOS' || this.product.family != 'ESPECIAL'
+            if (this.product.category == 'EQUIPO') {
+                this.price = Number(this.product.price);
+                this.price_in_dollars = Number(this.product.price);
+            } else {
+                this.price = this.computePrice();
+            }
         } else {
             this.price = this.product.retail_price;
             this.quantity = 1;
@@ -53388,6 +53396,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         if (this.product.quantity > 0) {
             this.quantity = this.product.quantity;
+        }
+
+        if (this.product.discount > 0) {
+            this.discount = this.product.discount;
         }
     }
 });
@@ -53492,6 +53504,39 @@ var render = function() {
             })
           ])
         : _vm.product.category == "SERVICIOS"
+        ? _c("div", [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model.number",
+                  value: _vm.price,
+                  expression: "price",
+                  modifiers: { number: true }
+                }
+              ],
+              staticClass: "form-control input-sm",
+              attrs: {
+                name: "prices[]",
+                type: "number",
+                step: "0.0001",
+                min: _vm.product.price
+              },
+              domProps: { value: _vm.price },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.price = _vm._n($event.target.value)
+                },
+                blur: function($event) {
+                  _vm.$forceUpdate()
+                }
+              }
+            })
+          ])
+        : _vm.product.category == "EQUIPO"
         ? _c("div", [
             _c("input", {
               directives: [
