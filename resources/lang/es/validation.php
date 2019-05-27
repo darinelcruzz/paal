@@ -189,5 +189,7 @@ return [
         'category' => 'categoría',
         'invoice_id' => 'folio',
         'cash_reference' => 'referencia',
+        'guide_number' => 'número de guía',
+        'value' => 'valor',
     ],
 ];

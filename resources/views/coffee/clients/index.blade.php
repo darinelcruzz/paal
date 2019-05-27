@@ -10,12 +10,20 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-7">
+        <div class="col-md-9">
             <solid-box title="Clientes" color="danger" button>
                 
                 <data-table example="1">
 
-                    {{ drawHeader('ID', '<i class="fa fa-edit"></i>', 'Nombre', 'R.F.C.', 'correo') }}
+                    <template slot="header">
+                        <tr>
+                            <th>ID</th>
+                            <th><i class="fa fa-edit"></i></th>
+                            <th>Cliente</th>
+                            <th>R.F.C.</th>
+                            <th style="width: 30%">Dirección</th>
+                        </tr>
+                    </template>
 
                     <template slot="body">
                         @foreach($clients as $client)
@@ -26,9 +34,18 @@
                                         <i class="fa fa-edit"></i>
                                     </a>
                                 </td>
-                                <td>{{ $client->name }}</td>
-                                <td>{{ $client->rfc }}</td>
-                                <td>{{ $client->email }}</td>
+                                <td>
+                                    {{ $client->name }} <br>
+                                    <code>{{ $client->email }}</code>
+                                </td>
+                                <td>
+                                    {{ $client->rfc }}
+                                </td>
+                                <td>
+                                    {{ $client->city }} 
+                                    {{ $client->state }} <br>                                    
+                                    {{ $client->postcode == null || $client->postcode == ' ' ? '' : "C.P. $client->postcode" }}
+                                </td>
                             </tr>
                         @endforeach
                     </template>

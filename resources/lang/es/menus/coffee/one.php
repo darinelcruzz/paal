@@ -44,6 +44,18 @@ return [
         ]
     ],
 
+    'shippings' => [
+        'title' => 'Envíos',
+        'icon' => 'fa fa-shipping-fast',
+        'route' => 'coffee.shipping.index'
+    ],
+
+    'variables' => [
+        'title' => 'TC',
+        'icon' => 'fa fa-dollar',
+        'route' => 'coffee.variable.edit'
+    ],
+
     'egresses' => [
         'title' => 'Egresos',
         'icon' => 'fa fa-share',

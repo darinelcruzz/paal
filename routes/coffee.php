@@ -67,4 +67,18 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	    Route::get('excel/{date}', usesas($ctrl, 'downloadExcel'));
 	    Route::get('depositos/{date}', usesas($ctrl, 'printDeposits'));
 	});
+
+	Route::group(['prefix' => 'envios', 'as' => 'shipping.'], function () {
+	    $ctrl = 'Coffee\ShippingController';
+	    Route::get('/', usesas($ctrl, 'index'));
+	    Route::get('editar/{shipping}/{status}', usesas($ctrl, 'edit'));
+	    Route::post('editar/{shipping}', usesas($ctrl, 'update'));
+	});
+
+	Route::group(['prefix' => 'variables', 'as' => 'variable.'], function () {
+	    $ctrl = 'Coffee\VariableController';
+	    Route::get('/', usesas($ctrl, 'index'));
+	    Route::get('editar', usesas($ctrl, 'edit'));
+	    Route::post('editar/{variable}', usesas($ctrl, 'update'));
+	});
 });

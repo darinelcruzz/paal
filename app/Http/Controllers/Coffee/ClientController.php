@@ -27,17 +27,7 @@ class ClientController extends Controller
             'rfc' => 'required',
         ]);
 
-        Client::create([
-            'name' => $request->name,
-            'address' => ' ',
-            'postcode' => ' ',
-            'city' => ' ',
-            'state' => ' ',
-            'rfc' => $request->rfc,
-            'phone' => ' ',
-            'email' => $request->email,
-            'company' => 'coffee',
-        ]);
+        Client::create($request->all() + ['company' => 'coffee']);
 
         return redirect(route('coffee.client.index'));
     }
