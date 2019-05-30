@@ -9,7 +9,7 @@
                 
                 <data-table>
 
-                    {{ drawHeader('ID', 'descripción', 'menudeo', 'mayoreo') }}
+                    {{ drawHeader('ID', 'descripción', 'menudeo', 'mayoreo', '¿Dólares?') }}
 
                     <template slot="body">
                         @foreach($products as $product)
@@ -24,6 +24,7 @@
                                 </td>
                                 <td>$ {{ number_format($product->retail_price, 2) }}</td>
                                 <td>$ {{ number_format($product->wholesale_price, 2) }}</td>
+                                <td> {{ $product->dollars ? 'Sí': 'No' }}</td>
                             </tr>
                         @endforeach
                     </template>

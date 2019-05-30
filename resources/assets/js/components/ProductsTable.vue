@@ -30,20 +30,22 @@
             </div>
         </div>
         <br>
-        <table class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th><i class="fa fa-plus"></i></th>
-                    <th>Producto</th>
-                </tr>
-            </thead>
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <!-- <th><i class="fa fa-plus"></i></th> -->
+                        <th>Producto</th>
+                    </tr>
+                </thead>
 
-            <tbody>
-                <tr v-for="(product, index) in products" :key="index" is="p-row" :exchange="exchange"
-                    :product="product" :color="color">
-                </tr>
-            </tbody>
-        </table>
+                <tbody>
+                    <tr v-for="(product, index) in products" :key="index" is="p-row" :exchange="exchange"
+                        :product="product" :color="color">
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </template>
 

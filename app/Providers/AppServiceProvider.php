@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Http\ViewComposers\SalesAndQuotationsComposer;
+use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -18,6 +20,8 @@ class AppServiceProvider extends ServiceProvider
             base_path() . '\vendor\almasaeed2010\adminlte\dist' => public_path('adminlte/dist'),
             base_path() . '\vendor\almasaeed2010\adminlte\plugins' => public_path('adminlte/plugins'),
         ], 'adminlte');
+
+        View::composer('*', SalesAndQuotationsComposer::class);
     }
 
     /**

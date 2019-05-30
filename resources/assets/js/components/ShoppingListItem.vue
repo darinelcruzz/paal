@@ -1,7 +1,7 @@
 <template>
 	<tr>
         <td>
-            <a class="btn btn-danger btn-xs" @click="deleteItem"><i class="fa fa-times"></i></a>
+            <a href="#" @click="deleteItem" style="color: red;"><i class="fa fa-times"></i></a>
         </td>
         <td>
             <div v-if="product.family == 'ESPECIAL'">
@@ -21,6 +21,7 @@
                 <input type="hidden" name="ids[]" :value="product.id">
             </div>
         </td>
+
         <td>
             <div v-if="product.dollars == 1">
                 <input name="prices[]" type="number" v-model="price_in_dollars" step="0.0001" class="form-control input-sm">
@@ -37,6 +38,7 @@
                 <input name="prices[]" type="hidden" :value="price.toFixed(4)">
             </div>
         </td>
+        
         <td>
             <div v-if="product.category == 'SERVICIOS'">
                 1 <input type="hidden" name="quantities[]" :value="1">

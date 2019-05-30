@@ -1,13 +1,15 @@
 <template>
 	<tr>
-        <td>
+        <!-- <td>
             <button :class="'btn btn-' + color + ' btn-xs'" @click="buttonPressed">
                 <i class="fa fa-plus"></i>
             </button>
-        </td>
+        </td> -->
         <td>
             <div class="row">
                 <div class="col-md-7">
+                    <a href="#" @click="buttonPressed"><i class="fa fa-plus"></i></a>
+                    &nbsp;&nbsp;
                     {{ product.description }}
                 </div>
                 <div class="col-md-5 pull-right">

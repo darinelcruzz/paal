@@ -52332,6 +52332,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['color', 'exchange'],
@@ -52505,24 +52507,26 @@ var render = function() {
     _vm._v(" "),
     _c("br"),
     _vm._v(" "),
-    _c("table", { staticClass: "table table-striped table-bordered" }, [
-      _vm._m(0),
-      _vm._v(" "),
-      _c(
-        "tbody",
-        _vm._l(_vm.products, function(product, index) {
-          return _c("p-row", {
-            key: index,
-            tag: "tr",
-            attrs: {
-              exchange: _vm.exchange,
-              product: product,
-              color: _vm.color
-            }
-          })
-        }),
-        1
-      )
+    _c("div", { staticClass: "table-responsive" }, [
+      _c("table", { staticClass: "table table-striped table-bordered" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "tbody",
+          _vm._l(_vm.products, function(product, index) {
+            return _c("p-row", {
+              key: index,
+              tag: "tr",
+              attrs: {
+                exchange: _vm.exchange,
+                product: product,
+                color: _vm.color
+              }
+            })
+          }),
+          1
+        )
+      ])
     ])
   ])
 }
@@ -52531,13 +52535,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_c("i", { staticClass: "fa fa-plus" })]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Producto")])
-      ])
-    ])
+    return _c("thead", [_c("tr", [_c("th", [_vm._v("Producto")])])])
   }
 ]
 render._withStripped = true
@@ -52649,6 +52647,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['product', 'color', 'exchange'],
@@ -52698,21 +52698,13 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("tr", [
     _c("td", [
-      _c(
-        "button",
-        {
-          class: "btn btn-" + _vm.color + " btn-xs",
-          on: { click: _vm.buttonPressed }
-        },
-        [_c("i", { staticClass: "fa fa-plus" })]
-      )
-    ]),
-    _vm._v(" "),
-    _c("td", [
       _c("div", { staticClass: "row" }, [
         _c("div", { staticClass: "col-md-7" }, [
+          _c("a", { attrs: { href: "#" }, on: { click: _vm.buttonPressed } }, [
+            _c("i", { staticClass: "fa fa-plus" })
+          ]),
           _vm._v(
-            "\n                    " +
+            "\n                      \n                    " +
               _vm._s(_vm.product.description) +
               "\n                "
           )
@@ -52924,6 +52916,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['color', 'exchange', 'qproducts'],
@@ -53064,64 +53058,66 @@ var render = function() {
   return _c("div", { attrs: { id: "shopping_list" } }, [
     _vm.inputs.length > 0
       ? _c("div", [
-          _c("table", { staticClass: "table table-striped" }, [
-            _vm._m(0),
-            _vm._v(" "),
-            _c(
-              "tbody",
-              _vm._l(_vm.inputs, function(product, index) {
-                return _c("shopping-list-item", {
-                  key: index,
-                  tag: "tr",
-                  attrs: {
-                    index: index,
-                    product: product,
-                    familycount: _vm.getFamilyCount(product.family),
-                    exchange: _vm.exchange
-                  }
-                })
-              }),
-              1
-            ),
-            _vm._v(" "),
-            _c("tfoot", [
-              _c("tr", [
-                _vm._m(1),
-                _vm._v(" "),
-                _c("td", [
-                  _c("span", { staticClass: "pull-right" }, [
-                    _vm._v("$ " + _vm._s(_vm.total.toFixed(4)))
+          _c("div", { staticClass: "table-responsive" }, [
+            _c("table", { staticClass: "table table-striped table-bordered" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(_vm.inputs, function(product, index) {
+                  return _c("shopping-list-item", {
+                    key: index,
+                    tag: "tr",
+                    attrs: {
+                      index: index,
+                      product: product,
+                      familycount: _vm.getFamilyCount(product.family),
+                      exchange: _vm.exchange
+                    }
+                  })
+                }),
+                1
+              ),
+              _vm._v(" "),
+              _c("tfoot", [
+                _c("tr", [
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c("span", { staticClass: "pull-right" }, [
+                      _vm._v("$ " + _vm._s(_vm.total.toFixed(4)))
+                    ])
                   ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _vm._m(2),
+                ]),
                 _vm._v(" "),
-                _c("td", [
-                  _c("span", { staticClass: "pull-right" }, [
-                    _vm._v("$ " + _vm._s(_vm.iva.toFixed(4)))
-                  ]),
+                _c("tr", [
+                  _vm._m(2),
                   _vm._v(" "),
-                  _c("input", {
-                    attrs: { type: "hidden", name: "iva" },
-                    domProps: { value: _vm.iva.toFixed(4) }
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _vm._m(3),
+                  _c("td", [
+                    _c("span", { staticClass: "pull-right" }, [
+                      _vm._v("$ " + _vm._s(_vm.iva.toFixed(4)))
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      attrs: { type: "hidden", name: "iva" },
+                      domProps: { value: _vm.iva.toFixed(4) }
+                    })
+                  ])
+                ]),
                 _vm._v(" "),
-                _c("td", [
-                  _c("span", { staticClass: "pull-right" }, [
-                    _vm._v("$ " + _vm._s((_vm.total + _vm.iva).toFixed(4)))
-                  ]),
+                _c("tr", [
+                  _vm._m(3),
                   _vm._v(" "),
-                  _c("input", {
-                    attrs: { type: "hidden", name: "amount" },
-                    domProps: { value: (_vm.total + _vm.iva).toFixed(4) }
-                  })
+                  _c("td", [
+                    _c("span", { staticClass: "pull-right" }, [
+                      _vm._v("$ " + _vm._s((_vm.total + _vm.iva).toFixed(4)))
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      attrs: { type: "hidden", name: "amount" },
+                      domProps: { value: (_vm.total + _vm.iva).toFixed(4) }
+                    })
+                  ])
                 ])
               ])
             ])
@@ -53145,9 +53141,13 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { staticStyle: { width: "15%" } }, [_vm._v("Precio")]),
         _vm._v(" "),
-        _c("th", { staticStyle: { width: "15%" } }, [_vm._v("Cantidad")]),
+        _c("th", { staticStyle: { width: "15%" } }, [_vm._v("Cant")]),
         _vm._v(" "),
-        _c("th", { staticStyle: { width: "15%" } }, [_vm._v("Descuento")]),
+        _c("th", { staticStyle: { width: "15%" } }, [
+          _c("i", { staticClass: "fa fa-minus" }),
+          _vm._v(" "),
+          _c("i", { staticClass: "fa fa-percent" })
+        ]),
         _vm._v(" "),
         _c("th", { staticStyle: { width: "15%" } }, [_vm._v("Importe")])
       ])
@@ -53248,6 +53248,8 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
 //
 //
 //
@@ -53416,7 +53418,11 @@ var render = function() {
     _c("td", [
       _c(
         "a",
-        { staticClass: "btn btn-danger btn-xs", on: { click: _vm.deleteItem } },
+        {
+          staticStyle: { color: "red" },
+          attrs: { href: "#" },
+          on: { click: _vm.deleteItem }
+        },
         [_c("i", { staticClass: "fa fa-times" })]
       )
     ]),

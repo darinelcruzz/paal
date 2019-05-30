@@ -38,7 +38,7 @@
                       </tab-content>
 
                       <tab-content title="Productos" icon="fa fa-tag">
-                          <shopping-list color="warning" :exchange="{{ env('EXCHANGE_RATE') }}"></shopping-list>
+                          <shopping-list color="warning" :exchange="{{ $exchange }}"></shopping-list>
                        </tab-content>
 
                     </form-wizard>

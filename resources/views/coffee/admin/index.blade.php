@@ -109,7 +109,7 @@
                     <template slot="footer">
                         <tr>
                             <td>
-                                @if($paid->count() > 0)
+                                @if($paid->count() > 0 && $last_of_these)
                                     @if ($last_of_these->invoice_id == null)
                                         <a href="" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal-cash">
                                             <i class="fa fa-file"></i>&nbsp; AGREGAR FI 
