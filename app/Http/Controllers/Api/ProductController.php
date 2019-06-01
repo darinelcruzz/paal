@@ -13,6 +13,14 @@ class ProductController extends Controller
         return Product::orderBy('id', 'DESC')->paginate(10);
     }
 
+    function equipment()
+    {
+        return Product::where('category', 'EQUIPO')
+            ->orWhere('dollars', 1)
+            ->orderBy('id', 'DESC')
+            ->paginate(10);
+    }
+
     function search($keyword)
     {
         return Product::orderBy('id', 'DESC')

@@ -82,6 +82,28 @@ class EgressController extends Controller
         return view('coffee.egresses.pay', compact('egress'));
     }
 
+    function replace(Egress $egress)
+    {
+        return view('coffee.egresses.replace', compact('egress'));
+    }
+
+    function upload(Request $request, Egress $egress)
+    {
+        $this->validate($request, [
+            'pdf_bill' => 'required'
+        ]);
+
+        $path_to_pdf = Storage::putFileAs(
+            "public/coffee/bills", $request->file("pdf_bill"), $egress->payment_date . "_" . $egress->id . ".pdf"
+        );
+
+        $egress->update([
+            'pdf_bill' => $path_to_pdf,
+        ]);
+
+        return redirect(route('coffee.egress.index'));
+    }
+
     function settle(Request $request)
     {
         $this->validate($request, [

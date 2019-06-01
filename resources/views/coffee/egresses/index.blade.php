@@ -21,12 +21,19 @@
                                 <td>{{ $egress->provider->name }}</td>
                                 <td>{{ fdate($egress->emission, 'd M Y', 'Y-m-d') }}</td>
                                 <td>
-                                    <modal id="pdf{{ $egress->id}}" title="Factura (pdf)">
-                                        <iframe src="{{ Storage::url($egress->pdf_bill) }}#view=FitH" width="100%" height="600"></iframe>
-                                    </modal>
-                                    <modal-button target="pdf{{ $egress->id}}">
-                                        <button class="btn btn-danger btn-xs" title="FACTURA"><i class="fa fa-file-pdf-o"></i></button>
-                                    </modal-button>
+                                    @if($egress->pdf_bill)
+                                        <modal id="pdf{{ $egress->id}}" title="Factura (pdf)">
+                                            <iframe src="{{ Storage::url($egress->pdf_bill) }}#view=FitH" width="100%" height="600"></iframe>
+                                        </modal>
+                                        <modal-button target="pdf{{ $egress->id}}">
+                                            <button class="btn btn-danger btn-xs" title="FACTURA"><i class="fa fa-file-pdf-o"></i></button>
+                                        </modal-button>
+
+                                    @else
+                                        <a href="{{ route('coffee.egress.replace', $egress) }}" class="btn btn-success btn-xs" title="SUBIR FACTURA">
+                                            <i class="fa fa-upload"></i>
+                                        </a>
+                                    @endif
 
                                     <a href="{{ Storage::url($egress->xml) }}" download class="btn btn-primary btn-xs" title="XML">
                                        <i class="fa fa-file-code-o"></i>

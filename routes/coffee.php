@@ -10,6 +10,8 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	    Route::get('agregar', usesas($ctrl, 'create'));
 	    Route::post('agregar', usesas($ctrl, 'store'));
 	    Route::get('pagar/{egress}', usesas($ctrl, 'pay'));
+	    Route::get('reemplazar/{egress}', usesas($ctrl, 'replace'));
+	    Route::post('reemplazar/{egress}', usesas($ctrl, 'upload'));
 	    Route::post('pagar', usesas($ctrl, 'settle'));
 	});
 
