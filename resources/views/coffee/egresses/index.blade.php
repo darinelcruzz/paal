@@ -17,7 +17,12 @@
                         @foreach($egresses as $egress)
                             <tr>
                                 <td>{{ $egress->id }}</td>
-                                <td>{{ $egress->folio }}</td>
+                                <td>
+                                    {{ $egress->folio }} &nbsp;
+                                    <a href="{{ route('coffee.egress.edit', $egress) }}">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                </td>
                                 <td>{{ $egress->provider->name }}</td>
                                 <td>{{ fdate($egress->emission, 'd M Y', 'Y-m-d') }}</td>
                                 <td>
@@ -51,14 +56,16 @@
                                 <td>$ {{ number_format($egress->iva, 2) }}</td>
                                 <td>$  {{ number_format($egress->amount, 2) }}</td>
                                 <td align="center">
-                                    @if($egress->pdf_payment)
+                                    @if($egress->status == 'pagado')
                                         {{ fdate($egress->payment_date, 'd M Y', 'Y-m-d') }} &nbsp;
                                         <modal id="ppdf{{ $egress->id}}" title="Pago (pdf)">
                                             <iframe src="{{ Storage::url($egress->pdf_payment) }}#view=FitH" width="100%" height="600"></iframe>
                                         </modal>
-                                        <modal-button target="ppdf{{ $egress->id}}">
-                                            <button class="btn btn-danger btn-xs"><i class="fa fa-file-pdf-o"></i></button>
-                                        </modal-button>
+                                        @if($egress->pdf_payment)
+                                            <modal-button target="ppdf{{ $egress->id}}">
+                                                <button class="btn btn-danger btn-xs"><i class="fa fa-file-pdf-o"></i></button>
+                                            </modal-button>
+                                        @endif
                                     @else
                                         <a href="{{ route('coffee.egress.pay', ['egress' => $egress->id]) }}" class="btn btn-success btn-xs pull-left">
                                             <i class="fa fa-upload"></i>&nbsp;&nbsp; SUBIR PDF

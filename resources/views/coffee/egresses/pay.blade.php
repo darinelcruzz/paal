@@ -15,7 +15,7 @@
                             {!! Field::date('payment_date', Date::now(), ['tpl' => 'withicon'], ['icon' => 'dollar']) !!}
                         </div>
                         <div class="col-md-6">
-                            {!! Field::select('method', ['check' => 'Cheque', 'transfer' => 'Transferencia'], null,
+                            {!! Field::select('method', ['check' => 'Cheque', 'transfer' => 'Transferencia', 'automatic' => 'Domiciliación'], null,
                                 ['tpl' => 'withicon', 'empty' => 'Seleccione método', 'v-model' => 'pmethod'], ['icon' => 'credit-card']) 
                             !!}
                         </div>
@@ -26,7 +26,7 @@
                             {!! Field::text('mfolio', ['label' => 'Folio', 'tpl' => 'withicon', 'ph' => 'XXXXXX'], ['icon' => 'barcode']) !!}
                         </div>
                         
-                        <div class="col-md-6">
+                        <div v-if="pmethod != 'automatic'" class="col-md-6">
                             <label>Documento pago</label><br>
                             <file-upload bname="SUBIR PDF" fname="pdf_payment" ext="pdf" color="danger"></file-upload>
                         </div>

@@ -107,7 +107,7 @@ class EgressController extends Controller
     function settle(Request $request)
     {
         $this->validate($request, [
-            'pdf_payment' => 'required',
+            'pdf_payment' => 'sometimes|required',
             'payment_date' => 'required',
             'method' => 'required',
             'mfolio' => 'sometimes|required',
@@ -115,9 +115,13 @@ class EgressController extends Controller
 
         $egress = Egress::find($request->id);
 
-        $path_to_pdf = Storage::putFileAs(
-            "public/coffee/payments", $request->file("pdf_payment"), $egress->payment_date . "_" . $egress->id . ".pdf"
-        );
+        if ($request->pdf_payment) {
+            $path_to_pdf = Storage::putFileAs(
+                "public/coffee/payments", $request->file("pdf_payment"), $egress->payment_date . "_" . $egress->id . ".pdf"
+            );
+        } else {
+            $path_to_pdf = null;
+        }
 
         $egress->update($request->only(['payment_date', 'method', 'mfolio']));
 
@@ -125,6 +129,18 @@ class EgressController extends Controller
             'pdf_payment' => $path_to_pdf,
             'status' => 'pagado',
         ]);
+
+        return redirect(route('coffee.egress.index'));
+    }
+
+    function edit(Egress $egress)
+    {
+        return view('coffee.egresses.edit', compact('egress'));
+    }
+
+    function update(Request $request, Egress $egress)
+    {
+        $egress->update($request->validate(['folio' => 'required']));
 
         return redirect(route('coffee.egress.index'));
     }

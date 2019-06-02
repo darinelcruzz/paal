@@ -12,6 +12,8 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	    Route::get('pagar/{egress}', usesas($ctrl, 'pay'));
 	    Route::get('reemplazar/{egress}', usesas($ctrl, 'replace'));
 	    Route::post('reemplazar/{egress}', usesas($ctrl, 'upload'));
+	    Route::get('editar/{egress}', usesas($ctrl, 'edit'));
+	    Route::post('editar/{egress}', usesas($ctrl, 'update'));
 	    Route::post('pagar', usesas($ctrl, 'settle'));
 	});
 
