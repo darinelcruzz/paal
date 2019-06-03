@@ -77,6 +77,7 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	    Route::get('/', usesas($ctrl, 'index'));
 	    Route::get('editar/{shipping}/{status}', usesas($ctrl, 'edit'));
 	    Route::post('editar/{shipping}', usesas($ctrl, 'update'));
+	    Route::get('imprimir/{shipping}', usesas($ctrl, 'print'));
 	});
 
 	Route::group(['prefix' => 'variables', 'as' => 'variable.'], function () {

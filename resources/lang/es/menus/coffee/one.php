@@ -44,17 +44,17 @@ return [
         ]
     ],
 
-    // 'shippings' => [
-    //     'title' => 'Envíos',
-    //     'icon' => 'fa fa-shipping-fast',
-    //     'route' => 'coffee.shipping.index'
-    // ],
+    'shippings' => [
+        'title' => 'Envíos',
+        'icon' => 'fa fa-shipping-fast',
+        'route' => 'coffee.shipping.index'
+    ],
 
-    // 'variables' => [
-    //     'title' => 'TC',
-    //     'icon' => 'fa fa-dollar',
-    //     'route' => 'coffee.variable.edit'
-    // ],
+    'variables' => [
+        'title' => 'TC',
+        'icon' => 'fa fa-dollar',
+        'route' => 'coffee.variable.edit'
+    ],
 
     'egresses' => [
         'title' => 'Egresos',

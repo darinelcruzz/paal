@@ -108,6 +108,10 @@ class IngressController extends Controller
                 'reference' => isset($request->reference) ? $request->reference: null,
                 'card_number' => isset($request->card_number) ? $request->card_number: null,
             ]);
+
+            if ($request->shipping) {
+                $ingress->shipping()->create();
+            }
         }
 
         return redirect(route('coffee.ingress.index'));

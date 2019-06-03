@@ -17,13 +17,21 @@
                                 <td>{{ $shipping->id }}</td>
                                 <td>
                                     <dropdown color="danger" icon="cogs">
+                                        @if (!$shipping->guide_number)
+                                            <li>
+                                                <a type="button" data-toggle="modal" data-target="#addGuideNumberModal{{ $shipping->id }}">
+                                                    <i class="fa fa-plus"></i> Agregar # guía
+                                                </a>
+                                            </li>
+                                        @else
+                                            <ddi icon="check" to="{{ route('coffee.shipping.edit', [$shipping, 'entregado']) }}" text="Entregado"></ddi>
+                                        @endif
+                                        {{-- <ddi icon="exclamation" to="{{ route('coffee.shipping.edit', [$shipping, 'error']) }}" text="Error"></ddi> --}}
                                         <li>
-                                            <a type="button" data-toggle="modal" data-target="#addGuideNumberModal{{ $shipping->id }}">
-                                                <i class="fa fa-plus"></i> Agregar # guía
+                                            <a href="{{ route('coffee.shipping.print', $shipping) }}" target="_blank">
+                                                <i class="fa fa-print"></i> Rótulo
                                             </a>
                                         </li>
-                                        <ddi icon="check" to="{{ route('coffee.shipping.edit', [$shipping, 'entregado']) }}" text="Entregado"></ddi>
-                                        <ddi icon="exclamation" to="{{ route('coffee.shipping.edit', [$shipping, 'error']) }}" text="Error"></ddi>
                                     </dropdown>
 
                                     <modal title="Agregar número de guía" id="addGuideNumberModal{{ $shipping->id }}" color="#dd4b39">

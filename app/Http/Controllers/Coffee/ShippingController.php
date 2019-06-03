@@ -25,9 +25,9 @@ class ShippingController extends Controller
         //
     }
 
-    function show(Shipping $shipping)
+    function print(Shipping $shipping)
     {
-        //
+        return view('coffee.shippings.print', compact('shipping'));
     }
 
     function edit(Shipping $shipping, $status)
@@ -40,6 +40,8 @@ class ShippingController extends Controller
     function update(Request $request, Shipping $shipping)
     {
         $shipping->update($request->validate(['guide_number' => 'required']));
+        
+        $shipping->update(['status' => 'en tránsito']);
 
         return redirect(route('coffee.shipping.index'));
     }

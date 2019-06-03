@@ -17,6 +17,11 @@ class Ingress extends Model
         return $this->belongsTo(Client::class);
     }
 
+    function shipping()
+    {
+        return $this->hasOne(Shipping::class);
+    }
+
     function quotation()
     {
     	return $this->belongsTo(Quotation::class);
