@@ -26,8 +26,12 @@ return [
         'icon' => 'fa fa-mug-hot',
         'submenu' => [
             'create' => [
-                'title' => 'Agregar',
-                'route' => 'coffee.ingress.create'
+                'title' => 'Insumos',
+                'route' => ['coffee.ingress.create', 'insumos']
+            ],
+            'create2' => [
+                'title' => 'Equipos',
+                'route' => ['coffee.ingress.create', 'equipo']
             ],
             'index' => [
                 'title' => 'Historial',
@@ -73,6 +77,12 @@ return [
                 'route' => 'coffee.egress.index'
             ],
         ]
+    ],
+
+    'tasks' => [
+        'title' => 'Tareas',
+        'icon' => 'fa fa-tasks',
+        'route' => 'coffee.task.index'
     ],
 
     'products' => [

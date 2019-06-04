@@ -21,7 +21,7 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	    $ctrl = 'Coffee\IngressController';
 	    Route::get('/', usesas($ctrl, 'index'));
 	    Route::post('/', usesas($ctrl, 'index'));
-	    Route::get('agregar', usesas($ctrl, 'create'));
+	    Route::get('agregar/{type}', usesas($ctrl, 'create'));
 	    Route::post('agregar', usesas($ctrl, 'store'));
 	    Route::get('pagar/{ingress}', usesas($ctrl, 'charge'));
 	    Route::post('pagar/{ingress}', usesas($ctrl, 'pay'));
@@ -85,5 +85,14 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	    Route::get('/', usesas($ctrl, 'index'));
 	    Route::get('editar', usesas($ctrl, 'edit'));
 	    Route::post('editar/{variable}', usesas($ctrl, 'update'));
+	});
+
+	Route::group(['prefix' => 'tareas', 'as' => 'task.'], function () {
+	    $ctrl = 'Coffee\TaskController';
+	    Route::get('/', usesas($ctrl, 'index'));
+	    Route::get('agregar', usesas($ctrl, 'create'));
+	    Route::post('agregar', usesas($ctrl, 'store'));
+	    Route::get('editar', usesas($ctrl, 'edit'));
+	    Route::post('editar/{task}', usesas($ctrl, 'update'));
 	});
 });

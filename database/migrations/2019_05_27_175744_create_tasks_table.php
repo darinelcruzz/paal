@@ -21,7 +21,7 @@ class CreateTasksTable extends Migration
             $table->unsignedInteger('assigned_to');
             $table->date('assigned_at');
             $table->date('completed_at')->nullable();
-            $table->string('status')->nullable();
+            $table->string('status')->default('pendiente');
             $table->text('observations');
 
             $table->timestamps();

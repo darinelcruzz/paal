@@ -1,19 +1,19 @@
 @extends('coffee.root')
 
 @push('pageTitle')
-    Ingresos | Agregar
+    Ventas | Agregar
 @endpush
 
 @section('content')
     <div class="row">
         <div class="col-md-6">
-            <solid-box title="Agregar venta [{{ $last_folio }}]" color="danger">
+            <solid-box title="Agregar venta [{{ $last_folio }}]" color="{{ $type == 'insumos' ? 'danger': 'warning' }}">
                 {!! Form::open(['method' => 'POST', 'route' => 'coffee.ingress.store', 'ref' => 'cform']) !!}
 
                     <form-wizard
                         title=""
                         subtitle=""
-                        color="#dd4b39"
+                        color="{{ $type == 'insumos' ? '#dd4b39': '#f39c12' }}"
                         @on-complete="submit"
                         back-button-text="Anterior"
                         next-button-text="Siguiente"
@@ -62,7 +62,7 @@
                       </tab-content>
 
                       <tab-content title="Productos" icon="fa fa-tag">
-                          <shopping-list color="danger" :exchange="1.0"></shopping-list>
+                          <shopping-list color="{{ $type == 'insumos' ? 'danger': 'warning' }}" :exchange="1.0"></shopping-list>
                        </tab-content>
 
                        <tab-content title="Pago" icon="fa fa-dollar">
@@ -71,7 +71,8 @@
 
                     </form-wizard>
 
-                    <input type="hidden" name="type" :value="is_retained == 0 ? 'anticipo': 'contado'">
+                    <input type="hidden" name="method" :value="is_retained == 0 ? 'anticipo': 'contado'">
+                    <input type="hidden" name="type" value="{{ $type }}">
                     <input type="hidden" name="bought_at" value="{{ date('Y-m-d') }}">
                     <input type="hidden" name="company" value="coffee">
                     <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
@@ -82,8 +83,8 @@
         </div>
 
         <div class="col-md-6">
-            <solid-box title="Productos" color="danger">
-                <p-table color="danger" :exchange="1.0"></p-table>
+            <solid-box title="{{ $type == 'insumos' ? 'Insumos': 'Equipos' }}" color="{{ $type == 'insumos' ? 'danger': 'warning' }}">
+                <p-table color="{{ $type == 'insumos' ? 'danger': 'warning' }}" :exchange="{{ $exchange }}" type="{{ $type }}"></p-table>
             </solid-box>
         </div>
     </div>

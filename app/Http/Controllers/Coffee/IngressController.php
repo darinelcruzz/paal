@@ -23,12 +23,12 @@ class IngressController extends Controller
         return view('coffee.ingresses.index', compact('ingresses', 'date'));
     }
 
-    function create()
+    function create($type)
     {
         $clients = Client::where('company', '!=', 'mbe')->get(['id', 'name', 'rfc'])->toJson();
         $last_sale = Ingress::where('company', 'coffee')->get()->last();
         $last_folio = $last_sale ? $last_sale->folio + 1: 1;
-        return view('coffee.ingresses.create', compact('clients', 'last_folio'));
+        return view('coffee.ingresses.create', compact('clients', 'last_folio', 'type'));
     }
 
     function store(Request $request)
@@ -41,6 +41,7 @@ class IngressController extends Controller
             'invoice' => 'required',
             'iva' => 'required',
             'company' => 'required',
+            'type' => 'required',
             'bought_at' => 'required',
         ]);
 
@@ -54,7 +55,7 @@ class IngressController extends Controller
 
             $ingress = Ingress::create($validated + [
                 'folio' => $last_folio,
-                'retainer' => $request->type == 'anticipo' ? $total: 0,
+                'retainer' => $request->method == 'anticipo' ? $total: 0,
             ]);
 
             $products = [];
@@ -80,7 +81,7 @@ class IngressController extends Controller
                 }
             }
 
-            if ($request->type == 'anticipo') {
+            if ($request->method == 'anticipo') {
                 $ingress->update([
                     'products' => serialize($products),
                     'special_products' => serialize($special),
@@ -99,7 +100,7 @@ class IngressController extends Controller
 
             $payment = Payment::create([
                 'ingress_id' => $ingress->id,
-                'type' => $request->type,
+                'type' => $request->method,
                 'cash' => $request->cash,
                 'transfer' => $request->transfer,
                 'check' => $request->check,
