@@ -51,7 +51,7 @@
 
 <script>
 	export default {
-		props: ['color', 'exchange'],
+		props: ['color', 'exchange', 'type'],
 		data() {
 			return {
                 products: [],
@@ -59,10 +59,15 @@
                 keyword: '',
 			}
 		},
+        computed: {
+            category() {
+                return this.type == 'equipo' ? 'equipment': 'products'
+            }
+        },
 		methods: {
 			fetchProducts(page_url, keyword) {
                 keyword = keyword || ''
-                page_url = page_url || '/api/products/'
+                page_url = page_url || '/api/' + this.category + '/'
                 axios.get(page_url + keyword)
                     .then((response) => {
                         var productsReady = response.data.data.map((product) => {
@@ -83,7 +88,7 @@
                     })
             },
             search() {
-                this.fetchProducts('/api/products/', this.keyword)
+                this.fetchProducts('/api/' + this.category + '/', this.keyword)
             },
 		},
 		created() {

@@ -9,7 +9,7 @@
                 
                 <data-table>
 
-                    {{ drawHeader('ID', '<i class="fa fa-cogs"></i>', 'venta', 'número de guía', 'estado') }}
+                    {{ drawHeader('ID', '<i class="fa fa-cogs"></i>', 'venta', 'número de guía', 'empresa', 'estado') }}
 
                     <template slot="body">
                         @foreach($shippings as $shipping)
@@ -42,6 +42,7 @@
                                     {{ $shipping->ingress->folio }}
                                 </td>
                                 <td>{{ $shipping->guide_number }}</td>
+                                <td>{{ $shipping->company }}</td>
                                 <td>
                                     <span class="label label-{{ $shipping->color }}">{{ strtoupper($shipping->status) }}</span>
                                 </td>

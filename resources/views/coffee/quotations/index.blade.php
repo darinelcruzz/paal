@@ -33,7 +33,7 @@
 
                 <data-table example="1">
 
-                    {{ drawHeader('ID', '<i class="fa fa-cogs"></i>','fecha', 'cliente', 'IVA', 'total', 'ventas', 'ediciones') }}
+                    {{ drawHeader('ID', '<i class="fa fa-cogs"></i>','fecha', 'cliente', 'tipo', 'IVA', 'total', 'ventas', 'ediciones') }}
 
                     <template slot="body">
                         @foreach($quotations as $quotation)
@@ -51,6 +51,9 @@
                                 </td>
                                 <td>{{ fdate($quotation->created_at, 'd M Y') }}</td>
                                 <td style="width: 40%">{{ $quotation->client->name }}</td>
+                                <td>
+                                    <label class="label label-{{$quotation->type == 'insumos' ? 'danger': 'warning'}}">{{ strtoupper($quotation->type) }}</label>
+                                </td>
                                 <td>$ {{ number_format($quotation->iva, 2) }}</td>
                                 <td>$ {{ number_format($quotation->amount, 2) }}</td>
                                 <td>

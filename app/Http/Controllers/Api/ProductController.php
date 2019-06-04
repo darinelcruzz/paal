@@ -10,7 +10,9 @@ class ProductController extends Controller
 {
     function index()
     {
-        return Product::orderBy('id', 'DESC')->paginate(10);
+        return Product::where('category', '!=', 'EQUIPO')
+            ->orderBy('id', 'DESC')
+            ->paginate(10);
     }
 
     function equipment()
@@ -24,6 +26,17 @@ class ProductController extends Controller
     function search($keyword)
     {
         return Product::orderBy('id', 'DESC')
+            ->where('category', '!=', 'EQUIPO')
+            ->where('description', 'LIKE', "%$keyword%")
+            ->orWhere('family', 'LIKE', "%$keyword%")
+            ->orWhere('code', 'LIKE', "%$keyword%")
+            ->paginate(10);
+    }
+
+    function searchEquipment($keyword)
+    {
+        return Product::orderBy('id', 'DESC')
+            ->where('category', 'EQUIPO')
             ->where('description', 'LIKE', "%$keyword%")
             ->orWhere('family', 'LIKE', "%$keyword%")
             ->orWhere('code', 'LIKE', "%$keyword%")

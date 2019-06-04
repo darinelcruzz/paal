@@ -12,7 +12,11 @@
         <ul class="treeview-menu">
             @foreach ($item['submenu'] as $subitem)
                 <li>
-                    <a href="{{ route($subitem['route']) }}">{{ $subitem['title'] }}</a>
+                    @if (is_array($subitem['route']))
+                        <a href="{{ route($subitem['route'][0], $subitem['route'][1]) }}">{{ $subitem['title'] }}</a>
+                    @else
+                        <a href="{{ route($subitem['route']) }}">{{ $subitem['title'] }}</a>
+                    @endif
                 </li>
             @endforeach
         </ul>

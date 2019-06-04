@@ -7,8 +7,12 @@ return [
         'icon' => 'fas fa-file-invoice',
         'submenu' => [
             'create' => [
-                'title' => 'Agregar',
-                'route' => 'coffee.quotation.create'
+                'title' => 'Insumos',
+                'route' => ['coffee.quotation.create', 'insumos']
+            ],
+            'create2' => [
+                'title' => 'Equipos',
+                'route' => ['coffee.quotation.create', 'equipo']
             ],
             'index' => [
                 'title' => 'Historial',

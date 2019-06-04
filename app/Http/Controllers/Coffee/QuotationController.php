@@ -21,9 +21,9 @@ class QuotationController extends Controller
         return view('coffee.quotations.index', compact('quotations', 'date'));
     }
 
-    function create()
+    function create($type)
     {
-        return view('coffee.quotations.create', compact('clients'));
+        return view('coffee.quotations.create', compact('clients', 'type'));
     }
 
     function store(Request $request)
@@ -34,6 +34,7 @@ class QuotationController extends Controller
             'amount' => 'required',
             'iva' => 'required',
             'company' => 'required',
+            'type' => 'required',
         ]);
 
         $quotation = Quotation::create($validated);

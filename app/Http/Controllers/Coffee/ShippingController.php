@@ -10,7 +10,7 @@ class ShippingController extends Controller
 {
     function index()
     {
-        $shippings = Shipping::all();
+        $shippings = Shipping::orderByDesc('id')->get();
 
         return view('coffee.shippings.index', compact('shippings'));
     }
@@ -39,7 +39,7 @@ class ShippingController extends Controller
 
     function update(Request $request, Shipping $shipping)
     {
-        $shipping->update($request->validate(['guide_number' => 'required']));
+        $shipping->update($request->validate(['guide_number' => 'required', 'company' => 'required']));
         
         $shipping->update(['status' => 'en tránsito']);
 

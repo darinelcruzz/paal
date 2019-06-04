@@ -52336,7 +52336,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['color', 'exchange'],
+    props: ['color', 'exchange', 'type'],
     data: function data() {
         return {
             products: [],
@@ -52345,12 +52345,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         };
     },
 
+    computed: {
+        category: function category() {
+            return this.type == 'equipo' ? 'equipment' : 'products';
+        }
+    },
     methods: {
         fetchProducts: function fetchProducts(page_url, keyword) {
             var _this = this;
 
             keyword = keyword || '';
-            page_url = page_url || '/api/products/';
+            page_url = page_url || '/api/' + this.category + '/';
             axios.get(page_url + keyword).then(function (response) {
                 var productsReady = response.data.data.map(function (product) {
                     return product;
@@ -52370,7 +52375,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         search: function search() {
-            this.fetchProducts('/api/products/', this.keyword);
+            this.fetchProducts('/api/' + this.category + '/', this.keyword);
         }
     },
     created: function created() {
