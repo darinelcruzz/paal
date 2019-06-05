@@ -94,5 +94,6 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	    Route::post('agregar', usesas($ctrl, 'store'));
 	    Route::get('editar', usesas($ctrl, 'edit'));
 	    Route::post('editar/{task}', usesas($ctrl, 'update'));
+	    Route::get('estado/{task}/{status}', usesas($ctrl, 'change'));
 	});
 });

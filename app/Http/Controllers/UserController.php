@@ -35,6 +35,7 @@ class UserController extends Controller
             'username' => $request->username,
             'password' => Hash::make($request->password),
             'company' => $request->company,
+            'level' => 1,
         ]);
 
         return redirect(route('paal.user.index'));

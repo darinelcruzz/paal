@@ -24,7 +24,13 @@
 
         <td>
             <div v-if="product.dollars == 1">
-                <input name="prices[]" type="number" v-model="price_in_dollars" step="0.0001" class="form-control input-sm">
+                <div v-if="product.retail_price == 0">
+                    <input name="prices[]" type="number" v-model.number="price" step="0.0001" class="form-control input-sm">
+                </div>
+                <div v-else>
+                    {{ price.toFixed(4) }}
+                    <input name="prices[]" type="hidden" :value="price.toFixed(4)">
+                </div>
             </div>
             <div v-else-if="product.category == 'SERVICIOS'">
                 <input name="prices[]" type="number" class="form-control input-sm" step="0.0001" :min="product.price" v-model.number="price">
@@ -92,6 +98,8 @@ export default {
 
             if (this.product.is_summable) {
                 price = this.familycount > this.product.wholesale_quantity ? this.product.wholesale_price: this.product.retail_price
+            } else if (this.product.dollars) {
+                price = this.product.retail_price * Number(this.exchange)
             } else {
                 price = this.quantity > this.product.wholesale_quantity ? this.product.wholesale_price: this.product.retail_price
             }
@@ -101,9 +109,6 @@ export default {
     },
     computed: {
     	total() {
-            if (this.product.dollars) {
-                return ((this.quantity * this.price_in_dollars) - ((this.quantity * this.price_in_dollars) * this.discount / 100))
-            }
     		return ((this.quantity * this.price) - ((this.quantity * this.price) * this.discount / 100))
     	},
     	apply_discount() {
@@ -119,7 +124,7 @@ export default {
             if (this.product.is_summable) {
                 this.$root.$emit('update-family-count', [this.product.family, newVal - oldVal, this.computed_iva])
             }
-            if (this.product.category != 'SERVICIOS') {
+            if (this.product.category != 'SERVICIOS' && this.product.category != 'EQUIPO') {
                 this.price = this.computePrice()
             }
         },
@@ -134,14 +139,7 @@ export default {
     },
     created() {
         if (this.product.category != 'SERVICIOS') {
-            if (this.product.category == 'EQUIPO') {
-                this.price = Number(this.product.price)
-                this.price_in_dollars = Number(this.product.price)
-
-            } else {
-                this.price = this.computePrice()
-            }
-
+            this.price = this.computePrice()
         } else {
             this.price = this.product.retail_price
             this.quantity = 1

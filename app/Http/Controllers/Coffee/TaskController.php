@@ -39,18 +39,27 @@ class TaskController extends Controller
         return redirect(route('coffee.task.index'));
     }
 
-    function edit()
+    function edit(Task $task)
     {
-        $variable = Task::find(1);
-        return view('coffee.variables.edit', compact('variable'));
+        return view('coffee.tasks.edit', compact('task'));
     }
 
-    function update(Request $request, Task $variable)
+    function update(Request $request, Task $task)
     {
-        $variable->update($request->validate(['value' => 'required']));
+        $request->validate(['observations' => 'required']);
 
-        Alert::success("El precio del dólar se cambió exitosamente")->persistent('Cerrar');
+        $task->update([
+            'observations' => $request->observations,
+            'status' => 'terminada',
+        ]);
 
-        return redirect(route('coffee.variable.edit'));
+        return redirect(route('coffee.task.index'));
+    }
+
+    function change(Task $task, $status)
+    {
+        $task->update(['status' => $status]);
+
+        return redirect(route('coffee.task.index'));
     }
 }

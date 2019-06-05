@@ -191,5 +191,6 @@ return [
         'cash_reference' => 'referencia',
         'guide_number' => 'número de guía',
         'value' => 'valor',
+        'observations' => 'observaciones',
     ],
 ];
