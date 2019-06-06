@@ -19,19 +19,12 @@
 
                     @if (auth()->user()->company == 'owner')
 
-                        {{ drawHeader('iD','<i class="fa fa-cogs"></i>', 'descripción', 'encargada por', 'encargada a', 'fecha límite', 'estado', 'observaciones') }}
+                        {{ drawHeader('iD', 'descripción', 'encargada por', 'encargada a', 'fecha límite', 'estado', 'observaciones') }}
 
                         <template slot="body">
                             @foreach($tasks as $task)
                                 <tr>
                                     <td>{{ $task->id }}</td>
-                                    <td>
-                                        <dropdown color="danger" icon="cogs">
-                                            @if ($task->status != 'terminada')
-                                                <ddi icon="check" to="{{ route('coffee.task.change', [$task, 'terminada']) }}" text="Terminada"></ddi>
-                                            @endif
-                                        </dropdown>
-                                    </td>
                                     <td>{{ $task->description }}</td>
                                     <td>{{ $task->tasker->name }}</td>
                                     <td>{{ $task->user->name }}</td>

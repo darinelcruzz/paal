@@ -19,7 +19,6 @@ class TaskController extends Controller
     function create()
     {
         $users = User::whereCompany('coffee')
-            ->where('level', '!=', 0)
             ->pluck('name', 'id')
             ->toArray();
 
