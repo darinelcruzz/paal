@@ -51,7 +51,7 @@
                       </tab-content>
 
                       <tab-content title="Productos" icon="fa fa-tag">
-                          <shopping-list color="danger" :qproducts="{{ $quotation->products_list }}"></shopping-list>
+                          <shopping-list color="danger" :qproducts="{{ $quotation->products_list }}" :exchange="{{ $exchange }}"></shopping-list>
                        </tab-content>
 
                        <tab-content title="Pago" icon="fa fa-dollar">
@@ -60,9 +60,10 @@
 
                     </form-wizard>
 
-                    <input type="hidden" name="type" :value="is_retained == 0 ? 'anticipo': 'contado'">
+                    <input type="hidden" name="method" :value="is_retained == 0 ? 'anticipo': 'contado'">
                     <input type="hidden" name="bought_at" value="{{ date('Y-m-d') }}">
                     <input type="hidden" name="company" value="coffee">
+                    <input type="hidden" name="type" value="{{ $quotation->type }}">
                     <input type="hidden" name="user_id" value="{{ $quotation->user_id }}">
                     <input type="hidden" name="folio" value="{{ $last_folio }}">
                     <input type="hidden" name="quotation_id" value="{{ $quotation->id }}">
@@ -74,7 +75,7 @@
 
         <div class="col-md-6">
             <solid-box title="Productos" color="danger">
-                <p-table color="danger" :exchange="{{ env('EXCHANGE_RATE') }}"></p-table>
+                <p-table color="danger" :exchange="{{ $exchange }}"></p-table>
             </solid-box>
         </div>
     </div>
