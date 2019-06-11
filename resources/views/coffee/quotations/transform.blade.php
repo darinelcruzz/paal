@@ -7,13 +7,13 @@
 @section('content')
     <div class="row">
         <div class="col-md-6">
-            <solid-box title="Agregar venta [{{ $last_folio }}]" color="danger">
+            <solid-box title="Agregar venta [{{ $last_folio }}]" color="{{ $type == 'insumos' ? 'danger': 'warning'}}">
                 {!! Form::open(['method' => 'POST', 'route' => 'coffee.ingress.store', 'ref' => 'cform']) !!}
 
                     <form-wizard
                         title=""
                         subtitle=""
-                        color="#dd4b39"
+                        color="{{ $type == 'insumos' ? '#dd4b39': '#f39c12' }}"
                         @on-complete="submit"
                         back-button-text="Anterior"
                         next-button-text="Siguiente"
@@ -51,7 +51,7 @@
                       </tab-content>
 
                       <tab-content title="Productos" icon="fa fa-tag">
-                          <shopping-list color="danger" :qproducts="{{ $quotation->products_list }}" :exchange="{{ $exchange }}"></shopping-list>
+                          <shopping-list color="{{ $type == 'insumos' ? 'danger': 'warning'}}" :qproducts="{{ $quotation->products_list }}" :exchange="{{ $exchange }}"></shopping-list>
                        </tab-content>
 
                        <tab-content title="Pago" icon="fa fa-dollar">
@@ -74,8 +74,8 @@
         </div>
 
         <div class="col-md-6">
-            <solid-box title="Productos" color="danger">
-                <p-table color="danger" :exchange="{{ $exchange }}"></p-table>
+            <solid-box title="{{ strtoupper($type == 'insumos' ? 'insumos': 'equipos') }}" color="{{ $type == 'insumos' ? 'danger': 'warning'}}">
+                <p-table color="{{ $type == 'insumos' ? 'danger': 'warning'}}" :exchange="{{ $exchange }}" type="{{ $type }}"></p-table>
             </solid-box>
         </div>
     </div>

@@ -5,7 +5,7 @@
 @endpush
 
 @push('headerTitle')
-    @if (auth()->user()->level == 0)
+    @if (auth()->user()->company == 'owner')
         <a href="{{ route('coffee.task.create') }}" class="btn btn-danger btn-sm"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR</a>
     @endif
 @endpush
