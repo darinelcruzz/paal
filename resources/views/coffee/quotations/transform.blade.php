@@ -47,6 +47,15 @@
                                 !!}
                             </div>
                         </div>
+
+                        <div class="row">
+                            <div class="col-md-6 col-md-offset-3">
+                                {!! Field::select('shipping', ['No', 'Sí'], 0,
+                                    ['label' => '¿Con envío?', 'tpl' => 'withicon', 'empty' => 'Elegir'],
+                                    ['icon' => 'shipping-fast'])
+                                !!}
+                            </div>
+                        </div>
                         <hr>
                       </tab-content>
 

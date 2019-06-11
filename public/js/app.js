@@ -53327,6 +53327,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -53407,6 +53410,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         if (this.product.discount > 0) {
             this.discount = this.product.discount;
+        }
+
+        if (this.product.price > 0) {
+            this.price = this.product.price;
         }
     }
 });
@@ -53492,7 +53499,35 @@ var render = function() {
     _c("td", [
       _vm.product.dollars == 1
         ? _c("div", [
-            _vm.product.retail_price == 0
+            _vm.product.price != 0
+              ? _c("div", [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model.number",
+                        value: _vm.price,
+                        expression: "price",
+                        modifiers: { number: true }
+                      }
+                    ],
+                    staticClass: "form-control input-sm",
+                    attrs: { name: "prices[]", type: "number", step: "0.0001" },
+                    domProps: { value: _vm.price },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.price = _vm._n($event.target.value)
+                      },
+                      blur: function($event) {
+                        _vm.$forceUpdate()
+                      }
+                    }
+                  })
+                ])
+              : _vm.product.retail_price == 0
               ? _c("div", [
                   _c("input", {
                     directives: [

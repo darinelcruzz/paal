@@ -85,7 +85,7 @@ class QuotationController extends Controller
         return $pdf->stream(date('dmYHis') . $quotation->id . ".pdf");
     }
 
-    function transform(Quotation $quotation, $type)
+    function transform(Quotation $quotation, $type = null)
     {
         // return $quotation->products_list;
         $last_sale = Ingress::where('company', 'coffee')->get()->last();

@@ -24,7 +24,10 @@
 
         <td>
             <div v-if="product.dollars == 1">
-                <div v-if="product.retail_price == 0">
+                <div v-if="product.price != 0">
+                    <input name="prices[]" type="number" v-model.number="price" step="0.0001" class="form-control input-sm">
+                </div>
+                <div v-else-if="product.retail_price == 0">
                     <input name="prices[]" type="number" v-model.number="price" step="0.0001" class="form-control input-sm">
                 </div>
                 <div v-else>
@@ -151,6 +154,10 @@ export default {
 
         if (this.product.discount > 0) {
             this.discount = this.product.discount
+        }
+
+        if (this.product.price > 0) {
+            this.price = this.product.price
         }
     }
 };
