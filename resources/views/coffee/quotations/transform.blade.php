@@ -72,7 +72,7 @@
                     <input type="hidden" name="method" :value="is_retained == 0 ? 'anticipo': 'contado'">
                     <input type="hidden" name="bought_at" value="{{ date('Y-m-d') }}">
                     <input type="hidden" name="company" value="coffee">
-                    <input type="hidden" name="type" value="{{ $quotation->type }}">
+                    <input type="hidden" name="type" value="{{ $type }}">
                     <input type="hidden" name="user_id" value="{{ $quotation->user_id }}">
                     <input type="hidden" name="folio" value="{{ $last_folio }}">
                     <input type="hidden" name="quotation_id" value="{{ $quotation->id }}">
@@ -83,7 +83,7 @@
         </div>
 
         <div class="col-md-6">
-            <solid-box title="{{ strtoupper($type == 'insumos' ? 'insumos': 'equipos') }}" color="{{ $type == 'insumos' ? 'danger': 'warning'}}">
+            <solid-box title="{{ strtoupper($type ? $type: 'productos') }}" color="{{ $type == 'insumos' ? 'danger': 'warning'}}">
                 <p-table color="{{ $type == 'insumos' ? 'danger': 'warning'}}" :exchange="{{ $exchange }}" type="{{ $type }}"></p-table>
             </solid-box>
         </div>

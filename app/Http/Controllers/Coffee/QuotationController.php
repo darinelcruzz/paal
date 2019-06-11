@@ -87,7 +87,9 @@ class QuotationController extends Controller
 
     function transform(Quotation $quotation, $type = null)
     {
-        // return $quotation->products_list;
+        if ($type == null) {
+            $type = $quotation->products_list_type;
+        }
         $last_sale = Ingress::where('company', 'coffee')->get()->last();
         $last_folio = $last_sale ? $last_sale->folio + 1: 1;
         return view('coffee.quotations.transform', compact('quotation', 'last_folio', 'type'));

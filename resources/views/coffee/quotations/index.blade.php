@@ -56,7 +56,11 @@
                                 <td>{{ fdate($quotation->created_at, 'd M Y') }}</td>
                                 <td style="width: 40%">{{ $quotation->client->name }}</td>
                                 <td>
-                                    <label class="label label-{{$quotation->type == 'insumos' ? 'danger': 'warning'}}">{{ strtoupper($quotation->type) }}</label>
+                                    @if ($quotation->type)
+                                        <label class="label label-{{$quotation->type == 'insumos' ? 'danger': 'warning'}}">{{ strtoupper($quotation->type) }}</label>
+                                    @else
+                                        <label class="label label-{{$quotation->products_list_type == 'insumos' ? 'danger': 'warning'}}">{{ strtoupper($quotation->products_list_type) }}</label>
+                                    @endif
                                 </td>
                                 <td>$ {{ number_format($quotation->iva, 2) }}</td>
                                 <td>$ {{ number_format($quotation->amount, 2) }}</td>

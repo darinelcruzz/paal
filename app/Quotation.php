@@ -44,6 +44,16 @@ class Quotation extends Model
     	return collect($products)->toJson();
     }
 
+    function getProductsListTypeAttribute()
+    {
+        foreach (unserialize($this->products) as $product) {
+            $model = Product::find($product['i']);
+            break;
+        }
+
+        return strtolower($model->category == 'EQUIPO' ? 'equipo': 'insumos');
+    }
+
     function getIsCanceledAttribute()
     {
         $limit = 30 + 30 * $this->client->credit;
