@@ -48,7 +48,11 @@ return [
             'monthly' => [
                 'title' => 'Corte mensual',
                 'route' => 'coffee.admin.monthly'
-            ]
+            ],
+            'variables' => [
+                'title' => 'Tipo de Cambio',
+                'route' => 'coffee.variable.edit'
+            ],
         ]
     ],
 
@@ -56,12 +60,6 @@ return [
         'title' => 'Envíos',
         'icon' => 'fa fa-shipping-fast',
         'route' => 'coffee.shipping.index'
-    ],
-
-    'variables' => [
-        'title' => 'TC',
-        'icon' => 'fa fa-dollar',
-        'route' => 'coffee.variable.edit'
     ],
 
     'egresses' => [
