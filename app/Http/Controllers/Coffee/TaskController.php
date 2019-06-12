@@ -6,6 +6,7 @@ use Alert;
 use App\{Task, User};
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Notifications\TaskAssigned;
 
 class TaskController extends Controller
 {
@@ -33,7 +34,11 @@ class TaskController extends Controller
             'assigned_at' => 'required',
         ]);
 
-        auth()->user()->tasks()->create($validated);
+        $task = auth()->user()->tasks()->create($validated);
+
+        // return $task;
+
+        auth()->user()->notify(new TaskAssigned($task));
 
         return redirect(route('coffee.task.index'));
     }

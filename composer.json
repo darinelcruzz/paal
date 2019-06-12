@@ -9,6 +9,7 @@
         "almasaeed2010/adminlte": "~2.4",
         "barryvdh/laravel-dompdf": "^0.8.4",
         "fideloper/proxy": "^4.0",
+        "guzzlehttp/guzzle": "^6.3",
         "jenssegers/date": "^3.3",
         "laravel-notification-channels/telegram": "^0.0.5",
         "laravel/framework": "5.6.*",
