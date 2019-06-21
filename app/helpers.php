@@ -24,7 +24,7 @@ function drawHeader(...$titles)
 {
     echo "<template slot=\"header\"><tr>";
     foreach ($titles as $title) {
-        echo "<th>" . ucfirst($title) . "</th>";
+        echo "<th style='text-align: center'>" . ucfirst($title) . "</th>";
     }
     echo "</tr></template>";
 }

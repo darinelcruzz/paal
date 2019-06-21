@@ -59,7 +59,7 @@
                                     </dropdown>
                                 </td>
                                 <td>{{ fdate($ingress->bought_at, 'd M Y', 'Y-m-d') }}</td>
-                                <td style="width: 40%">{{ $ingress->client->name }}</td>
+                                <td style="width: 30%">{{ $ingress->client->name }}</td>
                                 <td>
                                     <label class="label label-{{$ingress->type == 'insumos' ? 'danger': 'warning'}}">{{ strtoupper($ingress->type) }}</label>
                                 </td>

@@ -7,6 +7,7 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	Route::group(['prefix' => 'egresos', 'as' => 'egress.'], function () {
 	    $ctrl = 'Coffee\EgressController';
 	    Route::get('/', usesas($ctrl, 'index'));
+	    Route::post('/', usesas($ctrl, 'index'));
 	    Route::get('agregar', usesas($ctrl, 'create'));
 	    Route::post('agregar', usesas($ctrl, 'store'));
 	    Route::get('pagar/{egress}', usesas($ctrl, 'pay'));

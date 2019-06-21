@@ -14421,7 +14421,6 @@ var Bus = new Vue({});
 var app = new Vue({
     el: '#app',
     data: {
-        pmethod: '',
         complement: null,
         payment_method: 0,
         is_retained: 1,
@@ -51243,9 +51242,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['to', 'icon', 'text']
+    props: {
+        to: String,
+        icon: String,
+        text: String,
+        download: String,
+        datatarget: {
+            type: Boolean,
+            default: false
+        },
+        target: {
+            type: String,
+            default: '_self'
+        }
+    }
 });
 
 /***/ }),
@@ -51257,13 +51272,37 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("li", [
-    _c("a", { attrs: { href: _vm.to } }, [
-      _c("i", {
-        class: ["fa fa-" + _vm.icon],
-        attrs: { "aria-hidden": "true" }
-      }),
-      _vm._v(_vm._s(_vm.text) + "\n    ")
-    ])
+    _vm.datatarget
+      ? _c(
+          "a",
+          {
+            attrs: {
+              type: "button",
+              "data-toggle": "modal",
+              "data-target": "#" + _vm.to
+            }
+          },
+          [
+            _c("i", {
+              class: ["fa fa-" + _vm.icon],
+              attrs: { "aria-hidden": "true" }
+            }),
+            _vm._v(_vm._s(_vm.text) + "\n\t    ")
+          ]
+        )
+      : _c(
+          "a",
+          {
+            attrs: { href: _vm.to, target: _vm.target, download: _vm.download }
+          },
+          [
+            _c("i", {
+              class: ["fa fa-" + _vm.icon],
+              attrs: { "aria-hidden": "true" }
+            }),
+            _vm._v(_vm._s(_vm.text) + "\n        ")
+          ]
+        )
   ])
 }
 var staticRenderFns = []

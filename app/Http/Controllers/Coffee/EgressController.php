@@ -9,12 +9,21 @@ use App\{Egress, Provider};
 
 class EgressController extends Controller
 {
-    function index()
+    function index(Request $request)
     {
+        $date = isset($request->date) ? $request->date: date('Y-m');
+
         $egresses = Egress::where('company', 'coffee')
                         ->where('status', '!=', 'cancelado')
+                        ->whereMonth('emission', substr($date, 5, 7))
+                        ->whereYear('emission', substr($date, 0, 4))
+                        ->orderByDesc('payment_date')
                         ->get();
-        return view('coffee.egresses.index', compact('egresses'));
+
+        $alltime = Egress::where('company', 'coffee')->get();
+
+
+        return view('coffee.egresses.index', compact('egresses', 'date', 'alltime'));
     }
 
     function create()

@@ -68,7 +68,6 @@ const Bus = new Vue({});
 const app = new Vue({
     el: '#app',
     data: {
-    	pmethod: '',
     	complement: null,
         payment_method: 0,
         is_retained: 1,
