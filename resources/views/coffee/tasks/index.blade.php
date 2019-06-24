@@ -19,27 +19,48 @@
 
                     @if (auth()->user()->company == 'owner')
 
-                        {{ drawHeader('iD', 'descripción', 'encargada por', 'encargada a', 'fecha límite', 'estado', 'observaciones') }}
+                        {{ drawHeader('iD', '<i class="fa fa-cogs"></i>', 'descripción', 'asignó', 'para', 'límite', 'terminó', 'estado', 'observaciones') }}
 
                         <template slot="body">
                             @foreach($tasks as $task)
                                 <tr>
                                     <td>{{ $task->id }}</td>
+                                    <td>
+                                        <dropdown color="danger" icon="cogs">
+                                            @if ($task->status == 'terminada')
+                                                <li>
+                                                    <a type="button" data-toggle="modal" data-target="#rejectTask{{ $task->id }}">
+                                                        <i class="fa fa-times"></i> Rechazar
+                                                    </a>
+                                                </li>
+                                                <ddi icon="check" text="Aceptar" to="{{ route('coffee.task.change', [$task, 'aceptada']) }}"></ddi>
+                                            @endif
+                                        </dropdown>
+
+                                        <modal title="Razones" id="rejectTask{{ $task->id }}" color="#dd4b39">
+                                            @include('coffee.tasks._add_reasons')
+                                        </modal>
+                                    </td>
                                     <td>{{ $task->description }}</td>
                                     <td>{{ $task->tasker->name }}</td>
                                     <td>{{ $task->user->name }}</td>
-                                    <td>{{ $task->assigned_at }}</td>
-                                    <td>
-                                        <label class="label label-{{ $task->status == 'pendiente' ? 'warning': 'success ' }}">{{ strtoupper($task->status) }}</label>
+                                    <td style="{{ !$task->completed_at ? 'color: black;': ($task->onTime ? 'color: green;': 'color:red;') }}">
+                                        {{ fdate($task->assigned_at, 'd \d\e F', 'Y-m-d') }}
                                     </td>
-                                    <td>{{ $task->observations }}</td>
+                                    <td style="{{ $task->onTime ? 'color: green;': 'color:red;' }}">
+                                        {{ fdate($task->completed_at, 'd \d\e F', 'Y-m-d') }}
+                                    </td>
+                                    <td>
+                                        <label class="label label-{{ $task->status_color }}">{{ strtoupper($task->status) }}</label>
+                                    </td>
+                                    <td>{!! $task->observations !!}</td>
                                 </tr>
                             @endforeach
                         </template>
 
                     @else
 
-                        {{ drawHeader('iD','<i class="fa fa-cogs"></i>', 'descripción', 'fecha límite', 'estado', 'observaciones') }}
+                        {{ drawHeader('iD','<i class="fa fa-cogs"></i>', 'descripción', 'límite', 'terminó', 'estado', 'observaciones') }}
 
                         <template slot="body">
                             @foreach(auth()->user()->myTasks as $task)
@@ -47,7 +68,7 @@
                                     <td>{{ $task->id }}</td>
                                     <td>
                                         <dropdown color="danger" icon="cogs">
-                                            @if ($task->status != 'terminada')
+                                            @if ($task->status != 'aceptada')
                                                 <li>
                                                     <a type="button" data-toggle="modal" data-target="#completeTask{{ $task->id }}">
                                                         <i class="fa fa-check"></i> Terminar
@@ -61,11 +82,18 @@
                                         </modal>
                                     </td>
                                     <td>{{ $task->description }}</td>
-                                    <td>{{ $task->assigned_at }}</td>
-                                    <td>
-                                        <label class="label label-{{ $task->status == 'pendiente' ? 'warning': 'success ' }}">{{ strtoupper($task->status) }}</label>
+                                    <td style="{{ !$task->completed_at ? 'color: black;': ($task->onTime ? 'color: green;': 'color:red;') }}">
+                                        {{ fdate($task->assigned_at, 'd \d\e F', 'Y-m-d') }}
                                     </td>
-                                    <td>{{ $task->observations }}</td>
+                                    <td style="{{ $task->onTime ? 'color: green;': 'color:red;' }}">
+                                        {{ fdate($task->completed_at, 'd \d\e F', 'Y-m-d') }}
+                                    </td>
+                                    <td>
+                                        <label class="label label-{{ $task->status_color }}">
+                                            {{ strtoupper($task->status) }} {{ $task->repetitions ? " ($task->repetitions)": '' }}
+                                        </label>
+                                    </td>
+                                    <td>{!! $task->observations !!}</td>
                                 </tr>
                             @endforeach
                         </template>

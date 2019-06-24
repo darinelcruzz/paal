@@ -6,7 +6,7 @@
 
 			<br><br>
 
-			<input type="hidden" name="status" value="terminada">
+			<input type="hidden" name="status" value="pendiente">
 			
 			{!! Form::submit('GUARDAR', ['class' => 'btn btn-success btn-sm btn-block']) !!}
 

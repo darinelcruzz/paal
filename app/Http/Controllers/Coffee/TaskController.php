@@ -7,6 +7,10 @@ use App\{Task, User};
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Notifications\TaskAssigned;
+use App\Notifications\TaskCreatedAndAssigned;
+use App\Notifications\TaskMarkedAsFinished;
+use App\Notifications\TaskNotAccepted;
+use App\Notifications\TaskAccepted;
 
 class TaskController extends Controller
 {
@@ -36,9 +40,7 @@ class TaskController extends Controller
 
         $task = auth()->user()->tasks()->create($validated);
 
-        // return $task;
-
-        auth()->user()->notify(new TaskAssigned($task));
+        $task->notify(new TaskCreatedAndAssigned($task->user));
 
         return redirect(route('coffee.task.index'));
     }
@@ -50,12 +52,26 @@ class TaskController extends Controller
 
     function update(Request $request, Task $task)
     {
-        $request->validate(['observations' => 'required']);
+        $attributes = $request->validate(['observations' => 'required', 'status' => 'required']);
+
+        $sign = $request->status == 'terminada' ? '+ ': '- ';
 
         $task->update([
-            'observations' => $request->observations,
-            'status' => 'terminada',
+            'status' => $request->status,
+            'observations' => strlen($task->observations) > 0 ? $task->observations . '<br>' . $sign . $request->observations: '+ ' . $request->observations
         ]);
+
+        if ($task->status == 'terminada') {
+            $task->update(['completed_at' => date('Y-m-d')]);
+            $task->notify(new TaskMarkedAsFinished);
+        } else {
+           $task->update([
+            'completed_at' => null,
+            'repetitions' => $task->repetitions + 1
+           ]);
+
+           $task->notify(new TaskNotAccepted($request->observations));
+        }
 
         return redirect(route('coffee.task.index'));
     }
@@ -63,6 +79,10 @@ class TaskController extends Controller
     function change(Task $task, $status)
     {
         $task->update(['status' => $status]);
+
+        if ($task->status == 'aceptada') {
+            $task->notify(new TaskAccepted);
+        }
 
         return redirect(route('coffee.task.index'));
     }
