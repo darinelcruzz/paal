@@ -113,33 +113,32 @@ class EgressController extends Controller
         return redirect(route('coffee.egress.index'));
     }
 
-    function settle(Request $request)
+    function settle(Request $request, Egress $egress)
     {
-        $this->validate($request, [
-            'pdf_payment' => 'sometimes|required',
-            'payment_date' => 'required',
-            'method' => 'required',
+        $attributes = $this->validate($request, [
+            'payment_date' => 'sometimes|required',
+            'method' => 'sometimes|required',
             'mfolio' => 'sometimes|required',
+            'second_payment_date' => 'sometimes|required',
+            'second_method' => 'sometimes|required',
+            'nfolio' => 'sometimes|required',
         ]);
 
-        $egress = Egress::find($request->id);
-
-        if ($request->pdf_payment) {
-            $path_to_pdf = Storage::putFileAs(
-                "public/coffee/payments", $request->file("pdf_payment"), $egress->payment_date . "_" . $egress->id . ".pdf"
-            );
-        } else {
-            $path_to_pdf = null;
-        }
-
-        $egress->update($request->only(['payment_date', 'method', 'mfolio']));
+        $egress->update($attributes);
 
         $egress->update([
-            'pdf_payment' => $path_to_pdf,
-            'status' => 'pagado',
+            'status' => $request->single_payment == 0 ? 'pagado': 'pendiente',
         ]);
 
         return redirect(route('coffee.egress.index'));
+
+        // if ($request->pdf_payment) {
+        //     $path_to_pdf = Storage::putFileAs(
+        //         "public/coffee/payments", $request->file("pdf_payment"), $egress->payment_date . "_" . $egress->id . ".pdf"
+        //     );
+        // } else {
+        //     $path_to_pdf = null;
+        // }
     }
 
     function edit(Egress $egress)

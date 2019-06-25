@@ -6,22 +6,55 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-6">
             <solid-box title="Detalles del pago" color="danger" button>
-                {!! Form::open(['method' => 'POST', 'route' => 'coffee.egress.settle', 'enctype' => 'multipart/form-data']) !!}
+                {!! Form::open(['method' => 'POST', 'route' => ['coffee.egress.settle', $egress]]) !!}
 
-                    {!! Field::date('payment_date', Date::now(), ['tpl' => 'withicon'], ['icon' => 'dollar']) !!}
+                    @if ($egress->method)
+                        <div class="row">
+                            <div class="col-md-6">
+                                {!! Field::text('nfolio', ['label' => 'Folio', 'tpl' => 'withicon', 'ph' => 'XXXXXX'], ['icon' => 'barcode']) !!}
+                            </div>
+                            <div class="col-md-6">
+                                {!! Field::date('second_payment_date', Date::now(), ['tpl' => 'withicon'], ['icon' => 'dollar']) !!}
+                            </div>
+                        </div>
 
-                    {!! Field::select('method', ['check' => 'Cheque', 'transfer' => 'Transferencia', 'automatic' => 'Domiciliación'], null,
-                        ['tpl' => 'withicon', 'empty' => 'Seleccione método'], ['icon' => 'credit-card']) 
-                    !!}
+                        <div class="row">
+                            <div class="col-md-6">
+                                {!! Field::select('second_method', ['check' => 'Cheque', 'transfer' => 'Transferencia', 'automatic' => 'Domiciliación'], null,
+                                    ['tpl' => 'withicon', 'empty' => 'Seleccione método'], ['icon' => 'credit-card']) 
+                                !!}
+                            </div>
+                        </div>
+                            
+                    @else
+                        <div class="row">
+                            <div class="col-md-6">
+                                {!! Field::text('mfolio', ['label' => 'Folio', 'tpl' => 'withicon', 'ph' => 'XXXXXX'], ['icon' => 'barcode']) !!}
+                            </div>
+                            <div class="col-md-6">
+                                {!! Field::date('payment_date', Date::now(), ['tpl' => 'withicon'], ['icon' => 'dollar']) !!}
+                            </div>
+                        </div>
 
-                    {!! Field::text('mfolio', ['label' => 'Folio', 'tpl' => 'withicon', 'ph' => 'XXXXXX'], ['icon' => 'barcode']) !!}
+                        <div class="row">
+                            <div class="col-md-6">
+                                {!! Field::select('method', ['check' => 'Cheque', 'transfer' => 'Transferencia', 'automatic' => 'Domiciliación'], null,
+                                    ['tpl' => 'withicon', 'empty' => 'Seleccione método'], ['icon' => 'credit-card']) 
+                                !!}
+                            </div>
+                            <div class="col-md-6">                        
+                                {!! Field::select('single_payment', ['Sí, un sólo pago', 'No, es el primero de dos'], 0,
+                                    ['tpl' => 'withicon', 'label' => '¿Pago único?', 'empty' => 'Elija una opción'], ['icon' => 'question']) 
+                                !!}
+                            </div>
+                        </div>
+                    @endif
 
                     <hr>
-                    <input type="hidden" name="id" value="{{ $egress->id }}">
 
-                    {!! Form::submit('Pagar', ['class' => 'btn btn-danger pull-right']) !!}
+                    {!! Form::submit('P A G A R', ['class' => 'btn btn-danger pull-right btn-block']) !!}
                     
                 {!! Form::close() !!}
             </solid-box>
