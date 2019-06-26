@@ -40,10 +40,6 @@
 
                     TEL: {{ $shipping->ingress->client->phone }} <br><br>
                     DE: <b>COFFEE DEPOT TUXTLA GTZ</b><br>
-
-                    <div style="align-items: center;">
-                        <img src="{{ asset('/img/fragil.jpg') }}" alt="FRAGIL" width="100%">
-                    </div>
                 </div>
             </div>
         </div>

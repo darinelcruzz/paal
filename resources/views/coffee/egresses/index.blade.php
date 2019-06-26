@@ -47,7 +47,7 @@
 
                 <data-table example="1">
 
-                    {{ drawHeader('ID', '<i class="fa fa-cogs"></i>', 'folio', 'proveedor','compra', 'I.V.A.', 'total', 'pago', 'estado') }}
+                    {{ drawHeader('ID', '<i class="fa fa-cogs"></i>', 'folio', 'proveedor','compra', 'I.V.A.', 'total', 'pago (s)', 'estado') }}
 
                     <template slot="body">
                         @foreach($egresses as $egress)
@@ -64,9 +64,9 @@
                                 <td>$ {{ number_format($egress->iva, 2) }}</td>
                                 <td>$  {{ number_format($egress->amount, 2) }}</td>
                                 <td align="center">
-                                    @if($egress->status == 'pagado')
-                                        {{ $egress->mfolio }} <br>
-                                        {{ fdate($egress->payment_date, 'd M Y', 'Y-m-d') }}
+                                    @if($egress->payment_date)
+                                        {{ $egress->mfolio }} |
+                                        {{ fdate($egress->payment_date, 'd M', 'Y-m-d') }}
                                         {{-- <modal id="ppdf{{ $egress->id}}" title="Pago (pdf)">
                                             <iframe src="{{ Storage::url($egress->pdf_payment) }}#view=FitH" width="100%" height="600"></iframe>
                                         </modal> --}}
@@ -75,6 +75,10 @@
                                                 <button class="btn btn-danger btn-xs"><i class="fa fa-file-pdf-o"></i></button>
                                             </modal-button>
                                         @endif --}}
+                                    @endif
+                                    @if($egress->second_payment_date)
+                                        <br>{{ $egress->nfolio }} |
+                                        {{ fdate($egress->second_payment_date, 'd M', 'Y-m-d') }}
                                     @endif
                                 </td>
                                 <td align="center">

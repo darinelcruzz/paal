@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Coffee;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\Controller;
-use App\{Ingress, Payment};
+use App\{Ingress, Payment, Shipping};
 use App\Exports\DailyPendingExport;
 
 class AdminController extends Controller
@@ -70,7 +70,11 @@ class AdminController extends Controller
             })
             ->sum('cash');
 
-        return view('coffee.admin.monthly', compact('date', 'month', 'pending', 'working_days'));
+        $shippings = Shipping::whereYear('created_at', substr($date, 0, 4))
+            ->whereMonth('created_at', substr($date, 5))
+            ->count();
+
+        return view('coffee.admin.monthly', compact('date', 'month', 'pending', 'working_days', 'shippings'));
     }
 
     function invoices(Request $request)

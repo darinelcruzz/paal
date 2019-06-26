@@ -4,12 +4,12 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-7">
+        <div class="col-md-12">
             <solid-box title="Envíos" color="danger">
                 
                 <data-table>
 
-                    {{ drawHeader('ID', '<i class="fa fa-cogs"></i>', 'venta', 'número de guía', 'empresa', 'estado') }}
+                    {{ drawHeader('ID', '<i class="fa fa-cogs"></i>', 'cliente', 'dirección', 'enviado', 'entregado', 'empresa', 'estado', 'observaciones') }}
 
                     <template slot="body">
                         @foreach($shippings as $shipping)
@@ -26,7 +26,6 @@
                                         @else
                                             <ddi icon="check" to="{{ route('coffee.shipping.edit', [$shipping, 'entregado']) }}" text="Entregado"></ddi>
                                         @endif
-                                        {{-- <ddi icon="exclamation" to="{{ route('coffee.shipping.edit', [$shipping, 'error']) }}" text="Error"></ddi> --}}
                                         <li>
                                             <a href="{{ route('coffee.shipping.print', $shipping) }}" target="_blank">
                                                 <i class="fa fa-print"></i> Rótulo
@@ -38,14 +37,25 @@
                                         @include('coffee.shippings._add_guide_number')
                                     </modal>
                                 </td>
-                                <td>
-                                    {{ $shipping->ingress->folio }}
+                                <td style="width: 20%">
+                                    {{ $shipping->ingress->client->name }}
+                                    ({{ $shipping->ingress->folio }})
                                 </td>
-                                <td>{{ $shipping->guide_number }}</td>
+                                <td>
+                                    {{ $shipping->address or 'No se proporcionó' }}
+                                </td>
+                                <td>
+                                    {{ fdate($shipping->shipped_at, 'd \d\e F, Y', 'Y-m-d') }} <br>
+                                    <code>{{ $shipping->guide_number }}</code>
+                                </td>
+                                <td>
+                                    {{ $shipping->delivered_at }}
+                                </td>
                                 <td>{{ $shipping->company }}</td>
                                 <td>
                                     <span class="label label-{{ $shipping->color }}">{{ strtoupper($shipping->status) }}</span>
                                 </td>
+                                <td>{{ $shipping->observations }}</td>
 
                             </tr>
                         @endforeach

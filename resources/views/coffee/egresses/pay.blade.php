@@ -16,14 +16,14 @@
                                 {!! Field::text('nfolio', ['label' => 'Folio', 'tpl' => 'withicon', 'ph' => 'XXXXXX'], ['icon' => 'barcode']) !!}
                             </div>
                             <div class="col-md-6">
-                                {!! Field::date('second_payment_date', Date::now(), ['tpl' => 'withicon'], ['icon' => 'dollar']) !!}
+                                {!! Field::date('second_payment_date', Date::now(), ['label' => 'Fecha pago', 'tpl' => 'withicon'], ['icon' => 'dollar']) !!}
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-md-6">
                                 {!! Field::select('second_method', ['check' => 'Cheque', 'transfer' => 'Transferencia', 'automatic' => 'Domiciliación'], null,
-                                    ['tpl' => 'withicon', 'empty' => 'Seleccione método'], ['icon' => 'credit-card']) 
+                                    ['label' => 'Método', 'tpl' => 'withicon', 'empty' => 'Seleccione método'], ['icon' => 'credit-card']) 
                                 !!}
                             </div>
                         </div>

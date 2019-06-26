@@ -59,7 +59,16 @@ return [
     'shippings' => [
         'title' => 'Envíos',
         'icon' => 'fa fa-shipping-fast',
-        'route' => 'coffee.shipping.index'
+        'submenu' => [
+            'create' => [
+                'title' => 'Rastreo',
+                'route' => 'coffee.shipping.index'
+            ],
+            'index' => [
+                'title' => 'Corte',
+                'route' => 'coffee.shipping.index'
+            ],
+        ]
     ],
 
     'egresses' => [

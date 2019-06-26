@@ -73,6 +73,20 @@
                     <i class="fa fa-chart-line"></i>
                 </div>
             </div>
+
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <p>Envíos</p>
+                    <h3>
+                        <em>
+                            {{ $shippings }}
+                        </em>
+                    </h3>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-shipping-fast"></i>
+                </div>
+            </div>
         </div>
 
         <div class="col-md-8">

@@ -20,18 +20,12 @@ class Egress extends Model
 
     function getStatusLabelAttribute()
     {
-        $color = "warning";
-
-        if ($this->payment_date) {
-            $color = 'success';
-            $this->update(['status' => 'pagado']);
-        }
+        $colors = ['pendiente' => 'warning', 'pagado' => 'success', 'vencido' => 'danger'];
 
         if (date('Y-m-d') >= $this->expiration && !$this->payment_date) {
-            $color = 'danger';
             $this->update(['status' => 'vencido']);
         }
 
-        return "<span class=\"label label-$color\">" . ucfirst($this->status) . "</span>";
+        return "<span class=\"label label-{$colors[$this->status]}\">" . ucfirst($this->status) . "</span>";
     }
 }
