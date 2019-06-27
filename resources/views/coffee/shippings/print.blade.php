@@ -31,16 +31,38 @@
     <div class="wrapper">
         <div class="content-wrapper">
             <div class="row">
-                <div class="col-md-12">
-                    <br>
-                    DESTINATARIO: <br>
-                    <span style="font-size: 50px"><b>{{ $shipping->ingress->client->name }}</b></span><br><br>
+                @if ($shipping->address)
 
-                    <span style="font-size: 50px">DIRECCIÓN: {{ strtoupper($shipping->ingress->client->complete_address) }}</span> <br><br>
+                    <div class="col-md-12">
+                        <br>
+                        DESTINATARIO: <br>
+                        <span style="font-size: 50px"><b>{{ $shipping->address->business_name }}</b></span><br><br>
 
-                    TEL: {{ $shipping->ingress->client->phone }} <br><br>
-                    DE: <b>COFFEE DEPOT TUXTLA GTZ</b><br>
-                </div>
+                        <span style="font-size: 50px">CONTACTO: {{ $shipping->address->contact }}</span> <br><br>
+
+                        TEL: {{ $shipping->address->phone  }} <br><br>
+
+                        <span style="font-size: 50px">
+                        DIRECCIÓN: {{ $shipping->address->street  }}, # EXT: {{ $shipping->address->street_number  }} {{ $shipping->address->street_number2 ? "# INT: " . $shipping->address->street_number2: ''  }}, Col. {{ $shipping->address->district  }}, CP: {{ $shipping->address->postcode  }}, {{ $shipping->address->city  }}, {{ $shipping->address->state  }}
+                        </span> <br><br>
+
+                        <span style="font-size: 50px">REFERENCIA: {{ $shipping->address->reference }}</span> <br><br>
+                    </div>
+
+                @else
+
+                    <div class="col-md-12">
+                        <br>
+                        DESTINATARIO: <br>
+                        <span style="font-size: 50px"><b>{{ $shipping->ingress->client->name }}</b></span><br><br>
+
+                        <span style="font-size: 50px">DIRECCIÓN: {{ strtoupper($shipping->ingress->client->complete_address) }}</span> <br><br>
+
+                        TEL: {{ $shipping->ingress->client->phone }} <br><br>
+                        DE: <b>COFFEE DEPOT TUXTLA GTZ</b><br>
+                    </div>
+
+                @endif
             </div>
         </div>
     </div>
