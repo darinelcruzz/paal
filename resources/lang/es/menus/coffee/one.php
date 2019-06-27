@@ -66,7 +66,7 @@ return [
             ],
             'index' => [
                 'title' => 'Corte',
-                'route' => 'coffee.shipping.index'
+                'route' => 'coffee.shipping.monthly'
             ],
         ]
     ],

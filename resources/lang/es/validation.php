@@ -192,5 +192,11 @@ return [
         'guide_number' => 'número de guía',
         'value' => 'valor',
         'observations' => 'observaciones',
+        'business_name' => 'nombre comercial',
+        'street' => 'calle',
+        'contact' => 'contacto',
+        'street_number' => 'número exterior',
+        'street_number2' => 'número interior',
+        'district' => 'colonia',
     ],
 ];

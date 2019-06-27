@@ -76,7 +76,10 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	Route::group(['prefix' => 'envios', 'as' => 'shipping.'], function () {
 	    $ctrl = 'Coffee\ShippingController';
 	    Route::get('/', usesas($ctrl, 'index'));
-	    Route::get('editar/{shipping}/{status}', usesas($ctrl, 'edit'));
+	    Route::get('mensual', usesas($ctrl, 'monthly'));
+	    Route::post('mensual', usesas($ctrl, 'monthly'));
+	    Route::get('numero-guia/{shipping}', usesas($ctrl, 'addInfo'));
+	    Route::get('editar/{shipping}', usesas($ctrl, 'edit'));
 	    Route::post('editar/{shipping}', usesas($ctrl, 'update'));
 	    Route::get('imprimir/{shipping}', usesas($ctrl, 'print'));
 	});
@@ -96,5 +99,14 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	    Route::get('editar', usesas($ctrl, 'edit'));
 	    Route::post('editar/{task}', usesas($ctrl, 'update'));
 	    Route::get('estado/{task}/{status}', usesas($ctrl, 'change'));
+	});
+
+	Route::group(['prefix' => 'direcciones', 'as' => 'address.'], function () {
+	    $ctrl = 'Coffee\AddressController';
+	    Route::get('/', usesas($ctrl, 'index'));
+	    Route::get('agregar/{client}', usesas($ctrl, 'create'));
+	    Route::post('agregar/{client}', usesas($ctrl, 'store'));
+	    Route::get('editar/{address}', usesas($ctrl, 'edit'));
+	    Route::post('editar/{address}', usesas($ctrl, 'update'));
 	});
 });

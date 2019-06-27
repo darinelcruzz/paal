@@ -10,7 +10,7 @@ class AddDeliveredAtToShippingsTable extends Migration
     {
         Schema::table('shippings', function($table) {
             $table->string('observations')->nullable();
-            $table->string('address')->nullable();
+            $table->integer('address_id')->nullable();
             $table->date('shipped_at')->nullable();
             $table->date('delivered_at')->nullable();
         });
@@ -20,7 +20,7 @@ class AddDeliveredAtToShippingsTable extends Migration
     {
         Schema::table('shippings', function($table) {
             $table->dropColumn('observations');
-            $table->dropColumn('address');
+            $table->dropColumn('address_id');
             $table->dropColumn('shipped_at');
             $table->dropColumn('delivered_at');
         });

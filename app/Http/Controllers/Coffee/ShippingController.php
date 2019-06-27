@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Coffee;
 
-use App\Shipping;
+use App\{Shipping, Address};
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -15,14 +15,26 @@ class ShippingController extends Controller
         return view('coffee.shippings.index', compact('shippings'));
     }
 
-    function create()
+    function monthly(Request $request)
     {
-        //
+        $date = isset($request->date) ? $request->date: date('Y-m');
+
+        $shippings = Shipping::whereYear('shipped_at', substr($date, 0, 4))
+            ->whereMonth('shipped_at', substr($date, 5))
+            ->get();
+
+        return view('coffee.shippings.monthly', compact('shippings', 'date'));
     }
 
-    function store(Request $request)
+    function addInfo(Shipping $shipping)
     {
-        //
+        $addresses = Address::where('client_id', $shipping->ingress->client_id)
+            ->where('status', 'active')
+            ->selectRaw("id, CONCAT(street,' ', street_number,' ', district,' C.P. ', postcode,' ', city,' ', state) AS address")
+            ->pluck('address', 'id')
+            ->toArray();
+
+        return view('coffee.shippings.addInfo', compact('addresses', 'shipping'));
     }
 
     function print(Shipping $shipping)
@@ -30,24 +42,25 @@ class ShippingController extends Controller
         return view('coffee.shippings.print', compact('shipping'));
     }
 
-    function edit(Shipping $shipping, $status)
+    function edit(Shipping $shipping)
     {
-        $shipping->update(['status' => $status]);
-
-        return back();
+        return view('coffee.shippings.edit', compact('shipping'));
     }
 
     function update(Request $request, Shipping $shipping)
     {
-        $shipping->update($request->validate(['guide_number' => 'required', 'company' => 'required']));
+        $attributes = $request->validate([
+            'guide_number' => 'sometimes|required', 
+            'company' => 'sometimes|required', 
+            'address_id' => 'sometimes|required',
+            'observations' => 'sometimes|required',
+            'shipped_at' => 'sometimes|required',
+            'delivered_at' => 'sometimes|required',
+            'status' => 'required',
+        ]);
         
-        $shipping->update(['status' => 'en tránsito']);
+        $shipping->update($attributes);
 
         return redirect(route('coffee.shipping.index'));
-    }
-
-    function destroy(Shipping $shipping)
-    {
-        //
     }
 }

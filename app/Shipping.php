@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Shipping extends Model
 {
-    protected $fillable = ['ingress_id', 'guide_number', 'company', 'status'];
+    protected $fillable = ['ingress_id', 'guide_number', 'company', 'status', 'delivered_at', 'shipped_at', 'address', 'observations'];
 
     function ingress()
     {
