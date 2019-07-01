@@ -40,7 +40,7 @@ class TaskController extends Controller
 
         $task = auth()->user()->tasks()->create($validated);
 
-        $task->notify(new TaskCreatedAndAssigned($task->user));
+        // $task->notify(new TaskCreatedAndAssigned($task->user));
 
         return redirect(route('coffee.task.index'));
     }
@@ -63,14 +63,14 @@ class TaskController extends Controller
 
         if ($task->status == 'terminada') {
             $task->update(['completed_at' => date('Y-m-d')]);
-            $task->notify(new TaskMarkedAsFinished);
+            // $task->notify(new TaskMarkedAsFinished);
         } else {
            $task->update([
             'completed_at' => null,
             'repetitions' => $task->repetitions + 1
            ]);
 
-           $task->notify(new TaskNotAccepted($request->observations));
+           // $task->notify(new TaskNotAccepted($request->observations));
         }
 
         return redirect(route('coffee.task.index'));
@@ -81,7 +81,7 @@ class TaskController extends Controller
         $task->update(['status' => $status]);
 
         if ($task->status == 'aceptada') {
-            $task->notify(new TaskAccepted);
+            // $task->notify(new TaskAccepted);
         }
 
         return redirect(route('coffee.task.index'));
