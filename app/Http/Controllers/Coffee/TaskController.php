@@ -38,7 +38,7 @@ class TaskController extends Controller
             'assigned_at' => 'required',
         ]);
 
-        $task = auth()->user()->tasks()->create($validated);
+        $task = auth()->user()->tasks()->create($validated + ['status' => 'pendiente']);
 
         // $task->notify(new TaskCreatedAndAssigned($task->user));
 
