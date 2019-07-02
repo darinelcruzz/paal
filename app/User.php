@@ -10,7 +10,7 @@ class User extends Authenticatable
     use Notifiable;
 
     protected $fillable = [
-        'name', 'email', 'password', 'company', 'username', 'level'
+        'name', 'email', 'password', 'company', 'username', 'level', 'telegram_user_id'
     ];
 
     protected $hidden = [
