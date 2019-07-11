@@ -10,7 +10,7 @@ class ShippingController extends Controller
 {
     function index()
     {
-        $shippings = Shipping::orderByDesc('id')->get();
+        $shippings = Shipping::where('status', '!=', 'cancelado')->orderByDesc('id')->get();
 
         return view('coffee.shippings.index', compact('shippings'));
     }

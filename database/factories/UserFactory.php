@@ -19,6 +19,8 @@ $factory->define(App\User::class, function (Faker $faker) {
         'username' => $faker->userName,
         'email' => $faker->unique()->freeEmail,
         'remember_token' => str_random(10),
-        'level' => 0
+        'level' => 0,
+        'password' => 'test',
+        'company' => 'owner'
     ];
 });

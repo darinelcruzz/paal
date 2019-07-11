@@ -7,9 +7,8 @@ $factory->define(App\Ingress::class, function (Faker $faker) {
 	$randomTime = mt_rand($lastWeek, time());
 
     return [
-    	'client_id' => function () {
-    		return factory(App\Client::class)->create()->id;
-    	},
+    	'client_id' => factory(App\Client::class),
+        'user_id' => factory(App\Client::class),
     	'products' => function () {
     		$toBeSerialized = [];
     		$products = App\Product::take(3)->get();
@@ -28,6 +27,7 @@ $factory->define(App\Ingress::class, function (Faker $faker) {
         'bought_at' => date('Y-m-d', $randomTime),
         'company' => 'coffee',
         'status' => 'pendiente',
-        'amount' => 100.00
+        'amount' => 1000.00,
+        'iva' => 160.00
     ];
 });
