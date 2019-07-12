@@ -43,6 +43,7 @@ class IngressController extends Controller
             'company' => 'required',
             'type' => 'required',
             'bought_at' => 'required',
+            // 'folio' => 'unique|ingresses:folio'
         ]);
 
         if ($request->folio != Ingress::where('company', 'coffee')->get()->last()->folio) {
@@ -58,54 +59,17 @@ class IngressController extends Controller
                 'retainer' => $request->method == 'anticipo' ? $total: 0,
             ]);
 
-            $products = [];
-            $special = [];
+            $serialized = $this->getSerializedItems($request);
 
-            for ($i=0; $i < count($request->items); $i++) {
-                if ($request->is_special[$i] == 0) {
-                    array_push($products, [
-                        'i' => $request->items[$i],
-                        'q' => $request->quantities[$i],
-                        'p' => $request->prices[$i],
-                        'd' => $request->discounts[$i],
-                        't' => $request->subtotals[$i],
-                    ]);
-                } else {
-                    array_push($special, [
-                        'i' => $request->items[$i],
-                        'q' => $request->quantities[$i],
-                        'p' => $request->prices[$i],
-                        'd' => $request->discounts[$i],
-                        't' => $request->subtotals[$i],
-                    ]);
-                }
-            }
+            $ingress->update([
+                'products' => $serialized[0],
+                'special_products' => $serialized[1],
+                'retained_at' => $request->method == 'anticipo' ? date('Y-m-d'): null,
+                'paid_at' => $request->method == 'anticipo' ? null: date('Y-m-d'),
+                'status' => $request->method == 'anticipo' ? 'pendiente': 'pagado'
+            ]);
 
-            if ($request->method == 'anticipo') {
-                $ingress->update([
-                    'products' => serialize($products),
-                    'special_products' => serialize($special),
-                    'retained_at' => date('Y-m-d'),
-                    'status' => 'pendiente'
-                ]);
-            } else {
-                $ingress->update([
-                    'products' => serialize($products),
-                    'special_products' => serialize($special),
-                    'paid_at' => date('Y-m-d'),
-                    // 'status' => $request->method == 5 ? 'crédito' :'pendiente'
-                    'status' => 'pagado'
-                ]);
-            }
-
-            $payment = Payment::create([
-                'ingress_id' => $ingress->id,
-                'type' => $request->method,
-                'cash' => $request->cash,
-                'transfer' => $request->transfer,
-                'check' => $request->check,
-                'debit_card' => $request->debit_card,
-                'credit_card' => $request->credit_card,
+            $ingress->payments()->create($request->only('type', 'cash', 'transfer', 'check', 'debit_card', 'credit_card') + [
                 'reference' => isset($request->reference) ? $request->reference: null,
                 'card_number' => isset($request->card_number) ? $request->card_number: null,
             ]);
@@ -209,5 +173,35 @@ class IngressController extends Controller
         }
 
         return 'PROCEDIMIENTO EXITOSO';
+    }
+
+    protected function getSerializedItems(Request $request)
+    {
+        $products = $special = [];
+
+        for ($i=0; $i < count($request->items); $i++) {
+            if ($request->is_special[$i] == 0) {
+                array_push($products, [
+                    'i' => $request->items[$i],
+                    'q' => $request->quantities[$i],
+                    'p' => $request->prices[$i],
+                    'd' => $request->discounts[$i],
+                    't' => $request->subtotals[$i],
+                ]);
+            } else {
+                array_push($special, [
+                    'i' => $request->items[$i],
+                    'q' => $request->quantities[$i],
+                    'p' => $request->prices[$i],
+                    'd' => $request->discounts[$i],
+                    't' => $request->subtotals[$i],
+                ]);
+            }
+        }
+
+        return [
+            serialize($products),
+            serialize($special)
+        ];
     }
 }

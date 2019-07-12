@@ -85,10 +85,11 @@
                         <tbody>
                         @php
                             $subtotal = 0;
+                            $iteration = 1;
                         @endphp
                         @foreach (unserialize($ingress->products) as $product)
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $iteration }}</td>
                                 <td>{{ App\Product::find($product['i'])->description }}</td>
                                 <td>$ {{ number_format($product['p'], 2) }}</td>
                                 <td>{{ $product['q'] }}</td>
@@ -97,13 +98,14 @@
                             </tr>
                             @php
                                 $subtotal += $product['t'];
+                                $iteration += 1;
                             @endphp
                         @endforeach
 
                         @if($ingress->special_products)
                             @foreach (unserialize($ingress->special_products) as $product)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $iteration }}</td>
                                     <td>{{ $product['i'] }}</td>
                                     <td>$ {{ number_format($product['p'], 2) }}</td>
                                     <td>{{ $product['q'] }}</td>
@@ -112,6 +114,7 @@
                                 </tr>
                                 @php
                                     $subtotal += $product['t'];
+                                    $iteration += 1;
                                 @endphp
                             @endforeach
                         @endif
