@@ -1,4 +1,4 @@
-<dropdown color="danger" icon="cogs">
+<dropdown color="{{ $color }}" icon="cogs">
 
 	<ddi icon="edit" to="{{ route('coffee.egress.edit', $egress) }}" text="Editar folio"></ddi>
 

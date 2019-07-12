@@ -43,26 +43,22 @@
 
             <br>
 
-            <solid-box title="Egresos" color="danger" button>
+            <solid-box title="Egresos pagados" color="success" button>
 
                 <data-table example="1">
 
-                    {{ drawHeader('ID', '<i class="fa fa-cogs"></i>', 'folio', 'proveedor','compra', 'I.V.A.', 'total', 'pago (s)', 'estado') }}
+                    {{ drawHeader('ID', '<i class="fa fa-cogs"></i>', 'folio', 'pago (s)', 'proveedor','compra', 'I.V.A.', 'total') }}
 
                     <template slot="body">
                         @foreach($egresses as $egress)
                             <tr>
                                 <td>{{ $egress->id }}</td>
                                 <td>
-                                    @include('coffee.egresses._dropdown')
+                                    @include('coffee.egresses._dropdown', ['color' => 'success'])
                                 </td>
                                 <td>
                                     {{ $egress->folio }}
                                 </td>
-                                <td>{{ $egress->provider->name }}</td>
-                                <td>{{ fdate($egress->emission, 'd M Y', 'Y-m-d') }}</td>
-                                <td>$ {{ number_format($egress->iva, 2) }}</td>
-                                <td>$  {{ number_format($egress->amount, 2) }}</td>
                                 <td align="center">
                                     @if($egress->payment_date)
                                         {{ $egress->mfolio }} |
@@ -81,9 +77,40 @@
                                         {{ fdate($egress->second_payment_date, 'd M', 'Y-m-d') }}
                                     @endif
                                 </td>
-                                <td align="center">
-                                    {!! $egress->status_label !!}
+                                <td>{{ $egress->provider->name }}</td>
+                                <td>{{ fdate($egress->emission, 'd M Y', 'Y-m-d') }}</td>
+                                <td>$ {{ number_format($egress->iva, 2) }}</td>
+                                <td>$  {{ number_format($egress->amount, 2) }}</td>
+                            </tr>
+                        @endforeach
+                    </template>
+
+                </data-table>
+
+            </solid-box>
+
+            <br>
+
+            <solid-box title="Pendientes de pagar" color="warning" button>
+
+                <data-table example="1">
+
+                    {{ drawHeader('ID', '<i class="fa fa-cogs"></i>', 'folio', 'emisión', 'proveedor', 'I.V.A.', 'total') }}
+
+                    <template slot="body">
+                        @foreach($unpaid as $egress)
+                            <tr>
+                                <td>{{ $egress->id }}</td>
+                                <td>
+                                    @include('coffee.egresses._dropdown', ['color' => 'warning'])
                                 </td>
+                                <td>
+                                    {{ $egress->folio }}
+                                </td>
+                                <td>{{ fdate($egress->emission, 'd M Y', 'Y-m-d') }}</td>
+                                <td>{{ $egress->provider->name }}</td>
+                                <td>$ {{ number_format($egress->iva, 2) }}</td>
+                                <td>$  {{ number_format($egress->amount, 2) }}</td>
                             </tr>
                         @endforeach
                     </template>

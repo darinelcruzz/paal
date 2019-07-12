@@ -15,15 +15,21 @@ class EgressController extends Controller
 
         $egresses = Egress::where('company', 'coffee')
                         ->where('status', '!=', 'cancelado')
+                        ->whereMonth('payment_date', substr($date, 5, 7))
+                        ->whereYear('payment_date', substr($date, 0, 4))
+                        ->orderByDesc('payment_date')
+                        ->get();
+
+        $unpaid = Egress::where('company', 'coffee')
+                        ->where('status', 'pendiente')
                         ->whereMonth('emission', substr($date, 5, 7))
                         ->whereYear('emission', substr($date, 0, 4))
-                        ->orderByDesc('payment_date')
                         ->get();
 
         $alltime = Egress::where('company', 'coffee')->get();
 
 
-        return view('coffee.egresses.index', compact('egresses', 'date', 'alltime'));
+        return view('coffee.egresses.index', compact('egresses', 'date', 'alltime', 'unpaid'));
     }
 
     function create()
