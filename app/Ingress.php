@@ -61,8 +61,12 @@ class Ingress extends Model
     {
         if ($this->payments->first()) {
 
-            if ($this->payments->first()->debit_card > 0 || $this->payments->first()->credit_card > 0) {
+            if ($this->client_id == 55 && $this->payments->first()->debit_card > 0) {
                 return 'debit_card';
+            }
+
+            if ($this->client_id == 55 && $this->payments->first()->credit_card > 0) {
+                return 'credit_card';
             }
 
             $payment = array_slice($this->payments->first()->toArray(), 3, 5);
