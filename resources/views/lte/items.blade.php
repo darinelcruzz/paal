@@ -7,7 +7,11 @@
 @else
     <li class="treeview">
         <a href="#">
-            <i class="{{ $item['icon'] }}"></i> <span>{{ $item['title'] }}</span> <i class="fa fa-angle-left pull-right"></i>
+            <i class="{{ $item['icon'] }}"></i> <span>{{ $item['title'] }}</span>
+            @if (isset($item['label']) && pendingShippings() > 0)
+                &nbsp;&nbsp;<span class="label label-danger">{{ pendingShippings() }}</span>
+            @endif
+            <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
             @foreach ($item['submenu'] as $subitem)

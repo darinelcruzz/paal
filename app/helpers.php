@@ -1,6 +1,7 @@
 <?php
 
 use Jenssegers\Date\Date;
+use App\Shipping;
 
 function usesas($ctrl, $fun, $as = null)
 {
@@ -42,4 +43,9 @@ function updateEnv($key, $value)
     }
 
     return false;
+}
+
+function pendingShippings()
+{
+    return Shipping::whereStatus('pendiente')->count();
 }

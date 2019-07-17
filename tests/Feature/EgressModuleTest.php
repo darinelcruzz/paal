@@ -13,11 +13,7 @@ class EgressModuleTest extends TestCase
     /** @test */
     function a_singed_user_sees_egresses_index()
     {
-        // $this->signIn();
-
-        // $this->get(route('coffee.egress.index'))
-        // 	->assertStatus(200)
-        // 	->assertSee('Egresos');
+        // $this->withoutExceptionHandling();
 
         $this->assertTrue(true);
     }
