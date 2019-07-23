@@ -79,7 +79,7 @@
                     <p>Envíos</p>
                     <h3>
                         <em>
-                            {{ $shippings }}
+                            {{ $shippings->count() }}
                         </em>
                     </h3>
                 </div>

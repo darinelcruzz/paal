@@ -24,4 +24,12 @@ class Shipping extends Model
 
     	return $colors[$this->status];
     }
+
+    function scopeMonthly($query, $date)
+    {
+        return $query
+            ->whereYear('created_at', substr($date, 0, 4))
+            ->whereMonth('created_at', substr($date, 5));
+    }
+
 }

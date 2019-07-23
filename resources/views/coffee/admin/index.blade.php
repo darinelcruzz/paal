@@ -55,7 +55,7 @@
 
             <solid-box title="EFECTIVO SIN FACTURA" color="default" button collapsed>
 
-                {!! Form::open(['method' => 'POST', 'route' => 'coffee.ingress.invoice', 'files' => 'true']) !!}
+                {!! Form::open(['method' => 'POST', 'route' => 'coffee.invoice.create', 'files' => 'true']) !!}
                 
                 <data-table example="2">
 
@@ -200,7 +200,7 @@
                                         </sale-products-list>
                                     </modal>
 
-                                    {!! Form::open(['method' => 'POST', 'route' => ['coffee.ingress.invoice', $ingress ], 'files' => 'true']) !!}
+                                    {!! Form::open(['method' => 'POST', 'route' => 'coffee.invoice.create', 'files' => 'true']) !!}
                                     
                                     <modal title="Agregar datos de la facturación" id="modal-f{{ $ingress->id }}" color="#dd4b39">
 
@@ -306,7 +306,7 @@
                                         </sale-products-list>
                                     </modal>
 
-                                    {!! Form::open(['method' => 'POST', 'route' => ['coffee.ingress.invoice', $ingress ], 'files' => 'true']) !!}
+                                    {!! Form::open(['method' => 'POST', 'route' => 'coffee.invoice.create', 'files' => 'true']) !!}
                                     
                                     <modal title="Agregar datos de la facturación" id="modal-f{{ $ingress->id }}" color="#dd4b39">
 
@@ -412,7 +412,7 @@
                                             </sale-products-list>
                                         </modal>
 
-                                        {!! Form::open(['method' => 'POST', 'route' => ['coffee.ingress.invoice', $deposit->ingress ], 'files' => 'true']) !!}
+                                        {!! Form::open(['method' => 'POST', 'route' => 'coffee.invoice.create', 'files' => 'true']) !!}
                                     
                                         <modal title="Agregar datos de la facturación" id="modal-f{{ $deposit->ingress->id }}" color="#dd4b39">
 

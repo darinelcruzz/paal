@@ -13,17 +13,13 @@ class EgressController extends Controller
     {
         $date = isset($request->date) ? $request->date: date('Y-m');
 
-        $egresses = Egress::where('company', 'coffee')
+        $egresses = Egress::from($date, 'payment_date')
                         ->where('status', '!=', 'cancelado')
-                        ->whereMonth('payment_date', substr($date, 5, 7))
-                        ->whereYear('payment_date', substr($date, 0, 4))
                         ->orderByDesc('payment_date')
                         ->get();
 
-        $unpaid = Egress::where('company', 'coffee')
+        $unpaid = Egress::from($date, 'emission')
                         ->where('status', 'pendiente')
-                        ->whereMonth('emission', substr($date, 5, 7))
-                        ->whereYear('emission', substr($date, 0, 4))
                         ->get();
 
         $alltime = Egress::where('company', 'coffee')->get();
@@ -137,14 +133,6 @@ class EgressController extends Controller
         ]);
 
         return redirect(route('coffee.egress.index'));
-
-        // if ($request->pdf_payment) {
-        //     $path_to_pdf = Storage::putFileAs(
-        //         "public/coffee/payments", $request->file("pdf_payment"), $egress->payment_date . "_" . $egress->id . ".pdf"
-        //     );
-        // } else {
-        //     $path_to_pdf = null;
-        // }
     }
 
     function edit(Egress $egress)

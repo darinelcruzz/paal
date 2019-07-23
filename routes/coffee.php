@@ -24,14 +24,21 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	    Route::post('/', usesas($ctrl, 'index'));
 	    Route::get('agregar/{type}', usesas($ctrl, 'create'));
 	    Route::post('agregar', usesas($ctrl, 'store'));
-	    Route::get('pagar/{ingress}', usesas($ctrl, 'charge'));
-	    Route::post('pagar/{ingress}', usesas($ctrl, 'pay'));
-	    Route::post('facturar', usesas($ctrl, 'invoice'));
 		Route::get('ticket/{ingress}', usesas($ctrl, 'ticket'));
-		Route::get('pagos/referencias', usesas($ctrl, 'references'));
-		Route::get('pagos/{ingress}', usesas($ctrl, 'payments'));
 		Route::get('cancelar/{ingress}/{reasons}', usesas($ctrl, 'destroy'));
 		Route::get('{ingress}', usesas($ctrl, 'show'));
+	});
+
+	Route::group(['prefix' => 'pagos', 'as' => 'payment.'], function () {
+	    $ctrl = 'Coffee\PaymentController';
+	    Route::get('agregar/{ingress}', usesas($ctrl, 'create'));
+	    Route::post('agregar/{ingress}', usesas($ctrl, 'store'));
+	    Route::get('{ingress}', usesas($ctrl, 'print'));
+	});
+
+	Route::group(['prefix' => 'facturas', 'as' => 'invoice.'], function () {
+	    $ctrl = 'Coffee\InvoiceController';
+	    Route::post('agregar', usesas($ctrl, 'create'));
 	});
 
 	Route::group(['prefix' => 'cotizaciones', 'as' => 'quotation.'], function () {

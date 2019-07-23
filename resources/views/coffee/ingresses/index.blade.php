@@ -41,7 +41,7 @@
                                 <td>{{ $ingress->folio }}</td>
                                 <td>
                                     <dropdown icon="cogs" color="danger">
-                                        <ddi v-if="{{ $ingress->status == 'pagado' || $ingress->status == 'cancelado' ? 0: 1 }}" to="{{ route('coffee.ingress.charge', $ingress) }}" icon="money" text="Pagar"></ddi>
+                                        <ddi v-if="{{ $ingress->status == 'pagado' || $ingress->status == 'cancelado' ? 0: 1 }}" to="{{ route('coffee.payment.create', $ingress) }}" icon="money" text="Pagar"></ddi>
                                         <ddi to="{{ route('coffee.ingress.show', $ingress) }}" icon="eye" text="Detalles"></ddi>
                                         <li>
                                             <a href="{{ route('coffee.ingress.ticket', $ingress) }}" target="_blank">

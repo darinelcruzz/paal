@@ -31,7 +31,7 @@
             </sale-products-list>
         </modal>
 
-        {!! Form::open(['method' => 'POST', 'route' => ['coffee.ingress.invoice', $sale ], 'files' => 'true']) !!}
+        {!! Form::open(['method' => 'POST', 'route' => 'coffee.invoice.create', 'files' => 'true']) !!}
         
         <modal title="Agregar datos de la facturación" id="modal-f{{ $sale->id }}" color="#dd4b39">
 

@@ -119,6 +119,21 @@ class Ingress extends Model
         return Storage::url("public/coffee/invoices/$this->invoice_id.xml");
     }
 
+    function scopeFrom($query, $date)
+    {
+        return $query->whereDate('created_at', $date)
+            ->where('status', '!=', 'cancelado')
+            ->where('retainer', 0);
+    }
+
+    function scopeMonthly($query, $date, $company = 'coffee')
+    {
+        return $query->where('company', $company)
+            ->whereMonth('created_at', substr($date, 5, 7))
+            ->whereYear('created_at', substr($date, 0, 4))
+            ->orderByDesc('id');
+    }
+
     function storeProducts($request)
     {
         $products = [];

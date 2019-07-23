@@ -36,4 +36,21 @@ class Payment extends Model
 
         return array_search(max($methods), $methods);
     }
+
+    function scopeFrom($query, $date)
+    {
+        return $query->whereDate('created_at', $date)
+            ->whereHas('ingress', function($query) {
+                $query->where('status', '!=', 'cancelado');
+            });
+    }
+
+    function scopeMonthly($query, $date)
+    {
+        return $query->whereYear('created_at', substr($date, 0, 4))
+            ->whereMonth('created_at', substr($date, 5))
+            ->whereHas('ingress', function($query) {
+                $query->where('status', '!=', 'cancelado');
+            });
+    }
 }

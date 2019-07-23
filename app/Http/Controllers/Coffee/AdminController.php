@@ -12,79 +12,37 @@ class AdminController extends Controller
 {
     function index(Request $request)
     {
-        if (session('redirected')) {
-            $date = session('redirected');
-        } else {
-            $date = isset($request->date) ? $request->date: date('Y-m-d');
-            session()->put('date', $date);
-        }
+        $date = $this->getDate();
 
-        $payments = Payment::whereDate('created_at', $date)
-            ->whereHas('ingress', function($query) {
-                $query->where('status', '!=', 'cancelado');
-            });
+        $payments = Payment::from($date);
 
-        $deposits = Payment::whereDate('created_at', $date)
-            ->whereHas('ingress', function($query) {
-                $query->where('status', '!=', 'cancelado');
-            })
-            ->where('type', '!=', 'contado')->get();
+        $deposits = Payment::from($date)->where('type', '!=', 'contado')->get();
 
-        $month = Payment::whereMonth('created_at', substr($date, 5, 2))
-            ->whereHas('ingress', function($query) {
-                $query->where('status', '!=', 'cancelado');
-            });
+        $invoiced = Ingress::from($date)->where('invoice', '!=', 'no')->get();
 
-        $invoiced = Ingress::whereDate('created_at', $date)
-            ->where('invoice', '!=', 'no')
-            ->where('status', '!=', 'cancelado')
-            ->where('retainer', 0)
-            ->get();
+        $paid = Ingress::from($date)->where('invoice', 'no')->get();
 
-        $paid = Ingress::whereDate('created_at', $date)
-            ->where('invoice', 'no')
-            ->where('status', '!=', 'cancelado')
-            ->where('retainer', 0)
-            ->get();
-
-        return view('coffee.admin.index', compact('payments', 'paid', 'invoiced', 'deposits', 'date', 'month'));
+        return view('coffee.admin.index', compact('payments', 'paid', 'invoiced', 'deposits', 'date'));
     }
 
     function monthly(Request $request)
     {
         $date = isset($request->date) ? $request->date: date('Y-m');
 
-        $month = Payment::whereYear('created_at', substr($date, 0, 4))
-            ->whereMonth('created_at', substr($date, 5))
-            ->whereHas('ingress', function($query) {
-                $query->where('status', '!=', 'cancelado');
-            });
+        $shippings = Shipping::monthly($date);
+
+        $month = Payment::monthly($date);
 
         $working_days = $month->selectRaw('DATE_FORMAT(created_at, "%Y-%m-%d") as date')->get()->groupBy('date')->count();
 
-        $pending = Payment::whereYear('created_at', substr($date, 0, 4))
-            ->whereMonth('created_at', substr($date, 5))
-            ->whereNull('cash_reference')
-            ->whereHas('ingress', function($query) {
-                $query->where('status', '!=', 'cancelado');
-            })
-            ->sum('cash');
-
-        $shippings = Shipping::whereYear('created_at', substr($date, 0, 4))
-            ->whereMonth('created_at', substr($date, 5))
-            ->count();
+        $pending = Payment::monthly($date)->whereNull('cash_reference')->sum('cash');
 
         return view('coffee.admin.monthly', compact('date', 'month', 'pending', 'working_days', 'shippings'));
     }
 
     function invoices(Request $request)
     {
-        if (session('redirected')) {
-            $date = session('redirected');
-        } else {
-            $date = isset($request->date) ? $request->date: date('Y-m-d');
-            session()->put('date', $date);
-        }
+        $date = $this->getDate();
 
         $total = Payment::whereYear('created_at', substr($date, 0, 4))
             ->whereMonth('created_at', substr($date, 5))
@@ -136,5 +94,16 @@ class AdminController extends Controller
             ->groupBy('date');
 
         return view('coffee.admin.invoices_print', compact('invoices'));
+    }
+
+    function getDate()
+    {
+        if (session('redirected')) {
+            return session('redirected');
+        } else {
+            $date = null !== request('date') ? request('date'): date('Y-m-d');
+            session()->put('date', $date);
+            return $date;
+        }
     }
 }

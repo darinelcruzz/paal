@@ -28,7 +28,7 @@
 
                 <h4 style="text-align:center;">
                     PAGOS 
-                    <a href="{{ route('coffee.ingress.payments', $ingress) }}" target="_blank">
+                    <a href="{{ route('coffee.payment.print', $ingress) }}" target="_blank">
                         <i class="fa fa-print" aria-hidden="true"></i>
                     </a>
                 </h4>

@@ -14,12 +14,8 @@ class IngressController extends Controller
     {
         $date = isset($request->date) ? $request->date: date('Y-m');
 
-        $ingresses = Ingress::where('company', 'coffee')
-                        // ->where('status', '!=', 'cancelado')
-                        ->whereMonth('created_at', substr($date, 5, 7))
-                        ->whereYear('created_at', substr($date, 0, 4))
-                        ->orderByDesc('id')
-                        ->get();
+        $ingresses = Ingress::monthly($date)->get();
+        
         return view('coffee.ingresses.index', compact('ingresses', 'date'));
     }
 
@@ -43,7 +39,6 @@ class IngressController extends Controller
             'company' => 'required',
             'type' => 'required',
             'bought_at' => 'required',
-            // 'folio' => 'unique|ingresses:folio'
         ]);
 
         if ($request->folio != Ingress::where('company', 'coffee')->get()->last()->folio) {
@@ -87,65 +82,10 @@ class IngressController extends Controller
         return view('coffee.ingresses.show', compact('ingress'));
     }
 
-    function charge(Ingress $ingress)
-    {
-        return view('coffee.ingresses.charge', compact('ingress'));
-    }
-
     function ticket(Ingress $ingress)
     {
         $payment = $ingress->payments->first();
         return view('coffee.ingresses.ticket', compact('ingress', 'payment'));
-    }
-
-    function payments(Ingress $ingress)
-    {
-        return view('coffee.ingresses.payments', compact('ingress'));
-    }
-
-    function pay(Request $request, Ingress $ingress)
-    {
-        $this->validate($request, [
-            'cash' => 'required',
-            'transfer' => 'required',
-            'check' => 'required',
-            'debit_card' => 'required',
-            'credit_card' => 'required',
-            'type' => 'required'
-        ]);
-
-        $payment = Payment::create($request->all());
-
-        if ($ingress->debt == 0) {
-            $ingress->update([
-                'status' => 'pagado',
-                'paid_at' => date('Y-m-d')
-            ]);
-
-            $payment->update([
-                'type' => 'liquidación'
-            ]);
-        }
-
-        return view('coffee.ingresses.show', compact('ingress'));
-    }
-
-    function invoice(Request $request)
-    {
-        $validated = $request->validate([
-            'invoice_id' => 'required',
-            'xml' => 'required'
-        ]);
-        
-        $path = Storage::putFileAs(
-            "public/coffee/invoices", $request->file('xml'), "$request->invoice_id.xml"
-        );
-        
-        foreach (Ingress::find($request->sales) as $sale) {
-            $sale->update($request->only('invoice_id'));
-        }
-
-        return redirect(route('coffee.admin.index'))->with('redirected', session('date'));
     }
 
     function destroy(Ingress $ingress, $reason)
@@ -160,19 +100,6 @@ class IngressController extends Controller
         $ingress->shipping->update(['status' => 'cancelado']);
 
         return back();
-    }
-
-    function references()
-    {
-        foreach (Payment::all() as $payment) {
-            if ($payment->method == 'cash') {
-                $payment->update([
-                    'cash_reference' => $payment->reference
-                ]);
-            }
-        }
-
-        return 'PROCEDIMIENTO EXITOSO';
     }
 
     protected function getSerializedItems(Request $request)

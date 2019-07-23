@@ -28,4 +28,11 @@ class Egress extends Model
 
         return "<span class=\"label label-{$colors[$this->status]}\">" . ucfirst($this->status) . "</span>";
     }
+
+    function scopeFrom($query, $date, $field)
+    {
+        return $query->where('company', 'coffee')
+            ->whereYear($field, substr($date, 0, 4))
+            ->whereMonth($field, substr($date, 5, 7));
+    }
 }
