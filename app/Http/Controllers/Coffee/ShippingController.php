@@ -8,13 +8,17 @@ use App\Http\Controllers\Controller;
 
 class ShippingController extends Controller
 {
-    function index($status)
+    function index(Request $request, $status)
     {
-        $shippings = Shipping::where('status', $status == 'todos' ? '!=': '=', $status)
+        $date = isset($request->date) ? $request->date: date('Y-m');
+
+        $shippings = Shipping::whereMonth('created_at', substr($date, 5, 7))
+            ->whereYear('created_at', substr($date, 0, 4))
+            ->where('status', $status == 'todos' ? '!=': '=', $status)
             ->orderByDesc('id')
             ->get();
 
-        return view('coffee.shippings.index', compact('shippings'));
+        return view('coffee.shippings.index', compact('shippings', 'date', 'status'));
     }
 
     function monthly(Request $request)
