@@ -63,7 +63,7 @@ return [
         'submenu' => [
             'create' => [
                 'title' => 'Rastreo',
-                'route' => 'coffee.shipping.index'
+                'route' => ['coffee.shipping.index', 'todos']
             ],
             'index' => [
                 'title' => 'Corte',

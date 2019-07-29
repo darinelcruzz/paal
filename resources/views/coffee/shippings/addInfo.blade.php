@@ -22,7 +22,7 @@
 									'paquete express' => 'Paquete Express', 
 									'dypaq' => 'DYPAQ', 
 									'business express' => 'Business Express', 
-									'moto pack' => 'Moto Pack', 
+									'motor pack' => 'Motor Pack', 
 									'pack service' => 'Pack Service (AEXA)', 
 									'otro' => 'Otro'
 								],

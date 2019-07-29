@@ -82,13 +82,13 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 
 	Route::group(['prefix' => 'envios', 'as' => 'shipping.'], function () {
 	    $ctrl = 'Coffee\ShippingController';
-	    Route::get('/', usesas($ctrl, 'index'));
 	    Route::get('mensual', usesas($ctrl, 'monthly'));
 	    Route::post('mensual', usesas($ctrl, 'monthly'));
 	    Route::get('numero-guia/{shipping}', usesas($ctrl, 'addInfo'));
 	    Route::get('editar/{shipping}', usesas($ctrl, 'edit'));
 	    Route::post('editar/{shipping}', usesas($ctrl, 'update'));
 	    Route::get('imprimir/{shipping}', usesas($ctrl, 'print'));
+	    Route::get('/{status}', usesas($ctrl, 'index'));
 	});
 
 	Route::group(['prefix' => 'variables', 'as' => 'variable.'], function () {

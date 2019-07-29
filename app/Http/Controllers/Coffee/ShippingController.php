@@ -8,9 +8,11 @@ use App\Http\Controllers\Controller;
 
 class ShippingController extends Controller
 {
-    function index()
+    function index($status)
     {
-        $shippings = Shipping::where('status', '!=', 'cancelado')->orderByDesc('id')->get();
+        $shippings = Shipping::where('status', $status == 'todos' ? '!=': '=', $status)
+            ->orderByDesc('id')
+            ->get();
 
         return view('coffee.shippings.index', compact('shippings'));
     }

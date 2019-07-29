@@ -5,6 +5,16 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
+
+            <a href="{{ route('coffee.shipping.index', 'todos') }}" class="btn btn-primary">TODOS</a>
+            <a href="{{ route('coffee.shipping.index', 'pendiente') }}" class="btn btn-default">PENDIENTES</a>
+            <a href="{{ route('coffee.shipping.index', 'en tránsito') }}" class="btn btn-warning">TRÁNSITO</a>
+            <a href="{{ route('coffee.shipping.index', 'entregado') }}" class="btn btn-success">ENTREGADO</a>
+            <a href="{{ route('coffee.shipping.index', 'cancelado') }}" class="btn btn-danger">INCIDENCIA</a>
+
+            <br>
+            <br>
+
             <solid-box title="Envíos" color="danger">
                 
                 <data-table>

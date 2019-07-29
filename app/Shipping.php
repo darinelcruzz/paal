@@ -20,7 +20,7 @@ class Shipping extends Model
 
     function getColorAttribute()
     {
-    	$colors = ['pendiente' => 'default', 'en tránsito' => 'warning', 'entregado' => 'success', 'error' => 'danger'];
+    	$colors = ['pendiente' => 'default', 'en tránsito' => 'warning', 'entregado' => 'success', 'cancelado' => 'danger'];
 
     	return $colors[$this->status];
     }
