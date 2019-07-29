@@ -55,10 +55,17 @@ class AdminController extends Controller
 
         $invoices = Ingress::where('invoice_id', '!=', null)
             ->whereDate('created_at', $date)
+            ->where('status', '!=', 'cancelado')
             ->get()
             ->groupBy('invoice_id');
 
-        return view('coffee.admin.invoices', compact('invoices', 'date', 'total'));
+        $canceled = Ingress::where('invoice_id', '!=', null)
+            ->whereDate('created_at', $date)
+            ->where('status', 'cancelado')
+            ->get()
+            ->groupBy('invoice_id');
+
+        return view('coffee.admin.invoices', compact('invoices', 'date', 'total', 'canceled'));
     }
 
     function reference(Request $request)
@@ -85,6 +92,7 @@ class AdminController extends Controller
         $invoices = Ingress::whereYear('created_at', substr($date, 0, 4))
             ->whereMonth('created_at', substr($date, 5))
             ->where('invoice_id', '!=', null)
+            ->where('status', '!=', 'cancelado')
             ->whereHas('payments', function($query) {
                 $query->whereNull('cash_reference');
             })

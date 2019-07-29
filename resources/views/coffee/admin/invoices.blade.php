@@ -90,6 +90,29 @@
                                 <td style="text-align: right; width: 15%;">$ {{ number_format($subamount, 2) }}</td>
                             </tr>
                         @endforeach
+
+                        @foreach($canceled as $invoice => $sales)
+                            <tr>
+                                <td style="width: 7%">{{ $invoice }}</td>
+                                <td style="width: 17%">{{ $sales->first()->cash > 0 ? 'Efectivo' : $sales->first()->method_name }}</td>
+                                <td style="width: 35%">{{ $sales->first()->client->name }}</td>
+                                <td style="width: 5%; text-align: center;">
+                                    <a href="{{ $sales->first()->xml }}" target="_blank" style="color: green">
+                                        <i class="fa fa-file-excel"></i>
+                                    </a>
+                                </td>
+                                @php
+                                    $subamount = 0;
+                                    foreach ($sales as $sale) {
+                                        $subamount += $sale->cash > 0 ? $sale->payments->sum('cash'): $sale->amount;
+                                    }
+                                @endphp
+                                <td style="text-align: center">
+                                    <em><code>cancelada</code></em>
+                                </td>
+                                <td style="text-align: right; width: 15%;">$ {{ number_format($subamount, 2) }}</td>
+                            </tr>
+                        @endforeach
                     </template>
                     
                 </data-table>
