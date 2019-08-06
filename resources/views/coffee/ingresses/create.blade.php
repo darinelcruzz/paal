@@ -19,7 +19,7 @@
                         next-button-text="Siguiente"
                         finish-button-text="Completado">
 
-                      <tab-content title="Cliente" icon="fa fa-user">
+                      <tab-content title="Cliente" icon="fa fa-user" :before-change="checkIsInvoiced">
                         <div class="row">
                             <div class="col-md-8 col-md-offset-2">
                                 <client-select></client-select>
@@ -43,8 +43,8 @@
 
                         <div class="row">
                             <div class="col-md-6 col-md-offset-3">
-                                {!! Field::select('invoice', ['no' => 'No require factura', 'G01' => 'G01 Adquisición de mercancías', 'G03' => 'G03 Gastos en general', 'P01' => 'P01 Por definir', 'otro' => 'Otro'], 'no',
-                                    ['label' => 'Uso de CFDI', 'tpl' => 'withicon', 'empty' => 'Elegir'],
+                                {!! Field::select('invoice', ['no' => 'No require factura', 'G01' => 'G01 Adquisición de mercancías', 'G03' => 'G03 Gastos en general', 'P01' => 'P01 Por definir', 'otro' => 'Otro'], null,
+                                    ['label' => 'Uso de CFDI', 'tpl' => 'withicon', 'empty' => 'Elegir', 'v-model' => 'is_invoiced'],
                                     ['icon' => 'file-invoice'])
                                 !!}
                             </div>

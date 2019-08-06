@@ -73,6 +73,7 @@ const app = new Vue({
         is_retained: 1,
         retainer: 0,
         ingress_total: 0,
+        is_invoiced: '',
         amount_received: 0,
         product_option: '',
         product_family: '',
@@ -83,6 +84,9 @@ const app = new Vue({
         },
         submit() {
             this.$refs.cform.submit()
+        },
+        checkIsInvoiced() {
+            return this.is_invoiced != ''
         }
     },
     created() {

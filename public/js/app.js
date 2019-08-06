@@ -14426,6 +14426,7 @@ var app = new Vue({
         is_retained: 1,
         retainer: 0,
         ingress_total: 0,
+        is_invoiced: '',
         amount_received: 0,
         product_option: '',
         product_family: ''
@@ -14436,6 +14437,9 @@ var app = new Vue({
         },
         submit: function submit() {
             this.$refs.cform.submit();
+        },
+        checkIsInvoiced: function checkIsInvoiced() {
+            return this.is_invoiced != '';
         }
     },
     created: function created() {
