@@ -76,13 +76,21 @@ return [
         'title' => 'Egresos',
         'icon' => 'fa fa-share',
         'submenu' => [
-            'create' => [
-                'title' => 'Agregar',
-                'route' => 'coffee.egress.create'
-            ],
             'index' => [
                 'title' => 'Historial',
                 'route' => 'coffee.egress.index'
+            ],
+            'general' => [
+                'title' => 'Generales',
+                'route' => 'coffee.egress.general.create'
+            ],
+            'cashier' => [
+                'title' => 'Caja Chica',
+                'route' => 'coffee.egress.register.index'
+            ],
+            'returns' => [
+                'title' => 'Reposiciones',
+                'route' => 'coffee.egress.return.create'
             ],
         ]
     ],

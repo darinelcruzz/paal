@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Provider extends Model
 {
     protected $fillable = ['social', 'name', 'rfc', 'address', 'phone', 'email',
-    	'contact', 'type', 'city', 'postcode', 'company', 'amount', 'bills', 'status'];
+    	'contact', 'type', 'city', 'postcode', 'company', 'amount', 'bills', 'status', 'xml_required'];
 
 
     function egresses()
@@ -36,5 +36,18 @@ class Provider extends Model
         ->where('emission', '>=', "$date-01")
         ->where('emission', '<=', "$date-31")
         ->count();
+    }
+
+    function scopeGeneral($query, $company = 'mbe')
+    {
+        return $query->where('company', '!=', $company)
+            ->where('type', '!=', 'gr')
+            ->where('type', '!=', 'cc');
+    }
+
+    function scopeReturns($query, $company = 'mbe')
+    {
+        return $query->where('company', '!=', $company)
+            ->where('type', '!=', 'gr');
     }
 }

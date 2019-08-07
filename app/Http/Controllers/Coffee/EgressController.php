@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Coffee;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
-use App\{Egress, Provider};
+use App\{Egress, Provider, Check};
 
 class EgressController extends Controller
 {
@@ -15,8 +15,11 @@ class EgressController extends Controller
 
         $egresses = Egress::from($date, 'payment_date')
                         ->where('status', '!=', 'cancelado')
+                        ->where('check_id', null)
                         ->orderByDesc('payment_date')
                         ->get();
+
+        $checks = Check::from($date, 'charged_at')->get();
 
         $unpaid = Egress::from($date, 'emission')
                         ->where('status', 'pendiente')
@@ -25,7 +28,7 @@ class EgressController extends Controller
         $alltime = Egress::where('company', 'coffee')->get();
 
 
-        return view('coffee.egresses.index', compact('egresses', 'date', 'alltime', 'unpaid'));
+        return view('coffee.egresses.index', compact('egresses', 'date', 'alltime', 'unpaid', 'checks'));
     }
 
     function create()

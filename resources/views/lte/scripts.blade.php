@@ -45,7 +45,8 @@
     };
 
     $('.spanish').DataTable({
-      'ordering': false,
+      'ordering': true,
+      'order': [[ 0, "desc" ]],
       'language': language
     });
 

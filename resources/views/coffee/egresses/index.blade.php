@@ -6,9 +6,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-12">
-
-                
+        <div class="col-md-12">                
                 <div class="row">
                     <div class="col-md-3">
                         {!! Form::open(['method' => 'post', 'route' => 'coffee.egress.index']) !!}
@@ -23,7 +21,7 @@
 
                     <div class="col-md-3">
                         <label class="btn btn-success btn-bg btn-block">
-                            $ {{ number_format($egresses->where('status', 'pagado')->sum('amount') + $egresses->where('status', 'pagado')->sum('iva'), 2) }}
+                            $ {{ number_format($egresses->where('status', 'pagado')->sum('amount')) }}
                         </label>
                     </div>
 
@@ -40,49 +38,64 @@
                     </div>
                 </div>
 
-
             <br>
 
             <solid-box title="Egresos pagados" color="success" button>
 
-                <data-table example="1">
+                <data-table example="ordered">
 
-                    {{ drawHeader('ID', '<i class="fa fa-cogs"></i>', 'folio', 'pago (s)', 'proveedor','compra', 'I.V.A.', 'total') }}
+                    {{ drawHeader('pago (s)', 'folio', '<i class="fa fa-cogs"></i>', 'proveedor','compra', 'I.V.A.', 'total') }}
 
                     <template slot="body">
+
+                        @foreach($checks as $check)
+                            <tr style="text-align: center;">
+                                <td>{{ fdate($check->charged_at, 'd M Y', 'Y-m-d') }}</td>
+                                <td>CH {{ $check->folio }}</td>
+                                <td>
+                                    <dropdown color="success" icon="cogs">
+                                        <ddi to="{{ Storage::url($check->pdf) }}" icon="file-pdf" text="Ver factura" target="_blank"></ddi>
+                                        <ddi to="{{ route('coffee.check.show', $check) }}" icon="eye" text="Detalles"></ddi>
+                                    </dropdown>
+                                </td>
+                                <td>CAJA CHICA</td>
+                                <td>{{ fdate($check->charged_at, 'd M Y', 'Y-m-d') }}</td>
+                                <td>$ {{ number_format($check->iva, 2) }}</td>
+                                <td>$  {{ number_format($check->total, 2) }}</td>
+                            </tr>
+                        @endforeach
+
                         @foreach($egresses as $egress)
-                            <tr>
-                                <td>{{ $egress->id }}</td>
+                            <tr style="text-align: center;">
+                                <td>
+                                    @if($egress->payment_date)
+                                        {{ fdate($egress->payment_date, 'd M Y', 'Y-m-d') }}
+                                        | {{ $egress->mfolio }}
+                                    @endif
+                                    @if($egress->second_payment_date)
+                                        {{ fdate($egress->second_payment_date, 'd M Y', 'Y-m-d') }}
+                                        | <br>{{ $egress->nfolio }}
+                                    @endif
+                                </td>
+                                <td>{{ $egress->folio }}</td>
                                 <td>
                                     @include('coffee.egresses._dropdown', ['color' => 'success'])
                                 </td>
-                                <td>
-                                    {{ $egress->folio }}
-                                </td>
-                                <td align="center">
-                                    @if($egress->payment_date)
-                                        {{ $egress->mfolio }} |
-                                        {{ fdate($egress->payment_date, 'd M', 'Y-m-d') }}
-                                        {{-- <modal id="ppdf{{ $egress->id}}" title="Pago (pdf)">
-                                            <iframe src="{{ Storage::url($egress->pdf_payment) }}#view=FitH" width="100%" height="600"></iframe>
-                                        </modal> --}}
-                                        {{-- @if($egress->pdf_payment)
-                                            <modal-button target="ppdf{{ $egress->id}}">
-                                                <button class="btn btn-danger btn-xs"><i class="fa fa-file-pdf-o"></i></button>
-                                            </modal-button>
-                                        @endif --}}
-                                    @endif
-                                    @if($egress->second_payment_date)
-                                        <br>{{ $egress->nfolio }} |
-                                        {{ fdate($egress->second_payment_date, 'd M', 'Y-m-d') }}
-                                    @endif
-                                </td>
-                                <td>{{ $egress->provider->name }}</td>
+                                <td>{{ $egress->provider->name }} {{ $egress->provider_name != null ? " ($egress->provider_name)": ''}}</td>
                                 <td>{{ fdate($egress->emission, 'd M Y', 'Y-m-d') }}</td>
                                 <td>$ {{ number_format($egress->iva, 2) }}</td>
-                                <td>$  {{ number_format($egress->amount, 2) }}</td>
+                                <td>$ {{ number_format($egress->amount, 2) }}</td>
                             </tr>
                         @endforeach
+                    </template>
+
+                    <template slot="footer">
+                        <tr style="text-align: center;">
+                            <td colspan="4"></td>
+                            <th>Total</th>
+                            <td>$ {{ number_format($egresses->sum('iva'), 2) }}</td>
+                            <td>$ {{ number_format($egresses->sum('amount'), 2) }}</td>
+                        </tr>
                     </template>
 
                 </data-table>
@@ -95,23 +108,24 @@
 
                 <data-table example="1">
 
-                    {{ drawHeader('ID', '<i class="fa fa-cogs"></i>', 'folio', 'emisión', 'proveedor', 'I.V.A.', 'total') }}
+                    {{ drawHeader('folio', '<i class="fa fa-cogs"></i>', 'emisión', 'proveedor', 'I.V.A.', 'total') }}
 
                     <template slot="body">
                         @foreach($unpaid as $egress)
-                            <tr>
-                                <td>{{ $egress->id }}</td>
-                                <td>
-                                    @include('coffee.egresses._dropdown', ['color' => 'warning'])
-                                </td>
-                                <td>
-                                    {{ $egress->folio }}
-                                </td>
-                                <td>{{ fdate($egress->emission, 'd M Y', 'Y-m-d') }}</td>
-                                <td>{{ $egress->provider->name }}</td>
-                                <td>$ {{ number_format($egress->iva, 2) }}</td>
-                                <td>$  {{ number_format($egress->amount, 2) }}</td>
-                            </tr>
+                            @if(!$egress->check_id)
+                                <tr style="text-align: center;">
+                                    <td>
+                                        {{ $egress->folio }}
+                                    </td>
+                                    <td>
+                                        @include('coffee.egresses._dropdown', ['color' => 'warning'])
+                                    </td>
+                                    <td>{{ fdate($egress->emission, 'd M Y', 'Y-m-d') }}</td>
+                                    <td>{{ $egress->provider->name }} {{ $egress->provider_name != null ? " ($egress->provider_name, {$egress->receiver->name})": ''}}</td>
+                                    <td>$ {{ number_format($egress->iva, 2) }}</td>
+                                    <td>$  {{ number_format($egress->amount, 2) }}</td>
+                                </tr>
+                            @endif
                         @endforeach
                     </template>
 

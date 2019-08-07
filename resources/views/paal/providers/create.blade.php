@@ -35,7 +35,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             {!! Field::select('type',
-                            	['cv' => 'Costo/Venta', 'gg' => 'Gastos generales'], null,
+                            	['cv' => 'Costo/Venta', 'gg' => 'Gastos generales', 'cc' => 'Caja chica', 'gr' => 'Gastos reposición'], null,
                             	['empty' => 'Seleccione tipo', 'tpl' => 'withicon'], ['icon' => 'object-ungroup'])
                             !!}
                         </div>
@@ -62,6 +62,12 @@
                         </div>
                         <div class="col-md-6">
                             {!! Field::number('bills', ['label' => '# Facturas', 'tpl' => 'withicon'], ['icon' => 'file-invoice']) !!}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            {!! Field::select('xml_required', [1 => 'Sí', 0 => 'No'], 1, ['label' => '¿XML obligadorio?', 'tpl' => 'withicon', 'empty' => '¿Es requerido?'], ['icon' => 'file']) !!}
                         </div>
                     </div>
 

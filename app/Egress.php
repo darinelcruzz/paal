@@ -10,12 +10,23 @@ class Egress extends Model
     	'provider_id', 'buying_date', 'pdf_bill', 'pdf_payment',
     	'xml', 'emission', 'expiration', 'folio', 'observations', 'user',
     	'iva', 'amount', 'payment_date', 'status', 'company', 'pdf_complement',
-    	'complement_date', 'complement_amount', 'mfolio', 'nfolio', 'second_method', 'method', 'second_payment_date'
+    	'complement_date', 'complement_amount', 'mfolio', 'nfolio', 'second_method', 'method', 'second_payment_date',
+        'check_id', 'provider_name', 'returned_to'
     ];
 
     function provider()
     {
         return $this->belongsTo(Provider::class);
+    }
+
+    function check()
+    {
+        return $this->belongsTo(Check::class);
+    }
+
+    function receiver()
+    {
+        return $this->belongsTo(User::class, 'returned_to');
     }
 
     function getStatusLabelAttribute()
