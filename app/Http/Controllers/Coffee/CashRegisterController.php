@@ -20,7 +20,7 @@ class CashRegisterController extends Controller
 
     function create(Check $check)
     {
-        $providers = Provider::general()->pluck('name', 'id')->toArray();
+        $providers = Provider::general()->pluck('provider', 'id')->toArray();
         return view('coffee.egresses.register.create', compact('check', 'providers'));
     }
 

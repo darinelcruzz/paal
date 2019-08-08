@@ -5,7 +5,7 @@
 @endpush
 
 @push('headerTitle')
-    @if (auth()->user()->company == 'owner')
+    @if (auth()->user()->level < 4)
         <a href="{{ route('coffee.task.create') }}" class="btn btn-danger btn-sm"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR</a>
     @endif
 @endpush
@@ -17,7 +17,7 @@
                 
                 <data-table example="1">
 
-                    @if (auth()->user()->company == 'owner')
+                    @if (true)
 
                         {{ drawHeader('iD', '<i class="fa fa-cogs"></i>', 'descripción', 'asignó', 'para', 'límite', 'terminó', 'estado', 'observaciones') }}
 
@@ -27,7 +27,15 @@
                                     <td>{{ $task->id }}</td>
                                     <td>
                                         <dropdown color="danger" icon="cogs">
-                                            @if ($task->status == 'terminada')
+                                            @if ($task->status != 'aceptada' && $task->assigned_to == auth()->user()->id)
+                                                <li>
+                                                    <a type="button" data-toggle="modal" data-target="#completeTask{{ $task->id }}">
+                                                        <i class="fa fa-check"></i> Terminar
+                                                    </a>
+                                                </li>
+                                            @endif
+
+                                            @if ($task->status == 'terminada' && $task->assigned_by == auth()->user()->id)
                                                 <li>
                                                     <a type="button" data-toggle="modal" data-target="#rejectTask{{ $task->id }}">
                                                         <i class="fa fa-times"></i> Rechazar
@@ -40,6 +48,10 @@
                                         <modal title="Razones" id="rejectTask{{ $task->id }}" color="#dd4b39">
                                             @include('coffee.tasks._add_reasons')
                                         </modal>
+
+                                        <modal title="Tarea terminada" id="completeTask{{ $task->id }}" color="#dd4b39">
+                                            @include('coffee.tasks._add_observations')
+                                        </modal>
                                     </td>
                                     <td>{{ $task->description }}</td>
                                     <td>{{ $task->tasker->name }}</td>
@@ -51,7 +63,9 @@
                                         {{ fdate($task->completed_at, 'd \d\e F', 'Y-m-d') }}
                                     </td>
                                     <td>
-                                        <label class="label label-{{ $task->status_color }}">{{ strtoupper($task->status) }}</label>
+                                        <label class="label label-{{ $task->status_color }}">
+                                            {{ strtoupper($task->status) }} {{ $task->repetitions ? " ($task->repetitions)": '' }}
+                                        </label>
                                     </td>
                                     <td>{!! $task->observations !!}</td>
                                 </tr>
@@ -63,7 +77,7 @@
                         {{ drawHeader('iD','<i class="fa fa-cogs"></i>', 'descripción', 'límite', 'terminó', 'estado', 'observaciones') }}
 
                         <template slot="body">
-                            @foreach(auth()->user()->myTasks as $task)
+                            @foreach($tasks  as $task)
                                 <tr>
                                     <td>{{ $task->id }}</td>
                                     <td>

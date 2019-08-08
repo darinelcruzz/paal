@@ -2,6 +2,7 @@
 
 use Jenssegers\Date\Date;
 use App\Shipping;
+use Illuminate\Support\Facades\Storage;
 
 function usesas($ctrl, $fun, $as = null)
 {
@@ -48,4 +49,13 @@ function updateEnv($key, $value)
 function pendingShippings()
 {
     return Shipping::whereStatus('pendiente')->count();
+}
+
+function saveCoffeeFile($file, $folder = 'bills')
+{
+    if ($file) {
+        return Storage::putFileAs("public/coffee/$folder", $file, str_random(15) . '.' . $file->getClientOriginalExtension());
+    }
+
+    return null;
 }

@@ -44,27 +44,17 @@ class GeneralEgressController extends Controller
             return redirect()->back()->with('message', $message);
         }
 
-
         $expiration = strtotime($request->emission) + ($request->expiration * 86400);
 
         $egress = Egress::create($request->except(['pdf_bill', 'xml', 'pdf_complement', 'complement', 'expiration']));
 
         $egress->update([
-            'pdf_bill' => $this->saveFile($request->file("pdf_bill")),
-            'pdf_complement' => $this->saveFile($request->file("pdf_complement"), 'complements'),
-            'xml' => $this->saveFile($request->file("xml")),
+            'pdf_bill' => saveCoffeeFile($request->file("pdf_bill")),
+            'pdf_complement' => saveCoffeeFile($request->file("pdf_complement"), 'complements'),
+            'xml' => saveCoffeeFile($request->file("xml")),
             'expiration' => date('Y-m-d', $expiration),
         ]);
 
         return redirect(route('coffee.egress.index'));
-    }
-
-    function saveFile($file, $folder = 'bills')
-    {
-        if ($file) {
-            return Storage::putFileAs("public/coffee/$folder", $file, str_random(15) . '.' . $file->getClientOriginalExtension());
-        }
-
-        return null;
     }
 }

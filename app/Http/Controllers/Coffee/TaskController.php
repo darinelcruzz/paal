@@ -16,7 +16,7 @@ class TaskController extends Controller
 {
     function index()
     {
-        $tasks = Task::all();
+        $tasks = Task::where('assigned_to', auth()->user()->id)->orWhere('assigned_by', auth()->user()->id)->get();
 
         return view('coffee.tasks.index', compact('tasks'));
     }
@@ -24,6 +24,7 @@ class TaskController extends Controller
     function create()
     {
         $users = User::whereCompany('coffee')
+            ->where('level', '>', auth()->user()->level)
             ->pluck('name', 'id')
             ->toArray();
 

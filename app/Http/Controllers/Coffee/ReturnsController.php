@@ -11,7 +11,7 @@ class ReturnsController extends Controller
 {
     function create()
     {
-        $providers = Provider::general()->pluck('name', 'id')->toArray();
+        $providers = Provider::general()->pluck('provider', 'id')->toArray();
 
         $users = User::whereId(2)->pluck('name', 'id')->toArray();
 
@@ -49,17 +49,9 @@ class ReturnsController extends Controller
 
         $egress = Egress::create($request->except(['pdf_bill', 'xml', 'expiration']));
 
-        $path_to_pdf = Storage::putFileAs(
-            "public/coffee/bills", $request->file("pdf_bill"), $egress->emission . "_" . $egress->id . ".pdf"
-        );
-
-        $path_to_xml = Storage::putFileAs(
-            "public/coffee/bills", $request->file("xml"), $egress->emission . "_" . $egress->id . ".xml"
-        );
-
         $egress->update([
-            'pdf_bill' => $path_to_pdf,
-            'xml' => $path_to_xml,
+            'pdf_bill' => saveCoffeeFile($request->file('pdf_bill')),
+            'xml' => saveCoffeeFile($request->file('xml')),
             'expiration' => date('Y-m-d', $expiration),
         ]);
 
