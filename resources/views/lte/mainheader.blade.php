@@ -12,7 +12,7 @@
     <div class="navbar-custom-menu">
       <ul class="nav navbar-nav">
 
-        @if(auth()->user()->company != 'owner')
+        @if(auth()->user()->level > 1)
             <li class="dropdown user user-menu">
               <a href="#">
                 <span class="hidden-xs">
@@ -37,8 +37,10 @@
                   <li class="user-footer">
                     <div class="pull-left">
                       <a href="/coffee" class="btn btn-default btn-flat"><span style="color: red;">Coffee</span></a>
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      <a href="/paal" class="btn btn-default btn-flat"><span style="color: blue;">PAAL</span></a>
+                      @if(auth()->user()->company == 'owner')
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="/paal" class="btn btn-default btn-flat"><span style="color: blue;">PAAL</span></a>
+                      @endif
                     </div>
                     <div class="pull-right">
                       <a href="/mbe" class="btn btn-default btn-flat" class="pull-right"><span style="color: green;">MBE</span></a>

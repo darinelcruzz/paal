@@ -11,17 +11,18 @@ class GeneralEgressController extends Controller
 {
     function create()
     {
-        $providers = Provider::general()->pluck('name', 'id')->toArray();
+        $providers = Provider::general()->pluck('provider', 'id')->toArray();
+
         return view('coffee.egresses.general.create', compact('providers'));
     }
 
     function store(Request $request)
     {
+        // dd($request->file("xml")->getClientOriginalExtension());
         $this->validate($request, [
             'provider_id' => 'required',
             'folio' => 'required',
             'pdf_bill' => 'required',
-            'xml' => 'required',
             'expiration' => 'required',
             'amount' => 'required|gt:iva',
             'iva' => 'required',
@@ -48,24 +49,22 @@ class GeneralEgressController extends Controller
 
         $egress = Egress::create($request->except(['pdf_bill', 'xml', 'pdf_complement', 'complement', 'expiration']));
 
-        $path_to_pdf = Storage::putFileAs(
-            "public/coffee/bills", $request->file("pdf_bill"), $egress->emission . "_" . $egress->id . ".pdf"
-        );
-
-        $path_to_xml = Storage::putFileAs(
-            "public/coffee/bills", $request->file("xml"), $egress->emission . "_" . $egress->id . ".xml"
-        );
-
-        $path_to_complement = $request->file("pdf_complement") ? Storage::putFileAs(
-            "public/coffee/complements", $request->file("pdf_complement"), $egress->complement_date . "_" . $egress->id . ".pdf") : null;
-
         $egress->update([
-            'pdf_bill' => $path_to_pdf,
-            'pdf_complement' => $path_to_complement,
-            'xml' => $path_to_xml,
+            'pdf_bill' => $this->saveFile($request->file("pdf_bill")),
+            'pdf_complement' => $this->saveFile($request->file("pdf_complement"), 'complements'),
+            'xml' => $this->saveFile($request->file("xml")),
             'expiration' => date('Y-m-d', $expiration),
         ]);
 
         return redirect(route('coffee.egress.index'));
+    }
+
+    function saveFile($file, $folder = 'bills')
+    {
+        if ($file) {
+            return Storage::putFileAs("public/coffee/$folder", $file, str_random(15) . '.' . $file->getClientOriginalExtension());
+        }
+
+        return null;
     }
 }

@@ -77,6 +77,9 @@ const app = new Vue({
         amount_received: 0,
         product_option: '',
         product_family: '',
+        generalE: {
+            provider: '',
+        }
     },
     methods: {
         reset() {

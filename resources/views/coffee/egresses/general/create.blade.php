@@ -13,7 +13,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             {!! Field::select('provider_id', $providers, null,
-                                ['tpl' => 'withicon', 'label' => 'Proveedor','empty' => 'Seleccione un proveedor'],
+                                ['tpl' => 'withicon', 'label' => 'Proveedor','empty' => 'Seleccione un proveedor', 'v-model' => 'generalE.provider'],
                                 ['icon' => 'truck'])
                             !!}
                         </div>

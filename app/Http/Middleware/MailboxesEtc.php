@@ -15,7 +15,7 @@ class MailboxesEtc
      */
     public function handle($request, Closure $next)
     {
-        if ($request->user()->company == 'mailboxes' || $request->user()->company == 'owner') {
+        if ($request->user()->company == 'mailboxes' || $request->user()->level < 2) {
             return $next($request);
         }
 

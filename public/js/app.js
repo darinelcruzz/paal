@@ -14429,7 +14429,10 @@ var app = new Vue({
         is_invoiced: '',
         amount_received: 0,
         product_option: '',
-        product_family: ''
+        product_family: '',
+        generalE: {
+            provider: ''
+        }
     },
     methods: {
         reset: function reset() {

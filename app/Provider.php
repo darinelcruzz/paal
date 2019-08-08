@@ -42,12 +42,7 @@ class Provider extends Model
     {
         return $query->where('company', '!=', $company)
             ->where('type', '!=', 'gr')
-            ->where('type', '!=', 'cc');
-    }
-
-    function scopeReturns($query, $company = 'mbe')
-    {
-        return $query->where('company', '!=', $company)
-            ->where('type', '!=', 'gr');
+            ->where('type', '!=', 'cc')
+            ->selectRaw('id, CONCAT(name, IF(xml_required = 1, "", "*")) as provider');
     }
 }

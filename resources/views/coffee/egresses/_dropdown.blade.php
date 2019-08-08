@@ -12,15 +12,17 @@
 
     @endif
 
-    <ddi icon="file-code-o" to="{{ Storage::url($egress->xml) }}" text="XML" download="{{ $egress->folio }}"></ddi>
+    @if($egress->xml)
+	    <ddi icon="file-code-o" to="{{ Storage::url($egress->xml) }}" text="XML" download="{{ $egress->folio }}"></ddi>
+	@endif   
 
     @if ($egress->status != 'pagado')
         <ddi icon="usd" to="{{ route('coffee.egress.pay', $egress) }}" text="Pagar"></ddi>
     @endif
 
     @if($egress->pdf_payment)
-	    <ddi icon="file-pdf-o" to="ppdf{{ $egress->id}}" text="Ver pago" :datatarget="true"></ddi>
-	@endif
+        <ddi icon="file-pdf-o" to="ppdf{{ $egress->id}}" text="Ver pago" :datatarget="true"></ddi>
+    @endif
 
     @if($egress->pdf_complement)
 

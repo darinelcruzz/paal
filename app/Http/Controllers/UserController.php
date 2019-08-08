@@ -27,6 +27,7 @@ class UserController extends Controller
             'username' => 'required|unique:users',
             'password' => 'required|confirmed',
             'company' => 'required',
+            'level' => 'required',
         ]);
 
         User::create([
@@ -35,7 +36,7 @@ class UserController extends Controller
             'username' => $request->username,
             'password' => Hash::make($request->password),
             'company' => $request->company,
-            'level' => 1,
+            'level' => $request->level,
         ]);
 
         return redirect(route('paal.user.index'));
@@ -54,6 +55,7 @@ class UserController extends Controller
             'username' => 'required',
             'password' => 'confirmed',
             'company' => 'sometimes|required',
+            'level' => 'sometimes|required',
         ]);
 
         $user->update($request->except('password', 'password_confirmation'));

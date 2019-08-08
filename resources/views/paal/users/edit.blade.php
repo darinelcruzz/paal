@@ -36,6 +36,15 @@
 
                     <div class="row">
                         <div class="col-md-6">
+                            {!! Field::select('level', 
+                                ['Admin', 'General', 'Gerente', 'Auxiliar'], 
+                                $user->level, ['tpl' => 'withicon', 'empty' => 'Seleccione un nivel'], ['icon' => 'layer-group']) 
+                            !!}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
                             {!! Field::password('password', ['tpl' => 'withicon'], ['icon' => 'unlock-alt']) !!}
                         </div>
                     </div>
