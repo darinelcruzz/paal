@@ -45,4 +45,22 @@ class Provider extends Model
             ->where('type', '!=', 'cc')
             ->selectRaw('id, CONCAT(name, IF(xml_required = 1, "", "*")) as provider');
     }
+
+    function checkAmountAndInvoices()
+    {
+        if ($this->remaining < request('amount')) {
+
+            $message = "$this->name tiene un monto máximo mensual de $this->amount solamente le quedan $ $this->remaining";
+
+            return [true, $message];
+
+        } elseif ($this->bills <= $this->created_bills) {
+
+            $message = "$this->name tiene una cantidad máxima mensual de $this->bills facturas";
+            
+            return [true, $message];
+        }
+
+        return [false, ''];
+    }
 }

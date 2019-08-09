@@ -13,7 +13,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             {!! Field::select('provider_id', $providers, null,
-                                ['tpl' => 'withicon', 'label' => 'Proveedor','empty' => 'Seleccione un proveedor'],
+                                ['tpl' => 'withicon', 'label' => 'Proveedor','empty' => 'Seleccione un proveedor', 'v-model' => 'generalE.provider'],
                                 ['icon' => 'truck'])
                             !!}
                         </div>
@@ -25,10 +25,10 @@
                         </div>                        
                     </div>
 
-                    <div class="row">
+                    <div v-if="generalE.provider == '21'" class="row">
                         <div class="col-md-6">
                             {!! Field::text('provider_name',
-                                ['tpl' => 'withicon', 'label' => 'Nombre'],
+                                ['tpl' => 'withicon', 'label' => 'Nombre', 'ph' => 'ejemplo: Vips'],
                                 ['icon' => 'trademark'])
                             !!}
                         </div>                       
