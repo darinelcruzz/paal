@@ -60,6 +60,7 @@ Vue.component('shopping-list', require('./components/ShoppingList.vue'));
 Vue.component('shopping-list-item', require('./components/ShoppingListItem.vue'));
 Vue.component('payment-methods', require('./components/PaymentMethods.vue'));
 Vue.component('client-select', require('./components/ClientSelect.vue'));
+Vue.component('provider-select', require('./components/ProviderSelect.vue'));
 Vue.component('money-box', require('./components/MoneyBox.vue'));
 Vue.component('sale-products-list', require('./components/SaleProductsList.vue'));
 
@@ -77,9 +78,8 @@ const app = new Vue({
         amount_received: 0,
         product_option: '',
         product_family: '',
-        generalE: {
-            provider: '',
-        }
+        provider: '',
+        providers: []
     },
     methods: {
         reset() {
@@ -90,11 +90,25 @@ const app = new Vue({
         },
         checkIsInvoiced() {
             return this.is_invoiced != ''
+        },
+        refresh() {
+            const t = this;
+            t.provider_id = provider.id
+
+            axios.get('/api/providers').then(({data}) => {
+                t.providers = data;
+            });
         }
     },
     created() {
-        this.$on('set-total', (total) => {
-            this.ingress_total = total
+        const t = this;
+
+        t.$on('set-total', (total) => {
+            t.ingress_total = total
+        });
+
+        axios.get('/api/providers').then(({data}) => {
+            t.providers = data;
         });
     }
 });

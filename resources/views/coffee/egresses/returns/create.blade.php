@@ -12,10 +12,14 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            {!! Field::select('provider_id', $providers, null,
+                            {{-- {!! Field::select('provider_id', $providers, null,
                                 ['tpl' => 'withicon', 'label' => 'Proveedor','empty' => 'Seleccione un proveedor', 'v-model' => 'generalE.provider'],
                                 ['icon' => 'truck'])
-                            !!}
+                            !!} --}}
+                            <label><b>Proveedor</b></label><br>
+                            <v-select label="name" :options="providers" v-model="provider" placeholder="Seleccione un proveedor...">
+                            </v-select>
+                            <input type="hidden" name="provider_id" :value="provider.id">
                         </div>
                         <div class="col-md-6">
                             {!! Field::select('returned_to', $users, 2,
@@ -25,7 +29,7 @@
                         </div>                        
                     </div>
 
-                    <div v-if="generalE.provider == '21'" class="row">
+                    <div v-if="provider.id == '21'" class="row">
                         <div class="col-md-6">
                             {!! Field::text('provider_name',
                                 ['tpl' => 'withicon', 'label' => 'Nombre', 'ph' => 'ejemplo: Vips'],
@@ -56,7 +60,9 @@
                         <div class="col-md-6">
                             <label>Archivos</label><br>
                             <file-upload color="danger" bname="PDF" fname="pdf_bill" ext="pdf"></file-upload>
-                            <file-upload color="primary" bname="XML" fname="xml" ext="xml"></file-upload>
+                            <template v-if="provider.xml_required == 1">
+                                <file-upload color="primary" bname="XML" fname="xml" ext="xml"></file-upload>
+                            </template>
                         </div>
                     </div>
 
