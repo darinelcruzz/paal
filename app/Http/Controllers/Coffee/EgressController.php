@@ -138,7 +138,7 @@ class EgressController extends Controller
             'status' => $request->single_payment == 0 ? 'pagado': 'pendiente',
         ]);
 
-        return redirect(route('coffee.egress.index', 'pagado'));
+        return redirect(route('coffee.egress.index', $egress->status));
     }
 
     function edit(Egress $egress)
@@ -150,6 +150,6 @@ class EgressController extends Controller
     {
         $egress->update($request->validate(['folio' => 'required']));
 
-        return redirect(route('coffee.egress.index', 'pagado'));
+        return redirect(route('coffee.egress.index', $egress->status));
     }
 }
