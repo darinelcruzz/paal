@@ -14,16 +14,16 @@
 
                 <data-table example="1">
 
-                    {{ drawHeader('folio', 'proveedor', 'fecha', 'PDF', 'I.V.A.', 'importe') }}
+                    {{ drawHeader('fecha', 'folio', 'proveedor', 'PDF', 'I.V.A.', 'importe') }}
 
                     <template slot="body">
                         @foreach($check->egresses as $egress)
                             <tr style="text-align: center;">
-                                <td>
-                                    {{ $egress->folio }}
-                                </td>
-                                <td>{{ $egress->provider->name }}</td>
                                 <td>{{ fdate($egress->emission, 'd M Y', 'Y-m-d') }}</td>
+                                <td>
+                                    {{ $egress->folio != '' ? $egress->folio: $egress->provider->name }}
+                                </td>
+                                <td>{{ $egress->folio != '' ? $egress->provider->name: $egress->provider_name  }}</td>
                                 <td>
                                     <a href="{{ Storage::url($egress->pdf_bill) }}" target="_blank"><i class="fa fa-file-pdf"></i></a>&nbsp;
                                 </td>
@@ -35,11 +35,11 @@
                     </template>
 
                     <template slot="footer">
-                        <tr>
+                        <tr style="text-align: center;">
                             <th></th>
                             <th></th>
                             <th></th>
-                            <th>Total</th>
+                            <th style="text-align: center;">Total</th>
                             <td>${{ number_format($check->egresses->sum('iva'), 2) }}</td>
                             <td>${{ number_format($check->egresses->sum('amount'), 2) }}</td>
                         </tr>

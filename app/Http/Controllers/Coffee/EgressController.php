@@ -9,26 +9,29 @@ use App\{Egress, Provider, Check};
 
 class EgressController extends Controller
 {
-    function index(Request $request)
+    function index(Request $request, $status = 'pagado')
     {
         $date = isset($request->date) ? $request->date: date('Y-m');
 
-        $egresses = Egress::from($date, 'payment_date')
-                        ->where('status', '!=', 'cancelado')
-                        ->where('check_id', null)
-                        ->orderByDesc('payment_date')
-                        ->get();
+        $paid = Egress::from($date, 'payment_date')
+            ->where('status', 'pagado')
+            ->where('check_id', null)
+            ->orderByDesc('payment_date')
+            ->get();
+
+        $pending = Egress::where('status', 'pendiente')->get();
+        
+        $expired = Egress::where('status', 'vencido')->get();
 
         $checks = Check::from($date, 'charged_at')->get();
 
-        $unpaid = Egress::from($date, 'emission')
-                        ->where('status', 'pendiente')
-                        ->get();
+        $checkssum = $checks->sum(function ($product) {
+            return $product->total;
+        });
 
         $alltime = Egress::where('company', 'coffee')->get();
 
-
-        return view('coffee.egresses.index', compact('egresses', 'date', 'alltime', 'unpaid', 'checks'));
+        return view('coffee.egresses.index', compact('paid', 'pending', 'expired', 'date', 'alltime', 'checks', 'checkssum', 'status'));
     }
 
     function create()
@@ -135,7 +138,7 @@ class EgressController extends Controller
             'status' => $request->single_payment == 0 ? 'pagado': 'pendiente',
         ]);
 
-        return redirect(route('coffee.egress.index'));
+        return redirect(route('coffee.egress.index', 'pagado'));
     }
 
     function edit(Egress $egress)
@@ -147,6 +150,6 @@ class EgressController extends Controller
     {
         $egress->update($request->validate(['folio' => 'required']));
 
-        return redirect(route('coffee.egress.index'));
+        return redirect(route('coffee.egress.index', 'pagado'));
     }
 }

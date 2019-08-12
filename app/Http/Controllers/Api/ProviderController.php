@@ -10,6 +10,16 @@ class ProviderController extends Controller
 {
     function index()
     {
-        return Provider::where('company', '!=', 'mbe')->get(['id', 'name', 'xml_required']);
+        return Provider::where('company', '!=', 'mbe')
+        	->where('type', 'gg')
+        	->orWhere('type', 'cv')
+        	->get(['id', 'name', 'xml_required']);
+    }
+
+    function register()
+    {
+        return Provider::where('company', '!=', 'mbe')
+        	->where('type', 'cc')
+        	->get(['id', 'name', 'xml_required']);
     }
 }

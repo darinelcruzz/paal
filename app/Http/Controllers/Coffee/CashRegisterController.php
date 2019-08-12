@@ -21,8 +21,7 @@ class CashRegisterController extends Controller
 
     function create(Check $check)
     {
-        $providers = Provider::general()->pluck('provider', 'id')->toArray();
-        return view('coffee.egresses.register.create', compact('check', 'providers'));
+        return view('coffee.egresses.register.create', compact('check'));
     }
 
     function store(EgressRequest $request, Check $check)

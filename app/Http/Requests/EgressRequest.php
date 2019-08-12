@@ -24,12 +24,12 @@ class EgressRequest extends FormRequest
     public function rules()
     {
         return [
-            'provider_id' => 'required',
-            'folio' => 'required',
+            'provider_id' => 'sometimes|required',
+            'folio' => 'sometimes|required',
             'pdf_bill' => 'required',
             'expiration' => 'required',
-            'amount' => 'required|gt:iva',
-            'iva' => 'required',
+            'amount' => 'required',
+            'iva' => 'sometimes|required|lt:amount',
             'emission' => 'required',
             'pdf_complement' => 'sometimes|required',
             'complement_amount' => 'sometimes|required|lt:amount',
@@ -42,7 +42,7 @@ class EgressRequest extends FormRequest
     public function messages()
     {
         return [
-            'amount.gt' => 'No puede ser menor que IVA',
+            'iva.lt' => 'No puede ser mayor que total',
             'complement_amount.lt' => 'No puede ser mayor que el total',
             'provider_id.required' => 'El campo prroveedor es obligatorio.'
         ];

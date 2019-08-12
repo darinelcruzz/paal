@@ -23,6 +23,7 @@ Route::group(['prefix' => 'clients', 'as' => 'api.client.'], function () {
 Route::group(['prefix' => 'providers', 'as' => 'api.provider.'], function () {
     $ctrl = 'Api\ProviderController';
     Route::get('/', usesas($ctrl, 'index'));
+    Route::get('register', usesas($ctrl, 'register'));
 });
 
 Route::group(['prefix' => 'sales', 'as' => 'api.sale.'], function () {

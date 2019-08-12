@@ -13,19 +13,26 @@
                     <div class="row">
                         <div class="col-md-12">
                             <label><b>Proveedor</b></label><br>
-                            <v-select label="name" :options="providers" v-model="provider" placeholder="Seleccione un proveedor...">
+                            <v-select label="name" :options="rproviders" v-model="provider" placeholder="Seleccione un proveedor...">
                             </v-select>
                             <input type="hidden" name="provider_id" :value="provider.id">
                         </div>
                     </div>
-
                     <br>
+                    <div v-if="provider.name == 'NO DEDUCIBLE'" class="row">
+                        <div class="col-md-6">
+                            {!! Field::text('provider_name',
+                                ['tpl' => 'withicon', 'label' => 'Nombre', 'ph' => 'ejemplo: Vips'],
+                                ['icon' => 'trademark'])
+                            !!}
+                        </div>
+                    </div>
 
                     <div class="row">
                         <div class="col-md-6">
                             {!! Field::date('emission', Date::now(), ['label' => 'Fecha', 'tpl' => 'withicon'], ['icon' => 'shopping-cart']) !!}
                         </div>
-                        <div class="col-md-6">
+                        <div v-if="provider.name != 'NO DEDUCIBLE'" class="col-md-6">
                             {!! Field::text('folio', ['tpl' => 'withicon', 'ph' => 'XXXXX'], ['icon' => 'barcode']) !!}
                         </div>
                     </div>
@@ -34,7 +41,7 @@
                         <div class="col-md-6">
                             {!! Field::number('amount', 0, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0'], ['icon' => 'money']) !!}
                         </div>
-                        <div class="col-md-6">
+                        <div v-if="provider.name != 'NO DEDUCIBLE'" class="col-md-6">
                             {!! Field::number('iva', 0, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0'], ['icon' => 'bank']) !!}
                         </div>
                     </div>

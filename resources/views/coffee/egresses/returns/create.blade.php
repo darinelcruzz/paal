@@ -12,24 +12,11 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            {{-- {!! Field::select('provider_id', $providers, null,
-                                ['tpl' => 'withicon', 'label' => 'Proveedor','empty' => 'Seleccione un proveedor', 'v-model' => 'generalE.provider'],
-                                ['icon' => 'truck'])
-                            !!} --}}
-                            <label><b>Proveedor</b></label><br>
-                            <v-select label="name" :options="providers" v-model="provider" placeholder="Seleccione un proveedor...">
-                            </v-select>
-                            <input type="hidden" name="provider_id" :value="provider.id">
-                        </div>
-                        <div class="col-md-6">
-                            {!! Field::select('returned_to', $users, 2,
+                            {!! Field::select('returned_to', $users + [0 => 'Gastos Extra'], 2,
                                 ['tpl' => 'withicon', 'label' => 'Reponer a', 'empty' => '¿A quién se repone?'],
                                 ['icon' => 'user'])
                             !!}
-                        </div>                        
-                    </div>
-
-                    <div v-if="provider.id == '21'" class="row">
+                        </div>
                         <div class="col-md-6">
                             {!! Field::text('provider_name',
                                 ['tpl' => 'withicon', 'label' => 'Nombre', 'ph' => 'ejemplo: Vips'],

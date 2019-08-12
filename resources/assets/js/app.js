@@ -79,7 +79,8 @@ const app = new Vue({
         product_option: '',
         product_family: '',
         provider: '',
-        providers: []
+        providers: [],
+        rproviders: [],
     },
     methods: {
         reset() {
@@ -109,6 +110,10 @@ const app = new Vue({
 
         axios.get('/api/providers').then(({data}) => {
             t.providers = data;
+        });
+
+        axios.get('/api/providers/register').then(({data}) => {
+            t.rproviders = data;
         });
     }
 });

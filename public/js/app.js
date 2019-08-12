@@ -14432,7 +14432,8 @@ var app = new Vue({
         product_option: '',
         product_family: '',
         provider: '',
-        providers: []
+        providers: [],
+        rproviders: []
     },
     methods: {
         reset: function reset() {
@@ -14466,6 +14467,12 @@ var app = new Vue({
             var data = _ref2.data;
 
             t.providers = data;
+        });
+
+        axios.get('/api/providers/register').then(function (_ref3) {
+            var data = _ref3.data;
+
+            t.rproviders = data;
         });
     }
 });
@@ -54619,6 +54626,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+	props: ['type'],
 	data: function data() {
 		return {
 			provider: '',
@@ -54631,7 +54639,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			var t = this;
 			t.provider_id = provider.id;
 
-			axios.get('/api/providers').then(function (_ref) {
+			axios.get('/api/providers/'.t.type).then(function (_ref) {
 				var data = _ref.data;
 
 				t.providers = data;
@@ -54641,7 +54649,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	created: function created() {
 		var t = this;
 
-		axios.get('/api/providers').then(function (_ref2) {
+		axios.get('/api/providers/'.t.type).then(function (_ref2) {
 			var data = _ref2.data;
 
 			t.providers = data;

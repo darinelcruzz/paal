@@ -51,6 +51,7 @@
                                         <ddi to="{{ route('coffee.egress.register.create', $check) }}" icon="plus" text="Agregar factura"></ddi>
                                         <ddi to="{{ Storage::url($check->pdf) }}" icon="file-pdf" text="PDF" target="_blank"></ddi>
                                         <ddi to="{{ route('coffee.check.show', $check) }}" icon="eye" text="Detalles"></ddi>
+                                        <ddi to="{{ route('coffee.check.edit', $check) }}" icon="edit" text="Editar"></ddi>
                                     </dropdown>
                                 </td>
                                 <td>{{ $check->folio }}</td>

@@ -9,7 +9,7 @@
 	<div class="row">
         <div class="col-md-6">
             <solid-box title="Agregar proveedor" color="primary" button>
-                {!! Form::open(['method' => 'POST', 'route' => 'paal.provider.update']) !!}
+                {!! Form::open(['method' => 'POST', 'route' => ['paal.provider.update', $provider]]) !!}
 
                     {!! Field::text('social', $provider->social, ['tpl' => 'withicon'], ['icon' => 'truck']) !!}
                     {!! Field::text('name', $provider->name, ['label' => 'Nombre comercial', 'tpl' => 'withicon'], ['icon' => 'comment']) !!}
@@ -65,8 +65,12 @@
                         </div>
                     </div>
 
-                    <input type="hidden" name="id" value="{{ $provider->id }}">
-                    <input type="hidden" name="status" value="activo">
+                    <div class="row">
+                        <div class="col-md-6">
+                            {!! Field::select('xml_required', [1 => 'Sí', 0 => 'No'], $provider->xml_required, ['label' => '¿XML obligadorio?', 'tpl' => 'withicon', 'empty' => '¿Es requerido?'], ['icon' => 'file']) !!}
+                        </div>
+                    </div>
+                    
                     {!! Form::submit('Modificar', ['class' => 'btn btn-primary pull-right']) !!}
 
                 {!! Form::close() !!}

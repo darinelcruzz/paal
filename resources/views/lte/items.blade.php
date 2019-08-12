@@ -9,7 +9,7 @@
         <a href="#">
             <i class="{{ $item['icon'] }}"></i> <span>{{ $item['title'] }}</span>
             @if (isset($item['label']) && pendingShippings() > 0)
-                &nbsp;&nbsp;<span class="label label-danger">{{ pendingShippings() }}</span>
+                &nbsp;&nbsp;<span class="label label-danger">{{ $item['label'] }}</span>
             @endif
             <i class="fa fa-angle-left pull-right"></i>
         </a>

@@ -28,6 +28,27 @@ class CheckController extends Controller
         return redirect(route('coffee.egress.register.index'));
     }
 
+    function edit(Check $check)
+    {
+        return view('coffee.checks.edit', compact('check'));
+    }
+
+    function update(Request $request, Check $check)
+    {
+        $request->validate([
+            'folio' => 'required',
+            'charged_at' => 'required',
+        ]);
+
+        $check->update([
+            'folio' => $request->folio,
+            'charged_at' => $request->charged_at,
+            'pdf' => saveCoffeeFile($request->file, 'checks'),
+        ]);
+
+        return redirect(route('coffee.egress.register.index'));
+    }
+
     function show(Check $check)
     {
         return view('coffee.checks.show', compact('check'));

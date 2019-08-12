@@ -12,6 +12,7 @@
 
 <script>
 	export default {
+		props: ['type'],
 		data() {
 			return {
 				provider: '',
@@ -23,7 +24,7 @@
 				const t = this;
 				t.provider_id = provider.id
 
-		        axios.get('/api/providers').then(({data}) => {
+		        axios.get('/api/providers/' . t.type).then(({data}) => {
 		            t.providers = data;
 		        });
 			}
@@ -31,7 +32,7 @@
 		created() {
 			const t = this;
 
-	        axios.get('/api/providers').then(({data}) => {
+	        axios.get('/api/providers/' . t.type).then(({data}) => {
 	            t.providers = data;
 	        });
 		}

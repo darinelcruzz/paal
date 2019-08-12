@@ -59,7 +59,7 @@ return [
     'shippings' => [
         'title' => 'Envíos',
         'icon' => 'fa fa-shipping-fast',
-        'label' => '0',
+        'label' => pendingShippings(),
         'submenu' => [
             'create' => [
                 'title' => 'Rastreo',
@@ -78,7 +78,7 @@ return [
         'submenu' => [
             'index' => [
                 'title' => 'Historial',
-                'route' => 'coffee.egress.index'
+                'route' => ['coffee.egress.index', 'pagado']
             ],
             'general' => [
                 'title' => 'Generales',

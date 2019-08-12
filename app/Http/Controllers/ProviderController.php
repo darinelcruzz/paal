@@ -33,7 +33,8 @@ class ProviderController extends Controller
             'postcode' => 'required',
             'company' => 'required',
             'amount' => 'required',
-            'bills' => 'required'
+            'bills' => 'required',
+            'xml_required' => 'required'
         ]);
 
         Provider::create($request->all());
@@ -51,9 +52,10 @@ class ProviderController extends Controller
         return view('paal.providers.edit', compact('provider'));
     }
 
-    function update(Request $request)
+    function update(Request $request, Provider $provider)
     {
-        $provider = Provider::find($request->id)->update($request->all());
+        $provider->update($request->all());
+
         return redirect(route('paal.provider.index'));
     }
 

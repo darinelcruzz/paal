@@ -38,6 +38,6 @@ class GeneralEgressController extends Controller
             'expiration' => date('Y-m-d', $expiration),
         ]);
 
-        return redirect(route('coffee.egress.index'));
+        return redirect(route('coffee.egress.index', 'pagado'));
     }
 }

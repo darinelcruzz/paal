@@ -6,14 +6,14 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 
 	Route::group(['prefix' => 'egresos', 'as' => 'egress.'], function () {
 	    $ctrl = 'Coffee\EgressController';
-	    Route::get('/', usesas($ctrl, 'index'));
-	    Route::post('/', usesas($ctrl, 'index'));
 	    Route::get('pagar/{egress}', usesas($ctrl, 'pay'));
 	    Route::get('reemplazar/{egress}', usesas($ctrl, 'replace'));
 	    Route::post('reemplazar/{egress}', usesas($ctrl, 'upload'));
 	    Route::get('editar/{egress}', usesas($ctrl, 'edit'));
 	    Route::post('editar/{egress}', usesas($ctrl, 'update'));
 	    Route::post('pagar/{egress}', usesas($ctrl, 'settle'));
+	    Route::get('/{status}', usesas($ctrl, 'index'));
+	    Route::post('/{status}', usesas($ctrl, 'index'));
 
 	    Route::group(['prefix' => 'general', 'as' => 'general.'], function () {
 		    $ctrl = 'Coffee\GeneralEgressController';
@@ -29,7 +29,7 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 
 		Route::group(['prefix' => 'caja-chica', 'as' => 'register.'], function () {
 		    $ctrl = 'Coffee\CashRegisterController';
-		    Route::get('/', usesas($ctrl, 'index'));
+		    Route::get('/cheques', usesas($ctrl, 'index'));
 		    Route::get('agregar/{check}', usesas($ctrl, 'create'));
 		    Route::post('agregar/{check}', usesas($ctrl, 'store'));
 		});
@@ -39,6 +39,8 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	    $ctrl = 'Coffee\CheckController';
 	    Route::get('agregar', usesas($ctrl, 'create'));
 	    Route::post('agregar', usesas($ctrl, 'store'));
+	    Route::get('editar/{check}', usesas($ctrl, 'edit'));
+	    Route::post('editar/{check}', usesas($ctrl, 'update'));
 	    Route::get('{check}', usesas($ctrl, 'show'));
 	});
 
