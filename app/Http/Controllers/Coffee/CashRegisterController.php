@@ -12,7 +12,7 @@ class CashRegisterController extends Controller
 {
     function index()
     {
-        $checks = Check::where('status', '!=', 'cobrado')->where('company', 'coffee')->orderByDesc('charged_at')->get();
+        $checks = Check::where('status', 'cobrado')->where('company', 'coffee')->orderByDesc('charged_at')->get();
 
         $last_folio = $this->getLastFolio();
 
