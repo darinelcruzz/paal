@@ -35,7 +35,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             {!! Field::select('type',
-                            	['cv' => 'Costo/Venta', 'gg' => 'Gastos generales'], $provider->type,
+                            	['cv' => 'Costo/Venta', 'gg' => 'Gastos generales', 'cc' => 'Caja chica', 'gr' => 'Gastos reposición'], $provider->type,
                             	['empty' => 'Seleccione tipo', 'tpl' => 'withicon'], ['icon' => 'object-ungroup'])
                             !!}
                         </div>
