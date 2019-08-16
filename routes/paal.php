@@ -10,7 +10,7 @@ Route::group(['prefix' => 'paal', 'as' => 'paal.'], function () {
 	    Route::get('agregar', usesas($ctrl, 'create'));
 	    Route::post('agregar', usesas($ctrl, 'store'));
 		Route::get('editar/{provider}', usesas($ctrl, 'edit'));
-	    Route::post('editar', usesas($ctrl, 'update'));
+	    Route::post('editar/{provider}', usesas($ctrl, 'update'));
 	    Route::get('cancelar/{provider}', usesas($ctrl, 'destroy'));
 	});
 
