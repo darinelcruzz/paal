@@ -23,8 +23,8 @@
                                 <td>{{ fdate($ingress->bought_at, 'd M Y', 'Y-m-d') }}</td>
                                 <td>{{ fdate($ingress->paid_at, 'd M Y', 'Y-m-d') }}</td>
                                 <td>$ {{ number_format($ingress->iva, 2) }}</td>
-                                <td>$ {{ number_format($ingress->total, 2) }}</td>
-                                <td>{{ $ingress->pay_form }}</td>
+                                <td>$ {{ number_format($ingress->amount, 2) }}</td>
+                                <td>{{ $ingress->method_name }}</td>
                                 <td><span class="label label-{{ $ingress->status_color }}">{{ strtoupper($ingress->status) }}</span></td>
                             </tr>
                         @endforeach

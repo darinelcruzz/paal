@@ -50,7 +50,8 @@ class Payment extends Model
         return $query->whereYear('created_at', substr($date, 0, 4))
             ->whereMonth('created_at', substr($date, 5))
             ->whereHas('ingress', function($query) {
-                $query->where('status', '!=', 'cancelado');
+                $query->where('status', '!=', 'cancelado')
+                    ->where('company', 'coffee');
             });
     }
 }

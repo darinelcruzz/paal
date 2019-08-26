@@ -20,7 +20,7 @@ class IngressController extends Controller
     function create()
     {
         $clients = Client::where('company', '!=', 'coffee')->pluck('name', 'id')->toArray();
-        $methods = [1 => 'Efectivo', 2 => 'Transferencia', 3 => 'Cheque', 4 => 'Tarjeta de débito', 5 => 'Tarjeta de crédito'];
+        $methods = ['cash' => 'Efectivo', 'transfer' => 'Transferencia', 'check' => 'Cheque', 'debit_card' => 'Tarjeta de débito', 'credit_card' => 'Tarjeta de crédito'];
         return view('mailboxes.ingresses.create', compact('clients', 'methods'));
     }
 
@@ -40,7 +40,12 @@ class IngressController extends Controller
             'amount.gt' => 'No puede ser menor que IVA',
         ]);
 
-        Ingress::create($validated);
+        $ingress = Ingress::create($validated);
+
+        $ingress->payments()->create([
+            'type' => 'liquidación',
+            $request->method => $ingress->amount
+        ]);
 
         return redirect(route('mbe.ingress.index'));
     }
