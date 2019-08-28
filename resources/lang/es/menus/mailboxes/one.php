@@ -31,6 +31,12 @@ return [
         ]
     ],
 
+    'tasks' => [
+        'title' => 'Tareas',
+        'icon' => 'fa fa-tasks',
+        'route' => 'mbe.task.index'
+    ],
+
     'logout' => [
         'title' => 'Salir',
         'icon' => 'fa fa-door-open',

@@ -8,17 +8,17 @@ use App\Http\Controllers\Controller;
 
 class ProviderController extends Controller
 {
-    function index()
+    function index($company)
     {
-        return Provider::where('company', '!=', 'mbe')
+        return Provider::where('company', '!=', $company)
         	->where('type', 'gg')
         	->orWhere('type', 'cv')
         	->get(['id', 'name', 'xml_required']);
     }
 
-    function register()
+    function register($company)
     {
-        return Provider::where('company', '!=', 'mbe')
+        return Provider::where('company', '!=', $company)
         	->where('type', 'cc')
         	->get(['id', 'name', 'xml_required']);
     }

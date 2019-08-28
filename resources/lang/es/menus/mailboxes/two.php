@@ -14,6 +14,12 @@ return [
         'route' => 'mbe.ingress.index'
     ],
 
+    'tasks' => [
+        'title' => 'Tareas',
+        'icon' => 'fa fa-tasks',
+        'route' => 'coffee.task.index'
+    ],
+
     'logout' => [
         'title' => 'Salir',
         'icon' => 'fa fa-door-open',

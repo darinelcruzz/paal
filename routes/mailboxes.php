@@ -52,4 +52,14 @@ Route::group(['prefix' => 'mbe', 'as' => 'mbe.'], function () {
 	    Route::post('cancelar', usesas($ctrl, 'destroy'));
 	    Route::get('{ingress}', usesas($ctrl, 'show'));
 	});
+
+	Route::group(['prefix' => 'tareas', 'as' => 'task.'], function () {
+	    $ctrl = 'Mailboxes\TaskController';
+	    Route::get('/', usesas($ctrl, 'index'));
+	    Route::get('agregar', usesas($ctrl, 'create'));
+	    Route::post('agregar', usesas($ctrl, 'store'));
+	    Route::get('editar', usesas($ctrl, 'edit'));
+	    Route::post('editar/{task}', usesas($ctrl, 'update'));
+	    Route::get('estado/{task}/{status}', usesas($ctrl, 'change'));
+	});
 });

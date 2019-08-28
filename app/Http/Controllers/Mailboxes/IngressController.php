@@ -14,7 +14,7 @@ class IngressController extends Controller
         $ingresses = Ingress::where('company', 'mbe')
                         ->where('status', '!=', 'cancelado')
                         ->get();
-        return view('mailboxes.ingresses.index', compact('ingresses'));
+        return view('mbe.ingresses.index', compact('ingresses'));
     }
 
     function create()

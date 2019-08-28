@@ -81,6 +81,7 @@ const app = new Vue({
         provider: '',
         providers: [],
         rproviders: [],
+        mproviders: [],
     },
     methods: {
         reset() {
@@ -108,11 +109,15 @@ const app = new Vue({
             t.ingress_total = total
         });
 
-        axios.get('/api/providers').then(({data}) => {
+        axios.get('/api/providers/mbe').then(({data}) => {
             t.providers = data;
         });
 
-        axios.get('/api/providers/register').then(({data}) => {
+        axios.get('/api/providers/coffee').then(({data}) => {
+            t.mproviders = data;
+        });
+
+        axios.get('/api/providers/register/mbe').then(({data}) => {
             t.rproviders = data;
         });
     }
