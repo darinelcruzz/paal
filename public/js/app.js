@@ -52416,6 +52416,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     computed: {
         category: function category() {
+            if (this.type == 'mbe') {
+                return 'mbe';
+            }
+
             return this.type == 'equipo' ? 'equipment' : 'products';
         }
     },

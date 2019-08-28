@@ -44,3 +44,12 @@ function saveCoffeeFile($file, $folder = 'bills')
 
     return null;
 }
+
+function saveMbeFile($file, $folder = 'bills')
+{
+    if ($file) {
+        return Storage::putFileAs("public/mbe/$folder", $file, str_random(15) . '.' . $file->getClientOriginalExtension());
+    }
+
+    return null;
+}

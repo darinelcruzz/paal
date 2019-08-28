@@ -6,21 +6,19 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-7">
+        <div class="col-md-6">
             <solid-box title="Agregar ingreso" color="success" button>
                 {!! Form::open(['method' => 'POST', 'route' => 'mbe.ingress.store', 'enctype' => 'multipart/form-data']) !!}
-
-                    {!! Field::select('client_id', $clients, null,
-                        ['tpl' => 'withicon', 'label' => 'Cliente', 'empty' => 'Seleccione un cliente'],
-                        ['icon' => 'user'])
-                    !!}
-
+                
                     <div class="row">
                         <div class="col-md-6">
-                            {!! Field::date('bought_at', Date::now(), ['tpl' => 'withicon'], ['icon' => 'calendar']) !!}
+                            {!! Field::select('client_id', $clients, null,
+                                ['tpl' => 'withicon', 'label' => 'Cliente', 'empty' => 'Seleccione un cliente'],
+                                ['icon' => 'user'])
+                            !!}
                         </div>
                         <div class="col-md-6">
-                            {!! Field::date('paid_at', Date::now(), ['tpl' => 'withicon'], ['icon' => 'calendar']) !!}
+                            {!! Field::date('bought_at', Date::now(), ['tpl' => 'withicon'], ['icon' => 'calendar']) !!}
                         </div>
                     </div>
 
@@ -51,6 +49,12 @@
                     <button type="submit" class="btn btn-success pull-right" onclick="submitForm(this);">Agregar</button>
 
                 {!! Form::close() !!}
+            </solid-box>
+        </div>
+
+        <div class="col-md-6">
+            <solid-box title="Envíos" color="success">
+                <p-table color="success" :exchange="{{ $exchange }}" type="mbe"></p-table>
             </solid-box>
         </div>
     </div>

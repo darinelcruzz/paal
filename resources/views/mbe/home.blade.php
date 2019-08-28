@@ -1,4 +1,4 @@
-@extends('mailboxes.root')
+@extends('mbe.root')
 
 @push('pageTitle')
     Mailboxes | Inicio

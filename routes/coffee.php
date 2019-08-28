@@ -7,11 +7,11 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	Route::group(['prefix' => 'egresos', 'as' => 'egress.'], function () {
 	    $ctrl = 'Coffee\EgressController';
 	    Route::get('pagar/{egress}', usesas($ctrl, 'pay'));
+	    Route::post('pagar/{egress}', usesas($ctrl, 'charge'));
 	    Route::get('reemplazar/{egress}', usesas($ctrl, 'replace'));
 	    Route::post('reemplazar/{egress}', usesas($ctrl, 'upload'));
 	    Route::get('editar/{egress}', usesas($ctrl, 'edit'));
 	    Route::post('editar/{egress}', usesas($ctrl, 'update'));
-	    Route::post('pagar/{egress}', usesas($ctrl, 'settle'));
 	    Route::get('/{status}', usesas($ctrl, 'index'));
 	    Route::post('/{status}', usesas($ctrl, 'index'));
 

@@ -23,9 +23,9 @@ class Check extends Model
         return $this->egresses->sum('iva');
     }
 
-    function scopeFrom($query, $date, $field)
+    function scopeFrom($query, $date, $field, $company = 'coffee')
     {
-        return $query->where('company', 'coffee')
+        return $query->where('company', $company)
         	->where('status', '!=', 'cancelado')
             ->whereYear($field, substr($date, 0, 4))
             ->whereMonth($field, substr($date, 5, 7));

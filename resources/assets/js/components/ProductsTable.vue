@@ -61,6 +61,10 @@
 		},
         computed: {
             category() {
+                if (this.type == 'mbe') {
+                    return 'mbe'
+                }
+                
                 return this.type == 'equipo' ? 'equipment': 'products'
             }
         },

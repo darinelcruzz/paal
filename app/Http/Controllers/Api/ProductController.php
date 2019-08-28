@@ -11,6 +11,7 @@ class ProductController extends Controller
     function index()
     {
         return Product::where('category', '!=', 'EQUIPO')
+            ->where('category', '!=', 'MBE')
             ->orderBy('id', 'DESC')
             ->paginate(10);
     }
@@ -23,23 +24,67 @@ class ProductController extends Controller
             ->paginate(10);
     }
 
-    function search($keyword)
+    function mbe()
     {
-        return Product::orderBy('id', 'DESC')
-            ->where('category', '!=', 'EQUIPO')
-            ->where('description', 'LIKE', "%$keyword%")
-            ->orWhere('family', 'LIKE', "%$keyword%")
-            ->orWhere('code', 'LIKE', "%$keyword%")
+        return Product::where('category', 'MBE')
+            ->orderBy('id', 'DESC')
             ->paginate(10);
     }
 
-    function searchEquipment($keyword)
+    function search($keyword)
     {
         return Product::orderBy('id', 'DESC')
-            ->where('category', 'EQUIPO')
-            ->where('description', 'LIKE', "%$keyword%")
-            ->orWhere('family', 'LIKE', "%$keyword%")
-            ->orWhere('code', 'LIKE', "%$keyword%")
+            ->where([
+                ['category', '!=', 'EQUIPO'],
+                ['category', '!=', 'MBE'],
+                ['description', 'LIKE', "%$keyword%"]
+            ])
+            ->orWhere([
+                ['category', '!=', 'EQUIPO'],
+                ['category', '!=', 'MBE'],
+                ['family', 'LIKE', "%$keyword%"]
+            ])
+            ->orWhere([
+                ['category', '!=', 'EQUIPO'],
+                ['category', '!=', 'MBE'],
+                ['code', 'LIKE', "%$keyword%"]
+            ])
+            ->paginate(10);
+    }
+
+    function seek($keyword)
+    {
+        return Product::orderBy('id', 'DESC')
+            ->where([
+                ['category', '=', 'EQUIPO'],
+                ['description', 'LIKE', "%$keyword%"]
+            ])
+            ->orWhere([
+                ['category', '=', 'EQUIPO'],
+                ['family', 'LIKE', "%$keyword%"]
+            ])
+            ->orWhere([
+                ['category', '=', 'EQUIPO'],
+                ['code', 'LIKE', "%$keyword%"]
+            ])
+            ->paginate(10);
+    }
+
+    function look($keyword)
+    {
+        return Product::orderBy('id', 'DESC')
+            ->where([
+                ['category', '=', 'MBE'],
+                ['description', 'LIKE', "%$keyword%"]
+            ])
+            ->orWhere([
+                ['category', '=', 'MBE'],
+                ['family', 'LIKE', "%$keyword%"]
+            ])
+            ->orWhere([
+                ['category', '=', 'MBE'],
+                ['code', 'LIKE', "%$keyword%"]
+            ])
             ->paginate(10);
     }
 }
