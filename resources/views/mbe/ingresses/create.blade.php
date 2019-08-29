@@ -1,4 +1,4 @@
-@extends('mailboxes.root')
+@extends('mbe.root')
 
 @push('pageTitle')
     Ingresos | Agregar
@@ -6,9 +6,23 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-6">
+        {{-- <div class="col-md-6">
             <solid-box title="Agregar ingreso" color="success" button>
                 {!! Form::open(['method' => 'POST', 'route' => 'mbe.ingress.store', 'enctype' => 'multipart/form-data']) !!}
+
+                    <form-wizard
+                        title=""
+                        subtitle=""
+                        color="success"
+                        @on-complete="submit"
+                        back-button-text="Anterior"
+                        next-button-text="Siguiente"
+                        finish-button-text="Completado">
+
+                        <tab-content title="Cliente" icon="fa fa-user" :before-change="checkIsInvoiced">
+
+                    </form-wizard>
+
                 
                     <div class="row">
                         <div class="col-md-6">
@@ -56,7 +70,7 @@
             <solid-box title="Envíos" color="success">
                 <p-table color="success" :exchange="{{ $exchange }}" type="mbe"></p-table>
             </solid-box>
-        </div>
+        </div> --}}
     </div>
 
 @endsection

@@ -14,14 +14,16 @@ class IngressController extends Controller
         $ingresses = Ingress::where('company', 'mbe')
                         ->where('status', '!=', 'cancelado')
                         ->get();
-        return view('mbe.ingresses.index', compact('ingresses'));
+        return view('mbe.coming_soon');
+        // return view('mbe.ingresses.index', compact('ingresses'));
     }
 
     function create()
     {
+        return view('mbe.coming_soon');
         $clients = Client::where('company', '!=', 'coffee')->pluck('name', 'id')->toArray();
         $methods = ['cash' => 'Efectivo', 'transfer' => 'Transferencia', 'check' => 'Cheque', 'debit_card' => 'Tarjeta de débito', 'credit_card' => 'Tarjeta de crédito'];
-        return view('mailboxes.ingresses.create', compact('clients', 'methods'));
+        return view('mbe.ingresses.create', compact('clients', 'methods'));
     }
 
     function store(Request $request)

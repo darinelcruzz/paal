@@ -6,9 +6,8 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            P R O X I M A M E N T E
-            {{-- <solid-box title="Ingresos" color="success" button>
+        <div class="col-md-12">
+            <solid-box title="Ingresos" color="success" button>
                 <a href="{{ route('mbe.ingress.create') }}" class="btn btn-success btn-xs"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR</a>
                 <br>
                 <br>
@@ -33,7 +32,7 @@
 
                 </data-table>
 
-            </solid-box> --}}
+            </solid-box>
         </div>
     </div>
 

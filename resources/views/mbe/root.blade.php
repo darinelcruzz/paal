@@ -7,7 +7,7 @@
         <div id="app">
             <div class="wrapper">
                 @include('lte.mainheader', ['logoMini' => "<b>M</b>BE", 'logoLg' => "<b>Mail</b>boxes", 'site' => 'mbe'])
-                @include('lte.sidebar', ['site' => 'mailboxes'])
+                @include('lte.sidebar', ['site' => 'mbe'])
 
                 <div class="content-wrapper">
                     <section class="content-header">

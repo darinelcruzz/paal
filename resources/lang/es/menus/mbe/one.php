@@ -4,8 +4,17 @@ return [
     
     'ingresses' => [
         'title' => 'Ingresos',
-        'icon' => 'fa fa-money',
-        'route' => 'mbe.ingress.index'
+        'icon' => 'fa fa-truck-loading',
+        'submenu' => [
+            'index' => [
+                'title' => 'Historial',
+                'route' => 'mbe.ingress.index'
+            ],
+            'create' => [
+                'title' => 'Agregar',
+                'route' => 'mbe.ingress.create'
+            ],
+        ]
     ],
     
     'egresses' => [
