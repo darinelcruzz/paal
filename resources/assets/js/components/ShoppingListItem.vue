@@ -100,12 +100,10 @@ export default {
             var price;
 
             if (this.product.is_summable) {
-                // price = this.familycount > this.product.wholesale_quantity ? this.product.wholesale_price: this.product.retail_price
-                price = this.product.wholesale_price
+                price = this.familycount > this.product.wholesale_quantity ? this.product.wholesale_price: this.product.retail_price
             } else if (this.product.dollars) {
                 price = this.product.retail_price * Number(this.exchange)
             } else {
-                // price = this.quantity > this.product.wholesale_quantity ? this.product.wholesale_price: this.product.retail_price
                 price = this.product.wholesale_price
             }
 

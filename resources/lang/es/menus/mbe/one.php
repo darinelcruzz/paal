@@ -6,13 +6,21 @@ return [
         'title' => 'Ingresos',
         'icon' => 'fa fa-truck-loading',
         'submenu' => [
-            'index' => [
-                'title' => 'Historial',
-                'route' => 'mbe.ingress.index'
-            ],
             'create' => [
                 'title' => 'Agregar',
                 'route' => 'mbe.ingress.create'
+            ],
+            'index' => [
+                'title' => 'Historial',
+                'route' => ['mbe.ingress.index', 'factura']
+            ],
+            'invoices' => [
+                'title' => 'Facturas',
+                'route' => ['mbe.ingress.index', 'factura']//'mbe.invoice.index'
+            ],
+            'monthly' => [
+                'title' => 'Corte mensual',
+                'route' => ['mbe.ingress.index', 'factura']//'mbe.admin.index'
             ],
         ]
     ],

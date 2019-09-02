@@ -28,7 +28,7 @@ class ProductController extends Controller
     {
         return Product::where('category', 'MBE')
             ->orderBy('id', 'DESC')
-            ->paginate(10);
+            ->paginate(5);
     }
 
     function search($keyword)
@@ -49,7 +49,7 @@ class ProductController extends Controller
                 ['category', '!=', 'MBE'],
                 ['code', 'LIKE', "%$keyword%"]
             ])
-            ->paginate(10);
+            ->paginate(5);
     }
 
     function seek($keyword)

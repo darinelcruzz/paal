@@ -58,6 +58,8 @@ Vue.component('p-table', require('./components/ProductsTable.vue'));
 Vue.component('p-row', require('./components/ProductRow.vue'));
 Vue.component('shopping-list', require('./components/ShoppingList.vue'));
 Vue.component('shopping-list-item', require('./components/ShoppingListItem.vue'));
+Vue.component('shipping-list', require('./components/ShippingList.vue'));
+Vue.component('shipping-item', require('./components/ShippingItem.vue'));
 Vue.component('payment-methods', require('./components/PaymentMethods.vue'));
 Vue.component('client-select', require('./components/ClientSelect.vue'));
 Vue.component('provider-select', require('./components/ProviderSelect.vue'));
@@ -82,6 +84,11 @@ const app = new Vue({
         providers: [],
         rproviders: [],
         mproviders: [],
+        mbe: {
+            subtotal: 0,
+            iva: 0,
+            client: ''
+        }
     },
     methods: {
         reset() {

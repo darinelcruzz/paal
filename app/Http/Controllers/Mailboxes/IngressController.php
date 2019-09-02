@@ -9,20 +9,26 @@ use App\{Ingress, Client};
 
 class IngressController extends Controller
 {
-    function index()
+    function index(Request $request, $status)
     {
-        $ingresses = Ingress::where('company', 'mbe')
-                        ->where('status', '!=', 'cancelado')
-                        ->get();
         return view('mbe.coming_soon');
-        // return view('mbe.ingresses.index', compact('ingresses'));
+        $date = dateFromRequest();
+
+        $ingresses = Ingress::whereDate('created_at', $date)
+            ->whereCompany('mbe')
+            ->where($this->getConditions($status))
+            ->get();
+
+        $color = ['factura' => 'success', 'efectivo' => 'primary', 'tarjeta' => 'info', 'transferencia' => 'warning'][$status];
+
+        return view('mbe.ingresses.index', compact('date', 'ingresses', 'status', 'color'));
     }
 
     function create()
     {
         return view('mbe.coming_soon');
         $clients = Client::where('company', '!=', 'coffee')->pluck('name', 'id')->toArray();
-        $methods = ['cash' => 'Efectivo', 'transfer' => 'Transferencia', 'check' => 'Cheque', 'debit_card' => 'Tarjeta de débito', 'credit_card' => 'Tarjeta de crédito'];
+        $methods = ['efectivo' => 'Efectivo', 'transferencia' => 'Transferencia', 'cheque' => 'Cheque', 'débito' => 'Tarjeta de débito', 'crédito' => 'Tarjeta de crédito'];
         return view('mbe.ingresses.create', compact('clients', 'methods'));
     }
 
@@ -33,22 +39,48 @@ class IngressController extends Controller
             'amount' => 'required|gt:iva',
             'iva' => 'required',
             'bought_at' => 'required',
-            'paid_at' => 'required',
-            'method' => 'required',
-            'operation_number' => 'required',
+            'type' => 'required',
+            'folio' => 'required',
             'status' => 'required',
             'company' => 'required',
         ],[
             'amount.gt' => 'No puede ser menor que IVA',
         ]);
 
-        $ingress = Ingress::create($validated);
+        $ingress = Ingress::create($validated + ['products' => $this->getSerializedItems($request)]);
 
         $ingress->payments()->create([
             'type' => 'liquidación',
             $request->method => $ingress->amount
         ]);
 
-        return redirect(route('mbe.ingress.index'));
+        return redirect(route('mbe.ingress.index', 'factura'));
+    }
+
+    function getSerializedItems(Request $request)
+    {
+        $products = [];
+
+        for ($i=0; $i < count($request->items); $i++) {
+            array_push($products, [
+                'i' => $request->items[$i],
+                'q' => $request->quantities[$i]
+            ]);
+        }
+
+        return  serialize($products);
+    }
+
+    function getConditions($status)
+    {
+        if ($status == 'factura') {
+            return [
+                ['invoice', '=', 'otro']
+            ];
+        } else {
+            return [
+                ['type', '=', $status]
+            ];
+        }
     }
 }

@@ -46,11 +46,12 @@ Route::group(['prefix' => 'mbe', 'as' => 'mbe.'], function () {
 
 	Route::group(['prefix' => 'ingresos', 'as' => 'ingress.'], function () {
 	    $ctrl = 'Mailboxes\IngressController';
-	    Route::get('/', usesas($ctrl, 'index'));
 	    Route::get('agregar', usesas($ctrl, 'create'));
 	    Route::post('agregar', usesas($ctrl, 'store'));
 	    Route::post('cancelar', usesas($ctrl, 'destroy'));
-	    Route::get('{ingress}', usesas($ctrl, 'show'));
+	    Route::get('i/{ingress}', usesas($ctrl, 'show'));
+	    Route::get('{status}', usesas($ctrl, 'index'));
+	    Route::post('{status}', usesas($ctrl, 'index'));
 	});
 
 	Route::group(['prefix' => 'tareas', 'as' => 'task.'], function () {

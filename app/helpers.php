@@ -53,3 +53,14 @@ function saveMbeFile($file, $folder = 'bills')
 
     return null;
 }
+
+function dateFromRequest($format = 'Y-m-d')
+{
+    if (session('redirected')) {
+        return session('redirected');
+    } else {
+        $date = null !== request('date') ? request('date'): date($format);
+        session()->put('date', $date);
+        return $date;
+    }
+}
