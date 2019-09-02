@@ -19,16 +19,19 @@ class IngressController extends Controller
             ->where($this->getConditions($status))
             ->get();
 
-        $color = ['factura' => 'success', 'efectivo' => 'primary', 'tarjeta' => 'info', 'transferencia' => 'warning'][$status];
+        $ingresses_to_filter = Ingress::whereDate('created_at', $date)
+            ->whereCompany('mbe')->get();
 
-        return view('mbe.ingresses.index', compact('date', 'ingresses', 'status', 'color'));
+        $color = ['factura' => 'primary', 'efectivo' => 'success', 'tarjeta' => 'warning', 'transferencia' => 'info'][$status];
+
+        return view('mbe.ingresses.index', compact('date', 'ingresses', 'status', 'color', 'ingresses_to_filter'));
     }
 
     function create()
     {
         return view('mbe.coming_soon');
         $clients = Client::where('company', '!=', 'coffee')->pluck('name', 'id')->toArray();
-        $methods = ['efectivo' => 'Efectivo', 'transferencia' => 'Transferencia', 'cheque' => 'Cheque', 'débito' => 'Tarjeta de débito', 'crédito' => 'Tarjeta de crédito'];
+        $methods = ['efectivo' => 'Efectivo', 'transferencia' => 'Transferencia', 'cheque' => 'Cheque', 'tarjeta débito' => 'Tarjeta de débito', 'tarjeta crédito' => 'Tarjeta de crédito'];
         return view('mbe.ingresses.create', compact('clients', 'methods'));
     }
 
@@ -41,6 +44,7 @@ class IngressController extends Controller
             'bought_at' => 'required',
             'type' => 'required',
             'folio' => 'required',
+            'invoice' => 'sometimes|required',
             'status' => 'required',
             'company' => 'required',
         ],[
@@ -71,15 +75,15 @@ class IngressController extends Controller
         return  serialize($products);
     }
 
-    function getConditions($status)
+    function getConditions($value)
     {
-        if ($status == 'factura') {
+        if ($value == 'factura') {
             return [
                 ['invoice', '=', 'otro']
             ];
         } else {
             return [
-                ['type', '=', $status]
+                ['type', 'LIKE', "%$value%"]
             ];
         }
     }

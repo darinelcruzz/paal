@@ -50397,6 +50397,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['title', 'id', 'color'],
+    data: function data() {
+        return {
+            colors: {}
+        };
+    },
+
     computed: {
         modalColor: function modalColor() {
             return this.color != '' ? this.color : '#3c8dbc';
@@ -53447,7 +53453,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             } else if (this.product.dollars) {
                 price = this.product.retail_price * Number(this.exchange);
             } else {
-                price = this.product.wholesale_price;
+                price = this.quantity > this.product.wholesale_quantity ? this.product.wholesale_price : this.product.retail_price;
             }
 
             return price / (1 + 0.16 * this.product.iva);

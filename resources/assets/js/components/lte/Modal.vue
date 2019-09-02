@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
     <div class="modal fade" :id="id">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -24,6 +24,11 @@
 <script>
 export default {
     props: ['title', 'id', 'color'],
+    data() {
+        return {
+            colors: {}
+        }
+    },
     computed: {
         modalColor() {
             return this.color != '' ? this.color: '#3c8dbc'
