@@ -72,7 +72,7 @@ class IngressController extends Controller
             ]);
         }
 
-        return  serialize($products);
+        return serialize($products);
     }
 
     function getConditions($value)

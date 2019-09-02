@@ -116,7 +116,7 @@ class Ingress extends Model
 
     function getXmlAttribute()
     {
-        return Storage::url("public/coffee/invoices/$this->invoice_id.xml");
+        return Storage::url("public/$this->company/invoices/$this->invoice_id.xml");
     }
 
     function scopeFrom($query, $date)

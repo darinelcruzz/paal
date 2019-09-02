@@ -63,4 +63,12 @@ Route::group(['prefix' => 'mbe', 'as' => 'mbe.'], function () {
 	    Route::post('editar/{task}', usesas($ctrl, 'update'));
 	    Route::get('estado/{task}/{status}', usesas($ctrl, 'change'));
 	});
+
+	Route::group(['prefix' => 'facturas', 'as' => 'invoice.'], function () {
+	    $ctrl = 'Mailboxes\InvoiceController';
+	    Route::get('/', usesas($ctrl, 'index'));
+	    Route::post('/', usesas($ctrl, 'index'));
+	    Route::post('agregar', usesas($ctrl, 'create'));
+	});
+
 });

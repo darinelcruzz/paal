@@ -26,12 +26,26 @@ export default {
     props: ['title', 'id', 'color'],
     data() {
         return {
-            colors: {}
+            colors: {
+                info: '#00c0ef',
+                primary: '#3c8dbc',
+                default: '#d2d6de',
+                warning: '#f39c12',
+                success: '#00a65a',
+                danger: '#f56954',
+            }
         }
     },
     computed: {
         modalColor() {
-            return this.color != '' ? this.color: '#3c8dbc'
+            if (this.color) {
+                if (this.color.substr(0, 1) == '#') {
+                    return this.color
+                }            
+                return this.colors[this.color]
+            }
+
+            return '#3c8dbc'
         }
     },
 }

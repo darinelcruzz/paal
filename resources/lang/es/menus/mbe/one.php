@@ -16,7 +16,7 @@ return [
             ],
             'invoices' => [
                 'title' => 'Facturas',
-                'route' => ['mbe.ingress.index', 'factura']//'mbe.invoice.index'
+                'route' => 'mbe.invoice.index'
             ],
             'monthly' => [
                 'title' => 'Corte mensual',

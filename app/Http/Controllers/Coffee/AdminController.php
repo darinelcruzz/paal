@@ -18,9 +18,9 @@ class AdminController extends Controller
 
         $deposits = Payment::from($date)->where('type', '!=', 'contado')->get();
 
-        $invoiced = Ingress::from($date)->where('invoice', '!=', 'no')->get();
+        $invoiced = Ingress::from($date)->whereCompany('coffee')->where('invoice', '!=', 'no')->get();
 
-        $paid = Ingress::from($date)->where('invoice', 'no')->get();
+        $paid = Ingress::from($date)->whereCompany('coffee')->where('invoice', 'no')->get();
 
         return view('coffee.admin.index', compact('payments', 'paid', 'invoiced', 'deposits', 'date'));
     }
@@ -34,6 +34,8 @@ class AdminController extends Controller
         $month = Payment::monthly($date);
 
         $working_days = $month->selectRaw('DATE_FORMAT(created_at, "%Y-%m-%d") as date')->get()->groupBy('date')->count();
+
+        $working_days = $working_days == 0 ? 1: $working_days;
 
         $pending = Payment::monthly($date)->whereNull('cash_reference')->sum('cash');
 
@@ -49,6 +51,7 @@ class AdminController extends Controller
             ->whereNull('cash_reference')
             ->whereHas('ingress', function($query) {
                 $query->where('status', '!=', 'cancelado')
+                    ->where('company', 'coffee')
                     ->where('invoice_id', '!=', null);
             })
             ->sum('cash');
@@ -56,12 +59,14 @@ class AdminController extends Controller
         $invoices = Ingress::where('invoice_id', '!=', null)
             ->whereDate('created_at', $date)
             ->where('status', '!=', 'cancelado')
+            ->where('company', 'coffee')
             ->get()
             ->groupBy('invoice_id');
 
         $canceled = Ingress::where('invoice_id', '!=', null)
             ->whereDate('created_at', $date)
             ->where('status', 'cancelado')
+            ->where('company', 'coffee')
             ->get()
             ->groupBy('invoice_id');
 

@@ -4,14 +4,14 @@
             <i class="fa fa-eye"></i> Detalles
         </a>
     </li>
-    {{-- <ddi to="#modal-e{{ $ingress->id }}" icon=""></ddi> --}}
+
     @if ($ingress->invoice_id)
         <li>
-            <a href="{{ $ingress->xml }}" target="_blank">
+            <a href="{{ $ingress->xml }}">
                 <i class="fa fa-file-code"></i> XML
             </a>
         </li>
-    @else
+    @elseif($status != 'efectivo')
         <li>
             <a href="" data-toggle="modal" data-target="#modal-f{{ $ingress->id }}">
                 <i class="fa fa-plus"></i> Agregar FI
@@ -20,7 +20,7 @@
     @endif
 </dropdown>
 
-<modal title="Lista de productos" id="modal-e{{ $ingress->id }}" color="#00a65a">
+<modal title="Lista de productos" id="modal-e{{ $ingress->id }}" color="{{ $color }}">
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
@@ -39,9 +39,9 @@
     </table>
 </modal>
 
-{!! Form::open(['method' => 'POST', 'route' => 'coffee.invoice.create', 'files' => 'true']) !!}
+{!! Form::open(['method' => 'POST', 'route' => 'mbe.invoice.create', 'files' => 'true']) !!}
 
-<modal title="Agregar datos de la facturación" id="modal-f{{ $ingress->id }}" color="#00a65a">
+<modal title="Agregar datos de la facturación" id="modal-f{{ $ingress->id }}" color="{{ $color }}">
 
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
@@ -58,8 +58,6 @@
             <file-upload fname="xml" ext="xml" color="primary" bname=" SUBIR XML"></file-upload>
         </div>
     </div>
-    
-
 
     <template slot="footer">
         {!! Form::submit('Guardar', ['class' => 'btn btn-success pull-right']) !!}
