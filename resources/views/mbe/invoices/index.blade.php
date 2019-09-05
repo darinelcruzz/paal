@@ -5,25 +5,13 @@
 @endpush
 
 @section('content')
-
-    <div class="row">
-        
+    <div class="row">        
         <div class="col-md-9">
-
             <solid-box title="{{ strtoupper(fdate($date, 'l d \d\e F', 'Y-m-d')) }}" color="success">
                 
                 <data-table example="1">
 
-                    <template slot="header">
-                        <tr>
-                            <th>FI</th>
-                            <th>Método</th>
-                            <th>Cliente</th>
-                            <th>XML</th>
-                            <th style="text-align: center;">Referencia</th>
-                            <th style="text-align: right;">Importe</th>
-                        </tr>
-                    </template>
+                    {{ drawHeader('FI', 'método', 'cliente', 'XML', 'referencia', 'importe') }}
 
                     <template slot="body">
 
@@ -48,7 +36,9 @@
                                     }
                                 @endphp
                                 <td style="text-align: center">
-                                    @if (!$sales->first()->cash_reference && $sales->first()->cash > 0)
+                                    @if($sales->first()->status == 'cancelado')
+                                        <em><code>cancelada</code></em>
+                                    @elseif (!$sales->first()->cash_reference && $sales->first()->cash > 0)
                                         
                                         @php
                                             $pending += $subamount;
@@ -88,29 +78,6 @@
                                 <td style="text-align: right; width: 15%;">$ {{ number_format($subamount, 2) }}</td>
                             </tr>
                         @endforeach
-
-                        {{-- @foreach($canceled as $invoice => $sales)
-                            <tr>
-                                <td style="width: 7%">{{ $invoice }}</td>
-                                <td style="width: 17%">{{ $sales->first()->cash > 0 ? 'Efectivo' : $sales->first()->method_name }}</td>
-                                <td style="width: 35%">{{ $sales->first()->client->name }}</td>
-                                <td style="width: 5%; text-align: center;">
-                                    <a href="{{ $sales->first()->xml }}" target="_blank" style="color: green">
-                                        <i class="fa fa-file-excel"></i>
-                                    </a>
-                                </td>
-                                @php
-                                    $subamount = 0;
-                                    foreach ($sales as $sale) {
-                                        $subamount += $sale->cash > 0 ? $sale->payments->sum('cash'): $sale->amount;
-                                    }
-                                @endphp
-                                <td style="text-align: center">
-                                    <em><code>cancelada</code></em>
-                                </td>
-                                <td style="text-align: right; width: 15%;">$ {{ number_format($subamount, 2) }}</td>
-                            </tr>
-                        @endforeach --}}
                     </template>
                     
                 </data-table>
@@ -128,12 +95,12 @@
                     </h3>
                 </div>
             </div>
-            <a href="{{ route('coffee.admin.printDeposits', $date) }}" class="btn btn-default btn-block" target="_blank">
+            <a href="{{ route('mbe.invoice.print', $date) }}" class="btn btn-default btn-block" target="_blank">
                 <i class="fa fa-download"></i>&nbsp; DESCARGAR MES &nbsp;<i class="fa fa-file-pdf"></i>
             </a>
             <br>
 
-            {!! Form::open(['method' => 'post', 'route' => 'coffee.admin.invoices']) !!}
+            {!! Form::open(['method' => 'post', 'route' => 'mbe.invoice.index']) !!}
                 
                 <div class="row">
                     <div class="col-md-3">

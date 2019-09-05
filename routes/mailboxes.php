@@ -49,6 +49,8 @@ Route::group(['prefix' => 'mbe', 'as' => 'mbe.'], function () {
 	    Route::get('agregar', usesas($ctrl, 'create'));
 	    Route::post('agregar', usesas($ctrl, 'store'));
 	    Route::post('cancelar', usesas($ctrl, 'destroy'));
+	    Route::get('mensual', usesas($ctrl, 'monthly'));
+	    Route::post('mensual', usesas($ctrl, 'monthly'));
 	    Route::get('i/{ingress}', usesas($ctrl, 'show'));
 	    Route::get('{status}', usesas($ctrl, 'index'));
 	    Route::post('{status}', usesas($ctrl, 'index'));
@@ -69,6 +71,7 @@ Route::group(['prefix' => 'mbe', 'as' => 'mbe.'], function () {
 	    Route::get('/', usesas($ctrl, 'index'));
 	    Route::post('/', usesas($ctrl, 'index'));
 	    Route::post('agregar', usesas($ctrl, 'create'));
+	    Route::get('imprimir/{date}', usesas($ctrl, 'print'));
 	});
 
 });

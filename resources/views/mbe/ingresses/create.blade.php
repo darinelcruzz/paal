@@ -65,23 +65,20 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-md-6">
+                                <div v-if="mbe.client == '614'" class="col-md-6">
                                     {!! Field::select('type', $methods, null,
                                         ['label' => 'Método', 'tpl' => 'withicon', 'empty' => 'Forma de pago'],
                                         ['icon' => 'credit-card'])
                                     !!}
                                 </div>
+                                <div v-else class="col-md-6"></div>
 
                                 <div class="col-md-6">
-                                    <div>
-                                        <label>
-                                            <b>TOTAL</b>
-                                        </label><br>
-                                        <div class="pull-right">
-                                            <h1 style="color: green;" v-text="mbe.subtotal + mbe.iva"></h1>
-                                            <input type="hidden" name="amount" :value="mbe.subtotal + mbe.iva">
-                                        </div>
-                                    </div>
+                                    <label><b>TOTAL</b></label><br>
+                                    <h1 class="pull-right" style="color: green;">
+                                        @{{ mbe.subtotal + mbe.iva | currency }}
+                                    </h1>
+                                    <input type="hidden" name="amount" :value="mbe.subtotal + mbe.iva">
                                 </div>
                             </div>
 

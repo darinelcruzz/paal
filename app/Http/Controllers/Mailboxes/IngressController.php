@@ -5,13 +5,12 @@ namespace App\Http\Controllers\Mailboxes;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
-use App\{Ingress, Client};
+use App\{Ingress, Client, Payment};
 
 class IngressController extends Controller
 {
     function index(Request $request, $status)
     {
-        return view('mbe.coming_soon');
         $date = dateFromRequest();
 
         $ingresses = Ingress::whereDate('created_at', $date)
@@ -29,7 +28,6 @@ class IngressController extends Controller
 
     function create()
     {
-        return view('mbe.coming_soon');
         $clients = Client::where('company', '!=', 'coffee')->pluck('name', 'id')->toArray();
         $methods = ['efectivo' => 'Efectivo', 'transferencia' => 'Transferencia', 'cheque' => 'Cheque', 'tarjeta débito' => 'Tarjeta de débito', 'tarjeta crédito' => 'Tarjeta de crédito'];
         return view('mbe.ingresses.create', compact('clients', 'methods'));
@@ -42,7 +40,7 @@ class IngressController extends Controller
             'amount' => 'required|gt:iva',
             'iva' => 'required',
             'bought_at' => 'required',
-            'type' => 'required',
+            'type' => 'sometimes|required',
             'folio' => 'required',
             'invoice' => 'sometimes|required',
             'status' => 'required',
@@ -53,12 +51,33 @@ class IngressController extends Controller
 
         $ingress = Ingress::create($validated + ['products' => $this->getSerializedItems($request)]);
 
-        $ingress->payments()->create([
-            'type' => 'liquidación',
-            $request->method => $ingress->amount
-        ]);
+        $methods = ['efectivo' => 'cash', 'transferencia' => 'transfer', 'cheque' => 'check', 'tarjeta débito' => 'debit_card', 'tarjeta crédito' => 'credit_card'];
+
+        if ($request->type) {
+            $ingress->payments()->create([
+                'type' => 'liquidación',
+                $methods[$request->type] => $ingress->amount
+            ]);
+        }
 
         return redirect(route('mbe.ingress.index', 'factura'));
+    }
+
+    function monthly(Request $request)
+    {
+        $date = dateFromRequest('Y-m');
+
+        $month = Payment::monthly($date, 'mbe');
+
+
+        $working_days = $month->selectRaw('DATE_FORMAT(created_at, "%Y-%m-%d") as date')->get()->groupBy('date')->count();
+
+        // dd($working_days);
+        $working_days = $working_days == 0 ? 1: $working_days;
+
+        $pending = Payment::monthly($date, 'mbe')->whereNull('cash_reference')->sum('cash');
+
+        return view('mbe.ingresses.monthly', compact('date', 'month', 'pending', 'working_days'));
     }
 
     function getSerializedItems(Request $request)

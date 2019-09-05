@@ -11,7 +11,7 @@ return [
                 'route' => 'mbe.ingress.create'
             ],
             'index' => [
-                'title' => 'Historial',
+                'title' => 'Corte diario',
                 'route' => ['mbe.ingress.index', 'factura']
             ],
             'invoices' => [
@@ -20,7 +20,7 @@ return [
             ],
             'monthly' => [
                 'title' => 'Corte mensual',
-                'route' => ['mbe.ingress.index', 'factura']//'mbe.admin.index'
+                'route' => 'mbe.ingress.monthly'
             ],
         ]
     ],

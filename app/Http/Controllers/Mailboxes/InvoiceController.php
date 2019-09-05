@@ -11,7 +11,6 @@ class InvoiceController extends Controller
 {
     function index(Request $request)
     {
-        return view('mbe.coming_soon');
         $date = dateFromRequest();
 
         $total = Payment::whereYear('created_at', substr($date, 0, 4))
@@ -19,26 +18,18 @@ class InvoiceController extends Controller
             ->whereNull('cash_reference')
             ->whereHas('ingress', function($query) {
                 $query->where('status', '!=', 'cancelado')
-                    ->where('company', 'coffee')
+                    ->where('company', 'mbe')
                     ->where('invoice_id', '!=', null);
             })
             ->sum('cash');
 
         $invoices = Ingress::where('invoice_id', '!=', null)
             ->whereDate('created_at', $date)
-            ->where('status', '!=', 'cancelado')
             ->where('company', 'mbe')
             ->get()
             ->groupBy('invoice_id');
 
-        $canceled = Ingress::where('invoice_id', '!=', null)
-            ->whereDate('created_at', $date)
-            ->where('status', 'cancelado')
-            ->where('company', 'mbe')
-            ->get()
-            ->groupBy('invoice_id');
-
-        return view('mbe.invoices.index', compact('invoices', 'date', 'total', 'canceled'));
+        return view('mbe.invoices.index', compact('invoices', 'date', 'total'));
     }
 
 	function create(Request $request)
@@ -57,5 +48,23 @@ class InvoiceController extends Controller
         }
 
         return redirect(route('mbe.ingress.index', 'factura'))->with('redirected', session('date'));
+    }
+
+    function print($date)
+    {
+        $invoices = Ingress::whereYear('created_at', substr($date, 0, 4))
+            ->whereMonth('created_at', substr($date, 5))
+            ->where('invoice_id', '!=', null)
+            ->where('status', '!=', 'cancelado')
+            ->where('company', 'mbe')
+            ->whereHas('payments', function($query) {
+                $query->whereNull('cash_reference');
+            })
+            ->selectRaw('id, client_id, iva, amount, invoice_id, DATE_FORMAT(created_at, "%Y-%m-%d") as date')
+            ->with(['client:id,name', 'payments'])
+            ->get()
+            ->groupBy('date');
+
+        return view('mbe.invoices.print', compact('invoices'));
     }
 }

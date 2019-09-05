@@ -56,7 +56,7 @@
                     </template>    
                 </data-table>
 
-                @if($status == 'efectivo')
+                @if($status == 'efectivo' && $ingresses->count() != 0)
 
                     @if ($ingress->invoice_id == null)
                         <a href="" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-cash" title="AGREGAR FI">

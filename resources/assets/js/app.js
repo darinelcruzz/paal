@@ -9,10 +9,17 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
-// import Vue from 'vue'
-// import vSelect from './components/Select.vue'
+import VueCurrencyFilter from 'vue-currency-filter';
 
-// Vue.component('v-select', vSelect)
+Vue.use(VueCurrencyFilter,
+{
+  symbol : '$',
+  thousandsSeparator: ',',
+  fractionCount: 2,
+  fractionSeparator: '.',
+  symbolPosition: 'front',
+  symbolSpacing: true
+})
 
 Vue.component('v-select', VueSelect.VueSelect);
 
