@@ -33,7 +33,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div v-if="mbe.client == '614'" class="col-md-6">
+                                <div v-if="mbe.client == '577'" class="col-md-6">
                                     {!! Field::select('invoice', ['no' => 'No require factura', 'otro' => 'Sí requiere'], null,
                                         ['tpl' => 'withicon', 'empty' => '¿Factura?'],
                                         ['icon' => 'credit-card'])
@@ -65,7 +65,7 @@
                             </div>
 
                             <div class="row">
-                                <div v-if="mbe.client == '614'" class="col-md-6">
+                                <div v-if="mbe.client == '577'" class="col-md-6">
                                     {!! Field::select('type', $methods, null,
                                         ['label' => 'Método', 'tpl' => 'withicon', 'empty' => 'Forma de pago'],
                                         ['icon' => 'credit-card'])

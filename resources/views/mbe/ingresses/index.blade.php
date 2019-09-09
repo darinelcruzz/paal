@@ -41,8 +41,8 @@
                     <template slot="body">
                         @foreach($ingresses as $ingress)
                             <tr>
-                                <td>{{ $ingress->folio }}</td>
-                                <td>
+                                <td style="width: 7%">{{ $ingress->folio }}</td>
+                                <td style="width: 5%">
                                     @include('mbe.ingresses._options')
                                 </td>
                                 <td>

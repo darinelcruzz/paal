@@ -7,26 +7,33 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    function index()
+    function index($company = 'coffee')
     {
-        $products = Product::all();
-        return view('paal.products.index', compact('products'));
+        $conditional = $company == 'coffee' ? '!=': '=';
+        $products = Product::where('category', $conditional, 'MBE')->get();
+        return view('paal.products.index', compact('products', 'company'));
     }
 
     function create()
     {
-        $families = Product::groupBy('family')->pluck('family', 'family')->toArray();
+        $families = Product::where('category', '!=', 'MBE')->groupBy('family')->pluck('family', 'family')->toArray();
         return view('paal.products.create', compact('families'));
+    }
+
+    function add()
+    {
+        $families = Product::where('category', 'MBE')->groupBy('family')->pluck('family', 'family')->toArray();
+        return view('paal.products.add', compact('families'));
     }
 
     function store(Request $request)
     {
         $this->validate($request, [
             'description' => 'required',
-            'code' => 'required',
-            'barcode' => 'required',
+            'code' => 'sometimes|required',
+            'barcode' => 'sometimes|required',
             'family' => 'required',
-            'retail_price' => 'required',
+            'retail_price' => 'sometimes|required',
             'wholesale_price' => 'sometimes|required|lt:retail_price',
             'wholesale_quantity' => 'sometimes|required',
             'iva' => 'sometimes|required',
@@ -52,6 +59,10 @@ class ProductController extends Controller
                 break;
         }
 
+        if ($product->category == 'MBE') {
+            return redirect(route('paal.product.index', 'mbe'));
+        }
+
         return redirect(route('paal.product.index'));
     }
 
@@ -62,7 +73,8 @@ class ProductController extends Controller
 
     function edit(Product $product)
     {
-        $families = Product::groupBy('family')->pluck('family', 'family')->toArray();
+        $conditional = $product->category == 'MBE' ? '=': '!=';
+        $families = Product::where('category', $conditional, 'MBE')->groupBy('family')->pluck('family', 'family')->toArray();
         return view('paal.products.edit', compact('product', 'families'));
     }
 
@@ -70,10 +82,10 @@ class ProductController extends Controller
     {
         $this->validate($request, [
             'description' => 'required',
-            'code' => 'required',
-            'barcode' => 'required',
+            'code' => 'sometimes|required',
+            'barcode' => 'sometimes|required',
             'family' => 'required',
-            'retail_price' => 'required',
+            'retail_price' => 'sometimes|required',
             'wholesale_price' => 'sometimes|required|lt:retail_price',
             'wholesale_quantity' => 'sometimes|required',
             'iva' => 'sometimes|required',
@@ -82,6 +94,10 @@ class ProductController extends Controller
         ]);
 
         $product->update($request->all());
+
+        if ($product->category == 'MBE') {
+            return redirect(route('paal.product.index', 'mbe'));
+        }
 
         return redirect(route('paal.product.index'));
     }

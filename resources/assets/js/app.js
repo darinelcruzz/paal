@@ -59,6 +59,7 @@ Vue.component('ddi', require('./components/lte/DropdownItem.vue'));
 Vue.component('file-upload', require('./components/lte/FileUploadInput.vue'));
 Vue.component('pdf-button', require('./components/lte/FileUploadButton.vue'));
 Vue.component('dynamic-inputs', require('./components/lte/DynamicInputs.vue'));
+Vue.component('color-card', require('./components/lte/ColorCard.vue'));
 
 Vue.component('add-product', require('./components/AddProductButton.vue'));
 Vue.component('p-table', require('./components/ProductsTable.vue'));

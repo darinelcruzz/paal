@@ -69,15 +69,17 @@ class IngressController extends Controller
 
         $month = Payment::monthly($date, 'mbe');
 
-
         $working_days = $month->selectRaw('DATE_FORMAT(created_at, "%Y-%m-%d") as date')->get()->groupBy('date')->count();
 
-        // dd($working_days);
+        $shippings = Ingress::monthly($date, 'mbe')->count();
+
+        $credit_total = Ingress::monthly($date, 'mbe')->whereStatus('crédito')->sum('amount');
+
         $working_days = $working_days == 0 ? 1: $working_days;
 
         $pending = Payment::monthly($date, 'mbe')->whereNull('cash_reference')->sum('cash');
 
-        return view('mbe.ingresses.monthly', compact('date', 'month', 'pending', 'working_days'));
+        return view('mbe.ingresses.monthly', compact('date', 'month', 'pending', 'working_days', 'credit_total', 'shippings'));
     }
 
     function getSerializedItems(Request $request)

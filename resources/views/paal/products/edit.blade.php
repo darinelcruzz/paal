@@ -10,6 +10,18 @@
             <solid-box title="Editar producto" color="primary" button>
 
                 {!! Form::open(['method' => 'POST', 'route' => ['paal.product.update', $product]]) !!}
+                
+                @if($product->category == 'MBE')
+
+                    {!! Field::text('description', $product->description, ['tpl' => 'withicon'], ['icon' => 'comments']) !!}
+
+                    {!! Field::select('family', $families, $product->family, 
+                        ['tpl' => 'withicon', 'empty' => 'Seleccione una familia'], 
+                        ['icon' => 'group']) 
+                    !!}
+
+                @else
+
 
                     {!! Field::text('description', $product->description, ['tpl' => 'withicon'], ['icon' => 'comments']) !!}
 
@@ -97,6 +109,8 @@
                             </div>
                         </div>
                     </div>
+
+                    @endif
 
                     <button type="submit" class="btn btn-primary pull-right">Editar</button>
 
