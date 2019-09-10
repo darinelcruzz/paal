@@ -23,7 +23,7 @@ class QuotationController extends Controller
 
     function create($type)
     {
-        return view('coffee.quotations.create', compact('clients', 'type'));
+        return view('coffee.quotations.create', compact('type'));
     }
 
     function store(Request $request)

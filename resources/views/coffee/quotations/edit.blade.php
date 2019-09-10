@@ -7,7 +7,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-6">
-            <solid-box title="Editar cotización {{ $quotation->id }}" color="warning">
+            <solid-box title="Editar cotización {{ $quotation->id }}" color="{{ $quotation->type == 'insumos' ? 'danger': 'warning'}}">
                 {!! Form::open(['method' => 'POST', 'route' => ['coffee.quotation.update', $quotation]]) !!}
 
                     <div class="row">
@@ -21,15 +21,18 @@
                     <br>
                     <shopping-list color="warning" :qproducts="{{ $quotation->products_list }}"></shopping-list>
 
-                    {!! Form::submit('Guardar cambios', ['class' => 'btn btn-warning pull-right']) !!}
+                    {!! Form::submit('Guardar cambios', ['class' => "btn btn-". ($quotation->type == 'insumos' ? 'danger': 'warning') ." pull-right"]) !!}
 
                 {!! Form::close() !!}
             </solid-box>
         </div>
 
         <div class="col-md-6">
-            <solid-box title="Productos" color="warning">
+            {{-- <solid-box title="Productos" color="warning">
                 <p-table color="warning" :exchange="{{ env('EXCHANGE_RATE') }}"></p-table>
+            </solid-box> --}}
+            <solid-box title="{{ strtoupper($quotation->type == 'insumos' ? 'insumos': 'equipos') }}" color="{{ $quotation->type == 'insumos' ? 'danger': 'warning' }}">
+                <p-table color="{{ $quotation->type == 'insumos' ? 'danger': 'warning'}}" :exchange="{{ $exchange }}" type="{{ $quotation->type }}"></p-table>
             </solid-box>
         </div>
     </div>

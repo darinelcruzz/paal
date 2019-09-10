@@ -11,6 +11,7 @@ class EgressController extends Controller
 {
     function index(Request $request, $status = 'pagado')
     {
+        return view('mbe.coming_soon');
         $date = isset($request->date) ? $request->date: date('Y-m');
 
         $paid = Egress::from($date, 'payment_date', 'mbe')

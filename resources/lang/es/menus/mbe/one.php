@@ -8,20 +8,21 @@ return [
         'submenu' => [
             'create' => [
                 'title' => 'Agregar',
-                'route' => 'mbe.ingress.create'
+                'route' => ['mbe.egress.index', 'pagado'],
+                // 'route' => 'mbe.ingress.create'
             ],
-            'index' => [
-                'title' => 'Corte diario',
-                'route' => ['mbe.ingress.index', 'factura']
-            ],
-            'invoices' => [
-                'title' => 'Facturas',
-                'route' => 'mbe.invoice.index'
-            ],
-            'monthly' => [
-                'title' => 'Corte mensual',
-                'route' => 'mbe.ingress.monthly'
-            ],
+            // 'index' => [
+            //     'title' => 'Corte diario',
+            //     'route' => ['mbe.ingress.index', 'factura']
+            // ],
+            // 'invoices' => [
+            //     'title' => 'Facturas',
+            //     'route' => 'mbe.invoice.index'
+            // ],
+            // 'monthly' => [
+            //     'title' => 'Corte mensual',
+            //     'route' => 'mbe.ingress.monthly'
+            // ],
         ]
     ],
     
@@ -33,18 +34,18 @@ return [
                 'title' => 'Historial',
                 'route' => ['mbe.egress.index', 'pagado']
             ],
-            'general' => [
-                'title' => 'Generales',
-                'route' => 'mbe.egress.general.create'
-            ],
-            'cashier' => [
-                'title' => 'Caja Chica',
-                'route' => 'mbe.egress.register.index'
-            ],
-            'returns' => [
-                'title' => 'Reposiciones',
-                'route' => 'mbe.egress.return.create'
-            ],
+            // 'general' => [
+            //     'title' => 'Generales',
+            //     'route' => 'mbe.egress.general.create'
+            // ],
+            // 'cashier' => [
+            //     'title' => 'Caja Chica',
+            //     'route' => 'mbe.egress.register.index'
+            // ],
+            // 'returns' => [
+            //     'title' => 'Reposiciones',
+            //     'route' => 'mbe.egress.return.create'
+            // ],
         ]
     ],
 
@@ -52,6 +53,7 @@ return [
         'title' => 'Tareas',
         'icon' => 'fa fa-tasks',
         'route' => 'mbe.task.index'
+        // 'route' => 'mbe.task.index'
     ],
 
     'logout' => [
