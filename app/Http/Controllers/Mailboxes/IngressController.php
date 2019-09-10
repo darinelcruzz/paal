@@ -5,27 +5,10 @@ namespace App\Http\Controllers\Mailboxes;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
-use App\{Ingress, Client, Payment};
+use App\{Ingress, Client, Payment, Product};
 
 class IngressController extends Controller
 {
-    function index(Request $request, $status)
-    {
-        $date = dateFromRequest();
-
-        $ingresses = Ingress::whereDate('created_at', $date)
-            ->whereCompany('mbe')
-            ->where($this->getConditions($status))
-            ->get();
-
-        $ingresses_to_filter = Ingress::whereDate('created_at', $date)
-            ->whereCompany('mbe')->get();
-
-        $color = ['factura' => 'primary', 'efectivo' => 'success', 'tarjeta' => 'warning', 'transferencia' => 'info'][$status];
-
-        return view('mbe.ingresses.index', compact('date', 'ingresses', 'status', 'color', 'ingresses_to_filter'));
-    }
-
     function create()
     {
         $clients = Client::where('company', '!=', 'coffee')->pluck('name', 'id')->toArray();
@@ -60,7 +43,24 @@ class IngressController extends Controller
             ]);
         }
 
-        return redirect(route('mbe.ingress.index', 'factura'));
+        return redirect(route('mbe.ingress.daily', 'factura'));
+    }
+    
+    function daily(Request $request, $status)
+    {
+        $date = dateFromRequest();
+
+        $ingresses = Ingress::whereDate('created_at', $date)
+            ->whereCompany('mbe')
+            ->where($this->getConditions($status))
+            ->get();
+
+        $ingresses_to_filter = Ingress::whereDate('created_at', $date)
+            ->whereCompany('mbe')->get();
+
+        $color = ['factura' => 'primary', 'efectivo' => 'success', 'tarjeta' => 'warning', 'transferencia' => 'info'][$status];
+
+        return view('mbe.ingresses.daily', compact('date', 'ingresses', 'status', 'color', 'ingresses_to_filter'));
     }
 
     function monthly(Request $request)
@@ -80,6 +80,15 @@ class IngressController extends Controller
         $pending = Payment::monthly($date, 'mbe')->whereNull('cash_reference')->sum('cash');
 
         return view('mbe.ingresses.monthly', compact('date', 'month', 'pending', 'working_days', 'credit_total', 'shippings'));
+    }
+
+    function index()
+    {
+        $date = dateFromRequest('Y-m');
+
+        $ingresses = Ingress::whereCompany('mbe')->get();
+
+        return view('mbe.ingresses.index', compact('ingresses', 'date'));
     }
 
     function getSerializedItems(Request $request)
@@ -107,5 +116,27 @@ class IngressController extends Controller
                 ['type', 'LIKE', "%$value%"]
             ];
         }
+    }
+
+    function getShippings($date)
+    {
+        $shippings = Ingress::monthly($date, 'mbe')->get();
+
+        $families = [];
+
+        foreach ($shippings as $shipping) {
+            foreach (unserialize($shipping->products) as $product) {
+                $p = Product::find($product['i']);
+
+                if (isset($families[$p->family])) {
+                    $families[$p->family] += $product['q'];
+                } else {
+                    $families[$p->family] = $product['q'];
+                }
+
+            }
+        }
+
+        return $families;
     }
 }

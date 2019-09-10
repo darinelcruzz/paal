@@ -43,10 +43,11 @@
             <color-card color="yellow" icon="credit-card" label="Crédito">
                 <em>$ {{ number_format($credit_total, 2) }}</em>
             </color-card>
-
-            <color-card color="primary" icon="truck" label="Envíos">
-                <em>{{ $shippings }}</em>
-            </color-card>
+            <div>
+                <color-card color="primary" icon="truck" label="Envíos">
+                    <em>{{ $shippings }}</em>
+                </color-card>
+            </div>
         </div>
 
         <div class="col-md-8">

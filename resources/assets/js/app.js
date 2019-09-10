@@ -11,6 +11,10 @@ window.Vue = require('vue');
 
 import VueCurrencyFilter from 'vue-currency-filter';
 
+import VModal from 'vue-js-modal'
+
+Vue.use(VModal, { componentName: "v-modal" })
+
 Vue.use(VueCurrencyFilter,
 {
   symbol : '$',
@@ -115,6 +119,9 @@ const app = new Vue({
             axios.get('/api/providers').then(({data}) => {
                 t.providers = data;
             });
+        },
+        showModal(modal_name) {
+            this.$modal.show(modal_name)
         }
     },
     created() {

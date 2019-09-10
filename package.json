@@ -22,6 +22,7 @@
     "dependencies": {
         "vue-currency-filter": "^3.4.3",
         "vue-form-wizard": "^0.8.4",
+        "vue-js-modal": "^1.3.31",
         "vue-select": "^2.5.1"
     }
 }

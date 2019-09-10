@@ -52,8 +52,10 @@ Route::group(['prefix' => 'mbe', 'as' => 'mbe.'], function () {
 	    Route::get('mensual', usesas($ctrl, 'monthly'));
 	    Route::post('mensual', usesas($ctrl, 'monthly'));
 	    Route::get('i/{ingress}', usesas($ctrl, 'show'));
-	    Route::get('{status}', usesas($ctrl, 'index'));
-	    Route::post('{status}', usesas($ctrl, 'index'));
+	    Route::get('{status}', usesas($ctrl, 'daily'));
+	    Route::post('{status}', usesas($ctrl, 'daily'));
+	    Route::get('/', usesas($ctrl, 'index'));
+	    Route::post('/', usesas($ctrl, 'index'));
 	});
 
 	Route::group(['prefix' => 'tareas', 'as' => 'task.'], function () {

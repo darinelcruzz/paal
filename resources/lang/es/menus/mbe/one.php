@@ -8,21 +8,24 @@ return [
         'submenu' => [
             'create' => [
                 'title' => 'Agregar',
-                'route' => ['mbe.egress.index', 'pagado'],
-                // 'route' => 'mbe.ingress.create'
+                'route' => 'mbe.ingress.create'
             ],
-            // 'index' => [
-            //     'title' => 'Corte diario',
-            //     'route' => ['mbe.ingress.index', 'factura']
-            // ],
-            // 'invoices' => [
-            //     'title' => 'Facturas',
-            //     'route' => 'mbe.invoice.index'
-            // ],
-            // 'monthly' => [
-            //     'title' => 'Corte mensual',
-            //     'route' => 'mbe.ingress.monthly'
-            // ],
+            'daily' => [
+                'title' => 'Corte diario',
+                'route' => ['mbe.ingress.daily', 'factura']
+            ],
+            'invoices' => [
+                'title' => 'Facturas',
+                'route' => 'mbe.invoice.index'
+            ],
+            'monthly' => [
+                'title' => 'Corte mensual',
+                'route' => 'mbe.ingress.monthly'
+            ],
+            'index' => [
+                'title' => 'Historial',
+                'route' => 'mbe.ingress.index'
+            ],
         ]
     ],
     
@@ -34,18 +37,18 @@ return [
                 'title' => 'Historial',
                 'route' => ['mbe.egress.index', 'pagado']
             ],
-            // 'general' => [
-            //     'title' => 'Generales',
-            //     'route' => 'mbe.egress.general.create'
-            // ],
-            // 'cashier' => [
-            //     'title' => 'Caja Chica',
-            //     'route' => 'mbe.egress.register.index'
-            // ],
-            // 'returns' => [
-            //     'title' => 'Reposiciones',
-            //     'route' => 'mbe.egress.return.create'
-            // ],
+            'general' => [
+                'title' => 'Generales',
+                'route' => 'mbe.egress.general.create'
+            ],
+            'cashier' => [
+                'title' => 'Caja Chica',
+                'route' => 'mbe.egress.register.index'
+            ],
+            'returns' => [
+                'title' => 'Reposiciones',
+                'route' => 'mbe.egress.return.create'
+            ],
         ]
     ],
 
@@ -53,7 +56,6 @@ return [
         'title' => 'Tareas',
         'icon' => 'fa fa-tasks',
         'route' => 'mbe.task.index'
-        // 'route' => 'mbe.task.index'
     ],
 
     'logout' => [
