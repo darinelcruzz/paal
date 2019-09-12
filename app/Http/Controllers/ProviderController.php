@@ -28,6 +28,7 @@ class ProviderController extends Controller
             'phone' => 'required',
             'email' => 'required',
             'contact' => 'required',
+            'group' => 'required',
             'type' => 'required',
             'city' => 'required',
             'postcode' => 'required',

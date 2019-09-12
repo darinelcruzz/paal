@@ -9,6 +9,13 @@ use App\{Ingress, Client, Payment, Product};
 
 class IngressController extends Controller
 {
+    function index()
+    {
+        $date = dateFromRequest('Y-m');
+        $ingresses = Ingress::monthly($date, 'mbe')->get();
+        return view('mbe.ingresses.index', compact('ingresses', 'date'));
+    }
+
     function create()
     {
         $clients = Client::where('company', '!=', 'coffee')->pluck('name', 'id')->toArray();
@@ -23,7 +30,7 @@ class IngressController extends Controller
             'amount' => 'required|gt:iva',
             'iva' => 'required',
             'bought_at' => 'required',
-            'type' => 'sometimes|required',
+            'method' => 'sometimes|required',
             'folio' => 'required',
             'invoice' => 'sometimes|required',
             'status' => 'required',
@@ -36,59 +43,14 @@ class IngressController extends Controller
 
         $methods = ['efectivo' => 'cash', 'transferencia' => 'transfer', 'cheque' => 'check', 'tarjeta débito' => 'debit_card', 'tarjeta crédito' => 'credit_card'];
 
-        if ($request->type) {
+        if ($request->method) {
             $ingress->payments()->create([
                 'type' => 'liquidación',
-                $methods[$request->type] => $ingress->amount
+                $methods[$request->method] => $ingress->amount
             ]);
         }
 
         return redirect(route('mbe.ingress.daily', 'factura'));
-    }
-    
-    function daily(Request $request, $status)
-    {
-        $date = dateFromRequest();
-
-        $ingresses = Ingress::whereDate('created_at', $date)
-            ->whereCompany('mbe')
-            ->where($this->getConditions($status))
-            ->get();
-
-        $ingresses_to_filter = Ingress::whereDate('created_at', $date)
-            ->whereCompany('mbe')->get();
-
-        $color = ['factura' => 'primary', 'efectivo' => 'success', 'tarjeta' => 'warning', 'transferencia' => 'info'][$status];
-
-        return view('mbe.ingresses.daily', compact('date', 'ingresses', 'status', 'color', 'ingresses_to_filter'));
-    }
-
-    function monthly(Request $request)
-    {
-        $date = dateFromRequest('Y-m');
-
-        $month = Payment::monthly($date, 'mbe');
-
-        $working_days = $month->selectRaw('DATE_FORMAT(created_at, "%Y-%m-%d") as date')->get()->groupBy('date')->count();
-
-        $shippings = Ingress::monthly($date, 'mbe')->count();
-
-        $credit_total = Ingress::monthly($date, 'mbe')->whereStatus('crédito')->sum('amount');
-
-        $working_days = $working_days == 0 ? 1: $working_days;
-
-        $pending = Payment::monthly($date, 'mbe')->whereNull('cash_reference')->sum('cash');
-
-        return view('mbe.ingresses.monthly', compact('date', 'month', 'pending', 'working_days', 'credit_total', 'shippings'));
-    }
-
-    function index()
-    {
-        $date = dateFromRequest('Y-m');
-
-        $ingresses = Ingress::whereCompany('mbe')->get();
-
-        return view('mbe.ingresses.index', compact('ingresses', 'date'));
     }
 
     function getSerializedItems(Request $request)
@@ -103,40 +65,5 @@ class IngressController extends Controller
         }
 
         return serialize($products);
-    }
-
-    function getConditions($value)
-    {
-        if ($value == 'factura') {
-            return [
-                ['invoice', '=', 'otro']
-            ];
-        } else {
-            return [
-                ['type', 'LIKE', "%$value%"]
-            ];
-        }
-    }
-
-    function getShippings($date)
-    {
-        $shippings = Ingress::monthly($date, 'mbe')->get();
-
-        $families = [];
-
-        foreach ($shippings as $shipping) {
-            foreach (unserialize($shipping->products) as $product) {
-                $p = Product::find($product['i']);
-
-                if (isset($families[$p->family])) {
-                    $families[$p->family] += $product['q'];
-                } else {
-                    $families[$p->family] = $product['q'];
-                }
-
-            }
-        }
-
-        return $families;
     }
 }

@@ -23,10 +23,18 @@ Route::group(['prefix' => 'paal', 'as' => 'paal.'], function () {
 	});
 
 	Route::group(['prefix' => 'ingresos', 'as' => 'ingress.'], function () {
+	    $ctrl = 'Paal\AdminController';
+	    Route::get('mensual/{company}', usesas($ctrl, 'monthly'));
+	    Route::post('mensual/{company}', usesas($ctrl, 'monthly'));
+	    Route::get('diario/{company}/{status?}', usesas($ctrl, 'daily'));
+	    Route::post('diario/{company}/{status?}', usesas($ctrl, 'daily'));
+	    Route::post('por-paqueteria', usesas($ctrl, 'companies'));
+	});
+
+	Route::group(['prefix' => 'ingresos', 'as' => 'ingress.'], function () {
 	    $ctrl = 'IngressController';
-	    Route::get('/', usesas($ctrl, 'index'));
-	    Route::get('agregar/{company}', usesas($ctrl, 'create'));
-	    Route::post('agregar', usesas($ctrl, 'store'));
+	    Route::get('/{company?}', usesas($ctrl, 'index'));
+	    Route::post('/{company?}', usesas($ctrl, 'index'));
 	    Route::get('pagar/{ingress}', usesas($ctrl, 'charge'));
 	    Route::post('pagar/{ingress}', usesas($ctrl, 'pay'));
 	    Route::post('imprimir', usesas($ctrl, 'print'));

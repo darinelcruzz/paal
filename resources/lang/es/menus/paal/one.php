@@ -17,7 +17,16 @@ return [
     'ingresses' => [
         'title' => 'Ingresos',
         'icon' => 'fa fa-shopping-cart',
-        'route' => 'paal.ingress.index'
+        'submenu' => [
+            'daily' => [
+                'title' => 'Corte diario',
+                'route' => ['paal.ingress.daily', 'coffee']
+            ],
+            'index' => [
+                'title' => 'Historial',
+                'route' => 'paal.ingress.index'
+            ]
+        ]
     ],
 
     'clients' => [

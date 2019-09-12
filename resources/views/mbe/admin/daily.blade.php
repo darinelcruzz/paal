@@ -43,7 +43,7 @@
                             <tr>
                                 <td style="width: 7%">{{ $ingress->folio }}</td>
                                 <td style="width: 5%">
-                                    @include('mbe.ingresses._options')
+                                    @include('mbe.admin._options')
                                 </td>
                                 <td>
                                     {{ $ingress->client->name }}

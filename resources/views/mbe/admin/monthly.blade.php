@@ -43,11 +43,14 @@
             <color-card color="yellow" icon="credit-card" label="Crédito">
                 <em>$ {{ number_format($credit_total, 2) }}</em>
             </color-card>
-            <div>
-                <color-card color="primary" icon="truck" label="Envíos">
-                    <em>{{ $shippings }}</em>
-                </color-card>
-            </div>
+            {!! Form::open(['method' => 'POST', 'route' => 'mbe.ingress.companies', 'id' => 'companies_form']) !!}
+                <input type="hidden" name="date" value="{{ $date }}">
+                <a href="javascript:{}" onclick="document.getElementById('companies_form').submit();">
+                    <color-card color="primary" icon="truck" label="Envíos">
+                        <em>{{ $shippings }}</em>
+                    </color-card>
+                </a>
+            {!! Form::close() !!}
         </div>
 
         <div class="col-md-8">

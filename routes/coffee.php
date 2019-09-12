@@ -4,6 +4,18 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 
 	Route::get('/', usesas('Coffee\HomeController', 'index'));
 
+	Route::get('get-methods', function () {
+		$ingresses = App\Ingress::whereCompany('coffee')->get();
+
+		$methods = ['undefined' => null, 'cash' => 'efectivo', 'transfer' => 'transferencia', 'check' => 'cheque', 'debit_card' => 'tarjeta débito', 'credit_card' => 'tarjeta crédito'];
+
+		foreach ($ingresses as $ingress) {
+			$ingress->update(['method' => $methods[$ingress->method]]);
+		}
+
+		return 'LISTO';
+	});
+
 	Route::group(['prefix' => 'egresos', 'as' => 'egress.'], function () {
 	    $ctrl = 'Coffee\EgressController';
 	    Route::get('pagar/{egress}', usesas($ctrl, 'pay'));

@@ -1,6 +1,6 @@
 <template lang="html">
     <div class="table-responsive">
-        <table :id="'example' + example" class="table table-bordered table-striped spanish">
+        <table :id="'example' + example" class="table table-bordered table-striped" :class="classes">
             <thead>
                 <slot name="header"></slot>
             </thead>
@@ -18,6 +18,15 @@
 
 <script>
 export default {
-    props: ['example']
+    props: {
+        classes: {
+          type: String,
+          default: 'spanish'
+        },
+        example: {
+            type: String,
+            default: '1'
+        }
+    }
 }
 </script>

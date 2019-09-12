@@ -27,7 +27,7 @@
 
             <solid-box title="Ingresos" color="success">
 
-                <data-table example="1">
+                <data-table classes="spanish-simple">
 
                     {{ drawHeader('folio', '<i class="fa fa-cogs"></i>','fecha venta', 'cliente', 'IVA', 'total', 'método', 'estado') }}
 

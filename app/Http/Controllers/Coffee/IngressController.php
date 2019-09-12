@@ -10,12 +10,10 @@ use Alert;
 
 class IngressController extends Controller
 {
-    function index(Request $request)
+    function index()
     {
-        $date = isset($request->date) ? $request->date: date('Y-m');
-
-        $ingresses = Ingress::monthly($date)->get();
-        
+        $date = dateFromRequest('Y-m');
+        $ingresses = Ingress::monthly($date)->get();        
         return view('coffee.ingresses.index', compact('ingresses', 'date'));
     }
 

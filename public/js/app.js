@@ -49670,7 +49670,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['example']
+    props: {
+        classes: {
+            type: String,
+            default: 'spanish'
+        },
+        example: {
+            type: String,
+            default: '1'
+        }
+    }
 });
 
 /***/ }),
@@ -49685,7 +49694,8 @@ var render = function() {
     _c(
       "table",
       {
-        staticClass: "table table-bordered table-striped spanish",
+        staticClass: "table table-bordered table-striped",
+        class: _vm.classes,
         attrs: { id: "example" + _vm.example }
       },
       [

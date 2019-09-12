@@ -50,6 +50,11 @@
       'language': language
     });
 
+    $('.spanish-simple').DataTable({
+      ordering: false,
+      language: language
+    });
+
 
     $(window).keydown(function(event){
       if(event.keyCode == 13) {

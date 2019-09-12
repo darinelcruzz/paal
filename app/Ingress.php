@@ -7,10 +7,7 @@ use Illuminate\Support\Facades\Storage;
 
 class Ingress extends Model
 {
-    protected $fillable = [
-    	'client_id', 'bought_at', 'products', 'company', 'amount', 'retained_at', 'retainer', 'type',
-    	'status', 'iva', 'paid_at', 'user_id', 'invoice', 'invoice_id', 'folio', 'special_products', 'canceled_for', 'quotation_id'
-    ];
+    protected $guarded = [];
 
     function client()
     {

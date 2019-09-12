@@ -45,17 +45,22 @@ Route::group(['prefix' => 'mbe', 'as' => 'mbe.'], function () {
 	});
 
 	Route::group(['prefix' => 'ingresos', 'as' => 'ingress.'], function () {
+	    $ctrl = 'Mailboxes\AdminController';
+	    Route::get('mensual', usesas($ctrl, 'monthly'));
+	    Route::post('mensual', usesas($ctrl, 'monthly'));
+	    Route::get('diario/{status}', usesas($ctrl, 'daily'));
+	    Route::post('diario/{status}', usesas($ctrl, 'daily'));
+	    Route::post('por-paqueteria', usesas($ctrl, 'companies'));
+	});
+
+	Route::group(['prefix' => 'ingresos', 'as' => 'ingress.'], function () {
 	    $ctrl = 'Mailboxes\IngressController';
+	    Route::get('/', usesas($ctrl, 'index'));
+	    Route::post('/', usesas($ctrl, 'index'));
 	    Route::get('agregar', usesas($ctrl, 'create'));
 	    Route::post('agregar', usesas($ctrl, 'store'));
 	    Route::post('cancelar', usesas($ctrl, 'destroy'));
-	    Route::get('mensual', usesas($ctrl, 'monthly'));
-	    Route::post('mensual', usesas($ctrl, 'monthly'));
-	    Route::get('i/{ingress}', usesas($ctrl, 'show'));
-	    Route::get('{status}', usesas($ctrl, 'daily'));
-	    Route::post('{status}', usesas($ctrl, 'daily'));
-	    Route::get('/', usesas($ctrl, 'index'));
-	    Route::post('/', usesas($ctrl, 'index'));
+	    Route::get('{ingress}', usesas($ctrl, 'show'));
 	});
 
 	Route::group(['prefix' => 'tareas', 'as' => 'task.'], function () {
