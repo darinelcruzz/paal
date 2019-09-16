@@ -110,7 +110,7 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 
 	Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 	    $ctrl = 'Coffee\AdminController';
-	    Route::match(['get', 'post'], 'diario', usesas($ctrl, 'index'));
+	    Route::match(['get', 'post'], 'diario/{status?}', usesas($ctrl, 'daily'));
 	    Route::match(['get', 'post'], 'mensual', usesas($ctrl, 'monthly'));
 	    Route::match(['get', 'post'], 'facturas', usesas($ctrl, 'invoices'));
 	    Route::post('referencia', usesas($ctrl, 'reference'));

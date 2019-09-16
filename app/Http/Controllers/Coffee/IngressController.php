@@ -70,6 +70,9 @@ class IngressController extends Controller
             if ($request->shipping) {
                 $ingress->shipping()->create();
             }
+
+            $methods = ['undefined' => null, 'cash' => 'efectivo', 'transfer' => 'transferencia', 'check' => 'cheque', 'debit_card' => 'tarjeta débito', 'credit_card' => 'tarjeta crédito'];
+            $ingress->update(['method' => $methods[$ingress->method]]);
         }
 
         return redirect(route('coffee.ingress.index'));

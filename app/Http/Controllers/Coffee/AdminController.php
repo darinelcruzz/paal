@@ -10,6 +10,23 @@ use App\Exports\DailyPendingExport;
 
 class AdminController extends Controller
 {
+    function daily(Request $request, $status = 'factura')
+    {
+        $date = dateFromRequest();
+
+        $ingresses = Ingress::whereDate('created_at', $date)
+            ->whereCompany('coffee')
+            ->where($this->getConditions($status))
+            ->get();
+
+        $ingresses_to_filter = Ingress::whereDate('created_at', $date)
+            ->whereCompany('coffee');
+
+        $color = ['factura' => 'primary', 'efectivo' => 'success', 'tarjeta' => 'warning', 'transferencia' => 'info'][$status];
+
+        return view('coffee.admin.daily', compact('date', 'ingresses', 'status', 'color', 'ingresses_to_filter'));
+    }
+
     function index(Request $request)
     {
         $date = $this->getDate();
@@ -117,6 +134,19 @@ class AdminController extends Controller
             $date = null !== request('date') ? request('date'): date('Y-m-d');
             session()->put('date', $date);
             return $date;
+        }
+    }
+
+    function getConditions($value)
+    {
+        if ($value == 'factura') {
+            return [
+                ['invoice', '=', 'otro']
+            ];
+        } else {
+            return [
+                ['method', 'LIKE', "%$value%"]
+            ];
         }
     }
 }
