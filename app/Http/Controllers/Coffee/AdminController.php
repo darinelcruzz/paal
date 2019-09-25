@@ -19,12 +19,11 @@ class AdminController extends Controller
             ->where($this->getConditions($status))
             ->get();
 
-        $ingresses_to_filter = Ingress::whereDate('created_at', $date)
-            ->whereCompany('coffee');
+        $payments = Payment::from($date);
 
         $color = ['factura' => 'primary', 'efectivo' => 'success', 'tarjeta' => 'warning', 'transferencia' => 'info'][$status];
 
-        return view('coffee.admin.daily', compact('date', 'ingresses', 'status', 'color', 'ingresses_to_filter'));
+        return view('coffee.admin.daily', compact('date', 'ingresses', 'status', 'color', 'payments'));
     }
 
     function index(Request $request)
@@ -141,7 +140,7 @@ class AdminController extends Controller
     {
         if ($value == 'factura') {
             return [
-                ['invoice', '=', 'otro']
+                ['invoice', '!=', 'no']
             ];
         } else {
             return [

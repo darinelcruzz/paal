@@ -8,12 +8,6 @@ return [
         'route' => 'paal.provider.index'
     ],
 
-    'egresses' => [
-        'title' => 'Egresos',
-        'icon' => 'fa fa-share',
-        'route' => 'paal.egress.index'
-    ],
-
     'ingresses' => [
         'title' => 'Ingresos',
         'icon' => 'fa fa-shopping-cart',
@@ -25,6 +19,21 @@ return [
             'index' => [
                 'title' => 'Historial',
                 'route' => 'paal.ingress.index'
+            ]
+        ]
+    ],
+
+    'egresses' => [
+        'title' => 'Egresos',
+        'icon' => 'fa fa-share',
+        'submenu' => [
+            'monthly' => [
+                'title' => 'Corte mensual',
+                'route' => 'paal.egress.monthly'
+            ],
+            'index' => [
+                'title' => 'Historial',
+                'route' => ['paal.egress.index', 'coffee']
             ]
         ]
     ],

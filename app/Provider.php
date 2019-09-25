@@ -13,6 +13,13 @@ class Provider extends Model
     	return $this->hasMany(Egress::class);
     }
 
+    function getColorAttribute()
+    {
+        $colors = ['coffee' => '#f56954', 'mbe' => '#00a65a', 'both' => '#3c8dbc'];
+
+        return $colors[$this->company];
+    }
+
     function getMonthlySumAttribute()
     {
         $date = date('Y-m');

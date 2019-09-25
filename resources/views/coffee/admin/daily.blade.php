@@ -21,10 +21,10 @@
                         </div>
                     </div>
                     <div class="col-md-9">
-                        <a href="{{ route('coffee.admin.daily', 'factura') }}" class="btn btn-primary btn-sm">CON FACTURA</a>
-                        <a href="{{ route('coffee.admin.daily', 'efectivo') }}" class="btn btn-success btn-sm">EFECTIVO S/F</a>
-                        <a href="{{ route('coffee.admin.daily', 'tarjeta') }}" class="btn btn-warning btn-sm">TARJETA S/F</a>
-                        <a href="{{ route('coffee.admin.daily', 'transferencia') }}" class="btn btn-info btn-sm">
+                        <a href="{{ route('coffee.admin.daily', 'factura') }}" class="btn btn-primary btn-md">CON FACTURA</a>
+                        <a href="{{ route('coffee.admin.daily', 'efectivo') }}" class="btn btn-success btn-md">EFECTIVO S/F</a>
+                        <a href="{{ route('coffee.admin.daily', 'tarjeta') }}" class="btn btn-warning btn-md">TARJETA S/F</a>
+                        <a href="{{ route('coffee.admin.daily', 'transferencia') }}" class="btn btn-info btn-md">
                             TRANSFERENCIA S/F
                         </a>
                     </div>
@@ -45,7 +45,7 @@
                             <tr>
                                 <td style="width: 7%">{{ $ingress->folio }}</td>
                                 <td style="width: 5%">
-                                    @include('mbe.admin._options')
+                                    @include('coffee.admin._options')
                                 </td>
                                 <td>
                                     {{ $ingress->client->name }}
@@ -106,32 +106,32 @@
         <div class="col-md-3">
             <money-box color="success" icon="fas fa-clock">
                 Total <br>
-                <b>$ {{ number_format($ingresses_to_filter->sum('amount'), 2) }}</b>
+                <b>$ {{ number_format($payments->sum('cash') + $payments->sum('debit_card') + $payments->sum('credit_card') + $payments->sum('transfer') + $payments->sum('check'), 2) }}</b>
             </money-box>
 
             <money-box color="warning" icon="far fa-money-bill-alt">
                 Efectivo <br>
-                <b>$ {{ number_format($ingresses_to_filter->where('method', 'efectivo')->sum('amount'), 2) }}</b>
+                <b>$ {{ number_format($payments->sum('cash'), 2) }}</b>
             </money-box>
 
             <money-box color="warning" icon="fa fa-credit-card">
                 T. Débito <br>
-                <b>$ {{ number_format($ingresses_to_filter->where('method', 'tarjeta débito')->sum('amount'), 2) }}</b>
+                <b>$ {{ number_format($payments->sum('debit_card'), 2) }}</b>
             </money-box>
 
             <money-box color="warning" icon="fab fa-cc-visa">
                 T. Crédito <br>
-                <b>$ {{ number_format($ingresses_to_filter->where('method', 'tarjeta crédito')->sum('amount'), 2) }}</b>
+                <b>$ {{ number_format($payments->sum('credit_card'), 2) }}</b>
             </money-box>
 
             <money-box color="warning" icon="fas fa-exchange-alt">
                 Transferencia <br>
-                <b>$ {{ number_format($ingresses_to_filter->where('method', 'transferencia')->sum('amount'), 2) }}</b>
+                <b>$ {{ number_format($payments->sum('transfer'), 2) }}</b>
             </money-box>
 
             <money-box color="warning" icon="fas fa-money-check-alt">
                 Cheque <br>
-                <b>$ {{ number_format($ingresses_to_filter->where('method', 'cheque')->sum('amount'), 2) }}</b>
+                <b>$ {{ number_format($payments->sum('check'), 2) }}</b>
             </money-box>
         </div>
     </div>

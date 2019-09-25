@@ -11,7 +11,7 @@ return [
     'egresses' => [
         'title' => 'Egresos',
         'icon' => 'fa fa-share',
-        'route' => 'paal.egress.index'
+        'route' => ['paal.egress.index', 'coffee']
     ],
 
     'ingresses' => [

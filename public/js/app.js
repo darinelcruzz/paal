@@ -48620,21 +48620,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             isCollapsed: false,
             showButton: false,
-            colorBox: 'box-'
+            colorBox: 'box-',
+            hasLabel: false
         };
     },
 
-    props: ['title', 'color', 'button', 'collapsed'],
+    props: ['title', 'color', 'button', 'collapsed', 'label'],
     created: function created() {
         this.isCollapsed = this.collapsed == '';
         this.showButton = this.button == '';
         this.colorBox += this.color;
+        this.hasLabel = this.label != '';
     }
 });
 
@@ -48658,9 +48662,9 @@ var render = function() {
       _c("div", { staticClass: "box-header with-border" }, [
         _c("h3", { staticClass: "box-title" }, [_vm._v(_vm._s(_vm.title))]),
         _vm._v(" "),
-        _vm.showButton
-          ? _c("div", { staticClass: "box-tools pull-right" }, [
-              _c(
+        _c("div", { staticClass: "box-tools pull-right" }, [
+          _vm.showButton
+            ? _c(
                 "button",
                 {
                   staticClass: "btn btn-box-tool",
@@ -48675,8 +48679,14 @@ var render = function() {
                   })
                 ]
               )
-            ])
-          : _vm._e()
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.hasLabel
+            ? _c("span", { class: "label label-" + _vm.color }, [
+                _vm._v(_vm._s(_vm.label))
+              ])
+            : _vm._e()
+        ])
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "box-body" }, [_vm._t("default")], 2)

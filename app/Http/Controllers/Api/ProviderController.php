@@ -19,7 +19,7 @@ class ProviderController extends Controller
     function register($company)
     {
         return Provider::where('company', '!=', $company)
-        	->where('type', 'cc')
+        	->where('group', 'cc')
         	->get(['id', 'name', 'xml_required']);
     }
 }

@@ -37,11 +37,12 @@ class Payment extends Model
         return array_search(max($methods), $methods);
     }
 
-    function scopeFrom($query, $date)
+    function scopeFrom($query, $date, $company = 'coffee')
     {
         return $query->whereDate('created_at', $date)
-            ->whereHas('ingress', function($query) {
-                $query->where('status', '!=', 'cancelado');
+            ->whereHas('ingress', function($query) use ($company) {
+                $query->where('status', '!=', 'cancelado')
+                    ->where('company', $company);
             });
     }
 

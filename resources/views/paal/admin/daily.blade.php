@@ -9,7 +9,7 @@
         
         <div class="col-md-9">
 
-            {!! Form::open(['method' => 'post', 'route' => ['mbe.ingress.daily', $status]]) !!}
+            {!! Form::open(['method' => 'post', 'route' => ['paal.ingress.daily', $company]]) !!}
                 
                 <div class="row">
                     <div class="col-md-3">
@@ -38,7 +38,7 @@
 
             <br>
 
-            <solid-box title="{{ strtoupper($status) }}" color="{{ $color }}">
+            <solid-box title="{{ strtoupper($status) }}" color="{{ $color }}" label="{{ strtoupper($company) }}">
                 
                 <data-table>
 
