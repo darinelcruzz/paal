@@ -49,6 +49,10 @@ return [
                 'title' => 'Reposiciones',
                 'route' => 'mbe.egress.return.create'
             ],
+            'extra' => [
+                'title' => 'Gastos extra',
+                'route' => 'mbe.egress.return.make'
+            ],
         ]
     ],
 

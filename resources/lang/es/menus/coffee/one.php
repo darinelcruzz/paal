@@ -92,6 +92,10 @@ return [
                 'title' => 'Reposiciones',
                 'route' => 'coffee.egress.return.create'
             ],
+            'extra' => [
+                'title' => 'Gastos extra',
+                'route' => 'coffee.egress.return.make'
+            ],
         ]
     ],
 

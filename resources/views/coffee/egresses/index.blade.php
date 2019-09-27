@@ -120,8 +120,8 @@
                                             @include('coffee.egresses._dropdown', ['color' => 'warning'])
                                         </td>
                                         <td>
-                                            {{ $egress->provider->name ?? '' }}
-                                            {{ $egress->receiver != null ? "REPOSICIÓN (HECTOR, $egress->provider_name)": "" }}
+                                            {{ $egress->provider->name }}
+                                            {{ $egress->provider_name != null ? "($egress->provider_name" . ($egress->receiver != null ? ", $egress->return_name)": ')') : "" }}
                                         </td>
                                         <td>$ {{ number_format($egress->iva, 2) }}</td>
                                         <td>$  {{ number_format($egress->amount, 2) }}</td>

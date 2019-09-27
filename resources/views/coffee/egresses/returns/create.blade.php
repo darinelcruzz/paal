@@ -7,12 +7,12 @@
 @section('content')
     <div class="row">
         <div class="col-md-8">
-            <solid-box title="Agregar reposición" color="danger" button>
+            <solid-box title="AGREGAR {{ $provider->name }}" color="danger" button>
                 {!! Form::open(['method' => 'POST', 'route' => 'coffee.egress.return.store', 'enctype' => 'multipart/form-data']) !!}
 
                     <div class="row">
                         <div class="col-md-6">
-                            {!! Field::select('returned_to', $users + [0 => 'Gastos Extra'], 2,
+                            {!! Field::select('returned_to', $users, 2,
                                 ['tpl' => 'withicon', 'label' => 'Reponer a', 'empty' => '¿A quién se repone?'],
                                 ['icon' => 'user'])
                             !!}
@@ -56,6 +56,7 @@
                     <hr>
                     <input type="hidden" name="company" value="coffee">
                     <input type="hidden" name="expiration" value="0">
+                    <input type="hidden" name="provider_id" value="{{ $provider->id }}">
                     <button type="submit" class="btn btn-danger pull-right" onclick="submitForm(this);">Agregar</button>
 
                 {!! Form::close() !!}

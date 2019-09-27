@@ -88,6 +88,11 @@
                         <small style="color: white"><em>$ {{ number_format($undeductible, 2) }}</em></small>
                     </color-card>
                 </div>
+                <div class="col-sm-3">
+                    <color-card color="gray" label="Deducible">
+                        <small style="color: black"><em>$ {{ number_format($deductible, 2) }}</em></small>
+                    </color-card>
+                </div>
             </div>
         </div>
 

@@ -14355,6 +14355,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_form_wizard___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vue_form_wizard__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue_form_wizard_dist_vue_form_wizard_min_css__ = __webpack_require__(45);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue_form_wizard_dist_vue_form_wizard_min_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vue_form_wizard_dist_vue_form_wizard_min_css__);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -14438,7 +14439,7 @@ var Bus = new Vue({});
 
 var app = new Vue({
     el: '#app',
-    data: {
+    data: _defineProperty({
         complement: null,
         payment_method: 0,
         is_retained: 1,
@@ -14456,8 +14457,21 @@ var app = new Vue({
             subtotal: 0,
             iva: 0,
             client: ''
+        },
+        provider_form: {
+            group: '',
+            deductible: ''
         }
-    },
+    }, 'providers', {
+        coffee: {
+            general: [],
+            register: []
+        },
+        mbe: {
+            general: [],
+            register: []
+        }
+    }),
     methods: {
         reset: function reset() {
             this.product_option = '';
@@ -14489,22 +14503,28 @@ var app = new Vue({
             t.ingress_total = total;
         });
 
-        axios.get('/api/providers/mbe').then(function (_ref2) {
+        axios.get('/api/providers/mbe/of').then(function (_ref2) {
             var data = _ref2.data;
 
-            t.providers = data;
+            t.providers.mbe.general = data;
         });
 
-        axios.get('/api/providers/coffee').then(function (_ref3) {
+        axios.get('/api/providers/coffee/of').then(function (_ref3) {
             var data = _ref3.data;
 
-            t.mproviders = data;
+            t.providers.coffee.general = data;
         });
 
-        axios.get('/api/providers/register/mbe').then(function (_ref4) {
+        axios.get('/api/providers/mbe/cc').then(function (_ref4) {
             var data = _ref4.data;
 
-            t.rproviders = data;
+            t.providers.mbe.register = data;
+        });
+
+        axios.get('/api/providers/coffee/cc').then(function (_ref5) {
+            var data = _ref5.data;
+
+            t.providers.coffee.register = data;
         });
     }
 });

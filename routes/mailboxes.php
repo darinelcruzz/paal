@@ -25,6 +25,8 @@ Route::group(['prefix' => 'mbe', 'as' => 'mbe.'], function () {
 		    $ctrl = 'Mailboxes\ReturnsController';
 		    Route::get('agregar', usesas($ctrl, 'create'));
 		    Route::post('agregar', usesas($ctrl, 'store'));
+		    Route::get('gasto-extra', usesas($ctrl, 'make'));
+		    Route::post('gasto-extra', usesas($ctrl, 'save'));
 		});
 
 		Route::group(['prefix' => 'caja-chica', 'as' => 'register.'], function () {

@@ -100,6 +100,20 @@ const app = new Vue({
             subtotal: 0,
             iva: 0,
             client: ''
+        },
+        provider_form: {
+            group: '',
+            deductible: ''
+        },
+        providers: {
+            coffee: {
+                general: [],
+                register: [],
+            },
+            mbe: {
+               general: [],
+               register: [], 
+            }
         }
     },
     methods: {
@@ -131,16 +145,20 @@ const app = new Vue({
             t.ingress_total = total
         });
 
-        axios.get('/api/providers/mbe').then(({data}) => {
-            t.providers = data;
+        axios.get('/api/providers/mbe/of').then(({data}) => {
+            t.providers.mbe.general = data;
         });
 
-        axios.get('/api/providers/coffee').then(({data}) => {
-            t.mproviders = data;
+        axios.get('/api/providers/coffee/of').then(({data}) => {
+            t.providers.coffee.general = data;
         });
 
-        axios.get('/api/providers/register/mbe').then(({data}) => {
-            t.rproviders = data;
+        axios.get('/api/providers/mbe/cc').then(({data}) => {
+            t.providers.mbe.register = data;
+        });
+
+        axios.get('/api/providers/coffee/cc').then(({data}) => {
+            t.providers.coffee.register = data;
         });
     }
 });

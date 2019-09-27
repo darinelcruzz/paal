@@ -12,11 +12,11 @@ class ReturnsController extends Controller
 {
     function create()
     {
-        $providers = Provider::general()->pluck('provider', 'id')->toArray();
+        $provider = Provider::whereIn('company', ['mbe', 'both'])->where('group', 'rp')->first();
 
         $users = User::whereId(2)->pluck('name', 'id')->toArray();
 
-        return view('mbe.egresses.returns.create', compact('providers', 'users'));
+        return view('mbe.egresses.returns.create', compact('provider', 'users'));
     }
 
     function store(EgressRequest $request)
@@ -32,5 +32,27 @@ class ReturnsController extends Controller
         ]);
 
         return redirect(route('mbe.egress.index', 'pendiente'));
+    }
+
+    function make()
+    {
+        $provider = Provider::whereIn('company', ['mbe', 'both'])->where('group', 'ex')->first();
+
+        return view('mbe.egresses.returns.make', compact('provider'));
+    }
+
+    function save(EgressRequest $request)
+    {
+        $expiration = strtotime($request->emission) + ($request->expiration * 86400);
+
+        $egress = Egress::create($request->except(['pdf_bill', 'xml', 'expiration']));
+
+        $egress->update([
+            'pdf_bill' => saveCoffeeFile($request->file('pdf_bill')),
+            'xml' => saveCoffeeFile($request->file('xml')),
+            'expiration' => date('Y-m-d', $expiration),
+        ]);
+
+        return redirect(route('mbe.egress.index', 'pagado'));
     }
 }

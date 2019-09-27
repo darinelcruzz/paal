@@ -13,7 +13,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <label><b>Proveedor</b></label><br>
-                            <v-select label="name" :options="rproviders" v-model="provider" placeholder="Seleccione un proveedor...">
+                            <v-select label="name" :options="providers.coffee.register" v-model="provider" placeholder="Seleccione un proveedor...">
                             </v-select>
                             <input type="hidden" name="provider_id" :value="provider.id">
                         </div>

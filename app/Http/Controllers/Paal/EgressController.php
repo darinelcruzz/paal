@@ -114,6 +114,12 @@ class EgressController extends Controller
 
         $undeductible = Egress::from($date, 'created_at', $company)
             ->whereHas('provider', function ($query) {
+                $query->where('is_deductible', 0);
+            })
+            ->sum('amount');
+
+        $deductible = Egress::from($date, 'created_at', $company)
+            ->whereHas('provider', function ($query) {
                 $query->where('is_deductible', 1);
             })
             ->sum('amount');
@@ -121,7 +127,7 @@ class EgressController extends Controller
         return view('paal.admin.monthly_e', 
             compact(
                 'total', 'pending', 'expired', 'general', 'register', 'reposition', 'extra', 
-                'expenses', 'sales', 'undeductible', 'company', 'date'
+                'expenses', 'sales', 'undeductible', 'deductible', 'company', 'date'
             )
         );
     }
