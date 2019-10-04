@@ -144,6 +144,7 @@ class AdminController extends Controller
             ];
         } else {
             return [
+                ['invoice', '=', 'no'],
                 ['method', 'LIKE', "%$value%"]
             ];
         }
