@@ -8,8 +8,12 @@
 
 <div class="row">
     @foreach($companies as $company => $product)
+
+        @php
+            $total = 0
+        @endphp
         
-        <div class="col-md-4">
+        <div class="col-md-6">
 
             <div class="box box-widget widget-user-2">
                 <div class="widget-user-header bg-{{ $colors[$loop->index]}}">
@@ -24,7 +28,21 @@
                                 </a>
                             </li>
                         </ul>
+                        @php
+                            $total += $quantity;
+                            $color = $colors[$loop->parent->index];
+                        @endphp
                     @endforeach
+
+                    <ul class="nav nav-stacked">
+                        <li>
+                            <a href="#">
+                                <b>TOTAL</b><span class="pull-right badge bg-{{ $color }}">{{ $total }}</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <br>
                 </div>
             </div>
 

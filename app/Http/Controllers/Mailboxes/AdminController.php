@@ -34,7 +34,7 @@ class AdminController extends Controller
 
         $working_days = $month->selectRaw('DATE_FORMAT(created_at, "%Y-%m-%d") as date')->get()->groupBy('date')->count();
 
-        $shippings = Ingress::monthly($date, 'mbe')->count();
+        $shippings = $this->getShippingsTotal($date);
 
         $credit_total = Ingress::monthly($date, 'mbe')->whereStatus('crédito')->sum('amount');
 
@@ -84,5 +84,20 @@ class AdminController extends Controller
         }
 
         return $families;
+    }
+
+    function getShippingsTotal($date)
+    {
+        $shippings = Ingress::monthly($date, 'mbe')->get();
+
+        $total = 0;
+
+        foreach ($shippings as $shipping) {
+            foreach (unserialize($shipping->products) as $product) {
+                $total += $product['q'];
+            }
+        }
+
+        return $total;
     }
 }
