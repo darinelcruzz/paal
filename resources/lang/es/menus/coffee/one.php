@@ -43,7 +43,7 @@ return [
             ],
             'daily' => [
                 'title' => 'Corte diario',
-                'route' => 'coffee.admin.daily'
+                'route' => ['coffee.admin.daily', 'factura']
             ],
             'monthly' => [
                 'title' => 'Corte mensual',

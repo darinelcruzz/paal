@@ -21,10 +21,10 @@
                         </div>
                     </div>
                     <div class="col-md-9">
-                        <a href="{{ route('coffee.admin.daily', 'factura') }}" class="btn btn-primary btn-md">CON FACTURA</a>
-                        <a href="{{ route('coffee.admin.daily', 'efectivo') }}" class="btn btn-success btn-md">EFECTIVO S/F</a>
-                        <a href="{{ route('coffee.admin.daily', 'tarjeta') }}" class="btn btn-warning btn-md">TARJETA S/F</a>
-                        <a href="{{ route('coffee.admin.daily', 'transferencia') }}" class="btn btn-info btn-md">
+                        <a href="{{ route('coffee.admin.daily', ['factura', $date]) }}" class="btn btn-primary btn-md">CON FACTURA</a>
+                        <a href="{{ route('coffee.admin.daily', ['efectivo', $date]) }}" class="btn btn-success btn-md">EFECTIVO S/F</a>
+                        <a href="{{ route('coffee.admin.daily', ['tarjeta', $date]) }}" class="btn btn-warning btn-md">TARJETA S/F</a>
+                        <a href="{{ route('coffee.admin.daily', ['transferencia', $date]) }}" class="btn btn-info btn-md">
                             TRANSFERENCIA S/F
                         </a>
                     </div>

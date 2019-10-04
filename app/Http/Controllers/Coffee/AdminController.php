@@ -10,9 +10,9 @@ use App\Exports\DailyPendingExport;
 
 class AdminController extends Controller
 {
-    function daily(Request $request, $status = 'factura')
+    function daily(Request $request, $status = 'factura', $thisDate = null)
     {
-        $date = dateFromRequest();
+        $date = $thisDate == null ? dateFromRequest(): $thisDate;
 
         $ingresses = Ingress::whereDate('created_at', $date)
             ->whereCompany('coffee')
