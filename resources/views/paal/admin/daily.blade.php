@@ -9,7 +9,7 @@
         
         <div class="col-md-9">
 
-            {!! Form::open(['method' => 'post', 'route' => ['paal.ingress.daily', $company]]) !!}
+            {!! Form::open(['method' => 'post', 'route' => ['paal.ingress.daily', $company, $status]]) !!}
                 
                 <div class="row">
                     <div class="col-md-3">
@@ -21,15 +21,15 @@
                         </div>
                     </div>
                     <div class="col-md-9">
-                        <a href="{{ route('paal.ingress.daily', [$company, 'factura']) }}" class="btn btn-primary btn-sm">CON FACTURA</a>
-                        <a href="{{ route('paal.ingress.daily', [$company, 'efectivo']) }}" class="btn btn-success btn-sm">EFECTIVO S/F</a>
-                        <a href="{{ route('paal.ingress.daily', [$company, 'tarjeta']) }}" class="btn btn-warning btn-sm">TARJETA S/F</a>
-                        <a href="{{ route('paal.ingress.daily', [$company, 'transferencia']) }}" class="btn btn-info btn-sm">
+                        <a href="{{ route('paal.ingress.daily', [$company, 'factura', $date]) }}" class="btn btn-primary btn-sm">CON FACTURA</a>
+                        <a href="{{ route('paal.ingress.daily', [$company, 'efectivo', $date]) }}" class="btn btn-success btn-sm">EFECTIVO S/F</a>
+                        <a href="{{ route('paal.ingress.daily', [$company, 'tarjeta', $date]) }}" class="btn btn-warning btn-sm">TARJETA S/F</a>
+                        <a href="{{ route('paal.ingress.daily', [$company, 'transferencia', $date]) }}" class="btn btn-info btn-sm">
                             TRANSFERENCIA S/F
                         </a>
                         <a href="{{ route('paal.ingress.daily', [$company == 'mbe'? 'coffee': 'mbe', $status]) }}" 
-                            class="btn btn-{{ $company == 'coffee'? 'danger': 'success' }} pull-right">
-                            <i class="fa fa-random"></i> {{ $company == 'mbe'? 'COFFEE': 'MBE'}}
+                            class="btn bg-navy pull-right">
+                            <i class="fa fa-angle-double-right"></i> &nbsp;&nbsp;VER {{ $company == 'mbe'? 'COFFEE': 'MBE'}}
                         </a>
                     </div>
                 </div>

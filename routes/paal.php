@@ -31,8 +31,7 @@ Route::group(['prefix' => 'paal', 'as' => 'paal.'], function () {
 	    $ctrl = 'Paal\AdminController';
 	    Route::get('mensual/{company}', usesas($ctrl, 'monthly'));
 	    Route::post('mensual/{company}', usesas($ctrl, 'monthly'));
-	    Route::get('diario/{company}/{status?}', usesas($ctrl, 'daily'));
-	    Route::post('diario/{company}/{status?}', usesas($ctrl, 'daily'));
+	    Route::match(['get', 'post'], 'diario/{company}/{status}/{thisDate?}', usesas($ctrl, 'daily'));
 	    Route::post('por-paqueteria', usesas($ctrl, 'companies'));
 	});
 

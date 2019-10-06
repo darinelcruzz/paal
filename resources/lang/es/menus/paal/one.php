@@ -14,7 +14,7 @@ return [
         'submenu' => [
             'daily' => [
                 'title' => 'Corte diario',
-                'route' => ['paal.ingress.daily', 'coffee']
+                'route' => ['paal.ingress.daily', ['coffee', 'factura']]
             ],
             'index' => [
                 'title' => 'Historial',

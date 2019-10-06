@@ -9,9 +9,9 @@ use App\{Ingress, Client, Payment, Product};
 
 class AdminController extends Controller
 {
-	function daily(Request $request, $company, $status = 'factura')
+	function daily(Request $request, $company, $status, $thisDate = null)
     {
-        $date = dateFromRequest();
+        $date = $thisDate == null ? dateFromRequest(): $thisDate;
 
         $ingresses = Ingress::whereDate('created_at', $date)
             ->whereCompany($company)

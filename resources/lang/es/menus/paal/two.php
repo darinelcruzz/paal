@@ -17,7 +17,7 @@ return [
     'ingresses' => [
         'title' => 'Ingresos',
         'icon' => 'fa fa-shopping-cart',
-        'route' => 'paal.ingress.index'
+        'route' => ['paal.ingress.daily', ['coffee', 'factura']]
     ],
 
     'clients' => [
