@@ -15,6 +15,7 @@ class AdminController extends Controller
         $date = $thisDate == null ? dateFromRequest(): $thisDate;
 
         $ingresses = Ingress::whereDate('created_at', $date)
+            ->where('status', '!=', 'cancelado')
             ->whereCompany('coffee')
             ->where($this->getConditions($status))
             ->get();

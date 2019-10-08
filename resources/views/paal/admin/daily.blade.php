@@ -55,11 +55,19 @@
                                     {{ $ingress->client->name }}
                                     <span style="color: green;">{!! $ingress->invoice_id ? "<i class='fa fa-check'></i>": '' !!}</span>
                                 </td>
-                                <td>$ {{ number_format($ingress->iva, 2) }}</td>
-                                <td>$ {{ number_format($ingress->amount, 2) }}</td>
+                                <td style="text-align: right">$ {{ number_format($ingress->iva, 2) }}</td>
+                                <td style="text-align: right">$ {{ number_format($ingress->amount, 2) }}</td>
                             </tr>
                         @endforeach
-                    </template>    
+                    </template>
+
+                    <template slot="footer">
+                        <tr>
+                            <th colspan="3"></th>
+                            <th style="text-align: center;">Total</th>
+                            <th style="text-align: right;">$ {{ number_format($ingresses->sum('amount'), 2) }}</th>
+                        </tr>
+                    </template>   
                 </data-table>
 
                 @if($status == 'efectivo' && $ingresses->count() != 0)
