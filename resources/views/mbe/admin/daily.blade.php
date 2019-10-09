@@ -86,6 +86,8 @@
                                     ['label' => 'Agregar FI', 'tpl' => 'withicon', 'ph' => 'XXXXXXXXX', 'required' => 'true'], 
                                     ['icon' => 'file-invoice']) 
                                 !!}
+                                <input type="hidden" name="thisDate" value="{{ $date }}">
+                                
                                 @foreach($ingresses->pluck('id') as $ingress_id)
                                     <input type="hidden" name="sales[]" value="{{ $ingress_id }}">
                                 @endforeach

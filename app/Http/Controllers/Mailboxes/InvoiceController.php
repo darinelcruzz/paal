@@ -47,7 +47,7 @@ class InvoiceController extends Controller
             $sale->update($request->only('invoice_id'));
         }
 
-        return redirect(route('mbe.ingress.daily', $sale->route_method));
+        return redirect(route('mbe.ingress.daily', [$sale->route_method, $request->thisDate]));
     }
 
     function print($date)

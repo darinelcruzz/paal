@@ -54,7 +54,6 @@ class AdminController extends Controller
 
     function reference(Request $request)
     {
-        // dd($request->all());
         $validated = $request->validate([
             'cash_reference' => 'required',
         ]);

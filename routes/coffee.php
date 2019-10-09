@@ -114,7 +114,7 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	    $ctrl = 'Coffee\AdminController';
 	    Route::match(['get', 'post'], 'diario/{status}/{thisDate?}', usesas($ctrl, 'daily'));
 	    Route::match(['get', 'post'], 'mensual', usesas($ctrl, 'monthly'));
-	    Route::match(['get', 'post'], 'facturas', usesas($ctrl, 'invoices'));
+	    Route::match(['get', 'post'], 'facturas/{thisDate?}', usesas($ctrl, 'invoices'));
 	    Route::post('referencia', usesas($ctrl, 'reference'));
 	    Route::get('excel/{date}', usesas($ctrl, 'downloadExcel'));
 	    Route::get('depositos/{date}', usesas($ctrl, 'printDeposits'));

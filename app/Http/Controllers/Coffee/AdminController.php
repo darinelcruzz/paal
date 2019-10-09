@@ -59,9 +59,9 @@ class AdminController extends Controller
         return view('coffee.admin.monthly', compact('date', 'month', 'pending', 'working_days', 'shippings'));
     }
 
-    function invoices(Request $request)
+    function invoices(Request $request, $thisDate = null)
     {
-        $date = $this->getDate();
+        $date = $thisDate == null ? dateFromRequest(): $thisDate;
 
         $total = Payment::whereYear('created_at', substr($date, 0, 4))
             ->whereMonth('created_at', substr($date, 5))
@@ -101,7 +101,7 @@ class AdminController extends Controller
             $payment->update($request->only('cash_reference'));
         }
 
-        return redirect(route('coffee.admin.invoices'))->with('redirected', session('date'));
+        return redirect(route('coffee.admin.invoices', $request->thisDate));
     }
 
     function downloadExcel($date)

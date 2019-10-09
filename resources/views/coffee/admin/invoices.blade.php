@@ -70,6 +70,8 @@
                                                         ['tpl' => 'withicon', 'ph' => 'XXXXXXXXX', 'required' => 'true'], 
                                                         ['icon' => 'exchange-alt']) 
                                                     !!}
+
+                                                    <input type="hidden" name="thisDate" value="{{ $date }}">
                                                 </div>
                                             </div>
 

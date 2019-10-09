@@ -4,19 +4,20 @@
             <i class="fa fa-eye"></i> Detalles
         </a>
     </li>
-
-    @if ($ingress->invoice_id)
-        <li>
-            <a href="{{ $ingress->xml }}">
-                <i class="fa fa-file-code"></i> XML
-            </a>
-        </li>
-    @elseif($status != 'efectivo')
-        <li>
-            <a href="" data-toggle="modal" data-target="#modal-f{{ $ingress->id }}">
-                <i class="fa fa-plus"></i> Agregar FI
-            </a>
-        </li>
+    @if($status != 'efectivo')
+        @if ($ingress->invoice_id)
+            <li>
+                <a href="{{ $ingress->xml }}" target="_blank">
+                    <i class="fa fa-file-code"></i> XML
+                </a>
+            </li>
+        @else
+            <li>
+                <a href="" data-toggle="modal" data-target="#modal-f{{ $ingress->id }}">
+                    <i class="fa fa-plus"></i> Agregar FI
+                </a>
+            </li>
+        @endif
     @endif
 </dropdown>
 
@@ -49,6 +50,8 @@
                 ['label' => 'Agregar FI','tpl' => 'withicon', 'ph' => 'XXXXXXXXX', 'required' => 'true'], 
                 ['icon' => 'file-invoice']) 
             !!}
+
+            <input type="hidden" name="thisDate" value="{{ $date }}">
         </div>
     </div>
     <input type="hidden" name="sales[]" value="{{ $ingress->id }}">
