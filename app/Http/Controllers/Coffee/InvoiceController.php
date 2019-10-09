@@ -24,6 +24,6 @@ class InvoiceController extends Controller
             $sale->update($request->only('invoice_id'));
         }
 
-        return redirect(route('coffee.admin.index'))->with('redirected', session('date'));
+        return redirect(route('coffee.admin.daily', $sale->route_method));
     }
 }

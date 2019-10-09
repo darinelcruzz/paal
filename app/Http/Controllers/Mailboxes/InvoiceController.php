@@ -9,9 +9,9 @@ use App\{Ingress, Payment};
 
 class InvoiceController extends Controller 
 {
-    function index(Request $request)
+    function index(Request $request, $thisDate = null)
     {
-        $date = dateFromRequest();
+        $date = $thisDate == null ? dateFromRequest(): $thisDate;
 
         $total = Payment::whereYear('created_at', substr($date, 0, 4))
             ->whereMonth('created_at', substr($date, 5))
@@ -47,7 +47,7 @@ class InvoiceController extends Controller
             $sale->update($request->only('invoice_id'));
         }
 
-        return redirect(route('mbe.ingress.daily', $sale->route_method))->with('redirected', session('date'));
+        return redirect(route('mbe.ingress.daily', $sale->route_method));
     }
 
     function print($date)

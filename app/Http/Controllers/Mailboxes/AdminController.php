@@ -9,9 +9,9 @@ use App\{Ingress, Client, Payment, Product};
 
 class AdminController extends Controller
 {
-	function daily(Request $request, $status)
+	function daily(Request $request, $status = 'factura', $thisDate = null)
     {
-        $date = dateFromRequest();
+        $date = $thisDate == null ? dateFromRequest(): $thisDate;
 
         $ingresses = Ingress::whereDate('created_at', $date)
             ->whereCompany('mbe')
@@ -54,6 +54,7 @@ class AdminController extends Controller
 
     function reference(Request $request)
     {
+        // dd($request->all());
         $validated = $request->validate([
             'cash_reference' => 'required',
         ]);
@@ -63,7 +64,7 @@ class AdminController extends Controller
             $payment->update($request->only('cash_reference'));
         }
 
-        return redirect(route('mbe.invoice.index'))->with('redirected', session('date'));
+        return redirect(route('mbe.invoice.index', $request->thisDate));
     }
 
     function printDeposits($date)

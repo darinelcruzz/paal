@@ -37,7 +37,7 @@ class IngressController extends Controller
             'company' => 'required',
             'type' => 'required',
             'bought_at' => 'required',
-        ]);
+       ]);
 
         if ($request->folio != Ingress::where('company', 'coffee')->get()->last()->folio) {
 
@@ -62,7 +62,8 @@ class IngressController extends Controller
                 'status' => $request->method == 'anticipo' ? 'pendiente': 'pagado'
             ]);
 
-            $ingress->payments()->create($request->only('type', 'cash', 'transfer', 'check', 'debit_card', 'credit_card') + [
+            $ingress->payments()->create($request->only('cash', 'transfer', 'check', 'debit_card', 'credit_card') + [
+                'type' => $request->method,
                 'reference' => isset($request->reference) ? $request->reference: null,
                 'card_number' => isset($request->card_number) ? $request->card_number: null,
             ]);
@@ -72,7 +73,7 @@ class IngressController extends Controller
             }
 
             $methods = ['undefined' => null, 'cash' => 'efectivo', 'transfer' => 'transferencia', 'check' => 'cheque', 'debit_card' => 'tarjeta débito', 'credit_card' => 'tarjeta crédito'];
-            $ingress->update(['method' => $methods[$ingress->method]]);
+            $ingress->update(['method' => $methods[$ingress->inferred_method]]);
         }
 
         return redirect(route('coffee.ingress.index'));

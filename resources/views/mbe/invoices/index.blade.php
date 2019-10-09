@@ -50,7 +50,7 @@
 
                                         {!! Form::open(['method' => 'POST', 'route' => 'mbe.ingress.reference']) !!}
                                 
-                                        <modal title="Agregar referencia del depósito" id="details{{ $invoice }}" color="#dd4b39">
+                                        <modal title="Agregar referencia del depósito" id="details{{ $invoice }}" color="success">
 
                                             <div class="row">
                                                 <div class="col-md-4 col-md-offset-4">
@@ -58,6 +58,7 @@
                                                         ['tpl' => 'withicon', 'ph' => 'XXXXXXXXX', 'required' => 'true'], 
                                                         ['icon' => 'exchange-alt']) 
                                                     !!}
+                                                    <input type="hidden" name="thisDate" value="{{ $date }}">
                                                 </div>
                                             </div>
 

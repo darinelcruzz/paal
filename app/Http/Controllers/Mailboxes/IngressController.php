@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use App\{Ingress, Client, Payment, Product};
+use Alert;
 
 class IngressController extends Controller
 {
@@ -51,6 +52,18 @@ class IngressController extends Controller
         }
 
         return redirect(route('mbe.ingress.daily', $ingress->route_method));
+    }
+
+    function destroy(Ingress $ingress, $reason)
+    {
+        Alert::success('Venta cancelada', "La venta $ingress->folio se ha cancelado exitosamente")->persistent('Cerrar');
+
+        $ingress->update([
+            'status' => 'cancelado',
+            'canceled_for' => $reason
+        ]);
+
+        return redirect(route('mbe.ingress.index'));
     }
 
     function getSerializedItems(Request $request)

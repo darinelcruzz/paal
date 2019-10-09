@@ -54,25 +54,25 @@ class Ingress extends Model
         return $descriptions[$this->invoice];
     }
 
-    // function getMethodAttribute()
-    // {
-    //     if ($this->payments->first()) {
+    function getInferredMethodAttribute()
+    {
+        if ($this->payments->first()) {
 
-    //         if ($this->client_id == 55 && $this->payments->first()->debit_card > 0) {
-    //             return 'debit_card';
-    //         }
+            if ($this->client_id == 55 && $this->payments->first()->debit_card > 0) {
+                return 'debit_card';
+            }
 
-    //         if ($this->client_id == 55 && $this->payments->first()->credit_card > 0) {
-    //             return 'credit_card';
-    //         }
+            if ($this->client_id == 55 && $this->payments->first()->credit_card > 0) {
+                return 'credit_card';
+            }
 
-    //         $payment = array_slice($this->payments->first()->toArray(), 3, 5);
+            $payment = array_slice($this->payments->first()->toArray(), 3, 5);
 
-    //         return array_search(max($payment), $payment);
-    //     }
+            return array_search(max($payment), $payment);
+        }
 
-    //     return 'undefined';
-    // }
+        return 'undefined';
+    }
 
     function getReferenceAttribute()
     {
@@ -108,7 +108,7 @@ class Ingress extends Model
     {
         $methods = ['undefined' => '?', 'cash' => 'Efectivo', 'transfer' => 'Transferencia', 'check' => 'Cheque', 'debit_card' => 'T. Débito', 'credit_card' => 'T. Crédito'];
 
-        return $methods[$this->method];
+        return $methods[$this->inferred_method];
     }
 
     function getXmlAttribute()
@@ -120,7 +120,7 @@ class Ingress extends Model
     {
         if ($this->method == 'tarjeta crédito' || $this->method == 'tarjeta débito') {
             return 'tarjeta';
-        } else if ($this->method == 'cheque' || $this->invoice == 'otro') {
+        } else if ($this->method == 'cheque' || $this->invoice != 'no') {
             return 'factura';
         } else {
             return $this->method;

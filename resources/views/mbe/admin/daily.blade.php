@@ -21,10 +21,10 @@
                         </div>
                     </div>
                     <div class="col-md-9">
-                        <a href="{{ route('mbe.ingress.daily', 'factura') }}" class="btn btn-primary">CON FACTURA</a>
-                        <a href="{{ route('mbe.ingress.daily', 'efectivo') }}" class="btn btn-success">EFECTIVO S/F</a>
-                        <a href="{{ route('mbe.ingress.daily', 'tarjeta') }}" class="btn btn-warning">TARJETA S/F</a>
-                        <a href="{{ route('mbe.ingress.daily', 'transferencia') }}" class="btn btn-info">TRANSFERENCIA S/F</a>
+                        <a href="{{ route('mbe.ingress.daily', ['factura', $date]) }}" class="btn btn-primary">CON FACTURA</a>
+                        <a href="{{ route('mbe.ingress.daily', ['efectivo', $date]) }}" class="btn btn-success">EFECTIVO S/F</a>
+                        <a href="{{ route('mbe.ingress.daily', ['tarjeta', $date]) }}" class="btn btn-warning">TARJETA S/F</a>
+                        <a href="{{ route('mbe.ingress.daily', ['transferencia', $date]) }}" class="btn btn-info">TRANSFERENCIA S/F</a>
                     </div>
                 </div>
 
