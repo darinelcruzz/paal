@@ -50,7 +50,7 @@ class IngressController extends Controller
             ]);
         }
 
-        return redirect(route('mbe.ingress.daily', 'factura'));
+        return redirect(route('mbe.ingress.daily', $ingress->route_method));
     }
 
     function getSerializedItems(Request $request)

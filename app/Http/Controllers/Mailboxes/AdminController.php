@@ -52,14 +52,47 @@ class AdminController extends Controller
     	return view('mbe.admin.companies', compact('companies', 'colors'));
     }
 
+    function reference(Request $request)
+    {
+        $validated = $request->validate([
+            'cash_reference' => 'required',
+        ]);
+        
+        foreach (Ingress::find($request->sales) as $sale) {            
+            $payment = Payment::where('ingress_id', $sale->id)->first();
+            $payment->update($request->only('cash_reference'));
+        }
+
+        return redirect(route('mbe.invoice.index'))->with('redirected', session('date'));
+    }
+
+    function printDeposits($date)
+    {        
+        $invoices = Ingress::whereYear('created_at', substr($date, 0, 4))
+            ->whereMonth('created_at', substr($date, 5))
+            ->where('invoice_id', '!=', null)
+            ->where('company', 'mbe')
+            ->where('status', '!=', 'cancelado')
+            ->whereHas('payments', function($query) {
+                $query->whereNull('cash_reference');
+            })
+            ->selectRaw('id, client_id, iva, amount, invoice_id, DATE_FORMAT(created_at, "%Y-%m-%d") as date')
+            ->with(['client:id,name', 'payments'])
+            ->get()
+            ->groupBy('date');
+
+        return view('mbe.admin.invoices_print', compact('invoices'));
+    }
+
     function getConditions($value)
     {
         if ($value == 'factura') {
             return [
-                ['invoice', '=', 'otro']
+                ['invoice', '!=', 'no']
             ];
         } else {
             return [
+                ['invoice', '=', 'no'],
                 ['method', 'LIKE', "%$value%"]
             ];
         }

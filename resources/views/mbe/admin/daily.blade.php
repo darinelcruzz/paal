@@ -36,7 +36,7 @@
                 
                 <data-table>
 
-                    {{ drawHeader('folio', '<i class="fa fa-cogs"></i>', 'cliente', 'IVA', 'total') }}
+                    {{ drawHeader('folio', '<i class="fa fa-cogs"></i>', 'cliente', 'método', 'IVA', 'total') }}
 
                     <template slot="body">
                         @foreach($ingresses as $ingress)
@@ -49,10 +49,19 @@
                                     {{ $ingress->client->name }}
                                     <span style="color: green;">{!! $ingress->invoice_id ? "<i class='fa fa-check'></i>": '' !!}</span>
                                 </td>
+                                <td>{{ strtoupper($ingress->method) }}</td>
                                 <td>$ {{ number_format($ingress->iva, 2) }}</td>
-                                <td>$ {{ number_format($ingress->amount, 2) }}</td>
+                                <td style="text-align: right">$ {{ number_format($ingress->amount, 2) }}</td>
                             </tr>
                         @endforeach
+                    </template>
+
+                    <template slot="footer">
+                        <tr>
+                            <th colspan="4"></th>
+                            <th>Total</th>
+                            <th style="text-align: right">$ {{ number_format($ingresses->sum('amount'), 2) }}</th>
+                        </tr>
                     </template>    
                 </data-table>
 
@@ -109,27 +118,27 @@
 
             <money-box color="warning" icon="far fa-money-bill-alt">
                 Efectivo <br>
-                <b>$ {{ number_format($ingresses_to_filter->where('type', 'efectivo')->sum('amount'), 2) }}</b>
+                <b>$ {{ number_format($ingresses_to_filter->where('method', 'efectivo')->sum('amount'), 2) }}</b>
             </money-box>
 
             <money-box color="warning" icon="fa fa-credit-card">
                 T. Débito <br>
-                <b>$ {{ number_format($ingresses_to_filter->where('type', 'tarjeta débito')->sum('amount'), 2) }}</b>
+                <b>$ {{ number_format($ingresses_to_filter->where('method', 'tarjeta débito')->sum('amount'), 2) }}</b>
             </money-box>
 
             <money-box color="warning" icon="fab fa-cc-visa">
                 T. Crédito <br>
-                <b>$ {{ number_format($ingresses_to_filter->where('type', 'tarjeta crédito')->sum('amount'), 2) }}</b>
+                <b>$ {{ number_format($ingresses_to_filter->where('method', 'tarjeta crédito')->sum('amount'), 2) }}</b>
             </money-box>
 
             <money-box color="warning" icon="fas fa-exchange-alt">
                 Transferencia <br>
-                <b>$ {{ number_format($ingresses_to_filter->where('type', 'transferencia')->sum('amount'), 2) }}</b>
+                <b>$ {{ number_format($ingresses_to_filter->where('method', 'transferencia')->sum('amount'), 2) }}</b>
             </money-box>
 
             <money-box color="warning" icon="fas fa-money-check-alt">
                 Cheque <br>
-                <b>$ {{ number_format($ingresses_to_filter->where('type', 'cheque')->sum('amount'), 2) }}</b>
+                <b>$ {{ number_format($ingresses_to_filter->where('method', 'cheque')->sum('amount'), 2) }}</b>
             </money-box>
         </div>
     </div>

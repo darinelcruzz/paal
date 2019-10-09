@@ -54,25 +54,25 @@ class Ingress extends Model
         return $descriptions[$this->invoice];
     }
 
-    function getMethodAttribute()
-    {
-        if ($this->payments->first()) {
+    // function getMethodAttribute()
+    // {
+    //     if ($this->payments->first()) {
 
-            if ($this->client_id == 55 && $this->payments->first()->debit_card > 0) {
-                return 'debit_card';
-            }
+    //         if ($this->client_id == 55 && $this->payments->first()->debit_card > 0) {
+    //             return 'debit_card';
+    //         }
 
-            if ($this->client_id == 55 && $this->payments->first()->credit_card > 0) {
-                return 'credit_card';
-            }
+    //         if ($this->client_id == 55 && $this->payments->first()->credit_card > 0) {
+    //             return 'credit_card';
+    //         }
 
-            $payment = array_slice($this->payments->first()->toArray(), 3, 5);
+    //         $payment = array_slice($this->payments->first()->toArray(), 3, 5);
 
-            return array_search(max($payment), $payment);
-        }
+    //         return array_search(max($payment), $payment);
+    //     }
 
-        return 'undefined';
-    }
+    //     return 'undefined';
+    // }
 
     function getReferenceAttribute()
     {
@@ -86,7 +86,7 @@ class Ingress extends Model
 
     function getCashReferenceAttribute()
     {
-        if ($this->payments->first()) {
+        if ($this->payments->count() > 0) {
 
             return $this->payments->first()->cash_reference;
         }
@@ -114,6 +114,17 @@ class Ingress extends Model
     function getXmlAttribute()
     {
         return Storage::url("public/$this->company/invoices/$this->invoice_id.xml");
+    }
+
+    function getRouteMethodAttribute()
+    {
+        if ($this->method == 'tarjeta crédito' || $this->method == 'tarjeta débito') {
+            return 'tarjeta';
+        } else if ($this->method == 'cheque' || $this->invoice == 'otro') {
+            return 'factura';
+        } else {
+            return $this->method;
+        }
     }
 
     function scopeFrom($query, $date)

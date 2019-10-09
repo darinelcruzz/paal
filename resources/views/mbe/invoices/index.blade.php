@@ -22,7 +22,7 @@
                         @foreach($invoices as $invoice => $sales)
                             <tr>
                                 <td style="width: 7%">{{ $invoice }}</td>
-                                <td style="width: 17%">{{ $sales->first()->cash > 0 ? 'Efectivo' : $sales->first()->method_name }}</td>
+                                <td style="width: 20%">{{ strtoupper($sales->first()->method) }}</td>
                                 <td style="width: 35%">{{ $sales->first()->client->name }}</td>
                                 <td style="width: 5%; text-align: center;">
                                     <a href="{{ $sales->first()->xml }}" target="_blank" style="color: green">
@@ -38,7 +38,7 @@
                                 <td style="text-align: center">
                                     @if($sales->first()->status == 'cancelado')
                                         <em><code>cancelada</code></em>
-                                    @elseif (!$sales->first()->cash_reference && $sales->first()->cash > 0)
+                                    @elseif (!$sales->first()->cash_reference)
                                         
                                         @php
                                             $pending += $subamount;
@@ -48,7 +48,7 @@
                                             <em>agregar...</em>
                                         </a>
 
-                                        {!! Form::open(['method' => 'POST', 'route' => 'coffee.admin.reference']) !!}
+                                        {!! Form::open(['method' => 'POST', 'route' => 'mbe.ingress.reference']) !!}
                                 
                                         <modal title="Agregar referencia del depósito" id="details{{ $invoice }}" color="#dd4b39">
 

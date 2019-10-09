@@ -53,6 +53,8 @@ Route::group(['prefix' => 'mbe', 'as' => 'mbe.'], function () {
 	    Route::get('diario/{status}', usesas($ctrl, 'daily'));
 	    Route::post('diario/{status}', usesas($ctrl, 'daily'));
 	    Route::post('por-paqueteria', usesas($ctrl, 'companies'));
+	    Route::post('referencia', usesas($ctrl, 'reference'));
+	    Route::get('depositos/{date}', usesas($ctrl, 'printDeposits'));
 	});
 
 	Route::group(['prefix' => 'ingresos', 'as' => 'ingress.'], function () {
