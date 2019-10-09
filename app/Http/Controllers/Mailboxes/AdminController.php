@@ -15,9 +15,10 @@ class AdminController extends Controller
 
         $ingresses = Ingress::whereDate('created_at', $date)
             ->whereCompany('mbe')
+			->where('status', '!=', 'cancelado')
             ->where($this->getConditions($status))
             ->get();
-            
+
         $ingresses_to_filter = Ingress::whereDate('created_at', $date)
             ->whereCompany('mbe')->get();
 
@@ -57,8 +58,8 @@ class AdminController extends Controller
         $validated = $request->validate([
             'cash_reference' => 'required',
         ]);
-        
-        foreach (Ingress::find($request->sales) as $sale) {            
+
+        foreach (Ingress::find($request->sales) as $sale) {
             $payment = Payment::where('ingress_id', $sale->id)->first();
             $payment->update($request->only('cash_reference'));
         }
@@ -67,7 +68,7 @@ class AdminController extends Controller
     }
 
     function printDeposits($date)
-    {        
+    {
         $invoices = Ingress::whereYear('created_at', substr($date, 0, 4))
             ->whereMonth('created_at', substr($date, 5))
             ->where('invoice_id', '!=', null)
