@@ -13,13 +13,14 @@ class AdminController extends Controller
     {
         $date = $thisDate == null ? dateFromRequest(): $thisDate;
 
-        $ingresses = Ingress::whereDate('created_at', $date)
+        $ingresses = Ingress::whereDate('bought_at', $date)
             ->whereCompany('mbe')
 			->where('status', '!=', 'cancelado')
             ->where($this->getConditions($status))
             ->get();
 
-        $ingresses_to_filter = Ingress::whereDate('created_at', $date)
+        $ingresses_to_filter = Ingress::whereDate('bought_at', $date)
+            ->where('status', '!=', 'cancelado')
             ->whereCompany('mbe')->get();
 
         $color = ['factura' => 'primary', 'efectivo' => 'success', 'tarjeta' => 'warning', 'transferencia' => 'info'][$status];
