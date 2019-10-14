@@ -14456,7 +14456,8 @@ var app = new Vue({
         mbe: {
             subtotal: 0,
             iva: 0,
-            client: ''
+            client: '',
+            method: ''
         },
         provider_form: {
             group: '',

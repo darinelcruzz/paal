@@ -26,14 +26,15 @@ class IngressController extends Controller
 
     function store(Request $request)
     {
+        $this->validate($request, ['reference' => 'sometimes|required']);
+
         $validated = $this->validate($request, [
             'client_id' => 'required',
             'amount' => 'required|gt:iva',
             'iva' => 'required',
             'bought_at' => 'required',
+            'folio' => 'sometimes|required',
             'method' => 'sometimes|required',
-            'method' => 'sometimes|required',
-            'sometimes|reference' => 'required',
             'invoice' => 'sometimes|required',
             'status' => 'required',
             'company' => 'required',
@@ -42,6 +43,10 @@ class IngressController extends Controller
         ]);
 
         $ingress = Ingress::create($validated + ['products' => $this->getSerializedItems($request)]);
+
+        $ingress->update([
+            'invoice_id' => $ingress->folio == 0 ? null: $ingress->folio
+        ]);
 
         $methods = ['efectivo' => 'cash', 'transferencia' => 'transfer', 'cheque' => 'check', 'tarjeta débito' => 'debit_card', 'tarjeta crédito' => 'credit_card'];
 

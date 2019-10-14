@@ -36,12 +36,12 @@
                 
                 <data-table>
 
-                    {{ drawHeader('folio', '<i class="fa fa-cogs"></i>', 'cliente', 'método', 'IVA', 'total') }}
+                    {{ drawHeader('FI', '<i class="fa fa-cogs"></i>', 'cliente', 'método', 'IVA', 'total') }}
 
                     <template slot="body">
                         @foreach($ingresses as $ingress)
                             <tr>
-                                <td style="width: 7%">{{ $ingress->folio }}</td>
+                                <td style="width: 7%">{{ $ingress->folio == 0 ? '': $ingress->folio }}</td>
                                 <td style="width: 5%">
                                     @include('mbe.admin._options')
                                 </td>

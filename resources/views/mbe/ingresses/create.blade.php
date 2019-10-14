@@ -67,7 +67,7 @@
                             <div class="row">
                                 <div v-if="mbe.client < '627'" class="col-md-6">
                                     {!! Field::select('method', $methods, null,
-                                        ['label' => 'Método', 'tpl' => 'withicon', 'empty' => 'Forma de pago'],
+                                        ['label' => 'Método', 'tpl' => 'withicon', 'empty' => 'Forma de pago', 'v-model' => 'mbe.method'],
                                         ['icon' => 'credit-card'])
                                     !!}
                                 </div>
@@ -82,7 +82,7 @@
                                 </div>
                             </div>
 
-                            <div v-if="mbe.client < '627'" class="row">
+                            <div v-if="mbe.client < '627' && mbe.method != 'efectivo' && mbe.method != ''" class="row">
                                 <div class="col-md-6">
                                     {!! Field::text('reference', ['label' => 'Referencia', 'tpl' => 'withicon'], ['icon' => 'barcode']) !!}
                                 </div>
