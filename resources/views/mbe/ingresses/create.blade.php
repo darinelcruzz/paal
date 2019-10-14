@@ -25,7 +25,7 @@
                                 ['icon' => 'user'])
                             !!}
                             <div class="row">
-                                <div class="col-md-6">
+                                <div v-if="mbe.client < '627'" class="col-md-6">
                                     {!! Field::text('folio', ['tpl' => 'withicon'], ['icon' => 'list']) !!}
                                 </div>
                                 <div class="col-md-6">
@@ -65,12 +65,13 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-md-6">
+                                <div v-if="mbe.client < '627'" class="col-md-6">
                                     {!! Field::select('method', $methods, null,
                                         ['label' => 'Método', 'tpl' => 'withicon', 'empty' => 'Forma de pago'],
                                         ['icon' => 'credit-card'])
                                     !!}
                                 </div>
+                                <div v-else class="col-md-6"></div>
 
                                 <div class="col-md-6">
                                     <label><b>TOTAL</b></label><br>
@@ -78,6 +79,12 @@
                                         @{{ mbe.subtotal + mbe.iva | currency }}
                                     </h1>
                                     <input type="hidden" name="amount" :value="mbe.subtotal + mbe.iva">
+                                </div>
+                            </div>
+
+                            <div v-if="mbe.client < '627'" class="row">
+                                <div class="col-md-6">
+                                    {!! Field::text('reference', ['label' => 'Referencia', 'tpl' => 'withicon'], ['icon' => 'barcode']) !!}
                                 </div>
                             </div>
 

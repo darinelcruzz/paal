@@ -32,7 +32,8 @@ class IngressController extends Controller
             'iva' => 'required',
             'bought_at' => 'required',
             'method' => 'sometimes|required',
-            'folio' => 'required',
+            'method' => 'sometimes|required',
+            'sometimes|reference' => 'required',
             'invoice' => 'sometimes|required',
             'status' => 'required',
             'company' => 'required',
@@ -47,7 +48,8 @@ class IngressController extends Controller
         if ($request->method) {
             $ingress->payments()->create([
                 'type' => 'liquidación',
-                $methods[$request->method] => $ingress->amount
+                $methods[$request->method] => $ingress->amount,
+                'reference' => $request->reference
             ]);
         }
 

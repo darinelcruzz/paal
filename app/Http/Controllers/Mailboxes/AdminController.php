@@ -50,7 +50,7 @@ class AdminController extends Controller
     function companies()
     {
     	$companies = $this->getShippings(request('date'));
-    	$colors = ['green', 'blue', 'yellow', 'red', 'purple'];
+    	$colors = ['teal', 'green', 'blue', 'yellow', 'red', 'purple', 'navy', 'gray', 'aqua', 'black', 'maroon'];
     	return view('mbe.admin.companies', compact('companies', 'colors'));
     }
 

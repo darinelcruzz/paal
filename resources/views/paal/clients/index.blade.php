@@ -10,23 +10,26 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-12">
             <solid-box title="Productos" color="primary" button>
                 
                 <data-table example="1">
 
-                    {{ drawHeader('ID', 'Nombre', 'Dirección', 'Teléfono', 'Ciudad') }}
+                    {{ drawHeader('ID', 'Nombre', 'Empresa', 'Dirección', 'Teléfono', 'Ciudad') }}
 
                     <template slot="body">
                         @foreach($clients as $client)
                             <tr>
-                                <td>{{ $client->id }}</td>
-                                <td>
+                                <td style="background-color: {{ $client->company == 'coffee' ? '#faa598': ($client->company == 'mbe' ? '#97f7cb': '#96d5fa') }};">
+                                    {{ $client->id }}
+                                </td>
+                                <td style="width: 35%">
                                     {{ $client->name }} &nbsp;&nbsp;
                                     <a href="{{ route('paal.client.edit', ['client' => $client->id]) }}">
                                         <i class="fa fa-edit"></i>
                                     </a>
                                 </td>
+                                <td>{{ strtoupper($client->company != 'both'? $client->company: 'mbe/cff') }}</td>
                                 <td>{{ $client->address }}</td>
                                 <td>{{ $client->phone }}</td>
                                 <td>{{ $client->city }}</td>
