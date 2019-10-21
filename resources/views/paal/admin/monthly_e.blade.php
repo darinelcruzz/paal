@@ -70,28 +70,35 @@
             </div>
 
             <div class="row">
-                <div class="col-sm-3">
-                    <color-card color="blue" label="Gastos Generales">
-                        <small style="color: white"><em>$ {{ number_format($expenses, 2) }}</em></small>
-                    </color-card>
-                </div>
-                <div class="col-sm-3">
-                    <color-card color="purple" label="Costo venta">
-                        <small style="color: white"><em>$ {{ number_format($sales, 2) }}</em></small>
-                    </color-card>
-                </div>
-            </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <color-card color="blue" label="Gastos Generales">
+                                <small style="color: white"><em>$ {{ number_format($expenses, 2) }}</em></small>
+                            </color-card>
+                        </div>
+                        <div class="col-sm-6">
+                            <color-card color="purple" label="Costo venta">
+                                <small style="color: white"><em>$ {{ number_format($sales, 2) }}</em></small>
+                            </color-card>
+                        </div>
+                    </div>
 
-            <div class="row">
-                <div class="col-sm-3">
-                    <color-card color="navy" label="No deducible">
-                        <small style="color: white"><em>$ {{ number_format($undeductible, 2) }}</em></small>
-                    </color-card>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <color-card color="navy" label="No deducible">
+                                <small style="color: white"><em>$ {{ number_format($undeductible, 2) }}</em></small>
+                            </color-card>
+                        </div>
+                        <div class="col-sm-6">
+                            <color-card color="gray" label="Deducible">
+                                <small style="color: black"><em>$ {{ number_format($deductible, 2) }}</em></small>
+                            </color-card>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-sm-3">
-                    <color-card color="gray" label="Deducible">
-                        <small style="color: black"><em>$ {{ number_format($deductible, 2) }}</em></small>
-                    </color-card>
+                <div class="col-md-6">
+                    <img width="73%" src="{{ asset("/img/$company.png") }}">
                 </div>
             </div>
         </div>

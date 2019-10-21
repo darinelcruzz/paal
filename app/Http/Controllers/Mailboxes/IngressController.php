@@ -34,6 +34,7 @@ class IngressController extends Controller
             'iva' => 'required',
             'bought_at' => 'required',
             'folio' => 'sometimes|required',
+            'invoice_id' => 'sometimes|required',
             'method' => 'sometimes|required',
             'invoice' => 'sometimes|required',
             'status' => 'required',
@@ -43,10 +44,6 @@ class IngressController extends Controller
         ]);
 
         $ingress = Ingress::create($validated + ['products' => $this->getSerializedItems($request)]);
-
-        $ingress->update([
-            'invoice_id' => $ingress->folio == 0 ? null: $ingress->folio
-        ]);
 
         $methods = ['efectivo' => 'cash', 'transferencia' => 'transfer', 'cheque' => 'check', 'tarjeta débito' => 'debit_card', 'tarjeta crédito' => 'credit_card'];
 

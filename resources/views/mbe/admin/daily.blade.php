@@ -20,28 +20,28 @@
                             </span>
                         </div>
                     </div>
-                    <div class="col-md-9">
+                    {{-- <div class="col-md-9">
                         <a href="{{ route('mbe.ingress.daily', ['factura', $date]) }}" class="btn btn-primary">CON FACTURA</a>
                         <a href="{{ route('mbe.ingress.daily', ['efectivo', $date]) }}" class="btn btn-success">EFECTIVO S/F</a>
                         <a href="{{ route('mbe.ingress.daily', ['tarjeta', $date]) }}" class="btn btn-warning">TARJETA S/F</a>
                         <a href="{{ route('mbe.ingress.daily', ['transferencia', $date]) }}" class="btn btn-info">TRANSFERENCIA S/F</a>
-                    </div>
+                    </div> --}}
                 </div>
 
             {!! Form::close() !!}
 
             <br>
 
-            <solid-box title="{{ strtoupper($status) }}" color="{{ $color }}">
+            <solid-box title="Ingresos" color="{{ $color }}">
                 
                 <data-table>
 
-                    {{ drawHeader('FI', '<i class="fa fa-cogs"></i>', 'cliente', 'método', 'IVA', 'total') }}
+                    {{ drawHeader('FI/OT', '<i class="fa fa-cogs"></i>', 'cliente', 'método', 'IVA', 'total') }}
 
                     <template slot="body">
                         @foreach($ingresses as $ingress)
                             <tr>
-                                <td style="width: 7%">{{ $ingress->folio == 0 ? '': $ingress->folio }}</td>
+                                <td style="width: 7%">{{ $ingress->folio == '0' ? $ingress->invoice_id: $ingress->folio }}</td>
                                 <td style="width: 5%">
                                     @include('mbe.admin._options')
                                 </td>
@@ -65,7 +65,7 @@
                     </template>    
                 </data-table>
 
-                @if($status == 'efectivo' && $ingresses->count() != 0)
+                {{-- @if($status == 'efectivo' && $ingresses->count() != 0)
 
                     @if ($ingress->invoice_id == null)
                         <a href="" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-cash" title="AGREGAR FI">
@@ -106,7 +106,7 @@
                     </modal>
                     {!! Form::close() !!}
 
-                @endif
+                @endif --}}
 
             </solid-box>
         </div>
@@ -146,42 +146,3 @@
     </div>
 
 @endsection
-{{-- @extends('mbe.root')
-
-@push('pageTitle')
-    Ingresos | Lista
-@endpush
-
-@section('content')
-    <div class="row">
-        <div class="col-md-12">
-            <solid-box title="Ingresos" color="success" button>
-                <a href="{{ route('mbe.ingress.create') }}" class="btn btn-success btn-xs"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR</a>
-                <br>
-                <br>
-                <data-table example="1">
-
-                    {{ drawHeader('ID', 'cliente', 'compra', 'pago', 'I.V.A.', 'total', 'método', 'estado') }}
-
-                    <template slot="body">
-                        @foreach($ingresses as $ingress)
-                            <tr>
-                                <td>{{ $ingress->id }}</td>
-                                <td>{{ $ingress->client->name }}</td>
-                                <td>{{ fdate($ingress->bought_at, 'd M Y', 'Y-m-d') }}</td>
-                                <td>{{ fdate($ingress->paid_at, 'd M Y', 'Y-m-d') }}</td>
-                                <td>$ {{ number_format($ingress->iva, 2) }}</td>
-                                <td>$ {{ number_format($ingress->amount, 2) }}</td>
-                                <td>{{ $ingress->method_name }}</td>
-                                <td><span class="label label-{{ $ingress->status_color }}">{{ strtoupper($ingress->status) }}</span></td>
-                            </tr>
-                        @endforeach
-                    </template>
-
-                </data-table>
-
-            </solid-box>
-        </div>
-    </div>
-
-@endsection --}}

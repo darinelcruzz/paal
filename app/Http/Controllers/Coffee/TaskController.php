@@ -18,6 +18,10 @@ class TaskController extends Controller
     {
         $tasks = Task::where('assigned_to', auth()->user()->id)->orWhere('assigned_by', auth()->user()->id)->get();
 
+        if (auth()->user()->level == 0) {
+            $tasks = Task::all();
+        }
+
         return view('coffee.tasks.index', compact('tasks'));
     }
 

@@ -41,7 +41,7 @@
                                     @elseif (!$sales->first()->cash_reference)
                                         
                                         @php
-                                            $pending += $subamount;
+                                            $pending += $sales->first()->method == 'efectivo' ? $subamount: 0;
                                         @endphp
 
                                         <a href="" data-toggle="modal" data-target="#details{{ $invoice }}">

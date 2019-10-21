@@ -25,23 +25,18 @@
                                 ['icon' => 'user'])
                             !!}
                             <div class="row">
-                                <div v-if="mbe.client < '627'" class="col-md-6">
-                                    {!! Field::text('folio', ['tpl' => 'withicon'], ['icon' => 'list']) !!}
+                                <div v-if="mbe.client > '627'" class="col-md-6">
+                                    {!! Field::text('folio', ['label' => 'OT', 'tpl' => 'withicon'], ['icon' => 'list']) !!}
                                 </div>
-                                <div class="col-md-6">
-                                    {!! Field::date('bought_at', Date::now(), ['tpl' => 'withicon'], ['icon' => 'calendar']) !!}
+                                <div v-else class="col-md-6">
+                                    {!! Field::text('invoice_id', ['label' => 'FI', 'tpl' => 'withicon'], ['icon' => 'list']) !!}
                                 </div>
                             </div>
                             <div class="row">
                                 <div v-if="mbe.client < '627'" class="col-md-6">
-                                    {!! Field::select('invoice', ['no' => 'No require factura', 'otro' => 'Sí requiere'], null,
-                                        ['tpl' => 'withicon', 'empty' => '¿Factura?'],
-                                        ['icon' => 'credit-card'])
-                                    !!}
                                     <input type="hidden" name="status" value="pagado">
                                 </div>
                                 <div v-else>
-                                    <input type="hidden" name="invoice" value="otro">
                                     <input type="hidden" name="status" value="crédito">
                                 </div>
                             </div>
@@ -71,7 +66,9 @@
                                         ['icon' => 'credit-card'])
                                     !!}
                                 </div>
-                                <div v-else class="col-md-6"></div>
+                                <div v-else class="col-md-6">
+                                    <input type="hidden" name="method" value="transferencia">
+                                </div>
 
                                 <div class="col-md-6">
                                     <label><b>TOTAL</b></label><br>
@@ -92,6 +89,9 @@
                         </tab-content>
 
                     </form-wizard>
+
+                    <input type="hidden" name="bought_at" value="{{ date('Y-m-d') }}">
+                    <input type="hidden" name="invoice" value="otro">
 
                 {!! Form::close() !!}
             </solid-box>
