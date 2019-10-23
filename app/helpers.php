@@ -56,6 +56,6 @@ function saveMbeFile($file, $folder = 'bills')
 
 function dateFromRequest($format = 'Y-m-d')
 {
-    $date = null !== request('date') ? request('date'): date($format);
+    $date = request('date') !== null ? request('date'): date($format);
     return $date;
 }

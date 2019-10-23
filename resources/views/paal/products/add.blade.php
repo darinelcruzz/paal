@@ -13,7 +13,7 @@
 
                     {!! Field::text('description', ['tpl' => 'withicon'], ['icon' => 'comments']) !!}
 
-                    {!! Field::select('family', $families, null, 
+                    {!! Field::select('family', $families + (array_key_exists('UPS', $families) ? []: ['UPS' => 'UPS']), null, 
                         ['tpl' => 'withicon', 'empty' => 'Seleccione una familia'], 
                         ['icon' => 'group']) 
                     !!}

@@ -180,6 +180,9 @@
     </div>
 
     <br>
+    ¡NO TE OLVIDES! En enero nos cambiamos de dirección. <br>
+    16 Poniente Norte #138 Fracc Las Arboledas C.P. 29030 <br>
+    (entre blvd. Belisario Domínguez y 1ra Norte)
     =============================================================================
         
 </body>

@@ -8,6 +8,11 @@ class Client extends Model
 {
     protected $fillable = ['name', 'phone', 'email', 'address', 'postcode', 'city', 'state', 'rfc', 'credit', 'company'];
 
+    function ingresses()
+    {
+        return $this->hasMany(Ingress::class);
+    }
+
     function addresses()
     {
     	return $this->hasMany(Address::class);

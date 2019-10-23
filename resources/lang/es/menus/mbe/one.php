@@ -18,6 +18,10 @@ return [
                 'title' => 'Facturas',
                 'route' => 'mbe.invoice.index'
             ],
+            'orders' => [
+                'title' => 'Empresariales',
+                'route' => 'mbe.order.index'
+            ],
             'monthly' => [
                 'title' => 'Corte mensual',
                 'route' => 'mbe.ingress.monthly'

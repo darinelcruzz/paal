@@ -84,4 +84,11 @@ Route::group(['prefix' => 'mbe', 'as' => 'mbe.'], function () {
 	    Route::post('/{thisDate?}', usesas($ctrl, 'index'));
 	});
 
+	Route::group(['prefix' => 'ordenes', 'as' => 'order.'], function () {
+	    $ctrl = 'Mailboxes\OrderController';
+	    Route::post('/', usesas($ctrl, 'index'));
+	    Route::get('/', usesas($ctrl, 'index'));
+	    Route::get('{client}', usesas($ctrl, 'show'));
+	});
+
 });
