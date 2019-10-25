@@ -14355,6 +14355,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_form_wizard___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vue_form_wizard__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue_form_wizard_dist_vue_form_wizard_min_css__ = __webpack_require__(45);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue_form_wizard_dist_vue_form_wizard_min_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vue_form_wizard_dist_vue_form_wizard_min_css__);
+var _data;
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 /**
@@ -14439,7 +14441,7 @@ var Bus = new Vue({});
 
 var app = new Vue({
     el: '#app',
-    data: _defineProperty({
+    data: (_data = {
         complement: null,
         payment_method: 0,
         is_retained: 1,
@@ -14463,7 +14465,7 @@ var app = new Vue({
             group: '',
             deductible: ''
         }
-    }, 'providers', {
+    }, _defineProperty(_data, 'providers', {
         coffee: {
             general: [],
             register: []
@@ -14472,7 +14474,7 @@ var app = new Vue({
             general: [],
             register: []
         }
-    }),
+    }), _defineProperty(_data, 'checkall', false), _defineProperty(_data, 'checked', []), _data),
     methods: {
         reset: function reset() {
             this.product_option = '';
@@ -14495,6 +14497,9 @@ var app = new Vue({
         },
         showModal: function showModal(modal_name) {
             this.$modal.show(modal_name);
+        },
+        add: function add(item) {
+            this.checked.push(item);
         }
     },
     created: function created() {

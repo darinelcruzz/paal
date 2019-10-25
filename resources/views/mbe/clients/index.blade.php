@@ -30,7 +30,15 @@
                 
                 <data-table>
 
-                    {{ drawHeader('nombre', '<i class="fa fa-cogs"></i>', 'Órdenes', 'monto', 'estado') }}
+                    <template slot="header">
+                        <tr>
+                            <th>Nombre</th>
+                            <th style="width: 5%"><i class="fa fa-cogs"></i></th>
+                            <th style="width: 5%">OTs</th>
+                            <th>I.V.A.</th>
+                            <th>Total</th>
+                        </tr>
+                    </template>
 
                     <template slot="body">
                         @foreach($clients as $client)
@@ -43,13 +51,15 @@
                                         <ddi icon="eye" to="{{ route('mbe.order.show', $client) }}" text="Ver órdenes"></ddi>
                                     </dropdown>
                                 </td>
-                                <td>
+                                <td style="text-align: center;">
                                     {{ count($client->ingresses) }}
+                                </td>
+                                <td>
+                                    $ {{ number_format($client->ingresses->sum('iva'), 2) }}
                                 </td>
                                 <td>
                                     $ {{ number_format($client->ingresses->sum('amount'), 2) }}
                                 </td>
-                                <td>No facturado</td>
                             </tr>
                         @endforeach
                     </template>   

@@ -115,7 +115,9 @@ const app = new Vue({
                general: [],
                register: [], 
             }
-        }
+        },
+        checkall: false,
+        checked: [],
     },
     methods: {
         reset() {
@@ -137,7 +139,10 @@ const app = new Vue({
         },
         showModal(modal_name) {
             this.$modal.show(modal_name)
-        }
+        },
+        add(item) {
+            this.checked.push(item)
+        },
     },
     created() {
         const t = this;
