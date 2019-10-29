@@ -37,6 +37,7 @@
                             <th style="width: 5%">OTs</th>
                             <th>I.V.A.</th>
                             <th>Total</th>
+                            <th>Estado</th>
                         </tr>
                     </template>
 
@@ -59,6 +60,15 @@
                                 </td>
                                 <td>
                                     $ {{ number_format($client->ingresses->sum('amount'), 2) }}
+                                </td>
+                                <td>
+                                    @if($client->ingresses->where('invoice_id', '!=', null)->count() == 0)
+                                        Sin facturar
+                                    @elseif($client->ingresses->where('invoice_id', null)->count() == 0)
+                                        Facturado
+                                    @else
+                                        {{ $client->ingresses->where('invoice_id', null)->count() . ' órdenes por facturar' }}
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

@@ -4,6 +4,11 @@
             <i class="fa fa-eye"></i> Detalles
         </a>
     </li>
+    <li>
+        <a href="{{ route('mbe.ingress.ticket', $ingress) }}" target="_blank">
+            <i class="fa fa-print" aria-hidden="true"></i> Imprimir
+        </a>
+    </li>
     @if($status != 'efectivo')
         @if ($ingress->invoice_id)
             <li>

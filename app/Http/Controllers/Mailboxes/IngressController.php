@@ -55,7 +55,17 @@ class IngressController extends Controller
             ]);
         }
 
+        if ($ingress->client_id > 626) {
+            return redirect(route('mbe.order.show', $ingress->client));
+        }
+
         return redirect(route('mbe.ingress.daily', $ingress->route_method));
+    }
+
+    function ticket(Ingress $ingress)
+    {
+        $payment = $ingress->payments->first();
+        return view('mbe.ingresses.ticket', compact('ingress', 'payment'));
     }
 
     function destroy(Ingress $ingress, $reason)

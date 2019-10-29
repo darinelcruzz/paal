@@ -18,6 +18,16 @@
                 </a>
             </li>
         @endif
+    @else
+
+        @if ($ingress->invoice_id)
+            <li>
+                <a href="{{ $ingress->xml }}" target="_blank">
+                    <i class="fa fa-file-code"></i> XML
+                </a>
+            </li>
+        @endif
+
     @endif
 </dropdown>
 

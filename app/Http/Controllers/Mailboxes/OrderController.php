@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Mailboxes;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 use App\{Ingress, Client};
 
 class OrderController extends Controller
@@ -25,6 +26,26 @@ class OrderController extends Controller
 
     function show(Client $client)
     {
+        // $invoices = $client->ingresses->where('invoice_id', '!=', null)->groupBy('invoice_id');
         return view('mbe.clients.show', compact('client'));
+    }
+
+    function update(Request $request)
+    {
+        $request->validate([
+            'invoice_id' => 'required',
+            'sales' => 'required',
+            'xml' => 'required'
+        ]);
+
+        $path = Storage::putFileAs(
+            "public/coffee/invoices", $request->file('xml'), "$request->invoice_id.xml"
+        );
+        
+        foreach (Ingress::find($request->sales) as $sale) {
+            $sale->update($request->only('invoice_id'));
+        }
+
+        return redirect(route('mbe.order.show', $sale->client));
     }
 }

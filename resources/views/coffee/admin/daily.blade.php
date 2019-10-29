@@ -34,6 +34,8 @@
 
             <br>
 
+            {!! Form::open(['method' => 'POST', 'route' => 'coffee.invoice.create', 'files' => 'true']) !!}
+
             <solid-box title="{{ strtoupper($status) }}" color="{{ $color }}">
                 
                 <data-table>
@@ -43,13 +45,19 @@
                     <template slot="body">
                         @foreach($ingresses as $ingress)
                             <tr>
-                                <td style="width: 7%">{{ $ingress->folio }}</td>
+                                <td style="width: 7%">
+                                    @if($ingress->invoice_id == null && $ingress->method == 'efectivo')
+                                        <input type="checkbox" name="sales[]" value="{{ $ingress->id }}" checked>
+                                    @else
+                                        <span style="color: green;">{!! $ingress->invoice_id == null ? '': "<i class='fa fa-check'></i>" !!}</span>
+                                    @endif
+                                    {{ $ingress->folio }}
+                                </td>
                                 <td style="width: 5%">
                                     @include('coffee.admin._options')
                                 </td>
                                 <td>
                                     {{ $ingress->client->name }}
-                                    <span style="color: green;">{!! $ingress->invoice_id ? "<i class='fa fa-check'></i>": '' !!}</span>
                                 </td>
                                 <td style="text-align: right">$ {{ number_format($ingress->iva, 2) }}</td>
                                 <td style="text-align: right">$ {{ number_format($ingress->amount, 2) }}</td>
@@ -68,17 +76,11 @@
 
                 @if($status == 'efectivo' && $ingresses->count() != 0)
 
-                    @if ($ingress->invoice_id == null)
-                        <a href="" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-cash" title="AGREGAR FI">
-                            <i class="fa fa-file-invoice-dollar fa-2x"></i>
-                        </a>
-                    @else
-                        <a href="{{ $ingress->xml }}" class="btn btn-success btn-sm" target="_blank">
-                            <i class="fa fa-file-code"></i> XML
-                        </a>
-                    @endif
+                    <a href="" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-cash" title="AGREGAR FI">
+                        <i class="fa fa-file-invoice-dollar fa-2x"></i>
+                    </a>
 
-                    {!! Form::open(['method' => 'POST', 'route' => 'coffee.invoice.create', 'files' => 'true']) !!}
+                    {{-- {!! Form::open(['method' => 'POST', 'route' => 'coffee.invoice.create', 'files' => 'true']) !!} --}}
                     <modal title="Agregar datos de la facturación" id="modal-cash" color="{{ $color }}">
 
                         <div class="row">
@@ -88,10 +90,7 @@
                                     ['icon' => 'file-invoice']) 
                                 !!}
                                 <input type="hidden" name="thisDate" value="{{ $date }}">
-                                
-                                @foreach($ingresses->pluck('id') as $ingress_id)
-                                    <input type="hidden" name="sales[]" value="{{ $ingress_id }}">
-                                @endforeach
+                                {{-- <input type="hidden" name="sales" :value="checked"> --}}
                             </div>
                         </div>
                         <br>
@@ -105,11 +104,13 @@
                             {!! Form::submit('Guardar', ['class' => "btn btn-$color pull-right"]) !!}
                         </template>
                     </modal>
-                    {!! Form::close() !!}
+                    
 
                 @endif
 
             </solid-box>
+
+            {!! Form::close() !!}
         </div>
 
 

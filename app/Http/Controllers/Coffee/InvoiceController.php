@@ -13,6 +13,7 @@ class InvoiceController extends Controller
     {
         $validated = $request->validate([
             'invoice_id' => 'required',
+            'sales' => 'required',
             'xml' => 'required'
         ]);
         
