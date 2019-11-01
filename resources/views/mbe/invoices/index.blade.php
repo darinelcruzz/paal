@@ -25,9 +25,13 @@
                                 <td style="width: 20%">{{ strtoupper($sales->first()->method) }}</td>
                                 <td style="width: 35%">{{ $sales->first()->client->name }}</td>
                                 <td style="width: 5%; text-align: center;">
+                                    @if($sales->first()->xml)
                                     <a href="{{ $sales->first()->xml }}" target="_blank" style="color: green">
                                         <i class="fa fa-file-excel"></i>
                                     </a>
+                                    @else
+                                        ~
+                                    @endif
                                 </td>
                                 @php
                                     $subamount = 0;
@@ -38,7 +42,7 @@
                                 <td style="text-align: center">
                                     @if($sales->first()->status == 'cancelado')
                                         <em><code>cancelada</code></em>
-                                    @elseif (!$sales->first()->cash_reference)
+                                    @elseif(!$sales->first()->cash_reference && $sales->first()->method == 'efectivo' || $sales->first()->client_id > 627 && !$sales->first()->reference)
                                         
                                         @php
                                             $pending += $sales->first()->method == 'efectivo' ? $subamount: 0;
@@ -54,7 +58,7 @@
 
                                             <div class="row">
                                                 <div class="col-md-4 col-md-offset-4">
-                                                    {!! Field::text('cash_reference', 
+                                                    {!! Field::text($sales->first()->client_id > 627 ? 'reference': 'cash_reference', 
                                                         ['tpl' => 'withicon', 'ph' => 'XXXXXXXXX', 'required' => 'true'], 
                                                         ['icon' => 'exchange-alt']) 
                                                     !!}

@@ -9,20 +9,18 @@
             <i class="fa fa-print" aria-hidden="true"></i> Imprimir
         </a>
     </li>
-    @if($status != 'efectivo')
-        @if ($ingress->invoice_id)
-            <li>
-                <a href="{{ $ingress->xml }}" target="_blank">
-                    <i class="fa fa-file-code"></i> XML
-                </a>
-            </li>
-        @else
-            <li>
-                <a href="" data-toggle="modal" data-target="#modal-f{{ $ingress->id }}">
-                    <i class="fa fa-plus"></i> Agregar FI
-                </a>
-            </li>
-        @endif
+    @if ($ingress->xml)
+        <li>
+            <a href="{{ $ingress->xml }}" target="_blank">
+                <i class="fa fa-file-code"></i> XML
+            </a>
+        </li>
+    @else
+        <li>
+            <a href="" data-toggle="modal" data-target="#modal-f{{ $ingress->id }}">
+                <i class="fa fa-plus"></i> Agregar XML
+            </a>
+        </li>
     @endif
 </dropdown>
 
@@ -45,25 +43,14 @@
     </table>
 </modal>
 
-{!! Form::open(['method' => 'POST', 'route' => 'mbe.invoice.create', 'files' => 'true']) !!}
+{!! Form::open(['method' => 'POST', 'route' => ['mbe.invoice.update', $ingress], 'files' => 'true']) !!}
 
-<modal title="Agregar datos de la facturación" id="modal-f{{ $ingress->id }}" color="{{ $color }}">
+<modal title="Agregar XML" id="modal-f{{ $ingress->id }}" color="{{ $color }}">
 
-    <div class="row">
-        <div class="col-md-4 col-md-offset-4">
-            {!! Field::number('invoice_id', 
-                ['label' => 'Agregar FI','tpl' => 'withicon', 'ph' => 'XXXXXXXXX', 'required' => 'true'], 
-                ['icon' => 'file-invoice']) 
-            !!}
-
-            <input type="hidden" name="thisDate" value="{{ $date }}">
-        </div>
-    </div>
-    <input type="hidden" name="sales[]" value="{{ $ingress->id }}">
-    <br>
     <div class="row">
         <div class="col-md-2 col-md-offset-5">
             <file-upload fname="xml" ext="xml" color="primary" bname=" SUBIR XML"></file-upload>
+            <input type="hidden" name="thisDate" value="{{ $date }}">
         </div>
     </div>
 

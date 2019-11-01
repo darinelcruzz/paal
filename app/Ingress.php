@@ -113,7 +113,11 @@ class Ingress extends Model
 
     function getXmlAttribute()
     {
-        return Storage::url("public/$this->company/invoices/$this->invoice_id.xml");
+        if (Storage::exists("public/$this->company/invoices/$this->invoice_id.xml")) {
+            return Storage::url("public/$this->company/invoices/$this->invoice_id.xml");
+        }
+        
+        return false;
     }
 
     function getRouteMethodAttribute()

@@ -32,6 +32,19 @@ class InvoiceController extends Controller
         return view('mbe.invoices.index', compact('invoices', 'date', 'total'));
     }
 
+    function update(Request $request, Ingress $ingress)
+    {
+        $validated = $request->validate([
+            'xml' => 'required',
+        ]);
+
+        $path = Storage::putFileAs(
+            "public/mbe/invoices", $request->file('xml'), "$ingress->invoice_id.xml"
+        );
+
+        return redirect(route('mbe.ingress.daily', [$ingress->route_method, $request->thisDate]));
+    }
+
 	function create(Request $request)
     {
         $validated = $request->validate([

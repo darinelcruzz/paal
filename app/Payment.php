@@ -52,6 +52,7 @@ class Payment extends Model
             ->whereMonth('created_at', substr($date, 5))
             ->whereHas('ingress', function($query) use ($company) {
                 $query->where('status', '!=', 'cancelado')
+                    ->where('status', '!=', 'crédito')
                     ->where('company', $company);
             });
     }

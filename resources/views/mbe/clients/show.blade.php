@@ -11,9 +11,9 @@
 @section('content')
     <div class="row">
         
-        <div class="col-md-12">
+        <div class="col-md-6">
 
-            <solid-box title="Órdenes de trabajo" color="success">
+            <solid-box title="Órdenes de trabajo por facturar" color="warning">
                 
                 {!! Form::open(['method' => 'post', 'route' => 'mbe.order.update', 'files' => 'true']) !!}
                 
@@ -23,11 +23,8 @@
 
                     <template slot="header">
                         <tr>
-                            <th style="width: 5%">
-                                {{-- <input type="checkbox" v-model="checkall"> --}}
-                                <i class="fa fa-check"></i>
-                            </th>
-                            <th style="width: 30%">OT</th>
+                            <th style="width: 5%"><i class="fa fa-check"></i></th>
+                            <th style="width: 10%">OT</th>
                             <th>Fecha</th>
                             <th>Factura</th>
                             <th>I.V.A.</th>
@@ -38,11 +35,10 @@
 
                     <template slot="body">
 
-                        @foreach($client->ingresses as $ingress)
+                        @foreach($ingresses as $ingress)
                             <tr>
                                 <th>
                                     @if($ingress->invoice_id == null)
-                                        {{-- <input type="checkbox" :value="{{ $ingress->id }}" v-model="checked"> --}}
                                         <input type="checkbox" name="sales[]" value="{{ $ingress->id }}" checked>
                                     @else
                                         <i class="fa fa-check"></i>
@@ -74,7 +70,7 @@
                             <th></th>
                             <td>
                                 <a href="" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modal-cash" title="AGREGAR FI">
-                                    AGREGAR FACTURA
+                                    <i class="fa fa-plus"></i> FACTURAR
                                 </a>
                             </td>
                             <td></td>
@@ -116,7 +112,7 @@
             </solid-box>
         </div>
 
-        {{-- <div class="col-md-6">
+        <div class="col-md-6">
 
             <solid-box title="Facturas" color="success">
                 
@@ -173,7 +169,7 @@
 
                 </data-table>
             </solid-box>
-        </div> --}}
+        </div>
     </div>
 
 @endsection

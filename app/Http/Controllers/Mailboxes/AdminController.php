@@ -44,7 +44,8 @@ class AdminController extends Controller
 
         $working_days = $working_days == 0 ? 1: $working_days;
 
-        $pending = Payment::monthly($date, 'mbe')->whereNull('cash_reference')->sum('cash');
+        $pending = Payment::monthly($date, 'mbe')->whereNull('cash_reference')
+            ->sum('cash');
 
         return view('mbe.admin.monthly', compact('date', 'month', 'pending', 'working_days', 'credit_total', 'shippings'));
     }
@@ -59,12 +60,13 @@ class AdminController extends Controller
     function reference(Request $request)
     {
         $validated = $request->validate([
-            'cash_reference' => 'required',
+            'cash_reference' => 'sometimes|required',
+            'reference' => 'sometimes|required'
         ]);
 
         foreach (Ingress::find($request->sales) as $sale) {
-            $payment = Payment::where('ingress_id', $sale->id)->first();
-            $payment->update($request->only('cash_reference'));
+            $sale->update(['status' => 'pagado']);
+            Payment::where('ingress_id', $sale->id)->update($validated);
         }
 
         return redirect(route('mbe.invoice.index', $request->thisDate));

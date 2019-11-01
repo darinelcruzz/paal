@@ -26,12 +26,14 @@ class OrderController extends Controller
 
     function show(Client $client)
     {
-        // $invoices = $client->ingresses->where('invoice_id', '!=', null)->groupBy('invoice_id');
-        return view('mbe.clients.show', compact('client'));
+        $invoices = $client->ingresses->where('invoice_id', '!=', null)->groupBy('invoice_id');
+        $ingresses = $client->ingresses->where('invoice_id', null);
+        return view('mbe.clients.show', compact('client', 'ingresses', 'invoices'));
     }
 
     function update(Request $request)
     {
+        // dd($request->all());
         $request->validate([
             'invoice_id' => 'required',
             'sales' => 'required',
@@ -39,7 +41,7 @@ class OrderController extends Controller
         ]);
 
         $path = Storage::putFileAs(
-            "public/coffee/invoices", $request->file('xml'), "$request->invoice_id.xml"
+            "public/mbe/invoices", $request->file('xml'), "$request->invoice_id.xml"
         );
         
         foreach (Ingress::find($request->sales) as $sale) {
