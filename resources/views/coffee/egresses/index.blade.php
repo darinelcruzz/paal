@@ -20,7 +20,7 @@
                     </div>
 
                     <div class="col-md-3">
-                        <a href="{{ route('coffee.egress.index', 'pagado') }}">
+                        <a href="{{ route('coffee.egress.index', ['pagado', $date]) }}">
                             <label class="btn btn-success btn-bg btn-block">
                                 $ {{ number_format($paid->sum('amount')  + $checkssum) }}
                             </label>
@@ -28,15 +28,15 @@
                     </div>
 
                     <div class="col-md-3">
-                        <a href="{{ route('coffee.egress.index', 'pendiente') }}">
+                        <a href="{{ route('coffee.egress.index', ['pendiente', $date]) }}">
                             <label class="btn btn-warning btn-bg btn-block">
-                                $ {{ number_format($alltime->where('status', 'pendiente')->sum('amount') + $alltime->where('status', 'pendiente')->sum('iva'), 2) }}
+                                $ {{ number_format($pending->sum('amount'), 2) }}
                             </label>
                         </a>
                     </div>
 
                     <div class="col-md-3">
-                        <a href="{{ route('coffee.egress.index', 'vencido') }}">
+                        <a href="{{ route('coffee.egress.index', ['vencido', $date]) }}">
                             <label class="btn btn-danger btn-bg btn-block">
                                 $ {{ number_format($alltime->where('status', 'vencido')->sum('amount') + $alltime->where('status', 'vencido')->sum('iva'), 2) }}
                             </label>

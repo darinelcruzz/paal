@@ -24,8 +24,8 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	    Route::post('reemplazar/{egress}', usesas($ctrl, 'upload'));
 	    Route::get('editar/{egress}', usesas($ctrl, 'edit'));
 	    Route::post('editar/{egress}', usesas($ctrl, 'update'));
-	    Route::get('/{status}', usesas($ctrl, 'index'));
-	    Route::post('/{status}', usesas($ctrl, 'index'));
+	    Route::get('/{status}/{date?}', usesas($ctrl, 'index'));
+	    Route::post('/{status}/{date?}', usesas($ctrl, 'index'));
 
 	    Route::group(['prefix' => 'general', 'as' => 'general.'], function () {
 		    $ctrl = 'Coffee\GeneralEgressController';

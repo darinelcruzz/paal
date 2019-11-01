@@ -9,9 +9,10 @@ use App\{Egress, Provider, Check};
 
 class EgressController extends Controller
 {
-    function index(Request $request, $status = 'pagado')
+    function index(Request $request, $status = 'pagado', $thisDate = null)
     {
-        $date = isset($request->date) ? $request->date: date('Y-m');
+        // $date = isset($request->date) ? $request->date: date('Y-m');
+        $date = $thisDate == null ? dateFromRequest(): $thisDate;
 
         $paid = Egress::from($date, 'payment_date')
             ->where('status', 'pagado')
@@ -19,7 +20,7 @@ class EgressController extends Controller
             ->orderByDesc('payment_date')
             ->get();
 
-        $pending = Egress::company('coffee')->where('status', 'pendiente')->get();
+        $pending = Egress::company('coffee')->where('status', 'pendiente')->where('check_id', null)->get();
         
         $expired = Egress::company('coffee')->where('status', 'vencido')->get();
 
