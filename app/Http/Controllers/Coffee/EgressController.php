@@ -11,8 +11,7 @@ class EgressController extends Controller
 {
     function index(Request $request, $status = 'pagado', $thisDate = null)
     {
-        // $date = isset($request->date) ? $request->date: date('Y-m');
-        $date = $thisDate == null ? dateFromRequest(): $thisDate;
+        $date = $thisDate == null ? dateFromRequest('Y-m'): $thisDate;
 
         $paid = Egress::from($date, 'payment_date')
             ->where('status', 'pagado')
