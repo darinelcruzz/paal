@@ -120,6 +120,15 @@ class Ingress extends Model
         return false;
     }
 
+    function getXmlComplementAttribute()
+    {
+        if (Storage::exists("public/$this->company/complements/$this->invoice_id.xml")) {
+            return Storage::url("public/$this->company/complements/$this->invoice_id.xml");
+        }
+        
+        return false;
+    }
+
     function getRouteMethodAttribute()
     {
         if ($this->method == 'tarjeta crédito' || $this->method == 'tarjeta débito') {

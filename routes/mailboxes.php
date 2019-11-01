@@ -81,7 +81,9 @@ Route::group(['prefix' => 'mbe', 'as' => 'mbe.'], function () {
 	    $ctrl = 'Mailboxes\InvoiceController';
 	    Route::post('agregar', usesas($ctrl, 'create'));
 	    Route::post('xml/{ingress}', usesas($ctrl, 'update'));
+	    Route::post('complemento', usesas($ctrl, 'complement'));
 	    Route::get('imprimir/{date}', usesas($ctrl, 'print'));
+	    Route::get('pendientes', usesas($ctrl, 'pending'));
 	    Route::get('/{thisDate?}', usesas($ctrl, 'index'));
 	    Route::post('/{thisDate?}', usesas($ctrl, 'index'));
 	});

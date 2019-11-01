@@ -18,6 +18,10 @@ return [
                 'title' => 'Facturas',
                 'route' => 'mbe.invoice.index'
             ],
+            'pending' => [
+                'title' => 'Pendientes',
+                'route' => 'mbe.invoice.pending'
+            ],
             'orders' => [
                 'title' => 'Empresariales',
                 'route' => 'mbe.order.index'

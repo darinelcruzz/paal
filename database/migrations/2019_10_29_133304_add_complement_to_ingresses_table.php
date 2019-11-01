@@ -14,7 +14,7 @@ class AddComplementToIngressesTable extends Migration
     public function up()
     {
         Schema::table('ingresses', function (Blueprint $table) {
-            //
+            $table->string('complement')->nullable();
         });
     }
 
@@ -26,7 +26,7 @@ class AddComplementToIngressesTable extends Migration
     public function down()
     {
         Schema::table('ingresses', function (Blueprint $table) {
-            //
+            $table->dropColumn('complement');
         });
     }
 }

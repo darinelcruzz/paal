@@ -32,6 +32,23 @@ class InvoiceController extends Controller
         return view('mbe.invoices.index', compact('invoices', 'date', 'total'));
     }
 
+    function pending()
+    {
+        $invoices = Ingress::where('invoice_id', '!=', null)
+            ->where('company', 'mbe')
+            ->where('complement', null)
+            ->get()
+            ->groupBy('invoice_id');
+
+        $completed = Ingress::where('invoice_id', '!=', null)
+            ->where('company', 'mbe')
+            ->where('complement', '!=', null)
+            ->get()
+            ->groupBy('invoice_id');
+
+        return view('mbe.invoices.pending', compact('invoices', 'completed'));
+    }
+
     function update(Request $request, Ingress $ingress)
     {
         $validated = $request->validate([
@@ -43,6 +60,23 @@ class InvoiceController extends Controller
         );
 
         return redirect(route('mbe.ingress.daily', [$ingress->route_method, $request->thisDate]));
+    }
+
+    function complement(Request $request)
+    {
+        $validated = $request->validate([
+            'xml' => 'required',
+        ]);
+
+        $path = Storage::putFileAs(
+            "public/mbe/complements", $request->file('xml'), "$request->invoice_id.xml"
+        );
+
+        foreach (Ingress::find($request->sales) as $sale) {
+            $sale->update(['complement' => $path]);
+        }
+
+        return redirect(route('mbe.invoice.pending'));
     }
 
 	function create(Request $request)
