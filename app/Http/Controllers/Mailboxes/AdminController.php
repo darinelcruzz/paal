@@ -44,7 +44,14 @@ class AdminController extends Controller
 
         $working_days = $working_days == 0 ? 1: $working_days;
 
-        $pending = Payment::monthly($date, 'mbe')->whereNull('cash_reference')
+        $pending = Payment::whereYear('created_at', substr($date, 0, 4))
+            ->whereMonth('created_at', substr($date, 5))
+            ->whereNull('cash_reference')
+            ->whereHas('ingress', function($query) {
+                $query->where('status', '!=', 'cancelado')
+                    ->where('company', 'mbe')
+                    ->where('invoice_id', '!=', null);
+            })
             ->sum('cash');
 
         return view('mbe.admin.monthly', compact('date', 'month', 'pending', 'working_days', 'credit_total', 'shippings'));
