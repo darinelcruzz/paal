@@ -34,7 +34,7 @@
                     <template slot="body">
                         @foreach($ingresses as $ingress)
                             <tr>
-                                <td>{{ $ingress->folio }}</td>
+                                <td>{{ $ingress->folio ? $ingress->folio: $ingress->invoice_id }}</td>
                                 <td>
                                     <dropdown icon="cogs" color="success">
                                         @if ($ingress->status != 'cancelado')
@@ -50,7 +50,7 @@
                                 <td style="width: 30%">{{ $ingress->client->name }}</td>
                                 <td>$ {{ number_format($ingress->iva, 2) }}</td>
                                 <td>$ {{ number_format($ingress->amount, 2) }}</td>
-                                <td>{{ ucfirst($ingress->type) }}</td>
+                                <td>{{ ucfirst($ingress->method) }}</td>
                                 <td>
                                     <span class="label label-{{ $ingress->statusColor }}">
                                         {{ ucfirst($ingress->status) }}
