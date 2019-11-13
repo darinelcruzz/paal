@@ -36,12 +36,14 @@ class InvoiceController extends Controller
     {
         $invoices = Ingress::where('invoice_id', '!=', null)
             ->where('company', 'mbe')
+            ->where('client_id', '>', 627)
             ->where('complement', null)
             ->get()
             ->groupBy('invoice_id');
 
         $completed = Ingress::where('invoice_id', '!=', null)
             ->where('company', 'mbe')
+            ->where('client_id', '>', 627)
             ->where('complement', '!=', null)
             ->get()
             ->groupBy('invoice_id');

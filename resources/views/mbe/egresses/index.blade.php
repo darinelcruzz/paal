@@ -83,12 +83,15 @@
                                             {{ fdate($egress->second_payment_date, 'd M Y', 'Y-m-d') }}
                                             | <br>{{ $egress->nfolio }}
                                         @endif
+
                                     </td>
                                     <td>{{ $egress->folio }}</td>
                                     <td>
                                         @include('mbe.egresses._dropdown', ['color' => 'success'])
                                     </td>
-                                    <td>{{ $egress->provider->name ?? $egress->provider_name }} {{ $egress->provider_name != null ? " ($egress->provider_name)": ''}}</td>
+                                    <td>{{ $egress->provider->name ?? $egress->provider_name }} {{ $egress->provider_name != null ? " ($egress->provider_name)": ''}}
+                                        <br>{{ $egress->provider->rfc }}
+                                    </td>
                                     <td>{{ fdate($egress->emission, 'd M Y', 'Y-m-d') }}</td>
                                     <td>$ {{ number_format($egress->iva, 2) }}</td>
                                     <td>$ {{ number_format($egress->amount, 2) }}</td>
@@ -122,6 +125,7 @@
                                         <td>
                                             {{ $egress->provider->name }}
                                             {{ $egress->provider_name != null ? "($egress->provider_name" . ($egress->receiver != null ? ", $egress->return_name)": ')') : "" }}
+                                            <br>{{ $egress->provider->rfc }}
                                         </td>
                                         <td>$ {{ number_format($egress->iva, 2) }}</td>
                                         <td>$  {{ number_format($egress->amount, 2) }}</td>

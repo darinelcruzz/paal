@@ -88,7 +88,10 @@
                                     <td>
                                         @include('coffee.egresses._dropdown', ['color' => 'success'])
                                     </td>
-                                    <td>{{ $egress->provider->name ?? $egress->provider_name }} {{ $egress->provider_name != null ? " ($egress->provider_name)": ''}}</td>
+                                    <td>
+                                        {{ $egress->provider->name ?? $egress->provider_name }} {{ $egress->provider_name != null ? " ($egress->provider_name)": ''}}
+                                        <br><code>{{ $egress->provider->rfc }}</code>
+                                    </td>
                                     <td>{{ fdate($egress->emission, 'd M Y', 'Y-m-d') }}</td>
                                     <td>$ {{ number_format($egress->iva, 2) }}</td>
                                     <td>$ {{ number_format($egress->amount, 2) }}</td>

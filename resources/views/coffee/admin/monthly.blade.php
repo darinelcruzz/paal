@@ -147,6 +147,29 @@
                     </div>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="small-box bg-purple">
+                        <div class="inner">
+                            <big>Insumos</big>
+                            <h3>
+                                <small style="color: white">$ {{ number_format($type1->sum('amount'), 2) }}</small>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="small-box bg-navy">
+                        <div class="inner">
+                            <big>Equipo</big>
+                            <h3>
+                                <small style="color: white">$ {{ number_format($type2->sum('amount'), 2) }}</small>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
