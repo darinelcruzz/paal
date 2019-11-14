@@ -38,7 +38,7 @@
                       </tab-content>
 
                       <tab-content title="Productos" icon="fa fa-tag">
-                          <shopping-list color="{{ $type == 'insumos' ? 'danger': 'warning'}}" :exchange="{{ $exchange }}"></shopping-list>
+                          <shopping-list color="{{ $type == 'insumos' ? 'danger': 'warning'}}" :exchange="{{ $exchange }}" :promo="{{ $promo }}"></shopping-list>
                        </tab-content>
 
                     </form-wizard>
@@ -53,7 +53,7 @@
 
         <div class="col-md-6">
             <solid-box title="{{ strtoupper($type == 'insumos' ? 'insumos': 'equipos') }}" color="{{ $type == 'insumos' ? 'danger': 'warning' }}">
-                <p-table color="{{ $type == 'insumos' ? 'danger': 'warning'}}" :exchange="{{ $exchange }}" type="{{ $type }}"></p-table>
+                <p-table color="{{ $type == 'insumos' ? 'danger': 'warning'}}" :exchange="{{ $exchange }}" :promo="{{ $promo }}" type="{{ $type }}"></p-table>
             </solid-box>
         </div>
     </div>

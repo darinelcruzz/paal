@@ -49,7 +49,7 @@
 
 <script>
 	export default {
-		props: ['product', 'color', 'exchange'],
+		props: ['product', 'color', 'exchange', 'promo'],
 		data() {
 			return {
 				test: ''
@@ -72,9 +72,14 @@
                 } else if (product.family == 'SERVICIOS') {
                     return product.retail_price
                 } else {
-                    var after_iva = product.wholesale_quantity > 0 && product.quantity >= product.wholesale_quantity ? 
-                        product.wholesale_price: product.retail_price
-                    return after_iva / (1 + 0.16 * product.iva)
+                    if (this.promo == 0) {
+                        var after_iva = product.wholesale_quantity > 0 && product.quantity >= product.wholesale_quantity ? 
+                            product.wholesale_price: product.retail_price
+                        
+                        return after_iva / (1 + 0.16 * product.iva)
+                    }
+
+                    return product.wholesale_price
                 }
             },
 		},

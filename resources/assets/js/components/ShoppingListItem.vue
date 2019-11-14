@@ -85,7 +85,7 @@ export default {
             price_in_dollars: 0
         };
     },
-    props: ['product', 'index', 'exchange', 'familycount'],
+    props: ['product', 'index', 'exchange', 'familycount', 'promo'],
     methods: {
         deleteItem() {
             this.$root.$emit('delete-item', [this.index, this.product.family])
@@ -99,12 +99,16 @@ export default {
         computePrice() {
             var price;
 
-            if (this.product.is_summable) {
+            if (this.product.is_summable && this.promo == 0) {
                 price = this.familycount > this.product.wholesale_quantity ? this.product.wholesale_price: this.product.retail_price
             } else if (this.product.dollars) {
                 price = this.product.retail_price * Number(this.exchange)
             } else {
-                price = this.quantity > this.product.wholesale_quantity ? this.product.wholesale_price: this.product.retail_price
+                if (this.promo == 1) {
+                    price = this.product.wholesale_price
+                } else {
+                    price = this.quantity > this.product.wholesale_quantity ? this.product.wholesale_price: this.product.retail_price
+                }
             }
 
             return price / (1 + 0.16 * this.product.iva)

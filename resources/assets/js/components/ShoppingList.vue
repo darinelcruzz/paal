@@ -21,7 +21,8 @@
                             is="shopping-list-item" 
                             :product="product"
                             :familycount="getFamilyCount(product.family)"
-                            :exchange="exchange">
+                            :exchange="exchange"
+                            :promo="promo">
                         </tr>
                     </tbody>
 
@@ -61,7 +62,7 @@
 
 <script>
 	export default {
-		props: ['color', 'exchange', 'qproducts'],
+		props: ['color', 'exchange', 'qproducts', 'promo'],
 		data() {
 			return {
                 inputs: [],
@@ -144,9 +145,14 @@
                 } else if (product.family == 'SERVICIOS') {
                     return product.retail_price
                 } else {
-                    var after_iva = product.wholesale_quantity > 0 && product.quantity >= product.wholesale_quantity ? 
-                        product.wholesale_price: product.retail_price
-                    return after_iva / (1 + 0.16 * product.iva)
+                    if (this.promo == 0) {
+                        var after_iva = product.wholesale_quantity > 0 && product.quantity >= product.wholesale_quantity ? 
+                            product.wholesale_price: product.retail_price
+                        
+                        return after_iva / (1 + 0.16 * product.iva)
+                    }
+                    
+                    return product.wholesale_price
                 }
             },
 		},

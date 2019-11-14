@@ -41,7 +41,7 @@
 
                 <tbody>
                     <tr v-for="(product, index) in products" :key="index" is="p-row" :exchange="exchange"
-                        :product="product" :color="color">
+                        :product="product" :color="color" :promo="promo">
                     </tr>
                 </tbody>
             </table>
@@ -51,7 +51,15 @@
 
 <script>
 	export default {
-		props: ['color', 'exchange', 'type'],
+		props: {
+            color: String,
+            exchange: [Number, String],
+            type: String,
+            promo: {
+                type: Number,
+                default: 0
+            }
+        },
 		data() {
 			return {
                 products: [],

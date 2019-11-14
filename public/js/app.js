@@ -52623,7 +52623,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['color', 'exchange', 'type'],
+    props: {
+        color: String,
+        exchange: [Number, String],
+        type: String,
+        promo: {
+            type: Number,
+            default: 0
+        }
+    },
     data: function data() {
         return {
             products: [],
@@ -52816,7 +52824,8 @@ var render = function() {
               attrs: {
                 exchange: _vm.exchange,
                 product: product,
-                color: _vm.color
+                color: _vm.color,
+                promo: _vm.promo
               }
             })
           }),
@@ -52947,7 +52956,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['product', 'color', 'exchange'],
+    props: ['product', 'color', 'exchange', 'promo'],
     data: function data() {
         return {
             test: ''
@@ -52971,8 +52980,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             } else if (product.family == 'SERVICIOS') {
                 return product.retail_price;
             } else {
-                var after_iva = product.wholesale_quantity > 0 && product.quantity >= product.wholesale_quantity ? product.wholesale_price : product.retail_price;
-                return after_iva / (1 + 0.16 * product.iva);
+                if (this.promo == 0) {
+                    var after_iva = product.wholesale_quantity > 0 && product.quantity >= product.wholesale_quantity ? product.wholesale_price : product.retail_price;
+
+                    return after_iva / (1 + 0.16 * product.iva);
+                }
+
+                return product.wholesale_price;
             }
         }
     },
@@ -53214,9 +53228,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['color', 'exchange', 'qproducts'],
+    props: ['color', 'exchange', 'qproducts', 'promo'],
     data: function data() {
         return {
             inputs: [],
@@ -53308,8 +53323,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             } else if (product.family == 'SERVICIOS') {
                 return product.retail_price;
             } else {
-                var after_iva = product.wholesale_quantity > 0 && product.quantity >= product.wholesale_quantity ? product.wholesale_price : product.retail_price;
-                return after_iva / (1 + 0.16 * product.iva);
+                if (this.promo == 0) {
+                    var after_iva = product.wholesale_quantity > 0 && product.quantity >= product.wholesale_quantity ? product.wholesale_price : product.retail_price;
+
+                    return after_iva / (1 + 0.16 * product.iva);
+                }
+
+                return product.wholesale_price;
             }
         }
     },
@@ -53368,7 +53388,8 @@ var render = function() {
                       index: index,
                       product: product,
                       familycount: _vm.getFamilyCount(product.family),
-                      exchange: _vm.exchange
+                      exchange: _vm.exchange,
+                      promo: _vm.promo
                     }
                   })
                 }),
@@ -53632,7 +53653,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         };
     },
 
-    props: ['product', 'index', 'exchange', 'familycount'],
+    props: ['product', 'index', 'exchange', 'familycount', 'promo'],
     methods: {
         deleteItem: function deleteItem() {
             this.$root.$emit('delete-item', [this.index, this.product.family]);
@@ -53646,12 +53667,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         computePrice: function computePrice() {
             var price;
 
-            if (this.product.is_summable) {
+            if (this.product.is_summable && this.promo == 0) {
                 price = this.familycount > this.product.wholesale_quantity ? this.product.wholesale_price : this.product.retail_price;
             } else if (this.product.dollars) {
                 price = this.product.retail_price * Number(this.exchange);
             } else {
-                price = this.quantity > this.product.wholesale_quantity ? this.product.wholesale_price : this.product.retail_price;
+                if (this.promo == 1) {
+                    price = this.product.wholesale_price;
+                } else {
+                    price = this.quantity > this.product.wholesale_quantity ? this.product.wholesale_price : this.product.retail_price;
+                }
             }
 
             return price / (1 + 0.16 * this.product.iva);
