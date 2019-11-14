@@ -35,6 +35,16 @@
 
             <div class="row">
                 <div class="col-md-4">
+                    <div class="small-box bg-navy">
+                        <div class="inner">
+                            <big>TOTAL</big>
+                            <h3>
+                                <small style="color: white">{{ $shippings->count() }}</small>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
                     <div class="small-box bg-red">
                         <div class="inner">
                             <big>Estafeta</big>
@@ -54,6 +64,9 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="row">
                 <div class="col-md-4">
                     <div class="small-box bg-blue">
                         <div class="inner">
@@ -64,9 +77,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="row">
                 <div class="col-md-4">
                     <div class="small-box bg-yellow">
                         <div class="inner">
@@ -87,6 +97,9 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="row">
                 <div class="col-md-4">
                     <div class="small-box bg-aqua">
                         <div class="inner">
@@ -97,9 +110,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="row">
                 <div class="col-md-4">
                     <div class="small-box bg-gray">
                         <div class="inner">

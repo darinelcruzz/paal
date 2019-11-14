@@ -36,6 +36,7 @@ class EgressRequest extends FormRequest
             'complement_date' => 'sometimes|required',
             'returned_to' => 'sometimes|required',
             'provider_name' => 'sometimes|required',
+            'type' => 'sometimes|required',
         ];
     }
 

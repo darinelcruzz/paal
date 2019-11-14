@@ -51,7 +51,7 @@
 
                     <data-table example="ordered">
 
-                        {{ drawHeader('pago (s)', 'folio', '<i class="fa fa-cogs"></i>', 'proveedor','compra', 'I.V.A.', 'total') }}
+                        {{ drawHeader('pago (s)', 'folio', '<i class="fa fa-cogs"></i>', 'tipo', 'proveedor','compra', 'I.V.A.', 'total') }}
 
                         <template slot="body">
 
@@ -65,6 +65,7 @@
                                             <ddi to="{{ route('coffee.check.show', $check) }}" icon="eye" text="Detalles"></ddi>
                                         </dropdown>
                                     </td>
+                                    <td></td>
                                     <td>CAJA CHICA</td>
                                     <td>{{ fdate($check->charged_at, 'd M Y', 'Y-m-d') }}</td>
                                     <td>$ {{ number_format($check->iva, 2) }}</td>
@@ -89,6 +90,13 @@
                                         @include('coffee.egresses._dropdown', ['color' => 'success'])
                                     </td>
                                     <td>
+                                        @if($egress->type)
+                                            <span class="label label-{{ $egress->type == 'insumos' ? 'success': 'danger' }}">
+                                                {{ strtoupper($egress->type) }}
+                                            </span>
+                                        @endif
+                                    </td>
+                                    <td>
                                         {{ $egress->provider->name ?? $egress->provider_name }} {{ $egress->provider_name != null ? " ($egress->provider_name)": ''}}
                                         <br><code>{{ $egress->provider->rfc }}</code>
                                     </td>
@@ -109,7 +117,7 @@
 
                     <data-table example="1">
 
-                        {{ drawHeader('emisión', 'folio', '<i class="fa fa-cogs"></i>', 'proveedor', 'I.V.A.', 'total') }}
+                        {{ drawHeader('emisión', 'folio', '<i class="fa fa-cogs"></i>', 'tipo', 'proveedor', 'I.V.A.', 'total') }}
 
                         <template slot="body">
                             @foreach($pending as $egress)
@@ -123,8 +131,16 @@
                                             @include('coffee.egresses._dropdown', ['color' => 'warning'])
                                         </td>
                                         <td>
+                                            @if($egress->type)
+                                                <span class="label label-{{ $egress->type == 'insumos' ? 'success': 'danger' }}">
+                                                    {{ strtoupper($egress->type) }}
+                                                </span>
+                                            @endif
+                                        </td>
+                                        <td>
                                             {{ $egress->provider->name }}
                                             {{ $egress->provider_name != null ? "($egress->provider_name" . ($egress->receiver != null ? ", $egress->return_name)": ')') : "" }}
+                                            <br><code>{{ $egress->provider->rfc }}</code>
                                         </td>
                                         <td>$ {{ number_format($egress->iva, 2) }}</td>
                                         <td>$  {{ number_format($egress->amount, 2) }}</td>
@@ -143,7 +159,7 @@
 
                     <data-table example="1">
 
-                        {{ drawHeader('emisión', 'folio', '<i class="fa fa-cogs"></i>', 'proveedor', 'I.V.A.', 'total') }}
+                        {{ drawHeader('emisión', 'folio', '<i class="fa fa-cogs"></i>', 'tipo', 'proveedor', 'I.V.A.', 'total') }}
 
                         <template slot="body">
                             @foreach($expired as $egress)
@@ -156,9 +172,14 @@
                                         <td>
                                             @include('coffee.egresses._dropdown', ['color' => 'danger'])
                                         </td>
+                                        <td>
+                                            {{ $egress->type }}
+                                        </td>
                                         <td>{{ $egress->provider->name ?? '' }}
                                             {{ $egress->returned_to != null ? " | REPOSICIÓN": '' }}
-                                            {{ $egress->provider_name != null ? " ($egress->provider_name)": '' }}</td>
+                                            {{ $egress->provider_name != null ? " ($egress->provider_name)": '' }}
+                                            <br><code>{{ $egress->provider->rfc }}</code>
+                                        </td>
                                         <td>$ {{ number_format($egress->iva, 2) }}</td>
                                         <td>$  {{ number_format($egress->amount, 2) }}</td>
                                     </tr>

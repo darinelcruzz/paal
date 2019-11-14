@@ -150,6 +150,7 @@ class Ingress extends Model
     function scopeMonthly($query, $date, $company = 'coffee')
     {
         return $query->where('company', $company)
+            ->where('status', '!=', 'cancelado')
             ->whereMonth('created_at', substr($date, 5, 7))
             ->whereYear('created_at', substr($date, 0, 4))
             ->orderByDesc('id');

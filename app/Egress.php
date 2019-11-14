@@ -11,7 +11,7 @@ class Egress extends Model
     	'xml', 'emission', 'expiration', 'folio', 'observations', 'user',
     	'iva', 'amount', 'payment_date', 'status', 'company', 'pdf_complement',
     	'complement_date', 'complement_amount', 'mfolio', 'nfolio', 'second_method', 'method', 'second_payment_date',
-        'check_id', 'provider_name', 'returned_to'
+        'check_id', 'provider_name', 'returned_to', 'type'
     ];
 
     function provider()

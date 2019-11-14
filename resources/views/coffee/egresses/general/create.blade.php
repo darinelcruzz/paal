@@ -54,6 +54,9 @@
                                 </span>
                             </div>
                         </div>
+                        <div v-if="provider.name == 'COFFEE DEPOT CHAPULTEPEC'" class="col-md-3">
+                            {!! Field::select('type', ['insumos' => 'INSUMOS', 'equipo' => 'EQUIPO'], null, ['tpl' => 'withicon', 'empty' => 'Seleccione tipo'], ['icon' => 'question']) !!}
+                        </div>
                     </div>
 
                     <br>
