@@ -7,7 +7,11 @@ use Jenssegers\Date\Date;
 
 class Quotation extends Model
 {
-    protected $fillable = ['client_id', 'user_id', 'products', 'amount', 'company', 'iva', 'special_products', 'editions_count', 'type'];
+    protected $fillable = [
+        'client_id', 'user_id', 'products', 'amount', 'company',
+        'iva', 'special_products', 'editions_count', 'type',
+        'client_name', 'email'
+    ];
 
     function client()
     {
@@ -62,5 +66,10 @@ class Quotation extends Model
         $elapsed_time = round((time() - $created_at) / (60 * 60 * 24));
 
         return $elapsed_time > $limit;
+    }
+
+    function getIndexPageAttribute()
+    {
+        return route('coffee.quotation.' . ($this->client_name ? 'internet': 'index'));
     }
 }

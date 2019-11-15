@@ -9,9 +9,15 @@
         <div class="col-md-8 col-md-offset-2">
             <solid-box title="Cotización #{{ $quotation->id }}" color="warning" button>
                 <div class="row">
-                    <div class="col-xs-6">
-                        {!! Field::text('client_id', $quotation->client->name, ['tpl' => 'withicon', 'disabled' => 'true'], ['icon' => 'user']) !!}
-                    </div>
+                    @if($quotation->client_name)
+                        <div class="col-xs-6">
+                            {!! Field::text('client_id', $quotation->client_name, ['tpl' => 'withicon', 'disabled' => 'true'], ['icon' => 'user']) !!}
+                        </div>
+                    @else
+                        <div class="col-xs-6">
+                            {!! Field::text('client_id', $quotation->client->name, ['tpl' => 'withicon', 'disabled' => 'true'], ['icon' => 'user']) !!}
+                        </div>
+                    @endif
                     <div class="col-xs-6">
                         {!! Field::text('company', ucfirst($quotation->company), ['tpl' => 'withicon', 'disabled' => 'true'], ['icon' => 'industry']) !!}
                     </div>
@@ -95,7 +101,7 @@
                     </table>
                 </div>
 
-                <a href="{{ route('coffee.quotation.index') }}" class="btn btn-danger pull-left">
+                <a href="{{ $quotation->index_page }}" class="btn btn-danger pull-left">
                     <i class="fa fa-backward"></i>&nbsp; HISTORIAL
                 </a>
                 <a href="{{ route('coffee.quotation.transform', $quotation) }}" class="btn btn-warning pull-right">CREAR VENTA</a>

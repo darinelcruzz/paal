@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col-md-3">
 
-            {!! Form::open(['method' => 'post', 'route' => 'coffee.quotation.index']) !!}
+            {!! Form::open(['method' => 'post', 'route' => 'coffee.quotation.internet']) !!}
                 
                 <div class="row">
                     <div class="col-md-3">                        
@@ -55,18 +55,18 @@
 
         <div class="col-md-12">
 
-            <solid-box title="Cotizaciones" color="warning">
+            <solid-box title="INTERNAS ({{ $quotations->where('client_id', 658)->count() }})" color="success" button>
 
                 <data-table example="1">
 
                     {{ drawHeader('ID', '<i class="fa fa-cogs"></i>','fecha', 'cliente', 'tipo', 'IVA', 'total', 'ventas', 'ediciones') }}
 
                     <template slot="body">
-                        @foreach($quotations as $quotation)
+                        @foreach($quotations->where('client_id', 658) as $quotation)
                             <tr>
                                 <td>{{ $quotation->id }}</td>
                                 <td>
-                                    <dropdown icon="cogs" color="warning">
+                                    <dropdown icon="cogs" color="success">
                                         <ddi to="{{ route('coffee.quotation.show', $quotation) }}" icon="eye" text="Detalles"></ddi>
                                         <ddi to="{{ route('coffee.quotation.download', $quotation) }}" icon="file-pdf" text="Ver PDF"></ddi>
                                         @if (!$quotation->is_canceled)
@@ -80,7 +80,62 @@
                                     </dropdown>
                                 </td>
                                 <td>{{ fdate($quotation->created_at, 'd M Y') }}</td>
-                                <td style="width: 40%">{{ $quotation->client->name }}</td>
+                                <td style="width: 40%">{{ $quotation->client_name }}</td>
+                                <td>
+                                    @if ($quotation->type)
+                                        <label class="label label-{{$quotation->type == 'insumos' ? 'danger': 'warning'}}">{{ strtoupper($quotation->type) }}</label>
+                                    @else
+                                        <label class="label label-{{$quotation->products_list_type == 'insumos' ? 'danger': 'warning'}}">{{ strtoupper($quotation->products_list_type) }}</label>
+                                    @endif
+                                </td>
+                                <td>$ {{ number_format($quotation->iva, 2) }}</td>
+                                <td>$ {{ number_format($quotation->amount, 2) }}</td>
+                                <td>
+                                    <span class="label label-{{ count($quotation->sales) > 0 ? 'success': 'default' }}">
+                                        {{ count($quotation->sales) > 0 ? 'VENTA': 'SIN VENTA' }}
+                                    </span>
+                                </td>
+                                <td>
+                                    @if ($quotation->editions_count)
+                                        <code style="color: blue">EDICIONES: {{ $quotation->editions_count }}</code>
+                                    @else
+                                        <code>SIN EDITAR</code>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                    </template>
+
+                </data-table>
+
+            </solid-box>
+
+            <solid-box title="EXTERNAS ({{ $quotations->where('client_id', 657)->count() }})" color="danger" button collapsed>
+
+                <data-table example="1">
+
+                    {{ drawHeader('ID', '<i class="fa fa-cogs"></i>','fecha', 'cliente', 'tipo', 'IVA', 'total', 'ventas', 'ediciones') }}
+
+                    <template slot="body">
+                        @foreach($quotations->where('client_id', 657) as $quotation)
+                            <tr>
+                                <td>{{ $quotation->id }}</td>
+                                <td>
+                                    <dropdown icon="cogs" color="danger">
+                                        <ddi to="{{ route('coffee.quotation.show', $quotation) }}" icon="eye" text="Detalles"></ddi>
+                                        <ddi to="{{ route('coffee.quotation.download', $quotation) }}" icon="file-pdf" text="Ver PDF"></ddi>
+                                        @if (!$quotation->is_canceled)
+                                            <ddi to="{{ route('coffee.quotation.edit', $quotation) }}" icon="edit" text="Editar"></ddi>
+                                            @if($quotation->type)
+                                                <ddi to="{{ route('coffee.quotation.transform', [$quotation, $quotation->type]) }}" icon="mug-hot" text="Crear venta"></ddi>
+                                            @else
+                                                <ddi to="{{ route('coffee.quotation.transform', $quotation) }}" icon="mug-hot" text="Crear venta"></ddi>
+                                            @endif
+                                        @endif
+                                    </dropdown>
+                                </td>
+                                <td>{{ fdate($quotation->created_at, 'd M Y') }}</td>
+                                <td style="width: 40%">{{ $quotation->client_name }}</td>
                                 <td>
                                     @if ($quotation->type)
                                         <label class="label label-{{$quotation->type == 'insumos' ? 'danger': 'warning'}}">{{ strtoupper($quotation->type) }}</label>

@@ -10,14 +10,26 @@
             <solid-box title="Editar cotización {{ $quotation->id }}" color="{{ $quotation->type == 'insumos' ? 'danger': 'warning'}}">
                 {!! Form::open(['method' => 'POST', 'route' => ['coffee.quotation.update', $quotation]]) !!}
 
-                    <div class="row">
-                        <div class="col-md-12">
-                            {!! Field::text('client', $quotation->client->name, 
-                                ['tpl' => 'withicon', 'disabled'],
-                                ['icon' => 'user']) 
-                            !!}
+                    @if($quotation->client_name)
+                        <div class="row">
+                            <div class="col-md-12">
+                                {!! Field::text('client', $quotation->client_name, 
+                                    ['tpl' => 'withicon', 'disabled'],
+                                    ['icon' => 'user']) 
+                                !!}
+                            </div>
                         </div>
-                    </div>
+                    @else
+                        <div class="row">
+                            <div class="col-md-12">
+                                {!! Field::text('client', $quotation->client->name, 
+                                    ['tpl' => 'withicon', 'disabled'],
+                                    ['icon' => 'user']) 
+                                !!}
+                            </div>
+                        </div>
+                    @endif
+
                     <br>
                     <shopping-list color="warning" :qproducts="{{ $quotation->products_list }}"></shopping-list>
 

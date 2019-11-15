@@ -17,6 +17,10 @@ return [
             'index' => [
                 'title' => 'Historial',
                 'route' => 'coffee.quotation.index'
+            ],
+            'internet' => [
+                'title' => 'Internet',
+                'route' => 'coffee.quotation.internet'
             ]
         ]
     ],

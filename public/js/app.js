@@ -55036,6 +55036,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
@@ -55113,6 +55138,13 @@ var render = function() {
         }
       }),
       _vm._v(" "),
+      _c("br"),
+      _vm._v(" "),
+      _vm.client.name == "INTERNET INTERNO" ||
+      _vm.client.name == "INTERNET EXTERNO"
+        ? _c("div", [_vm._m(1), _vm._v(" "), _vm._m(2)])
+        : _vm._e(),
+      _vm._v(" "),
       _c("input", {
         attrs: { type: "hidden", name: "client_id" },
         domProps: { value: _vm.client.id }
@@ -55127,6 +55159,44 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("label", [_c("b", [_vm._v("Cliente")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group" }, [
+      _c("label", [_vm._v("Nombre")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "input-group date" }, [
+        _c("div", { staticClass: "input-group-addon" }, [
+          _c("i", { staticClass: "fa fa-comment" })
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "form-control pull-right",
+          attrs: { type: "text", name: "client_name" }
+        })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group" }, [
+      _c("label", [_vm._v("Correo")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "input-group date" }, [
+        _c("div", { staticClass: "input-group-addon" }, [
+          _c("i", { staticClass: "fa fa-at" })
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "form-control pull-right",
+          attrs: { type: "email", name: "email" }
+        })
+      ])
+    ])
   }
 ]
 render._withStripped = true
