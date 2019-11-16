@@ -14,15 +14,27 @@ use App\Notifications\TaskAccepted;
 
 class TaskController extends Controller
 {
-    function index()
+    function index($thisDate = null)
     {
-        $tasks = Task::where('assigned_to', auth()->user()->id)->orWhere('assigned_by', auth()->user()->id)->get();
+        $date = $thisDate == null ? dateFromRequest('Y-m'): $thisDate;
+
+        $tasks = Task::where('assigned_to', auth()->user()->id)
+            ->whereMonth('assigned_at', substr($date, 5, 7))
+            ->whereYear('assigned_at', substr($date, 0, 4))
+            ->orWhere('assigned_by', auth()->user()->id)
+            ->with('user:id,name')
+            ->get();
 
         if (auth()->user()->level == 0) {
-            $tasks = Task::all();
+            $tasks = Task::whereMonth('assigned_at', substr($date, 5, 7))
+                ->whereYear('assigned_at', substr($date, 0, 4))
+                ->with('user:id,name')
+                ->get();
         }
 
-        return view('coffee.tasks.index', compact('tasks'));
+        $users = $tasks->groupBy('assigned_to');
+
+        return view('coffee.tasks.index', compact('tasks', 'users', 'date'));
     }
 
     function create()
@@ -57,8 +69,10 @@ class TaskController extends Controller
         return view('coffee.tasks.edit', compact('task'));
     }
 
-    function update(Request $request, Task $task)
+    function update(Request $request, Task $task, $thisDate = null)
     {
+        $date = $thisDate == null ? dateFromRequest('Y-m'): $thisDate;
+
         $attributes = $request->validate(['observations' => 'required', 'status' => 'required']);
 
         $sign = $request->status == 'terminada' ? '+ ': '- ';
@@ -86,17 +100,19 @@ class TaskController extends Controller
            }
         }
 
-        return redirect(route('coffee.task.index'));
+        return redirect(route('coffee.task.index', $date));
     }
 
-    function change(Task $task, $status)
+    function change(Task $task, $status, $thisDate = null)
     {
+        $date = $thisDate == null ? dateFromRequest('Y-m'): $thisDate;
+
         $task->update(['status' => $status]);
 
         if ($task->status == 'aceptada' && $task->user->telegram_id) {
             $task->notify(new TaskAccepted);
         }
 
-        return redirect(route('coffee.task.index'));
+        return redirect(route('coffee.task.index', $date));
     }
 }

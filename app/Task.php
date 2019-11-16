@@ -28,7 +28,7 @@ class Task extends Model
 
     function getStatusColorAttribute()
     {
-        $colors = ['aceptada' => 'success', 'pendiente' => 'warning', 'terminada' => 'primary'];
+        $colors = ['aceptada' => 'success', 'no aceptada' => 'danger', 'pendiente' => 'warning', 'terminada' => 'primary'];
         
         return $colors[$this->status];
     }

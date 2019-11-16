@@ -144,12 +144,13 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 
 	Route::group(['prefix' => 'tareas', 'as' => 'task.'], function () {
 	    $ctrl = 'Coffee\TaskController';
-	    Route::get('/', usesas($ctrl, 'index'));
 	    Route::get('agregar', usesas($ctrl, 'create'));
 	    Route::post('agregar', usesas($ctrl, 'store'));
 	    Route::get('editar', usesas($ctrl, 'edit'));
-	    Route::post('editar/{task}', usesas($ctrl, 'update'));
-	    Route::get('estado/{task}/{status}', usesas($ctrl, 'change'));
+	    Route::post('editar/{task}/{thisDate?}', usesas($ctrl, 'update'));
+	    Route::get('estado/{task}/{status}/{thisDate?}', usesas($ctrl, 'change'));
+	    Route::get('/{thisDate?}', usesas($ctrl, 'index'));
+	    Route::post('/{thisDate?}', usesas($ctrl, 'index'));
 	});
 
 	Route::group(['prefix' => 'direcciones', 'as' => 'address.'], function () {
