@@ -18,6 +18,8 @@
                     {!! Field::date('assigned_at', today(), ['label' => 'Fecha límite', 'tpl' => 'withicon'], ['icon' => 'calendar-alt']) !!}
 
                     <hr>
+
+                    <input type="hidden" name="company" value="mbe">
                     
                     <button type="submit" class="btn btn-success pull-right">AGREGAR</button>
 

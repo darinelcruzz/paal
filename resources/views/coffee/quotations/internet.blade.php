@@ -110,14 +110,14 @@
 
             </solid-box>
 
-            <solid-box title="EXTERNAS ({{ $quotations->where('client_id', 657)->count() }})" color="danger" button collapsed>
+            <solid-box title="EXTERNAS ({{ $quotations->where('client_id', 659)->count() }})" color="danger" button collapsed>
 
                 <data-table example="1">
 
                     {{ drawHeader('ID', '<i class="fa fa-cogs"></i>','fecha', 'cliente', 'tipo', 'IVA', 'total', 'ventas', 'ediciones') }}
 
                     <template slot="body">
-                        @foreach($quotations->where('client_id', 657) as $quotation)
+                        @foreach($quotations->where('client_id', 659) as $quotation)
                             <tr>
                                 <td>{{ $quotation->id }}</td>
                                 <td>

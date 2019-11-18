@@ -31,7 +31,72 @@
 
 @section('content')
 
-    @foreach($users as $user => $tasks)
+    <div class="row">
+        <div class="col-md-12">
+
+            @if($mytasks->count() > 0)
+
+                <solid-box title="Mis tareas" color="success">
+                    <data-table>
+
+                        {{ drawHeader('iD', '<i class="fa fa-cogs"></i>', 'descripción', 'asignó', 'límite', 'terminó', 'estado', 'observaciones') }}
+                        
+                        <template slot="body">
+                            @foreach($mytasks as $task)
+                                <tr>
+                                    <td>{{ $task->id }}</td>
+                                    <td>
+                                        <dropdown color="success" icon="cogs">
+                                            @if ($task->status != 'aceptada' && $task->assigned_to == auth()->user()->id)
+                                                <li>
+                                                    <a type="button" data-toggle="modal" data-target="#completeTask{{ $task->id }}">
+                                                        <i class="fa fa-check"></i> Terminar
+                                                    </a>
+                                                </li>
+                                            @endif
+
+                                            @if ($task->status == 'terminada' && $task->assigned_by == auth()->user()->id)
+                                                <li>
+                                                    <a type="button" data-toggle="modal" data-target="#rejectTask{{ $task->id }}">
+                                                        <i class="fa fa-times"></i> Rechazar
+                                                    </a>
+                                                </li>
+                                                <ddi icon="check" text="Aceptar" to="{{ route('mbe.task.change', [$task, 'aceptada']) }}"></ddi>
+                                            @endif
+                                        </dropdown>
+
+                                        <modal title="Razones" id="rejectTask{{ $task->id }}" color="#dd4b39">
+                                            @include('mbe.tasks._add_reasons')
+                                        </modal>
+
+                                        <modal title="Tarea terminada" id="completeTask{{ $task->id }}" color="#dd4b39">
+                                            @include('mbe.tasks._add_observations')
+                                        </modal>
+                                    </td>
+                                    <td>{{ $task->description }}</td>
+                                    <td>{{ $task->tasker->name }}</td>
+                                    <td style="{{ !$task->completed_at ? 'color: black;': ($task->onTime ? 'color: green;': 'color:red;') }}">
+                                        {{ fdate($task->assigned_at, 'd \d\e F', 'Y-m-d') }}
+                                    </td>
+                                    <td style="{{ $task->onTime ? 'color: green;': 'color:red;' }}">
+                                        {{ fdate($task->completed_at, 'd \d\e F', 'Y-m-d') }}
+                                    </td>
+                                    <td>
+                                        <label class="label label-{{ $task->status_color }}">
+                                            {{ strtoupper($task->status) }} {{ $task->repetitions ? " ($task->repetitions)": '' }}
+                                        </label>
+                                    </td>
+                                    <td>{!! $task->observations !!}</td>
+                                </tr>
+                            @endforeach
+                        </template>
+                    </data-table>
+                </solid-box>
+            @endif
+        </div>
+    </div>
+
+    @forelse($users as $user => $tasks)
         <div class="row">
             <div class="col-md-12">
                 <solid-box title="{{ $tasks->first()->user->name }}" color="{{ $loop->iteration % 2 == 0 ? 'danger': 'warning' }}" button {{ $loop->iteration == 1 ? '': ' collapsed'}}>
@@ -108,6 +173,10 @@
                 </solid-box>
             </div>
         </div>
-    @endforeach
+    @empty
+        <h2>
+            <code>NO HAY TAREAS ASIGNADAS</code>
+        </h2>
+    @endforelse
 
 @endsection

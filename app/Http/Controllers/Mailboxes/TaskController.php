@@ -14,16 +14,33 @@ use App\Notifications\TaskAccepted;
 
 class TaskController extends Controller
 {
-    function index()
+    function index($thisDate = null)
     {
-        $tasks = Task::where('assigned_to', auth()->user()->id)->orWhere('assigned_by', auth()->user()->id)->get();
+        $date = $thisDate == null ? dateFromRequest('Y-m'): $thisDate;
 
-        return view('mbe.tasks.index', compact('tasks'));
+        $mytasks = Task::where('company', 'mbe')
+            ->where('assigned_to', auth()->user()->id)
+            ->whereMonth('assigned_at', substr($date, 5, 7))
+            ->whereYear('assigned_at', substr($date, 0, 4))
+            // ->orWhere('assigned_by', auth()->user()->id)
+            ->with('user:id,name')
+            ->get();
+
+        $tasks = Task::where('company', 'mbe')
+            ->where('assigned_by', auth()->user()->id)
+            ->whereMonth('assigned_at', substr($date, 5, 7))
+            ->whereYear('assigned_at', substr($date, 0, 4))
+            ->with('user:id,name')
+            ->get();
+
+        $users = $tasks->groupBy('assigned_to');
+
+        return view('mbe.tasks.index', compact('tasks', 'mytasks', 'users', 'date'));
     }
 
     function create()
     {
-        $users = User::whereCompany('mbe')
+        $users = User::where('company', '!=', 'coffee')
             ->where('level', '>', auth()->user()->level)
             ->pluck('name', 'id')
             ->toArray();
@@ -37,6 +54,7 @@ class TaskController extends Controller
             'description' => 'required',
             'assigned_to' => 'required',
             'assigned_at' => 'required',
+            'company' => 'required',
         ]);
 
         $task = auth()->user()->tasks()->create($validated + ['status' => 'pendiente']);

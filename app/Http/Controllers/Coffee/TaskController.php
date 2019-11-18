@@ -18,28 +18,28 @@ class TaskController extends Controller
     {
         $date = $thisDate == null ? dateFromRequest('Y-m'): $thisDate;
 
-        $tasks = Task::where('assigned_to', auth()->user()->id)
+        $mytasks = Task::where('company', 'coffee')
+            ->where('assigned_to', auth()->user()->id)
             ->whereMonth('assigned_at', substr($date, 5, 7))
             ->whereYear('assigned_at', substr($date, 0, 4))
-            ->orWhere('assigned_by', auth()->user()->id)
             ->with('user:id,name')
             ->get();
 
-        if (auth()->user()->level == 0) {
-            $tasks = Task::whereMonth('assigned_at', substr($date, 5, 7))
-                ->whereYear('assigned_at', substr($date, 0, 4))
-                ->with('user:id,name')
-                ->get();
-        }
+        $tasks = Task::where('company', 'coffee')
+            ->where('assigned_by', auth()->user()->id)
+            ->whereMonth('assigned_at', substr($date, 5, 7))
+            ->whereYear('assigned_at', substr($date, 0, 4))
+            ->with('user:id,name')
+            ->get();
 
         $users = $tasks->groupBy('assigned_to');
 
-        return view('coffee.tasks.index', compact('tasks', 'users', 'date'));
+        return view('coffee.tasks.index', compact('tasks', 'mytasks', 'users', 'date'));
     }
 
     function create()
     {
-        $users = User::whereCompany('coffee')
+        $users = User::where('company', '!=', 'mbe')
             ->where('level', '>', auth()->user()->level)
             ->pluck('name', 'id')
             ->toArray();
