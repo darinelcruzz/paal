@@ -38,13 +38,13 @@
 
         <div class="col-md-3">
             <label class="btn btn-success btn-bg btn-block">
-               VENTAS: {{ $quotations_with_sales }} | {{ round($quotations_with_sales * 100 / $all) }} %
+               VENTAS: {{ $quotations_with_sales }} | {{ round(($quotations_with_sales * 100) / ($all == 0 ? 1: $all)) }} %
             </label>
         </div>
 
         <div class="col-md-3">
             <label class="btn btn-default btn-bg btn-block">
-                SIN VENTAS: {{ $quotations_without_sales }} | {{ round($quotations_without_sales * 100 / $all) }} %
+                SIN VENTAS: {{ $quotations_without_sales }} | {{ round(($quotations_without_sales * 100) / ($all == 0 ? 1: $all)) }} %
             </label>
         </div>
     </div>
