@@ -13,7 +13,13 @@ class IngressController extends Controller
     function index()
     {
         $date = dateFromRequest('Y-m');
-        $ingresses = Ingress::monthly($date)->get();        
+
+        $ingresses = Ingress::where('company', $company)
+            ->whereMonth('created_at', substr($date, 5, 7))
+            ->whereYear('created_at', substr($date, 0, 4))
+            ->orderByDesc('id')
+            ->get();     
+
         return view('coffee.ingresses.index', compact('ingresses', 'date'));
     }
 
