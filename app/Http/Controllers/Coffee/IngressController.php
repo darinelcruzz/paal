@@ -14,7 +14,7 @@ class IngressController extends Controller
     {
         $date = dateFromRequest('Y-m');
 
-        $ingresses = Ingress::where('company', $company)
+        $ingresses = Ingress::where('company', 'coffee')
             ->whereMonth('created_at', substr($date, 5, 7))
             ->whereYear('created_at', substr($date, 0, 4))
             ->orderByDesc('id')
