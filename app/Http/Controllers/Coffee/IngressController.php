@@ -105,7 +105,9 @@ class IngressController extends Controller
             'canceled_for' => $reason
         ]);
 
-        $ingress->shipping->update(['status' => 'cancelado']);
+        if ($ingress->shipping) {
+            $ingress->shipping->update(['status' => 'cancelado']);
+        }
 
         return back();
     }
