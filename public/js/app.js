@@ -53728,9 +53728,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.discount = this.product.discount;
         }
 
-        if (this.product.price > 0) {
-            this.price = Number(this.product.price);
-        }
+        // if (this.product.price) {
+        //     if (this.familycount > this.product.wholesale_quantity) {
+        //         this.price = Number(this.product.wholesale_price)
+        //         console.log('familycount es mayor')
+        //     } else {
+        //         this.price = Number(this.product.retail_price)
+        //         console.log('cantidades: ', this.familycount + ', ' + this.product.wholesale_quantity)
+        //     }
+        // }
     }
 });
 

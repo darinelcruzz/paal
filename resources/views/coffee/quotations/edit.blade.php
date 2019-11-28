@@ -31,7 +31,7 @@
                     @endif
 
                     <br>
-                    <shopping-list color="warning" :qproducts="{{ $quotation->products_list }}"></shopping-list>
+                    <shopping-list color="warning" :qproducts="{{ $quotation->products_list }}" :promo="{{ $promo }}"></shopping-list>
 
                     {!! Form::submit('Guardar cambios', ['class' => "btn btn-". ($quotation->type == 'insumos' ? 'danger': 'warning') ." pull-right"]) !!}
 
