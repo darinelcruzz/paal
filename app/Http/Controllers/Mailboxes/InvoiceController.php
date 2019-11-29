@@ -26,6 +26,7 @@ class InvoiceController extends Controller
         $invoices = Ingress::where('invoice_id', '!=', null)
             ->whereDate('created_at', $date)
             ->where('company', 'mbe')
+            ->where('status', '!=', 'cancelado')
             ->get()
             ->groupBy('invoice_id');
 
