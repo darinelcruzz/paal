@@ -13,15 +13,16 @@ class ProductController extends Controller
         return Product::where('category', '!=', 'EQUIPO')
             ->where('category', '!=', 'MBE')
             ->orderBy('id', 'DESC')
-            ->paginate(10);
+            ->paginate(5);
     }
 
     function equipment()
     {
         return Product::where('category', 'EQUIPO')
+            ->orWhere('family', 'ENVÍOS')
             ->orWhere('dollars', 1)
             ->orderBy('id', 'DESC')
-            ->paginate(10);
+            ->paginate(5);
     }
 
     function mbe()
@@ -67,7 +68,10 @@ class ProductController extends Controller
                 ['category', '=', 'EQUIPO'],
                 ['code', 'LIKE', "%$keyword%"]
             ])
-            ->paginate(10);
+            ->orWhere([
+                ['family', 'LIKE', "%$keyword%"]
+            ])
+            ->paginate(5);
     }
 
     function look($keyword)
@@ -85,6 +89,6 @@ class ProductController extends Controller
                 ['category', '=', 'MBE'],
                 ['code', 'LIKE', "%$keyword%"]
             ])
-            ->paginate(10);
+            ->paginate(5);
     }
 }
