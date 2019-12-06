@@ -19,18 +19,28 @@ class InvoiceController extends Controller
             ->whereHas('ingress', function($query) {
                 $query->where('status', '!=', 'cancelado')
                     ->where('company', 'mbe')
+                    ->where('method', 'efectivo')
                     ->where('invoice_id', '!=', null);
             })
             ->sum('cash');
 
-        $invoices = Ingress::where('invoice_id', '!=', null)
+        $cash_invoices = Ingress::where('invoice_id', '!=', null)
             ->whereDate('created_at', $date)
             ->where('company', 'mbe')
+            ->where('method', 'efectivo')
             ->where('status', '!=', 'cancelado')
             ->get()
             ->groupBy('invoice_id');
 
-        return view('mbe.invoices.index', compact('invoices', 'date', 'total'));
+        $invoices = Ingress::where('invoice_id', '!=', null)
+            ->whereDate('created_at', $date)
+            ->where('company', 'mbe')
+            ->where('method', '!=', 'efectivo')
+            ->where('status', '!=', 'cancelado')
+            ->get()
+            ->groupBy('invoice_id');
+
+        return view('mbe.invoices.index', compact('cash_invoices', 'invoices', 'date', 'total'));
     }
 
     function pending()

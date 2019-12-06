@@ -1,15 +1,15 @@
 @extends('mbe.root')
 
-@push('pageTitle')
-    Facturas
-@endpush
+@push('pageTitle', 'Facturas')
+
+@push('headerTitle', strtoupper(fdate($date, 'l d \d\e F', 'Y-m-d')))
 
 @section('content')
     <div class="row">        
         <div class="col-md-9">
-            <solid-box title="{{ strtoupper(fdate($date, 'l d \d\e F', 'Y-m-d')) }}" color="success">
+            <solid-box title="EFECTIVO" color="success" button>
                 
-                <data-table example="1">
+                <data-table>
 
                     {{ drawHeader('FI', 'método', 'cliente', 'XML', 'referencia', 'importe') }}
 
@@ -19,24 +19,22 @@
                             $pending = 0;
                         @endphp
 
-                        @foreach($invoices as $invoice => $sales)
+                        @foreach($cash_invoices as $invoice => $sales)
                             <tr>
                                 <td style="width: 7%">{{ $invoice }}</td>
                                 <td style="width: 20%">{{ strtoupper($sales->first()->method) }}</td>
                                 <td style="width: 35%">{{ $sales->first()->client->name }}</td>
                                 <td style="width: 5%; text-align: center;">
                                     @if($sales->first()->xml)
-                                    <a href="{{ $sales->first()->xml }}" target="_blank" style="color: green">
-                                        <i class="fa fa-file-excel"></i>
-                                    </a>
-                                    @else
-                                        ~
+                                        <a href="{{ $sales->first()->xml }}" target="_blank" style="color: green">
+                                            <i class="fa fa-file-excel"></i>
+                                        </a>
                                     @endif
                                 </td>
                                 @php
                                     $subamount = 0;
                                     foreach ($sales as $sale) {
-                                        $subamount += $sale->cash > 0 ? $sale->payments->sum('cash'): $sale->amount;
+                                        $subamount += $sale->payments->sum('cash');
                                     }
                                 @endphp
                                 <td style="text-align: center">
@@ -45,8 +43,80 @@
                                     @elseif(!$sales->first()->cash_reference && $sales->first()->method == 'efectivo' || $sales->first()->client_id > 627 && !$sales->first()->reference)
                                         
                                         @php
-                                            $pending += $sales->first()->method == 'efectivo' ? $subamount: 0;
+                                            $pending += $subamount;
                                         @endphp
+
+                                        <a href="" data-toggle="modal" data-target="#details{{ $invoice }}">
+                                            <em>agregar...</em>
+                                        </a>
+
+                                        {!! Form::open(['method' => 'POST', 'route' => 'mbe.ingress.reference']) !!}
+                                
+                                        <modal title="Agregar referencia del depósito" id="details{{ $invoice }}" color="success">
+
+                                            <div class="row">
+                                                <div class="col-md-4 col-md-offset-4">
+                                                    {!! Field::text($sales->first()->client_id > 627 ? 'reference': 'cash_reference', 
+                                                        ['tpl' => 'withicon', 'ph' => 'XXXXXXXXX', 'required' => 'true'], 
+                                                        ['icon' => 'exchange-alt']) 
+                                                    !!}
+                                                    <input type="hidden" name="thisDate" value="{{ $date }}">
+                                                </div>
+                                            </div>
+
+                                            @foreach ($sales as $sale)
+                                                <input type="hidden" name="sales[]" value="{{ $sale->id }}">
+                                            @endforeach
+
+                                            <template slot="footer">
+                                                {!! Form::submit('Guardar', ['class' => 'btn btn-success pull-right']) !!}
+                                            </template>
+                                        </modal>
+
+                                        {!! Form::close() !!}
+                                    @else
+                                        {{ $sales->first()->cash_reference ?? $sales->first()->reference  }}
+                                    @endif
+                                </td>
+                                <td style="text-align: right; width: 15%;">$ {{ number_format($subamount, 2) }}</td>
+                            </tr>
+                        @endforeach
+                    </template>
+                    
+                </data-table>
+
+            </solid-box>
+
+            <solid-box title="TARJETAS, TRANSFERENCIAS, ETC" color="primary" button collapsed>
+                
+                <data-table>
+
+                    {{ drawHeader('FI', 'método', 'cliente', 'XML', 'referencia', 'importe') }}
+
+                    <template slot="body">
+
+                        @foreach($invoices as $invoice => $sales)
+                            <tr>
+                                <td style="width: 7%">{{ $invoice }}</td>
+                                <td style="width: 20%">{{ strtoupper($sales->first()->method) }}</td>
+                                <td style="width: 35%">{{ $sales->first()->client->name }}</td>
+                                <td style="width: 5%; text-align: center;">
+                                    @if($sales->first()->xml)
+                                        <a href="{{ $sales->first()->xml }}" target="_blank" style="color: green">
+                                            <i class="fa fa-file-excel"></i>
+                                        </a>
+                                    @endif
+                                </td>
+                                @php
+                                    $subamount = 0;
+                                    foreach ($sales as $sale) {
+                                        $subamount += $sale->amount;
+                                    }
+                                @endphp
+                                <td style="text-align: center">
+                                    @if($sales->first()->status == 'cancelado')
+                                        <em><code>cancelada</code></em>
+                                    @elseif(!$sales->first()->cash_reference && $sales->first()->method == 'efectivo' || $sales->first()->client_id > 627 && !$sales->first()->reference)
 
                                         <a href="" data-toggle="modal" data-target="#details{{ $invoice }}">
                                             <em>agregar...</em>
