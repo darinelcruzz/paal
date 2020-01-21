@@ -39,8 +39,9 @@
         <div class="col-md-6 col-md-offset-3">
             <p>
                 <big><b>SUCURSAL CHS</b></big><br>
-                Blvd Angel Albino Corzo #955<br>
-                Loc A y B COl. Las Palmas CP 29040 <br>
+                16 Poniente Norte #138<br>
+                Col. Las Arboledas, C.P. 29030 <br>
+                Tuxtla Gutiérrez <br>
                 <i class="fas fa-phone"></i> 01 (961) 121 34 04 - <i class="fab fa-whatsapp"></i> 961 330 65 28 <br>
                 <i class="fas fa-envelope"></i> ventas@coffeedepotchiapas.com.mx <br>
                 <i class="fab fa-facebook"></i> Coffee Depot TGZ
@@ -180,9 +181,6 @@
     </div>
 
     <br>
-    ¡NO TE OLVIDES! En enero nos cambiamos de dirección. <br>
-    16 Poniente Norte #138 Fracc Las Arboledas C.P. 29030 <br>
-    (entre blvd. Belisario Domínguez y 1ra Norte)
     =============================================================================
         
 </body>
