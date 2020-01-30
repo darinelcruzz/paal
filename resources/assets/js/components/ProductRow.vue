@@ -1,10 +1,5 @@
 <template>
 	<tr>
-        <!-- <td>
-            <button :class="'btn btn-' + color + ' btn-xs'" @click="buttonPressed">
-                <i class="fa fa-plus"></i>
-            </button>
-        </td> -->
         <td>
             <div class="row">
                 <div class="col-md-7">
@@ -16,22 +11,22 @@
                     <i v-if="product.iva != 0" class="fas fa-hand-holding-usd"></i> &nbsp;
                     <i v-if="product.is_summable != 0" class="fas fa-layer-group"></i> &nbsp;
                     <div v-if="product.dollars == 1" class="pull-right">
-                        <span style="color: olive">$ {{ (product.retail_price * exchange).toFixed(2) }}</span>
+                        <span style="color: olive">$ {{ (product.retail_price * exchange) | currency }}</span>
                     </div>
                     <div v-else-if="product.is_variable == 1" class="pull-right">
-                        $ {{ product.retail_price.toFixed(2) }}
+                        $ {{ product.retail_price | currency }}
                     </div>
                     <div v-else-if="product.family == 'SERVICIOS'" class="pull-right">
                         <div v-if="product.retail_price > 0">
-                            $ {{ product.retail_price.toFixed(2) }} <small>(mínimo)</small>
+                            $ {{ product.retail_price | currency }} <small>(mínimo)</small>
                         </div>
                     </div>
                     <div v-else-if="product.wholesale_quantity == 0" class="pull-right">
-                        $ {{ product.retail_price.toFixed(2) }}
+                        $ {{ product.retail_price | currency }}
                     </div>
                     <div v-else class="pull-right">
-                        $ {{ product.retail_price.toFixed(2) }} /
-                        {{ product.wholesale_price.toFixed(2) }} <small>(+ {{ product.wholesale_quantity }} pzs)</small>
+                        $ {{ product.retail_price | currency }} /
+                        {{ product.wholesale_price | currency }} <small>(+ {{ product.wholesale_quantity }} pzs)</small>
                     </div>
                 </div>
             </div>

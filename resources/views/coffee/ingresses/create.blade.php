@@ -84,7 +84,7 @@
 
         <div class="col-md-6">
             <solid-box title="{{ $type == 'insumos' ? 'Insumos': 'Equipos' }}" color="{{ $type == 'insumos' ? 'danger': 'warning' }}">
-                <p-table color="{{ $type == 'insumos' ? 'danger': 'warning' }}" :exchange="{{ $exchange }}" :promo="{{ $promo }}" type="{{ $type }}"></p-table>
+                <p-table color="{{ $type == 'insumos' ? 'danger': 'warning' }}" :exchange="{{ $exchange }}" :promo="{{ $promo }}" type="coffee/{{ $type }}{{ $type == 'equipo' ? 's': ''}}"></p-table>
             </solid-box>
         </div>
     </div>

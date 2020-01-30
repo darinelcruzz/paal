@@ -64,5 +64,6 @@ class Kernel extends HttpKernel
         'mailboxes' => \App\Http\Middleware\MailboxesEtc::class,
         'paal' => \App\Http\Middleware\Paal::class,
         'admin' => \App\Http\Middleware\Admin::class,
+        'sanson' => \App\Http\Middleware\Sanson::class,
     ];
 }

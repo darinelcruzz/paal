@@ -35,16 +35,17 @@
 
               <ul class="dropdown-menu">
                   <li class="user-footer">
-                    <div class="pull-left">
-                      <a href="/coffee" class="btn btn-default btn-flat"><span style="color: red;">Coffee</span></a>
-                      @if(auth()->user()->company == 'owner')
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <a href="/paal" class="btn btn-default btn-flat"><span style="color: blue;">PAAL</span></a>
-                      @endif
-                    </div>
-                    <div class="pull-right">
-                      <a href="/mbe" class="btn btn-default btn-flat" class="pull-right"><span style="color: green;">MBE</span></a>
-                    </div>
+                    @if(auth()->user()->company == 'owner')
+                      <a href="/coffee" class="btn btn-default" style="color: #f56954;">COFFEE</a>
+                      <a href="/mbe" class="btn btn-default" style="color: #00a65a;">MBE</a>
+                      <a href="/sanson" class="btn btn-default" style="color: #00c0ef;">SANSON</a>
+                      <a href="/paal" class="btn btn-default" style="color: #3c8dbc;">PAAL</a>
+                    @endif
+
+                    @if(auth()->user()->company == 'both')
+                      <a href="/coffee" class="btn btn-default" style="color: #f56954;">COFFEE</a>
+                      <a href="/mbe" class="btn btn-default" style="color: #00a65a;">MBE</a>
+                    @endif
                   </li>
               </ul>
             </li>

@@ -26,7 +26,7 @@
                         </div>
                         <div class="col-md-6">
                             {!! Field::select('company', 
-                                ['coffee' => 'Coffee Depot', 'mbe' => 'MBE', 'paal' => 'PAAL'], 
+                                ['coffee' => 'COFFEE DEPOT', 'mbe' => 'MBE', 'both' => 'COFFEE/MBE', 'sanson' => 'SANSON', 'paal' => 'PAAL'], 
                                 null, ['tpl' => 'withicon', 'empty' => 'Seleccione una empresa'], ['icon' => 'industry']) 
                             !!}
                         </div>

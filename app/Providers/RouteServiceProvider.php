@@ -22,6 +22,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapCoffeeRoutes();
         $this->mapMailboxesRoutes();
         $this->mapPaalRoutes();
+        $this->mapSansonRoutes();
         $this->mapPublicRoutes();
 
         $this->mapApiRoutes();
@@ -53,6 +54,13 @@ class RouteServiceProvider extends ServiceProvider
         Route::middleware(['web', 'auth', 'paal'])
              ->namespace($this->namespace)
              ->group(base_path('routes/paal.php'));
+    }
+
+    protected function mapSansonRoutes()
+    {
+        Route::middleware(['web', 'auth', 'sanson'])
+             ->namespace($this->namespace)
+             ->group(base_path('routes/sanson.php'));
     }
 
     protected function mapApiRoutes()

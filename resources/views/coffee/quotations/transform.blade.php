@@ -84,7 +84,7 @@
 
         <div class="col-md-6">
             <solid-box title="{{ strtoupper($type ? $type: 'productos') }}" color="{{ $type == 'insumos' ? 'danger': 'warning'}}">
-                <p-table color="{{ $type == 'insumos' ? 'danger': 'warning'}}" :exchange="{{ $exchange }}" type="{{ $type }}"></p-table>
+                <p-table color="{{ $type == 'insumos' ? 'danger': 'warning'}}" :exchange="{{ $exchange }}" type="coffee/{{ $quotation->type }}{{ $quotation->type == 'equipo' ? 's': ''}}"></p-table>
             </solid-box>
         </div>
     </div>

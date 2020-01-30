@@ -17,7 +17,6 @@ Vue.use(VModal, { componentName: "v-modal" })
 
 Vue.use(VueCurrencyFilter,
 {
-  symbol : '$',
   thousandsSeparator: ',',
   fractionCount: 2,
   fractionSeparator: '.',
@@ -77,6 +76,10 @@ Vue.component('client-select', require('./components/ClientSelect.vue'));
 Vue.component('provider-select', require('./components/ProviderSelect.vue'));
 Vue.component('money-box', require('./components/MoneyBox.vue'));
 Vue.component('sale-products-list', require('./components/SaleProductsList.vue'));
+
+// NEW ONES FOR SANSON
+Vue.component('shopping-cart', require('./components/ShoppingCart.vue'));
+Vue.component('shopping-cart-item', require('./components/ShoppingCartItem.vue'));
 
 const Bus = new Vue({});
 

@@ -24,15 +24,12 @@
 
         <td>
             <div v-if="product.dollars == 1">
-                <!-- <div v-if="product.price != 0">
-                    <input name="prices[]" type="number" v-model.number="price" step="0.0001" class="form-control input-sm">
-                </div> -->
                 <div v-if="product.retail_price == 0">
                     <input name="prices[]" type="number" v-model.number="price" step="0.0001" class="form-control input-sm">
                 </div>
                 <div v-else>
-                    {{ price.toFixed(4) }}
-                    <input name="prices[]" type="hidden" :value="price.toFixed(4)">
+                    {{ price | currency }}
+                    <input name="prices[]" type="hidden" :value="price.toFixed(decimalsToFix)">
                 </div>
             </div>
             <div v-else-if="product.category == 'SERVICIOS'">
@@ -43,8 +40,8 @@
                 <input name="prices[]" type="number" class="form-control input-sm" step="0.0001" :min="product.price" v-model.number="price">
             </div>
             <div v-else>
-                {{ price.toFixed(4) }}
-                <input name="prices[]" type="hidden" :value="price.toFixed(4)">
+                {{ price | currency }}
+                <input name="prices[]" type="hidden" :value="price.toFixed(decimalsToFix)">
             </div>
         </td>
         
@@ -59,17 +56,17 @@
         </td>
         <td>
             <input v-if="apply_discount" name="discounts[]" class="form-control input-sm" type="number" step="1" value="0"
-                min="0" v-model.number="discount" @change="updateTotal">
+                min="0" :max="max_discount" v-model.number="discount" @change="updateTotal">
 
             <input v-else name="discounts[]" type="hidden" value="0">
         </td>
-        <td>
+        <td style="text-align: right">
             <div v-if="product.family == 'SERVICIOS'">
                 <input class="form-control input-sm" name="subtotals[]" type="number" step="0.01" :min="product.retail_price" v-model.number="price" @change="updateTotal">
             </div>
             <div v-else>
-                $ {{ total.toFixed(4) }}
-                <input name="subtotals[]" type="hidden" :value="total.toFixed(4)">
+                {{ total | currency }}
+                <input name="subtotals[]" type="hidden" :value="total.toFixed(decimalsToFix)">
             </div>
         </td>
     </tr>
@@ -79,13 +76,14 @@
 export default {
     data() {
         return {
+            decimalsToFix: 2,
             quantity: 0,
             discount: 0,
             price: 0,
             price_in_dollars: 0
         };
     },
-    props: ['product', 'index', 'exchange', 'familycount', 'promo'],
+    props: ['product', 'index', 'exchange', 'familycount', 'promo', 'type'],
     methods: {
         deleteItem() {
             this.$root.$emit('delete-item', [this.index, this.product.family])
@@ -121,6 +119,9 @@ export default {
     	apply_discount() {
     		return this.product.is_variable == 1 && this.product.family != 'SERVICIOS';
     	},
+        max_discount() {
+            return this.type == 'info' ? 20: 100;
+        },
     	computed_iva() {
     		if (this.product.family == 'SERVICIOS') return 0
             return this.total * 0.16 * this.product.iva

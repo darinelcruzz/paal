@@ -1,7 +1,7 @@
 <template>
 	<div id="products_table">
         <div class="row">
-            <div class="col-md-4 pull-right">
+            <div class="col-md-5 pull-right">
                 <div class="input-group input-group-sm">
                     <input type="text" v-model="keyword" class="form-control" @keyup.enter="search" @change="search">
                     <span class="input-group-btn">
@@ -11,7 +11,7 @@
                     </span>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-7">
                 <div class="btn-group">
                     <button @click="fetchProducts(pagination.first_page_url)" :disabled="!pagination.first_page_url" :class="'btn btn-' + color + ' btn-sm'">
                         <i class="fa fa-angle-double-left"></i>
@@ -67,19 +67,10 @@
                 keyword: '',
 			}
 		},
-        computed: {
-            category() {
-                if (this.type == 'mbe') {
-                    return 'mbe'
-                }
-                
-                return this.type == 'equipo' ? 'equipment': 'products'
-            }
-        },
 		methods: {
 			fetchProducts(page_url, keyword) {
                 keyword = keyword || ''
-                page_url = page_url || '/api/' + this.category + '/'
+                page_url = page_url || '/api/products/' + this.type + '/'
                 axios.get(page_url + keyword)
                     .then((response) => {
                         var productsReady = response.data.data.map((product) => {
@@ -100,7 +91,7 @@
                     })
             },
             search() {
-                this.fetchProducts('/api/' + this.category + '/', this.keyword)
+                this.fetchProducts('/api/products/' + this.type + '/', this.keyword)
             },
 		},
 		created() {

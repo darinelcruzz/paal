@@ -4,21 +4,23 @@ use Illuminate\Http\Request;
 
 Route::group(['prefix' => 'products', 'as' => 'api.product.'], function () {
     $ctrl = 'Api\ProductController';
-    Route::get('/', usesas($ctrl, 'index'));
-    Route::get('{keyword}', usesas($ctrl, 'search'));
+    Route::get('mbe/{keyword?}', usesas($ctrl, 'mbe'));
+    Route::get('sanson/{keyword?}', usesas($ctrl, 'sanson'));
+    Route::get('coffee/{type}/{keyword?}', usesas($ctrl, 'coffee'));
+    // Route::get('{keyword}', usesas($ctrl, 'search'));
 });
 
-Route::group(['prefix' => 'equipment', 'as' => 'api.equipment.'], function () {
-    $ctrl = 'Api\ProductController';
-    Route::get('/', usesas($ctrl, 'equipment'));
-    Route::get('{keyword}', usesas($ctrl, 'seek'));
-});
+// Route::group(['prefix' => 'equipment', 'as' => 'api.equipment.'], function () {
+//     $ctrl = 'Api\ProductController';
+//     Route::get('/', usesas($ctrl, 'equipment'));
+//     Route::get('{keyword}', usesas($ctrl, 'seek'));
+// });
 
-Route::group(['prefix' => 'mbe', 'as' => 'api.mbe.'], function () {
-    $ctrl = 'Api\ProductController';
-    Route::get('/', usesas($ctrl, 'mbe'));
-    Route::get('{keyword}', usesas($ctrl, 'look'));
-});
+// Route::group(['prefix' => 'mbe', 'as' => 'api.mbe.'], function () {
+//     $ctrl = 'Api\ProductController';
+//     Route::get('/', usesas($ctrl, 'mbe'));
+//     Route::get('{keyword}', usesas($ctrl, 'look'));
+// });
 
 Route::group(['prefix' => 'clients', 'as' => 'api.client.'], function () {
 	$ctrl = 'Api\ClientController';

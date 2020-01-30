@@ -14376,7 +14376,6 @@ window.Vue = __webpack_require__(39);
 Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_js_modal___default.a, { componentName: "v-modal" });
 
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_currency_filter___default.a, {
-    symbol: '$',
     thousandsSeparator: ',',
     fractionCount: 2,
     fractionSeparator: '.',
@@ -14436,6 +14435,10 @@ Vue.component('client-select', __webpack_require__(158));
 Vue.component('provider-select', __webpack_require__(161));
 Vue.component('money-box', __webpack_require__(164));
 Vue.component('sale-products-list', __webpack_require__(167));
+
+// NEW ONES FOR SANSON
+Vue.component('shopping-cart', __webpack_require__(172));
+Vue.component('shopping-cart-item', __webpack_require__(175));
 
 var Bus = new Vue({});
 
@@ -52640,21 +52643,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         };
     },
 
-    computed: {
-        category: function category() {
-            if (this.type == 'mbe') {
-                return 'mbe';
-            }
-
-            return this.type == 'equipo' ? 'equipment' : 'products';
-        }
-    },
     methods: {
         fetchProducts: function fetchProducts(page_url, keyword) {
             var _this = this;
 
             keyword = keyword || '';
-            page_url = page_url || '/api/' + this.category + '/';
+            page_url = page_url || '/api/products/' + this.type + '/';
             axios.get(page_url + keyword).then(function (response) {
                 var productsReady = response.data.data.map(function (product) {
                     return product;
@@ -52674,7 +52668,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         search: function search() {
-            this.fetchProducts('/api/' + this.category + '/', this.keyword);
+            this.fetchProducts('/api/products/' + this.type + '/', this.keyword);
         }
     },
     created: function created() {
@@ -52692,7 +52686,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { attrs: { id: "products_table" } }, [
     _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-4 pull-right" }, [
+      _c("div", { staticClass: "col-md-5 pull-right" }, [
         _c("div", { staticClass: "input-group input-group-sm" }, [
           _c("input", {
             directives: [
@@ -52739,7 +52733,7 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "col-md-6" }, [
+      _c("div", { staticClass: "col-md-7" }, [
         _c("div", { staticClass: "btn-group" }, [
           _c(
             "button",
@@ -52949,11 +52943,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['product', 'color', 'exchange', 'promo'],
@@ -53035,7 +53024,9 @@ var render = function() {
                   _vm._v(
                     "$ " +
                       _vm._s(
-                        (_vm.product.retail_price * _vm.exchange).toFixed(2)
+                        _vm._f("currency")(
+                          _vm.product.retail_price * _vm.exchange
+                        )
                       )
                   )
                 ])
@@ -53044,7 +53035,7 @@ var render = function() {
             ? _c("div", { staticClass: "pull-right" }, [
                 _vm._v(
                   "\n                        $ " +
-                    _vm._s(_vm.product.retail_price.toFixed(2)) +
+                    _vm._s(_vm._f("currency")(_vm.product.retail_price)) +
                     "\n                    "
                 )
               ])
@@ -53054,7 +53045,7 @@ var render = function() {
                   ? _c("div", [
                       _vm._v(
                         "\n                            $ " +
-                          _vm._s(_vm.product.retail_price.toFixed(2)) +
+                          _vm._s(_vm._f("currency")(_vm.product.retail_price)) +
                           " "
                       ),
                       _c("small", [_vm._v("(mínimo)")])
@@ -53065,16 +53056,16 @@ var render = function() {
             ? _c("div", { staticClass: "pull-right" }, [
                 _vm._v(
                   "\n                        $ " +
-                    _vm._s(_vm.product.retail_price.toFixed(2)) +
+                    _vm._s(_vm._f("currency")(_vm.product.retail_price)) +
                     "\n                    "
                 )
               ])
             : _c("div", { staticClass: "pull-right" }, [
                 _vm._v(
                   "\n                        $ " +
-                    _vm._s(_vm.product.retail_price.toFixed(2)) +
+                    _vm._s(_vm._f("currency")(_vm.product.retail_price)) +
                     " /\n                        " +
-                    _vm._s(_vm.product.wholesale_price.toFixed(2)) +
+                    _vm._s(_vm._f("currency")(_vm.product.wholesale_price)) +
                     " "
                 ),
                 _c("small", [
@@ -53229,6 +53220,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['color', 'exchange', 'qproducts', 'promo'],
@@ -53238,7 +53230,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             subtotals: [],
             families: [],
             total: 0,
-            iva: 0
+            iva: 0,
+            decimalsToFix: 2
         };
     },
 
@@ -53389,7 +53382,8 @@ var render = function() {
                       product: product,
                       familycount: _vm.getFamilyCount(product.family),
                       exchange: _vm.exchange,
-                      promo: _vm.promo
+                      promo: _vm.promo,
+                      type: _vm.color
                     }
                   })
                 }),
@@ -53402,7 +53396,7 @@ var render = function() {
                   _vm._v(" "),
                   _c("td", [
                     _c("span", { staticClass: "pull-right" }, [
-                      _vm._v("$ " + _vm._s(_vm.total.toFixed(4)))
+                      _vm._v(_vm._s(_vm._f("currency")(_vm.total)))
                     ])
                   ])
                 ]),
@@ -53412,12 +53406,12 @@ var render = function() {
                   _vm._v(" "),
                   _c("td", [
                     _c("span", { staticClass: "pull-right" }, [
-                      _vm._v("$ " + _vm._s(_vm.iva.toFixed(4)))
+                      _vm._v(_vm._s(_vm._f("currency")(_vm.iva)))
                     ]),
                     _vm._v(" "),
                     _c("input", {
                       attrs: { type: "hidden", name: "iva" },
-                      domProps: { value: _vm.iva.toFixed(4) }
+                      domProps: { value: _vm.iva.toFixed(_vm.decimalsToFix) }
                     })
                   ])
                 ]),
@@ -53427,12 +53421,14 @@ var render = function() {
                   _vm._v(" "),
                   _c("td", [
                     _c("span", { staticClass: "pull-right" }, [
-                      _vm._v("$ " + _vm._s((_vm.total + _vm.iva).toFixed(4)))
+                      _vm._v(_vm._s(_vm._f("currency")(_vm.total + _vm.iva)))
                     ]),
                     _vm._v(" "),
                     _c("input", {
                       attrs: { type: "hidden", name: "amount" },
-                      domProps: { value: (_vm.total + _vm.iva).toFixed(4) }
+                      domProps: {
+                        value: (_vm.total + _vm.iva).toFixed(_vm.decimalsToFix)
+                      }
                     })
                   ])
                 ])
@@ -53452,21 +53448,29 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_c("i", { staticClass: "fa fa-times" })]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Descripción")]),
-        _vm._v(" "),
-        _c("th", { staticStyle: { width: "15%" } }, [_vm._v("Precio")]),
-        _vm._v(" "),
-        _c("th", { staticStyle: { width: "15%" } }, [_vm._v("Cant")]),
-        _vm._v(" "),
-        _c("th", { staticStyle: { width: "15%" } }, [
-          _c("i", { staticClass: "fa fa-minus" }),
-          _vm._v(" "),
-          _c("i", { staticClass: "fa fa-percent" })
+        _c("th", { staticStyle: { width: "5%", "text-align": "center" } }, [
+          _c("i", { staticClass: "fa fa-times" })
         ]),
         _vm._v(" "),
-        _c("th", { staticStyle: { width: "15%" } }, [_vm._v("Importe")])
+        _c("th", { staticStyle: { width: "31%", "text-align": "center" } }, [
+          _vm._v("Descripción")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticStyle: { width: "15%", "text-align": "center" } }, [
+          _vm._v("Precio")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticStyle: { width: "15%", "text-align": "center" } }, [
+          _vm._v("Cantidad")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticStyle: { width: "14%", "text-align": "center" } }, [
+          _vm._v("- (%)")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticStyle: { width: "20%", "text-align": "center" } }, [
+          _vm._v("Importe")
+        ])
       ])
     ])
   },
@@ -53639,13 +53643,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
+            decimalsToFix: 2,
             quantity: 0,
             discount: 0,
             price: 0,
@@ -53653,7 +53655,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         };
     },
 
-    props: ['product', 'index', 'exchange', 'familycount', 'promo'],
+    props: ['product', 'index', 'exchange', 'familycount', 'promo', 'type'],
     methods: {
         deleteItem: function deleteItem() {
             this.$root.$emit('delete-item', [this.index, this.product.family]);
@@ -53688,6 +53690,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         apply_discount: function apply_discount() {
             return this.product.is_variable == 1 && this.product.family != 'SERVICIOS';
+        },
+        max_discount: function max_discount() {
+            return this.type == 'info' ? 20 : 100;
         },
         computed_iva: function computed_iva() {
             if (this.product.family == 'SERVICIOS') return 0;
@@ -53852,12 +53857,12 @@ var render = function() {
               : _c("div", [
                   _vm._v(
                     "\n                    " +
-                      _vm._s(_vm.price.toFixed(4)) +
+                      _vm._s(_vm._f("currency")(_vm.price)) +
                       "\n                    "
                   ),
                   _c("input", {
                     attrs: { name: "prices[]", type: "hidden" },
-                    domProps: { value: _vm.price.toFixed(4) }
+                    domProps: { value: _vm.price.toFixed(_vm.decimalsToFix) }
                   })
                 ])
           ])
@@ -53930,12 +53935,12 @@ var render = function() {
         : _c("div", [
             _vm._v(
               "\n                " +
-                _vm._s(_vm.price.toFixed(4)) +
+                _vm._s(_vm._f("currency")(_vm.price)) +
                 "\n                "
             ),
             _c("input", {
               attrs: { name: "prices[]", type: "hidden" },
-              domProps: { value: _vm.price.toFixed(4) }
+              domProps: { value: _vm.price.toFixed(_vm.decimalsToFix) }
             })
           ])
     ]),
@@ -53997,7 +54002,8 @@ var render = function() {
               type: "number",
               step: "1",
               value: "0",
-              min: "0"
+              min: "0",
+              max: _vm.max_discount
             },
             domProps: { value: _vm.discount },
             on: {
@@ -54018,7 +54024,7 @@ var render = function() {
           })
     ]),
     _vm._v(" "),
-    _c("td", [
+    _c("td", { staticStyle: { "text-align": "right" } }, [
       _vm.product.family == "SERVICIOS"
         ? _c("div", [
             _c("input", {
@@ -54055,13 +54061,13 @@ var render = function() {
           ])
         : _c("div", [
             _vm._v(
-              "\n                $ " +
-                _vm._s(_vm.total.toFixed(4)) +
+              "\n                " +
+                _vm._s(_vm._f("currency")(_vm.total)) +
                 "\n                "
             ),
             _c("input", {
               attrs: { name: "subtotals[]", type: "hidden" },
-              domProps: { value: _vm.total.toFixed(4) }
+              domProps: { value: _vm.total.toFixed(_vm.decimalsToFix) }
             })
           ])
     ])
@@ -55729,6 +55735,769 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 171 */,
+/* 172 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(173)
+/* template */
+var __vue_template__ = __webpack_require__(174)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/ShoppingCart.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-36f46a5f", Component.options)
+  } else {
+    hotAPI.reload("data-v-36f46a5f", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 173 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['color', 'exchange', 'qproducts', 'promo'],
+    data: function data() {
+        return {
+            elements: [],
+            subtotals: [],
+            families: [],
+            total: 0,
+            iva: 0,
+            decimalsToFix: 2
+        };
+    },
+
+    methods: {
+        addRow: function addRow(product) {
+            this.elements.push(product);
+            this.subtotals.push({
+                amount: 0,
+                iva: 0
+            });
+
+            if (this.families.length > 0) {
+                var has_family = false;
+
+                for (var i = 0; i < this.families.length; i++) {
+                    if (this.families[i].name == product.family) {
+                        has_family = this.families[i].name == product.family;
+                        break;
+                    }
+                }
+
+                if (has_family) {
+                    this.families[i].quantity += 0;
+                } else {
+                    this.families.push({
+                        name: product.family,
+                        quantity: 0
+                    });
+                }
+            } else {
+                this.families.push({
+                    name: product.family,
+                    quantity: 0
+                });
+            }
+
+            this.setTotal();
+        },
+        deleteRow: function deleteRow(index, family) {
+            this.elements.splice(index, 1);
+            this.subtotals.splice(index, 1);
+            this.setTotal();
+        },
+        setTotal: function setTotal() {
+            this.total = this.subtotals.reduce(function (total, subtotal) {
+                return total + subtotal.amount;
+            }, 0);
+            this.iva = this.subtotals.reduce(function (iva, subtotal) {
+                return iva + subtotal.iva;
+            }, 0);
+            this.$root.$emit('set-total', this.total + this.iva);
+        },
+        updateTotal: function updateTotal(index, amount, iva) {
+            this.subtotals[index].amount = amount;
+            this.subtotals[index].iva = iva;
+            this.total = this.subtotals.reduce(function (total, subtotal) {
+                return total + subtotal.amount;
+            }, 0);
+            this.iva = this.subtotals.reduce(function (total, subtotal) {
+                return total + subtotal.iva;
+            }, 0);
+
+            this.$root.$emit('set-total', this.total + this.iva);
+        },
+        updateFamilyCount: function updateFamilyCount(family, quantity) {
+            for (var i = 0; i < this.families.length; i++) {
+                if (this.families[i].name == family) break;
+            }
+            this.families[i].quantity += quantity;
+        },
+        getFamilyCount: function getFamilyCount(family) {
+            for (var i = 0; i < this.families.length; i++) {
+                if (this.families[i].name == family) break;
+            }
+            return this.families[i].quantity;
+        },
+        setPrice: function setPrice(product) {
+            if (product.dollars) {
+                return product.retail_price * this.exchange;
+            } else if (product.is_variable) {
+                return product.retail_price / (1 + 0.16 * product.iva);
+            } else if (product.family == 'SERVICIOS') {
+                return product.retail_price;
+            } else {
+                if (this.promo == 0) {
+                    var after_iva = product.wholesale_quantity > 0 && product.quantity >= product.wholesale_quantity ? product.wholesale_price : product.retail_price;
+
+                    return after_iva / (1 + 0.16 * product.iva);
+                }
+
+                return product.wholesale_price;
+            }
+        }
+    },
+    created: function created() {
+        var _this = this;
+
+        if (this.qproducts) {
+            for (var i = 0; i < this.qproducts.length; i++) {
+                var product = this.qproducts[i];
+                // product.price = this.setPrice(product)
+                product.total = product.quantity * product.price;
+                if (product.special_description) {
+                    product.description = product.special_description;
+                    product.retail_price = product.special_price;
+                }
+                this.addRow(product);
+            }
+        }
+        this.$root.$on('add-element', function (product) {
+            _this.addRow(product);
+        });
+        this.$root.$on('delete-item', function (data) {
+            _this.deleteRow(data[0], data[1]);
+        });
+        this.$root.$on('update-total', function (data) {
+            _this.updateTotal(data[0], data[1], data[2]);
+        });
+        this.$root.$on('update-family-count', function (data) {
+            _this.updateFamilyCount(data[0], data[1]);
+        });
+    }
+});
+
+/***/ }),
+/* 174 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { attrs: { id: "shopping_cart" } }, [
+    _vm.elements.length > 0
+      ? _c("div", [
+          _c("div", { staticClass: "table-responsive" }, [
+            _c("table", { staticClass: "table table-striped table-bordered" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(_vm.elements, function(product, index) {
+                  return _c("shopping-cart-item", {
+                    key: index,
+                    tag: "tr",
+                    attrs: {
+                      index: index,
+                      product: product,
+                      familycount: _vm.getFamilyCount(product.family),
+                      exchange: _vm.exchange,
+                      promo: _vm.promo,
+                      type: _vm.color
+                    }
+                  })
+                }),
+                1
+              ),
+              _vm._v(" "),
+              _c("tfoot", [
+                _c("tr", [
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c("span", { staticClass: "pull-right" }, [
+                      _vm._v(_vm._s(_vm._f("currency")(_vm.total)))
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("tr", [
+                  _vm._m(2),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c("span", { staticClass: "pull-right" }, [
+                      _vm._v(_vm._s(_vm._f("currency")(_vm.iva)))
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      attrs: { type: "hidden", name: "iva" },
+                      domProps: { value: _vm.iva.toFixed(_vm.decimalsToFix) }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("tr", [
+                  _vm._m(3),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c("span", { staticClass: "pull-right" }, [
+                      _vm._v(_vm._s(_vm._f("currency")(_vm.total + _vm.iva)))
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      attrs: { type: "hidden", name: "amount" },
+                      domProps: {
+                        value: (_vm.total + _vm.iva).toFixed(_vm.decimalsToFix)
+                      }
+                    })
+                  ])
+                ])
+              ])
+            ])
+          ])
+        ])
+      : _c("div", { attrs: { align: "center" } }, [_vm._m(4)]),
+    _vm._v(" "),
+    _c("hr")
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { staticStyle: { width: "5%", "text-align": "center" } }, [
+          _c("i", { staticClass: "fa fa-times" })
+        ]),
+        _vm._v(" "),
+        _c("th", { staticStyle: { width: "31%", "text-align": "center" } }, [
+          _vm._v("Descripción")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticStyle: { width: "15%", "text-align": "center" } }, [
+          _vm._v("Precio")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticStyle: { width: "15%", "text-align": "center" } }, [
+          _vm._v("Cantidad")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticStyle: { width: "14%", "text-align": "center" } }, [
+          _vm._v("- (%)")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticStyle: { width: "20%", "text-align": "center" } }, [
+          _vm._v("Importe")
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", { attrs: { colspan: "5" } }, [
+      _c("span", { staticClass: "pull-right" }, [_vm._v("Subtotal:")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", { attrs: { colspan: "5" } }, [
+      _c("span", { staticClass: "pull-right" }, [_vm._v("IVA:")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", { attrs: { colspan: "5" } }, [
+      _c("span", { staticClass: "pull-right" }, [_vm._v("Total:")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", { staticStyle: { color: "#f56954" } }, [
+      _c("b", [_vm._v("No se han agregado produtos a la compra.")])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-36f46a5f", module.exports)
+  }
+}
+
+/***/ }),
+/* 175 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(176)
+/* template */
+var __vue_template__ = __webpack_require__(177)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/ShoppingCartItem.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2fd166dc", Component.options)
+  } else {
+    hotAPI.reload("data-v-2fd166dc", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 176 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            decimalsToFix: 2,
+            quantity: 0,
+            discount: 0,
+            price: 0,
+            price_in_dollars: 0
+        };
+    },
+
+    props: ['product', 'index', 'exchange', 'familycount', 'promo', 'type'],
+    methods: {
+        deleteItem: function deleteItem() {
+            this.$root.$emit('delete-item', [this.index, this.product.family]);
+            if (this.product.is_summable) {
+                this.$root.$emit('update-family-count', [this.product.family, -this.quantity, this.computed_iva]);
+            }
+        },
+        updateTotal: function updateTotal() {
+            this.$root.$emit('update-total', [this.index, this.total, this.computed_iva]);
+        },
+        computePrice: function computePrice() {
+            var price;
+
+            if (this.product.is_summable && this.promo == 0) {
+                price = this.familycount > this.product.wholesale_quantity ? this.product.wholesale_price : this.product.retail_price;
+            } else if (this.product.dollars) {
+                price = this.product.retail_price * Number(this.exchange);
+            } else {
+                if (this.promo == 1) {
+                    price = this.product.wholesale_price;
+                } else {
+                    price = this.quantity > this.product.wholesale_quantity ? this.product.wholesale_price : this.product.retail_price;
+                }
+            }
+
+            return price / (1 + 0.16 * this.product.iva);
+        }
+    },
+    computed: {
+        total: function total() {
+            return this.quantity * this.price - this.quantity * this.price * this.discount / 100;
+        },
+        apply_discount: function apply_discount() {
+            return this.product.is_variable == 1 && this.product.family != 'SERVICIOS';
+        },
+        max_discount: function max_discount() {
+            return this.type == 'info' ? 20 : 100;
+        },
+        computed_iva: function computed_iva() {
+            if (this.product.family == 'SERVICIOS') return 0;
+            return this.total * 0.16 * this.product.iva;
+        }
+    },
+    watch: {
+        quantity: function quantity(newVal, oldVal) {
+            if (this.product.is_summable) {
+                this.$root.$emit('update-family-count', [this.product.family, newVal - oldVal, this.computed_iva]);
+            }
+            if (this.product.category != 'SERVICIOS' && this.product.category != 'EQUIPO') {
+                this.price = this.computePrice();
+            }
+        },
+        familycount: function familycount(val) {
+            if (this.product.category != 'SERVICIOS') {
+                this.price = this.computePrice();
+            }
+        },
+        price: function price(val) {
+            this.$root.$emit('update-total', [this.index, this.total, this.computed_iva]);
+        }
+    },
+    created: function created() {
+        if (this.product.category != 'SERVICIOS') {
+            this.price = this.computePrice();
+        } else {
+            this.price = this.product.retail_price;
+            this.quantity = 1;
+        }
+
+        if (this.product.quantity > 0) {
+            this.quantity = this.product.quantity;
+        }
+
+        if (this.product.discount > 0) {
+            this.discount = this.product.discount;
+        }
+    }
+});
+
+/***/ }),
+/* 177 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("tr", [
+    _c("td", [
+      _c(
+        "a",
+        {
+          staticStyle: { color: "red" },
+          attrs: { href: "#" },
+          on: { click: _vm.deleteItem }
+        },
+        [_c("i", { staticClass: "fa fa-times" })]
+      )
+    ]),
+    _vm._v(" "),
+    _c("td", [
+      _vm._v(
+        "\n            " + _vm._s(_vm.product.description) + "\n            "
+      ),
+      _c("input", {
+        attrs: { name: "items[" + _vm.index + "][i]", type: "hidden" },
+        domProps: { value: _vm.product.id }
+      })
+    ]),
+    _vm._v(" "),
+    _c("td", [
+      _vm.product.retail_price == 0
+        ? _c("div", [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model.number",
+                  value: _vm.price,
+                  expression: "price",
+                  modifiers: { number: true }
+                }
+              ],
+              staticClass: "form-control input-sm",
+              attrs: {
+                name: "items[" + _vm.index + "][p]",
+                type: "number",
+                step: "0.01"
+              },
+              domProps: { value: _vm.price },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.price = _vm._n($event.target.value)
+                },
+                blur: function($event) {
+                  _vm.$forceUpdate()
+                }
+              }
+            })
+          ])
+        : _c("div", [
+            _vm._v(
+              "\n                " +
+                _vm._s(_vm._f("currency")(_vm.price)) +
+                "\n                "
+            ),
+            _c("input", {
+              attrs: { name: "items[" + _vm.index + "][p]", type: "hidden" },
+              domProps: { value: _vm.price.toFixed(_vm.decimalsToFix) }
+            })
+          ])
+    ]),
+    _vm._v(" "),
+    _c("td", [
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model.number",
+            value: _vm.quantity,
+            expression: "quantity",
+            modifiers: { number: true }
+          }
+        ],
+        staticClass: "form-control input-sm",
+        attrs: {
+          name: "items[" + _vm.index + "][q]",
+          type: "number",
+          min: "1"
+        },
+        domProps: { value: _vm.quantity },
+        on: {
+          change: _vm.updateTotal,
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.quantity = _vm._n($event.target.value)
+          },
+          blur: function($event) {
+            _vm.$forceUpdate()
+          }
+        }
+      })
+    ]),
+    _vm._v(" "),
+    _c("td", [
+      _vm.apply_discount
+        ? _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model.number",
+                value: _vm.discount,
+                expression: "discount",
+                modifiers: { number: true }
+              }
+            ],
+            staticClass: "form-control input-sm",
+            attrs: {
+              name: "items[" + _vm.index + "][d]",
+              type: "number",
+              step: "1",
+              value: "0",
+              min: "0",
+              max: _vm.max_discount
+            },
+            domProps: { value: _vm.discount },
+            on: {
+              change: _vm.updateTotal,
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.discount = _vm._n($event.target.value)
+              },
+              blur: function($event) {
+                _vm.$forceUpdate()
+              }
+            }
+          })
+        : _c("input", {
+            attrs: {
+              name: "items[" + _vm.index + "][d]",
+              type: "hidden",
+              value: "0"
+            }
+          })
+    ]),
+    _vm._v(" "),
+    _c("td", { staticStyle: { "text-align": "right" } }, [
+      _vm._v(
+        "\n            " + _vm._s(_vm._f("currency")(_vm.total)) + "\n        "
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-2fd166dc", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);
