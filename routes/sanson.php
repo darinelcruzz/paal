@@ -3,16 +3,6 @@
 Route::group(['prefix' => 'sanson', 'as' => 'sanson.'], function () {
 
 	Route::get('/', usesas('Sanson\HomeController', 'index'));
-	
-	Route::get('/poner-empresa-a-los-productos-de-mbe', function () {
-		$products = App\Product::whereCategory('MBE')->get();
-
-		foreach ($products as $product) {
-			$product->update([
-				'company' => 'MBE'
-			]);
-		}
-	});
 
 	Route::group(['prefix' => 'egresos', 'as' => 'egress.'], function () {
 
@@ -107,6 +97,8 @@ Route::group(['prefix' => 'sanson', 'as' => 'sanson.'], function () {
 	Route::group(['prefix' => 'productos', 'as' => 'product.'], function () {
 	    $ctrl = 'Sanson\ProductController';
 	    Route::get('/', usesas($ctrl, 'index'));
+	    Route::get('agregar', usesas($ctrl, 'create'));
+	    Route::post('agregar', usesas($ctrl, 'store'));
 	    Route::get('editar/{product}', usesas($ctrl, 'edit'));
 	    Route::post('editar/{product}', usesas($ctrl, 'update'));
 	});

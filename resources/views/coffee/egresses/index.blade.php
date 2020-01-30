@@ -132,7 +132,7 @@
                                         </td>
                                         <td>
                                             @if($egress->type)
-                                                <span class="label label-{{ $egress->type == 'insumos' ? 'success': 'danger' }}">
+                                                <span class="label label-{{ $egress->type == 'insumos' ? 'success': ($egress->type == 'publicidad' ? 'primary' :'danger') }}">
                                                     {{ strtoupper($egress->type) }}
                                                 </span>
                                             @endif
