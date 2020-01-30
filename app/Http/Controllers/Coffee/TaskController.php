@@ -25,12 +25,21 @@ class TaskController extends Controller
             ->with('user:id,name')
             ->get();
 
-        $tasks = Task::where('company', 'coffee')
-            ->where('assigned_by', auth()->user()->id)
-            ->whereMonth('assigned_at', substr($date, 5, 7))
-            ->whereYear('assigned_at', substr($date, 0, 4))
-            ->with('user:id,name')
-            ->get();
+
+        if (auth()->user()->company == 'owner') {
+            $tasks = Task::where('company', 'coffee')
+                ->whereMonth('assigned_at', substr($date, 5, 7))
+                ->whereYear('assigned_at', substr($date, 0, 4))
+                ->with('user:id,name')
+                ->get();
+        } else {
+            $tasks = Task::where('company', 'coffee')
+                ->where('assigned_by', auth()->user()->id)
+                ->whereMonth('assigned_at', substr($date, 5, 7))
+                ->whereYear('assigned_at', substr($date, 0, 4))
+                ->with('user:id,name')
+                ->get();
+        }
 
         $users = $tasks->groupBy('assigned_to');
 
