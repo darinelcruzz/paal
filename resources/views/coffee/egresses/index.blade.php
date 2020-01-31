@@ -81,8 +81,9 @@
                                             | {{ $egress->mfolio }}
                                         @endif
                                         @if($egress->second_payment_date)
+                                            <br>
                                             {{ fdate($egress->second_payment_date, 'd M Y', 'Y-m-d') }}
-                                            | <br>{{ $egress->nfolio }}
+                                            | {{ $egress->nfolio }}
                                         @endif
                                     </td>
                                     <td>{{ $egress->folio }}</td>
@@ -91,7 +92,7 @@
                                     </td>
                                     <td>
                                         @if($egress->type)
-                                            <span class="label label-{{ $egress->type == 'insumos' ? 'success': 'danger' }}">
+                                            <span class="label label-{{ $egress->type == 'insumos' ? 'success': ($egress->type == 'publicidad' ? 'primary' :'danger') }}">
                                                 {{ strtoupper($egress->type) }}
                                             </span>
                                         @endif

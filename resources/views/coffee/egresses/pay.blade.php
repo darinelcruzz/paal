@@ -10,7 +10,7 @@
             <solid-box title="Detalles del pago" color="danger" button>
                 {!! Form::open(['method' => 'POST', 'route' => ['coffee.egress.charge', $egress]]) !!}
 
-                    @if ($egress->method)
+                    @if ($egress->payment_date)
                         <div class="row">
                             <div class="col-md-6">
                                 {!! Field::text('nfolio', ['label' => 'Folio', 'tpl' => 'withicon', 'ph' => 'XXXXXX'], ['icon' => 'barcode']) !!}
@@ -39,16 +39,24 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-6">
-                                {!! Field::select('method', ['check' => 'Cheque', 'transfer' => 'Transferencia', 'automatic' => 'Domiciliación'], null,
-                                    ['tpl' => 'withicon', 'empty' => 'Seleccione método'], ['icon' => 'credit-card']) 
-                                !!}
-                            </div>
-                            <div class="col-md-6">                        
-                                {!! Field::select('single_payment', ['Sí, un sólo pago', 'No, es el primero de dos'], 0,
-                                    ['tpl' => 'withicon', 'label' => '¿Pago único?', 'empty' => 'Elija una opción'], ['icon' => 'question']) 
-                                !!}
-                            </div>
+                            @if($egress->method)
+                                <div class="col-md-6">
+                                    {!! Field::select('second_method', ['check' => 'Cheque', 'transfer' => 'Transferencia', 'automatic' => 'Domiciliación'], null,
+                                        ['tpl' => 'withicon', 'empty' => 'Seleccione método'], ['icon' => 'credit-card']) 
+                                    !!}
+                                </div>
+                            @else
+                                <div class="col-md-6">
+                                    {!! Field::select('method', ['check' => 'Cheque', 'transfer' => 'Transferencia', 'automatic' => 'Domiciliación'], null,
+                                        ['tpl' => 'withicon', 'empty' => 'Seleccione método'], ['icon' => 'credit-card']) 
+                                    !!}
+                                </div>
+                                <div class="col-md-6">                        
+                                    {!! Field::select('single_payment', ['Sí, un sólo pago', 'No, es el primero de dos'], 0,
+                                        ['tpl' => 'withicon', 'label' => '¿Pago único?', 'empty' => 'Elija una opción'], ['icon' => 'question']) 
+                                    !!}
+                                </div>
+                            @endif
                         </div>
                     @endif
 
