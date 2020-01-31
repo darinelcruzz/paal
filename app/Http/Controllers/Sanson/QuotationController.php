@@ -80,7 +80,7 @@ class QuotationController extends Controller
 
     function store(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
         $attributes = $this->validate($request, [
             'client_id' => 'required',
             'amount' => 'required',
@@ -91,35 +91,6 @@ class QuotationController extends Controller
         ]);
 
         $quotation = Quotation::create($attributes);
-
-        $products = [];
-        $special = [];
-
-        for ($i=0; $i < count($request->items); $i++) {
-            if ($request->is_special[$i] == 0) {
-                array_push($products, [
-                    'i' => $request->items[$q],
-                    'q' => $request->quantities[$i],
-                    'p' => $request->prices[$i],
-                    'd' => $request->discounts[$i],
-                    't' => $request->subtotals[$i],
-                ]);
-            } else {
-                array_push($special, [
-                    'i' => $request->items[$i],
-                    'id' => $request->ids[$i],
-                    'q' => $request->quantities[$i],
-                    'p' => $request->prices[$i],
-                    'd' => $request->discounts[$i],
-                    't' => $request->subtotals[$i],
-                ]);
-            }
-        }
-
-        $quotation->update([
-            'products' => serialize($products),
-            'special_products' => serialize($special),
-        ]);
 
         if (isset($request->client_name)) {
             return redirect(route('sanson.quotation.internet'));

@@ -46,7 +46,8 @@
                         </div>
                     </div>
 
-                    <input type="hidden" name="company" value="sanson">
+                    <input type="hidden" name="company" value="SANSON">
+                    <input type="hidden" name="is_variable" value="1">
 
                     <button type="submit" class="btn btn-info pull-right">AGREGAR</button>
 

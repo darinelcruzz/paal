@@ -46,7 +46,7 @@
                         </div>
                     </div>
 
-                    <input type="hidden" name="company" value="sanson">
+                    <input type="hidden" name="company" value="SANSON">
 
                     <button type="submit" class="btn btn-info pull-right">GUARDAR CAMBIOS</button>
 

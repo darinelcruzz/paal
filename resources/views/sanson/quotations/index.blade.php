@@ -1,4 +1,4 @@
-@extends('coffee.root')
+@extends('sanson.root')
 
 @push('pageTitle')
     Cotizaciones
@@ -13,14 +13,14 @@
     <div class="row">
         <div class="col-md-3">
 
-            {!! Form::open(['method' => 'post', 'route' => 'coffee.quotation.index']) !!}
+            {!! Form::open(['method' => 'post', 'route' => 'sanson.quotation.index']) !!}
                 
                 <div class="row">
                     <div class="col-md-3">                        
                         <div class="input-group input-group-sm">
                             <input type="month" name="date" class="form-control" value="{{ $date }}">
                             <span class="input-group-btn">
-                                <button type="submit" class="btn btn-warning btn-flat"><i class="fa fa-search"></i></button>
+                                <button type="submit" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
                             </span>
                         </div>
                     </div>
@@ -31,7 +31,7 @@
         </div>
 
         <div class="col-md-3">
-            <label class="btn btn-warning btn-bg btn-block">
+            <label class="btn btn-info btn-bg btn-block">
                TOTAL: {{ $all }}
             </label>
         </div>
@@ -55,7 +55,7 @@
 
         <div class="col-md-12">
 
-            <solid-box title="Cotizaciones" color="warning">
+            <solid-box title="Cotizaciones" color="info">
 
                 <data-table example="1">
 
@@ -66,15 +66,15 @@
                             <tr>
                                 <td>{{ $quotation->id }}</td>
                                 <td>
-                                    <dropdown icon="cogs" color="warning">
-                                        <ddi to="{{ route('coffee.quotation.show', $quotation) }}" icon="eye" text="Detalles"></ddi>
-                                        <ddi to="{{ route('coffee.quotation.download', $quotation) }}" icon="file-pdf" text="Ver PDF"></ddi>
+                                    <dropdown icon="cogs" color="info">
+                                        <ddi to="{{ route('sanson.quotation.show', $quotation) }}" icon="eye" text="Detalles"></ddi>
+                                        <ddi to="{{ route('sanson.quotation.download', $quotation) }}" icon="file-pdf" text="Ver PDF"></ddi>
                                         @if (!$quotation->is_canceled)
-                                            <ddi to="{{ route('coffee.quotation.edit', $quotation) }}" icon="edit" text="Editar"></ddi>
+                                            <ddi to="{{ route('sanson.quotation.edit', $quotation) }}" icon="edit" text="Editar"></ddi>
                                             @if($quotation->type)
-                                                <ddi to="{{ route('coffee.quotation.transform', [$quotation, $quotation->type]) }}" icon="mug-hot" text="Crear venta"></ddi>
+                                                <ddi to="{{ route('sanson.quotation.transform', [$quotation, $quotation->type]) }}" icon="mug-hot" text="Crear venta"></ddi>
                                             @else
-                                                <ddi to="{{ route('coffee.quotation.transform', $quotation) }}" icon="mug-hot" text="Crear venta"></ddi>
+                                                <ddi to="{{ route('sanson.quotation.transform', $quotation) }}" icon="mug-hot" text="Crear venta"></ddi>
                                             @endif
                                         @endif
                                     </dropdown>
@@ -83,9 +83,9 @@
                                 <td style="width: 40%">{{ $quotation->client->name }}</td>
                                 <td>
                                     @if ($quotation->type)
-                                        <label class="label label-{{$quotation->type == 'insumos' ? 'danger': 'warning'}}">{{ strtoupper($quotation->type) }}</label>
+                                        <label class="label label-{{$quotation->type == 'insumos' ? 'danger': 'info'}}">{{ strtoupper($quotation->type) }}</label>
                                     @else
-                                        <label class="label label-{{$quotation->products_list_type == 'insumos' ? 'danger': 'warning'}}">{{ strtoupper($quotation->products_list_type) }}</label>
+                                        <label class="label label-{{$quotation->products_list_type == 'insumos' ? 'danger': 'info'}}">{{ strtoupper($quotation->products_list_type) }}</label>
                                     @endif
                                 </td>
                                 <td>$ {{ number_format($quotation->iva, 2) }}</td>

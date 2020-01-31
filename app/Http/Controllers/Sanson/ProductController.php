@@ -31,6 +31,7 @@ class ProductController extends Controller
             'iva' => 'required',
             'retail_price' => 'required',
             'dollars' => 'required',
+            'is_variable' => 'required',
             'company' => 'required',
         ]);
 

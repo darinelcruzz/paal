@@ -199,6 +199,7 @@ return [
         'street_number2' => 'número interior',
         'district' => 'colonia',
         'level' => 'nivel',
-        'group' => 'grupo'
+        'group' => 'grupo',
+        'dollars' => 'dólares'
     ],
 ];

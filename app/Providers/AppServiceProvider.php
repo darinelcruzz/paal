@@ -5,6 +5,8 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Http\ViewComposers\SalesAndQuotationsComposer;
 use Illuminate\Support\Facades\View;
+use App\Quotation;
+use App\Observers\QuotationObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
         ], 'adminlte');
 
         View::composer('*', SalesAndQuotationsComposer::class);
+        Quotation::observe(QuotationObserver::class);
     }
 
     /**

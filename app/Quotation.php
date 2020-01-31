@@ -28,6 +28,11 @@ class Quotation extends Model
         return $this->hasMany(Ingress::class, 'quotation_id');
     }
 
+    function movements()
+    {
+        return $this->hasMany(QuotationMovement::class);
+    }
+
     function getProductsListAttribute()
     {
     	$products = [];

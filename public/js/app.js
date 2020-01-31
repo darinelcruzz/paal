@@ -14338,7 +14338,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(15);
-module.exports = __webpack_require__(170);
+module.exports = __webpack_require__(176);
 
 
 /***/ }),
@@ -14437,8 +14437,8 @@ Vue.component('money-box', __webpack_require__(164));
 Vue.component('sale-products-list', __webpack_require__(167));
 
 // NEW ONES FOR SANSON
-Vue.component('shopping-cart', __webpack_require__(172));
-Vue.component('shopping-cart-item', __webpack_require__(175));
+Vue.component('shopping-cart', __webpack_require__(170));
+Vue.component('shopping-cart-item', __webpack_require__(173));
 
 var Bus = new Vue({});
 
@@ -55732,21 +55732,14 @@ if (false) {
 
 /***/ }),
 /* 170 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 171 */,
-/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(173)
+var __vue_script__ = __webpack_require__(171)
 /* template */
-var __vue_template__ = __webpack_require__(174)
+var __vue_template__ = __webpack_require__(172)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -55785,7 +55778,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 173 */
+/* 171 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -55989,7 +55982,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 174 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -56149,15 +56142,15 @@ if (false) {
 }
 
 /***/ }),
-/* 175 */
+/* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(176)
+var __vue_script__ = __webpack_require__(174)
 /* template */
-var __vue_template__ = __webpack_require__(177)
+var __vue_template__ = __webpack_require__(175)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -56196,11 +56189,12 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 176 */
+/* 174 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
 //
 //
 //
@@ -56241,10 +56235,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             decimalsToFix: 2,
-            quantity: 0,
+            quantity: 1,
             discount: 0,
-            price: 0,
-            price_in_dollars: 0
+            price: 0
         };
     },
 
@@ -56252,84 +56245,38 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         deleteItem: function deleteItem() {
             this.$root.$emit('delete-item', [this.index, this.product.family]);
-            if (this.product.is_summable) {
-                this.$root.$emit('update-family-count', [this.product.family, -this.quantity, this.computed_iva]);
-            }
         },
         updateTotal: function updateTotal() {
             this.$root.$emit('update-total', [this.index, this.total, this.computed_iva]);
-        },
-        computePrice: function computePrice() {
-            var price;
-
-            if (this.product.is_summable && this.promo == 0) {
-                price = this.familycount > this.product.wholesale_quantity ? this.product.wholesale_price : this.product.retail_price;
-            } else if (this.product.dollars) {
-                price = this.product.retail_price * Number(this.exchange);
-            } else {
-                if (this.promo == 1) {
-                    price = this.product.wholesale_price;
-                } else {
-                    price = this.quantity > this.product.wholesale_quantity ? this.product.wholesale_price : this.product.retail_price;
-                }
-            }
-
-            return price / (1 + 0.16 * this.product.iva);
         }
     },
     computed: {
         total: function total() {
             return this.quantity * this.price - this.quantity * this.price * this.discount / 100;
         },
-        apply_discount: function apply_discount() {
-            return this.product.is_variable == 1 && this.product.family != 'SERVICIOS';
-        },
         max_discount: function max_discount() {
             return this.type == 'info' ? 20 : 100;
         },
         computed_iva: function computed_iva() {
-            if (this.product.family == 'SERVICIOS') return 0;
             return this.total * 0.16 * this.product.iva;
         }
     },
     watch: {
-        quantity: function quantity(newVal, oldVal) {
-            if (this.product.is_summable) {
-                this.$root.$emit('update-family-count', [this.product.family, newVal - oldVal, this.computed_iva]);
-            }
-            if (this.product.category != 'SERVICIOS' && this.product.category != 'EQUIPO') {
-                this.price = this.computePrice();
-            }
-        },
-        familycount: function familycount(val) {
-            if (this.product.category != 'SERVICIOS') {
-                this.price = this.computePrice();
-            }
-        },
         price: function price(val) {
             this.$root.$emit('update-total', [this.index, this.total, this.computed_iva]);
         }
     },
     created: function created() {
-        if (this.product.category != 'SERVICIOS') {
-            this.price = this.computePrice();
+        if (this.product.dollars == 1) {
+            this.price = this.product.retail_price * Number(this.exchange);
         } else {
             this.price = this.product.retail_price;
-            this.quantity = 1;
-        }
-
-        if (this.product.quantity > 0) {
-            this.quantity = this.product.quantity;
-        }
-
-        if (this.product.discount > 0) {
-            this.discount = this.product.discount;
         }
     }
 });
 
 /***/ }),
-/* 177 */
+/* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -56354,7 +56301,7 @@ var render = function() {
         "\n            " + _vm._s(_vm.product.description) + "\n            "
       ),
       _c("input", {
-        attrs: { name: "items[" + _vm.index + "][i]", type: "hidden" },
+        attrs: { name: "items[" + _vm.index + "][product_id]", type: "hidden" },
         domProps: { value: _vm.product.id }
       })
     ]),
@@ -56374,7 +56321,7 @@ var render = function() {
               ],
               staticClass: "form-control input-sm",
               attrs: {
-                name: "items[" + _vm.index + "][p]",
+                name: "items[" + _vm.index + "][price]",
                 type: "number",
                 step: "0.01"
               },
@@ -56399,7 +56346,10 @@ var render = function() {
                 "\n                "
             ),
             _c("input", {
-              attrs: { name: "items[" + _vm.index + "][p]", type: "hidden" },
+              attrs: {
+                name: "items[" + _vm.index + "][price]",
+                type: "hidden"
+              },
               domProps: { value: _vm.price.toFixed(_vm.decimalsToFix) }
             })
           ])
@@ -56418,7 +56368,7 @@ var render = function() {
         ],
         staticClass: "form-control input-sm",
         attrs: {
-          name: "items[" + _vm.index + "][q]",
+          name: "items[" + _vm.index + "][quantity]",
           type: "number",
           min: "1"
         },
@@ -56439,7 +56389,7 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("td", [
-      _vm.apply_discount
+      _vm.product.is_variable == 1
         ? _c("input", {
             directives: [
               {
@@ -56452,7 +56402,7 @@ var render = function() {
             ],
             staticClass: "form-control input-sm",
             attrs: {
-              name: "items[" + _vm.index + "][d]",
+              name: "items[" + _vm.index + "][discount]",
               type: "number",
               step: "1",
               value: "0",
@@ -56475,7 +56425,7 @@ var render = function() {
           })
         : _c("input", {
             attrs: {
-              name: "items[" + _vm.index + "][d]",
+              name: "items[" + _vm.index + "][discount]",
               type: "hidden",
               value: "0"
             }
@@ -56484,8 +56434,14 @@ var render = function() {
     _vm._v(" "),
     _c("td", { staticStyle: { "text-align": "right" } }, [
       _vm._v(
-        "\n            " + _vm._s(_vm._f("currency")(_vm.total)) + "\n        "
-      )
+        "\n            " +
+          _vm._s(_vm._f("currency")(_vm.total)) +
+          "\n            "
+      ),
+      _c("input", {
+        attrs: { name: "items[" + _vm.index + "][total]", type: "hidden" },
+        domProps: { value: _vm.total.toFixed(_vm.decimalsToFix) }
+      })
     ])
   ])
 }
@@ -56498,6 +56454,12 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-2fd166dc", module.exports)
   }
 }
+
+/***/ }),
+/* 176 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);
