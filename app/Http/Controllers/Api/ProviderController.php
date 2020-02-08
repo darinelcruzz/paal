@@ -13,16 +13,5 @@ class ProviderController extends Controller
         return Provider::whereIn('company', [$company, 'both'])
         	->where('group', $group)
         	->get(['id', 'name', 'xml_required']);
-        // return Provider::where('company', '!=', $company)
-        //     ->where('type', 'gg')
-        //     ->orWhere('type', 'cv')
-        //     ->get(['id', 'name', 'xml_required']);
     }
-
-    // function register($company)
-    // {
-    //     return Provider::where('company', '!=', $company)
-    //     	->where('group', 'cc')
-    //     	->get(['id', 'name', 'xml_required']);
-    // }
 }

@@ -15,12 +15,11 @@
                     </thead>
 
                     <tbody>
-                        <tr v-for="(product, index) in elements" 
+                        <tr v-for="(product, index) in elements"
                             :index="index"
                             :key="index"
                             is="shopping-cart-item" 
                             :product="product"
-                            :familycount="getFamilyCount(product.family)"
                             :exchange="exchange"
                             :promo="promo"
                             :type="color">
@@ -30,9 +29,7 @@
                     <tfoot>
                         <tr>
                             <th colspan="5"><span class="pull-right">Subtotal:</span></th>
-                            <td>
-                                <span class="pull-right">{{ total | currency }}</span>
-                            </td>
+                            <td><span class="pull-right">{{ total | currency }}</span></td>
                         </tr>
                         <tr>
                             <th colspan="5"><span class="pull-right">IVA:</span></th>
@@ -63,125 +60,75 @@
 
 <script>
 	export default {
-		props: ['color', 'exchange', 'qproducts', 'promo'],
+		props: ['color', 'exchange', 'movements', 'promo'],
 		data() {
 			return {
                 elements: [],
                 subtotals: [],
-                families: [],
                 total: 0,
                 iva: 0,
-                decimalsToFix: 2
+                decimalsToFix: 2,
+                movement: null,
+                product: null
 			}
 		},
+        watch: {
+            subtotals(val) {
+                this.total = val.reduce((total, subtotal) => total + subtotal.amount, 0)
+                this.iva = val.reduce((iva, subtotal) => iva + subtotal.iva, 0)
+            }
+        },
 		methods: {
 			addRow(product) {
                 this.elements.push(product)
-                this.subtotals.push({
-                    amount: 0,
-                    iva: 0
-                })
 
-                if (this.families.length > 0) {
-                    var has_family = false
+                let price = product.retail_price * (product.dollars == 0 ? 1: this.exchange)
+                let iva = price * 0.16 * product.iva
 
-                    for (var i = 0; i < this.families.length; i++) {
-                        if (this.families[i].name == product.family) {
-                            has_family = this.families[i].name == product.family
-                            break
-                        }
-                    }
-
-                    if (has_family) {
-                        this.families[i].quantity += 0
-                    } else {
-                       this.families.push({
-                            name: product.family,
-                            quantity: 0
-                        }) 
-                    }
-                } else {
-                    this.families.push({
-                        name: product.family,
-                        quantity: 0
-                    })
-                }
-
-                this.setTotal()
+                this.subtotals.push({amount: price, iva: iva})
             },
-            deleteRow(index, family) {
+            deleteRow(index) {
                 this.elements.splice(index, 1)
                 this.subtotals.splice(index, 1)
-                this.setTotal()
-            },
-            setTotal() {
-                this.total = this.subtotals.reduce((total, subtotal) => total + subtotal.amount, 0)
-                this.iva = this.subtotals.reduce((iva, subtotal) => iva + subtotal.iva, 0)
-                this.$root.$emit('set-total', this.total + this.iva)
             },
             updateTotal(index, amount, iva) {
                 this.subtotals[index].amount = amount
                 this.subtotals[index].iva = iva
+                this.updateTotalAndIva()
+            },
+            updateTotalAndIva() {
                 this.total = this.subtotals.reduce((total, subtotal) => total + subtotal.amount, 0)
-                this.iva = this.subtotals.reduce((total, subtotal) => total + subtotal.iva, 0)
-
-                this.$root.$emit('set-total', this.total + this.iva)
-            },
-            updateFamilyCount(family, quantity) {
-                for (var i = 0; i < this.families.length; i++) {
-                    if (this.families[i].name == family) break
-                }
-                this.families[i].quantity += quantity
-            },
-            getFamilyCount(family) {
-                for (var i = 0; i < this.families.length; i++) {
-                    if (this.families[i].name == family) break
-                }
-                return this.families[i].quantity
-            },
-            setPrice(product) {
-                if (product.dollars) {
-                    return product.retail_price * this.exchange
-                } else if (product.is_variable) {
-                    return product.retail_price / (1 + 0.16 * product.iva)
-                } else if (product.family == 'SERVICIOS') {
-                    return product.retail_price
-                } else {
-                    if (this.promo == 0) {
-                        var after_iva = product.wholesale_quantity > 0 && product.quantity >= product.wholesale_quantity ? 
-                            product.wholesale_price: product.retail_price
-                        
-                        return after_iva / (1 + 0.16 * product.iva)
-                    }
-                    
-                    return product.wholesale_price
-                }
-            },
+                this.iva = this.subtotals.reduce((iva, subtotal) => iva + subtotal.iva, 0)
+            }
 		},
         created() {
-            if (this.qproducts) {
-                for (var i = 0; i < this.qproducts.length; i++) {
-                    var product = this.qproducts[i]
-                    // product.price = this.setPrice(product)
-                    product.total =  product.quantity * product.price
-                    if (product.special_description) {
-                        product.description = product.special_description
-                        product.retail_price = product.special_price
-                    }
-                    this.addRow(product)
+            if (this.movements) {
+                for (var j = 0; j < this.movements.length; j++) {
+                    var item = this.movements[j]
+
+                    if (item.quantity != 0) {
+                        this.addRow({
+                            id: item.product_id,
+                            quantity: item.quantity,
+                            discount: item.discount,
+                            price: item.price,
+                            total: item.total,
+                            amount: item.total,
+                            iva: 0,
+                        }) 
+                    }            
+                    
                 }
             }
+
             this.$root.$on('add-element', (product) => {
                 this.addRow(product)
             })
-            this.$root.$on('delete-item', (data) => {
-                this.deleteRow(data[0], data[1])
+            this.$root.$on('delete-item', (index) => {
+                this.deleteRow(index)
             })
             this.$root.$on('update-total', (data) => {
                 this.updateTotal(data[0], data[1], data[2])
-            })
-            this.$root.$on('update-family-count', (data) => {
-                this.updateFamilyCount(data[0], data[1])
             })
         }
 	};

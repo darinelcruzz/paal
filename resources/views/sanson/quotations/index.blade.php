@@ -32,19 +32,19 @@
 
         <div class="col-md-3">
             <label class="btn btn-info btn-bg btn-block">
-               TOTAL: {{ $all }}
+               TOTAL: {{ $total }}
             </label>
         </div>
 
         <div class="col-md-3">
             <label class="btn btn-success btn-bg btn-block">
-               VENTAS: {{ $quotations_with_sales }} | {{ round($quotations_with_sales * 100 / $all) }} %
+               VENTAS: {{ $sales }} | {{ round($sales * 100 / $total) }} %
             </label>
         </div>
 
         <div class="col-md-3">
             <label class="btn btn-default btn-bg btn-block">
-                SIN VENTAS: {{ $quotations_without_sales }} | {{ round($quotations_without_sales * 100 / $all) }} %
+                SIN VENTAS: {{ $total- $sales }} | {{ round(($total- $sales) * 100 / ($total == 0 ? 1: $total)) }} %
             </label>
         </div>
     </div>
@@ -56,58 +56,64 @@
         <div class="col-md-12">
 
             <solid-box title="Cotizaciones" color="info">
-
-                <data-table example="1">
-
-                    {{ drawHeader('ID', '<i class="fa fa-cogs"></i>','fecha', 'cliente', 'tipo', 'IVA', 'total', 'ventas', 'ediciones') }}
-
-                    <template slot="body">
-                        @foreach($quotations as $quotation)
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered spanish">
+                        <thead>
                             <tr>
-                                <td>{{ $quotation->id }}</td>
-                                <td>
-                                    <dropdown icon="cogs" color="info">
-                                        <ddi to="{{ route('sanson.quotation.show', $quotation) }}" icon="eye" text="Detalles"></ddi>
-                                        <ddi to="{{ route('sanson.quotation.download', $quotation) }}" icon="file-pdf" text="Ver PDF"></ddi>
-                                        @if (!$quotation->is_canceled)
-                                            <ddi to="{{ route('sanson.quotation.edit', $quotation) }}" icon="edit" text="Editar"></ddi>
-                                            @if($quotation->type)
-                                                <ddi to="{{ route('sanson.quotation.transform', [$quotation, $quotation->type]) }}" icon="mug-hot" text="Crear venta"></ddi>
-                                            @else
-                                                <ddi to="{{ route('sanson.quotation.transform', $quotation) }}" icon="mug-hot" text="Crear venta"></ddi>
-                                            @endif
-                                        @endif
-                                    </dropdown>
-                                </td>
-                                <td>{{ fdate($quotation->created_at, 'd M Y') }}</td>
-                                <td style="width: 40%">{{ $quotation->client->name }}</td>
-                                <td>
-                                    @if ($quotation->type)
-                                        <label class="label label-{{$quotation->type == 'insumos' ? 'danger': 'info'}}">{{ strtoupper($quotation->type) }}</label>
-                                    @else
-                                        <label class="label label-{{$quotation->products_list_type == 'insumos' ? 'danger': 'info'}}">{{ strtoupper($quotation->products_list_type) }}</label>
-                                    @endif
-                                </td>
-                                <td>$ {{ number_format($quotation->iva, 2) }}</td>
-                                <td>$ {{ number_format($quotation->amount, 2) }}</td>
-                                <td>
-                                    <span class="label label-{{ count($quotation->sales) > 0 ? 'success': 'default' }}">
-                                        {{ count($quotation->sales) > 0 ? 'VENTA': 'SIN VENTA' }}
-                                    </span>
-                                </td>
-                                <td>
-                                    @if ($quotation->editions_count)
-                                        <code style="color: blue">EDICIONES: {{ $quotation->editions_count }}</code>
-                                    @else
-                                        <code>SIN EDITAR</code>
-                                    @endif
-                                </td>
+                                <th>ID</th>
+                                <th><i class="fa fa-cogs"></i></th>
+                                <th>Fecha</th>
+                                <th>Cliente</th>
+                                <th>Tipo</th>
+                                <th>IVA</th>
+                                <th>Total</th>
+                                <th>Ventas</th>
+                                <th>Ediciones</th>
                             </tr>
-                        @endforeach
-                    </template>
+                        </thead>
 
-                </data-table>
-
+                        <tbody>
+                            @foreach($quotations as $quotation)
+                                <tr>
+                                    <td>{{ $quotation->id }}</td>
+                                    <td>
+                                        <dropdown icon="cogs" color="info">
+                                            <ddi to="{{ route('sanson.quotation.show', $quotation) }}" icon="eye" text="Detalles"></ddi>
+                                            <ddi to="{{ route('sanson.quotation.download', $quotation) }}" icon="file-pdf" text="Ver PDF"></ddi>
+                                            @if (!$quotation->is_canceled)
+                                                <ddi to="{{ route('sanson.quotation.edit', $quotation) }}" icon="edit" text="Editar"></ddi>
+                                                @if($quotation->type)
+                                                    <ddi to="{{ route('sanson.quotation.transform', [$quotation, $quotation->type]) }}" icon="mug-hot" text="Crear venta"></ddi>
+                                                @else
+                                                    <ddi to="{{ route('sanson.quotation.transform', $quotation) }}" icon="mug-hot" text="Crear venta"></ddi>
+                                                @endif
+                                            @endif
+                                        </dropdown>
+                                    </td>
+                                    <td>{{ fdate($quotation->created_at, 'd/m/Y') }}</td>
+                                    <td style="width: 40%">{{ $quotation->client->name }}</td>
+                                    <td>
+                                        <label class="label label-{{$quotation->type == 'proyecto' ? 'primary': 'info'}}">{{ strtoupper($quotation->type) }}</label>
+                                    </td>
+                                    <td>{{ number_format($quotation->iva, 2) }}</td>
+                                    <td>{{ number_format($quotation->amount, 2) }}</td>
+                                    <td>
+                                        <span class="label label-{{ count($quotation->sales) > 0 ? 'success': 'default' }}">
+                                            {{ count($quotation->sales) > 0 ? 'VENTA': 'SIN VENTA' }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        @if ($quotation->editions_count)
+                                            <code style="color: blue">EDICIONES: {{ $quotation->editions_count }}</code>
+                                        @else
+                                            <code>SIN EDITAR</code>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </solid-box>
         </div>
     </div>

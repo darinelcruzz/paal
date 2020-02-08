@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Coffee;
+namespace App\Http\Controllers\Sanson;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -14,21 +14,21 @@ class IngressController extends Controller
     {
         $date = dateFromRequest('Y-m');
 
-        $ingresses = Ingress::where('company', 'coffee')
+        $ingresses = Ingress::where('company', 'sanson')
             ->whereMonth('created_at', substr($date, 5, 7))
             ->whereYear('created_at', substr($date, 0, 4))
             ->orderByDesc('id')
             ->get();     
 
-        return view('coffee.ingresses.index', compact('ingresses', 'date'));
+        return view('sanson.ingresses.index', compact('ingresses', 'date'));
     }
 
     function create($type)
     {
         $clients = Client::where('company', '!=', 'mbe')->get(['id', 'name', 'rfc'])->toJson();
-        $last_sale = Ingress::where('company', 'coffee')->get()->last();
+        $last_sale = Ingress::where('company', 'sanson')->get()->last();
         $last_folio = $last_sale ? $last_sale->folio + 1: 1;
-        return view('coffee.ingresses.create', compact('clients', 'last_folio', 'type'));
+        return view('sanson.ingresses.create', compact('clients', 'last_folio', 'type'));
     }
 
     function store(Request $request)
@@ -45,9 +45,9 @@ class IngressController extends Controller
             'bought_at' => 'required',
        ]);
 
-        if ($request->folio != Ingress::where('company', 'coffee')->get()->last()->folio) {
+        if ($request->folio != Ingress::where('company', 'sanson')->get()->last()->folio) {
 
-            $last_sale = Ingress::where('company', 'coffee')->get()->last();
+            $last_sale = Ingress::where('company', 'sanson')->get()->last();
             $last_folio = $last_sale ? $last_sale->folio + 1: 1;
 
             $total = $request->cash + $request->transfer + $request->check
@@ -82,18 +82,18 @@ class IngressController extends Controller
             $ingress->update(['method' => $methods[$ingress->inferred_method]]);
         }
 
-        return redirect(route('coffee.ingress.index'));
+        return redirect(route('sanson.ingress.index'));
     }
 
     function show(Ingress $ingress)
     {
-        return view('coffee.ingresses.show', compact('ingress'));
+        return view('sanson.ingresses.show', compact('ingress'));
     }
 
     function ticket(Ingress $ingress)
     {
         $payment = $ingress->payments->first();
-        return view('coffee.ingresses.ticket', compact('ingress', 'payment'));
+        return view('sanson.ingresses.ticket', compact('ingress', 'payment'));
     }
 
     function destroy(Ingress $ingress, $reason)

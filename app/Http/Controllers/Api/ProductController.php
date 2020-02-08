@@ -43,4 +43,9 @@ class ProductController extends Controller
                     ->orWhere("family", "LIKE", "%$keyword%");
             })->paginate(5);
     }
+
+    function show(Product $product)
+    {
+        return $product;
+    }
 }

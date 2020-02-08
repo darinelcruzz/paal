@@ -1,8 +1,6 @@
-@extends('coffee.root')
+@extends('sanson.root')
 
-@push('pageTitle')
-    Ventas | Historial
-@endpush
+@push('pageTitle', 'Ventas | Historial')
 
 @push('headerTitle')
     
@@ -11,7 +9,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            {!! Form::open(['method' => 'post', 'route' => 'coffee.ingress.index']) !!}
+            {!! Form::open(['method' => 'post', 'route' => 'sanson.ingress.index']) !!}
                 
                 <div class="row">
                     <div class="col-md-3">
@@ -19,7 +17,7 @@
                         <div class="input-group input-group-sm">
                             <input type="month" name="date" class="form-control" value="{{ $date }}">
                             <span class="input-group-btn">
-                                <button type="submit" class="btn btn-danger btn-flat"><i class="fa fa-search"></i></button>
+                                <button type="submit" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
                             </span>
                         </div>
                     </div>
@@ -29,7 +27,7 @@
 
             <br>
 
-            <solid-box title="Ventas" color="danger">
+            <solid-box title="Ventas" color="info">
 
                 <data-table example="1">
 
@@ -40,11 +38,11 @@
                             <tr>
                                 <td>{{ $ingress->folio }}</td>
                                 <td>
-                                    <dropdown icon="cogs" color="danger">
-                                        <ddi v-if="{{ $ingress->status == 'pagado' || $ingress->status == 'cancelado' ? 0: 1 }}" to="{{ route('coffee.payment.create', $ingress) }}" icon="money" text="Pagar"></ddi>
-                                        <ddi to="{{ route('coffee.ingress.show', $ingress) }}" icon="eye" text="Detalles"></ddi>
+                                    <dropdown icon="cogs" color="info">
+                                        <ddi v-if="{{ $ingress->status == 'pagado' || $ingress->status == 'cancelado' ? 0: 1 }}" to="{{ route('sanson.payment.create', $ingress) }}" icon="money" text="Pagar"></ddi>
+                                        <ddi to="{{ route('sanson.ingress.show', $ingress) }}" icon="eye" text="Detalles"></ddi>
                                         <li>
-                                            <a href="{{ route('coffee.ingress.ticket', $ingress) }}" target="_blank">
+                                            <a href="{{ route('sanson.ingress.ticket', $ingress) }}" target="_blank">
                                                 <i class="fa fa-print" aria-hidden="true"></i> Imprimir
                                             </a>
                                         </li>
@@ -61,7 +59,7 @@
                                 <td>{{ fdate($ingress->bought_at, 'd M Y', 'Y-m-d') }}</td>
                                 <td style="width: 30%">{{ $ingress->client->name }}</td>
                                 <td>
-                                    <label class="label label-{{$ingress->type == 'insumos' ? 'danger': 'warning'}}">{{ strtoupper($ingress->type) }}</label>
+                                    <label class="label label-{{$ingress->type == 'insumos' ? 'info': 'warning'}}">{{ strtoupper($ingress->type) }}</label>
                                 </td>
                                 <td>$ {{ number_format($ingress->iva, 2) }}</td>
                                 <td>$ {{ number_format($ingress->amount, 2) }}</td>
@@ -69,11 +67,11 @@
                                 <td>{{ ucfirst($ingress->method) }}</td>
                                 <td>
                                     @if ($ingress->status == 'cancelado')
-                                        <a type="button" class="label label-danger" data-toggle="modal" data-target="#modal-cancelation-{{$ingress->id}}">
+                                        <a type="button" class="label label-info" data-toggle="modal" data-target="#modal-cancelation-{{$ingress->id}}">
                                             {{ ucfirst($ingress->status) }}
                                         </a>
 
-                                        <div class="modal modal-danger fade" id="modal-cancelation-{{$ingress->id}}">
+                                        <div class="modal modal-info fade" id="modal-cancelation-{{$ingress->id}}">
                                           <div class="modal-dialog">
                                             <div class="modal-content">
                                               <div class="modal-header">

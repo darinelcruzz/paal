@@ -55843,140 +55843,87 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['color', 'exchange', 'qproducts', 'promo'],
+    props: ['color', 'exchange', 'movements', 'promo'],
     data: function data() {
         return {
             elements: [],
             subtotals: [],
-            families: [],
             total: 0,
             iva: 0,
-            decimalsToFix: 2
+            decimalsToFix: 2,
+            movement: null,
+            product: null
         };
     },
 
+    watch: {
+        subtotals: function subtotals(val) {
+            this.total = val.reduce(function (total, subtotal) {
+                return total + subtotal.amount;
+            }, 0);
+            this.iva = val.reduce(function (iva, subtotal) {
+                return iva + subtotal.iva;
+            }, 0);
+        }
+    },
     methods: {
         addRow: function addRow(product) {
             this.elements.push(product);
-            this.subtotals.push({
-                amount: 0,
-                iva: 0
-            });
 
-            if (this.families.length > 0) {
-                var has_family = false;
+            var price = product.retail_price * (product.dollars == 0 ? 1 : this.exchange);
+            var iva = price * 0.16 * product.iva;
 
-                for (var i = 0; i < this.families.length; i++) {
-                    if (this.families[i].name == product.family) {
-                        has_family = this.families[i].name == product.family;
-                        break;
-                    }
-                }
-
-                if (has_family) {
-                    this.families[i].quantity += 0;
-                } else {
-                    this.families.push({
-                        name: product.family,
-                        quantity: 0
-                    });
-                }
-            } else {
-                this.families.push({
-                    name: product.family,
-                    quantity: 0
-                });
-            }
-
-            this.setTotal();
+            this.subtotals.push({ amount: price, iva: iva });
         },
-        deleteRow: function deleteRow(index, family) {
+        deleteRow: function deleteRow(index) {
             this.elements.splice(index, 1);
             this.subtotals.splice(index, 1);
-            this.setTotal();
         },
-        setTotal: function setTotal() {
+        updateTotal: function updateTotal(index, amount, iva) {
+            this.subtotals[index].amount = amount;
+            this.subtotals[index].iva = iva;
+            this.updateTotalAndIva();
+        },
+        updateTotalAndIva: function updateTotalAndIva() {
             this.total = this.subtotals.reduce(function (total, subtotal) {
                 return total + subtotal.amount;
             }, 0);
             this.iva = this.subtotals.reduce(function (iva, subtotal) {
                 return iva + subtotal.iva;
             }, 0);
-            this.$root.$emit('set-total', this.total + this.iva);
-        },
-        updateTotal: function updateTotal(index, amount, iva) {
-            this.subtotals[index].amount = amount;
-            this.subtotals[index].iva = iva;
-            this.total = this.subtotals.reduce(function (total, subtotal) {
-                return total + subtotal.amount;
-            }, 0);
-            this.iva = this.subtotals.reduce(function (total, subtotal) {
-                return total + subtotal.iva;
-            }, 0);
-
-            this.$root.$emit('set-total', this.total + this.iva);
-        },
-        updateFamilyCount: function updateFamilyCount(family, quantity) {
-            for (var i = 0; i < this.families.length; i++) {
-                if (this.families[i].name == family) break;
-            }
-            this.families[i].quantity += quantity;
-        },
-        getFamilyCount: function getFamilyCount(family) {
-            for (var i = 0; i < this.families.length; i++) {
-                if (this.families[i].name == family) break;
-            }
-            return this.families[i].quantity;
-        },
-        setPrice: function setPrice(product) {
-            if (product.dollars) {
-                return product.retail_price * this.exchange;
-            } else if (product.is_variable) {
-                return product.retail_price / (1 + 0.16 * product.iva);
-            } else if (product.family == 'SERVICIOS') {
-                return product.retail_price;
-            } else {
-                if (this.promo == 0) {
-                    var after_iva = product.wholesale_quantity > 0 && product.quantity >= product.wholesale_quantity ? product.wholesale_price : product.retail_price;
-
-                    return after_iva / (1 + 0.16 * product.iva);
-                }
-
-                return product.wholesale_price;
-            }
         }
     },
     created: function created() {
         var _this = this;
 
-        if (this.qproducts) {
-            for (var i = 0; i < this.qproducts.length; i++) {
-                var product = this.qproducts[i];
-                // product.price = this.setPrice(product)
-                product.total = product.quantity * product.price;
-                if (product.special_description) {
-                    product.description = product.special_description;
-                    product.retail_price = product.special_price;
+        if (this.movements) {
+            for (var j = 0; j < this.movements.length; j++) {
+                var item = this.movements[j];
+
+                if (item.quantity != 0) {
+                    this.addRow({
+                        id: item.product_id,
+                        quantity: item.quantity,
+                        discount: item.discount,
+                        price: item.price,
+                        total: item.total,
+                        amount: item.total,
+                        iva: 0
+                    });
                 }
-                this.addRow(product);
             }
         }
+
         this.$root.$on('add-element', function (product) {
             _this.addRow(product);
         });
-        this.$root.$on('delete-item', function (data) {
-            _this.deleteRow(data[0], data[1]);
+        this.$root.$on('delete-item', function (index) {
+            _this.deleteRow(index);
         });
         this.$root.$on('update-total', function (data) {
             _this.updateTotal(data[0], data[1], data[2]);
-        });
-        this.$root.$on('update-family-count', function (data) {
-            _this.updateFamilyCount(data[0], data[1]);
         });
     }
 });
@@ -56005,7 +55952,6 @@ var render = function() {
                     attrs: {
                       index: index,
                       product: product,
-                      familycount: _vm.getFamilyCount(product.family),
                       exchange: _vm.exchange,
                       promo: _vm.promo,
                       type: _vm.color
@@ -56237,14 +56183,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             decimalsToFix: 2,
             quantity: 1,
             discount: 0,
-            price: 0
+            price: 0,
+            description: '',
+            has_discount: false,
+            iva: 0,
+            dollars: 0
         };
     },
 
-    props: ['product', 'index', 'exchange', 'familycount', 'promo', 'type'],
+    props: ['product', 'index', 'exchange', 'promo', 'type'],
     methods: {
         deleteItem: function deleteItem() {
-            this.$root.$emit('delete-item', [this.index, this.product.family]);
+            this.$root.$emit('delete-item', this.index);
         },
         updateTotal: function updateTotal() {
             this.$root.$emit('update-total', [this.index, this.total, this.computed_iva]);
@@ -56258,19 +56208,40 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return this.type == 'info' ? 20 : 100;
         },
         computed_iva: function computed_iva() {
-            return this.total * 0.16 * this.product.iva;
+            return this.total * 0.16 * this.iva;
         }
     },
     watch: {
         price: function price(val) {
             this.$root.$emit('update-total', [this.index, this.total, this.computed_iva]);
+        },
+        iva: function iva(val) {
+            this.$root.$emit('update-total', [this.index, this.total, this.computed_iva]);
         }
     },
     created: function created() {
-        if (this.product.dollars == 1) {
-            this.price = this.product.retail_price * Number(this.exchange);
+        var _this = this;
+
+        if (this.product.quantity > 0) {
+            this.quantity = this.product.quantity;
+            this.discount = this.product.discount;
+            this.price = this.product.price;
+
+            axios.get('/api/products/' + this.product.id).then(function (response) {
+                var product = response.data;
+                _this.description = product.description;
+                _this.has_discount = product.is_variable == 1;
+                _this.dollars = product.dollars;
+                _this.iva = product.iva;
+            });
+
+            if (this.dollars) {
+                this.price = this.price * this.exchange;
+            }
         } else {
-            this.price = this.product.retail_price;
+            this.price = this.product.retail_price * (this.product.dollars == 0 ? 1 : this.exchange);
+            this.has_discount = this.product.is_variable == 1;
+            this.iva = this.product.iva;
         }
     }
 });
@@ -56298,7 +56269,11 @@ var render = function() {
     _vm._v(" "),
     _c("td", [
       _vm._v(
-        "\n            " + _vm._s(_vm.product.description) + "\n            "
+        "\n            " +
+          _vm._s(
+            _vm.product.description ? _vm.product.description : _vm.description
+          ) +
+          "\n            "
       ),
       _c("input", {
         attrs: { name: "items[" + _vm.index + "][product_id]", type: "hidden" },
@@ -56389,7 +56364,7 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("td", [
-      _vm.product.is_variable == 1
+      _vm.has_discount
         ? _c("input", {
             directives: [
               {

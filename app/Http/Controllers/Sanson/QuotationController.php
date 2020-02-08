@@ -13,64 +13,28 @@ class QuotationController extends Controller
     {
         $date = isset($request->date) ? $request->date: date('Y-m');
 
-        $quotations = Quotation::where('company', 'sanson')
-            ->whereNull('client_name')
-            ->whereMonth('created_at', substr($date, 5, 7))
-            ->whereYear('created_at', substr($date, 0, 4))
-            ->orderByDesc('id')
-            ->get();
+        $quotations = Quotation::normal('sanson', $date)->get();
+        $total = count($quotations);
 
-        $quotations_with_sales = Quotation::where('company', 'sanson')
-            ->whereNull('client_name')
-            ->whereMonth('created_at', substr($date, 5, 7))
-            ->whereYear('created_at', substr($date, 0, 4))
-            ->has('sales')
-            ->orderByDesc('id')
-            ->count();
+        $sales = $quotations->tap(function($quotations) {
+            return $quotations->has('sales');
+        })->count();
 
-        $quotations_without_sales = Quotation::where('company', 'sanson')
-            ->whereNull('client_name')
-            ->whereMonth('created_at', substr($date, 5, 7))
-            ->whereYear('created_at', substr($date, 0, 4))
-            ->doesntHave('sales')
-            ->orderByDesc('id')
-            ->count();
-
-        $all = $quotations->count();
-
-        return view('sanson.quotations.index', compact('quotations', 'all', 'quotations_without_sales', 'quotations_with_sales', 'date'));
+        return view('sanson.quotations.index', compact('quotations', 'sales', 'total', 'date'));
     }
 
     function internet(Request $request)
     {
         $date = isset($request->date) ? $request->date: date('Y-m');
 
-        $quotations = Quotation::where('company', 'sanson')
-            ->whereNotNull('client_name')
-            ->whereMonth('created_at', substr($date, 5, 7))
-            ->whereYear('created_at', substr($date, 0, 4))
-            ->orderByDesc('id')
-            ->get();
+        $quotations = Quotation::internet('sanson', $date)->get();
+        $total = count($quotations);
 
-        $quotations_with_sales = Quotation::where('company', 'sanson')
-            ->whereNotNull('client_name')
-            ->whereMonth('created_at', substr($date, 5, 7))
-            ->whereYear('created_at', substr($date, 0, 4))
-            ->has('sales')
-            ->orderByDesc('id')
-            ->count();
+        $sales = $quotations->tap(function($quotations) {
+            return $quotations->has('sales');
+        })->count();
 
-        $quotations_without_sales = Quotation::where('company', 'sanson')
-            ->whereNotNull('client_name')
-            ->whereMonth('created_at', substr($date, 5, 7))
-            ->whereYear('created_at', substr($date, 0, 4))
-            ->doesntHave('sales')
-            ->orderByDesc('id')
-            ->count();
-
-        $all = $quotations->count();
-
-        return view('sanson.quotations.internet', compact('quotations', 'all', 'quotations_without_sales', 'quotations_with_sales', 'date'));
+        return view('sanson.quotations.internet', compact('quotations', 'total', 'sales', 'date'));
     }
 
     function create($type)
@@ -80,7 +44,6 @@ class QuotationController extends Controller
 
     function store(Request $request)
     {
-        // dd($request->all());
         $attributes = $this->validate($request, [
             'client_id' => 'required',
             'amount' => 'required',
@@ -88,6 +51,8 @@ class QuotationController extends Controller
             'company' => 'required',
             'type' => 'required',
             'user_id' => 'required',
+            'client_name' => 'sometimes|required',
+            'email' => 'sometimes|required',
         ]);
 
         $quotation = Quotation::create($attributes);
@@ -130,35 +95,20 @@ class QuotationController extends Controller
 
     function update(Request $request, Quotation $quotation)
     {
-        $validated = $this->validate($request, [
+        dd($request->all());
+
+        $attributes = $request->validate([
             'amount' => 'required',
             'iva' => 'required',
-            'items' =>'required|min:1'
         ]);
 
-        $products = [];
-        $special = [];
+        $quotation->update($attributes);
 
-        for ($i=0; $i < count($request->items); $i++) {
-            if ($request->is_special[$i] == 0) {
-                array_push($products, [
-                    'i' => $request->items[$i],
-                    'q' => $request->quantities[$i],
-                    'p' => $request->prices[$i],
-                    'd' => $request->discounts[$i],
-                    't' => $request->subtotals[$i],
-                ]);
-            } else {
-                array_push($special, [
-                    'i' => $request->items[$i],
-                    'id' => $request->ids[$i],
-                    'q' => $request->quantities[$i],
-                    'p' => $request->prices[$i],
-                    'd' => $request->discounts[$i],
-                    't' => $request->subtotals[$i],
-                ]);
-            }
+        if ($quotation->client_name) {
+            return redirect(route('sanson.quotation.internet'));
         }
+
+        return redirect(route('sanson.quotation.index'));
 
         $quotation->update([
             'products' => serialize($products),

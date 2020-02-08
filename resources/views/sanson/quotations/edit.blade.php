@@ -1,4 +1,4 @@
-@extends('coffee.root')
+@extends('sanson.root')
 
 @push('pageTitle')
     Cotización | Editar
@@ -6,45 +6,32 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-6">
-            <solid-box title="Editar cotización {{ $quotation->id }}" color="{{ $quotation->type == 'insumos' ? 'danger': 'warning'}}">
-                {!! Form::open(['method' => 'POST', 'route' => ['coffee.quotation.update', $quotation]]) !!}
+        <div class="col-md-7">
+            <solid-box title="Editar cotización {{ $quotation->id }}" color="{{ $quotation->type == 'proyecto' ? 'primary': 'info'}}">
+                {!! Form::open(['method' => 'POST', 'route' => ['sanson.quotation.update', $quotation]]) !!}
 
-                    @if($quotation->client_name)
-                        <div class="row">
-                            <div class="col-md-12">
-                                {!! Field::text('client', $quotation->client_name, 
-                                    ['tpl' => 'withicon', 'disabled'],
-                                    ['icon' => 'user']) 
-                                !!}
-                            </div>
-                        </div>
-                    @else
-                        <div class="row">
-                            <div class="col-md-12">
-                                {!! Field::text('client', $quotation->client->name, 
-                                    ['tpl' => 'withicon', 'disabled'],
-                                    ['icon' => 'user']) 
-                                !!}
-                            </div>
-                        </div>
-                    @endif
+                    {!! Field::text('client', $quotation->client_name ?? $quotation->client->name, 
+                        ['tpl' => 'withicon', 'disabled'],
+                        ['icon' => 'user']) 
+                    !!}
 
-                    <br>
-                    <shopping-list color="warning" :qproducts="{{ $quotation->products_list }}" :promo="{{ $promo }}"></shopping-list>
+                    <h4 style="text-align:center;">PRODUCTOS</h4>
+                    <shopping-cart color="info" :movements="{{ $quotation->movements }}" :promo="{{ $promo }}"></shopping-cart>
 
-                    {!! Form::submit('Guardar cambios', ['class' => "btn btn-". ($quotation->type == 'insumos' ? 'danger': 'warning') ." pull-right"]) !!}
+                    {!! Form::submit('Guardar cambios', ['class' => "btn btn-". ($quotation->type == 'proyecto' ? 'primary': 'info') ." pull-right"]) !!}
 
                 {!! Form::close() !!}
             </solid-box>
         </div>
 
-        <div class="col-md-6">
-            {{-- <solid-box title="Productos" color="warning">
-                <p-table color="warning" :exchange="{{ env('EXCHANGE_RATE') }}"></p-table>
-            </solid-box> --}}
-            <solid-box title="{{ strtoupper($quotation->type == 'insumos' ? 'insumos': 'equipos') }}" color="{{ $quotation->type == 'insumos' ? 'danger': 'warning' }}">
-                <p-table color="{{ $quotation->type == 'insumos' ? 'danger': 'warning'}}" :exchange="{{ $exchange }}" type="{{ $quotation->type }}"></p-table>
+        <div class="col-md-5">
+            <solid-box title="Productos" color="{{ $quotation->type == 'proyecto' ? 'primary': 'info' }}">
+                <p-table 
+                    color="{{ $quotation->type == 'proyecto' ? 'primary': 'info'}}" 
+                    :exchange="{{ $exchange }}" 
+                    :promo="{{ $promo }}" 
+                    type="sanson">
+                </p-table>
             </solid-box>
         </div>
     </div>

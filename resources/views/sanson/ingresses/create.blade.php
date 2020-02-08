@@ -1,4 +1,4 @@
-@extends('coffee.root')
+@extends('sanson.root')
 
 @push('pageTitle')
     Ventas | Agregar
@@ -7,8 +7,8 @@
 @section('content')
     <div class="row">
         <div class="col-md-6">
-            <solid-box title="Agregar venta [{{ $last_folio }}]" color="{{ $type == 'insumos' ? 'danger': 'warning' }}">
-                {!! Form::open(['method' => 'POST', 'route' => 'coffee.ingress.store', 'ref' => 'cform']) !!}
+            <solid-box title="Agregar venta [{{ $last_folio }}]" color="{{ $type == 'insumos' ? 'info': 'primary' }}">
+                {!! Form::open(['method' => 'POST', 'route' => 'sanson.ingress.store', 'ref' => 'cform']) !!}
 
                     <form-wizard
                         title=""
@@ -29,7 +29,7 @@
                         <br>
                         <div class="row">
                             <div class="col-md-3">
-                                <a class="btn btn-app" href="{{ route('coffee.client.create') }}" target="_blank">
+                                <a class="btn btn-app" href="{{ route('sanson.client.create') }}" target="_blank">
                                     <i class="fa fa-user-plus"></i> CLIENTE
                                 </a>
                             </div>
@@ -62,7 +62,7 @@
                       </tab-content>
 
                       <tab-content title="Productos" icon="fa fa-tag">
-                          <shopping-list color="{{ $type == 'insumos' ? 'danger': 'warning' }}" :exchange="{{ $exchange }}" :promo="{{ $promo }}"></shopping-list>
+                          <shopping-list color="{{ $type == 'insumos' ? 'info': 'primary' }}" :exchange="{{ $exchange }}" :promo="{{ $promo }}"></shopping-list>
                        </tab-content>
 
                        <tab-content title="Pago" icon="fa fa-dollar">
@@ -74,7 +74,7 @@
                     <input type="hidden" name="method" :value="is_retained == 0 ? 'anticipo': 'contado'">
                     <input type="hidden" name="type" value="{{ $type }}">
                     <input type="hidden" name="bought_at" value="{{ date('Y-m-d') }}">
-                    <input type="hidden" name="company" value="coffee">
+                    <input type="hidden" name="company" value="sanson">
                     <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
                     <input type="hidden" name="folio" value="{{ $last_folio }}">
 
@@ -83,8 +83,8 @@
         </div>
 
         <div class="col-md-6">
-            <solid-box title="{{ $type == 'insumos' ? 'Insumos': 'Equipos' }}" color="{{ $type == 'insumos' ? 'danger': 'warning' }}">
-                <p-table color="{{ $type == 'insumos' ? 'danger': 'warning' }}" :exchange="{{ $exchange }}" :promo="{{ $promo }}" type="{{ $type }}"></p-table>
+            <solid-box title="{{ $type == 'insumos' ? 'Insumos': 'Equipos' }}" color="{{ $type == 'insumos' ? 'info': 'primary' }}">
+                <p-table color="{{ $type == 'insumos' ? 'info': 'primary' }}" :exchange="{{ $exchange }}" :promo="{{ $promo }}" type="{{ $type }}"></p-table>
             </solid-box>
         </div>
     </div>

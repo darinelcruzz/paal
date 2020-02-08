@@ -77,4 +77,20 @@ class Quotation extends Model
     {
         return route('coffee.quotation.' . ($this->client_name ? 'internet': 'index'));
     }
+
+    function scopeNormal($query, $company, $date)
+    {
+        return $query->where('company', $company)
+            ->whereNull('client_name')
+            ->whereMonth('created_at', substr($date, 5, 7))
+            ->whereYear('created_at', substr($date, 0, 4));
+    }
+
+    function scopeInternet($query, $company, $date)
+    {
+        return $query->where('company', $company)
+            ->whereNotNull('client_name')
+            ->whereMonth('created_at', substr($date, 5, 7))
+            ->whereYear('created_at', substr($date, 0, 4));
+    }
 }

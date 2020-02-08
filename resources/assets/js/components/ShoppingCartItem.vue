@@ -4,7 +4,7 @@
             <a href="#" @click="deleteItem" style="color: red;"><i class="fa fa-times"></i></a>
         </td>
         <td>
-            {{ product.description }}
+            {{ product.description ? product.description : description }}
             <input :name="'items[' + index + '][product_id]'" type="hidden" :value="product.id">
         </td>
 
@@ -22,7 +22,7 @@
             <input :name="'items[' + index + '][quantity]'" class="form-control input-sm" type="number" min="1" v-model.number="quantity" @change="updateTotal">
         </td>
         <td>
-            <input v-if="product.is_variable == 1" :name="'items[' + index + '][discount]'" class="form-control input-sm" type="number" step="1" value="0"
+            <input v-if="has_discount" :name="'items[' + index + '][discount]'" class="form-control input-sm" type="number" step="1" value="0"
                 min="0" :max="max_discount" v-model.number="discount" @change="updateTotal">
 
             <input v-else :name="'items[' + index + '][discount]'" type="hidden" value="0">
@@ -42,12 +42,16 @@ export default {
             quantity: 1,
             discount: 0,
             price: 0,
+            description: '',
+            has_discount: false,
+            iva: 0,
+            dollars: 0,
         };
     },
-    props: ['product', 'index', 'exchange', 'familycount', 'promo', 'type'],
+    props: ['product', 'index', 'exchange', 'promo', 'type'],
     methods: {
         deleteItem() {
-            this.$root.$emit('delete-item', [this.index, this.product.family])
+            this.$root.$emit('delete-item', this.index)
         },
         updateTotal() {
             this.$root.$emit('update-total', [this.index, this.total, this.computed_iva])
@@ -61,19 +65,39 @@ export default {
             return this.type == 'info' ? 20: 100;
         },
     	computed_iva() {
-            return this.total * 0.16 * this.product.iva
+            return this.total * 0.16 * this.iva
     	},
     },
     watch: {
-        price: function (val) {
+        price(val) {
+            this.$root.$emit('update-total', [this.index, this.total, this.computed_iva])
+        },
+        iva(val) {
             this.$root.$emit('update-total', [this.index, this.total, this.computed_iva])
         }
     },
     created() {
-        if (this.product.dollars == 1) {
-            this.price = this.product.retail_price * Number(this.exchange)
+        if (this.product.quantity > 0) {
+            this.quantity = this.product.quantity
+            this.discount = this.product.discount
+            this.price = this.product.price
+
+            axios.get('/api/products/' + this.product.id).then((response) => {
+                var product = response.data
+                this.description = product.description
+                this.has_discount = product.is_variable == 1
+                this.dollars = product.dollars
+                this.iva = product.iva
+            })
+
+            if (this.dollars) {
+                this.price = this.price * this.exchange
+            }
+
         } else {
-            this.price = this.product.retail_price
+            this.price = this.product.retail_price * (this.product.dollars == 0 ? 1: this.exchange)
+            this.has_discount = this.product.is_variable == 1
+            this.iva = this.product.iva
         }
     }
 };

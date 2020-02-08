@@ -7,20 +7,8 @@ Route::group(['prefix' => 'products', 'as' => 'api.product.'], function () {
     Route::get('mbe/{keyword?}', usesas($ctrl, 'mbe'));
     Route::get('sanson/{keyword?}', usesas($ctrl, 'sanson'));
     Route::get('coffee/{type}/{keyword?}', usesas($ctrl, 'coffee'));
-    // Route::get('{keyword}', usesas($ctrl, 'search'));
+    Route::get('{product}', usesas($ctrl, 'show'));
 });
-
-// Route::group(['prefix' => 'equipment', 'as' => 'api.equipment.'], function () {
-//     $ctrl = 'Api\ProductController';
-//     Route::get('/', usesas($ctrl, 'equipment'));
-//     Route::get('{keyword}', usesas($ctrl, 'seek'));
-// });
-
-// Route::group(['prefix' => 'mbe', 'as' => 'api.mbe.'], function () {
-//     $ctrl = 'Api\ProductController';
-//     Route::get('/', usesas($ctrl, 'mbe'));
-//     Route::get('{keyword}', usesas($ctrl, 'look'));
-// });
 
 Route::group(['prefix' => 'clients', 'as' => 'api.client.'], function () {
 	$ctrl = 'Api\ClientController';
@@ -29,11 +17,15 @@ Route::group(['prefix' => 'clients', 'as' => 'api.client.'], function () {
 
 Route::group(['prefix' => 'providers', 'as' => 'api.provider.'], function () {
     $ctrl = 'Api\ProviderController';
-    // Route::get('register/{company}', usesas($ctrl, 'register'));
     Route::get('{company}/{group}', usesas($ctrl, 'index'));
 });
 
 Route::group(['prefix' => 'sales', 'as' => 'api.sale.'], function () {
 	$ctrl = 'Api\SaleController';
 	Route::get('show/{ingress}', usesas($ctrl, 'show'));
+});
+
+Route::group(['prefix' => 'quotations', 'as' => 'api.quotation.'], function () {
+    $ctrl = 'Api\QuotationController';
+    Route::get('{quotation}/movements', usesas($ctrl, 'movements'));
 });

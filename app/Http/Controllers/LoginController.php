@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
 
 class LoginController extends Controller
 {
+    use ThrottlesLogins;
+
 	public function authenticate(Request $request)
     {
         $credentials = $request->only('username', 'password');
