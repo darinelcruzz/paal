@@ -1,17 +1,15 @@
-@extends('coffee.root')
+@extends('sanson.root')
 
-@push('pageTitle')
-    Clientes | Lista
-@endpush
+@push('pageTitle', 'Clientes')
 
 @push('headerTitle')
-    <a href="{{ route('coffee.client.create') }}" class="btn btn-danger btn-xs"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR</a>
+    <a href="{{ route('sanson.client.create') }}" class="btn btn-info btn-xs"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR</a>
 @endpush
 
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <solid-box title="Clientes" color="danger" button>
+            <solid-box title="Clientes" color="info" button>
                 
                 <data-table example="1">
 
@@ -31,9 +29,9 @@
                             <tr>
                                 <td>{{ $client->id }}</td>
                                 <td>
-                                    <dropdown icon="cogs" color="danger">
-                                        <ddi icon="edit" to="{{ route('coffee.client.edit', $client) }}" text="Editar"></ddi>
-                                        <ddi icon="plus" to="{{ route('coffee.address.create', $client) }}" text="Agregar dirección"></ddi>
+                                    <dropdown icon="cogs" color="info">
+                                        <ddi icon="edit" to="{{ route('sanson.client.edit', $client) }}" text="Editar"></ddi>
+                                        <ddi icon="plus" to="{{ route('sanson.address.create', $client) }}" text="Agregar dirección"></ddi>
                                     </dropdown>
                                 </td>
                                 <td>
@@ -59,7 +57,7 @@
                                         {{ $address->state }}                                   
                                         {{ $address->postcode == null || $address->postcode == ' ' ? '' : "C.P. $address->postcode" }}
                                         &nbsp;
-                                        <a href="{{ route('coffee.address.edit', $address) }}">
+                                        <a href="{{ route('sanson.address.edit', $address) }}">
                                             <i class="fa fa-pencil-alt"></i>
                                         </a>
                                     @endforeach

@@ -8,8 +8,8 @@ use App\Http\Controllers\Controller;
 
 class ClientController extends Controller
 {
-    function index()
+    function index($company)
     {
-        return Client::where('company', '!=', 'mbe')->get(['id', 'name', 'rfc']);
+        return Client::where('company', $company)->get(['id', 'name', 'rfc']);
     }
 }

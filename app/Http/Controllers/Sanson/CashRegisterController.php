@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Coffee;
+namespace App\Http\Controllers\Sanson;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -12,16 +12,16 @@ class CashRegisterController extends Controller
 {
     function index()
     {
-        $checks = Check::where('status', 'cobrado')->where('company', 'coffee')->orderByDesc('charged_at')->get();
+        $checks = Check::where('status', 'cobrado')->where('company', 'sanson')->orderByDesc('charged_at')->get();
 
         $last_folio = $this->getLastFolio();
 
-        return view('coffee.egresses.register.index', compact('checks', 'last_folio'));
+        return view('sanson.egresses.register.index', compact('checks', 'last_folio'));
     }
 
     function create(Check $check)
     {
-        return view('coffee.egresses.register.create', compact('check'));
+        return view('sanson.egresses.register.create', compact('check'));
     }
 
     function store(EgressRequest $request, Check $check)
@@ -39,17 +39,17 @@ class CashRegisterController extends Controller
         $egress = $check->egresses()->create($request->except(['pdf_bill', 'xml', 'expiration']));
 
         $egress->update([
-            'pdf_bill' => saveCoffeeFile($request->file('pdf_bill')),
-            'xml' => saveCoffeeFile($request->file('xml')),
+            'pdf_bill' => saveSansonFile($request->file('pdf_bill')),
+            'xml' => saveSansonFile($request->file('xml')),
             'expiration' => date('Y-m-d', $expiration),
         ]);
 
-        return redirect(route('coffee.egress.register.index'));
+        return redirect(route('sanson.egress.register.index'));
     }
 
     function getLastFolio()
     {
-        $check = Check::all()->last();
+        $check = Check::whereCompany('sanson')->get()->last();
 
         return $check ? $check->folio: 0;
     }

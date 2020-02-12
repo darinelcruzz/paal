@@ -1,4 +1,4 @@
-@extends('coffee.root')
+@extends('sanson.root')
 
 @push('pageTitle')
     Egresos | {{ ucfirst($status) . 's' }}
@@ -9,18 +9,18 @@
         <div class="col-md-12">                
                 <div class="row">
                     <div class="col-md-3">
-                        {!! Form::open(['method' => 'post', 'route' => ['coffee.egress.index', $status]]) !!}
+                        {!! Form::open(['method' => 'post', 'route' => ['sanson.egress.index', $status]]) !!}
                             <div class="input-group input-group-sm">
                                 <input type="month" name="date" class="form-control" value="{{ $date }}">
                                 <span class="input-group-btn">
-                                    <button type="submit" class="btn btn-danger btn-flat"><i class="fa fa-search"></i></button>
+                                    <button type="submit" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
                                 </span>
                             </div>
                         {!! Form::close() !!}
                     </div>
 
                     <div class="col-md-3">
-                        <a href="{{ route('coffee.egress.index', ['pagado', $date]) }}">
+                        <a href="{{ route('sanson.egress.index', ['pagado', $date]) }}">
                             <label class="btn btn-success btn-bg btn-block">
                                 $ {{ number_format($paid->sum('amount')  + $checkssum) }}
                             </label>
@@ -28,7 +28,7 @@
                     </div>
 
                     <div class="col-md-3">
-                        <a href="{{ route('coffee.egress.index', ['pendiente', $date]) }}">
+                        <a href="{{ route('sanson.egress.index', ['pendiente', $date]) }}">
                             <label class="btn btn-warning btn-bg btn-block">
                                 $ {{ number_format($pending->sum('amount'), 2) }}
                             </label>
@@ -36,7 +36,7 @@
                     </div>
 
                     <div class="col-md-3">
-                        <a href="{{ route('coffee.egress.index', ['vencido', $date]) }}">
+                        <a href="{{ route('sanson.egress.index', ['vencido', $date]) }}">
                             <label class="btn btn-danger btn-bg btn-block">
                                 $ {{ number_format($alltime->where('status', 'vencido')->sum('amount') + $alltime->where('status', 'vencido')->sum('iva'), 2) }}
                             </label>
@@ -62,7 +62,7 @@
                                     <td>
                                         <dropdown color="success" icon="cogs">
                                             <ddi to="{{ Storage::url($check->pdf) }}" icon="file-pdf" text="Ver factura" target="_blank"></ddi>
-                                            <ddi to="{{ route('coffee.check.show', $check) }}" icon="eye" text="Detalles"></ddi>
+                                            <ddi to="{{ route('sanson.check.show', $check) }}" icon="eye" text="Detalles"></ddi>
                                         </dropdown>
                                     </td>
                                     <td></td>
@@ -87,7 +87,7 @@
                                     </td>
                                     <td>{{ $egress->folio }}</td>
                                     <td>
-                                        @include('coffee.egresses._dropdown', ['color' => 'success'])
+                                        @include('sanson.egresses._dropdown', ['color' => 'success'])
                                     </td>
                                     <td>
                                         @if($egress->type)
@@ -128,7 +128,7 @@
                                             {{ $egress->folio }}
                                         </td>
                                         <td>
-                                            @include('coffee.egresses._dropdown', ['color' => 'warning'])
+                                            @include('sanson.egresses._dropdown', ['color' => 'warning'])
                                         </td>
                                         <td>
                                             @if($egress->type)
@@ -170,7 +170,7 @@
                                             {{ $egress->folio }}
                                         </td>
                                         <td>
-                                            @include('coffee.egresses._dropdown', ['color' => 'danger'])
+                                            @include('sanson.egresses._dropdown', ['color' => 'danger'])
                                         </td>
                                         <td>
                                             {{ $egress->type }}

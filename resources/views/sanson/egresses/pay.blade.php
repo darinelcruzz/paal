@@ -1,14 +1,12 @@
-@extends('coffee.root')
+@extends('sanson.root')
 
-@push('pageTitle')
-    Egresos | Pagar
-@endpush
+@push('pageTitle', 'Egresos | Pagar')
 
 @section('content')
     <div class="row">
         <div class="col-md-6">
-            <solid-box title="Detalles del pago" color="danger" button>
-                {!! Form::open(['method' => 'POST', 'route' => ['coffee.egress.charge', $egress]]) !!}
+            <solid-box title="Detalles del pago" color="info" button>
+                {!! Form::open(['method' => 'POST', 'route' => ['sanson.egress.charge', $egress]]) !!}
 
                     @if ($egress->method)
                         <div class="row">
@@ -54,7 +52,7 @@
 
                     <hr>
 
-                    {!! Form::submit('P A G A R', ['class' => 'btn btn-danger pull-right btn-block']) !!}
+                    {!! Form::submit('P A G A R', ['class' => 'btn btn-info pull-right btn-block']) !!}
                     
                 {!! Form::close() !!}
             </solid-box>

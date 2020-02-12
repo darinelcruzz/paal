@@ -22,7 +22,7 @@
                       <tab-content title="Cliente" icon="fa fa-user">
                         <div class="row">
                             <div class="col-md-8 col-md-offset-2">
-                                <client-select></client-select>
+                                <client-select company="sanson"></client-select>
                             </div>
                             
                         </div>

@@ -1,15 +1,13 @@
-@extends('coffee.root')
+@extends('sanson.root')
 
-@push('pageTitle')
-    Clientes | Agregar
-@endpush
+@push('pageTitle', 'Clientes | Agregar')
 
 @section('content')
     <div class="row">
         <div class="col-md-6">
-            <solid-box title="Agregar cliente" color="danger" button>
+            <solid-box title="Agregar cliente" color="info" button>
 
-                {!! Form::open(['method' => 'POST', 'route' => 'coffee.client.store']) !!}
+                {!! Form::open(['method' => 'POST', 'route' => 'sanson.client.store']) !!}
 
                     {!! Field::text('name', ['tpl' => 'withicon'], ['icon' => 'user']) !!}
                     
@@ -39,7 +37,7 @@
 
                     <hr>
 
-                    <button type="submit" class="btn btn-danger pull-right">AGREGAR</button>
+                    <button type="submit" class="btn btn-info pull-right">AGREGAR</button>
 
                 {!! Form::close() !!}
 

@@ -1,4 +1,4 @@
-@extends('coffee.root')
+@extends('sanson.root')
 
 @push('pageTitle')
     Egresos | Agregar
@@ -7,13 +7,13 @@
 @section('content')
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
-            <solid-box title="Agregar egreso" color="danger" button>
-                {!! Form::open(['method' => 'POST', 'route' => 'coffee.egress.general.store', 'enctype' => 'multipart/form-data']) !!}
+            <solid-box title="Agregar egreso" color="info" button>
+                {!! Form::open(['method' => 'POST', 'route' => 'sanson.egress.general.store', 'enctype' => 'multipart/form-data']) !!}
 
                     <div class="row">
                         <div class="col-md-6">
                             <label><b>Proveedor</b></label><br>
-                            <v-select label="name" :options="providers.coffee.general" v-model="provider" placeholder="Seleccione un proveedor...">
+                            <v-select label="name" :options="providers.sanson.general" v-model="provider" placeholder="Seleccione un proveedor...">
                             </v-select>
                             <input type="hidden" name="provider_id" :value="provider.id">
                         </div>
@@ -82,8 +82,8 @@
                     </div>
 
                     <hr>
-                    <input type="hidden" name="company" value="coffee">
-                    <button type="submit" class="btn btn-danger pull-right" onclick="submitForm(this);">Agregar</button>
+                    <input type="hidden" name="company" value="sanson">
+                    <button type="submit" class="btn btn-info pull-right" onclick="submitForm(this);">Agregar</button>
 
                 {!! Form::close() !!}
             </solid-box>

@@ -114,6 +114,10 @@ const app = new Vue({
                 general: [],
                 register: [],
             },
+            sanson: {
+                general: [],
+                register: [],
+            },
             mbe: {
                general: [],
                register: [], 
@@ -162,12 +166,20 @@ const app = new Vue({
             t.providers.coffee.general = data;
         });
 
+        axios.get('/api/providers/sanson/of').then(({data}) => {
+            t.providers.sanson.general = data;
+        });
+
         axios.get('/api/providers/mbe/cc').then(({data}) => {
             t.providers.mbe.register = data;
         });
 
         axios.get('/api/providers/coffee/cc').then(({data}) => {
             t.providers.coffee.register = data;
+        });
+
+        axios.get('/api/providers/sanson/cc').then(({data}) => {
+            t.providers.sanson.register = data;
         });
     }
 });

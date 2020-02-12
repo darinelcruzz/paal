@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Coffee;
+namespace App\Http\Controllers\Sanson;
 
 use App\{Shipping, Address};
 use Illuminate\Http\Request;
@@ -18,7 +18,7 @@ class ShippingController extends Controller
             ->orderByDesc('id')
             ->get();
 
-        return view('coffee.shippings.index', compact('shippings', 'date', 'status'));
+        return view('sanson.shippings.index', compact('shippings', 'date', 'status'));
     }
 
     function monthly(Request $request)
@@ -29,7 +29,7 @@ class ShippingController extends Controller
             ->whereMonth('shipped_at', substr($date, 5))
             ->get();
 
-        return view('coffee.shippings.monthly', compact('shippings', 'date'));
+        return view('sanson.shippings.monthly', compact('shippings', 'date'));
     }
 
     function addInfo(Shipping $shipping)
@@ -40,17 +40,17 @@ class ShippingController extends Controller
             ->pluck('address', 'id')
             ->toArray();
 
-        return view('coffee.shippings.addInfo', compact('addresses', 'shipping'));
+        return view('sanson.shippings.addInfo', compact('addresses', 'shipping'));
     }
 
     function print(Shipping $shipping)
     {
-        return view('coffee.shippings.print', compact('shipping'));
+        return view('sanson.shippings.print', compact('shipping'));
     }
 
     function edit(Shipping $shipping)
     {
-        return view('coffee.shippings.edit', compact('shipping'));
+        return view('sanson.shippings.edit', compact('shipping'));
     }
 
     function update(Request $request, Shipping $shipping)
@@ -67,6 +67,6 @@ class ShippingController extends Controller
         
         $shipping->update($attributes);
 
-        return redirect(route('coffee.shipping.index'));
+        return redirect(route('sanson.shipping.index'));
     }
 }

@@ -1,14 +1,12 @@
-@extends('coffee.root')
+@extends('sanson.root')
 
-@push('pageTitle')
-    Cheques | Detalles
-@endpush
+@push('pageTitle', 'Cheques | Detalles')
 
 @section('content')
     <div class="row">
         <div class="col-md-12">
 
-            <solid-box title="Facturas del cheque {{ $check->folio }}" color="danger" button>
+            <solid-box title="Facturas del cheque {{ $check->folio }}" color="info" button>
 
 
 

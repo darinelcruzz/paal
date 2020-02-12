@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Coffee;
+namespace App\Http\Controllers\Sanson;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -13,30 +13,30 @@ class EgressController extends Controller
     {
         $date = $thisDate == null ? dateFromRequest('Y-m'): $thisDate;
 
-        $paid = Egress::from($date, 'payment_date')
+        $paid = Egress::from($date, 'payment_date', 'sanson')
             ->where('status', 'pagado')
             ->where('check_id', null)
             ->orderByDesc('payment_date')
             ->get();
 
-        $pending = Egress::company('coffee')->where('status', 'pendiente')->where('check_id', null)->get();
+        $pending = Egress::company('sanson')->where('status', 'pendiente')->where('check_id', null)->get();
         
-        $expired = Egress::company('coffee')->where('status', 'vencido')->get();
+        $expired = Egress::company('sanson')->where('status', 'vencido')->get();
 
-        $checks = Check::from($date, 'charged_at')->get();
+        $checks = Check::from($date, 'charged_at', 'sanson')->get();
 
         $checkssum = $checks->sum(function ($product) {
             return $product->total;
         });
 
-        $alltime = Egress::where('company', 'coffee')->get();
+        $alltime = Egress::where('company', 'sanson')->get();
 
-        return view('coffee.egresses.index', compact('paid', 'pending', 'expired', 'date', 'alltime', 'checks', 'checkssum', 'status'));
+        return view('sanson.egresses.index', compact('paid', 'pending', 'expired', 'date', 'alltime', 'checks', 'checkssum', 'status'));
     }
 
     function pay(Egress $egress)
     {
-        return view('coffee.egresses.pay', compact('egress'));
+        return view('sanson.egresses.pay', compact('egress'));
     }
 
 
@@ -57,32 +57,32 @@ class EgressController extends Controller
             'status' => $request->single_payment == 0 ? 'pagado': 'pendiente',
         ]);
 
-        return redirect(route('coffee.egress.index', $egress->status));
+        return redirect(route('sanson.egress.index', $egress->status));
     }
 
     function edit(Egress $egress)
     {
-        return view('coffee.egresses.edit', compact('egress'));
+        return view('sanson.egresses.edit', compact('egress'));
     }
 
     function update(Request $request, Egress $egress)
     {
         $egress->update($request->validate(['folio' => 'required']));
 
-        return redirect(route('coffee.egress.index', $egress->status));
+        return redirect(route('sanson.egress.index', $egress->status));
     }
     
     function replace(Egress $egress)
     {
-        return view('coffee.egresses.replace', compact('egress'));
+        return view('sanson.egresses.replace', compact('egress'));
     }
 
     function upload(Request $request, Egress $egress)
     {
         $request->validate(['pdf_bill' => 'required']);
 
-        $egress->update(['pdf_bill' => saveCoffeeFile($request->file("pdf_bill"))]);
+        $egress->update(['pdf_bill' => saveSansonFile($request->file("pdf_bill"))]);
 
-        return redirect(route('coffee.egress.index'));
+        return redirect(route('sanson.egress.index'));
     }
 }

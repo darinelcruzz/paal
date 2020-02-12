@@ -1,14 +1,12 @@
-@extends('coffee.root')
+@extends('sanson.root')
 
-@push('pageTitle')
-    Egresos | Reposición
-@endpush
+@push('pageTitle', 'Egresos | Reposición')
 
 @section('content')
     <div class="row">
         <div class="col-md-8">
-            <solid-box title="AGREGAR {{ $provider->name }}" color="danger" button>
-                {!! Form::open(['method' => 'POST', 'route' => 'coffee.egress.return.store', 'enctype' => 'multipart/form-data']) !!}
+            <solid-box title="AGREGAR {{ $provider->name }}" color="info" button>
+                {!! Form::open(['method' => 'POST', 'route' => 'sanson.egress.return.store', 'enctype' => 'multipart/form-data']) !!}
 
                     <div class="row">
                         <div class="col-md-6">
@@ -53,7 +51,7 @@
                     <input type="hidden" name="company" value="coffee">
                     <input type="hidden" name="expiration" value="0">
                     <input type="hidden" name="provider_id" value="{{ $provider->id }}">
-                    <button type="submit" class="btn btn-danger pull-right" onclick="submitForm(this);">Agregar</button>
+                    <button type="submit" class="btn btn-info pull-right" onclick="submitForm(this);">Agregar</button>
 
                 {!! Form::close() !!}
             </solid-box>

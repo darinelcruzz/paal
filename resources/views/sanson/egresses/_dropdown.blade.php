@@ -1,6 +1,6 @@
 <dropdown color="{{ $color }}" icon="cogs">
 
-	<ddi icon="edit" to="{{ route('coffee.egress.edit', $egress) }}" text="Editar folio"></ddi>
+	<ddi icon="edit" to="{{ route('sanson.egress.edit', $egress) }}" text="Editar folio"></ddi>
 
 	@if($egress->pdf_bill)
         
@@ -8,7 +8,7 @@
 
     @else
 
-    	<ddi icon="upload" to="{{ route('coffee.egress.replace', $egress) }}" text="Subir factura"></ddi>
+    	<ddi icon="upload" to="{{ route('sanson.egress.replace', $egress) }}" text="Subir factura"></ddi>
 
     @endif
 
@@ -17,7 +17,7 @@
 	@endif   
 
     @if ($egress->status != 'pagado')
-        <ddi icon="usd" to="{{ route('coffee.egress.pay', $egress) }}" text="Pagar"></ddi>
+        <ddi icon="usd" to="{{ route('sanson.egress.pay', $egress) }}" text="Pagar"></ddi>
     @endif
 
     @if($egress->pdf_payment)

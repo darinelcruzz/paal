@@ -1,8 +1,6 @@
 @extends('sanson.root')
 
-@push('pageTitle')
-    Ventas | Agregar
-@endpush
+@push('pageTitle', 'Ventas | Agregar')
 
 @section('content')
     <div class="row">
@@ -13,7 +11,7 @@
                     <form-wizard
                         title=""
                         subtitle=""
-                        color="{{ $type == 'insumos' ? '#dd4b39': '#f39c12' }}"
+                        color="{{ $type == 'insumos' ? '#00c0ef': '#3c8dbc' }}"
                         @on-complete="submit"
                         back-button-text="Anterior"
                         next-button-text="Siguiente"
@@ -62,7 +60,11 @@
                       </tab-content>
 
                       <tab-content title="Productos" icon="fa fa-tag">
-                          <shopping-list color="{{ $type == 'insumos' ? 'info': 'primary' }}" :exchange="{{ $exchange }}" :promo="{{ $promo }}"></shopping-list>
+                          <shopping-cart 
+                            color="{{ $type == 'equipo' ? 'info': 'primary' }}" 
+                            :exchange="{{ $exchange }}" 
+                            :promo="{{ $promo }}">                              
+                          </shopping-cart>
                        </tab-content>
 
                        <tab-content title="Pago" icon="fa fa-dollar">
@@ -71,11 +73,11 @@
 
                     </form-wizard>
 
-                    <input type="hidden" name="method" :value="is_retained == 0 ? 'anticipo': 'contado'">
-                    <input type="hidden" name="type" value="{{ $type }}">
-                    <input type="hidden" name="bought_at" value="{{ date('Y-m-d') }}">
                     <input type="hidden" name="company" value="sanson">
+                    <input type="hidden" name="type" value="{{ $type }}">
                     <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+                    <input type="hidden" name="method" :value="is_retained == 0 ? 'anticipo': 'contado'">
+                    <input type="hidden" name="bought_at" value="{{ date('Y-m-d') }}">
                     <input type="hidden" name="folio" value="{{ $last_folio }}">
 
                 {!! Form::close() !!}
@@ -84,7 +86,7 @@
 
         <div class="col-md-6">
             <solid-box title="{{ $type == 'insumos' ? 'Insumos': 'Equipos' }}" color="{{ $type == 'insumos' ? 'info': 'primary' }}">
-                <p-table color="{{ $type == 'insumos' ? 'info': 'primary' }}" :exchange="{{ $exchange }}" :promo="{{ $promo }}" type="{{ $type }}"></p-table>
+                <p-table color="{{ $type == 'insumos' ? 'info': 'primary' }}" :exchange="{{ $exchange }}" :promo="{{ $promo }}" type="sanson"></p-table>
             </solid-box>
         </div>
     </div>

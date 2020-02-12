@@ -1,26 +1,24 @@
-@extends('coffee.root')
+@extends('sanson.root')
 
-@push('pageTitle')
-    Tareas | Lista
-@endpush
+@push('pageTitle', 'Tareas | Lista')
 
 @push('headerTitle')
     <div class="row">
         <div class="col-md-2">
             @if (auth()->user()->level < 4)
-                <a href="{{ route('coffee.task.create') }}" class="btn btn-danger btn-sm"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR</a>
+                <a href="{{ route('sanson.task.create') }}" class="btn btn-info btn-sm"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR</a>
             @endif
         </div>
         <div class="col-md-7" style="text-align: center;">
-            @include('coffee.tasks._indicators')
+            @include('sanson.tasks._indicators')
         </div>
         <div class="col-md-3">
             <div class="pull-right">
-                {!! Form::open(['method' => 'post', 'route' => 'coffee.task.index']) !!}
+                {!! Form::open(['method' => 'post', 'route' => 'sanson.task.index']) !!}
                     <div class="input-group input-group-sm">
                         <input type="month" name="date" class="form-control" value="{{ $date }}">
                         <span class="input-group-btn">
-                            <button type="submit" class="btn btn-danger btn-flat"><i class="fa fa-search"></i></button>
+                            <button type="submit" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
                         </span>
                     </div>
                 {!! Form::close() !!}
@@ -61,16 +59,16 @@
                                                         <i class="fa fa-times"></i> Rechazar
                                                     </a>
                                                 </li>
-                                                <ddi icon="check" text="Aceptar" to="{{ route('mbe.task.change', [$task, 'aceptada']) }}"></ddi>
+                                                <ddi icon="check" text="Aceptar" to="{{ route('sanson.task.change', [$task, 'aceptada']) }}"></ddi>
                                             @endif
                                         </dropdown>
 
-                                        <modal title="Razones" id="rejectTask{{ $task->id }}" color="#dd4b39">
-                                            @include('mbe.tasks._add_reasons')
+                                        <modal title="Razones" id="rejectTask{{ $task->id }}" color="#00c0ef">
+                                            @include('sanson.tasks._add_reasons')
                                         </modal>
 
-                                        <modal title="Tarea terminada" id="completeTask{{ $task->id }}" color="#dd4b39">
-                                            @include('mbe.tasks._add_observations')
+                                        <modal title="Tarea terminada" id="completeTask{{ $task->id }}" color="#00c0ef">
+                                            @include('sanson.tasks._add_observations')
                                         </modal>
                                     </td>
                                     <td>{{ $task->description }}</td>
@@ -103,7 +101,7 @@
 
                     <div class="row">
                         <div class="col-md-12">
-                            @include('coffee.tasks._indicators', ['buttonSize' => 'btn-xs'])
+                            @include('sanson.tasks._indicators', ['buttonSize' => 'btn-xs'])
                         </div>
                     </div>
 
@@ -135,16 +133,16 @@
                                                                 <i class="fa fa-times"></i> Rechazar
                                                             </a>
                                                         </li>
-                                                        <ddi icon="check" text="Aceptar" to="{{ route('coffee.task.change', [$task, 'aceptada']) }}"></ddi>
+                                                        <ddi icon="check" text="Aceptar" to="{{ route('sanson.task.change', [$task, 'aceptada']) }}"></ddi>
                                                     @endif
                                                 </dropdown>
 
-                                                <modal title="Razones" id="rejectTask{{ $task->id }}" color="#dd4b39">
-                                                    @include('coffee.tasks._add_reasons')
+                                                <modal title="Razones" id="rejectTask{{ $task->id }}" color="#00c0ef">
+                                                    @include('sanson.tasks._add_reasons')
                                                 </modal>
 
-                                                <modal title="Tarea terminada" id="completeTask{{ $task->id }}" color="#dd4b39">
-                                                    @include('coffee.tasks._add_observations')
+                                                <modal title="Tarea terminada" id="completeTask{{ $task->id }}" color="#00c0ef">
+                                                    @include('sanson.tasks._add_observations')
                                                 </modal>
                                             </td>
                                             <td>{{ $task->description }}</td>

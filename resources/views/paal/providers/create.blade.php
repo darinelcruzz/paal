@@ -44,7 +44,7 @@
                         </div>
                         <div class="col-md-6">
                             {!! Field::select('company',
-                            	['coffee' => 'Coffee Depot', 'mbe' => 'Mailboxes E', 'both' => 'Ambas'], null,
+                            	['coffee' => 'Coffee Depot', 'mbe' => 'Mailboxes E', 'sanson' => 'San-Son', 'both' => 'Todas'], null,
                             	['empty' => 'Seleccione empresa', 'tpl' => 'withicon'], ['icon' => 'trademark'])
                             !!}
                         </div>

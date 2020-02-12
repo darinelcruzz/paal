@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Coffee;
+namespace App\Http\Controllers\Sanson;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -12,13 +12,12 @@ class GeneralEgressController extends Controller
 {
     function create()
     {
-        $providers = Provider::general()->pluck('provider', 'id')->toArray();
-
-        return view('coffee.egresses.general.create', compact('providers'));
+        return view('sanson.egresses.general.create');
     }
 
     function store(EgressRequest $request)
     {
+        // dd($request->all());
         $provider = Provider::find($request->provider_id);
 
         $is_allowed = $provider->checkAmountAndInvoices();
@@ -32,12 +31,12 @@ class GeneralEgressController extends Controller
         $egress = Egress::create($request->except(['pdf_bill', 'xml', 'pdf_complement', 'complement', 'expiration']));
 
         $egress->update([
-            'pdf_bill' => saveCoffeeFile($request->file("pdf_bill")),
-            'pdf_complement' => saveCoffeeFile($request->file("pdf_complement"), 'complements'),
-            'xml' => saveCoffeeFile($request->file("xml")),
+            'pdf_bill' => saveSansonFile($request->file("pdf_bill")),
+            'pdf_complement' => saveSansonFile($request->file("pdf_complement"), 'complements'),
+            'xml' => saveSansonFile($request->file("xml")),
             'expiration' => date('Y-m-d', $expiration),
         ]);
 
-        return redirect(route('coffee.egress.index', 'pagado'));
+        return redirect(route('sanson.egress.index', 'pagado'));
     }
 }

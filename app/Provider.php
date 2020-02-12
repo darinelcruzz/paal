@@ -15,7 +15,7 @@ class Provider extends Model
 
     function getColorAttribute()
     {
-        $colors = ['coffee' => '#f56954', 'mbe' => '#00a65a', 'both' => '#3c8dbc'];
+        $colors = ['coffee' => '#f56954', 'mbe' => '#00a65a', 'both' => '#3c8dbc', 'sanson' => '#00c0ef'];
 
         return $colors[$this->company];
     }

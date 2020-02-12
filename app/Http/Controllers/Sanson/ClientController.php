@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Coffee;
+namespace App\Http\Controllers\Sanson;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -11,13 +11,13 @@ class ClientController extends Controller
 {
     function index()
     {
-        $clients = Client::where('company', 'coffee')->get();
-        return view('coffee.clients.index', compact('clients'));
+        $clients = Client::where('company', 'sanson')->get();
+        return view('sanson.clients.index', compact('clients'));
     }
 
     function create()
     {
-        return view('coffee.clients.create');
+        return view('sanson.clients.create');
     }
 
     function store(Request $request)
@@ -27,14 +27,14 @@ class ClientController extends Controller
             'rfc' => 'required',
         ]);
 
-        Client::create($request->all() + ['company' => 'coffee']);
+        Client::create($request->all() + ['company' => 'sanson']);
 
-        return redirect(route('coffee.client.index'));
+        return redirect(route('sanson.client.index'));
     }
 
     function edit(Client $client)
     {
-        return view('coffee.clients.edit', compact('client'));
+        return view('sanson.clients.edit', compact('client'));
     }
 
     function update(Request $request, Client $client)
@@ -46,6 +46,6 @@ class ClientController extends Controller
 
         $client->update($request->all());
 
-        return redirect(route('coffee.client.index'));
+        return redirect(route('sanson.client.index'));
     }
 }

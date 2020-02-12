@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Coffee;
+namespace App\Http\Controllers\Sanson;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -14,43 +14,44 @@ class CheckController extends Controller
         $request->validate([
             'folio' => 'required',
             'pdf' => 'required',
+            'company' => 'required',
             'charged_at' => 'required',
         ]);
 
         $check = Check::create($request->except('pdf'));
 
         $path_to_pdf = Storage::putFileAs(
-            "public/coffee/checks", $request->file("pdf"), $check->charged_at . "_" . $check->id . ".pdf"
+            "public/sanson/checks", $request->file("pdf"), $check->charged_at . "_" . $check->id . ".pdf"
         );
 
         $check->update(['pdf' => $path_to_pdf]);
 
-        return redirect(route('coffee.egress.register.index'));
+        return redirect(route('sanson.egress.register.index'));
     }
 
     function edit(Check $check)
     {
-        return view('coffee.checks.edit', compact('check'));
+        return view('sanson.checks.edit', compact('check'));
     }
 
     function update(Request $request, Check $check)
     {
-        $request->validate([
+        $attributes = $request->validate([
             'folio' => 'required',
             'charged_at' => 'required',
         ]);
 
-        $check->update([
-            'folio' => $request->folio,
-            'charged_at' => $request->charged_at,
-            'pdf' => saveCoffeeFile($request->file, 'checks'),
-        ]);
+        $check->update($attributes);
 
-        return redirect(route('coffee.egress.register.index'));
+        if (isset($request->file)) {
+            $check->update(['pdf' => saveSansonFile($request->file, 'checks')]);
+        }
+
+        return redirect(route('sanson.egress.register.index'));
     }
 
     function show(Check $check)
     {
-        return view('coffee.checks.show', compact('check'));
+        return view('sanson.checks.show', compact('check'));
     }
 }

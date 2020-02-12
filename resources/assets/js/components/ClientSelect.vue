@@ -37,6 +37,12 @@
 
 <script>
 	export default {
+    props: {
+      company: {
+        type: String,
+        default: 'coffee'
+      }
+    },
 		data() {
 			return {
 				client: '',
@@ -48,7 +54,7 @@
 				const t = this;
 				t.client_id = client.id
 
-		        axios.get('/api/clients').then(({data}) => {
+		        axios.get('/api/clients/' + this.company).then(({data}) => {
 		            t.clients = data;
 		        });
 			}
@@ -56,7 +62,7 @@
 		created() {
 			const t = this;
 
-	        axios.get('/api/clients').then(({data}) => {
+	        axios.get('/api/clients/' + this.company).then(({data}) => {
 	            t.clients = data;
 	        });
 		}

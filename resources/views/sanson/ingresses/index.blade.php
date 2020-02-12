@@ -2,10 +2,6 @@
 
 @push('pageTitle', 'Ventas | Historial')
 
-@push('headerTitle')
-    
-@endpush
-
 @section('content')
     <div class="row">
         <div class="col-md-12">

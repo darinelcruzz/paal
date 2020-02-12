@@ -54,6 +54,15 @@ function saveMbeFile($file, $folder = 'bills')
     return null;
 }
 
+function saveSansonFile($file, $folder = 'bills')
+{
+    if ($file) {
+        return Storage::putFileAs("public/sanson/$folder", $file, str_random(15) . '.' . $file->getClientOriginalExtension());
+    }
+
+    return null;
+}
+
 function dateFromRequest($format = 'Y-m-d')
 {
     $date = request('date') !== null ? request('date'): date($format);

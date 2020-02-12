@@ -18,7 +18,7 @@ class IngressController extends Controller
             ->whereMonth('created_at', substr($date, 5, 7))
             ->whereYear('created_at', substr($date, 0, 4))
             ->orderByDesc('id')
-            ->get();     
+            ->get();
 
         return view('sanson.ingresses.index', compact('ingresses', 'date'));
     }
@@ -110,35 +110,5 @@ class IngressController extends Controller
         }
 
         return back();
-    }
-
-    protected function getSerializedItems(Request $request)
-    {
-        $products = $special = [];
-
-        for ($i=0; $i < count($request->items); $i++) {
-            if ($request->is_special[$i] == 0) {
-                array_push($products, [
-                    'i' => $request->items[$i],
-                    'q' => $request->quantities[$i],
-                    'p' => $request->prices[$i],
-                    'd' => $request->discounts[$i],
-                    't' => $request->subtotals[$i],
-                ]);
-            } else {
-                array_push($special, [
-                    'i' => $request->items[$i],
-                    'q' => $request->quantities[$i],
-                    'p' => $request->prices[$i],
-                    'd' => $request->discounts[$i],
-                    't' => $request->subtotals[$i],
-                ]);
-            }
-        }
-
-        return [
-            serialize($products),
-            serialize($special)
-        ];
     }
 }

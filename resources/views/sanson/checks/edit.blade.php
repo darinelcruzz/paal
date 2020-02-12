@@ -1,4 +1,4 @@
-@extends('coffee.root')
+@extends('sanson.root')
 
 @push('pageTitle')
     Cheques | Editar
@@ -10,9 +10,9 @@
 
         <div class="col-md-4">
 
-            <solid-box title="Editar cheque" color="danger" button>
+            <solid-box title="Editar cheque" color="info" button>
 
-                {!! Form::open(['method' => 'POST', 'route' => ['coffee.check.update', $check], 'enctype' => 'multipart/form-data']) !!}
+                {!! Form::open(['method' => 'POST', 'route' => ['sanson.check.update', $check], 'enctype' => 'multipart/form-data']) !!}
 
                     {!! Field::number('folio', $check->folio, 
                         ['tpl' => 'withicon'], 
@@ -28,7 +28,7 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-danger pull-right" onclick="submitForm(this);">Agregar</button>
+                    <button type="submit" class="btn btn-info pull-right" onclick="submitForm(this);">Guardar cambios</button>
 
                 {!! Form::close() !!}
 

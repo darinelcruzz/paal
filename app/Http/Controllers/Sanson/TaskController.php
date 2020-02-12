@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Coffee;
+namespace App\Http\Controllers\Sanson;
 
 use Alert;
 use App\{Task, User};
@@ -18,23 +18,31 @@ class TaskController extends Controller
     {
         $date = $thisDate == null ? dateFromRequest('Y-m'): $thisDate;
 
-        $mytasks = Task::where('company', 'coffee')
+        $mytasks = Task::where('company', 'sanson')
             ->where('assigned_to', auth()->user()->id)
             ->whereMonth('assigned_at', substr($date, 5, 7))
             ->whereYear('assigned_at', substr($date, 0, 4))
             ->with('user:id,name')
             ->get();
 
-        $tasks = Task::where('company', 'coffee')
-            ->where('assigned_by', auth()->user()->id)
-            ->whereMonth('assigned_at', substr($date, 5, 7))
-            ->whereYear('assigned_at', substr($date, 0, 4))
-            ->with('user:id,name')
-            ->get();
+        if (auth()->user()->company == 'owner') {
+            $tasks = Task::where('company', 'sanson')
+                ->whereMonth('assigned_at', substr($date, 5, 7))
+                ->whereYear('assigned_at', substr($date, 0, 4))
+                ->with('user:id,name')
+                ->get();
+        } else {
+            $tasks = Task::where('company', 'sanson')
+                ->where('assigned_by', auth()->user()->id)
+                ->whereMonth('assigned_at', substr($date, 5, 7))
+                ->whereYear('assigned_at', substr($date, 0, 4))
+                ->with('user:id,name')
+                ->get();
+        }
 
         $users = $tasks->groupBy('assigned_to');
 
-        return view('coffee.tasks.index', compact('tasks', 'mytasks', 'users', 'date'));
+        return view('sanson.tasks.index', compact('tasks', 'mytasks', 'users', 'date'));
     }
 
     function create()
@@ -44,7 +52,7 @@ class TaskController extends Controller
             ->pluck('name', 'id')
             ->toArray();
 
-        return view('coffee.tasks.create', compact('users'));
+        return view('sanson.tasks.create', compact('users'));
     }
 
     function store(Request $request)
@@ -53,6 +61,7 @@ class TaskController extends Controller
             'description' => 'required',
             'assigned_to' => 'required',
             'assigned_at' => 'required',
+            'company' => 'required',
         ]);
 
         $task = auth()->user()->tasks()->create($validated + ['status' => 'pendiente']);
@@ -61,12 +70,12 @@ class TaskController extends Controller
             $task->notify(new TaskCreatedAndAssigned($task->user));
         }
 
-        return redirect(route('coffee.task.index'));
+        return redirect(route('sanson.task.index'));
     }
 
     function edit(Task $task)
     {
-        return view('coffee.tasks.edit', compact('task'));
+        return view('sanson.tasks.edit', compact('task'));
     }
 
     function update(Request $request, Task $task, $thisDate = null)
@@ -100,7 +109,7 @@ class TaskController extends Controller
            }
         }
 
-        return redirect(route('coffee.task.index', $date));
+        return redirect(route('sanson.task.index', $date));
     }
 
     function change(Task $task, $status, $thisDate = null)
@@ -113,6 +122,6 @@ class TaskController extends Controller
             $task->notify(new TaskAccepted);
         }
 
-        return redirect(route('coffee.task.index', $date));
+        return redirect(route('sanson.task.index', $date));
     }
 }

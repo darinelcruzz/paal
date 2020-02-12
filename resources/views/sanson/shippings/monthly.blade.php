@@ -1,4 +1,4 @@
-@extends('coffee.root')
+@extends('sanson.root')
 
 @push('pageTitle')
     Envíos mensuales
@@ -10,14 +10,14 @@
 
         <div class="col-md-9">
 
-            {!! Form::open(['method' => 'post', 'route' => 'coffee.shipping.monthly']) !!}
+            {!! Form::open(['method' => 'post', 'route' => 'sanson.shipping.monthly']) !!}
                 
                 <div class="row">
                     <div class="col-md-3">
                         <div class="input-group input-group-sm">
                             <input type="month" name="date" class="form-control" value="{{ $date }}">
                             <span class="input-group-btn">
-                                <button type="submit" class="btn btn-danger btn-flat"><i class="fa fa-search"></i></button>
+                                <button type="submit" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
                             </span>
                         </div>
                     </div>

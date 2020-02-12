@@ -1,19 +1,17 @@
-@extends('coffee.root')
+@extends('sanson.root')
 
-@push('pageTitle')
-    Egresos | Caja Chica
-@endpush
+@push('pageTitle', 'Egresos | Caja Chica')
 
 @section('content')
     <div class="row">
         <div class="col-md-6">
-            <solid-box title="Agregar factura al cheque {{ $check->folio }}" color="danger" button>
-                {!! Form::open(['method' => 'POST', 'route' => ['coffee.egress.register.store', $check], 'enctype' => 'multipart/form-data']) !!}
+            <solid-box title="Agregar factura al cheque {{ $check->folio }}" color="info" button>
+                {!! Form::open(['method' => 'POST', 'route' => ['sanson.egress.register.store', $check], 'enctype' => 'multipart/form-data']) !!}
 
                     <div class="row">
                         <div class="col-md-12">
                             <label><b>Proveedor</b></label><br>
-                            <v-select label="name" :options="providers.coffee.register" v-model="provider" placeholder="Seleccione un proveedor...">
+                            <v-select label="name" :options="providers.sanson.register" v-model="provider" placeholder="Seleccione un proveedor...">
                             </v-select>
                             <input type="hidden" name="provider_id" :value="provider.id">
                         </div>
@@ -57,10 +55,10 @@
                     </div>
 
                     <hr>
-                    <input type="hidden" name="company" value="coffee">
+                    <input type="hidden" name="company" value="sanson">
                     <input type="hidden" name="expiration" value="0">
 
-                    <button type="submit" class="btn btn-danger pull-right" onclick="submitForm(this);">Agregar</button>
+                    <button type="submit" class="btn btn-info pull-right" onclick="submitForm(this);">Agregar</button>
 
                 {!! Form::close() !!}
             </solid-box>

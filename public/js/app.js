@@ -14473,6 +14473,10 @@ var app = new Vue({
             general: [],
             register: []
         },
+        sanson: {
+            general: [],
+            register: []
+        },
         mbe: {
             general: [],
             register: []
@@ -14524,16 +14528,28 @@ var app = new Vue({
             t.providers.coffee.general = data;
         });
 
-        axios.get('/api/providers/mbe/cc').then(function (_ref4) {
+        axios.get('/api/providers/sanson/of').then(function (_ref4) {
             var data = _ref4.data;
+
+            t.providers.sanson.general = data;
+        });
+
+        axios.get('/api/providers/mbe/cc').then(function (_ref5) {
+            var data = _ref5.data;
 
             t.providers.mbe.register = data;
         });
 
-        axios.get('/api/providers/coffee/cc').then(function (_ref5) {
-            var data = _ref5.data;
+        axios.get('/api/providers/coffee/cc').then(function (_ref6) {
+            var data = _ref6.data;
 
             t.providers.coffee.register = data;
+        });
+
+        axios.get('/api/providers/sanson/cc').then(function (_ref7) {
+            var data = _ref7.data;
+
+            t.providers.sanson.register = data;
         });
     }
 });
@@ -55075,6 +55091,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+	props: {
+		company: {
+			type: String,
+			default: 'coffee'
+		}
+	},
 	data: function data() {
 		return {
 			client: '',
@@ -55087,7 +55109,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			var t = this;
 			t.client_id = client.id;
 
-			axios.get('/api/clients').then(function (_ref) {
+			axios.get('/api/clients/' + this.company).then(function (_ref) {
 				var data = _ref.data;
 
 				t.clients = data;
@@ -55097,7 +55119,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	created: function created() {
 		var t = this;
 
-		axios.get('/api/clients').then(function (_ref2) {
+		axios.get('/api/clients/' + this.company).then(function (_ref2) {
 			var data = _ref2.data;
 
 			t.clients = data;
