@@ -14338,7 +14338,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(15);
-module.exports = __webpack_require__(176);
+module.exports = __webpack_require__(179);
 
 
 /***/ }),
@@ -14431,14 +14431,15 @@ Vue.component('shopping-list-item', __webpack_require__(146));
 Vue.component('shipping-list', __webpack_require__(149));
 Vue.component('shipping-item', __webpack_require__(152));
 Vue.component('payment-methods', __webpack_require__(155));
-Vue.component('client-select', __webpack_require__(158));
-Vue.component('provider-select', __webpack_require__(161));
-Vue.component('money-box', __webpack_require__(164));
-Vue.component('sale-products-list', __webpack_require__(167));
+Vue.component('payment-inputs', __webpack_require__(158));
+Vue.component('client-select', __webpack_require__(161));
+Vue.component('provider-select', __webpack_require__(164));
+Vue.component('money-box', __webpack_require__(167));
+Vue.component('sale-products-list', __webpack_require__(170));
 
 // NEW ONES FOR SANSON
-Vue.component('shopping-cart', __webpack_require__(170));
-Vue.component('shopping-cart-item', __webpack_require__(173));
+Vue.component('shopping-cart', __webpack_require__(173));
+Vue.component('shopping-cart-item', __webpack_require__(176));
 
 var Bus = new Vue({});
 
@@ -55025,6 +55026,574 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
+Component.options.__file = "resources/assets/js/components/PaymentInputs.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-69850930", Component.options)
+  } else {
+    hotAPI.reload("data-v-69850930", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 159 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            cash: 0,
+            transfer: 0,
+            debit_card: 0,
+            credit_card: 0,
+            check: 0
+        };
+    },
+
+    props: ['amount'],
+    computed: {
+        total: function total() {
+            return this.amount;
+        }
+    }
+});
+
+/***/ }),
+/* 160 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-6" }, [
+        _c("div", { staticClass: "control-group" }, [
+          _c("label", [_vm._v("Total a pagar:")]),
+          _vm._v(" "),
+          _c(
+            "span",
+            { staticClass: "form-control", staticStyle: { color: "green" } },
+            [_c("b", [_vm._v(_vm._s(_vm.amount.toFixed(2)))])]
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-6" }, [
+        _c("div", { staticClass: "form-group" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "input-group" }, [
+            _vm._m(1),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model.number",
+                  value: _vm.cash,
+                  expression: "cash",
+                  modifiers: { number: true }
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "number",
+                name: "payment[cash]",
+                value: "0",
+                min: "0",
+                step: "0.01",
+                max:
+                  _vm.total -
+                  (_vm.debit_card + _vm.credit_card + _vm.transfer + _vm.check)
+              },
+              domProps: { value: _vm.cash },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.cash = _vm._n($event.target.value)
+                },
+                blur: function($event) {
+                  _vm.$forceUpdate()
+                }
+              }
+            })
+          ])
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-6" }, [
+        _c("div", { staticClass: "form-group" }, [
+          _vm._m(2),
+          _vm._v(" "),
+          _c("div", { staticClass: "input-group" }, [
+            _vm._m(3),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model.number",
+                  value: _vm.check,
+                  expression: "check",
+                  modifiers: { number: true }
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "number",
+                name: "payment[check]",
+                value: "0",
+                min: "0",
+                step: "0.01",
+                max:
+                  _vm.total -
+                  (_vm.debit_card + _vm.credit_card + _vm.transfer + _vm.cash)
+              },
+              domProps: { value: _vm.check },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.check = _vm._n($event.target.value)
+                },
+                blur: function($event) {
+                  _vm.$forceUpdate()
+                }
+              }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group" }, [
+          _vm._m(4),
+          _vm._v(" "),
+          _c("div", { staticClass: "input-group" }, [
+            _vm._m(5),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model.number",
+                  value: _vm.credit_card,
+                  expression: "credit_card",
+                  modifiers: { number: true }
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "number",
+                name: "payment[credit_card]",
+                value: "0",
+                min: "0",
+                step: "0.01",
+                max:
+                  _vm.total -
+                  (_vm.debit_card + _vm.cash + _vm.transfer + _vm.check)
+              },
+              domProps: { value: _vm.credit_card },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.credit_card = _vm._n($event.target.value)
+                },
+                blur: function($event) {
+                  _vm.$forceUpdate()
+                }
+              }
+            })
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-6" }, [
+        _c("div", { staticClass: "form-group" }, [
+          _vm._m(6),
+          _vm._v(" "),
+          _c("div", { staticClass: "input-group" }, [
+            _vm._m(7),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model.number",
+                  value: _vm.transfer,
+                  expression: "transfer",
+                  modifiers: { number: true }
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "number",
+                name: "payment[transfer]",
+                value: "0",
+                min: "0",
+                step: "0.01",
+                max:
+                  _vm.total -
+                  (_vm.debit_card + _vm.credit_card + _vm.cash + _vm.check)
+              },
+              domProps: { value: _vm.transfer },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.transfer = _vm._n($event.target.value)
+                },
+                blur: function($event) {
+                  _vm.$forceUpdate()
+                }
+              }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group" }, [
+          _vm._m(8),
+          _vm._v(" "),
+          _c("div", { staticClass: "input-group" }, [
+            _vm._m(9),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model.number",
+                  value: _vm.debit_card,
+                  expression: "debit_card",
+                  modifiers: { number: true }
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "number",
+                name: "payment[debit_card]",
+                value: "0",
+                min: "0",
+                step: "0.01",
+                max:
+                  _vm.total -
+                  (_vm.cash + _vm.credit_card + _vm.transfer + _vm.check)
+              },
+              domProps: { value: _vm.debit_card },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.debit_card = _vm._n($event.target.value)
+                },
+                blur: function($event) {
+                  _vm.$forceUpdate()
+                }
+              }
+            })
+          ])
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _vm.credit_card + _vm.debit_card + _vm.transfer + _vm.check > 0
+        ? _c("div", { staticClass: "col-md-6" }, [_vm._m(10)])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.credit_card + _vm.debit_card > 0
+        ? _c("div", { staticClass: "col-md-6" }, [_vm._m(11)])
+        : _vm._e()
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { staticClass: "control-label" }, [
+      _c("b", [_vm._v("Efectivo")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "input-group-addon" }, [
+      _c("i", { staticClass: "fa fa-usd" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { staticClass: "control-label" }, [
+      _c("b", [_vm._v("Cheque")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "input-group-addon" }, [
+      _c("i", { staticClass: "fa fa-usd" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { staticClass: "control-label" }, [
+      _c("b", [_vm._v("Tarjeta de crédito")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "input-group-addon" }, [
+      _c("i", { staticClass: "fa fa-usd" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { staticClass: "control-label" }, [
+      _c("b", [_vm._v("Transferencia")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "input-group-addon" }, [
+      _c("i", { staticClass: "fa fa-usd" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { staticClass: "control-label" }, [
+      _c("b", [_vm._v("Tarjeta de débito")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "input-group-addon" }, [
+      _c("i", { staticClass: "fa fa-usd" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group" }, [
+      _c("label", { staticClass: "control-label" }, [
+        _c("b", [_vm._v("Referencia")])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "input-group" }, [
+        _c("span", { staticClass: "input-group-addon" }, [
+          _c("i", { staticClass: "fa fa-barcode" })
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "form-control",
+          attrs: { type: "text", name: "payment[reference]", value: "" }
+        })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group" }, [
+      _c("label", { staticClass: "control-label" }, [
+        _c("b", [_vm._v("Número de tarjeta")])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "input-group" }, [
+        _c("span", { staticClass: "input-group-addon" }, [
+          _c("i", { staticClass: "fa fa-credit-card" })
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "form-control",
+          attrs: { type: "text", name: "payment[card_number]", value: "" }
+        })
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-69850930", module.exports)
+  }
+}
+
+/***/ }),
+/* 161 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(162)
+/* template */
+var __vue_template__ = __webpack_require__(163)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
 Component.options.__file = "resources/assets/js/components/ClientSelect.vue"
 
 /* hot reload */
@@ -55047,7 +55616,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 159 */
+/* 162 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -55128,7 +55697,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 160 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -55243,15 +55812,15 @@ if (false) {
 }
 
 /***/ }),
-/* 161 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(162)
+var __vue_script__ = __webpack_require__(165)
 /* template */
-var __vue_template__ = __webpack_require__(163)
+var __vue_template__ = __webpack_require__(166)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -55290,7 +55859,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 162 */
+/* 165 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -55341,7 +55910,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 163 */
+/* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -55411,15 +55980,15 @@ if (false) {
 }
 
 /***/ }),
-/* 164 */
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(165)
+var __vue_script__ = __webpack_require__(168)
 /* template */
-var __vue_template__ = __webpack_require__(166)
+var __vue_template__ = __webpack_require__(169)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -55458,7 +56027,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 165 */
+/* 168 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -55487,7 +56056,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 166 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -55525,15 +56094,15 @@ if (false) {
 }
 
 /***/ }),
-/* 167 */
+/* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(168)
+var __vue_script__ = __webpack_require__(171)
 /* template */
-var __vue_template__ = __webpack_require__(169)
+var __vue_template__ = __webpack_require__(172)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -55572,7 +56141,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 168 */
+/* 171 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -55652,7 +56221,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 169 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -55753,15 +56322,15 @@ if (false) {
 }
 
 /***/ }),
-/* 170 */
+/* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(171)
+var __vue_script__ = __webpack_require__(174)
 /* template */
-var __vue_template__ = __webpack_require__(172)
+var __vue_template__ = __webpack_require__(175)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -55800,7 +56369,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 171 */
+/* 174 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -55888,6 +56457,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.iva = val.reduce(function (iva, subtotal) {
                 return iva + subtotal.iva;
             }, 0);
+            this.$root.$emit('set-total', this.total + this.iva);
         }
     },
     methods: {
@@ -55915,6 +56485,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.iva = this.subtotals.reduce(function (iva, subtotal) {
                 return iva + subtotal.iva;
             }, 0);
+            this.$root.$emit('set-total', this.total + this.iva);
         }
     },
     created: function created() {
@@ -55951,7 +56522,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 172 */
+/* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -56110,15 +56681,15 @@ if (false) {
 }
 
 /***/ }),
-/* 173 */
+/* 176 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(174)
+var __vue_script__ = __webpack_require__(177)
 /* template */
-var __vue_template__ = __webpack_require__(175)
+var __vue_template__ = __webpack_require__(178)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -56157,7 +56728,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 174 */
+/* 177 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -56269,7 +56840,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 175 */
+/* 178 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -56453,7 +57024,7 @@ if (false) {
 }
 
 /***/ }),
-/* 176 */
+/* 179 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

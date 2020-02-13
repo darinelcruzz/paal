@@ -25,14 +25,14 @@ class IngressController extends Controller
 
     function create($type)
     {
-        $clients = Client::where('company', '!=', 'mbe')->get(['id', 'name', 'rfc'])->toJson();
         $last_sale = Ingress::where('company', 'sanson')->get()->last();
         $last_folio = $last_sale ? $last_sale->folio + 1: 1;
-        return view('sanson.ingresses.create', compact('clients', 'last_folio', 'type'));
+        return view('sanson.ingresses.create', compact('last_folio', 'type'));
     }
 
     function store(Request $request)
     {
+        // dd($request->all());
         $validated = $this->validate($request, [
             'client_id' => 'required',
             'user_id' => 'required',
@@ -43,40 +43,24 @@ class IngressController extends Controller
             'company' => 'required',
             'type' => 'required',
             'bought_at' => 'required',
-       ]);
+        ]);
 
-        if ($request->folio != Ingress::where('company', 'sanson')->get()->last()->folio) {
+        if (true) {
+        // if ($request->folio != Ingress::where('company', 'sanson')->get()->last()->folio) {
 
-            $last_sale = Ingress::where('company', 'sanson')->get()->last();
-            $last_folio = $last_sale ? $last_sale->folio + 1: 1;
+            // $last_sale = Ingress::where('company', 'sanson')->get()->last();
+            // $last_folio = $last_sale ? $last_sale->folio + 1: 1;
 
             $total = $request->cash + $request->transfer + $request->check
                 + $request->debit_card + $request->credit_card;
 
             $ingress = Ingress::create($validated + [
-                'folio' => $last_folio,
+                'folio' => 1,
                 'retainer' => $request->method == 'anticipo' ? $total: 0,
-            ]);
-
-            $serialized = $this->getSerializedItems($request);
-
-            $ingress->update([
-                'products' => $serialized[0],
-                'special_products' => $serialized[1],
                 'retained_at' => $request->method == 'anticipo' ? date('Y-m-d'): null,
                 'paid_at' => $request->method == 'anticipo' ? null: date('Y-m-d'),
                 'status' => $request->method == 'anticipo' ? 'pendiente': 'pagado'
             ]);
-
-            $ingress->payments()->create($request->only('cash', 'transfer', 'check', 'debit_card', 'credit_card') + [
-                'type' => $request->method,
-                'reference' => isset($request->reference) ? $request->reference: null,
-                'card_number' => isset($request->card_number) ? $request->card_number: null,
-            ]);
-
-            if ($request->shipping) {
-                $ingress->shipping()->create();
-            }
 
             $methods = ['undefined' => null, 'cash' => 'efectivo', 'transfer' => 'transferencia', 'check' => 'cheque', 'debit_card' => 'tarjeta débito', 'credit_card' => 'tarjeta crédito'];
             $ingress->update(['method' => $methods[$ingress->inferred_method]]);

@@ -72,6 +72,7 @@ Vue.component('shopping-list-item', require('./components/ShoppingListItem.vue')
 Vue.component('shipping-list', require('./components/ShippingList.vue'));
 Vue.component('shipping-item', require('./components/ShippingItem.vue'));
 Vue.component('payment-methods', require('./components/PaymentMethods.vue'));
+Vue.component('payment-inputs', require('./components/PaymentInputs.vue'));
 Vue.component('client-select', require('./components/ClientSelect.vue'));
 Vue.component('provider-select', require('./components/ProviderSelect.vue'));
 Vue.component('money-box', require('./components/MoneyBox.vue'));

@@ -76,6 +76,7 @@
             subtotals(val) {
                 this.total = val.reduce((total, subtotal) => total + subtotal.amount, 0)
                 this.iva = val.reduce((iva, subtotal) => iva + subtotal.iva, 0)
+                this.$root.$emit('set-total', this.total + this.iva)
             }
         },
 		methods: {
@@ -99,6 +100,7 @@
             updateTotalAndIva() {
                 this.total = this.subtotals.reduce((total, subtotal) => total + subtotal.amount, 0)
                 this.iva = this.subtotals.reduce((iva, subtotal) => iva + subtotal.iva, 0)
+                this.$root.$emit('set-total', this.total + this.iva)
             }
 		},
         created() {

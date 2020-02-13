@@ -29,6 +29,11 @@ class Ingress extends Model
         return $this->hasMany(Payment::class);
     }
 
+    function movements()
+    {
+        return $this->hasMany(IngressMovement::class);
+    }
+
     function getDebtAttribute()
     {
         $payments_total = 0;

@@ -20,7 +20,7 @@
                       <tab-content title="Cliente" icon="fa fa-user" :before-change="checkIsInvoiced">
                         <div class="row">
                             <div class="col-md-8 col-md-offset-2">
-                                <client-select></client-select>
+                                <client-select company="sanson"></client-select>
                             </div>
                             
                         </div>
@@ -68,13 +68,14 @@
                        </tab-content>
 
                        <tab-content title="Pago" icon="fa fa-dollar">
-                            <payment-methods :amount="ingress_total"></payment-methods>
+                            <payment-inputs :amount="ingress_total"></payment-inputs>
                        </tab-content>
 
                     </form-wizard>
 
                     <input type="hidden" name="company" value="sanson">
                     <input type="hidden" name="type" value="{{ $type }}">
+                    <input type="hidden" name="payment[type]" value="{{ $type }}">
                     <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
                     <input type="hidden" name="method" :value="is_retained == 0 ? 'anticipo': 'contado'">
                     <input type="hidden" name="bought_at" value="{{ date('Y-m-d') }}">
