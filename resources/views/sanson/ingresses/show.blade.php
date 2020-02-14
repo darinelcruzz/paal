@@ -1,13 +1,11 @@
-@extends('coffee.root')
+@extends('sanson.root')
 
-@push('pageTitle')
-    Ventas | Detalles
-@endpush
+@push('pageTitle', 'Ventas | Detalles')
 
 @section('content')
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
-            <solid-box title="Venta #{{ $ingress->folio }}" color="danger" button>
+            <solid-box title="Venta #{{ $ingress->folio }}" color="info" button>
                 <div class="row">
                     <div class="col-xs-6">
                         {!! Field::text('client_id', $ingress->client->name, ['tpl' => 'withicon', 'disabled' => 'true'], ['icon' => 'user']) !!}
@@ -28,7 +26,7 @@
 
                 <h4 style="text-align:center;">
                     PAGOS 
-                    <a href="{{ route('coffee.payment.print', $ingress) }}" target="_blank">
+                    <a href="{{ route('sanson.payment.print', $ingress) }}" target="_blank">
                         <i class="fa fa-print" aria-hidden="true"></i>
                     </a>
                 </h4>
@@ -76,65 +74,43 @@
                                 <th>#</th>
                                 <th>Descripción</th>
                                 <th>Precio</th>
-                                <th>Cantidad</th>
-                                <th>Descuento</th>
-                                <th>Importe</th>
+                                <th style="text-align: center;">Cantidad</th>
+                                <th style="text-align: center;">Descuento</th>
+                                <th style="text-align: right;">Importe</th>
                             </tr>
+                        </thead>
                         </thead>
 
                         <tbody>
-                        @php
-                            $subtotal = 0;
-                            $iteration = 1;
-                        @endphp
-                        @foreach (unserialize($ingress->products) as $product)
+                        @foreach ($ingress->movements as $movement)
                             <tr>
-                                <td>{{ $iteration }}</td>
-                                <td>{{ App\Product::find($product['i'])->description }}</td>
-                                <td>$ {{ number_format($product['p'], 2) }}</td>
-                                <td>{{ $product['q'] }}</td>
-                                <td>$ {{ number_format($product['d'], 2) }}</td>
-                                <td>$ {{ number_format($product['t'], 2) }}</td>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $movement->product->description }}</td>
+                                <td>{{ number_format($movement->price, 2) }}</td>
+                                <td style="text-align: center;">{{ $movement->quantity }}</td>
+                                <td style="text-align: center;">
+                                    {{ number_format($movement->price * ($movement->discount/100), 2) }} ({{ $movement->discount }}%)
+                                </td>
+                                <td style="text-align: right;">{{ number_format($movement->total, 2) }}</td>
                             </tr>
-                            @php
-                                $subtotal += $product['t'];
-                                $iteration += 1;
-                            @endphp
                         @endforeach
-
-                        @if($ingress->special_products)
-                            @foreach (unserialize($ingress->special_products) as $product)
-                                <tr>
-                                    <td>{{ $iteration }}</td>
-                                    <td>{{ $product['i'] }}</td>
-                                    <td>$ {{ number_format($product['p'], 2) }}</td>
-                                    <td>{{ $product['q'] }}</td>
-                                    <td>$ {{ number_format($product['d'], 2) }}</td>
-                                    <td>$ {{ number_format($product['t'], 2) }}</td>
-                                </tr>
-                                @php
-                                    $subtotal += $product['t'];
-                                    $iteration += 1;
-                                @endphp
-                            @endforeach
-                        @endif
                         </tbody>
 
                         <tfoot>
                             <tr>
                                 <th colspan="4"></th>
-                                <th>Subtotal</th>
-                                <td>$ {{ number_format($subtotal, 2) }}</td>
+                                <th style="text-align: center;">Subtotal</th>
+                                <td style="text-align: right;">{{ number_format($ingress->movements->sum('total'), 2) }}</td>
                             </tr>
                             <tr>
                                 <th colspan="4"></th>
-                                <th>IVA</th>
-                                <td>$ {{ number_format($ingress->iva, 2) }}</td>
+                                <th style="text-align: center;">IVA</th>
+                                <td style="text-align: right;">{{ number_format($ingress->iva, 2) }}</td>
                             </tr>
                             <tr>
                                 <th colspan="4"></th>
-                                <th>Total</th>
-                                <td>$ {{ number_format($ingress->amount, 2) }}</td>
+                                <th style="text-align: center;">Total</th>
+                                <td style="text-align: right;">{{ number_format($ingress->amount, 2) }}</td>
                             </tr>
                         </tfoot>
                     </table>

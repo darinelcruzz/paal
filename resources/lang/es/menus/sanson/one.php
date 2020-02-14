@@ -30,12 +30,12 @@ return [
         'icon' => 'fa fa-mug-hot',
         'submenu' => [
             'create' => [
-                'title' => 'Insumos',
-                'route' => ['sanson.ingress.create', 'insumos']
+                'title' => 'Equipos y refacciones',
+                'route' => ['sanson.ingress.create', 'equipo']
             ],
             'create2' => [
-                'title' => 'Equipos',
-                'route' => ['sanson.ingress.create', 'equipo']
+                'title' => 'Proyectos',
+                'route' => ['sanson.ingress.create', 'proyecto']
             ],
             'index' => [
                 'title' => 'Historial',

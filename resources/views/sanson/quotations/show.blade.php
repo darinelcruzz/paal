@@ -47,9 +47,6 @@
                         </thead>
 
                         <tbody>
-                        @php
-                            $subtotal = 0;
-                        @endphp
                         @foreach ($quotation->movements as $movement)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
@@ -61,9 +58,6 @@
                                 </td>
                                 <td style="text-align: right;">{{ number_format($movement->total, 2) }}</td>
                             </tr>
-                            @php
-                                $subtotal += $movement->total
-                            @endphp
                         @endforeach
                         </tbody>
 
@@ -71,7 +65,7 @@
                             <tr>
                                 <th colspan="4"></th>
                                 <th style="text-align: center;">Subtotal</th>
-                                <td style="text-align: right;">{{ number_format($subtotal, 2) }}</td>
+                                <td style="text-align: right;">{{ number_format($quotation->movements->sum('total'), 2) }}</td>
                             </tr>
                             <tr>
                                 <th colspan="4"></th>

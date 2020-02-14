@@ -1,8 +1,6 @@
-@extends('coffee.root')
+@extends('sanson.root')
 
-@push('pageTitle')
-    Corte mensual
-@endpush
+@push('pageTitle', 'Corte mensual')
 
 @section('content')
 
@@ -10,14 +8,14 @@
 
         <div class="col-md-9">
 
-            {!! Form::open(['method' => 'post', 'route' => 'coffee.admin.monthly']) !!}
+            {!! Form::open(['method' => 'post', 'route' => 'sanson.admin.monthly']) !!}
                 
                 <div class="row">
                     <div class="col-md-3">
                         <div class="input-group input-group-sm">
                             <input type="month" name="date" class="form-control" value="{{ $date }}">
                             <span class="input-group-btn">
-                                <button type="submit" class="btn btn-danger btn-flat"><i class="fa fa-search"></i></button>
+                                <button type="submit" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
                             </span>
                         </div>
                     </div>

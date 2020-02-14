@@ -1,8 +1,6 @@
-@extends('coffee.root')
+@extends('sanson.root')
 
-@push('pageTitle')
-    Facturas
-@endpush
+@push('pageTitle', 'Facturas')
 
 @section('content')
 
@@ -10,11 +8,9 @@
         
         <div class="col-md-9">
 
-            <solid-box title="{{ strtoupper(fdate($date, 'l d \d\e F', 'Y-m-d')) }}" color="danger">
+            <solid-box title="{{ strtoupper(fdate($date, 'l d \d\e F', 'Y-m-d')) }}" color="info">
                 
                 <data-table example="1">
-
-                    {{-- {{ drawHeader('FI', 'método', 'cliente', 'XML', 'referencia', 'Importe') }} --}}
 
                     <template slot="header">
                         <tr>
@@ -60,7 +56,7 @@
                                             <em>agregar...</em>
                                         </a>
 
-                                        {!! Form::open(['method' => 'POST', 'route' => 'coffee.admin.reference']) !!}
+                                        {!! Form::open(['method' => 'POST', 'route' => 'sanson.admin.reference']) !!}
                                 
                                         <modal title="Agregar referencia del depósito" id="details{{ $invoice }}" color="#dd4b39">
 
@@ -80,7 +76,7 @@
                                             @endforeach
 
                                             <template slot="footer">
-                                                {!! Form::submit('Guardar', ['class' => 'btn btn-danger pull-right']) !!}
+                                                {!! Form::submit('Guardar', ['class' => 'btn btn-info pull-right']) !!}
                                             </template>
                                         </modal>
 
@@ -132,19 +128,19 @@
                     </h3>
                 </div>
             </div>
-            <a href="{{ route('coffee.admin.printDeposits', $date) }}" class="btn btn-default btn-block" target="_blank">
+            <a href="{{ route('sanson.admin.printDeposits', $date) }}" class="btn btn-default btn-block" target="_blank">
                 <i class="fa fa-download"></i>&nbsp; DESCARGAR MES &nbsp;<i class="fa fa-file-pdf"></i>
             </a>
             <br>
 
-            {!! Form::open(['method' => 'post', 'route' => 'coffee.admin.invoices']) !!}
+            {!! Form::open(['method' => 'post', 'route' => 'sanson.admin.invoices']) !!}
                 
                 <div class="row">
                     <div class="col-md-3">
                         <div class="input-group input-group-sm">
                             <input type="date" name="date" class="form-control" value="{{ $date }}">
                             <span class="input-group-btn">
-                                <button type="submit" class="btn btn-danger btn-flat"><i class="fa fa-search"></i></button>
+                                <button type="submit" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
                             </span>
                         </div>
                     </div>
@@ -164,7 +160,7 @@
                     <i class="fa fa-piggy-bank"></i>
                 </div> --}}
             </div>
-            <a href="{{ route('coffee.admin.downloadExcel', $date) }}" class="btn btn-success btn-block">
+            <a href="{{ route('sanson.admin.downloadExcel', $date) }}" class="btn btn-success btn-block">
                 <i class="fa fa-download"></i>&nbsp; DESCARGAR EXCEL &nbsp;<i class="fa fa-file-excel"></i>
             </a>
         </div>

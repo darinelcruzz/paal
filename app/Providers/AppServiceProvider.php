@@ -25,8 +25,7 @@ class AppServiceProvider extends ServiceProvider
         ], 'adminlte');
 
         View::composer('*', SalesAndQuotationsComposer::class);
-        Ingress::observe(IngressObserver::class);
-        Quotation::observe(QuotationObserver::class);
+        $this->registerObservers();
     }
 
     /**
@@ -37,5 +36,11 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         //
+    }
+
+    public function registerObservers()
+    {
+        Ingress::observe(IngressObserver::class);
+        Quotation::observe(QuotationObserver::class);
     }
 }

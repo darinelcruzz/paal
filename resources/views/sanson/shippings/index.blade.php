@@ -30,12 +30,23 @@
         <div class="col-md-12">
 
             <solid-box title="Envíos" color="info">
-                
-                <data-table>
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered spanish">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th><i class="fa fa-cogs"></i></th>
+                                <th>Cliente (venta)</th>
+                                <th>Paquetería</th>
+                                <th>Dirección</th>
+                                <th>Envío</th>
+                                <th>Entrega</th>
+                                <th>Estado</th>
+                                <th>Observaciones</th>
+                            </tr>
+                        </thead>
 
-                    {{ drawHeader('ID', '<i class="fa fa-cogs"></i>', 'cliente', 'dirección', 'enviado', 'entregado', 'empresa', 'estado', 'observaciones') }}
-
-                    <template slot="body">
+                        <tbody>
                         @foreach($shippings as $shipping)
                             <tr>
                                 <td>{{ $shipping->id }}</td>
@@ -58,16 +69,18 @@
                                     ({{ $shipping->ingress->folio }})
                                 </td>
                                 <td>
-                                    {{ $shipping->address or 'No se proporcionó' }}
-                                </td>
-                                <td>
-                                    {{ fdate($shipping->shipped_at, 'd \d\e F, Y', 'Y-m-d') }} <br>
+                                    {{ strtoupper($shipping->company) }}<br>
                                     <code>{{ $shipping->guide_number }}</code>
                                 </td>
                                 <td>
-                                    {{ $shipping->delivered_at }}
+                                    {{ $shipping->address or $shipping->ingress->client->address }}
                                 </td>
-                                <td>{{ strtoupper($shipping->company) }}</td>
+                                <td>
+                                    {{ fdate($shipping->shipped_at, 'd/m/Y', 'Y-m-d') }}
+                                </td>
+                                <td>
+                                    {{ fdate($shipping->delivered_at, 'd/m/Y', 'Y-m-d') }}
+                                </td>
                                 <td>
                                     <span class="label label-{{ $shipping->color }}">{{ strtoupper($shipping->status) }}</span>
                                 </td>
@@ -75,9 +88,9 @@
 
                             </tr>
                         @endforeach
-                    </template>
-                    
-                </data-table>
+                        </tbody>
+                    </table>
+                </div>
 
             </solid-box>
         </div>

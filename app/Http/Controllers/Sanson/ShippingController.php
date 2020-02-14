@@ -67,6 +67,6 @@ class ShippingController extends Controller
         
         $shipping->update($attributes);
 
-        return redirect(route('sanson.shipping.index'));
+        return redirect(route('sanson.shipping.index', 'todos'));
     }
 }

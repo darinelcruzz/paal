@@ -4,7 +4,7 @@
     <title>Ventas | Comprobante</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="icon" href="{{ asset('/img/coffee.ico') }}" />
+    <link rel="icon" href="{{ asset('/img/sanson.ico') }}" />
 
     <!-- Bootstrap 3.3.7 -->  
     <link rel="stylesheet" href="{{ asset('adminlte/bower_components/bootstrap/dist/css/bootstrap-print.css') }}">
@@ -31,7 +31,7 @@
 
     <div class="row">
         <div class="col-xs-10 col-xs-offset-1">
-            <img width="300px" src="{{ asset('/img/coffee mono.png') }}">
+            <img width="300px" src="{{ asset('/img/sanson.png') }}">
         </div>
     </div>
 
@@ -87,66 +87,46 @@
                 <thead>
                     <tr>
                         <th>CANT</th>
-                        <th style="width: 55%">DESCRIPCIÓN</th>
-                        <th>UNITARIO</th>
-                        <th>TOTAL</th>
+                        <th style="width: 55%; text-align: left">DESCRIPCIÓN</th>
+                        <th style="text-align: right">PRECIO</th>
+                        <th style="text-align: right">IMPORTE</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    @php
-                        $subtotal = $discounts = 0 
-                    @endphp
-                    @foreach (unserialize($ingress->products) as $product)
+                    @foreach ($ingress->movements as $movement)
                         <tr>
-                            <td style="text-align: center;">{{ $product['q'] }}</td>
-                            <td>{{ App\Product::find($product['i'])->description }}{{ $product['d'] != 0 ? '*': ''}}</td>
-                            <td style="text-align: right">$ {{ number_format($product['p'], 2) }}</td>
-                            <td style="text-align: right">$ {{ number_format($product['t'], 2) }}</td>
+                            <td style="text-align: center;">{{ $movement->quantity }}</td>
+                            <td>{{ $movement->product->description }}{{ $movement->discount != 0 ? '*': ''}}</td>
+                            <td style="text-align: right">{{ number_format($movement->price, 2) }}</td>
+                            <td style="text-align: right">{{ number_format($movement->total, 2) }}</td>
                         </tr>
-                        @php
-                            $subtotal += $product['t'];
-                            $discounts += $product['d'] == 0 ? 0: 1;
-                        @endphp
                     @endforeach
-                    @if($ingress->special_products)
-                        @foreach (unserialize($ingress->special_products) as $product)
-                            <tr>
-                                <td>{{ $product['q'] }}</td>
-                                <td>{{ $product['i'] }}</td>
-                                <td>$ {{ number_format($product['p'], 2) }}</td>
-                                <td>$ {{ number_format($product['t'], 2) }}</td>
-                            </tr>
-                            @php
-                                $subtotal += $product['t'];
-                            @endphp
-                        @endforeach
-                    @endif
                 </tbody>
 
                 <tfoot>
                     @if ($ingress->iva > 0)
                         <tr>
-                            <th colspan="3" style="text-align: right">Subtotal</th>
-                            <td style="text-align: right">$ {{ number_format($subtotal, 2) }}</td>
+                            <th colspan="3" style="text-align: right"><em>SUBTOTAL</em></th>
+                            <td style="text-align: right">{{ number_format($ingress->movements->sum('total'), 2) }}</td>
                         </tr>
                         <tr>
-                            <th colspan="3" style="text-align: right">I.V.A.</th>
-                            <td style="text-align: right">$ {{ number_format($ingress->iva, 2) }}</td>
+                            <th colspan="3" style="text-align: right"><em>I.V.A.</em></th>
+                            <td style="text-align: right">{{ number_format($ingress->iva, 2) }}</td>
                         </tr>
                     @endif
                     <tr style="border:1px solid black">
-                        <th colspan="3" style="text-align: right">Total</th>
-                        <td style="text-align: right">$ {{ number_format($ingress->amount, 2) }}</td>
+                        <th colspan="3" style="text-align: right"><em>TOTAL</em></th>
+                        <td style="text-align: right">{{ number_format($ingress->amount, 2) }}</td>
                     </tr>
                     @if ($ingress->retainer > 0)
                         <tr>
-                            <th colspan="3" style="text-align: right">Anticipo</th>
-                            <td style="text-align: right">$ {{ number_format($ingress->retainer, 2) }}</td>
+                            <th colspan="3" style="text-align: right"><em>ANTICIPO</em></th>
+                            <td style="text-align: right">{{ number_format($ingress->retainer, 2) }}</td>
                         </tr>
                         <tr style="border:1px solid black">
-                            <th colspan="3" style="text-align: right">Pendiente</th>
-                            <td style="text-align: right">$ {{ number_format($ingress->debt, 2) }}</td>
+                            <th colspan="3" style="text-align: right"><em>PENDIENTE</em></th>
+                            <td style="text-align: right">{{ number_format($ingress->debt, 2) }}</td>
                         </tr>
                     @endif
                 </tfoot>
@@ -175,7 +155,7 @@
     <div class="row">
         <div class="col-md-12">
             <small>
-                {!! $discounts > 0 ? '* se aplicó descuento<br>': '' !!}
+                {!! $ingress->movements->sum('discount') > 0 ? '* se aplicó descuento<br>': '' !!}
             </small>
         </div>
     </div>

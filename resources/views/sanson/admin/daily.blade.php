@@ -1,4 +1,4 @@
-@extends('coffee.root')
+@extends('sanson.root')
 
 @push('pageTitle')
     Corte diario
@@ -9,22 +9,22 @@
         
         <div class="col-md-9">
 
-            {!! Form::open(['method' => 'post', 'route' => ['coffee.admin.daily', $status]]) !!}
+            {!! Form::open(['method' => 'post', 'route' => ['sanson.admin.daily', $status]]) !!}
                 
                 <div class="row">
                     <div class="col-md-3">
                         <div class="input-group input-group-sm">
                             <input type="date" name="date" class="form-control" value="{{ $date }}">
                             <span class="input-group-btn">
-                                <button type="submit" class="btn btn-danger btn-flat"><i class="fa fa-search"></i></button>
+                                <button type="submit" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
                             </span>
                         </div>
                     </div>
                     <div class="col-md-9">
-                        <a href="{{ route('coffee.admin.daily', ['factura', $date]) }}" class="btn btn-primary btn-md">CON FACTURA</a>
-                        <a href="{{ route('coffee.admin.daily', ['efectivo', $date]) }}" class="btn btn-success btn-md">EFECTIVO S/F</a>
-                        <a href="{{ route('coffee.admin.daily', ['tarjeta', $date]) }}" class="btn btn-warning btn-md">TARJETA S/F</a>
-                        <a href="{{ route('coffee.admin.daily', ['transferencia', $date]) }}" class="btn btn-info btn-md">
+                        <a href="{{ route('sanson.admin.daily', ['factura', $date]) }}" class="btn btn-primary btn-md">CON FACTURA</a>
+                        <a href="{{ route('sanson.admin.daily', ['efectivo', $date]) }}" class="btn btn-success btn-md">EFECTIVO S/F</a>
+                        <a href="{{ route('sanson.admin.daily', ['tarjeta', $date]) }}" class="btn btn-warning btn-md">TARJETA S/F</a>
+                        <a href="{{ route('sanson.admin.daily', ['transferencia', $date]) }}" class="btn btn-info btn-md">
                             TRANSFERENCIA S/F
                         </a>
                     </div>
@@ -34,7 +34,7 @@
 
             <br>
 
-            {!! Form::open(['method' => 'POST', 'route' => 'coffee.invoice.create', 'files' => 'true']) !!}
+            {!! Form::open(['method' => 'POST', 'route' => 'sanson.invoice.create', 'files' => 'true']) !!}
 
             <solid-box title="{{ strtoupper($status) }}" color="{{ $color }}">
                 
@@ -54,7 +54,7 @@
                                     {{ $ingress->folio }}
                                 </td>
                                 <td style="width: 5%">
-                                    @include('coffee.admin._options')
+                                    @include('sanson.admin._options')
                                 </td>
                                 <td>
                                     {{ $ingress->client->name }}
@@ -80,7 +80,7 @@
                         <i class="fa fa-file-invoice-dollar fa-2x"></i>
                     </a>
 
-                    {{-- {!! Form::open(['method' => 'POST', 'route' => 'coffee.invoice.create', 'files' => 'true']) !!} --}}
+                    {{-- {!! Form::open(['method' => 'POST', 'route' => 'sanson.invoice.create', 'files' => 'true']) !!} --}}
                     <modal title="Agregar datos de la facturación" id="modal-cash" color="{{ $color }}">
 
                         <div class="row">

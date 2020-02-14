@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Coffee;
+namespace App\Http\Controllers\Sanson;
 
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -16,15 +16,15 @@ class AdminController extends Controller
 
         $ingresses = Ingress::whereDate('created_at', $date)
             ->where('status', '!=', 'cancelado')
-            ->whereCompany('coffee')
+            ->whereCompany('sanson')
             ->where($this->getConditions($status))
             ->get();
 
-        $payments = Payment::from($date);
+        $payments = Payment::from($date, 'sanson');
 
         $color = ['factura' => 'primary', 'efectivo' => 'success', 'tarjeta' => 'warning', 'transferencia' => 'info'][$status];
 
-        return view('coffee.admin.daily', compact('date', 'ingresses', 'status', 'color', 'payments'));
+        return view('sanson.admin.daily', compact('date', 'ingresses', 'status', 'color', 'payments'));
     }
 
     function index(Request $request)
@@ -35,11 +35,11 @@ class AdminController extends Controller
 
         $deposits = Payment::from($date)->where('type', '!=', 'contado')->get();
 
-        $invoiced = Ingress::from($date)->whereCompany('coffee')->where('invoice', '!=', 'no')->get();
+        $invoiced = Ingress::from($date)->whereCompany('sanson')->where('invoice', '!=', 'no')->get();
 
-        $paid = Ingress::from($date)->whereCompany('coffee')->where('invoice', 'no')->get();
+        $paid = Ingress::from($date)->whereCompany('sanson')->where('invoice', 'no')->get();
 
-        return view('coffee.admin.index', compact('payments', 'paid', 'invoiced', 'deposits', 'date'));
+        return view('sanson.admin.index', compact('payments', 'paid', 'invoiced', 'deposits', 'date'));
     }
 
     function monthly(Request $request)
@@ -61,7 +61,7 @@ class AdminController extends Controller
 
         // dd($month->count(), $type1->count(), $type2->count());
 
-        return view('coffee.admin.monthly', compact('date', 'month', 'pending', 'working_days', 'shippings', 'type1', 'type2'));
+        return view('sanson.admin.monthly', compact('date', 'month', 'pending', 'working_days', 'shippings', 'type1', 'type2'));
     }
 
     function invoices(Request $request, $thisDate = null)
@@ -73,7 +73,7 @@ class AdminController extends Controller
             ->whereNull('cash_reference')
             ->whereHas('ingress', function($query) {
                 $query->where('status', '!=', 'cancelado')
-                    ->where('company', 'coffee')
+                    ->where('company', 'sanson')
                     ->where('invoice_id', '!=', null);
             })
             ->sum('cash');
@@ -81,18 +81,18 @@ class AdminController extends Controller
         $invoices = Ingress::where('invoice_id', '!=', null)
             ->whereDate('created_at', $date)
             ->where('status', '!=', 'cancelado')
-            ->where('company', 'coffee')
+            ->where('company', 'sanson')
             ->get()
             ->groupBy('invoice_id');
 
         $canceled = Ingress::where('invoice_id', '!=', null)
             ->whereDate('created_at', $date)
             ->where('status', 'cancelado')
-            ->where('company', 'coffee')
+            ->where('company', 'sanson')
             ->get()
             ->groupBy('invoice_id');
 
-        return view('coffee.admin.invoices', compact('invoices', 'date', 'total', 'canceled'));
+        return view('sanson.admin.invoices', compact('invoices', 'date', 'total', 'canceled'));
     }
 
     function reference(Request $request)
@@ -106,7 +106,7 @@ class AdminController extends Controller
             $payment->update($request->only('cash_reference'));
         }
 
-        return redirect(route('coffee.admin.invoices', $request->thisDate));
+        return redirect(route('sanson.admin.invoices', $request->thisDate));
     }
 
     function downloadExcel($date)
@@ -120,7 +120,7 @@ class AdminController extends Controller
             ->whereMonth('created_at', substr($date, 5))
             ->where('invoice_id', '!=', null)
             ->where('status', '!=', 'cancelado')
-            ->where('company', 'coffee')
+            ->where('company', 'sanson')
             ->whereHas('payments', function($query) {
                 $query->whereNull('cash_reference');
             })
@@ -129,7 +129,7 @@ class AdminController extends Controller
             ->get()
             ->groupBy('date');
 
-        return view('coffee.admin.invoices_print', compact('invoices'));
+        return view('sanson.admin.invoices_print', compact('invoices'));
     }
 
     function getDate()

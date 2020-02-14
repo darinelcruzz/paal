@@ -5,13 +5,13 @@
 @section('content')
     <div class="row">
         <div class="col-md-6">
-            <solid-box title="Agregar venta [{{ $last_folio }}]" color="{{ $type == 'insumos' ? 'info': 'primary' }}">
+            <solid-box title="Agregar venta [{{ $last_folio }}]" color="{{ $type == 'equipo' ? 'info': 'primary' }}">
                 {!! Form::open(['method' => 'POST', 'route' => 'sanson.ingress.store', 'ref' => 'cform']) !!}
 
                     <form-wizard
                         title=""
                         subtitle=""
-                        color="{{ $type == 'insumos' ? '#00c0ef': '#3c8dbc' }}"
+                        color="{{ $type == 'equipo' ? '#00c0ef': '#3c8dbc' }}"
                         @on-complete="submit"
                         back-button-text="Anterior"
                         next-button-text="Siguiente"
@@ -86,8 +86,8 @@
         </div>
 
         <div class="col-md-6">
-            <solid-box title="{{ $type == 'insumos' ? 'Insumos': 'Equipos' }}" color="{{ $type == 'insumos' ? 'info': 'primary' }}">
-                <p-table color="{{ $type == 'insumos' ? 'info': 'primary' }}" :exchange="{{ $exchange }}" :promo="{{ $promo }}" type="sanson"></p-table>
+            <solid-box title="Productos" color="{{ $type == 'equipo' ? 'info': 'primary' }}">
+                <p-table color="{{ $type == 'equipo' ? 'info': 'primary' }}" :exchange="{{ $exchange }}" :promo="{{ $promo }}" type="sanson"></p-table>
             </solid-box>
         </div>
     </div>

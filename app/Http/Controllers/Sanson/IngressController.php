@@ -32,7 +32,6 @@ class IngressController extends Controller
 
     function store(Request $request)
     {
-        // dd($request->all());
         $validated = $this->validate($request, [
             'client_id' => 'required',
             'user_id' => 'required',
@@ -43,28 +42,21 @@ class IngressController extends Controller
             'company' => 'required',
             'type' => 'required',
             'bought_at' => 'required',
+            'folio' => 'required'
         ]);
 
-        if (true) {
-        // if ($request->folio != Ingress::where('company', 'sanson')->get()->last()->folio) {
-
-            // $last_sale = Ingress::where('company', 'sanson')->get()->last();
-            // $last_folio = $last_sale ? $last_sale->folio + 1: 1;
-
-            $total = $request->cash + $request->transfer + $request->check
+        $total = $request->cash + $request->transfer + $request->check
                 + $request->debit_card + $request->credit_card;
 
-            $ingress = Ingress::create($validated + [
-                'folio' => 1,
-                'retainer' => $request->method == 'anticipo' ? $total: 0,
-                'retained_at' => $request->method == 'anticipo' ? date('Y-m-d'): null,
-                'paid_at' => $request->method == 'anticipo' ? null: date('Y-m-d'),
-                'status' => $request->method == 'anticipo' ? 'pendiente': 'pagado'
-            ]);
+        $ingress = Ingress::create($validated + [
+            'retainer' => $request->method == 'anticipo' ? $total: 0,
+            'retained_at' => $request->method == 'anticipo' ? date('Y-m-d'): null,
+            'paid_at' => $request->method == 'anticipo' ? null: date('Y-m-d'),
+            'status' => $request->method == 'anticipo' ? 'pendiente': 'pagado'
+        ]);
 
-            $methods = ['undefined' => null, 'cash' => 'efectivo', 'transfer' => 'transferencia', 'check' => 'cheque', 'debit_card' => 'tarjeta débito', 'credit_card' => 'tarjeta crédito'];
-            $ingress->update(['method' => $methods[$ingress->inferred_method]]);
-        }
+        $methods = ['undefined' => null, 'cash' => 'efectivo', 'transfer' => 'transferencia', 'check' => 'cheque', 'debit_card' => 'tarjeta débito', 'credit_card' => 'tarjeta crédito'];
+        $ingress->update(['method' => $methods[$ingress->inferred_method]]);
 
         return redirect(route('sanson.ingress.index'));
     }

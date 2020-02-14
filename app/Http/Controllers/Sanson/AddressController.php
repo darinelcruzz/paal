@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Coffee;
+namespace App\Http\Controllers\Sanson;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -10,25 +10,25 @@ class AddressController extends Controller
 {
     function create(Client $client)
     {
-        return view('coffee.addresses.create', compact('client'));
+        return view('sanson.addresses.create', compact('client'));
     }
 
     function store(Request $request, Client $client)
     {
         $client->addresses()->create($request->all());
 
-        return redirect(route('coffee.client.index'));
+        return redirect(route('sanson.client.index'));
     }
 
     function edit(Address $address)
     {
-        return view('coffee.addresses.edit', compact('address'));
+        return view('sanson.addresses.edit', compact('address'));
     }
 
     function update(Request $request, Address $address)
     {
     	$address->update($request->all());
 
-        return redirect(route('coffee.client.index'));
+        return redirect(route('sanson.client.index'));
     }
 }

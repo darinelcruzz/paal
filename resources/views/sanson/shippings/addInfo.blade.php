@@ -1,15 +1,13 @@
-@extends('coffee.root')
+@extends('sanson.root')
 
-@push('pageTitle')
-    Número de guía y +
-@endpush
+@push('pageTitle', 'Número de guía y +')
 
 @section('content')
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <solid-box title="Agregar información de envío" color="danger" button>
+            <solid-box title="Agregar información de envío" color="info" button>
 
-                {!! Form::open(['method' => 'POST', 'route' => ['coffee.shipping.update', $shipping]]) !!}
+                {!! Form::open(['method' => 'POST', 'route' => ['sanson.shipping.update', $shipping]]) !!}
 
                 	<div class="row">
                 		<div class="col-md-6">
@@ -45,7 +43,7 @@
 					<input type="hidden" name="shipped_at" value="{{ date('Y-m-d') }}">
 					<input type="hidden" name="status" value="en tránsito">
 					
-					{!! Form::submit('GUARDAR', ['class' => 'btn btn-danger	 btn-sm btn-block']) !!}
+					{!! Form::submit('GUARDAR', ['class' => 'btn btn-info	 btn-sm btn-block']) !!}
 
 				{!! Form::close() !!}
 

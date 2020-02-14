@@ -1,15 +1,13 @@
-@extends('coffee.root')
+@extends('sanson.root')
 
-@push('pageTitle')
-    Dirección | Agregar
-@endpush
+@push('pageTitle', 'Dirección | Agregar')
 
 @section('content')
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <solid-box title="Agregar dirección de envío" color="danger" button>
+            <solid-box title="Agregar dirección de envío" color="info" button>
 
-                {!! Form::open(['method' => 'POST', 'route' => ['coffee.address.store', $client]]) !!}
+                {!! Form::open(['method' => 'POST', 'route' => ['sanson.address.store', $client]]) !!}
 
                     {!! Field::text('business_name', ['tpl' => 'withicon'], ['icon' => 'comment']) !!}
 
@@ -58,7 +56,7 @@
 
                     <hr>
 
-                    <button type="submit" class="btn btn-danger pull-right">AGREGAR</button>
+                    <button type="submit" class="btn btn-info pull-right">AGREGAR</button>
 
                 {!! Form::close() !!}
 

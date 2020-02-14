@@ -9,7 +9,6 @@
                 
                 <div class="row">
                     <div class="col-md-3">
-                        {{-- {!! Field::date('date', $date, ['label' => 'Seleccione fecha', 'tpl' => 'withicon'], ['icon' => 'calendar']) !!} --}}
                         <div class="input-group input-group-sm">
                             <input type="month" name="date" class="form-control" value="{{ $date }}">
                             <span class="input-group-btn">
@@ -24,12 +23,24 @@
             <br>
 
             <solid-box title="Ventas" color="info">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered spanish">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th><i class="fa fa-cogs"></i></th>
+                                <th>Fecha</th>
+                                <th>Cliente</th>
+                                <th>Tipo</th>
+                                <th>IVA</th>
+                                <th>Total</th>
+                                <th>Anticipo</th>
+                                <th>Método</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
 
-                <data-table example="1">
-
-                    {{ drawHeader('folio', '<i class="fa fa-cogs"></i>','fecha venta', 'cliente', 'tipo', 'IVA', 'total', 'anticipo', 'método', 'estado') }}
-
-                    <template slot="body">
+                        <tbody>
                         @foreach($ingresses as $ingress)
                             <tr>
                                 <td>{{ $ingress->folio }}</td>
@@ -37,11 +48,7 @@
                                     <dropdown icon="cogs" color="info">
                                         <ddi v-if="{{ $ingress->status == 'pagado' || $ingress->status == 'cancelado' ? 0: 1 }}" to="{{ route('sanson.payment.create', $ingress) }}" icon="money" text="Pagar"></ddi>
                                         <ddi to="{{ route('sanson.ingress.show', $ingress) }}" icon="eye" text="Detalles"></ddi>
-                                        <li>
-                                            <a href="{{ route('sanson.ingress.ticket', $ingress) }}" target="_blank">
-                                                <i class="fa fa-print" aria-hidden="true"></i> Imprimir
-                                            </a>
-                                        </li>
+                                        <ddi to="{{ route('sanson.ingress.ticket', $ingress) }}" icon="print" text="Imprimir" target="_blank"></ddi>
                                         @if ($ingress->status != 'cancelado')
                                             <li>
                                                 <a class="deleteThisObject" idInstance="{{ $ingress->id }}" route="ingresos">
@@ -52,14 +59,16 @@
 
                                     </dropdown>
                                 </td>
-                                <td>{{ fdate($ingress->bought_at, 'd M Y', 'Y-m-d') }}</td>
+                                <td>{{ fdate($ingress->bought_at, 'd/m/Y', 'Y-m-d') }}</td>
                                 <td style="width: 30%">{{ $ingress->client->name }}</td>
                                 <td>
-                                    <label class="label label-{{$ingress->type == 'insumos' ? 'info': 'warning'}}">{{ strtoupper($ingress->type) }}</label>
+                                    <label class="label label-{{$ingress->type == 'equipo' ? 'info': 'primary'}}">
+                                        {{ strtoupper($ingress->type) }}
+                                    </label>
                                 </td>
-                                <td>$ {{ number_format($ingress->iva, 2) }}</td>
-                                <td>$ {{ number_format($ingress->amount, 2) }}</td>
-                                <td>{{ $ingress->retainer > 0 ? "$ " . number_format($ingress->retainer, 2): '' }}</td>
+                                <td>{{ number_format($ingress->iva, 2) }}</td>
+                                <td>{{ number_format($ingress->amount, 2) }}</td>
+                                <td style="text-align: center">{{ number_format($ingress->retainer, 2) }}</td>
                                 <td>{{ ucfirst($ingress->method) }}</td>
                                 <td>
                                     @if ($ingress->status == 'cancelado')
@@ -88,10 +97,9 @@
                                 </td>
                             </tr>
                         @endforeach
-                    </template>
-
-                </data-table>
-
+                        </tbody>
+                    </table>
+                </div>
             </solid-box>
         </div>
     </div>
