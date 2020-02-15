@@ -156,9 +156,6 @@
                         <em>$ {{ number_format($pending, 2) }}</em>
                     </h3>
                 </div>
-                {{-- <div class="icon">
-                    <i class="fa fa-piggy-bank"></i>
-                </div> --}}
             </div>
             <a href="{{ route('sanson.admin.downloadExcel', $date) }}" class="btn btn-success btn-block">
                 <i class="fa fa-download"></i>&nbsp; DESCARGAR EXCEL &nbsp;<i class="fa fa-file-excel"></i>

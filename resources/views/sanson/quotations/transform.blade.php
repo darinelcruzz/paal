@@ -1,19 +1,17 @@
-@extends('coffee.root')
+@extends('sanson.root')
 
-@push('pageTitle')
-    Venta | Agregar
-@endpush
+@push('pageTitle', 'Venta | Agregar')
 
 @section('content')
     <div class="row">
         <div class="col-md-6">
-            <solid-box title="Agregar venta [{{ $last_folio }}]" color="{{ $type == 'insumos' ? 'danger': 'warning'}}">
-                {!! Form::open(['method' => 'POST', 'route' => 'coffee.ingress.store', 'ref' => 'cform']) !!}
+            <solid-box title="Agregar venta [{{ $last_folio }}]" color="{{ $type == 'equipo' ? 'info': 'primary'}}">
+                {!! Form::open(['method' => 'POST', 'route' => 'sanson.ingress.store', 'ref' => 'cform']) !!}
 
                     <form-wizard
                         title=""
                         subtitle=""
-                        color="{{ $type == 'insumos' ? '#dd4b39': '#f39c12' }}"
+                        color="{{ $type == 'equipo' ? '#00c0ef': '#3c8dbc' }}"
                         @on-complete="submit"
                         back-button-text="Anterior"
                         next-button-text="Siguiente"
@@ -60,18 +58,18 @@
                       </tab-content>
 
                       <tab-content title="Productos" icon="fa fa-tag">
-                          <shopping-list color="{{ $type == 'insumos' ? 'danger': 'warning'}}" :qproducts="{{ $quotation->products_list }}" :exchange="{{ $exchange }}" :promo="{{ $promo }}"></shopping-list>
+                            <shopping-cart color="info" :movements="{{ $quotation->movements }}" :promo="{{ $promo }}"></shopping-cart>
                        </tab-content>
 
                        <tab-content title="Pago" icon="fa fa-dollar">
-                            <payment-methods :amount="ingress_total"></payment-methods>
+                            <payment-inputs :amount="ingress_total"></payment-inputs>
                        </tab-content>
 
                     </form-wizard>
 
                     <input type="hidden" name="method" :value="is_retained == 0 ? 'anticipo': 'contado'">
                     <input type="hidden" name="bought_at" value="{{ date('Y-m-d') }}">
-                    <input type="hidden" name="company" value="coffee">
+                    <input type="hidden" name="company" value="sanson">
                     <input type="hidden" name="type" value="{{ $type }}">
                     <input type="hidden" name="user_id" value="{{ $quotation->user_id }}">
                     <input type="hidden" name="folio" value="{{ $last_folio }}">
@@ -83,8 +81,15 @@
         </div>
 
         <div class="col-md-6">
-            <solid-box title="{{ strtoupper($type ? $type: 'productos') }}" color="{{ $type == 'insumos' ? 'danger': 'warning'}}">
-                <p-table color="{{ $type == 'insumos' ? 'danger': 'warning'}}" :exchange="{{ $exchange }}" type="{{ $type }}"></p-table>
+            <solid-box 
+                title="Productos" 
+                color="{{ $type == 'equipo' ? 'info': 'primary'}}">
+                
+                <p-table 
+                    color="{{ $type == 'equipo' ? 'info': 'primary'}}" 
+                    :exchange="{{ $exchange }}" 
+                    type="sanson">
+                </p-table>
             </solid-box>
         </div>
     </div>

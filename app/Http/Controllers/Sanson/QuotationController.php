@@ -95,30 +95,15 @@ class QuotationController extends Controller
 
     function update(Request $request, Quotation $quotation)
     {
-        dd($request->all());
-
-        $attributes = $request->validate([
+        $quotation->update($request->validate([
             'amount' => 'required',
             'iva' => 'required',
-        ]);
+            'editions_count' => 'required'
+        ]));
 
-        $quotation->update($attributes);
-
-        if ($quotation->client_name) {
-            return redirect(route('sanson.quotation.internet'));
-        }
+        if ($quotation->client_name) return redirect(route('sanson.quotation.internet'));
 
         return redirect(route('sanson.quotation.index'));
-
-        $quotation->update([
-            'products' => serialize($products),
-            'special_products' => serialize($special),
-            'iva' => $request->iva,
-            'amount' => $request->amount,
-            'editions_count' => $quotation->editions_count + 1,
-        ]);
-
-        return redirect(route('sanson.quotation.show', $quotation));
     }
 
     function destroy(Quotation $quotation)

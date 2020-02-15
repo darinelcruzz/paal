@@ -75,7 +75,7 @@ class Quotation extends Model
 
     function getIndexPageAttribute()
     {
-        return route('coffee.quotation.' . ($this->client_name ? 'internet': 'index'));
+        return route($this->company . '.quotation.' . ($this->client_name ? 'internet': 'index'));
     }
 
     function scopeNormal($query, $company, $date)

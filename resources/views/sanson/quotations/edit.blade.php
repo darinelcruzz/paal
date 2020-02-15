@@ -18,6 +18,8 @@
                     <h4 style="text-align:center;">PRODUCTOS</h4>
                     <shopping-cart color="info" :movements="{{ $quotation->movements }}" :promo="{{ $promo }}"></shopping-cart>
 
+                    <input type="hidden" name="editions_count" value="{{ $quotation->editions_count + 1 }}">
+
                     {!! Form::submit('Guardar cambios', ['class' => "btn btn-". ($quotation->type == 'proyecto' ? 'primary': 'info') ." pull-right"]) !!}
 
                 {!! Form::close() !!}
