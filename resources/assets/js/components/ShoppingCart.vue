@@ -17,7 +17,7 @@
                     <tbody>
                         <tr v-for="(product, index) in elements"
                             :index="index"
-                            :key="index"
+                            :key="product"
                             is="shopping-cart-item" 
                             :product="product"
                             :exchange="exchange"
@@ -82,7 +82,6 @@
 		methods: {
 			addRow(product) {
                 this.elements.push(product)
-
                 let price = product.retail_price * (product.dollars == 0 ? 1: this.exchange)
                 let iva = price * 0.16 * product.iva
 

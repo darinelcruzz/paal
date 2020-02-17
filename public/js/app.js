@@ -54229,7 +54229,7 @@ var render = function() {
                 "tbody",
                 _vm._l(_vm.elements, function(element, index) {
                   return _c("shipping-item", {
-                    key: index,
+                    key: element,
                     tag: "tr",
                     attrs: { index: index, item: element }
                   })
@@ -56463,7 +56463,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         addRow: function addRow(product) {
             this.elements.push(product);
-
             var price = product.retail_price * (product.dollars == 0 ? 1 : this.exchange);
             var iva = price * 0.16 * product.iva;
 
@@ -56540,7 +56539,7 @@ var render = function() {
                 "tbody",
                 _vm._l(_vm.elements, function(product, index) {
                   return _c("shopping-cart-item", {
-                    key: index,
+                    key: product,
                     tag: "tr",
                     attrs: {
                       index: index,

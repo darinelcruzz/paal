@@ -12,7 +12,7 @@
                     </thead>
 
                     <tbody>
-                        <tr v-for="(element, index) in elements" :index="index" :key="index" is="shipping-item" :item="element"></tr>
+                        <tr v-for="(element, index) in elements" :index="index" :key="element" is="shipping-item" :item="element"></tr>
                     </tbody>
                 </table>
             </div>
