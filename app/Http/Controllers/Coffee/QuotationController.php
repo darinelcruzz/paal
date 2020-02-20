@@ -13,64 +13,26 @@ class QuotationController extends Controller
     {
         $date = isset($request->date) ? $request->date: date('Y-m');
 
-        $quotations = Quotation::where('company', 'coffee')
-            ->whereNull('client_name')
-            ->whereMonth('created_at', substr($date, 5, 7))
-            ->whereYear('created_at', substr($date, 0, 4))
-            ->orderByDesc('id')
-            ->get();
+        $quotations = Quotation::normal('coffee', $date)->get();
 
-        $quotations_with_sales = Quotation::where('company', 'coffee')
-            ->whereNull('client_name')
-            ->whereMonth('created_at', substr($date, 5, 7))
-            ->whereYear('created_at', substr($date, 0, 4))
-            ->has('sales')
-            ->orderByDesc('id')
-            ->count();
+        $sales = Quotation::normal('coffee', $date)->has('sales')->count();
 
-        $quotations_without_sales = Quotation::where('company', 'coffee')
-            ->whereNull('client_name')
-            ->whereMonth('created_at', substr($date, 5, 7))
-            ->whereYear('created_at', substr($date, 0, 4))
-            ->doesntHave('sales')
-            ->orderByDesc('id')
-            ->count();
+        $total = count($quotations);
 
-        $all = $quotations->count();
-
-        return view('coffee.quotations.index', compact('quotations', 'all', 'quotations_without_sales', 'quotations_with_sales', 'date'));
+        return view('coffee.quotations.index', compact('quotations', 'sales', 'total', 'date'));
     }
 
     function internet(Request $request)
     {
         $date = isset($request->date) ? $request->date: date('Y-m');
 
-        $quotations = Quotation::where('company', 'coffee')
-            ->whereNotNull('client_name')
-            ->whereMonth('created_at', substr($date, 5, 7))
-            ->whereYear('created_at', substr($date, 0, 4))
-            ->orderByDesc('id')
-            ->get();
+        $quotations = Quotation::internet('coffee', $date)->get();
 
-        $quotations_with_sales = Quotation::where('company', 'coffee')
-            ->whereNotNull('client_name')
-            ->whereMonth('created_at', substr($date, 5, 7))
-            ->whereYear('created_at', substr($date, 0, 4))
-            ->has('sales')
-            ->orderByDesc('id')
-            ->count();
+        $sales = Quotation::internet('coffee', $date)->has('sales')->count();
 
-        $quotations_without_sales = Quotation::where('company', 'coffee')
-            ->whereNotNull('client_name')
-            ->whereMonth('created_at', substr($date, 5, 7))
-            ->whereYear('created_at', substr($date, 0, 4))
-            ->doesntHave('sales')
-            ->orderByDesc('id')
-            ->count();
+        $total = count($quotations);
 
-        $all = $quotations->count();
-
-        return view('coffee.quotations.internet', compact('quotations', 'all', 'quotations_without_sales', 'quotations_with_sales', 'date'));
+        return view('coffee.quotations.internet', compact('quotations', 'sales', 'total', 'date'));
     }
 
     function create($type)

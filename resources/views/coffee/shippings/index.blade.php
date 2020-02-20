@@ -31,11 +31,23 @@
 
             <solid-box title="Envíos" color="danger">
                 
-                <data-table>
+                <table class="table table-bordered table-striped spanish">
 
-                    {{ drawHeader('ID', '<i class="fa fa-cogs"></i>', 'cliente', 'dirección', 'enviado', 'entregado', 'empresa', 'estado', 'observaciones') }}
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th><i class="fa fa-cogs"></i></th>
+                            <th>Cliente</th>
+                            <th>Dirección</th>
+                            <th>Enviado</th>
+                            <th>Entregado</th>
+                            <th>Paquetería</th>
+                            <th>Estado</th>
+                            <th>Observaciones</th>
+                        </tr>
+                    </thead>
 
-                    <template slot="body">
+                    <tbody>
                         @foreach($shippings as $shipping)
                             <tr>
                                 <td>{{ $shipping->id }}</td>
@@ -58,7 +70,7 @@
                                     ({{ $shipping->ingress->folio }})
                                 </td>
                                 <td>
-                                    {{ $shipping->address or 'No se proporcionó' }}
+                                    {{ $shipping->address->full_address or 'No se proporcionó' }}
                                 </td>
                                 <td>
                                     {{ fdate($shipping->shipped_at, 'd \d\e F, Y', 'Y-m-d') }} <br>
@@ -75,9 +87,9 @@
 
                             </tr>
                         @endforeach
-                    </template>
+                    </tbody>
                     
-                </data-table>
+                </table>
 
             </solid-box>
         </div>

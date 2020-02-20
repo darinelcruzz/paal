@@ -1,12 +1,6 @@
 @extends('coffee.root')
 
-@push('pageTitle')
-    Cotizaciones
-@endpush
-
-@push('headerTitle')
-    
-@endpush
+@push('pageTitle', 'Cotizaciones')
 
 @section('content')
 
@@ -32,19 +26,19 @@
 
         <div class="col-md-3">
             <label class="btn btn-warning btn-bg btn-block">
-               TOTAL: {{ $all }}
+               TOTAL: {{ $total }}
             </label>
         </div>
 
         <div class="col-md-3">
             <label class="btn btn-success btn-bg btn-block">
-               VENTAS: {{ $quotations_with_sales }} | {{ round($quotations_with_sales * 100 / $all) }} %
+               VENTAS: {{ $sales }} | {{ round($sales * 100 / ($total ? $total : 1)) }} %
             </label>
         </div>
 
         <div class="col-md-3">
             <label class="btn btn-default btn-bg btn-block">
-                SIN VENTAS: {{ $quotations_without_sales }} | {{ round($quotations_without_sales * 100 / $all) }} %
+                SIN VENTAS: {{ $total - $sales }} | {{ round(($total - $sales) * 100 / ($total ? $total : 1)) }} %
             </label>
         </div>
     </div>

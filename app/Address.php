@@ -15,4 +15,9 @@ class Address extends Model
     {
     	return $this->belongsTo(Client::class);
     }
+
+    function getFullAddressAttribute()
+    {
+    	return "$this->street #$this->street_number, $this->city";
+    }
 }

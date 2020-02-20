@@ -1,12 +1,6 @@
 @extends('coffee.root')
 
-@push('pageTitle')
-    Cotizaciones
-@endpush
-
-@push('headerTitle')
-    
-@endpush
+@push('pageTitle', 'Cotizaciones | Internet')
 
 @section('content')
 
@@ -20,7 +14,7 @@
                         <div class="input-group input-group-sm">
                             <input type="month" name="date" class="form-control" value="{{ $date }}">
                             <span class="input-group-btn">
-                                <button type="submit" class="btn btn-warning btn-flat"><i class="fa fa-search"></i></button>
+                                <button type="submit" class="btn btn-danger btn-flat"><i class="fa fa-search"></i></button>
                             </span>
                         </div>
                     </div>
@@ -31,20 +25,20 @@
         </div>
 
         <div class="col-md-3">
-            <label class="btn btn-warning btn-bg btn-block">
-               TOTAL: {{ $all }}
+            <label class="btn btn-danger btn-bg btn-block">
+               TOTAL: {{ $total }}
             </label>
         </div>
 
         <div class="col-md-3">
             <label class="btn btn-success btn-bg btn-block">
-               VENTAS: {{ $quotations_with_sales }} | {{ round(($quotations_with_sales * 100) / ($all == 0 ? 1: $all)) }} %
+               VENTAS: {{ $sales }} | {{ round(($sales * 100) / ($total == 0 ? 1: $total)) }} %
             </label>
         </div>
 
         <div class="col-md-3">
             <label class="btn btn-default btn-bg btn-block">
-                SIN VENTAS: {{ $quotations_without_sales }} | {{ round(($quotations_without_sales * 100) / ($all == 0 ? 1: $all)) }} %
+                SIN VENTAS: {{ ($total - $sales) }} | {{ round((($total - $sales) * 100) / ($total == 0 ? 1: $total)) }} %
             </label>
         </div>
     </div>
@@ -55,7 +49,7 @@
 
         <div class="col-md-12">
 
-            <solid-box title="INTERNAS ({{ $quotations->where('client_id', 658)->count() }})" color="success" button>
+            <solid-box title="INTERNAS ({{ $quotations->where('client_id', 658)->count() }})" color="primary" button>
 
                 <data-table example="1">
 
@@ -66,7 +60,7 @@
                             <tr>
                                 <td>{{ $quotation->id }}</td>
                                 <td>
-                                    <dropdown icon="cogs" color="success">
+                                    <dropdown icon="cogs" color="primary">
                                         <ddi to="{{ route('coffee.quotation.show', $quotation) }}" icon="eye" text="Detalles"></ddi>
                                         <ddi to="{{ route('coffee.quotation.download', $quotation) }}" icon="file-pdf" text="Ver PDF"></ddi>
                                         @if (!$quotation->is_canceled)
@@ -110,7 +104,7 @@
 
             </solid-box>
 
-            <solid-box title="EXTERNAS ({{ $quotations->where('client_id', 659)->count() }})" color="danger" button collapsed>
+            <solid-box title="EXTERNAS ({{ $quotations->where('client_id', 659)->count() }})" color="info" button collapsed>
 
                 <data-table example="1">
 
@@ -121,7 +115,7 @@
                             <tr>
                                 <td>{{ $quotation->id }}</td>
                                 <td>
-                                    <dropdown icon="cogs" color="danger">
+                                    <dropdown icon="cogs" color="info">
                                         <ddi to="{{ route('coffee.quotation.show', $quotation) }}" icon="eye" text="Detalles"></ddi>
                                         <ddi to="{{ route('coffee.quotation.download', $quotation) }}" icon="file-pdf" text="Ver PDF"></ddi>
                                         @if (!$quotation->is_canceled)

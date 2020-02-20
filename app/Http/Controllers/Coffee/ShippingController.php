@@ -55,6 +55,7 @@ class ShippingController extends Controller
 
     function update(Request $request, Shipping $shipping)
     {
+        // dd($request->all());
         $attributes = $request->validate([
             'guide_number' => 'sometimes|required', 
             'company' => 'sometimes|required', 
@@ -67,6 +68,6 @@ class ShippingController extends Controller
         
         $shipping->update($attributes);
 
-        return redirect(route('coffee.shipping.index'));
+        return redirect(route('coffee.shipping.index', 'todos'));
     }
 }
