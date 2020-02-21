@@ -14,7 +14,7 @@ class ReturnsController extends Controller
     {
         $provider = Provider::whereIn('company', ['mbe', 'both'])->where('group', 'rp')->first();
 
-        $users = User::whereId(2)->pluck('name', 'id')->toArray();
+        $users = User::whereIn('id', [2, 7])->pluck('name', 'id')->toArray();
 
         return view('mbe.egresses.returns.create', compact('provider', 'users'));
     }

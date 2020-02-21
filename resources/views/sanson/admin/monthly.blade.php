@@ -148,11 +148,44 @@
 
             <div class="row">
                 <div class="col-md-4">
+                    <div class="small-box bg-teal">
+                        <div class="inner">
+                            <big>Equipos y refacciones</big>
+                            <h3>
+                                <small style="color: white">$ {{ number_format($equipment->sum('amount'), 2) }}</small>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="small-box bg-primary">
+                        <div class="inner">
+                            <big>Proyectos</big>
+                            <h3>
+                                <small style="color: white">$ {{ number_format($project->sum('amount'), 2) }}</small>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
                     <div class="small-box bg-purple">
                         <div class="inner">
-                            <big>Insumos</big>
+                            <big>Sanson equipo</big>
                             <h3>
-                                <small style="color: white">$ {{ number_format($type1->sum('amount'), 2) }}</small>
+                                <small style="color: white">$ {{ number_format($equipment->sum('amount'), 2) }}</small>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="small-box bg-black">
+                        <div class="inner">
+                            <big>Imbera</big>
+                            <h3>
+                                <small style="color: white">$ {{ number_format($project->sum('amount'), 2) }}</small>
                             </h3>
                         </div>
                     </div>
@@ -160,9 +193,20 @@
                 <div class="col-md-4">
                     <div class="small-box bg-navy">
                         <div class="inner">
-                            <big>Equipo</big>
+                            <big>Rhino</big>
                             <h3>
-                                <small style="color: white">$ {{ number_format($type2->sum('amount'), 2) }}</small>
+                                <small style="color: white">$ {{ number_format($equipment->sum('amount'), 2) }}</small>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="small-box bg-maroon">
+                        <div class="inner">
+                            <big>Sanson refacciones</big>
+                            <h3>
+                                <small style="color: white">$ {{ number_format($equipment->sum('amount'), 2) }}</small>
                             </h3>
                         </div>
                     </div>

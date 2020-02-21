@@ -25,11 +25,13 @@ class Shipping extends Model
     	return $colors[$this->status];
     }
 
-    function scopeMonthly($query, $date)
+    function scopeMonthly($query, $date, $company = 'coffee')
     {
-        return $query
+        return $query->whereMonth('created_at', substr($date, 5, 7))
             ->whereYear('created_at', substr($date, 0, 4))
-            ->whereMonth('created_at', substr($date, 5));
+            ->whereHas('ingress', function ($query) use ($company) {
+                $query->where('company', $company);
+            });
     }
 
 }

@@ -31,9 +31,13 @@ function drawHeader(...$titles)
     echo "</tr></template>";
 }
 
-function pendingShippings()
+function pendingShippings($company = 'coffee')
 {
-    return Shipping::whereStatus('pendiente')->count();
+    return Shipping::whereStatus('pendiente')
+        ->whereHas('ingress', function ($query) use ($company) {
+            $query->where('company', $company);
+        })
+        ->count();
 }
 
 function saveCoffeeFile($file, $folder = 'bills')

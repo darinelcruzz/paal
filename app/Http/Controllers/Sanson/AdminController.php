@@ -46,22 +46,20 @@ class AdminController extends Controller
     {
         $date = isset($request->date) ? $request->date: date('Y-m');
 
-        $shippings = Shipping::monthly($date);
+        $shippings = Shipping::monthly($date, 'sanson');
 
-        $month = Payment::monthly($date);
+        $month = Payment::monthly($date, 'sanson');
 
         $working_days = $month->selectRaw('DATE_FORMAT(created_at, "%Y-%m-%d") as date')->get()->groupBy('date')->count();
 
         $working_days = $working_days == 0 ? 1: $working_days;
 
-        $pending = Payment::monthly($date)->whereNull('cash_reference')->sum('cash');
+        $pending = Payment::monthly($date, 'sanson')->whereNull('cash_reference')->sum('cash');
 
-        $type1 = Ingress::monthly($date)->where('type', 'insumos')->get();
-        $type2 = Ingress::monthly($date)->where('type', 'equipo')->get();
+        $project = Ingress::monthly($date, 'sanson')->where('type', 'proyecto')->get();
+        $equipment = Ingress::monthly($date, 'sanson')->where('type', 'equipo')->get();
 
-        // dd($month->count(), $type1->count(), $type2->count());
-
-        return view('sanson.admin.monthly', compact('date', 'month', 'pending', 'working_days', 'shippings', 'type1', 'type2'));
+        return view('sanson.admin.monthly', compact('date', 'month', 'pending', 'working_days', 'shippings', 'project', 'equipment'));
     }
 
     function invoices(Request $request, $thisDate = null)

@@ -37,7 +37,7 @@
                         <tr>
                             <th>ID</th>
                             <th><i class="fa fa-cogs"></i></th>
-                            <th>Cliente</th>
+                            <th>Cliente (Venta)</th>
                             <th>Dirección</th>
                             <th>Enviado</th>
                             <th>Entregado</th>
@@ -55,7 +55,7 @@
                                     <dropdown color="danger" icon="cogs">
                                         @if (!$shipping->guide_number)
                                             <ddi icon="plus" to="{{ route('coffee.shipping.addInfo', $shipping) }}" text="Número de guía"></ddi>
-                                        @else
+                                        @elseif($shipping->guide_number && $shipping->status != 'entregado')
                                             <ddi icon="check" to="{{ route('coffee.shipping.edit', $shipping) }}" text="Entregado"></ddi>
                                         @endif
                                         <li>
@@ -73,15 +73,19 @@
                                     {{ $shipping->address->full_address or 'No se proporcionó' }}
                                 </td>
                                 <td>
-                                    {{ fdate($shipping->shipped_at, 'd \d\e F, Y', 'Y-m-d') }} <br>
+                                    {{ fdate($shipping->shipped_at, 'd/m/Y', 'Y-m-d') }} <br>
+                                </td>
+                                <td>
+                                    {{ fdate($shipping->delivered_at, 'd/m/Y', 'Y-m-d') }}
+                                </td>
+                                <td>
+                                    <small>{{ strtoupper($shipping->company) }}</small>
                                     <code>{{ $shipping->guide_number }}</code>
                                 </td>
                                 <td>
-                                    {{ $shipping->delivered_at }}
-                                </td>
-                                <td>{{ strtoupper($shipping->company) }}</td>
-                                <td>
-                                    <span class="label label-{{ $shipping->color }}">{{ strtoupper($shipping->status) }}</span>
+                                    <span class="label label-{{ $shipping->color }}">
+                                        <small>{{ strtoupper($shipping->status) }}</small>
+                                    </span>
                                 </td>
                                 <td>{{ $shipping->observations }}</td>
 

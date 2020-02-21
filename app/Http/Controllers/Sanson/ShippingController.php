@@ -12,8 +12,7 @@ class ShippingController extends Controller
     {
         $date = isset($request->date) ? $request->date: date('Y-m');
 
-        $shippings = Shipping::whereMonth('created_at', substr($date, 5, 7))
-            ->whereYear('created_at', substr($date, 0, 4))
+        $shippings = Shipping::monthly($date, 'sanson')
             ->where('status', $status == 'todos' ? '!=': '=', $status)
             ->orderByDesc('id')
             ->get();
@@ -25,9 +24,7 @@ class ShippingController extends Controller
     {
         $date = isset($request->date) ? $request->date: date('Y-m');
 
-        $shippings = Shipping::whereYear('shipped_at', substr($date, 0, 4))
-            ->whereMonth('shipped_at', substr($date, 5))
-            ->get();
+        $shippings = Shipping::monthly($date, 'sanson')->get();
 
         return view('sanson.shippings.monthly', compact('shippings', 'date'));
     }

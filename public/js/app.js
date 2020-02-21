@@ -56797,7 +56797,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return this.quantity * this.price - this.quantity * this.price * this.discount / 100;
         },
         max_discount: function max_discount() {
-            return this.type == 'info' ? 20 : 100;
+            return this.type == 'info' ? 30 : 40;
         },
         computed_iva: function computed_iva() {
             return this.total * 0.16 * this.iva;

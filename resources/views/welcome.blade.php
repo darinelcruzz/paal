@@ -48,25 +48,6 @@
 
   </div>
 
-  {{-- <br>
-
-  <div class="lockscreen-item">
-
-    <div class="lockscreen-image">
-      <img src="{{ asset('/img/sanson_login.png')  }}" alt="San - Son">
-    </div>
-
-    <div class="lockscreen-credentials">
-      <div class="input-group">
-        <input type="text" class="form-control" value="SAN-SON" disabled>
-
-        <div class="input-group-btn">
-          <a href="/sanson" class="btn"><i class="fa fa-arrow-right text-muted"></i></a>
-        </div>
-      </div>
-    </div>
-
-  </div> --}}
 
   <br>
 
@@ -88,6 +69,26 @@
 
   </div>
 
+  <br>
+
+  <div class="lockscreen-item">
+
+    <div class="lockscreen-image">
+      <img src="{{ asset('/img/sanson_login.png')  }}" alt="San - Son">
+    </div>
+
+    <div class="lockscreen-credentials">
+      <div class="input-group">
+        <input type="text" class="form-control" value="SAN-SON" disabled>
+
+        <div class="input-group-btn">
+          <a href="/sanson" class="btn"><i class="fa fa-arrow-right text-muted"></i></a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  
   <div class="help-block text-center">
     Elija a qué sitio quiere dirigirse
   </div>

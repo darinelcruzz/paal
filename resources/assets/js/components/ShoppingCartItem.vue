@@ -62,7 +62,7 @@ export default {
     		return (this.quantity * this.price) - ((this.quantity * this.price) * this.discount / 100)
     	},
         max_discount() {
-            return this.type == 'info' ? 20: 100;
+            return this.type == 'info' ? 30: 40;
         },
     	computed_iva() {
             return this.total * 0.16 * this.iva

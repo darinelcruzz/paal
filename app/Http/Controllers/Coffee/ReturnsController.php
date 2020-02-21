@@ -14,7 +14,7 @@ class ReturnsController extends Controller
     {
         $provider = Provider::whereIn('company', ['coffee', 'both'])->where('group', 'rp')->first();
 
-        $users = User::whereId(2)->pluck('name', 'id')->toArray();
+        $users = User::whereIn('id', [2, 4, 8])->pluck('name', 'id')->toArray();
 
         return view('coffee.egresses.returns.create', compact('provider', 'users'));
     }

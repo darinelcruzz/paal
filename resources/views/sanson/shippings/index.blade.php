@@ -36,11 +36,11 @@
                             <tr>
                                 <th>ID</th>
                                 <th><i class="fa fa-cogs"></i></th>
-                                <th>Cliente (venta)</th>
-                                <th>Paquetería</th>
+                                <th>Cliente (Venta)</th>
                                 <th>Dirección</th>
-                                <th>Envío</th>
-                                <th>Entrega</th>
+                                <th>Enviado</th>
+                                <th>Entregado</th>
+                                <th>Paquetería</th>
                                 <th>Estado</th>
                                 <th>Observaciones</th>
                             </tr>
@@ -54,7 +54,7 @@
                                     <dropdown color="info" icon="cogs">
                                         @if (!$shipping->guide_number)
                                             <ddi icon="plus" to="{{ route('sanson.shipping.addInfo', $shipping) }}" text="Número de guía"></ddi>
-                                        @else
+                                        @elseif($shipping->guide_number && $shipping->status != 'entregado')
                                             <ddi icon="check" to="{{ route('sanson.shipping.edit', $shipping) }}" text="Entregado"></ddi>
                                         @endif
                                         <li>
@@ -64,25 +64,27 @@
                                         </li>
                                     </dropdown>
                                 </td>
-                                <td style="width: 20%">
+                                <td>
                                     {{ $shipping->ingress->client->name }}
                                     ({{ $shipping->ingress->folio }})
-                                </td>
-                                <td>
-                                    {{ strtoupper($shipping->company) }}<br>
-                                    <code>{{ $shipping->guide_number }}</code>
                                 </td>
                                 <td>
                                     {{ $shipping->address or $shipping->ingress->client->address }}
                                 </td>
                                 <td>
-                                    {{ fdate($shipping->shipped_at, 'd/m/Y', 'Y-m-d') }}
+                                    {{ fdate($shipping->shipped_at, 'd/m/y', 'Y-m-d') }}
                                 </td>
                                 <td>
-                                    {{ fdate($shipping->delivered_at, 'd/m/Y', 'Y-m-d') }}
+                                    {{ fdate($shipping->delivered_at, 'd/m/y', 'Y-m-d') }}
                                 </td>
                                 <td>
-                                    <span class="label label-{{ $shipping->color }}">{{ strtoupper($shipping->status) }}</span>
+                                    <small>{{ strtoupper($shipping->company) }}</small>
+                                    <code>{{ $shipping->guide_number }}</code>
+                                </td>
+                                <td>
+                                    <span class="label label-{{ $shipping->color }}">
+                                        <small>{{ strtoupper($shipping->status) }}</small>
+                                    </span>
                                 </td>
                                 <td>{{ $shipping->observations }}</td>
 

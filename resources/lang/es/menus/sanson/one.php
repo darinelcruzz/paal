@@ -63,7 +63,7 @@ return [
     'shippings' => [
         'title' => 'Envíos',
         'icon' => 'fa fa-shipping-fast',
-        'label' => pendingShippings(),
+        'label' => pendingShippings('sanson'),
         'submenu' => [
             'create' => [
                 'title' => 'Rastreo',
