@@ -10,6 +10,6 @@ class ClientController extends Controller
 {
     function index($company)
     {
-        return Client::where('company', $company)->get(['id', 'name', 'rfc']);
+        return Client::where('company', $company)->orWhere('company', 'internet')->get(['id', 'name', 'rfc']);
     }
 }

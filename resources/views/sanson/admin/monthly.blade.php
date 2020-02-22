@@ -152,7 +152,7 @@
                         <div class="inner">
                             <big>Equipos y refacciones</big>
                             <h3>
-                                <small style="color: white">$ {{ number_format($equipment->sum('amount'), 2) }}</small>
+                                <small style="color: white">$ {{ number_format($equipment, 2) }}</small>
                             </h3>
                         </div>
                     </div>
@@ -162,7 +162,7 @@
                         <div class="inner">
                             <big>Proyectos</big>
                             <h3>
-                                <small style="color: white">$ {{ number_format($project->sum('amount'), 2) }}</small>
+                                <small style="color: white">$ {{ number_format($project, 2) }}</small>
                             </h3>
                         </div>
                     </div>
@@ -172,7 +172,7 @@
                         <div class="inner">
                             <big>Sanson equipo</big>
                             <h3>
-                                <small style="color: white">$ {{ number_format($equipment->sum('amount'), 2) }}</small>
+                                <small style="color: white">$ {{ number_format($sanson_equipment * 1.16, 2) }}</small>
                             </h3>
                         </div>
                     </div>
@@ -185,7 +185,7 @@
                         <div class="inner">
                             <big>Imbera</big>
                             <h3>
-                                <small style="color: white">$ {{ number_format($project->sum('amount'), 2) }}</small>
+                                <small style="color: white">$ {{ number_format($imbera * 1.16, 2) }}</small>
                             </h3>
                         </div>
                     </div>
@@ -195,7 +195,7 @@
                         <div class="inner">
                             <big>Rhino</big>
                             <h3>
-                                <small style="color: white">$ {{ number_format($equipment->sum('amount'), 2) }}</small>
+                                <small style="color: white">$ {{ number_format($rhino * 1.16, 2) }}</small>
                             </h3>
                         </div>
                     </div>
@@ -206,7 +206,7 @@
                         <div class="inner">
                             <big>Sanson refacciones</big>
                             <h3>
-                                <small style="color: white">$ {{ number_format($equipment->sum('amount'), 2) }}</small>
+                                <small style="color: white">$ {{ number_format($refactions * 1.16, 2) }}</small>
                             </h3>
                         </div>
                     </div>

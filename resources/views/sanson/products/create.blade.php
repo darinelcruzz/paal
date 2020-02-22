@@ -25,7 +25,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             {!! Field::select('family', 
-                                ['SANSON' => 'SANSON', 'RHINO' => 'RHINO', 'IMBERA' => 'IMBERA'], 
+                                ['EQUIPOS SANSON' => 'EQUIPOS SANSON', 'REFACCIONES SANSON' => 'REFACCIONES SANSON', 'RHINO' => 'RHINO', 'IMBERA' => 'IMBERA'], 
                                 null, 
                                 ['label' => 'Marca', 'tpl' => 'withicon', 'empty' => 'Elija marca'], 
                                 ['icon' => 'tag']) 

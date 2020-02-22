@@ -8,29 +8,27 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-7">
+        <div class="col-md-8">
             <solid-box title="Productos" color="info">
                 
                 <data-table>
 
-                    {{ drawHeader('ID', 'descripción', 'MXN', 'USD') }}
+                    {{ drawHeader('ID', 'descripción', 'modelo', 'marca', 'MXN', 'USD') }}
 
                     <template slot="body">
                         @foreach($products as $product)
                             <tr>
                                 <td>{{ $product->id }}</td>
                                 <td>
-                                    <a href="{{ route('sanson.product.edit', $product) }}">
-                                        {{ $product->description }}                                        
-                                    </a>
-                                    <br>
-                                    <code>{{ $product->code }}</code>
+                                    <a href="{{ route('sanson.product.edit', $product) }}">{{ $product->description }}</a>
                                 </td>
+                                <td><code>{{ $product->code }}</code></td>
+                                <td>{{ $product->family }}</td>
                                 @if($product->dollars)
-                                    <td>$ {{ number_format($product->retail_price * $exchange, 2) }}</td>
-                                    <td>$ {{ number_format($product->retail_price, 2) }}</td>
+                                    <td>{{ number_format($product->retail_price * $exchange, 2) }}</td>
+                                    <td>{{ number_format($product->retail_price, 2) }}</td>
                                 @else
-                                    <td>$ {{ number_format($product->retail_price, 2) }}</td>
+                                    <td>{{ number_format($product->retail_price, 2) }}</td>
                                     <td>---</td>
                                 @endif
                             </tr>
