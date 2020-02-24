@@ -79,7 +79,7 @@
                                     <td>
                                         <dropdown icon="cogs" color="info">
                                             <ddi to="{{ route('sanson.quotation.show', $quotation) }}" icon="eye" text="Detalles"></ddi>
-                                            <ddi to="{{ route('sanson.quotation.download', $quotation) }}" icon="file-pdf" text="Ver PDF"></ddi>
+                                            <ddi to="{{ route('sanson.quotation.print', $quotation) }}" icon="file-pdf" text="Imprimir" target="_blank"></ddi>
                                             @if (!$quotation->is_canceled)
                                                 <ddi to="{{ route('sanson.quotation.edit', $quotation) }}" icon="edit" text="Editar"></ddi>
                                                 @if($quotation->type)

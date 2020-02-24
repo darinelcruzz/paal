@@ -62,7 +62,7 @@
                                 <td>
                                     <dropdown icon="cogs" color="warning">
                                         <ddi to="{{ route('coffee.quotation.show', $quotation) }}" icon="eye" text="Detalles"></ddi>
-                                        <ddi to="{{ route('coffee.quotation.download', $quotation) }}" icon="file-pdf" text="Ver PDF"></ddi>
+                                        <ddi to="{{ route('coffee.quotation.print', $quotation) }}" icon="file-pdf" text="Imprimir" target="_blank"></ddi>
                                         @if (!$quotation->is_canceled)
                                             <ddi to="{{ route('coffee.quotation.edit', $quotation) }}" icon="edit" text="Editar"></ddi>
                                             @if($quotation->type)

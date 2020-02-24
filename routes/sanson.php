@@ -81,6 +81,7 @@ Route::group(['prefix' => 'sanson', 'as' => 'sanson.'], function () {
 	    Route::get('editar/{quotation}', usesas($ctrl, 'edit'));
 	    Route::post('editar/{quotation}', usesas($ctrl, 'update'));
 		Route::get('descargar/{quotation}', usesas($ctrl, 'download'));
+		Route::get('imprimir/{quotation}', usesas($ctrl, 'print'));
 		Route::get('transformar/{quotation}/{type?}', usesas($ctrl, 'transform'));
 		Route::get('{quotation}', usesas($ctrl, 'show'));
 	});

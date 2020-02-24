@@ -105,6 +105,11 @@ class QuotationController extends Controller
         return $pdf->stream(date('dmYHis') . $quotation->id . ".pdf");
     }
 
+    function print(Quotation $quotation)
+    {
+        return view('coffee.quotations.print', compact('quotation'));
+    }
+
     function transform(Quotation $quotation, $type = null)
     {
         if ($type == null) {
