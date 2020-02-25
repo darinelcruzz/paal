@@ -9,31 +9,9 @@
         <!-- Font Awesome -->
         <link rel="stylesheet" href="{{ asset('adminlte/bower_components/font-awesome/css/font-awesome.min.css') }}">
         
-        <!-- Salto de página -->
-        <style>
-        body {
-            font-style: bold;
-            font-size: 12px;
-        }
-        .page-break {
-            page-break-after: always;
-        }
+        <link rel="stylesheet" href="{{ asset('css/printable.css') }}" media="all">
 
-        .title {
-            background-color: rgb(191, 191, 191);
-            color: white;
-            font-weight: bold;
-        }
-
-        .centered {
-            text-align: center;
-        }
-
-        .terms-and-conditions {
-            font-size: 8px;
-            font-family: monospace;
-        }
-        </style>
+        <link rel="icon" href="{{ asset("/img/coffee.ico") }}" />
     </head>
 
     <body onload="window.print();">
@@ -71,7 +49,7 @@
                 <table class="table">
                     <tbody>
                         <tr>
-                            <th class="title">No. Asesor</th>
+                            <td class="title">No. Asesor</td>
                             <td>{{ auth()->user()->id }}</td>
                             <th class="title">Email</th>
                             <td>ventas.tuxtla1@coffeedepot.com.mx</td>
@@ -204,8 +182,8 @@
                             <td style="text-align: right;">{{ number_format($shipping, 2) }}</td>
                         </tr>
                         <tr>
-                            <th style="color: red">TOTAL</th>
-                            <th style="color: red; text-align: right;">{{ number_format($quotation->amount, 2) }}</th>
+                            <th style="color: red"><big>TOTAL</big></th>
+                            <th style="color: red; text-align: right;"><big>{{ number_format($quotation->amount, 2) }}</big></th>
                         </tr>
 
                         <tr>
@@ -216,7 +194,7 @@
 
                         <tr>
                             <th colspan="6" class="terms-and-conditions">
-                                TIEMPO DE ENTREGA: El tiempo de entrega de los equipos se contará a partir de la recepción del 50 % de anticipo, así como el respectivo pedido firmado por el cliente. En caso de ser un equipo o mobiliario especial, se deberá contar además con los datos y especificaciones necesarias para su fabricación. Toda cancelación de equipo causara una penalidad del 50 % del valor tota. en todos los pedidos de mobiliario, comercialización o equipos de fabricación especial, NO se aceptan cancelaciones, devoluciones, ni cambios una vez fincado el pedido. Los precios cotizados estarán sujetos a cambios sin previo aviso. /SERVICIO Y GARANTIA: Todos los equipos vendidos contarán con un año de garantia a partir de la fecha de la factura cubriendo solo defectos de fabricación. Todas las partes para el control y flujo de corriente eléctrica, gozarán de un período de 90 días. La garantia no cubre los muebles y equipos descoompuestos por maltrato en su manejo o falta de mantenimiento. FLETE: En los casos en el que el flete esté incluido, esté solo será dentro del área metropolitana y se considerará de nuestras instalaciones a la obra a donde vaya a ser entregado el equipo. En caso que la dirección de entrega tenga alguna característica por la cual se necesitan maniobras especiales estas serán a cargo y responsabilidad del cliente. Las entregas se harán en un horario abierto de 9:30 a las 17:00 horas. Flete por cobrar. El embalaje tendrá un costo extra. La entrega de los equipos se hará a pie de camión, sin considerar maniobras a otros pisos. NO se realizarán ningún embarque, si el equipo no se encuentra totalmente liquidado. /MONTAJE E INTERCONEXIÓN: Montaje y embalaje del equipo y/o mobiliario NO está incluido, este deberá ser cotizado cuando se requiere y considera en: armado en obra de los muebles y equipos que lo requieran, colgado de campanas, fijación de repisas y muebles a muro (en su caso), y nivelación del equipo, proporcionando la mano de obra, maquinaria y herramientas de campo necesarias para los trabajos. Cotización válida por 3 días, los precios cotizados estan sujetos a cambios sin previo aviso. PARA CUALQUIER ACLARACIÓN COMUNIQUESE A LOS TELÉFONOS ARRIBA MENCIONADOS, CON EL AGENTE QUE LE ATENDIÓ O CON EL DEPARTAMENTO DE ATENCIÓN A CLIENTES.
+                                TIEMPO DE ENTREGA: EL TIEMPO DE ENTREGA DE LOS EQUIPOS SE CONTARÁ A PARTIR DE LA RECEPCIÓN DEL 50 % DE ANTICIPO, ASÍ COMO EL RESPECTIVO PEDIDO FIRMADO POR EL CLIENTE. EN CASO DE SER UN EQUIPO O MOBILIARIO ESPECIAL, SE DEBERÁ CONTAR ADEMÁS CON LOS DATOS Y ESPECIFICACIONES NECESARIAS PARA SU FABRICACIÓN. TODA CANCELACIÓN DE EQUIPO CAUSARA UNA PENALIDAD DEL 50 % DEL VALOR TOTA. EN TODOS LOS PEDIDOS DE MOBILIARIO, COMERCIALIZACIÓN O EQUIPOS DE FABRICACIÓN ESPECIAL, NO SE ACEPTAN CANCELACIONES, DEVOLUCIONES, NI CAMBIOS UNA VEZ FINCADO EL PEDIDO. LOS PRECIOS COTIZADOS ESTARÁN SUJETOS A CAMBIOS SIN PREVIO AVISO. /SERVICIO Y GARANTIA: TODOS LOS EQUIPOS VENDIDOS CONTARÁN CON UN AÑO DE GARANTIA A PARTIR DE LA FECHA DE LA FACTURA CUBRIENDO SOLO DEFECTOS DE FABRICACIÓN. TODAS LAS PARTES PARA EL CONTROL Y FLUJO DE CORRIENTE ELÉCTRICA, GOZARÁN DE UN PERÍODO DE 90 DÍAS. LA GARANTIA NO CUBRE LOS MUEBLES Y EQUIPOS DESCOOMPUESTOS POR MALTRATO EN SU MANEJO O FALTA DE MANTENIMIENTO. FLETE: EN LOS CASOS EN EL QUE EL FLETE ESTÉ INCLUIDO, ESTÉ SOLO SERÁ DENTRO DEL ÁREA METROPOLITANA Y SE CONSIDERARÁ DE NUESTRAS INSTALACIONES A LA OBRA A DONDE VAYA A SER ENTREGADO EL EQUIPO. EN CASO QUE LA DIRECCIÓN DE ENTREGA TENGA ALGUNA CARACTERÍSTICA POR LA CUAL SE NECESITAN MANIOBRAS ESPECIALES ESTAS SERÁN A CARGO Y RESPONSABILIDAD DEL CLIENTE. LAS ENTREGAS SE HARÁN EN UN HORARIO ABIERTO DE 9:30 A LAS 17:00 HORAS. FLETE POR COBRAR. EL EMBALAJE TENDRÁ UN COSTO EXTRA. LA ENTREGA DE LOS EQUIPOS SE HARÁ A PIE DE CAMIÓN, SIN CONSIDERAR MANIOBRAS A OTROS PISOS. NO SE REALIZARÁN NINGÚN EMBARQUE, SI EL EQUIPO NO SE ENCUENTRA TOTALMENTE LIQUIDADO. /MONTAJE E INTERCONEXIÓN: MONTAJE Y EMBALAJE DEL EQUIPO Y/O MOBILIARIO NO ESTÁ INCLUIDO, ESTE DEBERÁ SER COTIZADO CUANDO SE REQUIERE Y CONSIDERA EN: ARMADO EN OBRA DE LOS MUEBLES Y EQUIPOS QUE LO REQUIERAN, COLGADO DE CAMPANAS, FIJACIÓN DE REPISAS Y MUEBLES A MURO (EN SU CASO), Y NIVELACIÓN DEL EQUIPO, PROPORCIONANDO LA MANO DE OBRA, MAQUINARIA Y HERRAMIENTAS DE CAMPO NECESARIAS PARA LOS TRABAJOS. COTIZACIÓN VÁLIDA POR 3 DÍAS, LOS PRECIOS COTIZADOS ESTAN SUJETOS A CAMBIOS SIN PREVIO AVISO. PARA CUALQUIER ACLARACIÓN COMUNIQUESE A LOS TELÉFONOS ARRIBA MENCIONADOS, CON EL AGENTE QUE LE ATENDIÓ O CON EL DEPARTAMENTO DE ATENCIÓN A CLIENTES.
                             </th>
                         </tr>
 

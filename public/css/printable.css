@@ -1,0 +1,23 @@
+body {
+    font-style: bold;
+    font-size: 12px;
+}
+
+.page-break {
+    page-break-after: always;
+}
+
+.title {
+    background-color: rgb(191, 191, 191);
+    color: white;
+    font-weight: bold;
+}
+
+.centered {
+    text-align: center;
+}
+
+.terms-and-conditions {
+    font-size: 8px;
+    font-family: monospace;
+}

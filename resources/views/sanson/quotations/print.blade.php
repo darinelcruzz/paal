@@ -8,32 +8,8 @@
         <link rel="stylesheet" href="{{ asset('adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
         <!-- Font Awesome -->
         <link rel="stylesheet" href="{{ asset('adminlte/bower_components/font-awesome/css/font-awesome.min.css') }}">
-        
-        <!-- Salto de página -->
-        <style>
-        body {
-            font-style: bold;
-            font-size: 12px;
-        }
-        .page-break {
-            page-break-after: always;
-        }
-
-        .title {
-            background-color: rgb(191, 191, 191);
-            color: white;
-            font-weight: bold;
-        }
-
-        .centered {
-            text-align: center;
-        }
-
-        .terms-and-conditions {
-            font-size: 8px;
-            font-family: monospace;
-        }
-        </style>
+        <!-- CSS Print -->
+        <link rel="stylesheet" href="{{ asset('css/printable.css') }}" media="all">
     </head>
 
     <body onload="window.print();">
