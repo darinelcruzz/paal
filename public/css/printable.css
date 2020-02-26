@@ -1,6 +1,5 @@
 body {
-    font-style: bold;
-    font-size: 12px;
+    font-size: 11px;
 }
 
 .page-break {
@@ -20,4 +19,10 @@ body {
 .terms-and-conditions {
     font-size: 8px;
     font-family: monospace;
+}
+
+td img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }

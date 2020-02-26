@@ -69,7 +69,7 @@
 
         <div class="row">
             <div class="col-md-12">
-                <table>
+                <table class="table">
                     <tbody>
                         <tr class="title">
                             <th colspan="2" style="text-align: center">DATOS DEL CLIENTE</th>
@@ -77,14 +77,14 @@
                         </tr>
                         <tr>
                             <td class="title" style="width: 15%">Empresa</td>
-                            <td>{{ $quotation->client->name }}</td>
+                            <td>{{ $quotation->client->company == 'internet' ? $quotation->client_name: $quotation->client->name }}</td>
                             <td rowspan="6">
                                 DESCUENTO DEL 5 % EN PAGO EN EFECTIVO, TRANSFERENCIA, TARJETA DE DEBITO,  PRECIOS CON VIGENCIA DE 3 DÍAS, FECHA DE ENTREGA DE 20 A 25 DÍAS HÁBILES. 
                             </td>
                         </tr>
                         <tr>
                             <td class="title">Solicitante</td>
-                            <td>{{ $quotation->client->name }}</td>
+                            <td>{{ $quotation->client->company == 'internet' ? $quotation->client_name: $quotation->client->name }}</td>
                         </tr>
                         <tr>
                             <td class="title">Dirección</td>
@@ -100,7 +100,7 @@
                         </tr>
                         <tr>
                             <td class="title">Email</td>
-                            <td>{{ $quotation->client->email }}</td>
+                            <td>{{ $quotation->client->company == 'internet' ? $quotation->email: $quotation->client->email }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -110,16 +110,16 @@
         <br>
 
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-md-12">
                 <table class="table">
                     <thead>
                         <tr class="title">
                             <th class="centered">CANTIDAD</th>
                             <th class="centered">MODELO</th>
-                            <th class="centered">DESCRIPCIÓN</th>
+                            <th class="centered" style="width: 35%;">DESCRIPCIÓN</th>
                             <th class="centered">PRECIO</th>
                             <th class="centered">DESCUENTO</th>
-                            <th style="width: 15%">IMPORTE NETO</th>
+                            <th class="centered">IMPORTE</th>
                         </tr>
                     </thead>
                     
@@ -167,37 +167,35 @@
                             @endphp
                         @endforeach
                     @endif
+                    </tbody>
+                </table>
 
+                <table class="table">
+                    <tbody>
                         <tr>
                             <th colspan="6" class="terms-and-conditions">
                                 NUESTROS REPRESENTANTES DE VENTA NO ESTÁN AUTORIZADOS A RECIBIR PAGOS HECHOS. SOLO ACEPTAMOS ESTOS PAGOS DIRECTAMENTE EN LA CAJA DE NUESTRAS SUCURSALES Y USTED DEBERÁ RECIBIR UN COMPROBANTE DE RECIBO DE EFECTIVO, MEMBRETADO, FOLIADO, Y FIRMADO POR LA CAJERA Y EL GERENTE DE LA SUCURSAL; SI USTED EFECTUA SU PAGO A NUESTRO REPRESENTANTE, ESTE DEBERÁ SER CON CHEQUE NOMINATIVO A FAVOR DE GRUPO FINANCIERO PAAL S.A. DE C.V. CON LA LEYENDA "PARA ABONO EN CUENTA DEL BENEFICIARIO". NO NOS HACEMOS REPONSABLES POR PAGOS QUE NO CUMPLAN CON ESTOS REQUISITOS. LOS PRECIOS COTIZADOS EN DOLARES O EUROS SE TOMARÁN AL TIPO DE CAMBIO VIGENTE EL DÍA DEL PAGO.
                             </th>
                         </tr>
                         <tr>
-                            <th colspan="2" rowspan="3" style="text-align: center">Firma</th>
-                            <td colspan="2" rowspan="3" style="text-align: center">
-                                Todos los productos que vendemos están protegidos por nuestro programa de garantía, servicio y refacciones
+                            <th colspan="2" style="text-align: center">Firma</th>
+                            <td colspan="2" style="text-align: center; width: 50%">
+                                Todos los productos que vendemos están protegidos por nuestro programa de garantía, servicio y refacciones <br><br>
                             </td>
-                            <td>Envío</td>
-                            <td style="text-align: right;">{{ number_format($shipping, 2) }}</td>
-                        </tr>
-                        <tr>
-                            <th style="color: red"><big>TOTAL</big></th>
-                            <th style="color: red; text-align: right;"><big>{{ number_format($quotation->amount, 2) }}</big></th>
-                        </tr>
-
-                        <tr>
-                            <td colspan="6">
-                                &nbsp;
+                            <td>
+                                Envío <br>
+                                <span style="color: red"><big>TOTAL</big></span>
+                            </td>
+                            <td style="text-align: right;">
+                                {{ number_format($shipping, 2) }} <br>
+                                <span style="color: red; text-align: right;"><big>{{ number_format($quotation->amount, 2) }}</big></span>
                             </td>
                         </tr>
-
                         <tr>
                             <th colspan="6" class="terms-and-conditions">
                                 TIEMPO DE ENTREGA: EL TIEMPO DE ENTREGA DE LOS EQUIPOS SE CONTARÁ A PARTIR DE LA RECEPCIÓN DEL 50 % DE ANTICIPO, ASÍ COMO EL RESPECTIVO PEDIDO FIRMADO POR EL CLIENTE. EN CASO DE SER UN EQUIPO O MOBILIARIO ESPECIAL, SE DEBERÁ CONTAR ADEMÁS CON LOS DATOS Y ESPECIFICACIONES NECESARIAS PARA SU FABRICACIÓN. TODA CANCELACIÓN DE EQUIPO CAUSARA UNA PENALIDAD DEL 50 % DEL VALOR TOTA. EN TODOS LOS PEDIDOS DE MOBILIARIO, COMERCIALIZACIÓN O EQUIPOS DE FABRICACIÓN ESPECIAL, NO SE ACEPTAN CANCELACIONES, DEVOLUCIONES, NI CAMBIOS UNA VEZ FINCADO EL PEDIDO. LOS PRECIOS COTIZADOS ESTARÁN SUJETOS A CAMBIOS SIN PREVIO AVISO. /SERVICIO Y GARANTIA: TODOS LOS EQUIPOS VENDIDOS CONTARÁN CON UN AÑO DE GARANTIA A PARTIR DE LA FECHA DE LA FACTURA CUBRIENDO SOLO DEFECTOS DE FABRICACIÓN. TODAS LAS PARTES PARA EL CONTROL Y FLUJO DE CORRIENTE ELÉCTRICA, GOZARÁN DE UN PERÍODO DE 90 DÍAS. LA GARANTIA NO CUBRE LOS MUEBLES Y EQUIPOS DESCOOMPUESTOS POR MALTRATO EN SU MANEJO O FALTA DE MANTENIMIENTO. FLETE: EN LOS CASOS EN EL QUE EL FLETE ESTÉ INCLUIDO, ESTÉ SOLO SERÁ DENTRO DEL ÁREA METROPOLITANA Y SE CONSIDERARÁ DE NUESTRAS INSTALACIONES A LA OBRA A DONDE VAYA A SER ENTREGADO EL EQUIPO. EN CASO QUE LA DIRECCIÓN DE ENTREGA TENGA ALGUNA CARACTERÍSTICA POR LA CUAL SE NECESITAN MANIOBRAS ESPECIALES ESTAS SERÁN A CARGO Y RESPONSABILIDAD DEL CLIENTE. LAS ENTREGAS SE HARÁN EN UN HORARIO ABIERTO DE 9:30 A LAS 17:00 HORAS. FLETE POR COBRAR. EL EMBALAJE TENDRÁ UN COSTO EXTRA. LA ENTREGA DE LOS EQUIPOS SE HARÁ A PIE DE CAMIÓN, SIN CONSIDERAR MANIOBRAS A OTROS PISOS. NO SE REALIZARÁN NINGÚN EMBARQUE, SI EL EQUIPO NO SE ENCUENTRA TOTALMENTE LIQUIDADO. /MONTAJE E INTERCONEXIÓN: MONTAJE Y EMBALAJE DEL EQUIPO Y/O MOBILIARIO NO ESTÁ INCLUIDO, ESTE DEBERÁ SER COTIZADO CUANDO SE REQUIERE Y CONSIDERA EN: ARMADO EN OBRA DE LOS MUEBLES Y EQUIPOS QUE LO REQUIERAN, COLGADO DE CAMPANAS, FIJACIÓN DE REPISAS Y MUEBLES A MURO (EN SU CASO), Y NIVELACIÓN DEL EQUIPO, PROPORCIONANDO LA MANO DE OBRA, MAQUINARIA Y HERRAMIENTAS DE CAMPO NECESARIAS PARA LOS TRABAJOS. COTIZACIÓN VÁLIDA POR 3 DÍAS, LOS PRECIOS COTIZADOS ESTAN SUJETOS A CAMBIOS SIN PREVIO AVISO. PARA CUALQUIER ACLARACIÓN COMUNIQUESE A LOS TELÉFONOS ARRIBA MENCIONADOS, CON EL AGENTE QUE LE ATENDIÓ O CON EL DEPARTAMENTO DE ATENCIÓN A CLIENTES.
                             </th>
                         </tr>
-
                     </tbody>
                 </table>
             </div>
