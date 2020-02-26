@@ -57,10 +57,10 @@
                             <td>{{ fdate($quotation->updated_at, 'd/m/Y') }}</td>
                         </tr>
                         <tr>
-                            <th class="title">Nombre</th>
+                            <th class="title" style="width: 15%">Nombre</th>
                             <td colspan="3">{{ auth()->user()->name }}</td>
-                            <th class="title">Vigencia</th>
-                            <td>{{ date('d/m/Y', strtotime($quotation->updated_at) + 3 * 24 * 60 * 60) }}</td>
+                            <th class="title" style="width: 25%">Vigencia</th>
+                            <td style="width: 25%">{{ date('d/m/Y', strtotime($quotation->updated_at) + 3 * 24 * 60 * 60) }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -69,38 +69,38 @@
 
         <div class="row">
             <div class="col-md-12">
-                <table class="table">
+                <table>
                     <tbody>
                         <tr class="title">
                             <th colspan="2" style="text-align: center">DATOS DEL CLIENTE</th>
                             <th style="width: 40%; text-align: center">OBSERVACIONES</th>
                         </tr>
                         <tr>
-                            <td class="title" style="width: 15%">Empresa</td>
-                            <td>{{ $quotation->client->company == 'internet' ? $quotation->client_name: $quotation->client->name }}</td>
+                            <td class="title" style="width: 10%"> &nbsp;Empresa</td>
+                            <td> &nbsp;{{ $quotation->client->company == 'internet' ? $quotation->client_name: $quotation->client->name }}</td>
                             <td rowspan="6">
                                 DESCUENTO DEL 5 % EN PAGO EN EFECTIVO, TRANSFERENCIA, TARJETA DE DEBITO,  PRECIOS CON VIGENCIA DE 3 DÍAS, FECHA DE ENTREGA DE 20 A 25 DÍAS HÁBILES. 
                             </td>
                         </tr>
                         <tr>
-                            <td class="title">Solicitante</td>
-                            <td>{{ $quotation->client->company == 'internet' ? $quotation->client_name: $quotation->client->name }}</td>
+                            <td class="title"> &nbsp;Solicitante</td>
+                            <td> &nbsp;{{ $quotation->client->company == 'internet' ? $quotation->client_name: $quotation->client->name }}</td>
                         </tr>
                         <tr>
-                            <td class="title">Dirección</td>
-                            <td>{{ $quotation->client->address }}</td>
+                            <td class="title"> &nbsp;Dirección</td>
+                            <td> &nbsp;{{ $quotation->client->address }}</td>
                         </tr>
                         <tr>
-                            <td class="title">Lugar</td>
-                            <td>{{ $quotation->client->city }}</td>
+                            <td class="title"> &nbsp;Lugar</td>
+                            <td> &nbsp;{{ $quotation->client->city }}</td>
                         </tr>
                         <tr>
-                            <td class="title">Teléfono</td>
-                            <td>{{ $quotation->client->phone }}</td>
+                            <td class="title"> &nbsp;Teléfono</td>
+                            <td> &nbsp;{{ $quotation->client->phone }}</td>
                         </tr>
                         <tr>
-                            <td class="title">Email</td>
-                            <td>{{ $quotation->client->company == 'internet' ? $quotation->email: $quotation->client->email }}</td>
+                            <td class="title"> &nbsp;Email</td>
+                            <td> &nbsp;{{ $quotation->client->company == 'internet' ? $quotation->email: $quotation->client->email }}</td>
                         </tr>
                     </tbody>
                 </table>

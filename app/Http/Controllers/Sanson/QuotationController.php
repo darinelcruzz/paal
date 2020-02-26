@@ -73,7 +73,7 @@ class QuotationController extends Controller
     {
         $pdf = \App::make('dompdf.wrapper');
         $pdf->setOptions(['isRemoteEnabled' => true, 'isPhpEnabled' => true])
-            ->loadView('sanson.quotations.pdf', compact('quotation'));
+            ->loadView('sanson.quotations.print', compact('quotation'));
 
         return $pdf->stream(date('dmYHis') . $quotation->id . ".pdf");
     }
