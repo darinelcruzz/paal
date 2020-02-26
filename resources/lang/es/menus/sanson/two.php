@@ -7,20 +7,20 @@ return [
         'icon' => 'fas fa-file-invoice',
         'submenu' => [
             'create' => [
-                'title' => 'Insumos',
-                'route' => ['coffee.quotation.create', 'insumos']
+                'title' => 'Equipos y refacciones',
+                'route' => ['sanson.quotation.create', 'equipo']
             ],
-            'create2' => [
-                'title' => 'Equipos',
-                'route' => ['coffee.quotation.create', 'equipo']
-            ],
-            'index' => [
-                'title' => 'Historial',
-                'route' => 'coffee.quotation.index'
+            'make' => [
+                'title' => 'Proyectos',
+                'route' => ['sanson.quotation.create', 'proyecto']
             ],
             'internet' => [
                 'title' => 'Internet',
-                'route' => 'coffee.quotation.internet'
+                'route' => 'sanson.quotation.internet'
+            ],
+            'index' => [
+                'title' => 'Historial',
+                'route' => 'sanson.quotation.index'
             ]
         ]
     ],
@@ -30,32 +30,32 @@ return [
         'icon' => 'fa fa-mug-hot',
         'submenu' => [
             'create' => [
-                'title' => 'Insumos',
-                'route' => ['coffee.ingress.create', 'insumos']
+                'title' => 'Equipos y refacciones',
+                'route' => ['sanson.ingress.create', 'equipo']
             ],
             'create2' => [
-                'title' => 'Equipos',
-                'route' => ['coffee.ingress.create', 'equipo']
+                'title' => 'Proyectos',
+                'route' => ['sanson.ingress.create', 'proyecto']
             ],
             'index' => [
                 'title' => 'Historial',
-                'route' => 'coffee.ingress.index'
+                'route' => 'sanson.ingress.index'
             ],
             'invoices' => [
                 'title' => 'Facturadas',
-                'route' => 'coffee.admin.invoices'
+                'route' => 'sanson.admin.invoices'
             ],
             'daily' => [
                 'title' => 'Corte diario',
-                'route' => ['coffee.admin.daily', 'factura']
+                'route' => ['sanson.admin.daily', 'factura']
             ],
             'monthly' => [
                 'title' => 'Corte mensual',
-                'route' => 'coffee.admin.monthly'
+                'route' => 'sanson.admin.monthly'
             ],
             'variables' => [
                 'title' => 'Tipo de Cambio',
-                'route' => 'coffee.variable.edit'
+                'route' => 'sanson.variable.edit'
             ],
         ]
     ],
@@ -63,15 +63,15 @@ return [
     'shippings' => [
         'title' => 'Envíos',
         'icon' => 'fa fa-shipping-fast',
-        'label' => '0',
+        'label' => pendingShippings('sanson'),
         'submenu' => [
             'create' => [
                 'title' => 'Rastreo',
-                'route' => ['coffee.shipping.index', 'todos']
+                'route' => ['sanson.shipping.index', 'todos']
             ],
             'index' => [
                 'title' => 'Corte',
-                'route' => 'coffee.shipping.monthly'
+                'route' => 'sanson.shipping.monthly'
             ],
         ]
     ],
@@ -79,19 +79,19 @@ return [
     'tasks' => [
         'title' => 'Tareas',
         'icon' => 'fa fa-tasks',
-        'route' => 'coffee.task.index'
+        'route' => 'sanson.task.index'
     ],
 
     'products' => [
         'title' => 'Productos',
         'icon' => 'fa fa-tags',
-        'route' => 'coffee.product.index'
+        'route' => 'sanson.product.index'
     ],
 
     'clients' => [
         'title' => 'Clientes',
         'icon' => 'fa fa-users',
-        'route' => 'coffee.client.index'
+        'route' => 'sanson.client.index'
     ],
 
     'logout' => [
