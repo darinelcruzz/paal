@@ -8,12 +8,12 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-10">
             <solid-box title="Productos" color="info">
                 
                 <data-table>
 
-                    {{ drawHeader('ID', 'descripción', 'modelo', 'marca', 'MXN', 'USD') }}
+                    {{ drawHeader('ID', 'descripción', 'modelo', 'marca', 'MXN', 'USD', 'stock', 'mínimo') }}
 
                     <template slot="body">
                         @foreach($products as $product)
@@ -31,6 +31,8 @@
                                     <td>{{ number_format($product->retail_price, 2) }}</td>
                                     <td>---</td>
                                 @endif
+                                <td>{{ $product->quantity }}</td>
+                                <td>{{ $product->minimum }}</td>
                             </tr>
                         @endforeach
                     </template>

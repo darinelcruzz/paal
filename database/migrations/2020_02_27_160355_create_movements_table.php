@@ -6,17 +6,13 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateMovementsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
+    function up()
     {
         Schema::create('movements', function (Blueprint $table) {
             $table->increments('id');
-            
-            $table->unsignedInteger('ingress_id');
+
+            $table->string('movable_type');
+            $table->unsignedInteger('movable_id');
             $table->unsignedInteger('product_id');
             $table->float('price')->default(0);
             $table->unsignedInteger('quantity')->default(1);
@@ -27,12 +23,7 @@ class CreateMovementsTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
+    function down()
     {
         Schema::dropIfExists('movements');
     }

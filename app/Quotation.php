@@ -30,7 +30,7 @@ class Quotation extends Model
 
     function movements()
     {
-        return $this->hasMany(QuotationMovement::class);
+        return $this->morphMany(Movement::class, 'movable');
     }
 
     function getProductsListAttribute()
