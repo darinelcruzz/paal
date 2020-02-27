@@ -21,7 +21,7 @@
                     <tbody>
                         <tr>
                             <td style="text-align: center;">
-                                <img width="100px" src="{{ asset('/img/coffee.png') }}">
+                                <img width="100px" src="{{ asset('/img/coffee_depot.jpeg') }}">
                             </td>
                             <td width="60%">
                                 <big><b>COFFEE DEPOT</b></big>

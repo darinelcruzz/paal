@@ -31,10 +31,20 @@
                                 <i class="fa fa-envelope"></i> ventas@coffeedepotchiapas.com.mx <br>
                                 <i class="fa fa-facebook"></i> Coffee Depot TGZ
                             </td>
-                            <td style="text-align: right;">
-                                <b>COTIZACIÓN</b><br>
-                                {{ substr("0000{$quotation->id}", -4) }} <br>
-                                <b>{{ strtoupper($quotation->type) }}</b>
+                            <td>                                
+                                <table style="text-align: right">
+                                    <tbody>
+                                        <tr style="text-align: right;">
+                                            <td><b>COTIZACIÓN</b></td>
+                                        </tr>
+                                        <tr style="background-color: rgb(78, 78, 78); color: white; text-align: right">
+                                            <td>&nbsp;&nbsp;MAQUINARIA&nbsp;&nbsp;</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td>
+                                {{ substr("0000{$quotation->id}", -4) }}
                             </td>
                         </tr>
                     </tbody>
