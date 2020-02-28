@@ -60,7 +60,12 @@
                       </tab-content>
 
                       <tab-content title="Productos" icon="fa fa-tag">
-                          <shopping-list color="{{ $type == 'insumos' ? 'danger': 'warning'}}" :qproducts="{{ $quotation->products_list }}" :exchange="{{ $exchange }}" :promo="{{ $promo }}"></shopping-list>
+                            <shopping-list 
+                                color="{{ $type == 'insumos' ? 'danger': 'warning'}}" 
+                                :qproducts="{{ $quotation->products_list }}" 
+                                :exchange="{{ $exchange }}" 
+                                :promo="{{ $promo }}">
+                            </shopping-list>
                        </tab-content>
 
                        <tab-content title="Pago" icon="fa fa-dollar">

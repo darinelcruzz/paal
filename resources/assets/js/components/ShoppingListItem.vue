@@ -153,8 +153,8 @@ export default {
             this.quantity = 1
         }
 
-        if (this.product.quantity > 0) {
-            this.quantity = this.product.quantity
+        if (this.product.amount > 0) {
+            this.quantity = this.product.amount
         }
 
         if (this.product.discount > 0) {

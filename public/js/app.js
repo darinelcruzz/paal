@@ -53334,7 +53334,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return product.retail_price;
             } else {
                 if (this.promo == 0) {
-                    var after_iva = product.wholesale_quantity > 0 && product.quantity >= product.wholesale_quantity ? product.wholesale_price : product.retail_price;
+                    var after_iva = product.wholesale_quantity > 0 && product.amount >= product.wholesale_quantity ? product.wholesale_price : product.retail_price;
 
                     return after_iva / (1 + 0.16 * product.iva);
                 }
@@ -53349,8 +53349,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         if (this.qproducts) {
             for (var i = 0; i < this.qproducts.length; i++) {
                 var product = this.qproducts[i];
-                // product.price = this.setPrice(product)
-                product.total = product.quantity * product.price;
+
+                product.total = product.amount * product.price;
                 if (product.special_description) {
                     product.description = product.special_description;
                     product.retail_price = product.special_price;
@@ -53742,8 +53742,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.quantity = 1;
         }
 
-        if (this.product.quantity > 0) {
-            this.quantity = this.product.quantity;
+        if (this.product.amount > 0) {
+            this.quantity = this.product.amount;
         }
 
         if (this.product.discount > 0) {
