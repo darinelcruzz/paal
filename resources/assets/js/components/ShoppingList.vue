@@ -17,7 +17,7 @@
                     <tbody>
                         <tr v-for="(product, index) in inputs" 
                             :index="index"
-                            :key="product"
+                            :key="product.id"
                             is="shopping-list-item" 
                             :product="product"
                             :familycount="getFamilyCount(product.family)"

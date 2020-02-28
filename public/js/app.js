@@ -53392,7 +53392,7 @@ var render = function() {
                 "tbody",
                 _vm._l(_vm.inputs, function(product, index) {
                   return _c("shopping-list-item", {
-                    key: product,
+                    key: product.id,
                     tag: "tr",
                     attrs: {
                       index: index,
