@@ -38,7 +38,7 @@
 
         <div class="col-md-3">
             <label class="btn btn-success btn-bg btn-block">
-               VENTAS: {{ $sales }} | {{ round($sales * 100 / $total) }} %
+               VENTAS: {{ $sales }} | {{ round($sales * 100 / ($total == 0 ? 1: $total)) }} %
             </label>
         </div>
 
