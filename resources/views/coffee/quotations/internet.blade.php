@@ -73,7 +73,7 @@
                                         @endif
                                     </dropdown>
                                 </td>
-                                <td>{{ fdate($quotation->created_at, 'd M Y') }}</td>
+                                <td>{{ fdate($quotation->created_at, 'd/m/Y') }}</td>
                                 <td style="width: 40%">{{ $quotation->client_name }}</td>
                                 <td>
                                     @if ($quotation->type)
@@ -82,8 +82,8 @@
                                         <label class="label label-{{$quotation->products_list_type == 'insumos' ? 'danger': 'warning'}}">{{ strtoupper($quotation->products_list_type) }}</label>
                                     @endif
                                 </td>
-                                <td>$ {{ number_format($quotation->iva, 2) }}</td>
-                                <td>$ {{ number_format($quotation->amount, 2) }}</td>
+                                <td style="text-align: right">{{ number_format($quotation->iva, 2) }}</td>
+                                <td style="text-align: right">{{ number_format($quotation->amount, 2) }}</td>
                                 <td>
                                     <span class="label label-{{ count($quotation->sales) > 0 ? 'success': 'default' }}">
                                         {{ count($quotation->sales) > 0 ? 'VENTA': 'SIN VENTA' }}
@@ -128,7 +128,7 @@
                                         @endif
                                     </dropdown>
                                 </td>
-                                <td>{{ fdate($quotation->created_at, 'd M Y') }}</td>
+                                <td>{{ fdate($quotation->created_at, 'd/m/Y') }}</td>
                                 <td style="width: 40%">{{ $quotation->client_name }}</td>
                                 <td>
                                     @if ($quotation->type)
@@ -137,8 +137,8 @@
                                         <label class="label label-{{$quotation->products_list_type == 'insumos' ? 'danger': 'warning'}}">{{ strtoupper($quotation->products_list_type) }}</label>
                                     @endif
                                 </td>
-                                <td>$ {{ number_format($quotation->iva, 2) }}</td>
-                                <td>$ {{ number_format($quotation->amount, 2) }}</td>
+                                <td style="text-align: right">{{ number_format($quotation->iva, 2) }}</td>
+                                <td style="text-align: right">{{ number_format($quotation->amount, 2) }}</td>
                                 <td>
                                     <span class="label label-{{ count($quotation->sales) > 0 ? 'success': 'default' }}">
                                         {{ count($quotation->sales) > 0 ? 'VENTA': 'SIN VENTA' }}
