@@ -13,7 +13,7 @@
                 
                 <data-table>
 
-                    {{ drawHeader('ID', 'descripción', 'modelo', 'marca', 'MXN', 'USD', 'stock', 'mínimo') }}
+                    {{ drawHeader('ID', 'descripción', 'modelo', 'marca', 'MXN', 'USD', 'cantidad', 'mínimo') }}
 
                     <template slot="body">
                         @foreach($products as $product)

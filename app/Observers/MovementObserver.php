@@ -8,13 +8,13 @@ class MovementObserver
 {
     function created(Movement $movement)
     {
-        if ($movement->movable_type == 'App/Ingress') {
+        if ($movement->movable_type == 'App\Ingress') {
             $movement->product->update([
                 'quantity' => $movement->product->quantity - $movement->quantity
             ]);
         }
 
-        if ($movement->movable_type == 'App/Purchase') {
+        if ($movement->movable_type == 'App\Purchase') {
             $movement->product->update([
                 'quantity' => $movement->product->quantity + $movement->quantity
             ]);

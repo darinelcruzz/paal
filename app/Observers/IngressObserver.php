@@ -9,7 +9,6 @@ class IngressObserver
     function created(Ingress $ingress)
     {
         if($ingress->company == 'sanson') {
-            
             $ingress->movements()->createMany(request('items'));
 
             $ingress->payments()->create(request('payment') + ['type' => request('method')]);
