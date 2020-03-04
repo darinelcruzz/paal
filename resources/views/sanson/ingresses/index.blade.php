@@ -66,13 +66,13 @@
                                         {{ strtoupper($ingress->type) }}
                                     </label>
                                 </td>
-                                <td>{{ number_format($ingress->iva, 2) }}</td>
-                                <td>{{ number_format($ingress->amount, 2) }}</td>
+                                <td style="text-align: right">{{ number_format($ingress->iva, 2) }}</td>
+                                <td style="text-align: right">{{ number_format($ingress->amount, 2) }}</td>
                                 <td style="text-align: center">{{ number_format($ingress->retainer, 2) }}</td>
                                 <td>{{ ucfirst($ingress->method) }}</td>
                                 <td>
                                     @if ($ingress->status == 'cancelado')
-                                        <a type="button" class="label label-info" data-toggle="modal" data-target="#modal-cancelation-{{$ingress->id}}">
+                                        <a type="button" class="label label-danger" data-toggle="modal" data-target="#modal-cancelation-{{$ingress->id}}">
                                             {{ ucfirst($ingress->status) }}
                                         </a>
 

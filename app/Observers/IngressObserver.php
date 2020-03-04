@@ -19,7 +19,13 @@ class IngressObserver
 
     function updated(Ingress $ingress)
     {
-        //
+        if ($ingress->company == 'sanson' && $ingress->status == 'cancelado') {
+            foreach ($ingress->movements as $movement) {
+                $movement->product->update([
+                    'quantity' => $movement->product->quantity + $movement->quantity
+                ]);
+            }
+        }
     }
 
     function deleted(Ingress $ingress)
