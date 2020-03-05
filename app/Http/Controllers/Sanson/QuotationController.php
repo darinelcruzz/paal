@@ -75,7 +75,7 @@ class QuotationController extends Controller
         $pdf->setOptions(['isRemoteEnabled' => true, 'isPhpEnabled' => true])
             ->loadView('sanson.quotations.print', compact('quotation'));
 
-        return $pdf->stream(date('dmYHis') . $quotation->id . ".pdf");
+        return $pdf->stream('COTIZACION_' . $quotation->id . ".pdf");
     }
 
     function print(Quotation $quotation)

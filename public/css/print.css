@@ -23,6 +23,8 @@
 	.terms-and-conditions {
 	    font-size: 8px;
 	    font-family: monospace;
+	    text-align: justify;
+	    text-justify: inter-word;
 	}
 }
 

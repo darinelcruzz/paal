@@ -26,10 +26,10 @@
                                 SUCURSAL CHIAPAS<br>
                                 16 Poniente Norte #138<br>
                                 Col. Las Arboledas, C.P. 29030 <br>
-                                <i class="fa fa-phone"></i> 01 (961) 121 34 04 &nbsp;&nbsp;&nbsp;&nbsp;
-                                <i class="fa fa-whatsapp"></i> 961 330 65 28<br>
-                                <i class="fa fa-envelope"></i> ventas@coffeedepotchiapas.com.mx <br>
-                                <i class="fa fa-facebook"></i> Coffee Depot TGZ
+                                <i class="fa fa-phone"></i> 01 (961) 1215704 | 1213404&nbsp;&nbsp;&nbsp;&nbsp;
+                                <i class="fa fa-whatsapp"></i> 961 249 8806<br>
+                                <i class="fa fa-envelope"></i> ventas@sansonchiapas.com <br>
+                                <i class="fa fa-facebook"></i> SAN-SON CHIAPAS
                             </td>
                             <td>                                
                                 <table style="text-align: right">
@@ -60,7 +60,7 @@
                             <th class="title">No. Asesor</th>
                             <td>{{ auth()->user()->id }}</td>
                             <th class="title">Email</th>
-                            <td>ventas.tuxtla1@coffeedepot.com.mx</td>
+                            <td>ventas@sansonchiapas.com</td>
                             <th class="title">Fecha de expedición</th>
                             <td>{{ fdate($quotation->updated_at, 'd/m/Y') }}</td>
                         </tr>
@@ -87,7 +87,8 @@
                             <td class="title" style="width: 10%"> &nbsp;Empresa</td>
                             <td> &nbsp;{{ $quotation->client->company == 'internet' ? $quotation->client_name: $quotation->client->name }}</td>
                             <td rowspan="6">
-                                DESCUENTO DEL 5 % EN PAGO EN EFECTIVO, TRANSFERENCIA, TARJETA DE DEBITO,  PRECIOS CON VIGENCIA DE 3 DÍAS, FECHA DE ENTREGA DE 20 A 25 DÍAS HÁBILES. 
+                                PRECIOS CON VIGENCIA DE 3 DÍAS HÁBILES. <br>
+                                EN CASO DE COMPRA, CONFIRMAR EXISTENCIAS DE LOS EQUIPOS O EN SU CASO DE NO TENER EXISTENCIA VERIFICAR LOS TIEMPOS DE ENTREGA.
                             </td>
                         </tr>
                         <tr>
@@ -158,11 +159,6 @@
                 <table class="table">
                     <tbody>
                         <tr>
-                            <th colspan="6" class="terms-and-conditions">
-                                NUESTROS REPRESENTANTES DE VENTA NO ESTÁN AUTORIZADOS A RECIBIR PAGOS HECHOS. SOLO ACEPTAMOS ESTOS PAGOS DIRECTAMENTE EN LA CAJA DE NUESTRAS SUCURSALES Y USTED DEBERÁ RECIBIR UN COMPROBANTE DE RECIBO DE EFECTIVO, MEMBRETADO, FOLIADO, Y FIRMADO POR LA CAJERA Y EL GERENTE DE LA SUCURSAL; SI USTED EFECTUA SU PAGO A NUESTRO REPRESENTANTE, ESTE DEBERÁ SER CON CHEQUE NOMINATIVO A FAVOR DE GRUPO FINANCIERO PAAL S.A. DE C.V. CON LA LEYENDA "PARA ABONO EN CUENTA DEL BENEFICIARIO". NO NOS HACEMOS REPONSABLES POR PAGOS QUE NO CUMPLAN CON ESTOS REQUISITOS. LOS PRECIOS COTIZADOS EN DOLARES O EUROS SE TOMARÁN AL TIPO DE CAMBIO VIGENTE EL DÍA DEL PAGO.
-                            </th>
-                        </tr>
-                        <tr>
                             <th colspan="2" style="text-align: center">Firma</th>
                             <td colspan="2" style="text-align: center; width: 50%">
                                 Todos los productos que vendemos están protegidos por nuestro programa de garantía, servicio y refacciones <br><br>
@@ -175,6 +171,11 @@
                                 {{ number_format($shipping, 2) }} <br>
                                 <span style="color: red; text-align: right;"><big>{{ number_format($quotation->amount, 2) }}</big></span>
                             </td>
+                        </tr>
+                        <tr>
+                            <th colspan="6" class="terms-and-conditions">
+                                NUESTROS REPRESENTANTES DE VENTA NO ESTÁN AUTORIZADOS A RECIBIR PAGOS HECHOS. SOLO ACEPTAMOS ESTOS PAGOS DIRECTAMENTE EN LA CAJA DE NUESTRAS SUCURSALES Y USTED DEBERÁ RECIBIR UN COMPROBANTE DE RECIBO DE EFECTIVO, MEMBRETADO, FOLIADO, Y FIRMADO POR LA CAJERA Y EL GERENTE DE LA SUCURSAL; SI USTED EFECTUA SU PAGO A NUESTRO REPRESENTANTE, ESTE DEBERÁ SER CON CHEQUE NOMINATIVO A FAVOR DE GRUPO FINANCIERO PAAL S.A. DE C.V. CON LA LEYENDA "PARA ABONO EN CUENTA DEL BENEFICIARIO". NO NOS HACEMOS REPONSABLES POR PAGOS QUE NO CUMPLAN CON ESTOS REQUISITOS. LOS PRECIOS COTIZADOS EN DOLARES O EUROS SE TOMARÁN AL TIPO DE CAMBIO VIGENTE EL DÍA DEL PAGO.
+                            </th>
                         </tr>
                         <tr>
                             <th colspan="6" class="terms-and-conditions">
