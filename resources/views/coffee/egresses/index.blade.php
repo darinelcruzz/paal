@@ -38,7 +38,7 @@
                     <div class="col-md-3">
                         <a href="{{ route('coffee.egress.index', ['vencido', $date]) }}">
                             <label class="btn btn-danger btn-bg btn-block">
-                                $ {{ number_format($alltime->where('status', 'vencido')->sum('amount') + $alltime->where('status', 'vencido')->sum('iva'), 2) }}
+                                $ {{ number_format($alltime->where('status', 'vencido')->sum('amount'), 2) }}
                             </label>
                         </a>
                     </div>
@@ -123,6 +123,9 @@
                         <template slot="body">
                             @foreach($pending as $egress)
                                 @if(!$egress->check_id)
+                                @php
+                                    $egress->checkExpiration();
+                                @endphp
                                     <tr style="text-align: center;">
                                         <td>{{ fdate($egress->emission, 'd M Y', 'Y-m-d') }}</td>
                                         <td>

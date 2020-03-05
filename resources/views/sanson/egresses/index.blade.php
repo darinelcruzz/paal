@@ -122,6 +122,9 @@
                         <template slot="body">
                             @foreach($pending as $egress)
                                 @if(!$egress->check_id)
+                                    @php
+                                        $egress->checkExpiration();
+                                    @endphp
                                     <tr style="text-align: center;">
                                         <td>{{ fdate($egress->emission, 'd M Y', 'Y-m-d') }}</td>
                                         <td>

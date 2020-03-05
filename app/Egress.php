@@ -58,4 +58,11 @@ class Egress extends Model
             ->whereYear($field, substr($date, 0, 4))
             ->whereMonth($field, substr($date, 5, 7));
     }
+
+    function checkExpiration()
+    {
+        if (date('Y-m-d') >= $this->expiration && !$this->payment_date) {
+            $this->update(['status' => 'vencido']);
+        }
+    }
 }
