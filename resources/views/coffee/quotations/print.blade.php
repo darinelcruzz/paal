@@ -40,7 +40,7 @@
                                             <td><b>COTIZACIÓN</b></td>
                                         </tr>
                                         <tr style="background-color: rgb(78, 78, 78); color: white; text-align: right">
-                                            <td>&nbsp;&nbsp;MAQUINARIA&nbsp;&nbsp;</td>
+                                            <td>&nbsp;&nbsp;{{ $quotation->type == 'equipo' ? 'MAQUINARIA': 'INSUMOS' }}&nbsp;&nbsp;</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -88,8 +88,12 @@
                         <tr>
                             <td class="title" style="width: 10%"> &nbsp;Empresa</td>
                             <td> &nbsp;{{ $quotation->client->company == 'internet' ? $quotation->client_name: $quotation->client->name }}</td>
-                            <td rowspan="6">
-                                DESCUENTO DEL 5 % EN PAGO EN EFECTIVO, TRANSFERENCIA, TARJETA DE DEBITO,  PRECIOS CON VIGENCIA DE 3 DÍAS, FECHA DE ENTREGA DE 20 A 25 DÍAS HÁBILES. 
+                            <td rowspan="6" style="width: 40%">
+                                @if($quotation->type == 'equipo')
+                                    DESCUENTO DEL 5 % EN PAGO EN EFECTIVO, TRANSFERENCIA, TARJETA DE DEBITO,  PRECIOS CON VIGENCIA DE 3 DÍAS, FECHA DE ENTREGA DE 20 A 25 DÍAS HÁBILES.
+                                @else
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                @endif
                             </td>
                         </tr>
                         <tr>
