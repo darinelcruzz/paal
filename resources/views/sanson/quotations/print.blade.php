@@ -19,7 +19,7 @@
                     <tbody>
                         <tr>
                             <td style="text-align: center;">
-                                <img width="100px" src="{{ asset('/img/sanson_login.png') }}">
+                                <img width="100px" src="{{ asset('/img/sanson-pdf.png') }}">
                             </td>
                             <td width="60%">
                                 <big><b>SAN-SON</b></big>
