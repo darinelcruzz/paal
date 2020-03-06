@@ -14,11 +14,10 @@ class QuotationController extends Controller
         $date = isset($request->date) ? $request->date: date('Y-m');
 
         $quotations = Quotation::normal('sanson', $date)->get();
-        $total = count($quotations);
 
-        $sales = $quotations->tap(function($quotations) {
-            return $quotations->has('sales');
-        })->count();
+        $sales = Quotation::normal('sanson', $date)->has('sales')->count();
+
+        $total = count($quotations);
 
         return view('sanson.quotations.index', compact('quotations', 'sales', 'total', 'date'));
     }
@@ -28,11 +27,10 @@ class QuotationController extends Controller
         $date = isset($request->date) ? $request->date: date('Y-m');
 
         $quotations = Quotation::internet('sanson', $date)->get();
-        $total = count($quotations);
 
-        $sales = $quotations->tap(function($quotations) {
-            return $quotations->has('sales');
-        })->count();
+        $sales = Quotation::internet('sanson', $date)->has('sales')->count();
+
+        $total = count($quotations);
 
         return view('sanson.quotations.internet', compact('quotations', 'total', 'sales', 'date'));
     }
