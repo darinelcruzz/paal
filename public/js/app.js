@@ -56817,7 +56817,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         if (this.product.quantity > 0) {
             this.quantity = this.product.quantity;
             this.discount = this.product.discount;
-            this.price = this.product.price;
+            this.price = this.product.price * 1.16;
 
             axios.get('/api/products/' + this.product.id).then(function (response) {
                 var product = response.data;
@@ -56828,10 +56828,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
 
             if (this.dollars) {
-                this.price = this.price * this.exchange;
+                this.price = this.price * 1.16 * this.exchange;
             }
         } else {
-            this.price = this.product.retail_price * (this.product.dollars == 0 ? 1 : this.exchange);
+            this.price = this.product.retail_price * 1.16 * (this.product.dollars == 0 ? 1 : this.exchange);
             this.has_discount = this.product.is_variable == 1;
             this.iva = this.product.iva;
         }
