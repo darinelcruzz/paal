@@ -83,7 +83,8 @@ class Quotation extends Model
         return $query->where('company', $company)
             ->whereNull('client_name')
             ->whereMonth('created_at', substr($date, 5, 7))
-            ->whereYear('created_at', substr($date, 0, 4));
+            ->whereYear('created_at', substr($date, 0, 4))
+            ->with('client');
     }
 
     function scopeInternet($query, $company, $date)
@@ -91,6 +92,7 @@ class Quotation extends Model
         return $query->where('company', $company)
             ->whereNotNull('client_name')
             ->whereMonth('created_at', substr($date, 5, 7))
-            ->whereYear('created_at', substr($date, 0, 4));
+            ->whereYear('created_at', substr($date, 0, 4))
+            ->with('client');
     }
 }
