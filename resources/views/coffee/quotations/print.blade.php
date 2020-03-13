@@ -195,10 +195,12 @@
                             </td>
                             <td>
                                 Envío <br>
+                                I.V.A. <br>
                                 <span style="color: red"><big>TOTAL</big></span>
                             </td>
                             <td style="text-align: right;">
                                 {{ number_format($shipping, 2) }} <br>
+                                {{ number_format($quotation->iva, 2) }} <br>
                                 <span style="color: red; text-align: right;"><big>{{ number_format($quotation->amount, 2) }}</big></span>
                             </td>
                         </tr>
