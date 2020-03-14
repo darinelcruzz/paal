@@ -84,16 +84,16 @@
                                 </td>
                                 <td style="text-align: right">{{ number_format($quotation->iva, 2) }}</td>
                                 <td style="text-align: right">{{ number_format($quotation->amount, 2) }}</td>
-                                <td>
+                                <td style="text-align: center">
                                     <span class="label label-{{ count($quotation->sales) > 0 ? 'success': 'default' }}">
-                                        {{ count($quotation->sales) > 0 ? 'VENTA': 'SIN VENTA' }}
+                                        <small>{{ count($quotation->sales) > 0 ? 'VENTA': 'SIN VENTA' }}</small>
                                     </span>
                                 </td>
-                                <td>
+                                <td style="text-align: center">
                                     @if ($quotation->editions_count)
-                                        <code style="color: blue">EDICIONES: {{ $quotation->editions_count }}</code>
+                                        <code style="color: blue">{{ $quotation->editions_count }}</code>
                                     @else
-                                        <code>SIN EDITAR</code>
+                                        <code>0</code>
                                     @endif
                                 </td>
                             </tr>
@@ -139,16 +139,16 @@
                                 </td>
                                 <td style="text-align: right">{{ number_format($quotation->iva, 2) }}</td>
                                 <td style="text-align: right">{{ number_format($quotation->amount, 2) }}</td>
-                                <td>
+                                <td style="text-align: center">
                                     <span class="label label-{{ count($quotation->sales) > 0 ? 'success': 'default' }}">
-                                        {{ count($quotation->sales) > 0 ? 'VENTA': 'SIN VENTA' }}
+                                        <small>{{ count($quotation->sales) > 0 ? 'VENTA': 'SIN VENTA' }}</small>
                                     </span>
                                 </td>
-                                <td>
+                                <td style="text-align: center">
                                     @if ($quotation->editions_count)
-                                        <code style="color: blue">EDICIONES: {{ $quotation->editions_count }}</code>
+                                        <code style="color: blue">{{ $quotation->editions_count }}</code>
                                     @else
-                                        <code>SIN EDITAR</code>
+                                        <code>0</code>
                                     @endif
                                 </td>
                             </tr>

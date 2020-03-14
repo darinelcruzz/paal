@@ -12,19 +12,21 @@ class ProductController extends Controller
     {
         $comparison = $type == 'equipos' ? '=': '!=';
 
-        return Product::whereCompany('COFFEE')
+        return Product::where('company', 'COFFEE')
             ->where('category', $comparison, 'EQUIPO')
             ->where(function ($query) use ($keyword) {
                 $query->where("description", "LIKE","%$keyword%")
                     ->orWhere("code", "LIKE", "%$keyword%")
                     ->orWhere("barcode", "LIKE", "%$keyword%")
                     ->orWhere("family", "LIKE", "%$keyword%");
-            })->paginate(5);
+            })
+            ->orWhere('family', 'ENVÍOS')
+            ->paginate(5);
     }
 
     function sanson($keyword = '')
     {
-        return Product::whereCompany('SANSON')
+        return Product::where('company', 'SANSON')
             ->where(function ($query) use ($keyword) {
                 $query->where("description", "LIKE","%$keyword%")
                     ->orWhere("code", "LIKE", "%$keyword%")

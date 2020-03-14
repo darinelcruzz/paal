@@ -33,11 +33,11 @@
                 </div>
             </div>
             <div v-else-if="product.category == 'SERVICIOS'">
-                <input name="prices[]" type="number" class="form-control input-sm" step="0.0001" :min="product.price" v-model.number="price">
+                <input name="prices[]" type="number" class="form-control input-sm" step="0.01" v-model.number="price">
             </div>
 
             <div v-else-if="product.category == 'EQUIPO'">
-                <input name="prices[]" type="number" class="form-control input-sm" step="0.0001" :min="product.price" v-model.number="price">
+                <input name="prices[]" type="number" class="form-control input-sm" step="0.01" :min="product.price" v-model.number="price">
             </div>
             <div v-else>
                 {{ price | currency }}
@@ -77,7 +77,7 @@ export default {
     data() {
         return {
             decimalsToFix: 2,
-            quantity: 0,
+            quantity: 1,
             discount: 0,
             price: 0,
             price_in_dollars: 0

@@ -53665,7 +53665,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             decimalsToFix: 2,
-            quantity: 0,
+            quantity: 1,
             discount: 0,
             price: 0,
             price_in_dollars: 0
@@ -53896,12 +53896,7 @@ var render = function() {
                 }
               ],
               staticClass: "form-control input-sm",
-              attrs: {
-                name: "prices[]",
-                type: "number",
-                step: "0.0001",
-                min: _vm.product.price
-              },
+              attrs: { name: "prices[]", type: "number", step: "0.01" },
               domProps: { value: _vm.price },
               on: {
                 input: function($event) {
@@ -53932,7 +53927,7 @@ var render = function() {
               attrs: {
                 name: "prices[]",
                 type: "number",
-                step: "0.0001",
+                step: "0.01",
                 min: _vm.product.price
               },
               domProps: { value: _vm.price },
