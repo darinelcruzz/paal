@@ -32,7 +32,7 @@
             </div>
             <div class="row">
                 <div class="col-md-7">
-                    <span style="color: orange"><b>{{ product.code }}</b></span>
+                    <a href="#" style="color: orange" :title="product.features"><b>{{ product.code }}</b></a>
                 </div>
                 <div class="col-md-5">
                     <span class="pull-right" style="color: red"><small>{{ product.family }}</small></span>

@@ -53095,9 +53095,14 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "row" }, [
         _c("div", { staticClass: "col-md-7" }, [
-          _c("span", { staticStyle: { color: "orange" } }, [
-            _c("b", [_vm._v(_vm._s(_vm.product.code))])
-          ])
+          _c(
+            "a",
+            {
+              staticStyle: { color: "orange" },
+              attrs: { href: "#", title: _vm.product.features }
+            },
+            [_c("b", [_vm._v(_vm._s(_vm.product.code))])]
+          )
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "col-md-5" }, [
