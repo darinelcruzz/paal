@@ -53039,19 +53039,18 @@ var render = function() {
             ? _c("div", { staticClass: "pull-right" }, [
                 _c("span", { staticStyle: { color: "olive" } }, [
                   _vm._v(
-                    "$ " +
-                      _vm._s(
-                        _vm._f("currency")(
-                          _vm.product.retail_price * _vm.exchange
-                        )
+                    _vm._s(
+                      _vm._f("currency")(
+                        _vm.product.retail_price * _vm.exchange
                       )
+                    )
                   )
                 ])
               ])
             : _vm.product.is_variable == 1
             ? _c("div", { staticClass: "pull-right" }, [
                 _vm._v(
-                  "\n                        $ " +
+                  "\n                        " +
                     _vm._s(_vm._f("currency")(_vm.product.retail_price)) +
                     "\n                    "
                 )
@@ -53061,7 +53060,7 @@ var render = function() {
                 _vm.product.retail_price > 0
                   ? _c("div", [
                       _vm._v(
-                        "\n                            $ " +
+                        "\n                            " +
                           _vm._s(_vm._f("currency")(_vm.product.retail_price)) +
                           " "
                       ),
@@ -53072,14 +53071,14 @@ var render = function() {
             : _vm.product.wholesale_quantity == 0
             ? _c("div", { staticClass: "pull-right" }, [
                 _vm._v(
-                  "\n                        $ " +
+                  "\n                        " +
                     _vm._s(_vm._f("currency")(_vm.product.retail_price)) +
                     "\n                    "
                 )
               ])
             : _c("div", { staticClass: "pull-right" }, [
                 _vm._v(
-                  "\n                        $ " +
+                  "\n                        " +
                     _vm._s(_vm._f("currency")(_vm.product.retail_price)) +
                     " /\n                        " +
                     _vm._s(_vm._f("currency")(_vm.product.wholesale_price)) +
@@ -53271,17 +53270,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
 
                 if (has_family) {
-                    this.families[i].quantity += 0;
+                    this.families[i].quantity += 1;
                 } else {
                     this.families.push({
                         name: product.family,
-                        quantity: 0
+                        quantity: 1
                     });
                 }
             } else {
                 this.families.push({
                     name: product.family,
-                    quantity: 0
+                    quantity: 1
                 });
             }
 

@@ -93,17 +93,17 @@
                     }
 
                     if (has_family) {
-                        this.families[i].quantity += 0
+                        this.families[i].quantity += 1
                     } else {
                        this.families.push({
                             name: product.family,
-                            quantity: 0
+                            quantity: 1
                         }) 
                     }
                 } else {
                     this.families.push({
                         name: product.family,
-                        quantity: 0
+                        quantity: 1
                     })
                 }
 

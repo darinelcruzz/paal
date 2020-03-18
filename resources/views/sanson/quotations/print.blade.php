@@ -125,7 +125,7 @@
                         <tr class="title">
                             <th class="centered">CANTIDAD</th>
                             <th class="centered">MODELO</th>
-                            <th class="centered">DESCRIPCIÓN</th>
+                            <th class="centered" style="width: 25%">DESCRIPCIÓN</th>
                             <th class="centered">PRECIO</th>
                             <th class="centered">DESCUENTO</th>
                             <th style="width: 15%">IMPORTE NETO</th>
@@ -142,7 +142,13 @@
                             <tr>
                                 <td class="centered">{{ $movement->quantity }}</td>
                                 <td class="centered">{{ $movement->product->code }}</td>
-                                <td class="centered">{{ $movement->product->description }}</td>
+                                <td>
+                                    {{ $movement->product->description }}
+                                    @if($movement->product->features)
+                                        <br>
+                                        {!! str_replace(',', '<br>', $movement->product->features) !!}
+                                    @endif
+                                </td>
                                 <td style="text-align: right;">{{ number_format($movement->price, 2) }}</td>
                                 <td class="centered">{{ $movement->discount }} %</td>
                                 <td style="text-align: right;">{{ number_format($movement->total, 2) }}</td>
