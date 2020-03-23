@@ -19,7 +19,7 @@ class IngressController extends Controller
 
     function create()
     {
-        $clients = Client::where('company', '!=', 'coffee')->pluck('name', 'id')->toArray();
+        $clients = Client::where('company', 'mbe')->pluck('name', 'id')->toArray();
         $methods = ['efectivo' => 'Efectivo', 'transferencia' => 'Transferencia', 'cheque' => 'Cheque', 'tarjeta débito' => 'Tarjeta de débito', 'tarjeta crédito' => 'Tarjeta de crédito'];
         return view('mbe.ingresses.create', compact('clients', 'methods'));
     }
