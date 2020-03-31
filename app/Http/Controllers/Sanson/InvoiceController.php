@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Coffee;
+namespace App\Http\Controllers\Sanson;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -25,6 +25,6 @@ class InvoiceController extends Controller
             $sale->update($request->only('invoice_id'));
         }
 
-        return redirect(route('coffee.admin.daily', [$sale->route_method, $request->thisDate]));
+        return redirect(route('sanson.admin.daily', [$sale->route_method, $request->thisDate]));
     }
 }
