@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Sanson;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\Controller;
-use App\{Ingress, Payment, Shipping, IngressMovement};
+use App\{Ingress, Payment, Shipping, Movement};
 use App\Exports\DailyPendingExport;
 
 class AdminController extends Controller
@@ -59,10 +59,10 @@ class AdminController extends Controller
         $project = Ingress::monthly($date, 'sanson')->where('type', 'proyecto')->sum('amount');
         $equipment = Ingress::monthly($date, 'sanson')->where('type', 'equipo')->sum('amount');
         
-        $imbera = IngressMovement::monthly($date, 'sanson', 'IMBERA')->sum('total');
-        $rhino = IngressMovement::monthly($date, 'sanson', 'RHINO')->sum('total');
-        $sanson_equipment = IngressMovement::monthly($date, 'sanson', 'EQUIPOS SANSON')->sum('total');
-        $refactions = IngressMovement::monthly($date, 'sanson', 'REFACCIONES SANSON')->sum('total');
+        $imbera = Movement::monthly($date, 'sanson', 'IMBERA')->sum('total');
+        $rhino = Movement::monthly($date, 'sanson', 'RHINO')->sum('total');
+        $sanson_equipment = Movement::monthly($date, 'sanson', 'EQUIPOS SANSON')->sum('total');
+        $refactions = Movement::monthly($date, 'sanson', 'REFACCIONES SANSON')->sum('total');
 
         return view('sanson.admin.monthly', compact('date', 'month', 'pending', 'working_days', 'shippings', 'project', 'equipment', 'imbera', 'rhino', 'sanson_equipment', 'refactions'));
     }

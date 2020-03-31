@@ -87,6 +87,7 @@
             </div>
         </div>
 
+
         <div class="col-md-8">
             <div class="row">
                 <div class="col-md-4">
@@ -97,11 +98,12 @@
                                 <small style="color: white">$ {{ number_format($month->sum('cash'), 2) }}</small>
                             </h3>
                         </div>
-                        {{-- <div class="icon">
+                        <div class="icon">
                             <i class="fa fa-money-bill-alt"></i>
-                        </div> --}}
+                        </div>
                     </div>
                 </div>
+          
                 <div class="col-md-4">
                     <div class="small-box bg-aqua">
                         <div class="inner">
@@ -112,6 +114,7 @@
                         </div>
                     </div>
                 </div>
+        
                 <div class="col-md-4">
                     <div class="small-box bg-aqua">
                         <div class="inner">
@@ -123,6 +126,7 @@
                     </div>
                 </div>
             </div>
+        
             <div class="row">
                 <div class="col-md-4">
                     <div class="small-box bg-aqua">
@@ -213,6 +217,6 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> 
 
 @endsection
