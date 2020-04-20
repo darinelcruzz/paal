@@ -12,6 +12,13 @@ body {
     font-weight: bold;
 }
 
+.alt-title {
+    background-color: rgb(78, 78, 78);
+    color: white;
+    font-weight: bold;
+    padding-top: 1px;
+}
+
 .centered {
     text-align: center;
 }

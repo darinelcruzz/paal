@@ -59,17 +59,17 @@
                 <table class="table">
                     <tbody>
                         <tr>
-                            <td class="title">No. Asesor</td>
+                            <td class="alt-title">No. Asesor</td>
                             <td>{{ auth()->user()->id }}</td>
-                            <th class="title">Email</th>
+                            <th class="alt-title">Email</th>
                             <td>ventas.tuxtla1@coffeedepot.com.mx</td>
-                            <th class="title">Fecha de expedición</th>
+                            <th class="alt-title" style="width: 20%">Fecha de expedición</th>
                             <td>{{ fdate($quotation->updated_at, 'd/m/Y') }}</td>
                         </tr>
                         <tr>
-                            <th class="title" style="width: 15%">Nombre</th>
+                            <th class="alt-title" style="width: 15%">Nombre</th>
                             <td colspan="3">{{ auth()->user()->name }}</td>
-                            <th class="title" style="width: 15%">Vigencia</th>
+                            <th class="alt-title" style="width: 20%">Vigencia</th>
                             <td style="width: 15%">{{ date('d/m/Y', strtotime($quotation->updated_at) + 3 * 24 * 60 * 60) }}</td>
                         </tr>
                     </tbody>
@@ -118,12 +118,11 @@
                             <td class="title"> &nbsp;Email</td>
                             <td> &nbsp;{{ $quotation->client->company == 'internet' ? $quotation->email: $quotation->client->email }}</td>
                         </tr>
+                        <tr><td colspan="2">&nbsp;</td></tr>
                     </tbody>
                 </table>
             </div>
         </div>
-
-        <br>
 
         <div class="row">
             <div class="col-md-12">
