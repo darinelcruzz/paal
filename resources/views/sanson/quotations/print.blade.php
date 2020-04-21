@@ -199,8 +199,8 @@
                                 GFP140325SX0 <br>
                             </td>
                             <td colspan="2">
-                                NO. DE CUENTA: 011523314 <br>
-                                CLABE: 0121 0000 1962 1419 36
+                                NO. DE CUENTA: 0115253314<br>
+                                CLABE: 0121 0000 1152 5331 47
                             </td>
                         </tr>
                     </tbody>
