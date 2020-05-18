@@ -41,7 +41,7 @@
               <h3>
                 <b>BANCOMER BBVA</b> <br>
                 <small>GRUPO FINANCIERO PAAL SA DE CV <br>
-                CUENTA <b>0196214193</b></small>
+                CUENTA <b>0115253314</b></small>
               </h3>
             </th>
           </tr>
