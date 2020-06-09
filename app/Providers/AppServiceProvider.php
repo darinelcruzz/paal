@@ -5,8 +5,8 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Http\ViewComposers\SalesAndQuotationsComposer;
 use Illuminate\Support\Facades\View;
-use App\{Ingress, Quotation, Movement};
-use App\Observers\{IngressObserver, QuotationObserver, MovementObserver};
+use App\{Ingress, Quotation, Movement, Order, Purchase};
+use App\Observers\{IngressObserver, QuotationObserver, MovementObserver, OrderObserver, PurchaseObserver};
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -42,5 +42,7 @@ class AppServiceProvider extends ServiceProvider
         Ingress::observe(IngressObserver::class);
         Quotation::observe(QuotationObserver::class);
         Movement::observe(MovementObserver::class);
+        Order::observe(OrderObserver::class);
+        Purchase::observe(PurchaseObserver::class);
     }
 }

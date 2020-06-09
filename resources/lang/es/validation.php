@@ -200,6 +200,8 @@ return [
         'district' => 'colonia',
         'level' => 'nivel',
         'group' => 'grupo',
-        'dollars' => 'dólares'
+        'dollars' => 'dólares',
+        'ordered_at' => 'fecha',
+        'provider_id' => 'proveedor',
     ],
 ];

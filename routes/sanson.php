@@ -86,6 +86,31 @@ Route::group(['prefix' => 'sanson', 'as' => 'sanson.'], function () {
 		Route::get('{quotation}', usesas($ctrl, 'show'));
 	});
 
+	Route::group(['prefix' => 'ordenes-de-compra', 'as' => 'order.'], function () {
+	    $ctrl = 'Sanson\OrderController';
+	    Route::get('/', usesas($ctrl, 'index'));
+	    Route::post('/', usesas($ctrl, 'index'));
+	    Route::get('agregar', usesas($ctrl, 'create'));
+	    Route::post('agregar', usesas($ctrl, 'store'));
+	    Route::get('editar/{order}', usesas($ctrl, 'edit'));
+	    Route::post('editar/{order}', usesas($ctrl, 'update'));
+		Route::get('imprimir/{order}', usesas($ctrl, 'print'));
+		Route::get('transformar/{order}', usesas($ctrl, 'transform'));
+		Route::get('{order}', usesas($ctrl, 'show'));
+	});
+
+	Route::group(['prefix' => 'compras', 'as' => 'purchase.'], function () {
+	    $ctrl = 'Sanson\PurchaseController';
+	    Route::get('/', usesas($ctrl, 'index'));
+	    Route::post('/', usesas($ctrl, 'index'));
+	    Route::get('agregar', usesas($ctrl, 'create'));
+	    Route::post('agregar', usesas($ctrl, 'store'));
+	    Route::get('editar/{purchase}', usesas($ctrl, 'edit'));
+	    Route::post('editar/{purchase}', usesas($ctrl, 'update'));
+		Route::get('imprimir/{purchase}', usesas($ctrl, 'print'));
+		Route::get('{purchase}', usesas($ctrl, 'show'));
+	});
+
 	Route::group(['prefix' => 'clientes', 'as' => 'client.'], function () {
 	    $ctrl = 'Sanson\ClientController';
 	    Route::get('/', usesas($ctrl, 'index'));

@@ -17,7 +17,7 @@
                     <tbody>
                         <tr v-for="(product, index) in elements"
                             :index="index"
-                            :key="product"
+                            :key="product.id"
                             is="shopping-cart-item" 
                             :product="product"
                             :exchange="exchange"

@@ -76,6 +76,21 @@ return [
         ]
     ],
 
+    // 'purchases_and_orders' => [
+    //     'title' => 'Compras y órdenes',
+    //     'icon' => 'fa fa-shopping-cart',
+    //     'submenu' => [
+    //         'purchases' => [
+    //             'title' => 'Compras',
+    //             'route' => 'sanson.purchase.index'
+    //         ],
+    //         'orders' => [
+    //             'title' => 'Órdenes',
+    //             'route' => 'sanson.order.index'
+    //         ],
+    //     ]
+    // ],
+
     'egresses' => [
         'title' => 'Egresos',
         'icon' => 'fa fa-share',
