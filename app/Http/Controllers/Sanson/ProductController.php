@@ -37,6 +37,13 @@ class ProductController extends Controller
 
         $product = Product::create($attributes);
 
+        if ($product->iva) {
+            $product->update([
+                'retail_price' => $product->retail_price * 1.16,
+                'wholesale_price' => $product->wholesale_price * 1.16,
+            ]);
+        }
+
         return redirect(route('sanson.product.index'));
     }
 
