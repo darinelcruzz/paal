@@ -1,4 +1,4 @@
-@extends('coffee.root')
+@extends('sanson.root')
 
 @push('pageTitle')
     Ingresos | Pagar
@@ -7,8 +7,8 @@
 @section('content')
     <div class="row">
         <div class="col-md-6">
-            <solid-box title="Agregar pago" color="danger">
-                {!! Form::open(['method' => 'POST', 'route' => ['coffee.payment.store', $ingress]]) !!}
+            <solid-box title="Agregar pago" color="info">
+                {!! Form::open(['method' => 'POST', 'route' => ['sanson.payment.store', $ingress]]) !!}
 
                     <div class="row">
                         <div class="col-md-12">
@@ -18,7 +18,7 @@
                     
                     <input type="hidden" name="type" value="abono">
 
-                    {!! Form::submit('PAGAR', ['class' => 'btn btn-danger pull-right']) !!}
+                    {!! Form::submit('PAGAR', ['class' => 'btn btn-info pull-right']) !!}
 
                 {!! Form::close() !!}
             </solid-box>

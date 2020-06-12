@@ -32,6 +32,8 @@ class IngressController extends Controller
 
     function store(Request $request)
     {
+        // dd($request->all());
+
         $validated = $this->validate($request, [
             'client_id' => 'required',
             'user_id' => 'required',
@@ -45,8 +47,8 @@ class IngressController extends Controller
             'folio' => 'required'
         ]);
 
-        $total = $request->cash + $request->transfer + $request->check
-                + $request->debit_card + $request->credit_card;
+        $total = $request->payment['cash'] + $request->payment['transfer'] + $request->payment['check']
+                + $request->payment['debit_card'] + $request->payment['credit_card'];
 
         $ingress = Ingress::create($validated + [
             'retainer' => $request->method == 'anticipo' ? $total: 0,

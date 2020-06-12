@@ -32,9 +32,10 @@
                                 <th>Fecha</th>
                                 <th>Cliente</th>
                                 <th>Tipo</th>
-                                <th>IVA</th>
-                                <th>Total</th>
+                                <th>Monto</th>
                                 <th>Anticipo</th>
+                                <th>Abonos</th>
+                                <th>Debe</th>
                                 <th>Método</th>
                                 <th>Estado</th>
                             </tr>
@@ -66,9 +67,10 @@
                                         {{ strtoupper($ingress->type) }}
                                     </label>
                                 </td>
-                                <td style="text-align: right">{{ number_format($ingress->iva, 2) }}</td>
                                 <td style="text-align: right">{{ number_format($ingress->amount, 2) }}</td>
                                 <td style="text-align: center">{{ number_format($ingress->retainer, 2) }}</td>
+                                <td style="text-align: center">{{ number_format($ingress->deposits_sum, 2) }}</td>
+                                <td style="text-align: center">{{ number_format($ingress->debt, 2) }}</td>
                                 <td>{{ ucfirst($ingress->method) }}</td>
                                 <td>
                                     @if ($ingress->status == 'cancelado')

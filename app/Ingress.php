@@ -45,6 +45,19 @@ class Ingress extends Model
         return $this->amount - $payments_total;
     }
 
+    function getDepositsSumAttribute()
+    {
+        $payments_total = 0;
+
+        foreach ($this->payments as $payment) {
+            if ($payment->type == 'abono') {
+                $payments_total += $payment->cash + $payment->transfer + $payment->check + $payment->debit_card + $payment->credit_card;
+            }
+        }
+
+        return $payments_total;
+    }
+
     function getStatusColorAttribute()
     {
         $classes = ['pendiente' => 'warning', 'vencido' => 'danger', 'crédito' => 'default', 'pagado' => 'success', 'cancelado' => 'danger'];

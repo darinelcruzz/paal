@@ -49,7 +49,7 @@
                         <tbody>
                         @foreach ($ingress->payments as $payment)
                             <tr>
-                                <td>{{ strtoupper($payment->type) }}</td>
+                                <td>{{ $loop->index == 0 ? ($ingress->retainer > 0 ? 'ANTICIPO': 'CONTADO'): 'ABONO' }}</td>
                                 <td>{{ fdate($payment->created_at, 'd M Y') }}</td>
                                 <td>{{ $payment->cash > 0 ? number_format($payment->cash, 2): '' }}</td>
                                 <td>{{ $payment->transfer > 0 ? number_format($payment->transfer, 2): '' }}</td>
@@ -114,6 +114,12 @@
                             </tr>
                         </tfoot>
                     </table>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <a href="{{ route('sanson.ingress.index') }}" class="btn btn-info pull-left">REGRESAR AL HISTORIAL</a>
+                    </div>
                 </div>
             </solid-box>
         </div>

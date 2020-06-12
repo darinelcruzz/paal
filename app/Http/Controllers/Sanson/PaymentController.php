@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Coffee;
+namespace App\Http\Controllers\Sanson;
 
 use App\{Payment, Ingress};
 use Illuminate\Http\Request;
@@ -10,7 +10,7 @@ class PaymentController extends Controller
 {
     function create(Ingress $ingress)
     {
-        return view('coffee.payments.create', compact('ingress'));
+        return view('sanson.payments.create', compact('ingress'));
     }
 
     function store(Request $request, Ingress $ingress)
@@ -37,11 +37,11 @@ class PaymentController extends Controller
             ]);
         }
 
-        return view('coffee.ingresses.show', compact('ingress'));
+        return view('sanson.ingresses.show', compact('ingress'));
     }
 
     function print(Ingress $ingress)
     {
-        return view('coffee.payments.print', compact('ingress'));
+        return view('sanson.payments.print', compact('ingress'));
     }
 }
