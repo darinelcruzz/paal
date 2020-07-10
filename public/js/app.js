@@ -56767,6 +56767,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -56816,7 +56822,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         if (this.product.quantity > 0) {
             this.quantity = this.product.quantity;
             this.discount = this.product.discount;
-            this.price = this.product.price;
+            if (this.product.family == 'ENVÍOS') {
+                this.price = this.product.retail_price;
+            } else {
+                this.price = this.product.price;
+            }
 
             axios.get('/api/products/' + this.product.id).then(function (response) {
                 var product = response.data;
@@ -56873,7 +56883,7 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("td", [
-      _vm.product.retail_price == 0
+      _vm.product.retail_price == 0 || _vm.product.family == "ENVÍOS"
         ? _c("div", [
             _c("input", {
               directives: [
@@ -56922,36 +56932,72 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("td", [
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model.number",
-            value: _vm.quantity,
-            expression: "quantity",
-            modifiers: { number: true }
-          }
-        ],
-        staticClass: "form-control input-sm",
-        attrs: {
-          name: "items[" + _vm.index + "][quantity]",
-          type: "number",
-          min: "1"
-        },
-        domProps: { value: _vm.quantity },
-        on: {
-          change: _vm.updateTotal,
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.quantity = _vm._n($event.target.value)
-          },
-          blur: function($event) {
-            _vm.$forceUpdate()
-          }
-        }
-      })
+      _vm.product.family == "ENVÍOS"
+        ? _c("div", [
+            _vm._v("\n                1\n                "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model.number",
+                  value: _vm.quantity,
+                  expression: "quantity",
+                  modifiers: { number: true }
+                }
+              ],
+              staticClass: "form-control input-sm",
+              attrs: {
+                name: "items[" + _vm.index + "][quantity]",
+                type: "hidden",
+                min: "1",
+                value: "1"
+              },
+              domProps: { value: _vm.quantity },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.quantity = _vm._n($event.target.value)
+                },
+                blur: function($event) {
+                  _vm.$forceUpdate()
+                }
+              }
+            })
+          ])
+        : _c("div", [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model.number",
+                  value: _vm.quantity,
+                  expression: "quantity",
+                  modifiers: { number: true }
+                }
+              ],
+              staticClass: "form-control input-sm",
+              attrs: {
+                name: "items[" + _vm.index + "][quantity]",
+                type: "number",
+                min: "1"
+              },
+              domProps: { value: _vm.quantity },
+              on: {
+                change: _vm.updateTotal,
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.quantity = _vm._n($event.target.value)
+                },
+                blur: function($event) {
+                  _vm.$forceUpdate()
+                }
+              }
+            })
+          ])
     ]),
     _vm._v(" "),
     _c("td", [

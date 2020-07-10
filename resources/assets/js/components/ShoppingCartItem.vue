@@ -9,7 +9,7 @@
         </td>
 
         <td>
-            <div v-if="product.retail_price == 0">
+            <div v-if="product.retail_price == 0 || product.family == 'ENVÍOS'">
                 <input :name="'items[' + index + '][price]'" type="number" v-model.number="price" step="0.01" class="form-control input-sm">
             </div>
             <div v-else>
@@ -19,7 +19,13 @@
         </td>
         
         <td>
-            <input :name="'items[' + index + '][quantity]'" class="form-control input-sm" type="number" min="1" v-model.number="quantity" @change="updateTotal">
+            <div v-if="product.family == 'ENVÍOS'">
+                1
+                <input :name="'items[' + index + '][quantity]'" class="form-control input-sm" type="hidden" min="1" v-model.number="quantity" value="1">
+            </div>
+            <div v-else>
+                <input :name="'items[' + index + '][quantity]'" class="form-control input-sm" type="number" min="1" v-model.number="quantity" @change="updateTotal">
+            </div>
         </td>
         <td>
             <input v-if="has_discount" :name="'items[' + index + '][discount]'" class="form-control input-sm" type="number" step="1" value="0"
@@ -80,7 +86,11 @@ export default {
         if (this.product.quantity > 0) {
             this.quantity = this.product.quantity
             this.discount = this.product.discount
-            this.price = this.product.price
+            if (this.product.family == 'ENVÍOS') {
+                this.price = this.product.retail_price
+            } else {
+                this.price = this.product.price
+            }
 
             axios.get('/api/products/' + this.product.id).then((response) => {
                 var product = response.data

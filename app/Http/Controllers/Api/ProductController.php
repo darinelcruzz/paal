@@ -32,7 +32,9 @@ class ProductController extends Controller
                     ->orWhere("code", "LIKE", "%$keyword%")
                     ->orWhere("barcode", "LIKE", "%$keyword%")
                     ->orWhere("family", "LIKE", "%$keyword%");
-            })->paginate(5);
+            })
+            ->orWhere('family', 'ENVÍOS')
+            ->paginate(5);
     }
 
     function mbe($keyword = '')
