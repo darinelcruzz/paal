@@ -16,7 +16,7 @@
                     !!}
 
                     <h4 style="text-align:center;">PRODUCTOS</h4>
-                    <shopping-cart color="info" :movements="{{ $quotation->movements }}" :promo="{{ $promo }}"></shopping-cart>
+                    <shopping-cart color="{{ $quotation->type == 'equipo' ? 'info': 'primary'}}" :movements="{{ $quotation->movements }}" :promo="{{ $promo }}"></shopping-cart>
 
                     <input type="hidden" name="editions_count" value="{{ $quotation->editions_count + 1 }}">
 
