@@ -87,8 +87,14 @@
                         </tr>
                         <tr>
                             <td class="title" style="width: 10%"> &nbsp;Empresa</td>
-                            <td> &nbsp;{{ $quotation->client->company == 'internet' ? $quotation->client_name: $quotation->client->name }}</td>
-                            <td rowspan="6" style="width: 40%">
+                            <td>
+                                @if(strlen($quotation->client->name) > 30)
+                                    <span style="font-size: 10px;">{{ $quotation->client->company == 'internet' ? $quotation->client_name: $quotation->client->name }}</span>
+                                @else
+                                    {{ $quotation->client->company == 'internet' ? $quotation->client_name: $quotation->client->name }}
+                                @endif
+                            </td>
+                            <td rowspan="6" style="width: {{ strlen($quotation->client->name) > 30 ? '35%': '40%' }}; font-size: 10px;">
                                 @if($quotation->type == 'equipo')
                                     PRECIOS CON VIGENCIA DE 3 DÍAS HÁBILES. <br>
                                     EN CASO DE COMPRA, CONFIRMAR EXISTENCIAS DE LOS EQUIPOS O EN SU CASO DE NO TENER EXISTENCIA VERIFICAR LOS TIEMPOS DE ENTREGA.
@@ -100,7 +106,13 @@
                         </tr>
                         <tr>
                             <td class="title"> &nbsp;Solicitante</td>
-                            <td> &nbsp;{{ $quotation->client->company == 'internet' ? $quotation->client_name: $quotation->client->name }}</td>
+                            <td>
+                                @if(strlen($quotation->client->name) > 30)
+                                    <span style="font-size: 10px;">{{ $quotation->client->company == 'internet' ? $quotation->client_name: $quotation->client->name }}</span>
+                                @else
+                                    {{ $quotation->client->company == 'internet' ? $quotation->client_name: $quotation->client->name }}
+                                @endif
+                            </td>
                         </tr>
                         <tr>
                             <td class="title"> &nbsp;Dirección</td>
