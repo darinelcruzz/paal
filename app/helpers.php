@@ -1,7 +1,7 @@
 <?php
 
 use Jenssegers\Date\Date;
-use App\Shipping;
+use App\{Shipping, Egress};
 use Illuminate\Support\Facades\Storage;
 
 function usesas($ctrl, $fun, $as = null)
@@ -38,6 +38,19 @@ function pendingShippings($company = 'coffee')
             $query->where('company', $company);
         })
         ->count();
+}
+
+function expiringSoonEgresses($company = 'coffee')
+{
+    return 0;
+    return Egress::whereCompany($company)
+        ->where('status', '!=', 'pagado')
+        ->where('status', '!=', 'eliminado')
+        // ->where('expiration', '>=', now()->subday(2))
+        ->count(function ($egress) {
+            return 0;
+            // return $egress->expiration->subday(2) >= now();
+        });
 }
 
 function saveCoffeeFile($file, $folder = 'bills')

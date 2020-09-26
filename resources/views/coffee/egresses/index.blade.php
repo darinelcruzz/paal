@@ -118,7 +118,7 @@
 
                     <data-table example="1">
 
-                        {{ drawHeader('emisión', 'folio', '<i class="fa fa-cogs"></i>', 'tipo', 'proveedor', 'I.V.A.', 'total') }}
+                        {{ drawHeader('vencimiento', 'emisión', 'folio', '<i class="fa fa-cogs"></i>', 'tipo', 'proveedor', 'I.V.A.', 'total') }}
 
                         <template slot="body">
                             @foreach($pending as $egress)
@@ -127,6 +127,7 @@
                                     $egress->checkExpiration();
                                 @endphp
                                     <tr style="text-align: center;">
+                                        <td>{{ fdate($egress->expiration, 'd M Y', 'Y-m-d') }}</td>
                                         <td>{{ fdate($egress->emission, 'd M Y', 'Y-m-d') }}</td>
                                         <td>
                                             {{ $egress->folio }}

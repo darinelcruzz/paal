@@ -79,6 +79,7 @@ return [
     'egresses' => [
         'title' => 'Egresos',
         'icon' => 'fa fa-share',
+        'label' => expiringSoonEgresses() > 0 ? expiringSoonEgresses(): '',
         'submenu' => [
             'index' => [
                 'title' => 'Historial',

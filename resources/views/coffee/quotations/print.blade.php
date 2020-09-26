@@ -67,8 +67,8 @@
                             <td>{{ fdate($quotation->updated_at, 'd/m/Y') }}</td>
                         </tr>
                         <tr>
-                            <th class="alt-title" style="width: 15%">Nombre</th>
-                            <td colspan="3">{{ auth()->user()->name }}</td>
+                            <th class="alt-title" style="width: 15%">Vendedor</th>
+                            <td colspan="3">{{ $quotation->user->name }}</td>
                             <th class="alt-title" style="width: 20%">Vigencia</th>
                             <td style="width: 15%">{{ date('d/m/Y', strtotime($quotation->updated_at) + 3 * 24 * 60 * 60) }}</td>
                         </tr>

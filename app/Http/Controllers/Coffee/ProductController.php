@@ -12,7 +12,7 @@ class ProductController extends Controller
 {
     function index()
     {
-        $products = Product::all();
+        $products = Product::whereCompany('coffee')->get();
         return view('coffee.products.index', compact('products'));
     }
 
