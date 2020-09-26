@@ -10,5 +10,14 @@ class ClientsTableSeeder extends Seeder
         	'name' => 'CLIENTE MOSTRADOR',
         	'company' => 'both'
         ]);
+        factory(\App\Client::class, 3)->create([
+            'company' => 'mbe'
+        ]);
+        factory(\App\Client::class, 3)->create([
+            'company' => 'coffee'
+        ]);
+        factory(\App\Client::class, 3)->create([
+            'company' => 'sanson'
+        ]);
     }
 }

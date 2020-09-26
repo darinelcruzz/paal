@@ -17,7 +17,8 @@
         "laravel/tinker": "^1.0",
         "maatwebsite/excel": "^3.0",
         "styde/html": "~1.5",
-        "uxweb/sweet-alert": "^2.0"
+        "uxweb/sweet-alert": "^2.0",
+        "symfony/translation": "4.3.8"
     },
     "require-dev": {
         "filp/whoops": "^2.0",
