@@ -55,7 +55,13 @@
                                     {!! Field::number('subtotal', 0, ['tpl' => 'withicon', 'v-model.number' => 'mbe.subtotal', 'min' => '0', 'step' => '0.01'], ['icon' => 'dollar']) !!}
                                 </div>
                                 <div class="col-md-6">
-                                    {!! Field::number('iva', 0, ['tpl' => 'withicon', 'v-model.number' => 'mbe.iva', 'min' => '0', 'step' => '0.01'], ['icon' => 'hand-holding-usd']) !!}
+                                    <label for="">I.V.A (nacional por defecto)</label><br>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                          <input type="checkbox" v-model="mbe.iva">
+                                        </span>
+                                        <input type="text" class="form-control" disabled value="Aplicar internacional">
+                                    </div>
                                 </div>
                             </div>
 
@@ -70,12 +76,13 @@
                                     <input type="hidden" name="method" value="transferencia">
                                 </div>
 
-                                <div class="col-md-6">
-                                    <label><b>TOTAL</b></label><br>
-                                    <h1 class="pull-right" style="color: green;">
-                                        @{{ mbe.subtotal + mbe.iva | currency }}
-                                    </h1>
+                                <div class="col-md-6" style="text-align: right;">
+                                    <label><b>TOTAL</b></label>
+                                    <h2 style="color: green;">
+                                        @{{ mbe.subtotal * (mbe.iva ? 1.04: 1.16) | currency }}
+                                    </h2>
                                     <input type="hidden" name="amount" :value="mbe.subtotal + mbe.iva">
+                                    <input type="hidden" name="iva" :value="mbe.subtotal * (mbe.iva ? 0.04: 0.16)">
                                 </div>
                             </div>
 

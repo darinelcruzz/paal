@@ -25,7 +25,7 @@
         <td>
             <div v-if="product.dollars == 1">
                 <div v-if="product.retail_price == 0">
-                    <input name="prices[]" type="number" v-model.number="price" step="0.0001" class="form-control input-sm">
+                    <input name="prices[]" type="number" v-model.number="price" step="0.01" class="form-control input-sm">
                 </div>
                 <div v-else>
                     {{ price | currency }}

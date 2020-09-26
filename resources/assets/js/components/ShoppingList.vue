@@ -42,10 +42,17 @@
                             </td>
                         </tr>
                         <tr>
+                            <th colspan="5"><span class="pull-right">Redondeo:</span></th>
+                            <td>
+                                <input type="number" v-model.number="redondeo" step="0.01" class="form-control input-sm">
+                                <input type="hidden" name="redondeo" :value="redondeo.toFixed(decimalsToFix)">
+                            </td>
+                        </tr>
+                        <tr>
                             <th colspan="5"><span class="pull-right">Total:</span></th>
                             <td>
-                                <span class="pull-right">{{ total + iva | currency }}</span>
-                                <input type="hidden" name="amount" :value="(total + iva).toFixed(decimalsToFix)">
+                                <span class="pull-right">{{ total + iva + redondeo | currency }}</span>
+                                <input type="hidden" name="amount" :value="(total + iva + redondeo).toFixed(decimalsToFix)">
                             </td>
                         </tr>
                     </tfoot>
@@ -71,6 +78,7 @@
                 families: [],
                 total: 0,
                 iva: 0,
+                redondeo: 0,
                 decimalsToFix: 2
 			}
 		},

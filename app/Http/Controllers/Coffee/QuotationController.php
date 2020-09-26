@@ -42,6 +42,7 @@ class QuotationController extends Controller
 
     function store(Request $request)
     {
+        // dd($request->all());
         $validated = $this->validate($request, [
             'client_id' => 'required',
             'user_id' => 'required',
@@ -51,6 +52,7 @@ class QuotationController extends Controller
             'type' => 'required',
             'client_name' => 'sometimes|required',
             'email' => 'sometimes|required',
+            'rounding' => 'sometimes|required',
         ]);
 
         $quotation = Quotation::create($validated);
