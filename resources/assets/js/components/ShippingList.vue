@@ -12,8 +12,16 @@
                     </thead>
 
                     <tbody>
-                        <tr v-for="(element, index) in elements" :index="index" :key="element" is="shipping-item" :item="element"></tr>
+                        <tr v-for="(element, index) in elements" :index="index" :key="index" is="shipping-item" :item="element"></tr>
                     </tbody>
+
+                    <tfoot>
+                        <tr>
+                            <th></th>
+                            <th style="text-align: right;">Total</th>
+                            <td style="text-align: center;"><big>{{ total }}</big></td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>
@@ -32,14 +40,24 @@
 		data() {
 			return {
                 elements: [],
+                quantities: [],
+                total: 0,
 			}
 		},
 		methods: {
 			push(element) {
                 this.elements.push(element)
+                this.quantities.push(1)
+                this.total = this.quantities.reduce((total, quantity) => total + quantity, 0)
             },
             pop(index) {
                 this.elements.splice(index, 1)
+                this.quantities.splice(index, 1)
+                this.total = this.quantities.reduce((total, quantity) => total + quantity, 0)
+            },
+            updateQ(index, quantity) {
+                this.quantities[index] = quantity
+                this.total = this.quantities.reduce((total, quantity) => total + quantity, 0)
             }
 		},
         created() {
@@ -47,7 +65,10 @@
                 this.push(element)
             })
             this.$root.$on('delete-item', (data) => {
-                this.pop(data[0], data[1])
+                this.pop(data[0])
+            })
+            this.$root.$on('update-total', (data) => {
+                this.updateQ(data[0], data[1])
             })
         }
 	};

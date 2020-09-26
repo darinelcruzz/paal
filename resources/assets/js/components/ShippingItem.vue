@@ -10,7 +10,7 @@
         
         <td>
             <div class="input-group input-group-sm">
-                <input class="form-control" type="number" name="quantities[]" min="1" v-model="quantity">
+                <input class="form-control" type="number" name="quantities[]" min="1" v-model.number="quantity" @change="updateQ">
             </div>
         </td>
     </tr>
@@ -27,6 +27,9 @@ export default {
     methods: {
         remove() {
             this.$root.$emit('delete-item', this.index)
+        },
+        updateQ() {
+            this.$root.$emit('update-total', [this.index, this.quantity])
         }
     }
 }

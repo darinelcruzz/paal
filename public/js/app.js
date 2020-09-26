@@ -53242,6 +53242,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['color', 'exchange', 'qproducts', 'promo'],
@@ -53252,6 +53259,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             families: [],
             total: 0,
             iva: 0,
+            redondeo: 0,
             decimalsToFix: 2
         };
     },
@@ -53441,14 +53449,59 @@ var render = function() {
                   _vm._m(3),
                   _vm._v(" "),
                   _c("td", [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model.number",
+                          value: _vm.redondeo,
+                          expression: "redondeo",
+                          modifiers: { number: true }
+                        }
+                      ],
+                      staticClass: "form-control input-sm",
+                      attrs: { type: "number", step: "0.01" },
+                      domProps: { value: _vm.redondeo },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.redondeo = _vm._n($event.target.value)
+                        },
+                        blur: function($event) {
+                          _vm.$forceUpdate()
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      attrs: { type: "hidden", name: "redondeo" },
+                      domProps: {
+                        value: _vm.redondeo.toFixed(_vm.decimalsToFix)
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("tr", [
+                  _vm._m(4),
+                  _vm._v(" "),
+                  _c("td", [
                     _c("span", { staticClass: "pull-right" }, [
-                      _vm._v(_vm._s(_vm._f("currency")(_vm.total + _vm.iva)))
+                      _vm._v(
+                        _vm._s(
+                          _vm._f("currency")(_vm.total + _vm.iva + _vm.redondeo)
+                        )
+                      )
                     ]),
                     _vm._v(" "),
                     _c("input", {
                       attrs: { type: "hidden", name: "amount" },
                       domProps: {
-                        value: (_vm.total + _vm.iva).toFixed(_vm.decimalsToFix)
+                        value: (_vm.total + _vm.iva + _vm.redondeo).toFixed(
+                          _vm.decimalsToFix
+                        )
                       }
                     })
                   ])
@@ -53457,7 +53510,7 @@ var render = function() {
             ])
           ])
         ])
-      : _c("div", { attrs: { align: "center" } }, [_vm._m(4)]),
+      : _c("div", { attrs: { align: "center" } }, [_vm._m(5)]),
     _vm._v(" "),
     _c("hr")
   ])
@@ -53509,6 +53562,14 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("th", { attrs: { colspan: "5" } }, [
       _c("span", { staticClass: "pull-right" }, [_vm._v("IVA:")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", { attrs: { colspan: "5" } }, [
+      _c("span", { staticClass: "pull-right" }, [_vm._v("Redondeo:")])
     ])
   },
   function() {
@@ -53860,7 +53921,7 @@ var render = function() {
                       }
                     ],
                     staticClass: "form-control input-sm",
-                    attrs: { name: "prices[]", type: "number", step: "0.0001" },
+                    attrs: { name: "prices[]", type: "number", step: "0.01" },
                     domProps: { value: _vm.price },
                     on: {
                       input: function($event) {
@@ -54180,21 +54241,45 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['color'],
     data: function data() {
         return {
-            elements: []
+            elements: [],
+            quantities: [],
+            total: 0
         };
     },
 
     methods: {
         push: function push(element) {
             this.elements.push(element);
+            this.quantities.push(1);
+            this.total = this.quantities.reduce(function (total, quantity) {
+                return total + quantity;
+            }, 0);
         },
         pop: function pop(index) {
             this.elements.splice(index, 1);
+            this.quantities.splice(index, 1);
+            this.total = this.quantities.reduce(function (total, quantity) {
+                return total + quantity;
+            }, 0);
+        },
+        updateQ: function updateQ(index, quantity) {
+            this.quantities[index] = quantity;
+            this.total = this.quantities.reduce(function (total, quantity) {
+                return total + quantity;
+            }, 0);
         }
     },
     created: function created() {
@@ -54204,7 +54289,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             _this.push(element);
         });
         this.$root.$on('delete-item', function (data) {
-            _this.pop(data[0], data[1]);
+            _this.pop(data[0]);
+        });
+        this.$root.$on('update-total', function (data) {
+            _this.updateQ(data[0], data[1]);
         });
     }
 });
@@ -54228,13 +54316,30 @@ var render = function() {
                 "tbody",
                 _vm._l(_vm.elements, function(element, index) {
                   return _c("shipping-item", {
-                    key: element,
+                    key: index,
                     tag: "tr",
                     attrs: { index: index, item: element }
                   })
                 }),
                 1
-              )
+              ),
+              _vm._v(" "),
+              _c("tfoot", [
+                _c("tr", [
+                  _c("th"),
+                  _vm._v(" "),
+                  _c("th", { staticStyle: { "text-align": "right" } }, [
+                    _vm._v("Total")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "td",
+                    { staticStyle: { "text-align": "center" } },
+                    [_c("big", [_vm._v(_vm._s(_vm.total))])],
+                    1
+                  )
+                ])
+              ])
             ])
           ])
         ])
@@ -54359,6 +54464,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         remove: function remove() {
             this.$root.$emit('delete-item', this.index);
+        },
+        updateQ: function updateQ() {
+            this.$root.$emit('update-total', [this.index, this.quantity]);
         }
     }
 });
@@ -54400,20 +54508,25 @@ var render = function() {
           directives: [
             {
               name: "model",
-              rawName: "v-model",
+              rawName: "v-model.number",
               value: _vm.quantity,
-              expression: "quantity"
+              expression: "quantity",
+              modifiers: { number: true }
             }
           ],
           staticClass: "form-control",
           attrs: { type: "number", name: "quantities[]", min: "1" },
           domProps: { value: _vm.quantity },
           on: {
+            change: _vm.updateQ,
             input: function($event) {
               if ($event.target.composing) {
                 return
               }
-              _vm.quantity = $event.target.value
+              _vm.quantity = _vm._n($event.target.value)
+            },
+            blur: function($event) {
+              _vm.$forceUpdate()
             }
           }
         })
