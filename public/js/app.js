@@ -14355,6 +14355,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_form_wizard___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vue_form_wizard__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue_form_wizard_dist_vue_form_wizard_min_css__ = __webpack_require__(45);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue_form_wizard_dist_vue_form_wizard_min_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vue_form_wizard_dist_vue_form_wizard_min_css__);
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 var _data;
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -14463,7 +14465,9 @@ var app = new Vue({
             subtotal: 0,
             iva: 0,
             client: '',
-            method: ''
+            method: '',
+            check: false,
+            checked: []
         },
         provider_form: {
             group: '',
@@ -14508,6 +14512,53 @@ var app = new Vue({
         },
         add: function add(item) {
             this.checked.push(item);
+        },
+        checkAll: function checkAll(items) {
+            this.mbe.check = !this.mbe.check;
+            if (this.mbe.check) {
+                console.log('Todas seleccionadas', items);
+                var _iteratorNormalCompletion = true;
+                var _didIteratorError = false;
+                var _iteratorError = undefined;
+
+                try {
+                    for (var _iterator = Object.entries(items)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                        var _ref2 = _step.value;
+
+                        var _ref3 = _slicedToArray(_ref2, 2);
+
+                        var key = _ref3[0];
+                        var item = _ref3[1];
+
+                        this.mbe.checked.push({
+                            id: item.id, iva: item.iva, amount: item.amount, folio: item.folio
+                        });
+                    }
+                } catch (err) {
+                    _didIteratorError = true;
+                    _iteratorError = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion && _iterator.return) {
+                            _iterator.return();
+                        }
+                    } finally {
+                        if (_didIteratorError) {
+                            throw _iteratorError;
+                        }
+                    }
+                }
+            } else {
+                console.log('Todas deseleccionadas');
+                this.mbe.checked = [];
+            }
+        },
+        updateCheckall: function updateCheckall(items) {
+            if (Object.keys(items).length == this.mbe.checked.length) {
+                this.mbe.check = true;
+            } else {
+                this.mbe.check = false;
+            }
         }
     },
     created: function created() {
@@ -14517,38 +14568,38 @@ var app = new Vue({
             t.ingress_total = total;
         });
 
-        axios.get('/api/providers/mbe/of').then(function (_ref2) {
-            var data = _ref2.data;
+        axios.get('/api/providers/mbe/of').then(function (_ref4) {
+            var data = _ref4.data;
 
             t.providers.mbe.general = data;
         });
 
-        axios.get('/api/providers/coffee/of').then(function (_ref3) {
-            var data = _ref3.data;
+        axios.get('/api/providers/coffee/of').then(function (_ref5) {
+            var data = _ref5.data;
 
             t.providers.coffee.general = data;
         });
 
-        axios.get('/api/providers/sanson/of').then(function (_ref4) {
-            var data = _ref4.data;
+        axios.get('/api/providers/sanson/of').then(function (_ref6) {
+            var data = _ref6.data;
 
             t.providers.sanson.general = data;
         });
 
-        axios.get('/api/providers/mbe/cc').then(function (_ref5) {
-            var data = _ref5.data;
+        axios.get('/api/providers/mbe/cc').then(function (_ref7) {
+            var data = _ref7.data;
 
             t.providers.mbe.register = data;
         });
 
-        axios.get('/api/providers/coffee/cc').then(function (_ref6) {
-            var data = _ref6.data;
+        axios.get('/api/providers/coffee/cc').then(function (_ref8) {
+            var data = _ref8.data;
 
             t.providers.coffee.register = data;
         });
 
-        axios.get('/api/providers/sanson/cc').then(function (_ref7) {
-            var data = _ref7.data;
+        axios.get('/api/providers/sanson/cc').then(function (_ref9) {
+            var data = _ref9.data;
 
             t.providers.sanson.register = data;
         });

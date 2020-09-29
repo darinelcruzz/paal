@@ -28,6 +28,7 @@ class OrderController extends Controller
     {
         $invoices = $client->ingresses->where('invoice_id', '!=', null)->groupBy('invoice_id');
         $ingresses = $client->ingresses->where('status', '!=', 'cancelado')->where('invoice_id', null);
+        
         return view('mbe.clients.show', compact('client', 'ingresses', 'invoices'));
     }
 

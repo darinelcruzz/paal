@@ -19,11 +19,10 @@
                 
                 <data-table classes="spanish-simple">
 
-                    {{-- {{ drawHeader('OT', 'fecha', 'i.V.A.', 'monto') }} --}}
-
                     <template slot="header">
                         <tr>
-                            <th style="width: 5%"><i class="fa fa-check"></i></th>
+                            <th style="width: 5%"><input type="checkbox" v-on:click="checkAll({{ json_encode($ingresses) }})" v-model="mbe.check"></th>
+                            {{-- <th style="width: 5%"><i class="fa fa-check"></i></th> --}}
                             <th style="width: 10%">OT</th>
                             <th>Fecha</th>
                             <th>Factura</th>
@@ -39,7 +38,8 @@
                             <tr>
                                 <th>
                                     @if($ingress->invoice_id == null)
-                                        <input type="checkbox" name="sales[]" value="{{ $ingress->id }}" checked>
+                                        <input type="checkbox" name="sales[]" 
+                                            :value="{id: {{ $ingress->id }}, iva: {{ $ingress->iva}}, amount: {{ round($ingress->amount, 2) }}, folio: {{ $ingress->folio }} }" v-model="mbe.checked" v-on:change="updateCheckall({{ json_encode($ingresses) }})">
                                     @else
                                         <i class="fa fa-check"></i>
                                     @endif
@@ -53,11 +53,11 @@
                                 <td>
                                     {{ $ingress->invoice_id or 'No facurado' }}
                                 </td>
-                                <td>
-                                    $ {{ number_format($ingress->iva, 2) }}
+                                <td style="text-align: right;">
+                                    {{ number_format($ingress->iva, 2) }}
                                 </td>
-                                <td>
-                                    $ {{ number_format($ingress->amount, 2) }}
+                                <td style="text-align: right;">
+                                    {{ number_format($ingress->amount, 2) }}
                                 </td>
                             </tr>
                         @endforeach
@@ -75,11 +75,13 @@
                             </td>
                             <td></td>
                             <th>Total</th>
-                            <td>
-                                $ {{ number_format($client->ingresses->sum('iva'), 2) }}
+                            <td style="text-align: right;">
+                                {{-- {{ number_format($client->ingresses->sum('iva'), 2) }} --}}
+                                <span v-text="(mbe.checked.reduce((iva, item) => iva + item.iva, 0)).toFixed(2)"></span>
                             </td>
-                            <td>
-                                $ {{ number_format($client->ingresses->sum('amount'), 2) }}
+                            <td style="text-align: right;">
+                                {{-- {{ number_format($client->ingresses->sum('amount'), 2) }} --}}
+                                <span v-text="(mbe.checked.reduce((amount, item) => amount + item.amount, 0)).toFixed(2)"></span>
                             </td>
                         </tr>
                     </template>

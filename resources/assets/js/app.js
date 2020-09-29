@@ -104,7 +104,9 @@ const app = new Vue({
             subtotal: 0,
             iva: 0,
             client: '',
-            method: ''
+            method: '',
+            check: false,
+            checked: [],
         },
         provider_form: {
             group: '',
@@ -150,6 +152,27 @@ const app = new Vue({
         },
         add(item) {
             this.checked.push(item)
+        },
+        checkAll(items) {
+            this.mbe.check = !this.mbe.check
+            if(this.mbe.check) {
+                console.log('Todas seleccionadas', items)
+                for (let [key, item] of Object.entries(items)) {
+                    this.mbe.checked.push({
+                        id: item.id, iva: item.iva, amount: item.amount, folio: item.folio
+                    });
+                }
+            } else {
+                console.log('Todas deseleccionadas')
+                this.mbe.checked = []
+            }
+        },
+        updateCheckall(items){
+          if(Object.keys(items).length == this.mbe.checked.length){
+             this.mbe.check = true;
+          }else{
+             this.mbe.check = false;
+          }
         },
     },
     created() {

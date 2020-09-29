@@ -45,6 +45,11 @@ class IngressController extends Controller
 
         $ingress = Ingress::create($validated + ['products' => $this->getSerializedItems($request)]);
 
+        $ingress->update([
+            'amount' => round($ingress->amount, 2),
+            'iva' => round($ingress->iva, 2),
+        ]);
+
         $methods = ['efectivo' => 'cash', 'transferencia' => 'transfer', 'cheque' => 'check', 'tarjeta débito' => 'debit_card', 'tarjeta crédito' => 'credit_card'];
 
         if ($request->method) {
