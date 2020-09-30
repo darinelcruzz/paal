@@ -34,9 +34,10 @@ class OrderController extends Controller
 
     function update(Request $request)
     {
-        // dd($request->all());
+        // dd(explode(',', $request->sales));
         $request->validate([
             'invoice_id' => 'required',
+            'invoiced_at' => 'required',
             'sales' => 'required',
             'xml' => 'required'
         ]);
@@ -45,8 +46,8 @@ class OrderController extends Controller
             "public/mbe/invoices", $request->file('xml'), "$request->invoice_id.xml"
         );
         
-        foreach (Ingress::find($request->sales) as $sale) {
-            $sale->update($request->only('invoice_id'));
+        foreach (Ingress::find(explode(',', $request->sales)) as $sale) {
+            $sale->update($request->only('invoice_id', 'invoiced_at'));
         }
 
         return redirect(route('mbe.order.show', $sale->client));

@@ -88,13 +88,13 @@
                         <tr>
                             <td class="title" style="width: 10%"> &nbsp;Empresa</td>
                             <td>
-                                @if(strlen($quotation->client->name) > 30)
+                                @if(strlen($quotation->client->name) > 20)
                                     <span style="font-size: 10px;">{{ $quotation->client->company == 'internet' ? $quotation->client_name: $quotation->client->name }}</span>
                                 @else
                                     {{ $quotation->client->company == 'internet' ? $quotation->client_name: $quotation->client->name }}
                                 @endif
                             </td>
-                            <td rowspan="6" style="width: {{ strlen($quotation->client->name) > 30 ? '35%': '40%' }}; font-size: 10px;">
+                            <td rowspan="6" style="width: {{ strlen($quotation->client->name) > 20 ? '35%': '40%' }}; font-size: 10px;">
                                 @if($quotation->type == 'equipo')
                                     PRECIOS CON VIGENCIA DE 3 DÍAS HÁBILES. <br>
                                     EN CASO DE COMPRA, CONFIRMAR EXISTENCIAS DE LOS EQUIPOS O EN SU CASO DE NO TENER EXISTENCIA VERIFICAR LOS TIEMPOS DE ENTREGA.
@@ -107,7 +107,7 @@
                         <tr>
                             <td class="title"> &nbsp;Solicitante</td>
                             <td>
-                                @if(strlen($quotation->client->name) > 30)
+                                @if(strlen($quotation->client->name) > 20)
                                     <span style="font-size: 10px;">{{ $quotation->client->company == 'internet' ? $quotation->client_name: $quotation->client->name }}</span>
                                 @else
                                     {{ $quotation->client->company == 'internet' ? $quotation->client_name: $quotation->client->name }}

@@ -24,8 +24,7 @@
                             <th style="width: 5%"><input type="checkbox" v-on:click="checkAll({{ json_encode($ingresses) }})" v-model="mbe.check"></th>
                             {{-- <th style="width: 5%"><i class="fa fa-check"></i></th> --}}
                             <th style="width: 10%">OT</th>
-                            <th>Fecha</th>
-                            <th>Factura</th>
+                            <th>Captura</th>
                             <th>I.V.A.</th>
                             <th>Importe</th>
                         </tr>
@@ -38,7 +37,7 @@
                             <tr>
                                 <th>
                                     @if($ingress->invoice_id == null)
-                                        <input type="checkbox" name="sales[]" 
+                                        <input type="checkbox" 
                                             :value="{id: {{ $ingress->id }}, iva: {{ $ingress->iva}}, amount: {{ round($ingress->amount, 2) }}, folio: {{ $ingress->folio }} }" v-model="mbe.checked" v-on:change="updateCheckall({{ json_encode($ingresses) }})">
                                     @else
                                         <i class="fa fa-check"></i>
@@ -49,9 +48,6 @@
                                 </td>
                                 <td>
                                     {{ $ingress->created_at->format('d/m/Y') }}
-                                </td>
-                                <td>
-                                    {{ $ingress->invoice_id or 'No facurado' }}
                                 </td>
                                 <td style="text-align: right;">
                                     {{ number_format($ingress->iva, 2) }}
@@ -96,6 +92,13 @@
                                 ['label' => 'Agregar FI', 'tpl' => 'withicon', 'ph' => 'XXXXXXXXX', 'required' => 'true'], 
                                 ['icon' => 'file-invoice']) 
                             !!}
+
+                            {!! Field::date('invoiced_at', 
+                                ['label' => 'Fecha factura', 'tpl' => 'withicon', 'required' => 'true'], 
+                                ['icon' => 'calendar']) 
+                            !!}
+
+                            <input type="hidden" name="sales" :value="mbe.phpChecked">
                         </div>
                     </div>
                     <br>
@@ -124,6 +127,7 @@
                         <tr>
                             <th style="width: 10%">FI</th>
                             <th>OTs</th>
+                            <th>Factura</th>
                             <th>I.V.A.</th>
                             <th>Importe</th>
                         </tr>
@@ -144,6 +148,9 @@
                                     {{ $ot->folio }} {{ $loop->last ? '': ', '}}
                                     @endforeach
                                 </td>
+                                <td>
+                                    {{ fdate($invoice->first()->invoiced_at, 'd/m/Y', 'Y-m-d') }}
+                                </td>
                                 <td>$ {{ number_format($invoice->sum('iva'), 2) }}</td>
                                 <td>$ {{ number_format($invoice->sum('amount'), 2) }}</td>
                             </tr>
@@ -158,6 +165,7 @@
 
                     <template slot="footer">
                         <tr>
+                            <td></td>
                             <td></td>
                             <th>Total</th>
                             <td>

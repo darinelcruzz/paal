@@ -19,6 +19,7 @@
                     !!}
 
                     <input type="hidden" name="category" value="MBE">
+                    <input type="hidden" name="company" value="MBE">
 
                     <button type="submit" class="btn btn-primary pull-right">AGREGAR</button>
 

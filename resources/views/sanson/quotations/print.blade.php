@@ -85,7 +85,7 @@
                         </tr>
                         <tr>
                             <td class="title" style="width: 10%"> &nbsp;Empresa</td>
-                            <td> &nbsp;{{ $quotation->client->company == 'internet' ? $quotation->client_name: $quotation->client->name }}</td>
+                            <td style="font-size: 10px;"> &nbsp;{{ $quotation->client->company == 'internet' ? $quotation->client_name: $quotation->client->name }}</td>
                             <td rowspan="6">
                                 PRECIOS CON VIGENCIA DE 3 DÍAS HÁBILES. <br>
                                 EN CASO DE COMPRA, CONFIRMAR EXISTENCIAS DE LOS EQUIPOS O EN SU CASO DE NO TENER EXISTENCIA VERIFICAR LOS TIEMPOS DE ENTREGA.
@@ -93,7 +93,7 @@
                         </tr>
                         <tr>
                             <td class="title"> &nbsp;Solicitante</td>
-                            <td> &nbsp;{{ $quotation->client->company == 'internet' ? $quotation->client_name: $quotation->client->name }}</td>
+                            <td style="font-size: 10px;"> &nbsp;{{ $quotation->client->company == 'internet' ? $quotation->client_name: $quotation->client->name }}</td>
                         </tr>
                         <tr>
                             <td class="title"> &nbsp;Dirección</td>

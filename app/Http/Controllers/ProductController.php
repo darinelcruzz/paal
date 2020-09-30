@@ -31,6 +31,7 @@ class ProductController extends Controller
         $this->validate($request, [
             'description' => 'required',
             'code' => 'sometimes|required',
+            'company' => 'required',
             'barcode' => 'sometimes|required',
             'family' => 'required',
             'retail_price' => 'sometimes|required',
