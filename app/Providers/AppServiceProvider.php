@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Http\ViewComposers\SalesAndQuotationsComposer;
+use App\Http\ViewComposers\MailboxesComposer;
 use Illuminate\Support\Facades\View;
 use App\{Ingress, Quotation, Movement, Order, Purchase};
 use App\Observers\{IngressObserver, QuotationObserver, MovementObserver, OrderObserver, PurchaseObserver};
@@ -24,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
         ], 'adminlte');
 
         View::composer('*', SalesAndQuotationsComposer::class);
+        View::composer('*', MailboxesComposer::class);
         $this->registerObservers();
     }
 

@@ -44,6 +44,12 @@ return [
         'route' => 'paal.client.index'
     ],
 
+    'clients' => [
+        'title' => 'Des/Activar',
+        'icon' => 'fa fa-toggle-on',
+        'route' => ['paal.variable.edit', 3]
+    ],
+
     'users' => [
         'title' => 'Usuarios',
         'icon' => 'fa fa-key',

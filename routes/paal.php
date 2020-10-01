@@ -83,6 +83,13 @@ Route::group(['prefix' => 'paal', 'as' => 'paal.'], function () {
 	    Route::post('editar/{user}', usesas($ctrl, 'update'));
 	});
 
+	Route::group(['prefix' => 'variables', 'as' => 'variable.', 'middleware' => 'admin'], function () {
+	    $ctrl = 'Paal\VariableController';
+	    Route::get('/', usesas($ctrl, 'index'));
+	    Route::get('editar/{variable}', usesas($ctrl, 'edit'));
+	    Route::post('editar/{variable}', usesas($ctrl, 'update'));
+	});
+
 	Route::get('tipo_de_cambio', function ()
 	{
 		return view('auth.exchange');

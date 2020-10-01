@@ -2,22 +2,22 @@
 
 return [
 
-    'egresses' => [
-        'title' => 'Egresos',
-        'icon' => 'fa fa-share',
-        'route' => 'mbe.egress.index'
-    ],
-
     'ingresses' => [
         'title' => 'Ingresos',
         'icon' => 'fa fa-money',
         'route' => 'mbe.ingress.index'
     ],
 
+    'clients' => [
+        'title' => 'Clientes',
+        'icon' => 'fa fa-users',
+        'route' => 'mbe.client.index'
+    ],
+
     'tasks' => [
         'title' => 'Tareas',
         'icon' => 'fa fa-tasks',
-        'route' => 'coffee.task.index'
+        'route' => 'mbe.task.index'
     ],
 
     'logout' => [

@@ -10,6 +10,8 @@
             <solid-box title="Agregar ingreso" color="success" button>
                 {!! Form::open(['method' => 'POST', 'route' => 'mbe.ingress.store', 'ref' => 'cform']) !!}
 
+                    <input type="hidden" name="bought_at" value="{{ date('Y-m-d') }}">
+
                     <form-wizard
                         title=""
                         subtitle=""
@@ -31,6 +33,11 @@
                                 <div v-else class="col-md-6">
                                     {!! Field::text('invoice_id', ['label' => 'FI', 'tpl' => 'withicon'], ['icon' => 'list']) !!}
                                 </div>
+                                @if(isset($isShifted))
+                                <div class="col-md-6">
+                                    {!! Field::date('bought_at', date('Y-m-d'), ['label' => 'Fecha', 'tpl' => 'withicon'], ['icon' => 'calendar']) !!}
+                                </div>
+                                @endif
                             </div>
                             <div class="row">
                                 <div v-if="mbe.client < '627'" class="col-md-6">
@@ -97,7 +104,7 @@
 
                     </form-wizard>
 
-                    <input type="hidden" name="bought_at" value="{{ date('Y-m-d') }}">
+                    
                     <input type="hidden" name="invoice" value="otro">
 
                 {!! Form::close() !!}

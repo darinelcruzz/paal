@@ -25,7 +25,7 @@ class InvoiceController extends Controller
             ->sum('cash');
 
         $cash_invoices = Ingress::where('invoice_id', '!=', null)
-            ->whereDate('created_at', $date)
+            ->whereDate('invoiced_at', $date)
             ->where('company', 'mbe')
             ->where('method', 'efectivo')
             ->where('status', '!=', 'cancelado')
@@ -33,7 +33,7 @@ class InvoiceController extends Controller
             ->groupBy('invoice_id');
 
         $invoices = Ingress::where('invoice_id', '!=', null)
-            ->whereDate('created_at', $date)
+            ->whereDate('invoiced_at', $date)
             ->where('company', 'mbe')
             ->where('method', '!=', 'efectivo')
             ->where('status', '!=', 'cancelado')

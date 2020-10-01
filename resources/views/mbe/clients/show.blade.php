@@ -1,12 +1,8 @@
 @extends('mbe.root')
 
-@push('pageTitle')
-    Empresariales
-@endpush
+@push('pageTitle', 'Empresariales')
 
-@push('headerTitle')
-    {{ $client->name }}
-@endpush
+@push('headerTitle', $client->name)
 
 @section('content')
     <div class="row">
@@ -47,7 +43,7 @@
                                     {{ $ingress->folio }}
                                 </td>
                                 <td>
-                                    {{ $ingress->created_at->format('d/m/Y') }}
+                                    {{ fdate($ingress->bought_at, 'd/m/Y', 'Y-m-d') }}
                                 </td>
                                 <td style="text-align: right;">
                                     {{ number_format($ingress->iva, 2) }}
@@ -63,20 +59,16 @@
                     @if($client->ingresses->count() > 0)
                     <template slot="footer">
                         <tr>
-                            <th></th>
-                            <td>
+                            <td colspan="2">
                                 <a href="" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modal-cash" title="AGREGAR FI">
                                     <i class="fa fa-plus"></i> FACTURAR
                                 </a>
                             </td>
-                            <td></td>
-                            <th>Total</th>
+                            <th style="text-align: right;">Total</th>
                             <td style="text-align: right;">
-                                {{-- {{ number_format($client->ingresses->sum('iva'), 2) }} --}}
                                 <span v-text="(mbe.checked.reduce((iva, item) => iva + item.iva, 0)).toFixed(2)"></span>
                             </td>
                             <td style="text-align: right;">
-                                {{-- {{ number_format($client->ingresses->sum('amount'), 2) }} --}}
                                 <span v-text="(mbe.checked.reduce((amount, item) => amount + item.amount, 0)).toFixed(2)"></span>
                             </td>
                         </tr>

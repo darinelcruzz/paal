@@ -1,7 +1,6 @@
 <?php
 
 return [
-    
     'ingresses' => [
         'title' => 'Ingresos',
         'icon' => 'fa fa-truck-loading',
@@ -9,6 +8,10 @@ return [
             'create' => [
                 'title' => 'Agregar',
                 'route' => 'mbe.ingress.create'
+            ],
+            'shift' => [
+                'title' => 'Desfasadas',
+                'route' => 'mbe.ingress.shift'
             ],
             'daily' => [
                 'title' => 'Corte diario',

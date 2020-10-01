@@ -60,6 +60,7 @@ Route::group(['prefix' => 'mbe', 'as' => 'mbe.'], function () {
 	    $ctrl = 'Mailboxes\IngressController';
 	    Route::get('/', usesas($ctrl, 'index'));
 	    Route::post('/', usesas($ctrl, 'index'));
+	    Route::get('agregar-desfasada', usesas($ctrl, 'shift'));
 	    Route::get('agregar', usesas($ctrl, 'create'));
 	    Route::post('agregar', usesas($ctrl, 'store'));
 	    Route::get('ticket/{ingress}', usesas($ctrl, 'ticket'));
@@ -95,6 +96,15 @@ Route::group(['prefix' => 'mbe', 'as' => 'mbe.'], function () {
 	    Route::get('/', usesas($ctrl, 'index'));
 	    Route::get('{client}', usesas($ctrl, 'show'));
 	    Route::post('agregar-factura', usesas($ctrl, 'update'));
+	});
+
+	Route::group(['prefix' => 'clientes', 'as' => 'client.'], function () {
+	    $ctrl = 'Mailboxes\ClientController';
+	    Route::get('/', usesas($ctrl, 'index'));
+	    Route::get('agregar', usesas($ctrl, 'create'));
+	    Route::post('agregar', usesas($ctrl, 'store'));
+	    Route::get('editar/{client}', usesas($ctrl, 'edit'));
+	    Route::post('editar/{client}', usesas($ctrl, 'update'));
 	});
 
 });

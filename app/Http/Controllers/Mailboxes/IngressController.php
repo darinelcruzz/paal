@@ -24,6 +24,14 @@ class IngressController extends Controller
         return view('mbe.ingresses.create', compact('clients', 'methods'));
     }
 
+    function shift()
+    {
+        $clients = Client::where('company', 'mbe')->pluck('name', 'id')->toArray();
+        $isShifted = true;
+        $methods = ['efectivo' => 'Efectivo', 'transferencia' => 'Transferencia', 'cheque' => 'Cheque', 'tarjeta débito' => 'Tarjeta de débito', 'tarjeta crédito' => 'Tarjeta de crédito'];
+        return view('mbe.ingresses.create', compact('clients', 'methods', 'isShifted'));
+    }
+
     function store(Request $request)
     {
         $this->validate($request, ['reference' => 'sometimes|required']);
