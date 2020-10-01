@@ -30,6 +30,8 @@
             @each('lte.items', trans('menus/' . $site . '/one'), 'item')
           @endif
 
+          @break
+
         @case('coffee')
           @if(auth()->user()->level < 3)
             @each('lte.items', trans('menus/' . $site . '/one'), 'item')
@@ -37,12 +39,16 @@
             @each('lte.items', trans('menus/' . $site . '/two'), 'item')
           @endif
 
+          @break
+
         @case('both')
           @if(auth()->user()->level < 3)
             @each('lte.items', trans('menus/' . $site . '/one'), 'item')
           @else
             @each('lte.items', trans('menus/' . $site . '/two'), 'item')
           @endif
+
+          @break
 
         @default
           @if($isShifted == 1 && $site == 'mbe')
