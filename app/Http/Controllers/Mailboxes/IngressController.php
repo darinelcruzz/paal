@@ -34,6 +34,7 @@ class IngressController extends Controller
 
     function store(Request $request)
     {
+        // dd($request->all());
         $this->validate($request, ['reference' => 'sometimes|required']);
 
         $validated = $this->validate($request, [

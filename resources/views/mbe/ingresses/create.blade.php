@@ -33,7 +33,7 @@
                                 <div v-else class="col-md-6">
                                     {!! Field::text('invoice_id', ['label' => 'FI', 'tpl' => 'withicon'], ['icon' => 'list']) !!}
                                 </div>
-                                @if(isset($isShifted))
+                                @if($isShifted)
                                 <div class="col-md-6">
                                     {!! Field::date('bought_at', date('Y-m-d'), ['label' => 'Fecha', 'tpl' => 'withicon'], ['icon' => 'calendar']) !!}
                                 </div>
@@ -88,7 +88,7 @@
                                     <h2 style="color: green;">
                                         @{{ mbe.subtotal * (mbe.iva ? 1.04: 1.16) | currency }}
                                     </h2>
-                                    <input type="hidden" name="amount" :value="mbe.subtotal + mbe.iva">
+                                    <input type="hidden" name="amount" :value="mbe.subtotal * (mbe.iva ? 1.04: 1.16)">
                                     <input type="hidden" name="iva" :value="mbe.subtotal * (mbe.iva ? 0.04: 0.16)">
                                 </div>
                             </div>

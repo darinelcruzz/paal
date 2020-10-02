@@ -21,8 +21,8 @@
                             {{-- <th style="width: 5%"><i class="fa fa-check"></i></th> --}}
                             <th style="width: 10%">OT</th>
                             <th>Captura</th>
-                            <th>I.V.A.</th>
-                            <th>Importe</th>
+                            <th style="text-align: right;">I.V.A.</th>
+                            <th style="text-align: right;">Importe</th>
                         </tr>
                     </template>
 
@@ -46,10 +46,10 @@
                                     {{ fdate($ingress->bought_at, 'd/m/Y', 'Y-m-d') }}
                                 </td>
                                 <td style="text-align: right;">
-                                    {{ number_format($ingress->iva, 2) }}
+                                    $ {{ number_format($ingress->iva, 2) }}
                                 </td>
                                 <td style="text-align: right;">
-                                    {{ number_format($ingress->amount, 2) }}
+                                    $ {{ number_format($ingress->amount, 2) }}
                                 </td>
                             </tr>
                         @endforeach
@@ -66,10 +66,10 @@
                             </td>
                             <th style="text-align: right;">Total</th>
                             <td style="text-align: right;">
-                                <span v-text="(mbe.checked.reduce((iva, item) => iva + item.iva, 0)).toFixed(2)"></span>
+                                $ @{{ mbe.checked.reduce((iva, item) => iva + item.iva, 0) | currency }}
                             </td>
                             <td style="text-align: right;">
-                                <span v-text="(mbe.checked.reduce((amount, item) => amount + item.amount, 0)).toFixed(2)"></span>
+                                $ @{{ mbe.checked.reduce((amount, item) => amount + item.amount, 0) | currency }}
                             </td>
                         </tr>
                     </template>
