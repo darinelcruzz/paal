@@ -158,6 +158,11 @@ class Ingress extends Model
         }
     }
 
+    function getTypeLabelAttribute()
+    {
+        return ['insumos' => 'danger', 'equipo' => 'warning', 'proyecto' => 'primary'][$this->type];
+    }
+
     function scopeFrom($query, $date)
     {
         return $query->whereDate('created_at', $date)

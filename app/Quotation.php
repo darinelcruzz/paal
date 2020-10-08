@@ -33,30 +33,30 @@ class Quotation extends Model
     {
     	$products = [];
 
-    	foreach (unserialize($this->products) as $product) {
-            $pmodel = Product::find($product['i'])->toArray();
-            $pmodel += ['amount' => $product['q'], 'discount' => $product['d'], 'price' => $product['p']];
+    	if ($this->products) {
+            foreach (unserialize($this->products) as $product) {
+                $pmodel = Product::find($product['i'])->toArray();
+                $pmodel += ['amount' => $product['q'], 'discount' => $product['d'], 'price' => $product['p']];
+                array_push($products, $pmodel);
+            }
+        }
+
+        if ($this->products) {
+            foreach (unserialize($this->special_products) as $product) {
+        		$pmodel = Product::find($product['id'])->toArray();
+        		$pmodel += ['amount' => $product['q'], 'discount' => $product['d'],
+                    'special_description' => $product['i'], 'special_price' => $product['p']];
+        		array_push($products, $pmodel);
+        	}            
+        }
+
+        foreach ($this->movements as $movement) {
+            $pmodel = $movement->product->toArray();
+            $pmodel += ['amount' => $movement->quantity, 'discount' => $movement->discount, 'price' => $movement->price];
             array_push($products, $pmodel);
         }
 
-        foreach (unserialize($this->special_products) as $product) {
-    		$pmodel = Product::find($product['id'])->toArray();
-    		$pmodel += ['amount' => $product['q'], 'discount' => $product['d'],
-                'special_description' => $product['i'], 'special_price' => $product['p']];
-    		array_push($products, $pmodel);
-    	}
-
     	return collect($products)->toJson();
-    }
-
-    function getProductsListTypeAttribute()
-    {
-        foreach (unserialize($this->products) as $product) {
-            $model = Product::find($product['i']);
-            break;
-        }
-
-        return strtolower($model->category == 'EQUIPO' ? 'equipo': 'insumos');
     }
 
     function getIsCanceledAttribute()
@@ -72,6 +72,11 @@ class Quotation extends Model
     function getIndexPageAttribute()
     {
         return route($this->company . '.quotation.' . ($this->client_name ? 'internet': 'index'));
+    }
+
+    function getTypeLabelAttribute()
+    {
+        return ['insumos' => 'danger', 'equipo' => 'warning', 'proyecto' => 'primary'][$this->type];
     }
 
     function scopeNormal($query, $company, $date)

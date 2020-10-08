@@ -8,9 +8,7 @@ class QuotationObserver
 {
     function created(Quotation $quotation)
     {
-        if($quotation->company == 'sanson') {
-           $quotation->movements()->createMany(request('items'));
-        }
+        $quotation->movements()->createMany(request('items'));
     }
 
     function updated(Quotation $quotation)

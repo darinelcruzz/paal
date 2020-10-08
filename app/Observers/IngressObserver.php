@@ -8,13 +8,13 @@ class IngressObserver
 {
     function created(Ingress $ingress)
     {
-        if($ingress->company == 'sanson') {
-            $ingress->movements()->createMany(request('items'));
+        $ingress->movements()->createMany(request('items'));
 
+        if ($ingress->company == 'sanson') {
             $ingress->payments()->create(request('payment') + ['type' => request('method')]);
-
-            if (request('shipping')) $ingress->shipping()->create();
         }
+
+        if (request('shipping')) $ingress->shipping()->create();
     }
 
     function updated(Ingress $ingress)

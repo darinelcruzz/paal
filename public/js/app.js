@@ -595,110 +595,6 @@ function toComment(sourceMap) {
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-var utils = __webpack_require__(1);
-var normalizeHeaderName = __webpack_require__(24);
-
-var DEFAULT_CONTENT_TYPE = {
-  'Content-Type': 'application/x-www-form-urlencoded'
-};
-
-function setContentTypeIfUnset(headers, value) {
-  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
-    headers['Content-Type'] = value;
-  }
-}
-
-function getDefaultAdapter() {
-  var adapter;
-  if (typeof XMLHttpRequest !== 'undefined') {
-    // For browsers use XHR adapter
-    adapter = __webpack_require__(10);
-  } else if (typeof process !== 'undefined') {
-    // For node use HTTP adapter
-    adapter = __webpack_require__(10);
-  }
-  return adapter;
-}
-
-var defaults = {
-  adapter: getDefaultAdapter(),
-
-  transformRequest: [function transformRequest(data, headers) {
-    normalizeHeaderName(headers, 'Content-Type');
-    if (utils.isFormData(data) ||
-      utils.isArrayBuffer(data) ||
-      utils.isBuffer(data) ||
-      utils.isStream(data) ||
-      utils.isFile(data) ||
-      utils.isBlob(data)
-    ) {
-      return data;
-    }
-    if (utils.isArrayBufferView(data)) {
-      return data.buffer;
-    }
-    if (utils.isURLSearchParams(data)) {
-      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
-      return data.toString();
-    }
-    if (utils.isObject(data)) {
-      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
-      return JSON.stringify(data);
-    }
-    return data;
-  }],
-
-  transformResponse: [function transformResponse(data) {
-    /*eslint no-param-reassign:0*/
-    if (typeof data === 'string') {
-      try {
-        data = JSON.parse(data);
-      } catch (e) { /* Ignore */ }
-    }
-    return data;
-  }],
-
-  /**
-   * A timeout in milliseconds to abort a request. If set to 0 (default) a
-   * timeout is not created.
-   */
-  timeout: 0,
-
-  xsrfCookieName: 'XSRF-TOKEN',
-  xsrfHeaderName: 'X-XSRF-TOKEN',
-
-  maxContentLength: -1,
-
-  validateStatus: function validateStatus(status) {
-    return status >= 200 && status < 300;
-  }
-};
-
-defaults.headers = {
-  common: {
-    'Accept': 'application/json, text/plain, */*'
-  }
-};
-
-utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
-  defaults.headers[method] = {};
-});
-
-utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
-  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
-});
-
-module.exports = defaults;
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
 /*
   MIT License http://www.opensource.org/licenses/mit-license.php
   Author Tobias Koppers @sokra
@@ -922,6 +818,110 @@ function applyToTag (styleElement, obj) {
   }
 }
 
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+var utils = __webpack_require__(1);
+var normalizeHeaderName = __webpack_require__(24);
+
+var DEFAULT_CONTENT_TYPE = {
+  'Content-Type': 'application/x-www-form-urlencoded'
+};
+
+function setContentTypeIfUnset(headers, value) {
+  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
+    headers['Content-Type'] = value;
+  }
+}
+
+function getDefaultAdapter() {
+  var adapter;
+  if (typeof XMLHttpRequest !== 'undefined') {
+    // For browsers use XHR adapter
+    adapter = __webpack_require__(10);
+  } else if (typeof process !== 'undefined') {
+    // For node use HTTP adapter
+    adapter = __webpack_require__(10);
+  }
+  return adapter;
+}
+
+var defaults = {
+  adapter: getDefaultAdapter(),
+
+  transformRequest: [function transformRequest(data, headers) {
+    normalizeHeaderName(headers, 'Content-Type');
+    if (utils.isFormData(data) ||
+      utils.isArrayBuffer(data) ||
+      utils.isBuffer(data) ||
+      utils.isStream(data) ||
+      utils.isFile(data) ||
+      utils.isBlob(data)
+    ) {
+      return data;
+    }
+    if (utils.isArrayBufferView(data)) {
+      return data.buffer;
+    }
+    if (utils.isURLSearchParams(data)) {
+      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
+      return data.toString();
+    }
+    if (utils.isObject(data)) {
+      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
+      return JSON.stringify(data);
+    }
+    return data;
+  }],
+
+  transformResponse: [function transformResponse(data) {
+    /*eslint no-param-reassign:0*/
+    if (typeof data === 'string') {
+      try {
+        data = JSON.parse(data);
+      } catch (e) { /* Ignore */ }
+    }
+    return data;
+  }],
+
+  /**
+   * A timeout in milliseconds to abort a request. If set to 0 (default) a
+   * timeout is not created.
+   */
+  timeout: 0,
+
+  xsrfCookieName: 'XSRF-TOKEN',
+  xsrfHeaderName: 'X-XSRF-TOKEN',
+
+  maxContentLength: -1,
+
+  validateStatus: function validateStatus(status) {
+    return status >= 200 && status < 300;
+  }
+};
+
+defaults.headers = {
+  common: {
+    'Accept': 'application/json, text/plain, */*'
+  }
+};
+
+utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
+  defaults.headers[method] = {};
+});
+
+utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
+});
+
+module.exports = defaults;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
 
 /***/ }),
 /* 6 */
@@ -14338,7 +14338,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(15);
-module.exports = __webpack_require__(179);
+module.exports = __webpack_require__(181);
 
 
 /***/ }),
@@ -14430,18 +14430,18 @@ Vue.component('p-table', __webpack_require__(137));
 Vue.component('p-row', __webpack_require__(140));
 Vue.component('shopping-list', __webpack_require__(143));
 Vue.component('shopping-list-item', __webpack_require__(146));
-Vue.component('shipping-list', __webpack_require__(149));
-Vue.component('shipping-item', __webpack_require__(152));
-Vue.component('payment-methods', __webpack_require__(155));
-Vue.component('payment-inputs', __webpack_require__(158));
-Vue.component('client-select', __webpack_require__(161));
-Vue.component('provider-select', __webpack_require__(164));
-Vue.component('money-box', __webpack_require__(167));
-Vue.component('sale-products-list', __webpack_require__(170));
+Vue.component('shipping-list', __webpack_require__(151));
+Vue.component('shipping-item', __webpack_require__(154));
+Vue.component('payment-methods', __webpack_require__(157));
+Vue.component('payment-inputs', __webpack_require__(160));
+Vue.component('client-select', __webpack_require__(163));
+Vue.component('provider-select', __webpack_require__(166));
+Vue.component('money-box', __webpack_require__(169));
+Vue.component('sale-products-list', __webpack_require__(172));
 
 // NEW ONES FOR SANSON
-Vue.component('shopping-cart', __webpack_require__(173));
-Vue.component('shopping-cart-item', __webpack_require__(176));
+Vue.component('shopping-cart', __webpack_require__(175));
+Vue.component('shopping-cart-item', __webpack_require__(178));
 
 var Bus = new Vue({});
 
@@ -35807,7 +35807,7 @@ module.exports = __webpack_require__(21);
 var utils = __webpack_require__(1);
 var bind = __webpack_require__(8);
 var Axios = __webpack_require__(23);
-var defaults = __webpack_require__(4);
+var defaults = __webpack_require__(5);
 
 /**
  * Create an instance of Axios
@@ -35890,7 +35890,7 @@ function isSlowBuffer (obj) {
 "use strict";
 
 
-var defaults = __webpack_require__(4);
+var defaults = __webpack_require__(5);
 var utils = __webpack_require__(1);
 var InterceptorManager = __webpack_require__(32);
 var dispatchRequest = __webpack_require__(33);
@@ -36429,7 +36429,7 @@ module.exports = InterceptorManager;
 var utils = __webpack_require__(1);
 var transformData = __webpack_require__(34);
 var isCancel = __webpack_require__(12);
-var defaults = __webpack_require__(4);
+var defaults = __webpack_require__(5);
 var isAbsoluteURL = __webpack_require__(35);
 var combineURLs = __webpack_require__(36);
 
@@ -49453,7 +49453,7 @@ var content = __webpack_require__(72);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("237cecc6", content, false, {});
+var update = __webpack_require__(4)("237cecc6", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -51622,7 +51622,7 @@ var content = __webpack_require__(120);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("486d59c0", content, false, {});
+var update = __webpack_require__(4)("486d59c0", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -51785,7 +51785,7 @@ var content = __webpack_require__(125);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("609ef1e6", content, false, {});
+var update = __webpack_require__(4)("609ef1e6", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -53330,7 +53330,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['color', 'exchange', 'qproducts', 'promo'],
@@ -53339,6 +53338,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             inputs: [],
             subtotals: [],
             families: [],
+            types: [],
+            type: 'insumos',
             total: 0,
             iva: 0,
             redondeo: 0,
@@ -53353,6 +53354,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 amount: 0,
                 iva: 0
             });
+
+            this.updateTypes(product);
 
             if (this.families.length > 0) {
                 var has_family = false;
@@ -53382,6 +53385,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.setTotal();
         },
         deleteRow: function deleteRow(index, family) {
+            var category = this.inputs[index].category == 'EQUIPO' ? 'equipo' : 'insumos';
+            this.types.splice(this.types.indexOf(category), 1);
+            this.type = this.types.length == 2 ? 'proyecto' : this.types[0];
             this.inputs.splice(index, 1);
             this.subtotals.splice(index, 1);
             this.setTotal();
@@ -53435,6 +53441,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
                 return product.wholesale_price;
             }
+        },
+        updateTypes: function updateTypes(product) {
+            var category = product.category == 'EQUIPO' ? 'equipo' : 'insumos';
+
+            if (this.types.includes(category)) {
+                console.log('Ya hay un equipo');
+            } else {
+                this.types.push(category);
+                console.log('Se agregó categoría ' + category);
+            }
+
+            this.type = this.types.length == 2 ? 'proyecto' : this.types[0];
+
+            console.log(this.types);
         }
     },
     created: function created() {
@@ -53585,6 +53605,11 @@ var render = function() {
                           _vm.decimalsToFix
                         )
                       }
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      attrs: { type: "hidden", name: "type" },
+                      domProps: { value: _vm.type }
                     })
                   ])
                 ])
@@ -53685,15 +53710,19 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(147)
+}
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(147)
+var __vue_script__ = __webpack_require__(149)
 /* template */
-var __vue_template__ = __webpack_require__(148)
+var __vue_template__ = __webpack_require__(150)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
-var __vue_styles__ = null
+var __vue_styles__ = injectStyle
 /* scopeId */
 var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
@@ -53706,7 +53735,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/ShoppingListItem.vue"
+Component.options.__file = "resources/assets/js/components/ShoppingListItemTwo.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -53715,9 +53744,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-6e75b7e0", Component.options)
+    hotAPI.createRecord("data-v-9e14fb68", Component.options)
   } else {
-    hotAPI.reload("data-v-6e75b7e0", Component.options)
+    hotAPI.reload("data-v-9e14fb68", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -53729,6 +53758,46 @@ module.exports = Component.exports
 
 /***/ }),
 /* 147 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(148);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(4)("7f915204", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-9e14fb68\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ShoppingListItemTwo.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-9e14fb68\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ShoppingListItemTwo.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 148 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(3)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.money-field {\n\ttext-align: right;\n}\n.centered-field {\n\ttext-align: center;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 149 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -53784,133 +53853,84 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            decimalsToFix: 2,
-            quantity: 1,
-            discount: 0,
-            price: 0,
-            price_in_dollars: 0
-        };
-    },
+	props: ['product', 'index', 'familycount', 'promo', 'exchange', 'company'],
+	data: function data() {
+		return {
+			decimals: 2,
+			quantity: 1,
+			discount: {
+				max: 20,
+				apply: false,
+				amount: 0
+			},
+			custom_price: false,
+			price: 0
+		};
+	},
 
-    props: ['product', 'index', 'exchange', 'familycount', 'promo', 'type'],
-    methods: {
-        deleteItem: function deleteItem() {
-            this.$root.$emit('delete-item', [this.index, this.product.family]);
-            if (this.product.is_summable) {
-                this.$root.$emit('update-family-count', [this.product.family, -this.quantity, this.computed_iva]);
-            }
-        },
-        updateTotal: function updateTotal() {
-            this.$root.$emit('update-total', [this.index, this.total, this.computed_iva]);
-        },
-        computePrice: function computePrice() {
-            var price;
+	computed: {
+		amount: function amount() {
+			return this.quantity * this.price - this.quantity * this.price * this.discount.amount / 100;
+		},
+		iva: function iva() {
+			return this.amount * 0.16 * this.product.iva;
+		}
+	},
+	watch: {
+		quantity: function quantity(newVal, oldVal) {
+			if (this.product.is_summable) {
+				this.$root.$emit('update-family-count', [this.product.family, newVal - oldVal, this.iva]);
+			}
+			if (this.product.category != 'SERVICIOS' && this.product.category != 'EQUIPO') {
+				this.price = this.getPrice();
+			}
+		},
+		familycount: function familycount(val) {
+			if (this.product.category != 'SERVICIOS') {
+				this.price = this.getPrice();
+			}
+		},
+		price: function price(val) {
+			this.$root.$emit('update-total', [this.index, this.amount, this.iva]);
+		}
+	},
+	methods: {
+		getPrice: function getPrice() {
+			var count = this.product.is_summable ? this.familycount : this.quantity;
 
-            if (this.product.is_summable && this.promo == 0) {
-                price = this.familycount > this.product.wholesale_quantity ? this.product.wholesale_price : this.product.retail_price;
-            } else if (this.product.dollars) {
-                price = this.product.retail_price * Number(this.exchange);
-            } else {
-                if (this.promo == 1) {
-                    price = this.product.wholesale_price;
-                } else {
-                    price = this.quantity > this.product.wholesale_quantity ? this.product.wholesale_price : this.product.retail_price;
-                }
-            }
+			if (this.promo) {
+				this.price = this.product.wholesale_price;
+			} else {
+				this.price = count > this.product.wholesale_quantity ? this.product.wholesale_price : this.product.retail_price;
+			}
 
-            return price / (1 + 0.16 * this.product.iva);
-        }
-    },
-    computed: {
-        total: function total() {
-            return this.quantity * this.price - this.quantity * this.price * this.discount / 100;
-        },
-        apply_discount: function apply_discount() {
-            return this.product.is_variable == 1 && this.product.family != 'SERVICIOS';
-        },
-        max_discount: function max_discount() {
-            return this.type == 'info' ? 20 : 100;
-        },
-        computed_iva: function computed_iva() {
-            if (this.product.family == 'SERVICIOS') return 0;
-            return this.total * 0.16 * this.product.iva;
-        }
-    },
-    watch: {
-        quantity: function quantity(newVal, oldVal) {
-            if (this.product.is_summable) {
-                this.$root.$emit('update-family-count', [this.product.family, newVal - oldVal, this.computed_iva]);
-            }
-            if (this.product.category != 'SERVICIOS' && this.product.category != 'EQUIPO') {
-                this.price = this.computePrice();
-            }
-        },
-        familycount: function familycount(val) {
-            if (this.product.category != 'SERVICIOS') {
-                this.price = this.computePrice();
-            }
-        },
-        price: function price(val) {
-            this.$root.$emit('update-total', [this.index, this.total, this.computed_iva]);
-        }
-    },
-    created: function created() {
-        if (this.product.category != 'SERVICIOS') {
-            this.price = this.computePrice();
-        } else {
-            this.price = this.product.retail_price;
-            this.quantity = 1;
-        }
+			this.price = this.product.dollars ? this.product.retail_price * Number(this.exchange) : this.price;
 
-        if (this.product.amount > 0) {
-            this.quantity = this.product.amount;
-        }
-
-        if (this.product.discount > 0) {
-            this.discount = this.product.discount;
-        }
-
-        // if (this.product.price) {
-        //     if (this.familycount > this.product.wholesale_quantity) {
-        //         this.price = Number(this.product.wholesale_price)
-        //         console.log('familycount es mayor')
-        //     } else {
-        //         this.price = Number(this.product.retail_price)
-        //         console.log('cantidades: ', this.familycount + ', ' + this.product.wholesale_quantity)
-        //     }
-        // }
-    }
+			return this.price / (1 + 0.16 * this.product.iva);
+		},
+		eliminate: function eliminate() {
+			this.$root.$emit('delete-item', [this.index, this.product.family]);
+			if (this.product.is_summable) {
+				this.$root.$emit('update-family-count', [this.product.family, -this.quantity, this.iva]);
+			}
+		},
+		update: function update() {
+			this.$root.$emit('update-total', [this.index, this.amount, this.iva]);
+		}
+	},
+	created: function created() {
+		var t = this;
+		var p = t.product;
+		t.discount.apply = p.is_variable == 1 && p.family != 'SERVICIOS';
+		t.custom_price = p.retail_price == 0 && p.dollars || p.category == 'SERVICIOS' || p.family == 'ESPECIAL';
+		t.price = t.getPrice();
+	}
 });
 
 /***/ }),
-/* 148 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -53924,7 +53944,7 @@ var render = function() {
         {
           staticStyle: { color: "red" },
           attrs: { href: "#" },
-          on: { click: _vm.deleteItem }
+          on: { click: _vm.eliminate }
         },
         [_c("i", { staticClass: "fa fa-times" })]
       )
@@ -53933,132 +53953,36 @@ var render = function() {
     _c("td", [
       _vm.product.family == "ESPECIAL"
         ? _c("div", [
-            _vm.product.special_description
-              ? _c("div", [
-                  _c("input", {
-                    staticClass: "form-control input-sm",
-                    attrs: {
-                      name: "items[]",
-                      type: "text",
-                      placeholder: _vm.product.description
-                    },
-                    domProps: { value: _vm.product.description }
-                  })
-                ])
-              : _c("div", [
-                  _c("input", {
-                    staticClass: "form-control input-sm",
-                    attrs: {
-                      name: "items[]",
-                      type: "text",
-                      placeholder: _vm.product.description
-                    }
-                  })
-                ]),
-            _vm._v(" "),
             _c("input", {
-              attrs: { type: "hidden", name: "is_special[]", value: "1" }
-            }),
-            _vm._v(" "),
-            _c("input", {
-              attrs: { type: "hidden", name: "ids[]" },
-              domProps: { value: _vm.product.id }
+              staticClass: "form-control input-sm",
+              attrs: {
+                name: "items[" + _vm.index + "][description]",
+                type: "text",
+                placeholder: _vm.product.description
+              }
             })
           ])
         : _c("div", [
             _vm._v(
-              "\n                " +
-                _vm._s(_vm.product.description) +
-                "\n                "
+              "\n\t\t\t\t" + _vm._s(_vm.product.description) + "\n\t\t\t\t"
             ),
             _c("input", {
-              attrs: { name: "items[]", type: "hidden" },
-              domProps: { value: _vm.product.id }
-            }),
-            _vm._v(" "),
-            _c("input", {
-              attrs: { type: "hidden", name: "is_special[]", value: "0" }
-            }),
-            _vm._v(" "),
-            _c("input", {
-              attrs: { type: "hidden", name: "ids[]" },
-              domProps: { value: _vm.product.id }
+              attrs: {
+                name: "items[" + _vm.index + "][description]",
+                type: "hidden"
+              },
+              domProps: { value: null }
             })
-          ])
+          ]),
+      _vm._v(" "),
+      _c("input", {
+        attrs: { name: "items[" + _vm.index + "][product_id]", type: "hidden" },
+        domProps: { value: _vm.product.id }
+      })
     ]),
     _vm._v(" "),
-    _c("td", [
-      _vm.product.dollars == 1
-        ? _c("div", [
-            _vm.product.retail_price == 0
-              ? _c("div", [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model.number",
-                        value: _vm.price,
-                        expression: "price",
-                        modifiers: { number: true }
-                      }
-                    ],
-                    staticClass: "form-control input-sm",
-                    attrs: { name: "prices[]", type: "number", step: "0.01" },
-                    domProps: { value: _vm.price },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.price = _vm._n($event.target.value)
-                      },
-                      blur: function($event) {
-                        _vm.$forceUpdate()
-                      }
-                    }
-                  })
-                ])
-              : _c("div", [
-                  _vm._v(
-                    "\n                    " +
-                      _vm._s(_vm._f("currency")(_vm.price)) +
-                      "\n                    "
-                  ),
-                  _c("input", {
-                    attrs: { name: "prices[]", type: "hidden" },
-                    domProps: { value: _vm.price.toFixed(_vm.decimalsToFix) }
-                  })
-                ])
-          ])
-        : _vm.product.category == "SERVICIOS"
-        ? _c("div", [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model.number",
-                  value: _vm.price,
-                  expression: "price",
-                  modifiers: { number: true }
-                }
-              ],
-              staticClass: "form-control input-sm",
-              attrs: { name: "prices[]", type: "number", step: "0.01" },
-              domProps: { value: _vm.price },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.price = _vm._n($event.target.value)
-                },
-                blur: function($event) {
-                  _vm.$forceUpdate()
-                }
-              }
-            })
-          ])
-        : _vm.product.category == "EQUIPO"
+    _c("td", { staticClass: "money-field" }, [
+      _vm.custom_price
         ? _c("div", [
             _c("input", {
               directives: [
@@ -54072,10 +53996,10 @@ var render = function() {
               ],
               staticClass: "form-control input-sm",
               attrs: {
-                name: "prices[]",
+                name: "items[" + _vm.index + "][price]",
                 type: "number",
                 step: "0.01",
-                min: _vm.product.price
+                min: _vm.product.retail_price
               },
               domProps: { value: _vm.price },
               on: {
@@ -54093,23 +54017,29 @@ var render = function() {
           ])
         : _c("div", [
             _vm._v(
-              "\n                " +
+              "\n\t\t\t\t" +
                 _vm._s(_vm._f("currency")(_vm.price)) +
-                "\n                "
+                "\n\t\t\t\t"
             ),
             _c("input", {
-              attrs: { name: "prices[]", type: "hidden" },
-              domProps: { value: _vm.price.toFixed(_vm.decimalsToFix) }
+              attrs: {
+                name: "items[" + _vm.index + "][price]",
+                type: "hidden"
+              },
+              domProps: { value: _vm.price.toFixed(_vm.decimals) }
             })
           ])
     ]),
     _vm._v(" "),
-    _c("td", [
+    _c("td", { staticClass: "centered-field" }, [
       _vm.product.category == "SERVICIOS"
         ? _c("div", [
             _vm._v("\n                1 "),
             _c("input", {
-              attrs: { type: "hidden", name: "quantities[]" },
+              attrs: {
+                type: "hidden",
+                name: "items[" + _vm.index + "][quantity]"
+              },
               domProps: { value: 1 }
             })
           ])
@@ -54125,10 +54055,14 @@ var render = function() {
                 }
               ],
               staticClass: "form-control input-sm",
-              attrs: { name: "quantities[]", type: "number", min: "1" },
+              attrs: {
+                name: "items[" + _vm.index + "][quantity]",
+                type: "number",
+                min: "1"
+              },
               domProps: { value: _vm.quantity },
               on: {
-                change: _vm.updateTotal,
+                change: _vm.update,
                 input: function($event) {
                   if ($event.target.composing) {
                     return
@@ -54143,35 +54077,35 @@ var render = function() {
           ])
     ]),
     _vm._v(" "),
-    _c("td", [
-      _vm.apply_discount
+    _c("td", { staticClass: "centered-field" }, [
+      _vm.discount.apply
         ? _c("input", {
             directives: [
               {
                 name: "model",
                 rawName: "v-model.number",
-                value: _vm.discount,
-                expression: "discount",
+                value: _vm.discount.amount,
+                expression: "discount.amount",
                 modifiers: { number: true }
               }
             ],
             staticClass: "form-control input-sm",
             attrs: {
-              name: "discounts[]",
+              name: "items[" + _vm.index + "][discount]",
               type: "number",
               step: "1",
               value: "0",
               min: "0",
-              max: _vm.max_discount
+              max: _vm.discount.max
             },
-            domProps: { value: _vm.discount },
+            domProps: { value: _vm.discount.amount },
             on: {
-              change: _vm.updateTotal,
+              change: _vm.update,
               input: function($event) {
                 if ($event.target.composing) {
                   return
                 }
-                _vm.discount = _vm._n($event.target.value)
+                _vm.$set(_vm.discount, "amount", _vm._n($event.target.value))
               },
               blur: function($event) {
                 _vm.$forceUpdate()
@@ -54179,56 +54113,20 @@ var render = function() {
             }
           })
         : _c("input", {
-            attrs: { name: "discounts[]", type: "hidden", value: "0" }
+            attrs: {
+              name: "items[" + _vm.index + "][discount]",
+              type: "hidden",
+              value: "0"
+            }
           })
     ]),
     _vm._v(" "),
-    _c("td", { staticStyle: { "text-align": "right" } }, [
-      _vm.product.family == "SERVICIOS"
-        ? _c("div", [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model.number",
-                  value: _vm.price,
-                  expression: "price",
-                  modifiers: { number: true }
-                }
-              ],
-              staticClass: "form-control input-sm",
-              attrs: {
-                name: "subtotals[]",
-                type: "number",
-                step: "0.01",
-                min: _vm.product.retail_price
-              },
-              domProps: { value: _vm.price },
-              on: {
-                change: _vm.updateTotal,
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.price = _vm._n($event.target.value)
-                },
-                blur: function($event) {
-                  _vm.$forceUpdate()
-                }
-              }
-            })
-          ])
-        : _c("div", [
-            _vm._v(
-              "\n                " +
-                _vm._s(_vm._f("currency")(_vm.total)) +
-                "\n                "
-            ),
-            _c("input", {
-              attrs: { name: "subtotals[]", type: "hidden" },
-              domProps: { value: _vm.total.toFixed(_vm.decimalsToFix) }
-            })
-          ])
+    _c("td", { staticClass: "money-field" }, [
+      _vm._v("\n\t\t\t" + _vm._s(_vm._f("currency")(_vm.amount)) + "\n\t\t\t"),
+      _c("input", {
+        attrs: { name: "items[" + _vm.index + "][total]", type: "hidden" },
+        domProps: { value: _vm.amount.toFixed(_vm.decimals) }
+      })
     ])
   ])
 }
@@ -54238,20 +54136,20 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-6e75b7e0", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-9e14fb68", module.exports)
   }
 }
 
 /***/ }),
-/* 149 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(150)
+var __vue_script__ = __webpack_require__(152)
 /* template */
-var __vue_template__ = __webpack_require__(151)
+var __vue_template__ = __webpack_require__(153)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -54290,7 +54188,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 150 */
+/* 152 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -54380,7 +54278,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 151 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -54464,15 +54362,15 @@ if (false) {
 }
 
 /***/ }),
-/* 152 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(153)
+var __vue_script__ = __webpack_require__(155)
 /* template */
-var __vue_template__ = __webpack_require__(154)
+var __vue_template__ = __webpack_require__(156)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -54511,7 +54409,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 153 */
+/* 155 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -54554,7 +54452,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 154 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -54627,15 +54525,15 @@ if (false) {
 }
 
 /***/ }),
-/* 155 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(156)
+var __vue_script__ = __webpack_require__(158)
 /* template */
-var __vue_template__ = __webpack_require__(157)
+var __vue_template__ = __webpack_require__(159)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -54674,7 +54572,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 156 */
+/* 158 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -54805,7 +54703,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 157 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -55195,15 +55093,15 @@ if (false) {
 }
 
 /***/ }),
-/* 158 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(159)
+var __vue_script__ = __webpack_require__(161)
 /* template */
-var __vue_template__ = __webpack_require__(160)
+var __vue_template__ = __webpack_require__(162)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -55242,7 +55140,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 159 */
+/* 161 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -55373,7 +55271,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 160 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -55763,15 +55661,15 @@ if (false) {
 }
 
 /***/ }),
-/* 161 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(162)
+var __vue_script__ = __webpack_require__(164)
 /* template */
-var __vue_template__ = __webpack_require__(163)
+var __vue_template__ = __webpack_require__(165)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -55810,7 +55708,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 162 */
+/* 164 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -55891,7 +55789,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 163 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -56006,15 +55904,15 @@ if (false) {
 }
 
 /***/ }),
-/* 164 */
+/* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(165)
+var __vue_script__ = __webpack_require__(167)
 /* template */
-var __vue_template__ = __webpack_require__(166)
+var __vue_template__ = __webpack_require__(168)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -56053,7 +55951,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 165 */
+/* 167 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -56104,7 +56002,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 166 */
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -56174,15 +56072,15 @@ if (false) {
 }
 
 /***/ }),
-/* 167 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(168)
+var __vue_script__ = __webpack_require__(170)
 /* template */
-var __vue_template__ = __webpack_require__(169)
+var __vue_template__ = __webpack_require__(171)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -56221,7 +56119,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 168 */
+/* 170 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -56250,7 +56148,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 169 */
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -56288,15 +56186,15 @@ if (false) {
 }
 
 /***/ }),
-/* 170 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(171)
+var __vue_script__ = __webpack_require__(173)
 /* template */
-var __vue_template__ = __webpack_require__(172)
+var __vue_template__ = __webpack_require__(174)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -56335,7 +56233,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 171 */
+/* 173 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -56415,7 +56313,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 172 */
+/* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -56516,15 +56414,15 @@ if (false) {
 }
 
 /***/ }),
-/* 173 */
+/* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(174)
+var __vue_script__ = __webpack_require__(176)
 /* template */
-var __vue_template__ = __webpack_require__(175)
+var __vue_template__ = __webpack_require__(177)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -56563,7 +56461,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 174 */
+/* 176 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -56715,7 +56613,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 175 */
+/* 177 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -56874,15 +56772,15 @@ if (false) {
 }
 
 /***/ }),
-/* 176 */
+/* 178 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(177)
+var __vue_script__ = __webpack_require__(179)
 /* template */
-var __vue_template__ = __webpack_require__(178)
+var __vue_template__ = __webpack_require__(180)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -56921,7 +56819,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 177 */
+/* 179 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -57043,7 +56941,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 178 */
+/* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -57263,7 +57161,7 @@ if (false) {
 }
 
 /***/ }),
-/* 179 */
+/* 181 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

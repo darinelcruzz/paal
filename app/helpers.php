@@ -42,15 +42,11 @@ function pendingShippings($company = 'coffee')
 
 function expiringSoonEgresses($company = 'coffee')
 {
-    return 0;
     return Egress::whereCompany($company)
         ->where('status', '!=', 'pagado')
         ->where('status', '!=', 'eliminado')
-        // ->where('expiration', '>=', now()->subday(2))
-        ->count(function ($egress) {
-            return 0;
-            // return $egress->expiration->subday(2) >= now();
-        });
+        ->whereBetween('expiration', [now(), now()->addDays(3)])
+        ->count();
 }
 
 function saveCoffeeFile($file, $folder = 'bills')

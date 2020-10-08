@@ -77,7 +77,7 @@
                                 <td style="width: 40%">{{ $quotation->client->name }}</td>
                                 <td style="text-align: center">
                                     @if ($quotation->type)
-                                        <label class="label label-{{ $quotation->type == 'insumos' ? 'danger': 'warning'}}">{{ strtoupper($quotation->type) }}</label>
+                                        <label class="label label-{{ $quotation->typeLabel }}">{{ strtoupper($quotation->type) }}</label>
                                     @else
                                         <label class="label label-{{$quotation->products_list_type == 'insumos' ? 'danger': 'warning'}}">{{ strtoupper($quotation->products_list_type) }}</label>
                                     @endif

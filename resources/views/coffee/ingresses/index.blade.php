@@ -61,11 +61,11 @@
                                 <td>{{ fdate($ingress->bought_at, 'd M Y', 'Y-m-d') }}</td>
                                 <td style="width: 30%">{{ $ingress->client->name }}</td>
                                 <td>
-                                    <label class="label label-{{$ingress->type == 'insumos' ? 'danger': 'warning'}}">{{ strtoupper($ingress->type) }}</label>
+                                    <label class="label label-{{$ingress->typeLabel }}">{{ strtoupper($ingress->type) }}</label>
                                 </td>
-                                <td>$ {{ number_format($ingress->iva, 2) }}</td>
-                                <td>$ {{ number_format($ingress->amount, 2) }}</td>
-                                <td>{{ $ingress->retainer > 0 ? "$ " . number_format($ingress->retainer, 2): '' }}</td>
+                                <td>{{ number_format($ingress->iva, 2) }}</td>
+                                <td>{{ number_format($ingress->amount, 2) }}</td>
+                                <td>{{ $ingress->retainer > 0 ? number_format($ingress->retainer, 2): '' }}</td>
                                 <td>{{ ucfirst($ingress->method) }}</td>
                                 <td>
                                     @if ($ingress->status == 'cancelado')

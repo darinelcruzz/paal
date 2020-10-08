@@ -6,10 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Movement extends Model
 {
-    protected $fillable = [
-    	'product_id', 'movable_type', 'movable_id',
-    	'price', 'quantity', 'discount', 'total', 'price'
-    ];
+    protected $guarded = [];
 
     function movable()
     {

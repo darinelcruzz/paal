@@ -97,18 +97,35 @@
                     @php
                         $subtotal = $discounts = 0 
                     @endphp
-                    @foreach (unserialize($ingress->products) as $product)
+
+                    @foreach ($ingress->movements as $movement)
                         <tr>
-                            <td style="text-align: center;">{{ $product['q'] }}</td>
-                            <td>{{ App\Product::find($product['i'])->description }}{{ $product['d'] != 0 ? '*': ''}}</td>
-                            <td style="text-align: right">$ {{ number_format($product['p'], 2) }}</td>
-                            <td style="text-align: right">$ {{ number_format($product['t'], 2) }}</td>
+                            <td style="text-align: center;">{{ $movement->quantity }}</td>
+                            <td>{{ $movement->description or $movement->product->description }}{{ $movement->discount != 0 ? '*': ''}}</td>
+                            <td style="text-align: right">$ {{ number_format($movement->price, 2) }}</td>
+                            <td style="text-align: right">$ {{ number_format($movement->total, 2) }}</td>
                         </tr>
                         @php
-                            $subtotal += $product['t'];
-                            $discounts += $product['d'] == 0 ? 0: 1;
+                            $subtotal += $movement->total;
+                            $discounts += $movement->discount == 0 ? 0: 1;
                         @endphp
                     @endforeach
+
+                    @if($ingress->products)
+                        @foreach (unserialize($ingress->products) as $product)
+                            <tr>
+                                <td style="text-align: center;">{{ $product['q'] }}</td>
+                                <td>{{ App\Product::find($product['i'])->description }}{{ $product['d'] != 0 ? '*': ''}}</td>
+                                <td style="text-align: right">$ {{ number_format($product['p'], 2) }}</td>
+                                <td style="text-align: right">$ {{ number_format($product['t'], 2) }}</td>
+                            </tr>
+                            @php
+                                $subtotal += $product['t'];
+                                $discounts += $product['d'] == 0 ? 0: 1;
+                            @endphp
+                        @endforeach
+                    @endif
+
                     @if($ingress->special_products)
                         @foreach (unserialize($ingress->special_products) as $product)
                             <tr>

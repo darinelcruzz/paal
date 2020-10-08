@@ -13,14 +13,14 @@ class AdminController extends Controller
     {
         $date = $thisDate == null ? dateFromRequest(): $thisDate;
 
-        $ingresses = Ingress::whereDate('created_at', $date)
+        $ingresses = Ingress::whereDate('bought_at', $date)
             ->whereCompany('mbe')
 			->where('status', '!=', 'cancelado')
             ->where('status', '!=', 'crédito')
             ->where($this->getConditions($status))
             ->get();
 
-        $ingresses_to_filter = Ingress::whereDate('created_at', $date)
+        $ingresses_to_filter = Ingress::whereDate('bought_at', $date)
             ->where('status', '!=', 'crédito')
             ->where('status', '!=', 'cancelado')
             ->whereCompany('mbe')->get();
@@ -40,7 +40,10 @@ class AdminController extends Controller
 
         $shippings = $this->getShippingsTotal($date);
 
-        $credit_total = Ingress::monthly($date, 'mbe')->whereStatus('crédito')->sum('amount');
+        $checkout_total = Ingress::monthly($date, 'mbe')->whereStatus('pagado')->whereNull('invoiced_at')->sum('amount');
+        $credit_total = Ingress::monthly($date, 'mbe')->whereStatus('crédito')->whereNull('invoiced_at')->sum('amount');
+        $invoiced_total = Ingress::monthly($date, 'mbe')->whereNotNull('invoiced_at')->sum('amount');
+        $paid_total = Ingress::monthly($date, 'mbe')->whereNotNull('paid_at')->sum('amount');
 
         $working_days = $working_days == 0 ? 1: $working_days;
 
@@ -54,7 +57,7 @@ class AdminController extends Controller
             })
             ->sum('cash');
 
-        return view('mbe.admin.monthly', compact('date', 'month', 'pending', 'working_days', 'credit_total', 'shippings'));
+        return view('mbe.admin.monthly', compact('date', 'month', 'pending', 'working_days', 'credit_total', 'shippings', 'invoiced_total', 'paid_total', 'checkout_total'));
     }
 
     function companies()
@@ -66,13 +69,14 @@ class AdminController extends Controller
 
     function reference(Request $request)
     {
+        // dd($request->all());
         $validated = $request->validate([
             'cash_reference' => 'sometimes|required',
-            'reference' => 'sometimes|required'
+            'reference' => 'sometimes|required',
         ]);
 
         foreach (Ingress::find($request->sales) as $sale) {
-            $sale->update(['status' => 'pagado']);
+            $sale->update(['status' => 'pagado', 'paid_at' => $request->thisDate]);
             Payment::where('ingress_id', $sale->id)->update($validated);
         }
 

@@ -72,6 +72,8 @@ class InvoiceController extends Controller
             "public/mbe/invoices", $request->file('xml'), "$ingress->invoice_id.xml"
         );
 
+        $ingress->payments()->update(['cash_reference' => '0000']);
+
         return redirect(route('mbe.ingress.daily', [$ingress->route_method, $request->thisDate]));
     }
 

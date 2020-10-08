@@ -47,25 +47,45 @@
                         <tbody>
                         @php
                             $subtotal = 0;
+                            $iteration = 1;
                         @endphp
-                        @foreach (unserialize($quotation->products) as $product)
+
+                        @foreach ($quotation->movements as $movement)
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ App\Product::find($product['i'])->description }}</td>
-                                <td>{{ number_format($product['p'], 2) }}</td>
-                                <td style="text-align: center;">{{ $product['q'] }}</td>
-                                <td style="text-align: right;">{{ number_format($product['d'], 2) }}</td>
-                                <td style="text-align: right;">{{ number_format($product['t'], 2) }}</td>
+                                <td>{{ $iteration }}</td>
+                                <td>{{ $movement->description or $movement->product->description }}</td>
+                                <td>$ {{ number_format($movement->price, 2) }}</td>
+                                <td>{{ $movement->quantity }}</td>
+                                <td>$ {{ number_format($movement->discount, 2) }}</td>
+                                <td>$ {{ number_format($movement->total, 2) }}</td>
                             </tr>
                             @php
-                                $subtotal += $product['t'];
+                                $subtotal += $movement->total;
+                                $iteration += 1;
                             @endphp
                         @endforeach
+
+                        @if($quotation->products)
+                            @foreach (unserialize($quotation->products) as $product)
+                                <tr>
+                                    <td>{{ $iteration }}</td>
+                                    <td>{{ App\Product::find($product['i'])->description }}</td>
+                                    <td>{{ number_format($product['p'], 2) }}</td>
+                                    <td style="text-align: center;">{{ $product['q'] }}</td>
+                                    <td style="text-align: right;">{{ number_format($product['d'], 2) }}</td>
+                                    <td style="text-align: right;">{{ number_format($product['t'], 2) }}</td>
+                                </tr>
+                                @php
+                                    $subtotal += $product['t'];
+                                    $iteration += 1;
+                                @endphp
+                            @endforeach
+                        @endif
 
                         @if($quotation->special_products)
                             @foreach (unserialize($quotation->special_products) as $product)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $iteration }}</td>
                                     <td>{{ $product['i'] }}</td>
                                     <td>{{ number_format($product['p'], 2) }}</td>
                                     <td style="text-align: center;">{{ $product['q'] }}</td>
@@ -74,6 +94,7 @@
                                 </tr>
                                 @php
                                     $subtotal += $product['t'];
+                                    $iteration += 1;
                                 @endphp
                             @endforeach
                         @endif

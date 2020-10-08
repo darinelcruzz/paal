@@ -30,9 +30,7 @@
                     <tfoot>
                         <tr>
                             <th colspan="5"><span class="pull-right">Subtotal:</span></th>
-                            <td>
-                                <span class="pull-right">{{ total | currency }}</span>
-                            </td>
+                            <td><span class="pull-right">{{ total | currency }}</span></td>
                         </tr>
                         <tr>
                             <th colspan="5"><span class="pull-right">IVA:</span></th>
@@ -53,6 +51,7 @@
                             <td>
                                 <span class="pull-right">{{ total + iva + redondeo | currency }}</span>
                                 <input type="hidden" name="amount" :value="(total + iva + redondeo).toFixed(decimalsToFix)">
+                                <input type="hidden" name="type" :value="type">
                             </td>
                         </tr>
                     </tfoot>
@@ -76,6 +75,8 @@
                 inputs: [],
                 subtotals: [],
                 families: [],
+                types:[],
+                type: 'insumos',
                 total: 0,
                 iva: 0,
                 redondeo: 0,
@@ -89,6 +90,8 @@
                     amount: 0,
                     iva: 0
                 })
+
+                this.updateTypes(product)
 
                 if (this.families.length > 0) {
                     var has_family = false
@@ -118,6 +121,9 @@
                 this.setTotal()
             },
             deleteRow(index, family) {
+                let category = this.inputs[index].category == 'EQUIPO' ? 'equipo': 'insumos'
+                this.types.splice(this.types.indexOf(category), 1)
+                this.type = this.types.length == 2 ? 'proyecto': this.types[0];
                 this.inputs.splice(index, 1)
                 this.subtotals.splice(index, 1)
                 this.setTotal()
@@ -165,6 +171,20 @@
                     return product.wholesale_price
                 }
             },
+            updateTypes(product) {
+                let category = product.category == 'EQUIPO' ? 'equipo': 'insumos'
+
+                if (this.types.includes(category)) {
+                    console.log('Ya hay un equipo')
+                } else {
+                    this.types.push(category)
+                    console.log('Se agregó categoría ' + category)
+                }
+
+                this.type = this.types.length == 2 ? 'proyecto': this.types[0];
+
+                console.log(this.types)
+            }
 		},
         created() {
             if (this.qproducts) {
