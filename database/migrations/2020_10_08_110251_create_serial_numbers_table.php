@@ -13,10 +13,10 @@ class CreateSerialNumbersTable extends Migration
             
             $table->string('number');
             $table->unsignedInteger('product_id');
-            $table->unsignedInteger('ingress_id');
+            $table->unsignedInteger('ingress_id')->nullable();
             $table->unsignedInteger('purchase_id');
             $table->string('status')->default('en inventario');
-            $table->unsignedInteger('released_at');
+            $table->date('released_at')->nullable();
 
             $table->timestamps();
         });
