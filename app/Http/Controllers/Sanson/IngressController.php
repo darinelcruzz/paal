@@ -68,6 +68,11 @@ class IngressController extends Controller
         return view('sanson.ingresses.show', compact('ingress'));
     }
 
+    function update(Ingress $ingress)
+    {
+        return view('sanson.ingresses.update', compact('ingress'));
+    }
+
     function ticket(Ingress $ingress)
     {
         $payment = $ingress->payments->first();

@@ -1,7 +1,7 @@
 <?php
 
 use Jenssegers\Date\Date;
-use App\{Shipping, Egress};
+use App\{Shipping, Egress, Product, Ingress, SerialNumber, Purchase, Order, Movement};
 use Illuminate\Support\Facades\Storage;
 
 function usesas($ctrl, $fun, $as = null)
@@ -46,6 +46,21 @@ function expiringSoonEgresses($company = 'coffee')
         ->where('status', '!=', 'pagado')
         ->where('status', '!=', 'eliminado')
         ->whereBetween('expiration', [now(), now()->addDays(3)])
+        ->count();
+}
+
+function soldProducts($company = 'coffee')
+{
+    return Ingress::all()
+        ->where('company', $company)
+        ->where('are_serial_numbers_missing', true)
+        ->count();
+}
+
+function releasedProducts($company = 'COFFEE')
+{
+    return Product::whereCompany(strtoupper($company))
+        ->whereHas('status', '!=', 'pagado')
         ->count();
 }
 

@@ -54,6 +54,7 @@ Route::group(['prefix' => 'sanson', 'as' => 'sanson.'], function () {
 	    Route::get('agregar/{type}', usesas($ctrl, 'create'));
 	    Route::post('agregar', usesas($ctrl, 'store'));
 		Route::get('ticket/{ingress}', usesas($ctrl, 'ticket'));
+		Route::get('numeros-de-serie/{ingress}', usesas($ctrl, 'update'));
 		Route::get('cancelar/{ingress}/{reasons}', usesas($ctrl, 'destroy'));
 		Route::get('{ingress}', usesas($ctrl, 'show'));
 	});
@@ -185,6 +186,6 @@ Route::group(['prefix' => 'sanson', 'as' => 'sanson.'], function () {
 	    Route::get('agregar/{product?}', usesas($ctrl, 'create'));
 	    Route::post('agregar/{product?}', usesas($ctrl, 'store'));
 	    Route::get('editar/{serial_number}', usesas($ctrl, 'edit'));
-	    Route::post('editar/{serial_number}', usesas($ctrl, 'update'));
+	    Route::post('editar/{ingress}', usesas($ctrl, 'update'));
 	});
 });

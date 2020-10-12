@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Sanson;
 
-use App\{SerialNumber, Product};
+use App\{SerialNumber, Product, Ingress};
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -52,9 +52,15 @@ class SerialNumberController extends Controller
         //
     }
 
-    function update(Request $request, SerialNumber $serialNumber)
+    function update(Request $request, Ingress $ingress)
     {
-        //
+        // dd(SerialNumber::find($request->numbers), $ingress->id);
+
+        foreach (SerialNumber::find($request->numbers) as $number) {
+            $number->update(['ingress_id' => $ingress->id]);
+        }
+
+        return redirect(route('sanson.ingress.index'));
     }
 
     function destroy(SerialNumber $serialNumber)

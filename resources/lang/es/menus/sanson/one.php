@@ -28,6 +28,7 @@ return [
     'ingresses' => [
         'title' => 'Ventas',
         'icon' => 'fa fa-mug-hot',
+        'label' => soldProducts('sanson'),
         'submenu' => [
             'create' => [
                 'title' => 'Equipos y refacciones',
@@ -76,20 +77,20 @@ return [
         ]
     ],
 
-    // 'purchases_and_orders' => [
-    //     'title' => 'Compras y órdenes',
-    //     'icon' => 'fa fa-shopping-cart',
-    //     'submenu' => [
-    //         'purchases' => [
-    //             'title' => 'Compras',
-    //             'route' => 'sanson.purchase.index'
-    //         ],
-    //         'orders' => [
-    //             'title' => 'Órdenes',
-    //             'route' => 'sanson.order.index'
-    //         ],
-    //     ]
-    // ],
+    'purchases_and_orders' => [
+        'title' => 'Compras y órdenes',
+        'icon' => 'fa fa-shopping-cart',
+        'submenu' => [
+            'purchases' => [
+                'title' => 'Compras',
+                'route' => 'sanson.purchase.index'
+            ],
+            'orders' => [
+                'title' => 'Órdenes',
+                'route' => 'sanson.order.index'
+            ],
+        ]
+    ],
 
     'egresses' => [
         'title' => 'Egresos',
@@ -133,7 +134,7 @@ return [
     'serial_numbers' => [
         'title' => 'Números de serie',
         'icon' => 'fa fa-barcode',
-        'route' => 'sanson.serial_number.index'
+        'route' => 'sanson.serial_number.index',
     ],
 
     'clients' => [

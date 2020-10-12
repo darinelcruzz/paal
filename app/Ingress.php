@@ -163,6 +163,15 @@ class Ingress extends Model
         return ['insumos' => 'danger', 'equipo' => 'warning', 'proyecto' => 'primary'][$this->type];
     }
 
+    function getAreSerialNumbersMissingAttribute()
+    {
+        if ($this->bought_at < '2020-10-01') {
+            return false;
+        }
+
+        return $this->movements()->with('product')->whereHas('product.serial_numbers')->count() > 0;
+    }
+
     function scopeFrom($query, $date)
     {
         return $query->whereDate('created_at', $date)
