@@ -8,10 +8,7 @@ class PurchaseObserver
 {
     function created(Purchase $purchase)
     {
-        if($purchase->company == 'sanson') {
-            
-            $purchase->movements()->createMany(request('items'));
-        }
+        $purchase->movements()->createMany(request('items'));
     }
 
     function updated(Purchase $purchase)

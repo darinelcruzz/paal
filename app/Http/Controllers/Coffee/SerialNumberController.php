@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Sanson;
+namespace App\Http\Controllers\Coffee;
 
 use App\{SerialNumber, Product, Ingress};
 use Illuminate\Http\Request;
@@ -11,18 +11,19 @@ class SerialNumberController extends Controller
     function index()
     {
         $serial_numbers = SerialNumber::whereHas('product', function ($query) {
-            $query->where('company', 'SANSON');
+            $query->where('company', 'COFFEE');
         })->get();
-        return view('sanson.serial_numbers.index', compact('serial_numbers'));
+
+        return view('coffee.serial_numbers.index', compact('serial_numbers'));
     }
 
     function create(Product $product = null)
     {
         if ($product == null) {
-            $product = Product::where('company', 'SANSON')->pluck('description', 'id')->toArray();
+            $product = Product::where('company', 'COFFEE')->where('category', 'EQUIPO')->pluck('description', 'id')->toArray();
         }
 
-        return view('sanson.serial_numbers.create', compact('product'));       
+        return view('coffee.serial_numbers.create', compact('product'));       
     }
 
     function store(Request $request, Product $product = null)
@@ -41,7 +42,7 @@ class SerialNumberController extends Controller
             ]);
         }
 
-        return redirect(route('sanson.serial_number.index'));
+        return redirect(route('coffee.serial_number.index'));
     }
 
     function show(SerialNumber $serialNumber)
@@ -62,7 +63,14 @@ class SerialNumberController extends Controller
             $number->update(['ingress_id' => $ingress->id]);
         }
 
-        return redirect(route('sanson.ingress.index'));
+        return redirect(route('coffee.ingress.index'));
+    }
+
+    function release(SerialNumber $serialNumber)
+    {
+        $serialNumber->update($request->validate(['released_at' => 'required']));
+
+        return redirect(route('coffee.serial_number.index'));
     }
 
     function destroy(SerialNumber $serialNumber)

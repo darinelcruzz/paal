@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Sanson;
+namespace App\Http\Controllers\Coffee;
 
 use App\Purchase;
 use App\Http\Controllers\Controller;
@@ -10,8 +10,8 @@ class PurchaseController extends Controller
 {
     function index()
     {
-        $purchases = Purchase::whereCompany('sanson')->get();
-        return view('sanson.purchases.index', compact('purchases'));
+        $purchases = Purchase::whereCompany('coffee')->get();
+        return view('coffee.purchases.index', compact('purchases'));
     }
 
     function create()
@@ -33,12 +33,12 @@ class PurchaseController extends Controller
 
         Purchase::create($attributes);
 
-        return redirect(route('sanson.purchase.index'));
+        return redirect(route('coffee.purchase.index'));
     }
 
     function show(Purchase $purchase)
     {
-        return view('sanson.purchases.show', compact('purchase'));
+        return view('coffee.purchases.show', compact('purchase'));
     }
 
     function edit(Purchase $purchase)

@@ -1,15 +1,15 @@
-@extends('sanson.root')
+@extends('coffee.root')
 
 @push('pageTitle', 'Órdenes | Lista')
 
 @push('headerTitle')
-    <a href="{{ route('sanson.order.create') }}" class="btn btn-info btn-sm"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR</a>
+    <a href="{{ route('coffee.order.create') }}" class="btn btn-danger btn-sm"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR</a>
 @endpush
 
 @section('content')
     <div class="row">
         <div class="col-md-10">
-            <solid-box title="Órdenes de compra" color="info">
+            <solid-box title="Órdenes de compra" color="danger">
                 
                 <data-table>
 
@@ -20,10 +20,9 @@
                             <tr>
                                 <td>{{ $order->id }}</td>
                                 <td>
-                                    <dropdown color="info" icon="cogs">
-                                        <ddi to="{{ route('sanson.order.show', $order) }}" icon="eye" text="Detalles"></ddi>
-                                        <ddi to="{{ route('sanson.order.print', $order) }}" icon="print" text="Imprimir" target="_blank"></ddi>
-                                        <ddi to="{{ route('sanson.order.transform', $order) }}" icon="edit" text="Crear compra"></ddi>
+                                    <dropdown color="danger" icon="cogs">
+                                        <ddi to="{{ route('coffee.order.show', $order) }}" icon="eye" text="Detalles"></ddi>
+                                        <ddi to="{{ route('coffee.order.transform', $order) }}" icon="edit" text="Crear compra"></ddi>
                                     </dropdown>
                                 </td>
                                 <td>{{ $order->ordered_at }}</td>

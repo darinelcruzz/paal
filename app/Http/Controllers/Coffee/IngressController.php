@@ -87,6 +87,11 @@ class IngressController extends Controller
         return view('coffee.ingresses.show', compact('ingress'));
     }
 
+    function update(Ingress $ingress)
+    {
+        return view('coffee.ingresses.update', compact('ingress'));
+    }
+
     function ticket(Ingress $ingress)
     {
         $payment = $ingress->payments->first();

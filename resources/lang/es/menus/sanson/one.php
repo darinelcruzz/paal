@@ -28,7 +28,7 @@ return [
     'ingresses' => [
         'title' => 'Ventas',
         'icon' => 'fa fa-mug-hot',
-        'label' => soldProducts('sanson'),
+        'label' => soldProducts('sanson') > 0 ? soldProducts('sanson'): '',
         'submenu' => [
             'create' => [
                 'title' => 'Equipos y refacciones',
@@ -64,7 +64,7 @@ return [
     'shippings' => [
         'title' => 'Envíos',
         'icon' => 'fa fa-shipping-fast',
-        'label' => pendingShippings('sanson'),
+        'label' => pendingShippings('sanson') > 0 ? pendingShippings('sanson'): '',
         'submenu' => [
             'create' => [
                 'title' => 'Rastreo',

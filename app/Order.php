@@ -8,9 +8,19 @@ class Order extends Model
 {
 	protected $guarded = [];
 	
+    function user()
+    {
+    	return $this->belongsTo(User::class);
+    }
+    
     function provider()
     {
-    	return $this->belongsTo(Provider::class);
+        return $this->belongsTo(Provider::class);
+    }
+
+    function purchases()
+    {
+        return $this->hasMany(Purchase::class);
     }
 
     function movements()

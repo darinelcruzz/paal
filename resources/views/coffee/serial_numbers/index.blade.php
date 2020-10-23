@@ -1,15 +1,15 @@
-@extends('sanson.root')
+@extends('coffee.root')
 
 @push('pageTitle', 'Números de serie')
 
 @push('headerTitle')
-    <a href="{{ route('sanson.serial_number.create') }}" class="btn btn-info btn-sm"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR</a>
+    <a href="{{ route('coffee.serial_number.create') }}" class="btn btn-danger btn-sm"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR</a>
 @endpush
 
 @section('content')
     <div class="row">
         <div class="col-md-10">
-            <solid-box title="Números de serie" color="info">
+            <solid-box title="Números de serie" color="danger">
                 
                 <data-table>
 
@@ -31,7 +31,25 @@
                                         <small>{{ strtoupper($serial_number->status) }}</small>
                                     </span>
                                 </td>
-                                <td>{{ $serial_number->released_at }}</td>
+                                <td>
+                                    @if($serial_number->released_at)
+                                        {{ $serial_number->released_at }}
+                                    @else
+                                        {!! Form::open(['method' => 'post', 'route' => ['coffee.serial_number.release', $serial_number]]) !!}
+
+                                        <div class="input-group input-group-sm">
+                                            <input type="date" name="released_at" class="form-control">
+                                            <span class="input-group-btn">
+                                              <button type="submit" class="btn btn-success btn-flat btn-sm">
+                                                  <i class="fa fa-check"></i>
+                                              </button>
+                                            </span>
+                                        </div>
+
+                                        {!! Form::close() !!}
+
+                                    @endif
+                                </td>
                             </tr>
                         @endforeach
                     </template>

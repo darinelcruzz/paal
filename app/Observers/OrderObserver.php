@@ -8,9 +8,7 @@ class OrderObserver
 {
     function created(Order $order)
     {
-        if($order->company == 'sanson') {
-           $order->movements()->createMany(request('items'));
-        }
+        $order->movements()->createMany(request('items'));
     }
 
     function updated(Order $order)

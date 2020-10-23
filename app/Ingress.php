@@ -169,7 +169,7 @@ class Ingress extends Model
             return false;
         }
 
-        return $this->movements()->with('product')->whereHas('product.serial_numbers')->count() > 0;
+        return $this->movements()->with('product')->whereHas('product.serial_numbers', function($q) {$q->where('ingress_id', 0);})->count() > 0;
     }
 
     function scopeFrom($query, $date)

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Sanson;
+namespace App\Http\Controllers\Coffee;
 
 use App\{Order, Provider, Purchase};
 use App\Http\Controllers\Controller;
@@ -10,14 +10,14 @@ class OrderController extends Controller
 {
     function index()
     {
-        $orders = Order::whereCompany('sanson')->get();
-        return view('sanson.orders.index', compact('orders'));
+        $orders = Order::whereCompany('coffee')->get();
+        return view('coffee.orders.index', compact('orders'));
     }
 
     function create()
     {
-        $providers = Provider::whereCompany('sanson')->pluck('name', 'id')->toArray();
-        return view('sanson.orders.create', compact('providers'));
+        $providers = Provider::whereCompany('coffee')->pluck('name', 'id')->toArray();
+        return view('coffee.orders.create', compact('providers'));
     }
 
     function store(Request $request)
@@ -32,12 +32,12 @@ class OrderController extends Controller
 
         Order::create($attributes);
 
-        return redirect(route('sanson.order.index'));
+        return redirect(route('coffee.order.index'));
     }
 
     function show(Order $order)
     {
-        return view('sanson.orders.show', compact('order'));
+        return view('coffee.orders.show', compact('order'));
     }
 
     function edit(Order $order)
@@ -52,14 +52,9 @@ class OrderController extends Controller
 
     function transform(Order $order)
     {
-        $last_purchase = Purchase::where('company', 'sanson')->get()->last();
+        $last_purchase = Purchase::where('company', 'coffee')->get()->last();
         $last_folio = $last_purchase ? $last_purchase->folio + 1: 1;
-        return view('sanson.orders.transform', compact('order', 'last_folio'));
-    }
-
-    function print(Order $order)
-    {
-        return view('sanson.orders.print', compact('order'));
+        return view('coffee.orders.transform', compact('order', 'last_folio'));
     }
 
     function destroy(Order $order)

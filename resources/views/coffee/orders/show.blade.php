@@ -1,4 +1,4 @@
-@extends('sanson.root')
+@extends('coffee.root')
 
 @push('pageTitle')
     Orden de compra | Detalles
@@ -7,7 +7,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-10">
-            <solid-box title="Orden de compra #{{ $order->id }}" color="info" button>
+            <solid-box title="Orden de compra #{{ $order->id }}" color="danger" button>
                 <div class="row">
                     <div class="col-xs-6">
                         {!! Field::text('provider_id', $order->provider->name, ['tpl' => 'withicon', 'disabled' => 'true'], ['icon' => 'user']) !!}
@@ -75,10 +75,10 @@
                     </table>
                 </div>
 
-                <a href="{{ route('sanson.order.index') }}" class="btn btn-info pull-left">
+                <a href="{{ route('coffee.order.index') }}" class="btn btn-danger pull-left">
                     <i class="fa fa-backward"></i>&nbsp; HISTORIAL
                 </a>
-                <a href="{{ route('sanson.order.transform', $order) }}" class="btn btn-primary pull-right">CREAR COMPRA</a>
+                <a href="{{ route('coffee.order.transform', $order) }}" class="btn btn-warning pull-right">CREAR COMPRA</a>
             </solid-box>
         </div>
     </div>

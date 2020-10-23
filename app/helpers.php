@@ -96,3 +96,79 @@ function dateFromRequest($format = 'Y-m-d')
     $date = request('date') !== null ? request('date'): date($format);
     return $date;
 }
+
+function amountToText($amount)
+{
+    return strtoupper(getThousandsFromAmount(floor($amount)));
+}
+
+function amountDecimals($amount)
+{
+    $decimals = number_format($amount - floor($amount), 2);
+    return substr("0$decimals", -2);
+}
+
+function getUnitsFromAmount($amount)
+{
+    $base = ['cero', 'un', 'dos', 'tres', 'cuatro', 'cinco', 'seis', 'siete', 'ocho', 'nueve', 'diez',
+        'once', 'doce', 'trece', 'catorce', 'quince', 'dieciseis', 'diecisiete', 'dieciocho', 'diecinueve', 
+        'veinte', 'veintiun', 'veintidos', 'veintitres', 'veinticuatro','veinticinco', 'veintiséis','veintisiete',
+        'veintiocho','veintinueve'];
+
+    return $base[intval($amount)];
+}
+
+function getTensFromAmount($amount)
+{
+    $tens = ['30' => 'treinta', '40' => 'cuarenta', '50' => 'cincuenta', '60' => 'sesenta',
+        '70' => 'setenta', '80' => 'ochenta', '90' => 'noventa'];
+
+    if($amount <= 29) return getUnitsFromAmount($amount);
+
+    $ten = $amount % 10;
+
+    if($ten == 0) {
+        return $tens[$amount];
+    }
+    else return $tens[$amount - $ten] . ' y '. getUnitsFromAmount($ten);
+}
+
+function getHundredsFromAmount($amount)
+{
+    $hundreds = ['100' => 'cien', '200' => 'doscientos', '300' => 'trecientos', '400' => 'cuatrocientos',
+        '500' => 'quinientos', '600' => 'seiscientos', '700' => 'setecientos', '800' => 'ochocientos',
+        '900' => 'novecientos'];
+
+    if($amount >= 100) {
+        if ($amount % 100 == 0 ) {
+            return $hundreds[$amount];
+        } else {
+            $firstDigit = (int) substr($amount, 0, 1);
+            $tens = (int) substr($amount, 1, 2);
+            return (($firstDigit == 1) ? 'ciento' : $hundreds[$firstDigit * 100]) . ' ' . getTensFromAmount($tens);
+        }
+    } else return getTensFromAmount($amount);
+}
+
+function getThousandsFromAmount($amount)
+{
+    // return (int)substr($amount, 0, strlen($amount) - 3);
+    if($amount > 999) {
+        if($amount == 1000) {
+            return 'un mil';
+        } else {
+            $firstDigits = (int)substr($amount, 0, strlen($amount) - 3);
+            $hundreds = (int)substr($amount,-3);
+
+            if($firstDigits == 1) {
+                $text = 'un mil '. getHundredsFromAmount($hundreds);
+            } else if($hundreds == 0) {
+                $text = getHundredsFromAmount($firstDigits) . ' mil';
+            } else {
+                $text = getHundredsFromAmount($firstDigits) . ' mil ' . getHundredsFromAmount($hundreds);
+            }
+            
+            return $text;
+        }
+    } else return getHundredsFromAmount($amount);
+}
