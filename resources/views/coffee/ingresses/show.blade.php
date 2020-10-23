@@ -83,24 +83,43 @@
                         </thead>
 
                         <tbody>
+
                         @php
                             $subtotal = 0;
                             $iteration = 1;
                         @endphp
-                        @foreach (unserialize($ingress->products) as $product)
+                        
+                        @foreach ($ingress->movements as $movement)
                             <tr>
                                 <td>{{ $iteration }}</td>
-                                <td>{{ App\Product::find($product['i'])->description }}</td>
-                                <td>$ {{ number_format($product['p'], 2) }}</td>
-                                <td>{{ $product['q'] }}</td>
-                                <td>$ {{ number_format($product['d'], 2) }}</td>
-                                <td>$ {{ number_format($product['t'], 2) }}</td>
+                                <td>{{ $movement->description or $movement->product->description }}</td>
+                                <td>$ {{ number_format($movement->price, 2) }}</td>
+                                <td>{{ $movement->quantity }}</td>
+                                <td>$ {{ number_format($movement->discount, 2) }}</td>
+                                <td>$ {{ number_format($movement->total, 2) }}</td>
                             </tr>
                             @php
-                                $subtotal += $product['t'];
+                                $subtotal += $movement->total;
                                 $iteration += 1;
                             @endphp
                         @endforeach
+
+                        @if($ingress->products)
+                            @foreach (unserialize($ingress->products) as $product)
+                                <tr>
+                                    <td>{{ $iteration }}</td>
+                                    <td>{{ App\Product::find($product['i'])->description }}</td>
+                                    <td>$ {{ number_format($product['p'], 2) }}</td>
+                                    <td>{{ $product['q'] }}</td>
+                                    <td>$ {{ number_format($product['d'], 2) }}</td>
+                                    <td>$ {{ number_format($product['t'], 2) }}</td>
+                                </tr>
+                                @php
+                                    $subtotal += $product['t'];
+                                    $iteration += 1;
+                                @endphp
+                            @endforeach
+                        @endif
 
                         @if($ingress->special_products)
                             @foreach (unserialize($ingress->special_products) as $product)

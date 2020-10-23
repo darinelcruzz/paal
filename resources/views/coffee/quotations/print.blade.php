@@ -156,28 +156,45 @@
                     @endphp
 
                     <tbody>
-                    @foreach (unserialize($quotation->products) as $item)
+                    @foreach ($quotation->movements as $movement)
+                        <tr>
+                            <td>{{ $movement->quantity }}</td>
+                            <td>{{ $movement->product->code }}</td>
+                            <td>{{ $movement->description or $movement->product->description }}</td>
+                            <td>{{ number_format($movement->price, 2) }}</td>
+                            <td>{{ number_format($movement->discount, 2) }}</td>
+                            <td>{{ number_format($movement->total, 2) }}</td>
+                        </tr>
                         @php
-                            $product = App\Product::find($item['i'])
+                            $subtotal += $movement->total;
+                            $shipping += $movement->product->family == 'ENVÍOS' ? $movement->price: 0;
                         @endphp
-                        @if($product->family != 'ENVÍOS')
-                            <tr>
-                                <td class="centered">{{ $item['q'] }}</td>
-                                <td class="centered">{{ $product->code }}</td>
-                                <td class="centered">{{ $product->description }}</td>
-                                <td style="text-align: right;">{{ number_format($item['p'], 2) }}</td>
-                                <td class="centered">{{ $item['d'] }} %</td>
-                                <td style="text-align: right;">{{ number_format($item['t'], 2) }}</td>
-                            </tr>
-                            @php
-                                $subtotal += $item['t'];
-                            @endphp
-                        @else
-                            @php
-                                $shipping += $item['p'];
-                            @endphp
-                        @endif
                     @endforeach
+
+                    @if($quotation->products)
+                        @foreach (unserialize($quotation->products) as $item)
+                            @php
+                                $product = App\Product::find($item['i'])
+                            @endphp
+                            @if($product->family != 'ENVÍOS')
+                                <tr>
+                                    <td class="centered">{{ $item['q'] }}</td>
+                                    <td class="centered">{{ $product->code }}</td>
+                                    <td class="centered">{{ $product->description }}</td>
+                                    <td style="text-align: right;">{{ number_format($item['p'], 2) }}</td>
+                                    <td class="centered">{{ $item['d'] }} %</td>
+                                    <td style="text-align: right;">{{ number_format($item['t'], 2) }}</td>
+                                </tr>
+                                @php
+                                    $subtotal += $item['t'];
+                                @endphp
+                            @else
+                                @php
+                                    $shipping += $item['p'];
+                                @endphp
+                            @endif
+                        @endforeach
+                    @endif
 
                     @if($quotation->special_products)
                         @foreach (unserialize($quotation->special_products) as $product)

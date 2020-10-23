@@ -35,14 +35,13 @@ class QuotationController extends Controller
         return view('coffee.quotations.internet', compact('quotations', 'sales', 'total', 'date'));
     }
 
-    function create($type)
+    function create()
     {
-        return view('coffee.quotations.create', compact('type'));
+        return view('coffee.quotations.create');
     }
 
     function store(Request $request)
     {
-        // dd($request->all());
         $validated = $this->validate($request, [
             'client_id' => 'required',
             'user_id' => 'required',
@@ -56,35 +55,6 @@ class QuotationController extends Controller
         ]);
 
         $quotation = Quotation::create($validated);
-
-        $products = [];
-        $special = [];
-
-        for ($i=0; $i < count($request->items); $i++) {
-            if ($request->is_special[$i] == 0) {
-                array_push($products, [
-                    'i' => $request->items[$i],
-                    'q' => $request->quantities[$i],
-                    'p' => $request->prices[$i],
-                    'd' => $request->discounts[$i],
-                    't' => $request->subtotals[$i],
-                ]);
-            } else {
-                array_push($special, [
-                    'i' => $request->items[$i],
-                    'id' => $request->ids[$i],
-                    'q' => $request->quantities[$i],
-                    'p' => $request->prices[$i],
-                    'd' => $request->discounts[$i],
-                    't' => $request->subtotals[$i],
-                ]);
-            }
-        }
-
-        $quotation->update([
-            'products' => serialize($products),
-            'special_products' => serialize($special),
-        ]);
 
         if (isset($request->client_name)) {
             return redirect(route('coffee.quotation.internet'));
@@ -112,14 +82,11 @@ class QuotationController extends Controller
         return view('coffee.quotations.print', compact('quotation'));
     }
 
-    function transform(Quotation $quotation, $type = null)
+    function transform(Quotation $quotation)
     {
-        if ($type == null) {
-            $type = $quotation->products_list_type;
-        }
         $last_sale = Ingress::where('company', 'coffee')->get()->last();
         $last_folio = $last_sale ? $last_sale->folio + 1: 1;
-        return view('coffee.quotations.transform', compact('quotation', 'last_folio', 'type'));
+        return view('coffee.quotations.transform', compact('quotation', 'last_folio'));
     }
 
     function edit(Quotation $quotation)

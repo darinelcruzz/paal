@@ -28,6 +28,7 @@ return [
     'ingresses' => [
         'title' => 'Ventas',
         'icon' => 'fa fa-mug-hot',
+        'label' => soldProducts('sanson') > 0 ? soldProducts('sanson'): '',
         'submenu' => [
             'create' => [
                 'title' => 'Equipos y refacciones',
@@ -63,7 +64,7 @@ return [
     'shippings' => [
         'title' => 'Envíos',
         'icon' => 'fa fa-shipping-fast',
-        'label' => pendingShippings('sanson'),
+        'label' => pendingShippings('sanson') > 0 ? pendingShippings('sanson'): '',
         'submenu' => [
             'create' => [
                 'title' => 'Rastreo',
@@ -76,20 +77,20 @@ return [
         ]
     ],
 
-    // 'purchases_and_orders' => [
-    //     'title' => 'Compras y órdenes',
-    //     'icon' => 'fa fa-shopping-cart',
-    //     'submenu' => [
-    //         'purchases' => [
-    //             'title' => 'Compras',
-    //             'route' => 'sanson.purchase.index'
-    //         ],
-    //         'orders' => [
-    //             'title' => 'Órdenes',
-    //             'route' => 'sanson.order.index'
-    //         ],
-    //     ]
-    // ],
+    'purchases_and_orders' => [
+        'title' => 'Compras y órdenes',
+        'icon' => 'fa fa-shopping-cart',
+        'submenu' => [
+            'purchases' => [
+                'title' => 'Compras',
+                'route' => 'sanson.purchase.index'
+            ],
+            'orders' => [
+                'title' => 'Órdenes',
+                'route' => 'sanson.order.index'
+            ],
+        ]
+    ],
 
     'egresses' => [
         'title' => 'Egresos',
@@ -128,6 +129,12 @@ return [
         'title' => 'Productos',
         'icon' => 'fa fa-tags',
         'route' => 'sanson.product.index'
+    ],
+
+    'serial_numbers' => [
+        'title' => 'Números de serie',
+        'icon' => 'fa fa-barcode',
+        'route' => 'sanson.serial_number.index',
     ],
 
     'clients' => [

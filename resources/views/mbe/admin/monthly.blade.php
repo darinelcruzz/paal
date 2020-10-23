@@ -1,8 +1,6 @@
 @extends('mbe.root')
 
-@push('pageTitle')
-    Corte mensual
-@endpush
+@push('pageTitle', 'Corte mensual')
 
 @section('content')
 
@@ -32,25 +30,65 @@
 
     <div class="row">
         <div class="col-md-4">
-            <color-card color="green" icon="money-bill-wave" label="Total">
-                <em>$ {{ number_format($month->sum('cash') + $month->sum('credit_card') + $month->sum('debit_card') + $month->sum('transfer') + $month->sum('check'), 2) }}</em>
-            </color-card>
 
-            <color-card color="red" icon="piggy-bank" label="Por depositar">
-                <em>$ {{ number_format($pending, 2) }}</em>
-            </color-card>
+            <div class="info-box bg-green">
+                <span class="info-box-icon"><i class="fa fa-money-bill-alt"></i></span>
 
-            <color-card color="yellow" icon="credit-card" label="Crédito">
-                <em>$ {{ number_format($credit_total, 2) }}</em>
-            </color-card>
-            {!! Form::open(['method' => 'POST', 'route' => 'mbe.ingress.companies', 'id' => 'companies_form']) !!}
-                <input type="hidden" name="date" value="{{ $date }}">
-                <a href="javascript:{}" onclick="document.getElementById('companies_form').submit();">
-                    <color-card color="primary" icon="truck" label="Envíos">
-                        <em>{{ $shippings }}</em>
-                    </color-card>
-                </a>
-            {!! Form::close() !!}
+                <div class="info-box-content">
+                    <span class="info-box-text">TOTAL</span>
+                    <span class="info-box-number">
+                        <big>$ {{ number_format($checkout_total + $credit_total + $invoiced_total, 2) }}</big>
+                    </span>
+                </div>
+            </div>
+
+            <div class="info-box bg-yellow">
+                <span class="info-box-icon"><i class="fa fa-cash-register"></i></span>
+
+                <div class="info-box-content">
+                  <span class="info-box-text">MOSTRADOR</span>
+                  <span class="info-box-number">$ {{ number_format($checkout_total, 2) }}</span>
+
+                  <div class="progress">
+                    <div class="progress-bar" style="width: {{ number_format(100 - $pending*100/$checkout_total, 2) }}%"></div>
+                  </div>
+                  <span class="progress-description">Por depositar: <em>$ {{ number_format($pending, 2) }}</em></span>
+                </div>
+            </div>
+
+            <div class="info-box bg-red">
+                <span class="info-box-icon"><i class="fa fa-credit-card"></i></span>
+
+                <div class="info-box-content">
+                  <span class="info-box-text">CRÉDITO</span>
+                  <span class="info-box-number">$ {{ number_format($credit_total, 2) }}</span>
+                </div>
+            </div>
+
+            <div class="info-box bg-blue">
+                <span class="info-box-icon"><i class="fa fa-file-invoice-dollar"></i></span>
+
+                <div class="info-box-content">
+                  <span class="info-box-text">FACTURADO</span>
+                  <span class="info-box-number">$ {{ number_format($invoiced_total, 2) }}</span>
+
+                  <div class="progress">
+                    <div class="progress-bar" style="width: {{ $invoiced_total > 0 ? number_format($paid_total*100/$invoiced_total, 2) : 100 }}%"></div>
+                  </div>
+                  <span class="progress-description">Por pagar: <em>$ {{ number_format($invoiced_total - $paid_total, 2) }}</em></span>
+                </div>
+            </div>
+
+            <a href="{{ route('mbe.ingress.companies', $date) }}">
+            <div class="info-box bg-teal">
+                <span class="info-box-icon"><i class="fa fa-truck"></i></span>
+
+                <div class="info-box-content">
+                  <span class="info-box-text">ENVÍOS</span>
+                  <span class="info-box-number"><big>{{ $shippings }}</big></span>
+                </div>
+            </div>
+            </a>
         </div>
 
         <div class="col-md-8">

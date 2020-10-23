@@ -1,30 +1,25 @@
 @extends('mbe.root')
 
-@push('pageTitle')
-    Ingresos | Historial
-@endpush
+@push('pageTitle', 'Ingresos | Historial')
 
 @section('content')
+    <div class="row" style="margin-bottom: 10px;">
+        <div class="col-md-3">
+            {!! Form::open(['method' => 'post', 'route' => 'mbe.ingress.index']) !!}
+                <div class="input-group input-group-sm">
+                    <input type="month" name="date" class="form-control" value="{{ $date }}">
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-success btn-flat">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </span>
+                </div>
+            {!! Form::close() !!}
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-md-12">
-                
-                <div class="row">
-                    <div class="col-md-3">
-                        {!! Form::open(['method' => 'post', 'route' => 'mbe.ingress.index']) !!}
-                            <div class="input-group input-group-sm">
-                                <input type="month" name="date" class="form-control" value="{{ $date }}">
-                                <span class="input-group-btn">
-                                    <button type="submit" class="btn btn-success btn-flat">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                </span>
-                            </div>
-                        {!! Form::close() !!}
-                    </div>
-                </div>
-
-            <br>
-
             <solid-box title="Ingresos" color="success">
 
                 <data-table classes="spanish-simple">

@@ -40,7 +40,7 @@
                             <tr>
                                 <td>{{ $ingress->folio }}</td>
                                 <td>
-                                    <dropdown icon="cogs" color="danger">
+                                    <dropdown icon="cogs" color="{{ $ingress->areSerialNumbersMissing ? 'warning': 'danger' }}">
                                         <ddi v-if="{{ $ingress->status == 'pagado' || $ingress->status == 'cancelado' ? 0: 1 }}" to="{{ route('coffee.payment.create', $ingress) }}" icon="money" text="Pagar"></ddi>
                                         <ddi to="{{ route('coffee.ingress.show', $ingress) }}" icon="eye" text="Detalles"></ddi>
                                         <li>
@@ -55,17 +55,20 @@
                                                 </a>
                                             </li>
                                         @endif
+                                        @if ($ingress->areSerialNumbersMissing)
+                                            <ddi to="{{ route('coffee.ingress.update', $ingress) }}" icon="plus" text="Agregar # de serie"></ddi>
+                                        @endif
 
                                     </dropdown>
                                 </td>
                                 <td>{{ fdate($ingress->bought_at, 'd M Y', 'Y-m-d') }}</td>
                                 <td style="width: 30%">{{ $ingress->client->name }}</td>
                                 <td>
-                                    <label class="label label-{{$ingress->type == 'insumos' ? 'danger': 'warning'}}">{{ strtoupper($ingress->type) }}</label>
+                                    <label class="label label-{{$ingress->typeLabel }}">{{ strtoupper($ingress->type) }}</label>
                                 </td>
-                                <td>$ {{ number_format($ingress->iva, 2) }}</td>
-                                <td>$ {{ number_format($ingress->amount, 2) }}</td>
-                                <td>{{ $ingress->retainer > 0 ? "$ " . number_format($ingress->retainer, 2): '' }}</td>
+                                <td>{{ number_format($ingress->iva, 2) }}</td>
+                                <td>{{ number_format($ingress->amount, 2) }}</td>
+                                <td>{{ $ingress->retainer > 0 ? number_format($ingress->retainer, 2): '' }}</td>
                                 <td>{{ ucfirst($ingress->method) }}</td>
                                 <td>
                                     @if ($ingress->status == 'cancelado')

@@ -57,6 +57,11 @@ class OrderController extends Controller
         return view('sanson.orders.transform', compact('order', 'last_folio'));
     }
 
+    function print(Order $order)
+    {
+        return view('sanson.orders.print', compact('order'));
+    }
+
     function destroy(Order $order)
     {
         //

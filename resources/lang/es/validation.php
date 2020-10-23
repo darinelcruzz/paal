@@ -203,5 +203,8 @@ return [
         'dollars' => 'dólares',
         'ordered_at' => 'fecha',
         'provider_id' => 'proveedor',
+        'purchase_id' => 'compra',
+        'product_id' => 'producto',
+        'numbers[]' => 'número de serie',
     ],
 ];

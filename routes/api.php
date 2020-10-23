@@ -6,7 +6,7 @@ Route::group(['prefix' => 'products', 'as' => 'api.product.'], function () {
     $ctrl = 'Api\ProductController';
     Route::get('mbe/{keyword?}', usesas($ctrl, 'mbe'));
     Route::get('sanson/{keyword?}', usesas($ctrl, 'sanson'));
-    Route::get('coffee/{type}/{keyword?}', usesas($ctrl, 'coffee'));
+    Route::get('coffee/{keyword?}', usesas($ctrl, 'coffee'));
     Route::get('{product}', usesas($ctrl, 'show'));
 });
 

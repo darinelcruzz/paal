@@ -7,12 +7,8 @@ return [
         'icon' => 'fas fa-file-invoice',
         'submenu' => [
             'create' => [
-                'title' => 'Insumos',
-                'route' => ['coffee.quotation.create', 'insumos']
-            ],
-            'create2' => [
-                'title' => 'Equipos',
-                'route' => ['coffee.quotation.create', 'equipo']
+                'title' => 'Agregar',
+                'route' => 'coffee.quotation.create'
             ],
             'index' => [
                 'title' => 'Historial',
@@ -30,12 +26,8 @@ return [
         'icon' => 'fa fa-mug-hot',
         'submenu' => [
             'create' => [
-                'title' => 'Insumos',
-                'route' => ['coffee.ingress.create', 'insumos']
-            ],
-            'create2' => [
-                'title' => 'Equipos',
-                'route' => ['coffee.ingress.create', 'equipo']
+                'title' => 'Agregar',
+                'route' => 'coffee.ingress.create'
             ],
             'index' => [
                 'title' => 'Historial',

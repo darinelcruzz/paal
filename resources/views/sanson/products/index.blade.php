@@ -13,15 +13,19 @@
                 
                 <data-table>
 
-                    {{ drawHeader('ID', 'descripción', 'modelo', 'marca', 'MXN', 'USD', 'cantidad', 'mínimo') }}
+                    {{ drawHeader('ID', '<i class="fa fa-cogs"></i>', 'descripción', 'modelo', 'marca', 'MXN', 'USD', 'cantidad', 'mínimo') }}
 
                     <template slot="body">
                         @foreach($products as $product)
                             <tr>
                                 <td>{{ $product->id }}</td>
                                 <td>
-                                    <a href="{{ route('sanson.product.edit', $product) }}">{{ $product->description }}</a>
+                                    <dropdown icon="cogs" color="info">
+                                        <ddi icon="edit" to="{{ route('sanson.product.edit', $product) }}" text="Editar"></ddi>
+                                        <ddi icon="plus" to="{{ route('sanson.serial_number.create', $product) }}" text="Número(s) de serie"></ddi>
+                                    </dropdown>
                                 </td>
+                                <td>{{ $product->description }}</td>
                                 <td><code>{{ $product->code }}</code></td>
                                 <td>{{ $product->family }}</td>
                                 @if($product->dollars)

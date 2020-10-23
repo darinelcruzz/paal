@@ -7,12 +7,8 @@ return [
         'icon' => 'fas fa-file-invoice',
         'submenu' => [
             'create' => [
-                'title' => 'Insumos',
-                'route' => ['coffee.quotation.create', 'insumos']
-            ],
-            'create2' => [
-                'title' => 'Equipos',
-                'route' => ['coffee.quotation.create', 'equipo']
+                'title' => 'Agregar',
+                'route' => 'coffee.quotation.create'
             ],
             'index' => [
                 'title' => 'Historial',
@@ -28,14 +24,11 @@ return [
     'ingresses' => [
         'title' => 'Ventas',
         'icon' => 'fa fa-mug-hot',
+        'label' => soldProducts('coffee') > 0 ? soldProducts('coffee'): '',
         'submenu' => [
             'create' => [
-                'title' => 'Insumos',
-                'route' => ['coffee.ingress.create', 'insumos']
-            ],
-            'create2' => [
-                'title' => 'Equipos',
-                'route' => ['coffee.ingress.create', 'equipo']
+                'title' => 'Agregar',
+                'route' => 'coffee.ingress.create'
             ],
             'index' => [
                 'title' => 'Historial',
@@ -76,6 +69,21 @@ return [
         ]
     ],
 
+    // 'purchases_and_orders' => [
+    //     'title' => 'Compras y órdenes',
+    //     'icon' => 'fa fa-shopping-cart',
+    //     'submenu' => [
+    //         'purchases' => [
+    //             'title' => 'Compras',
+    //             'route' => 'coffee.purchase.index'
+    //         ],
+    //         'orders' => [
+    //             'title' => 'Órdenes',
+    //             'route' => 'coffee.order.index'
+    //         ],
+    //     ]
+    // ],
+
     'egresses' => [
         'title' => 'Egresos',
         'icon' => 'fa fa-share',
@@ -114,6 +122,12 @@ return [
         'title' => 'Productos',
         'icon' => 'fa fa-tags',
         'route' => 'coffee.product.index'
+    ],
+
+    'serial_numbers' => [
+        'title' => 'Números de serie',
+        'icon' => 'fa fa-barcode',
+        'route' => 'coffee.serial_number.index',
     ],
 
     'clients' => [

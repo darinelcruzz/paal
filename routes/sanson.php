@@ -54,6 +54,7 @@ Route::group(['prefix' => 'sanson', 'as' => 'sanson.'], function () {
 	    Route::get('agregar/{type}', usesas($ctrl, 'create'));
 	    Route::post('agregar', usesas($ctrl, 'store'));
 		Route::get('ticket/{ingress}', usesas($ctrl, 'ticket'));
+		Route::get('numeros-de-serie/{ingress}', usesas($ctrl, 'update'));
 		Route::get('cancelar/{ingress}/{reasons}', usesas($ctrl, 'destroy'));
 		Route::get('{ingress}', usesas($ctrl, 'show'));
 	});
@@ -127,6 +128,7 @@ Route::group(['prefix' => 'sanson', 'as' => 'sanson.'], function () {
 	    Route::post('agregar', usesas($ctrl, 'store'));
 	    Route::get('editar/{product}', usesas($ctrl, 'edit'));
 	    Route::post('editar/{product}', usesas($ctrl, 'update'));
+	    Route::post('{product}', usesas($ctrl, 'show'));
 	});
 
 	Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
@@ -176,5 +178,14 @@ Route::group(['prefix' => 'sanson', 'as' => 'sanson.'], function () {
 	    Route::post('agregar/{client}', usesas($ctrl, 'store'));
 	    Route::get('editar/{address}', usesas($ctrl, 'edit'));
 	    Route::post('editar/{address}', usesas($ctrl, 'update'));
+	});
+
+	Route::group(['prefix' => 'numeros-de-serie', 'as' => 'serial_number.'], function () {
+	    $ctrl = 'Sanson\SerialNumberController';
+	    Route::get('/', usesas($ctrl, 'index'));
+	    Route::get('agregar/{product?}', usesas($ctrl, 'create'));
+	    Route::post('agregar/{product?}', usesas($ctrl, 'store'));
+	    Route::get('editar/{serial_number}', usesas($ctrl, 'edit'));
+	    Route::post('editar/{ingress}', usesas($ctrl, 'update'));
 	});
 });

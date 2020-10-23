@@ -63,12 +63,13 @@ Vue.component('file-upload', require('./components/lte/FileUploadInput.vue'));
 Vue.component('pdf-button', require('./components/lte/FileUploadButton.vue'));
 Vue.component('dynamic-inputs', require('./components/lte/DynamicInputs.vue'));
 Vue.component('color-card', require('./components/lte/ColorCard.vue'));
+Vue.component('multiple-inputs', require('./components/lte/MultipleInputs.vue'));
 
 Vue.component('add-product', require('./components/AddProductButton.vue'));
 Vue.component('p-table', require('./components/ProductsTable.vue'));
 Vue.component('p-row', require('./components/ProductRow.vue'));
 Vue.component('shopping-list', require('./components/ShoppingList.vue'));
-Vue.component('shopping-list-item', require('./components/ShoppingListItem.vue'));
+Vue.component('shopping-list-item', require('./components/ShoppingListItemTwo.vue'));
 Vue.component('shipping-list', require('./components/ShippingList.vue'));
 Vue.component('shipping-item', require('./components/ShippingItem.vue'));
 Vue.component('payment-methods', require('./components/PaymentMethods.vue'));

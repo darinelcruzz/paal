@@ -88,6 +88,12 @@ return [
         'route' => 'sanson.product.index'
     ],
 
+    'serial_numbers' => [
+        'title' => 'Números de serie',
+        'icon' => 'fa fa-barcode',
+        'route' => 'sanson.serial_number.index'
+    ],
+
     'clients' => [
         'title' => 'Clientes',
         'icon' => 'fa fa-users',

@@ -158,6 +158,20 @@ class Ingress extends Model
         }
     }
 
+    function getTypeLabelAttribute()
+    {
+        return ['insumos' => 'danger', 'equipo' => 'warning', 'proyecto' => 'primary'][$this->type];
+    }
+
+    function getAreSerialNumbersMissingAttribute()
+    {
+        if ($this->bought_at < '2020-10-01') {
+            return false;
+        }
+
+        return $this->movements()->with('product')->whereHas('product.serial_numbers', function($q) {$q->where('ingress_id', 0);})->count() > 0;
+    }
+
     function scopeFrom($query, $date)
     {
         return $query->whereDate('created_at', $date)

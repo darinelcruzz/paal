@@ -1,8 +1,8 @@
 <template>
 	<tr>
-        <td>
+        <!-- <td>
             <a href="#" @click="deleteItem" style="color: red;"><i class="fa fa-times"></i></a>
-        </td>
+        </td> -->
         <td>
             <div v-if="product.family == 'ESPECIAL'">
                 <div v-if="product.special_description">
@@ -16,7 +16,7 @@
             </div>
             <div v-else>
                 {{ product.description }}
-                <input name="items[]" type="hidden" :value="product.id">
+                <input :name="'items[' + index + '][product_id]'" type="hidden" :value="product.id">
                 <input type="hidden" name="is_special[]" value="0">
                 <input type="hidden" name="ids[]" :value="product.id">
             </div>
@@ -25,7 +25,7 @@
         <td>
             <div v-if="product.dollars == 1">
                 <div v-if="product.retail_price == 0">
-                    <input name="prices[]" type="number" v-model.number="price" step="0.01" class="form-control input-sm">
+                    <input name="prices[]" type="number" class="form-control input-sm" step="0.01" v-model.number="price">
                 </div>
                 <div v-else>
                     {{ price | currency }}
@@ -76,56 +76,55 @@
 export default {
     data() {
         return {
-            decimalsToFix: 2,
-            quantity: 1,
-            discount: 0,
-            price: 0,
-            price_in_dollars: 0
+            // decimalsToFix: 2,
+            // quantity: 1,
+            // discount: 0,
+            // price: 0,
         };
     },
-    props: ['product', 'index', 'exchange', 'familycount', 'promo', 'type'],
+    // props: ['product', 'index', 'exchange', 'familycount', 'promo', 'type'],
     methods: {
-        deleteItem() {
-            this.$root.$emit('delete-item', [this.index, this.product.family])
-            if (this.product.is_summable) {
-                this.$root.$emit('update-family-count', [this.product.family, - this.quantity, this.computed_iva])
-            }
-        },
-        updateTotal() {
-            this.$root.$emit('update-total', [this.index, this.total, this.computed_iva])
-        },
-        computePrice() {
-            var price;
+        // deleteItem() {
+        //     this.$root.$emit('delete-item', [this.index, this.product.family])
+        //     if (this.product.is_summable) {
+        //         this.$root.$emit('update-family-count', [this.product.family, - this.quantity, this.computed_iva])
+        //     }
+        // },
+        // updateTotal() {
+        //     this.$root.$emit('update-total', [this.index, this.total, this.computed_iva])
+        // },
+        // computePrice() {
+        //     var price;
 
-            if (this.product.is_summable && this.promo == 0) {
-                price = this.familycount > this.product.wholesale_quantity ? this.product.wholesale_price: this.product.retail_price
-            } else if (this.product.dollars) {
-                price = this.product.retail_price * Number(this.exchange)
-            } else {
-                if (this.promo == 1) {
-                    price = this.product.wholesale_price
-                } else {
-                    price = this.quantity > this.product.wholesale_quantity ? this.product.wholesale_price: this.product.retail_price
-                }
-            }
+        //     if (this.product.is_summable && this.promo == 0) {
+        //         price = this.familycount > this.product.wholesale_quantity ? this.product.wholesale_price: this.product.retail_price
+        //     } else if (this.product.dollars) {
+        //         price = this.product.retail_price * Number(this.exchange)
+        //     } else {
+        //         if (this.promo == 1) {
+        //             price = this.product.wholesale_price
+        //         } else {
+        //             price = this.quantity > this.product.wholesale_quantity ? this.product.wholesale_price: this.product.retail_price
+        //         }
+        //     }
 
-            return price / (1 + 0.16 * this.product.iva)
-        }
+        //     return price / (1 + 0.16 * this.product.iva)
+        // }
     },
     computed: {
-    	total() {
-    		return ((this.quantity * this.price) - ((this.quantity * this.price) * this.discount / 100))
-    	},
-    	apply_discount() {
-    		return this.product.is_variable == 1 && this.product.family != 'SERVICIOS';
-    	},
-        max_discount() {
-            return this.type == 'info' ? 20: 100;
-        },
-    	computed_iva() {
-    		if (this.product.family == 'SERVICIOS') return 0
-            return this.total * 0.16 * this.product.iva
-    	},
+    	// total() {
+    	// 	return ((this.quantity * this.price) - ((this.quantity * this.price) * this.discount / 100))
+    	// },
+    	// apply_discount() {
+    	// 	return this.product.is_variable == 1 && this.product.family != 'SERVICIOS';
+    	// },
+     //    max_discount() {
+     //        return this.type == 'info' ? 20: 100;
+     //    },
+    	// computed_iva() {
+    	// 	if (this.product.family == 'SERVICIOS') return 0
+     //        return this.total * 0.16 * this.product.iva
+    	// },
     },
     watch: {
         quantity: function (newVal, oldVal) {

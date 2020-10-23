@@ -51,7 +51,7 @@ Route::group(['prefix' => 'mbe', 'as' => 'mbe.'], function () {
 	    Route::get('mensual', usesas($ctrl, 'monthly'));
 	    Route::post('mensual', usesas($ctrl, 'monthly'));
 	    Route::match(['get', 'post'], 'diario/{status}/{thisDate?}', usesas($ctrl, 'daily'));
-	    Route::post('por-paqueteria', usesas($ctrl, 'companies'));
+	    Route::get('por-paqueteria/{date}', usesas($ctrl, 'companies'));
 	    Route::post('referencia', usesas($ctrl, 'reference'));
 	    Route::get('depositos/{date}', usesas($ctrl, 'printDeposits'));
 	});

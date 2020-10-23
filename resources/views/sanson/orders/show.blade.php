@@ -78,7 +78,7 @@
                 <a href="{{ route('sanson.order.index') }}" class="btn btn-info pull-left">
                     <i class="fa fa-backward"></i>&nbsp; HISTORIAL
                 </a>
-                <a href="{{ route('sanson.order.transform', $order) }}" class="btn btn-primary pull-right">CREAR VENTA</a>
+                <a href="{{ route('sanson.order.transform', $order) }}" class="btn btn-primary pull-right">CREAR COMPRA</a>
             </solid-box>
         </div>
     </div>

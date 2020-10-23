@@ -8,12 +8,9 @@ use App\Http\Controllers\Controller;
 
 class ProductController extends Controller
 {
-    function coffee($type, $keyword = '')
+    function coffee($keyword = '')
     {
-        $comparison = $type == 'equipos' ? '=': '!=';
-
         return Product::where('company', 'COFFEE')
-            ->where('category', $comparison, 'EQUIPO')
             ->where(function ($query) use ($keyword) {
                 $query->where("description", "LIKE","%$keyword%")
                     ->orWhere("code", "LIKE", "%$keyword%")

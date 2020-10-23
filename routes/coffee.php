@@ -63,8 +63,9 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	    $ctrl = 'Coffee\IngressController';
 	    Route::get('/', usesas($ctrl, 'index'));
 	    Route::post('/', usesas($ctrl, 'index'));
-	    Route::get('agregar/{type}', usesas($ctrl, 'create'));
+	    Route::get('agregar', usesas($ctrl, 'create'));
 	    Route::post('agregar', usesas($ctrl, 'store'));
+	    Route::get('numeros-de-serie/{ingress}', usesas($ctrl, 'update'));
 		Route::get('ticket/{ingress}', usesas($ctrl, 'ticket'));
 		Route::get('cancelar/{ingress}/{reasons}', usesas($ctrl, 'destroy'));
 		Route::get('{ingress}', usesas($ctrl, 'show'));
@@ -88,13 +89,13 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	    Route::post('/', usesas($ctrl, 'index'));
 	    Route::get('internet', usesas($ctrl, 'internet'));
 	    Route::post('internet', usesas($ctrl, 'internet'));
-	    Route::get('agregar/{type}', usesas($ctrl, 'create'));
+	    Route::get('agregar', usesas($ctrl, 'create'));
 	    Route::post('agregar', usesas($ctrl, 'store'));
 	    Route::get('editar/{quotation}', usesas($ctrl, 'edit'));
 	    Route::post('editar/{quotation}', usesas($ctrl, 'update'));
 		Route::get('imprimir/{quotation}', usesas($ctrl, 'print'));
 		Route::get('descargar/{quotation}', usesas($ctrl, 'download'));
-		Route::get('transformar/{quotation}/{type?}', usesas($ctrl, 'transform'));
+		Route::get('transformar/{quotation}', usesas($ctrl, 'transform'));
 		Route::get('{quotation}', usesas($ctrl, 'show'));
 	});
 
@@ -136,6 +137,31 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	    Route::post('/{status}', usesas($ctrl, 'index'));
 	});
 
+	Route::group(['prefix' => 'ordenes-de-compra', 'as' => 'order.'], function () {
+	    $ctrl = 'Coffee\OrderController';
+	    Route::get('/', usesas($ctrl, 'index'));
+	    Route::post('/', usesas($ctrl, 'index'));
+	    Route::get('agregar', usesas($ctrl, 'create'));
+	    Route::post('agregar', usesas($ctrl, 'store'));
+	    Route::get('editar/{order}', usesas($ctrl, 'edit'));
+	    Route::post('editar/{order}', usesas($ctrl, 'update'));
+		Route::get('imprimir/{order}', usesas($ctrl, 'print'));
+		Route::get('transformar/{order}', usesas($ctrl, 'transform'));
+		Route::get('{order}', usesas($ctrl, 'show'));
+	});
+
+	Route::group(['prefix' => 'compras', 'as' => 'purchase.'], function () {
+	    $ctrl = 'Coffee\PurchaseController';
+	    Route::get('/', usesas($ctrl, 'index'));
+	    Route::post('/', usesas($ctrl, 'index'));
+	    Route::get('agregar', usesas($ctrl, 'create'));
+	    Route::post('agregar', usesas($ctrl, 'store'));
+	    Route::get('editar/{purchase}', usesas($ctrl, 'edit'));
+	    Route::post('editar/{purchase}', usesas($ctrl, 'update'));
+		Route::get('imprimir/{purchase}', usesas($ctrl, 'print'));
+		Route::get('{purchase}', usesas($ctrl, 'show'));
+	});
+
 	Route::group(['prefix' => 'variables', 'as' => 'variable.'], function () {
 	    $ctrl = 'Coffee\VariableController';
 	    Route::get('/', usesas($ctrl, 'index'));
@@ -161,5 +187,15 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	    Route::post('agregar/{client}', usesas($ctrl, 'store'));
 	    Route::get('editar/{address}', usesas($ctrl, 'edit'));
 	    Route::post('editar/{address}', usesas($ctrl, 'update'));
+	});
+
+	Route::group(['prefix' => 'numeros-de-serie', 'as' => 'serial_number.'], function () {
+	    $ctrl = 'Coffee\SerialNumberController';
+	    Route::get('/', usesas($ctrl, 'index'));
+	    Route::get('agregar/{product?}', usesas($ctrl, 'create'));
+	    Route::post('agregar/{product?}', usesas($ctrl, 'store'));
+	    Route::post('dar-salida/{serial_number}', usesas($ctrl, 'release'));
+	    Route::get('editar/{serial_number}', usesas($ctrl, 'edit'));
+	    Route::post('editar/{ingress}', usesas($ctrl, 'update'));
 	});
 });

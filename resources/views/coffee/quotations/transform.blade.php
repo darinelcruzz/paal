@@ -7,13 +7,13 @@
 @section('content')
     <div class="row">
         <div class="col-md-6">
-            <solid-box title="Agregar venta [{{ $last_folio }}]" color="{{ $type == 'insumos' ? 'danger': 'warning'}}">
+            <solid-box title="Agregar venta [{{ $last_folio }}]" color="danger">
                 {!! Form::open(['method' => 'POST', 'route' => 'coffee.ingress.store', 'ref' => 'cform']) !!}
 
                     <form-wizard
                         title=""
                         subtitle=""
-                        color="{{ $type == 'insumos' ? '#dd4b39': '#f39c12' }}"
+                        color="#dd4b39"
                         @on-complete="submit"
                         back-button-text="Anterior"
                         next-button-text="Siguiente"
@@ -61,7 +61,7 @@
 
                       <tab-content title="Productos" icon="fa fa-tag">
                             <shopping-list 
-                                color="{{ $type == 'insumos' ? 'danger': 'warning'}}" 
+                                color="danger" 
                                 :qproducts="{{ $quotation->products_list }}" 
                                 :exchange="{{ $exchange }}" 
                                 :promo="{{ $promo }}">
@@ -77,7 +77,6 @@
                     <input type="hidden" name="method" :value="is_retained == 0 ? 'anticipo': 'contado'">
                     <input type="hidden" name="bought_at" value="{{ date('Y-m-d') }}">
                     <input type="hidden" name="company" value="coffee">
-                    <input type="hidden" name="type" value="{{ $type }}">
                     <input type="hidden" name="user_id" value="{{ $quotation->user_id }}">
                     <input type="hidden" name="folio" value="{{ $last_folio }}">
                     <input type="hidden" name="quotation_id" value="{{ $quotation->id }}">
@@ -88,8 +87,8 @@
         </div>
 
         <div class="col-md-6">
-            <solid-box title="{{ strtoupper($type ? $type: 'productos') }}" color="{{ $type == 'insumos' ? 'danger': 'warning'}}">
-                <p-table color="{{ $type == 'insumos' ? 'danger': 'warning'}}" :exchange="{{ $exchange }}" type="coffee/{{ $quotation->type }}{{ $quotation->type == 'equipo' ? 's': ''}}"></p-table>
+            <solid-box title="Productos" color="danger">
+                <p-table color="danger" :exchange="{{ $exchange }}" type="coffee"></p-table>
             </solid-box>
         </div>
     </div>

@@ -26,9 +26,9 @@ class PurchaseController extends Controller
             'purchased_at' => 'required',
             'company' => 'required',
             'user_id' => 'required',
-            // 'order_id' => 'required',
+            'order_id' => 'required',
             'amount' => 'required',
-            // 'folio' => 'required',
+            'folio' => 'required',
         ]);
 
         Purchase::create($attributes);
@@ -38,7 +38,7 @@ class PurchaseController extends Controller
 
     function show(Purchase $purchase)
     {
-        //
+        return view('sanson.purchases.show', compact('purchase'));
     }
 
     function edit(Purchase $purchase)

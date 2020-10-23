@@ -44,9 +44,11 @@
                         <tbody>
                         @foreach($ingresses as $ingress)
                             <tr>
-                                <td>{{ $ingress->folio }}</td>
                                 <td>
-                                    <dropdown icon="cogs" color="info">
+                                    {{ $ingress->folio }}
+                                </td>
+                                <td>
+                                    <dropdown icon="cogs" color="{{ $ingress->areSerialNumbersMissing ? 'primary': 'info' }}">
                                         <ddi v-if="{{ $ingress->status == 'pagado' || $ingress->status == 'cancelado' ? 0: 1 }}" to="{{ route('sanson.payment.create', $ingress) }}" icon="money" text="Pagar"></ddi>
                                         <ddi to="{{ route('sanson.ingress.show', $ingress) }}" icon="eye" text="Detalles"></ddi>
                                         <ddi to="{{ route('sanson.ingress.ticket', $ingress) }}" icon="print" text="Imprimir" target="_blank"></ddi>
@@ -56,6 +58,9 @@
                                                     <i class="fa fa-ban" aria-hidden="true"></i> Cancelar
                                                 </a>
                                             </li>
+                                        @endif
+                                        @if ($ingress->areSerialNumbersMissing)
+                                            <ddi to="{{ route('sanson.ingress.update', $ingress) }}" icon="plus" text="Agregar # de serie"></ddi>
                                         @endif
 
                                     </dropdown>
