@@ -23,7 +23,7 @@
 
                 <div class="row">
                     <div class="col-xs-6">
-                        {!! Field::text('created_at', fdate($quotation->created_at, 'd M Y'), ['tpl' => 'withicon', 'disabled' => 'true'], ['icon' => 'calendar-alt']) !!}
+                        {!! Field::text('created_at', fdate($quotation->created_at, 'd M Y'), ['label' => 'Fecha', 'tpl' => 'withicon', 'disabled' => 'true'], ['icon' => 'calendar-alt']) !!}
                     </div>
                     <div class="col-xs-6">
                         {!! Field::text('amount', '' . number_format($quotation->amount, 2), ['tpl' => 'withicon', 'disabled' => 'true'], ['icon' => 'money']) !!}
@@ -37,9 +37,9 @@
                             <tr>
                                 <th>#</th>
                                 <th>Descripción</th>
-                                <th>Precio</th>
-                                <th>Cantidad</th>
-                                <th>Descuento</th>
+                                <th style="text-align: right;">Precio</th>
+                                <th style="text-align: center;">Cantidad</th>
+                                <th style="text-align: center;">Descuento</th>
                                 <th style="text-align: right;">Importe</th>
                             </tr>
                         </thead>
@@ -54,10 +54,10 @@
                             <tr>
                                 <td>{{ $iteration }}</td>
                                 <td>{{ $movement->description or $movement->product->description }}</td>
-                                <td>$ {{ number_format($movement->price, 2) }}</td>
-                                <td>{{ $movement->quantity }}</td>
-                                <td>$ {{ number_format($movement->discount, 2) }}</td>
-                                <td>$ {{ number_format($movement->total, 2) }}</td>
+                                <td style="text-align: right;">$ {{ number_format($movement->price, 2) }}</td>
+                                <td style="text-align: center;">{{ $movement->quantity }}</td>
+                                <td style="text-align: right;">$ {{ number_format($movement->discount, 2) }}</td>
+                                <td style="text-align: right;">$ {{ number_format($movement->total, 2) }}</td>
                             </tr>
                             @php
                                 $subtotal += $movement->total;
@@ -87,7 +87,7 @@
                                 <tr>
                                     <td>{{ $iteration }}</td>
                                     <td>{{ $product['i'] }}</td>
-                                    <td>{{ number_format($product['p'], 2) }}</td>
+                                    <td style="text-align: right;">{{ number_format($product['p'], 2) }}</td>
                                     <td style="text-align: center;">{{ $product['q'] }}</td>
                                     <td style="text-align: right;">{{ number_format($product['d'], 2) }}</td>
                                     <td style="text-align: right;">{{ number_format($product['t'], 2) }}</td>
