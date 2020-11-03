@@ -71,10 +71,6 @@ class IngressController extends Controller
                 'card_number' => isset($request->card_number) ? $request->card_number: null,
             ]);
 
-            if ($request->shipping) {
-                $ingress->shipping()->create();
-            }
-
             $methods = ['undefined' => null, 'cash' => 'efectivo', 'transfer' => 'transferencia', 'check' => 'cheque', 'debit_card' => 'tarjeta débito', 'credit_card' => 'tarjeta crédito'];
             $ingress->update(['method' => $methods[$ingress->inferred_method]]);
         }
