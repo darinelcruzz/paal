@@ -32,7 +32,7 @@
 
                     <br>
                     <shopping-list 
-                        color="warning" 
+                        color="danger" 
                         :qproducts="{{ $quotation->products_list }}" 
                         :exchange="{{ $exchange }}"
                         :promo="{{ $promo }}">
@@ -45,11 +45,8 @@
         </div>
 
         <div class="col-md-6">
-            {{-- <solid-box title="Productos" color="warning">
-                <p-table color="warning" :exchange="{{ env('EXCHANGE_RATE') }}"></p-table>
-            </solid-box> --}}
-            <solid-box title="{{ strtoupper($quotation->type == 'insumos' ? 'insumos': 'equipos') }}" color="{{ $quotation->type == 'insumos' ? 'danger': 'warning' }}">
-                <p-table color="{{ $quotation->type == 'insumos' ? 'danger': 'warning'}}" :exchange="{{ $exchange }}" type="coffee/{{ $quotation->type }}{{ $quotation->type == 'equipo' ? 's': ''}}"></p-table>
+            <solid-box title="Productos" color="danger">
+                <p-table color="danger" :exchange="{{ $exchange }}" :promo="{{ $promo }}" type="coffee"></p-table>
             </solid-box>
         </div>
     </div>

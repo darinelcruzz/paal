@@ -19,7 +19,7 @@
 
 		<td class="money-field">
 			<div v-if="custom_price">
-				<input :name="'items[' + index + '][price]'" type="number" class="form-control input-sm" step="0.01" :min="product.retail_price" v-model.number="price">
+				<input :name="'items[' + index + '][price]'" type="number" class="form-control input-sm" step="0.01" :min="product.retail_price" v-model.number="price.toFixed(2)">
 			</div>
 			<div v-else>
 				{{ price | currency }}
@@ -118,6 +118,7 @@
 		created() {
 			let t = this
 			let p = t.product
+			t.quantity = p.amount || 1;
 			t.discount.apply = p.is_variable == 1 && p.family != 'SERVICIOS'
 			t.custom_price = (p.retail_price == 0 && p.dollars) || p.category == 'SERVICIOS' || p.family == 'ESPECIAL'
 			t.price = t.getPrice()

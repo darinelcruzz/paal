@@ -174,16 +174,16 @@
             updateTypes(product) {
                 let category = product.category == 'EQUIPO' ? 'equipo': 'insumos'
 
-                if (this.types.includes(category)) {
-                    console.log('Ya hay un equipo')
-                } else {
-                    this.types.push(category)
-                    console.log('Se agregó categoría ' + category)
-                }
+                // if (this.types.includes(category)) {
+                //     console.log('Ya hay un equipo')
+                // } else {
+                //     this.types.push(category)
+                //     console.log('Se agregó categoría ' + category)
+                // }
 
                 this.type = this.types.length == 2 ? 'proyecto': this.types[0];
 
-                console.log(this.types)
+                // console.log(this.types)
             }
 		},
         created() {
