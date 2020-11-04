@@ -32,10 +32,52 @@
 </dropdown>
 
 <modal title="Lista de productos" id="modal-e{{ $ingress->id }}" color="{{ $color }}">
+
+    @if($ingress->products)
     <sale-products-list sale="{{ $ingress->id }}" 
         amount="{{ $ingress->amount }}"
         iva="{{ $ingress->iva }}">
     </sale-products-list>
+
+    @else
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th style="width: 200px;">Descripción</th>
+                <th>Precio</th>
+                <th>Can</th>
+                <th>Descuento</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($ingress->movements as $movement)
+                <tr>
+                    <td>{{ $movement->product->description }}</td>
+                    <td>$ {{ number_format($movement->price, 2) }}</td>
+                    <td style="text-align: center;">{{ $movement->quantity }}</td>
+                    <td>$ {{ number_format($movement->discount, 2) }}</td>
+                    <td>$ {{ number_format($movement->price * $movement->quantity, 2) }}</td>
+                </tr>
+            @endforeach
+        </tbody>
+        <tfoot>
+            @if($ingress->iva > 0)
+                <tr>
+                    <td colspan="3"></td>
+                    <th>I.V.A.</th>
+                    <td>$ {{ number_format($ingress->iva, 2) }}</td>
+                </tr>
+            @endif
+            <tr>
+                <td colspan="3"></td>
+                <th>Total</th>
+                <td>$ {{ number_format($ingress->amount, 2) }}</td>
+            </tr>
+        </tfoot>
+    </table>
+    @endif
 </modal>
 
 {!! Form::open(['method' => 'POST', 'route' => 'coffee.invoice.create', 'files' => 'true']) !!}
