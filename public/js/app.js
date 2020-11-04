@@ -54067,7 +54067,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			this.price = this.product.dollars ? this.product.retail_price * Number(this.exchange) : this.price;
 
-			return this.price / (1 + 0.16 * this.product.iva);
+			// return this.price / (1 + 0.16 * this.product.iva)
+			return this.price / (1 + 0.16 * (this.product.family == 'ENVÍOS' ? 0 : this.product.iva));
 		},
 		eliminate: function eliminate() {
 			this.$root.$emit('delete-item', [this.index, this.product.family]);
