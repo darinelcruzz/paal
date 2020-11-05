@@ -19,11 +19,11 @@
 
 		<td class="money-field">
 			<div v-if="custom_price">
-				<input :name="'items[' + index + '][price]'" type="number" class="form-control input-sm" step="0.01" :min="product.retail_price" v-model.number="price.toFixed(2)">
+				<input :name="'items[' + index + '][price]'" type="number" class="form-control input-sm" step="0.01" v-model.number="price">
 			</div>
 			<div v-else>
 				{{ price | currency }}
-				<input :name="'items[' + index + '][price]'" type="hidden" :value="price.toFixed(decimals)">
+				<input :name="'items[' + index + '][price]'" type="hidden" :value="price">
 			</div>
 		</td>
 
@@ -104,7 +104,7 @@
 				this.price = this.product.dollars ? this.product.retail_price * Number(this.exchange): this.price;
 
 				// return this.price / (1 + 0.16 * this.product.iva)
-				return this.price / (1 + 0.16 * (this.product.family == 'ENVÍOS' ? 0:this.product.iva))
+				return (this.price / (1 + 0.16 * (this.product.family == 'ENVÍOS' ? 0:this.product.iva))).toFixed(2)
 			},
 			eliminate() {
 	            this.$root.$emit('delete-item', [this.index, this.product.family])

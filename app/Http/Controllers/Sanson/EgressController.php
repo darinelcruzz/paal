@@ -42,20 +42,31 @@ class EgressController extends Controller
 
     function charge(Request $request, Egress $egress)
     {
+        // $attributes = $this->validate($request, [
+        //     'payment_date' => 'sometimes|required',
+        //     'method' => 'sometimes|required',
+        //     'mfolio' => 'sometimes|required',
+        //     'second_payment_date' => 'sometimes|required',
+        //     'second_method' => 'sometimes|required',
+        //     'nfolio' => 'sometimes|required',
+        // ]);
+
         $attributes = $this->validate($request, [
-            'payment_date' => 'sometimes|required',
-            'method' => 'sometimes|required',
-            'mfolio' => 'sometimes|required',
-            'second_payment_date' => 'sometimes|required',
-            'second_method' => 'sometimes|required',
-            'nfolio' => 'sometimes|required',
+            'paid_at' => 'required',
+            'method' => 'required',
+            'folio' => 'required',
+            'amount' => 'required'
         ]);
 
-        $egress->update($attributes);
+        $egress->payments()->create($attributes);
 
-        $egress->update([
-            'status' => $request->single_payment == 0 ? 'pagado': 'pendiente',
-        ]);
+        if ($request->single_payment == 0 || $egress->debt == 0) {
+            $egress->update([
+                'status' => 'pagado',
+                'method' => $request->method,
+                'payment_date' => $request->paid_at,
+            ]);
+        }
 
         return redirect(route('sanson.egress.index', $egress->status));
     }

@@ -54068,7 +54068,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			this.price = this.product.dollars ? this.product.retail_price * Number(this.exchange) : this.price;
 
 			// return this.price / (1 + 0.16 * this.product.iva)
-			return this.price / (1 + 0.16 * (this.product.family == 'ENVÍOS' ? 0 : this.product.iva));
+			return (this.price / (1 + 0.16 * (this.product.family == 'ENVÍOS' ? 0 : this.product.iva))).toFixed(2);
 		},
 		eliminate: function eliminate() {
 			this.$root.$emit('delete-item', [this.index, this.product.family]);
@@ -54150,8 +54150,8 @@ var render = function() {
                 {
                   name: "model",
                   rawName: "v-model.number",
-                  value: _vm.price.toFixed(2),
-                  expression: "price.toFixed(2)",
+                  value: _vm.price,
+                  expression: "price",
                   modifiers: { number: true }
                 }
               ],
@@ -54159,16 +54159,15 @@ var render = function() {
               attrs: {
                 name: "items[" + _vm.index + "][price]",
                 type: "number",
-                step: "0.01",
-                min: _vm.product.retail_price
+                step: "0.01"
               },
-              domProps: { value: _vm.price.toFixed(2) },
+              domProps: { value: _vm.price },
               on: {
                 input: function($event) {
                   if ($event.target.composing) {
                     return
                   }
-                  _vm.$set(_vm.price, "toFixed(2)", _vm._n($event.target.value))
+                  _vm.price = _vm._n($event.target.value)
                 },
                 blur: function($event) {
                   _vm.$forceUpdate()
@@ -54187,7 +54186,7 @@ var render = function() {
                 name: "items[" + _vm.index + "][price]",
                 type: "hidden"
               },
-              domProps: { value: _vm.price.toFixed(_vm.decimals) }
+              domProps: { value: _vm.price }
             })
           ])
     ]),

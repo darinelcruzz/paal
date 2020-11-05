@@ -29,6 +29,16 @@ class Egress extends Model
         return $this->belongsTo(User::class, 'returned_to');
     }
 
+    function payments()
+    {
+        return $this->hasMany(EgressPayment::class);
+    }
+
+    function getDebtAttribute()
+    {
+        return $this->amount - $this->payments->sum('amount');
+    }
+
     function getStatusLabelAttribute()
     {
         $colors = ['pendiente' => 'warning', 'pagado' => 'success', 'vencido' => 'danger'];
