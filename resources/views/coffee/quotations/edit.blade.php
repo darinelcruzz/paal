@@ -38,6 +38,10 @@
                         :promo="{{ $promo }}">
                     </shopping-list>
 
+                    <input type="hidden" name="editions_count" value="{{ $quotation->editions_count + 1 }}">
+                    <input type="hidden" name="special_products" :value="null">
+                    <input type="hidden" name="products" :value="null">
+
                     {!! Form::submit('Guardar cambios', ['class' => "btn btn-". ($quotation->type == 'insumos' ? 'danger': 'warning') ." pull-right"]) !!}
 
                 {!! Form::close() !!}

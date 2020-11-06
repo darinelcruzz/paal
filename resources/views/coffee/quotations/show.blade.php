@@ -69,7 +69,7 @@
                             @foreach (unserialize($quotation->products) as $product)
                                 <tr>
                                     <td>{{ $iteration }}</td>
-                                    <td>{{ App\Product::find($product['i'])->description }}</td>
+                                    <td>{{ App\Product::find($product['i'])->description ?? 'ERROR' }}</td>
                                     <td>{{ number_format($product['p'], 2) }}</td>
                                     <td style="text-align: center;">{{ $product['q'] }}</td>
                                     <td style="text-align: right;">{{ number_format($product['d'], 2) }}</td>

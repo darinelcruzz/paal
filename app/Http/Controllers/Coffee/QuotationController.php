@@ -96,39 +96,18 @@ class QuotationController extends Controller
 
     function update(Request $request, Quotation $quotation)
     {
+        // dd($request->all());
+
         $validated = $this->validate($request, [
             'amount' => 'required',
             'iva' => 'required',
-            'items' =>'required|min:1'
+            'type' => 'required',
+            'rounding' => 'sometimes|required',
         ]);
 
-        $products = [];
-        $special = [];
-
-        for ($i=0; $i < count($request->items); $i++) {
-            if ($request->is_special[$i] == 0) {
-                array_push($products, [
-                    'i' => $request->items[$i],
-                    'q' => $request->quantities[$i],
-                    'p' => $request->prices[$i],
-                    'd' => $request->discounts[$i],
-                    't' => $request->subtotals[$i],
-                ]);
-            } else {
-                array_push($special, [
-                    'i' => $request->items[$i],
-                    'id' => $request->ids[$i],
-                    'q' => $request->quantities[$i],
-                    'p' => $request->prices[$i],
-                    'd' => $request->discounts[$i],
-                    't' => $request->subtotals[$i],
-                ]);
-            }
-        }
-
         $quotation->update([
-            'products' => serialize($products),
-            'special_products' => serialize($special),
+            'products' => null,
+            'special_products' => null,
             'iva' => $request->iva,
             'amount' => $request->amount,
             'editions_count' => $quotation->editions_count + 1,

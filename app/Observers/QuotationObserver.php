@@ -13,7 +13,7 @@ class QuotationObserver
 
     function updated(Quotation $quotation)
     {
-        if ($quotation->company == 'sanson') {
+        if (count($quotation->movements) > 0) {
             $products = $quotation->movements->pluck('product_id')->toArray();
             foreach (request('items') as $index => $item) {
                 if (in_array($item['product_id'], $products)) {
@@ -30,6 +30,8 @@ class QuotationObserver
                     $movement->delete();
                 }
             }
+        } else {
+            $quotation->movements()->createMany(request('items'));
         }
     }
 
