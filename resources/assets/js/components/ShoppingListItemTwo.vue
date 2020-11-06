@@ -57,7 +57,7 @@
 				decimals: 2,
 				quantity: 1,
 				discount: {
-					max: 20,
+					max: 30,
 					apply: false,
 					amount: 0
 				},
