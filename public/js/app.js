@@ -53737,7 +53737,7 @@ var render = function() {
                     }),
                     _vm._v(" "),
                     _c("input", {
-                      attrs: { type: "hidden", name: "redondeo" },
+                      attrs: { type: "hidden", name: "rounding" },
                       domProps: {
                         value: _vm.redondeo.toFixed(_vm.decimalsToFix)
                       }

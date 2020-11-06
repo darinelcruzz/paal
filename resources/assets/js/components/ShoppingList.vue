@@ -43,7 +43,7 @@
                             <th colspan="5"><span class="pull-right">Redondeo:</span></th>
                             <td>
                                 <input type="number" v-model.number="redondeo" step="0.01" class="form-control input-sm">
-                                <input type="hidden" name="redondeo" :value="redondeo.toFixed(decimalsToFix)">
+                                <input type="hidden" name="rounding" :value="redondeo.toFixed(decimalsToFix)">
                             </td>
                         </tr>
                         <tr>

@@ -44,6 +44,7 @@ class IngressController extends Controller
             'company' => 'required',
             'type' => 'required',
             'bought_at' => 'required',
+            'rounding' => 'required',
        ]);
 
         if ($request->folio != Ingress::where('company', 'coffee')->get()->last()->folio) {

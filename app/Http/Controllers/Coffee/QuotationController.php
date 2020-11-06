@@ -101,17 +101,13 @@ class QuotationController extends Controller
         $validated = $this->validate($request, [
             'amount' => 'required',
             'iva' => 'required',
-            'type' => 'required',
-            'rounding' => 'sometimes|required',
+            'products' => 'required|nullable',
+            'special_products' => 'required|nullable',
+            'rounding' => 'required',
+            'editions_count' => 'required',
         ]);
 
-        $quotation->update([
-            'products' => null,
-            'special_products' => null,
-            'iva' => $request->iva,
-            'amount' => $request->amount,
-            'editions_count' => $quotation->editions_count + 1,
-        ]);
+        $quotation->update($validated);
 
         return redirect(route('coffee.quotation.show', $quotation));
     }

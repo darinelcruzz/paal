@@ -51,6 +51,7 @@ class QuotationController extends Controller
             'user_id' => 'required',
             'client_name' => 'sometimes|required',
             'email' => 'sometimes|required',
+            'rounding' => 'sometimes|required',
         ]);
 
         $quotation = Quotation::create($attributes);
