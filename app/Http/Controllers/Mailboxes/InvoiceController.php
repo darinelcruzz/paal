@@ -13,16 +13,17 @@ class InvoiceController extends Controller
     {
         $date = $thisDate == null ? dateFromRequest(): $thisDate;
 
-        $total = Payment::whereYear('created_at', substr($date, 0, 4))
+        $deposit = Payment::whereYear('created_at', substr($date, 0, 4))
             ->whereMonth('created_at', substr($date, 5))
-            ->whereNull('cash_reference')
-            ->whereHas('ingress', function($query) {
+            ->where('cash', '>', 0)
+            ->where('cash_reference', '0000')
+            ->whereHas('ingress', function ($query)
+            {
                 $query->where('status', '!=', 'cancelado')
-                    ->where('company', 'mbe')
-                    ->where('method', 'efectivo')
-                    ->where('invoice_id', '!=', null);
+                    ->where('company', 'mbe');
             })
             ->sum('cash');
+
 
         $cash_invoices = Ingress::where('invoice_id', '!=', null)
             ->whereDate('bought_at', $date)
@@ -40,7 +41,7 @@ class InvoiceController extends Controller
             ->get()
             ->groupBy('invoice_id');
 
-        return view('mbe.invoices.index', compact('cash_invoices', 'invoices', 'date', 'total'));
+        return view('mbe.invoices.index', compact('cash_invoices', 'invoices', 'date', 'deposit'));
     }
 
     function pending()
@@ -114,15 +115,16 @@ class InvoiceController extends Controller
 
     function print($date)
     {
-        $invoices = Ingress::whereYear('created_at', substr($date, 0, 4))
-            ->whereMonth('created_at', substr($date, 5))
+        $invoices = Ingress::whereYear('bought_at', substr($date, 0, 4))
+            ->whereMonth('bought_at', substr($date, 5))
             ->where('invoice_id', '!=', null)
             ->where('status', '!=', 'cancelado')
             ->where('company', 'mbe')
             ->whereHas('payments', function($query) {
-                $query->whereNull('cash_reference');
+                $query->where('cash_reference', '0000')
+                    ->orWhere('cash_reference', null);
             })
-            ->selectRaw('id, client_id, iva, amount, invoice_id, DATE_FORMAT(created_at, "%Y-%m-%d") as date')
+            ->selectRaw('id, client_id, iva, amount, invoice_id, DATE_FORMAT(bought_at, "%Y-%m-%d") as date')
             ->with(['client:id,name', 'payments'])
             ->get()
             ->groupBy('date');

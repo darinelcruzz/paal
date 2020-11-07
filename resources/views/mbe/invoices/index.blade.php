@@ -11,39 +11,36 @@
                 
                 <data-table>
 
-                    {{ drawHeader('FI', 'método', 'cliente', 'XML', 'referencia', 'importe') }}
+                    {{ drawHeader('FI', 'cliente', 'XML', 'referencia', 'importe') }}
 
                     <template slot="body">
 
                         @php
-                            $pending = 0;
+                            $daily = $daily_deposit = 0;
                         @endphp
 
                         @foreach($cash_invoices as $invoice => $sales)
+                            @php
+                                $first = $sales->first();
+                                $amount = $sales->sum(function ($sale) {
+                                    return $sale->payments->sum('cash');
+                                });
+
+                                $daily += $amount;
+                            @endphp
                             <tr>
                                 <td style="width: 7%">{{ $invoice }}</td>
-                                <td style="width: 20%">{{ strtoupper($sales->first()->method) }}</td>
-                                <td style="width: 35%">{{ $sales->first()->client->name }}</td>
+                                <td style="width: 35%">{{ $first->client->name }}</td>
                                 <td style="width: 5%; text-align: center;">
-                                    @if($sales->first()->xml)
-                                        <a href="{{ $sales->first()->xml }}" target="_blank" style="color: green">
-                                            <i class="fa fa-file-excel"></i>
-                                        </a>
+                                    @if($first->xml)
+                                        <a href="{{ $first->xml }}" target="_blank" style="color: green"><i class="fa fa-file-excel"></i></a>
                                     @endif
                                 </td>
-                                @php
-                                    $subamount = 0;
-                                    foreach ($sales as $sale) {
-                                        $subamount += $sale->payments->sum('cash');
-                                    }
-                                @endphp
                                 <td style="text-align: center">
-                                    @if($sales->first()->status == 'cancelado')
-                                        <em><code>cancelada</code></em>
-                                    @elseif(!$sales->first()->cash_reference && $sales->first()->method == 'efectivo' || $sales->first()->client_id > 627 && !$sales->first()->reference)
-                                        
+                                    @if($first->cash_reference == '0000')
+
                                         @php
-                                            $pending += $subamount;
+                                            $daily_deposit += $amount;
                                         @endphp
 
                                         <a href="" data-toggle="modal" data-target="#details{{ $invoice }}">
@@ -56,7 +53,7 @@
 
                                             <div class="row">
                                                 <div class="col-md-4 col-md-offset-4">
-                                                    {!! Field::text($sales->first()->client_id > 627 ? 'reference': 'cash_reference', 
+                                                    {!! Field::text($first->client_id > 627 ? 'reference': 'cash_reference', 
                                                         ['tpl' => 'withicon', 'ph' => 'XXXXXXXXX', 'required' => 'true'], 
                                                         ['icon' => 'exchange-alt']) 
                                                     !!}
@@ -75,12 +72,20 @@
 
                                         {!! Form::close() !!}
                                     @else
-                                        {{ $sales->first()->cash_reference ?? $sales->first()->reference  }}
+                                        {{ $first->cash_reference ?? $first->reference  }}
                                     @endif
                                 </td>
-                                <td style="text-align: right; width: 15%;">$ {{ number_format($subamount, 2) }}</td>
+                                <td style="text-align: right; width: 15%;">$ {{ number_format($amount, 2) }}</td>
                             </tr>
                         @endforeach
+                    </template>
+
+                    <template slot="footer">
+                        <tr>
+                            <td colspan="3"></td>
+                            <th style="text-align: center;">TOTAL</th>
+                            <td style="text-align: right;">$ {{ number_format($daily, 2) }}</td>
+                        </tr>
                     </template>
                     
                 </data-table>
@@ -166,7 +171,7 @@
                 <div class="inner">
                     <p>TOTAL POR DEPOSITAR</p>
                     <h3>
-                        <em>$ {{ number_format($total, 2) }}</em>
+                        <em>$ {{ number_format($deposit, 2) }}</em>
                     </h3>
                 </div>
             </div>
@@ -195,7 +200,7 @@
                 <div class="inner">
                     <p>POR DEPOSITAR DEL DÍA</p>
                     <h3>
-                        <em>$ {{ number_format($pending, 2) }}</em>
+                        <em>$ {{ number_format($daily_deposit, 2) }}</em>
                     </h3>
                 </div>
             </div>
