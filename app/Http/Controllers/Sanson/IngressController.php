@@ -44,6 +44,7 @@ class IngressController extends Controller
             'company' => 'required',
             'type' => 'required',
             'bought_at' => 'required',
+            'rounding' => 'required',
             'folio' => 'required'
         ]);
 

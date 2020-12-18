@@ -117,7 +117,7 @@ export default {
     props: ['amount'],
     computed: {
     	total() {
-    		return this.amount
+    		return this.amount.toFixed(2)
     	},
     }
 };

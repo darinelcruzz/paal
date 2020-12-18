@@ -55425,7 +55425,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     props: ['amount'],
     computed: {
         total: function total() {
-            return this.amount;
+            return this.amount.toFixed(2);
         }
     }
 });
@@ -56686,6 +56686,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['color', 'exchange', 'movements', 'promo'],
@@ -56696,6 +56703,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             total: 0,
             iva: 0,
             decimalsToFix: 2,
+            redondeo: 0,
             movement: null,
             product: null
         };
@@ -56835,14 +56843,59 @@ var render = function() {
                   _vm._m(3),
                   _vm._v(" "),
                   _c("td", [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model.number",
+                          value: _vm.redondeo,
+                          expression: "redondeo",
+                          modifiers: { number: true }
+                        }
+                      ],
+                      staticClass: "form-control input-sm",
+                      attrs: { type: "number", step: "0.01" },
+                      domProps: { value: _vm.redondeo },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.redondeo = _vm._n($event.target.value)
+                        },
+                        blur: function($event) {
+                          _vm.$forceUpdate()
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      attrs: { type: "hidden", name: "rounding" },
+                      domProps: {
+                        value: _vm.redondeo.toFixed(_vm.decimalsToFix)
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("tr", [
+                  _vm._m(4),
+                  _vm._v(" "),
+                  _c("td", [
                     _c("span", { staticClass: "pull-right" }, [
-                      _vm._v(_vm._s(_vm._f("currency")(_vm.total + _vm.iva)))
+                      _vm._v(
+                        _vm._s(
+                          _vm._f("currency")(_vm.total + _vm.iva + _vm.redondeo)
+                        )
+                      )
                     ]),
                     _vm._v(" "),
                     _c("input", {
                       attrs: { type: "hidden", name: "amount" },
                       domProps: {
-                        value: (_vm.total + _vm.iva).toFixed(_vm.decimalsToFix)
+                        value: (_vm.total + _vm.iva + _vm.redondeo).toFixed(
+                          _vm.decimalsToFix
+                        )
                       }
                     })
                   ])
@@ -56851,7 +56904,7 @@ var render = function() {
             ])
           ])
         ])
-      : _c("div", { attrs: { align: "center" } }, [_vm._m(4)]),
+      : _c("div", { attrs: { align: "center" } }, [_vm._m(5)]),
     _vm._v(" "),
     _c("hr")
   ])
@@ -56903,6 +56956,14 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("th", { attrs: { colspan: "5" } }, [
       _c("span", { staticClass: "pull-right" }, [_vm._v("IVA:")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", { attrs: { colspan: "5" } }, [
+      _c("span", { staticClass: "pull-right" }, [_vm._v("Redondeo:")])
     ])
   },
   function() {
