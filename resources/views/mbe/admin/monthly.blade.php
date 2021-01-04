@@ -50,7 +50,7 @@
                   <span class="info-box-number">$ {{ number_format($checkout_total, 2) }}</span>
 
                   <div class="progress">
-                    <div class="progress-bar" style="width: {{ number_format(100 - $pending*100/$checkout_total, 2) }}%"></div>
+                    <div class="progress-bar" style="width: {{ number_format(100 - $pending*100/$checkout_div, 2) }}%"></div>
                   </div>
                   <span class="progress-description">Por depositar: <em>$ {{ number_format($pending, 2) }}</em></span>
                 </div>

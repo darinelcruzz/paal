@@ -41,6 +41,7 @@ class AdminController extends Controller
         $shippings = $this->getShippingsTotal($date);
 
         $checkout_total = Ingress::monthly($date, 'mbe')->whereStatus('pagado')->whereNull('invoiced_at')->sum('amount');
+        $checkout_div = $checkout_total > 0 ? $checkout_total: 1;
         $credit_total = Ingress::monthly($date, 'mbe')->whereStatus('crédito')->whereNull('invoiced_at')->sum('amount');
         $invoiced_total = Ingress::monthly($date, 'mbe')->whereNotNull('invoiced_at')->sum('amount');
         $paid_total = Ingress::monthly($date, 'mbe')->whereNotNull('paid_at')->sum('amount');
@@ -58,7 +59,7 @@ class AdminController extends Controller
             })
             ->sum('cash');
 
-        return view('mbe.admin.monthly', compact('date', 'month', 'pending', 'working_days', 'credit_total', 'shippings', 'invoiced_total', 'paid_total', 'checkout_total'));
+        return view('mbe.admin.monthly', compact('date', 'month', 'pending', 'working_days', 'credit_total', 'shippings', 'invoiced_total', 'paid_total', 'checkout_total', 'checkout_div'));
     }
 
     function companies()
