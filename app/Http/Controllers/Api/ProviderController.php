@@ -12,6 +12,6 @@ class ProviderController extends Controller
     {
         return Provider::whereIn('company', [$company, 'both'])
         	->where('group', $group)
-        	->get(['id', 'name', 'xml_required']);
+        	->get(['id', 'name', 'xml_required', 'type']);
     }
 }

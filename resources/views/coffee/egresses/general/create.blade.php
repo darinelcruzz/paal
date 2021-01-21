@@ -1,14 +1,21 @@
 @extends('coffee.root')
 
-@push('pageTitle')
-    Egresos | Agregar
-@endpush
+@push('pageTitle', 'Egresos | Agregar')
 
 @section('content')
     <div class="row">
-        <div class="col-md-10 col-md-offset-1">
+        <div class="col-md-6">
             <solid-box title="Agregar egreso" color="danger" button>
                 {!! Form::open(['method' => 'POST', 'route' => 'coffee.egress.general.store', 'enctype' => 'multipart/form-data']) !!}
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            {!! Field::date('emission', Date::now(), ['tpl' => 'withicon'], ['icon' => 'shopping-cart']) !!}
+                        </div>
+                        <div class="col-md-6">
+                            {!! Field::number('expiration', 0, ['tpl' => 'withicon', 'min' => '0'], ['icon' => 'clock-o']) !!}
+                        </div>
+                    </div>
 
                     <div class="row">
                         <div class="col-md-6">
@@ -17,30 +24,42 @@
                             </v-select>
                             <input type="hidden" name="provider_id" :value="provider.id">
                         </div>
-                        <div class="col-md-3">
-                            {!! Field::date('emission', Date::now(), ['tpl' => 'withicon'], ['icon' => 'shopping-cart']) !!}
-                        </div>
-                        <div class="col-md-3">
-                            {!! Field::number('expiration', 0, ['tpl' => 'withicon', 'min' => '0'], ['icon' => 'clock-o']) !!}
+                        <div class="col-md-6">
+                            {!! Field::text('folio', ['tpl' => 'withicon', 'ph' => 'XXXXX'], ['icon' => 'barcode']) !!}
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="col-md-3">
-                            {!! Field::text('folio', ['tpl' => 'withicon', 'ph' => 'XXXXX'], ['icon' => 'barcode']) !!}
-                        </div>
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             {!! Field::number('amount', 0, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0'], ['icon' => 'money']) !!}
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             {!! Field::number('iva', 0, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0'], ['icon' => 'bank']) !!}
                         </div>
-                        <div class="col-md-3">
+                    </div>
+
+                    <div v-if="provider.type == 'pd'" class="row">
+                        <div class="col-md-4">
+                            {!! Field::number('coffee', 0, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0'], ['icon' => 'mug-hot']) !!}
+                        </div>
+                        <div class="col-md-4">
+                            {!! Field::number('MBE', 0, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0'], ['icon' => 'truck-loading']) !!}
+                        </div>
+                        <div class="col-md-4">
+                            {!! Field::number('sanson', 0, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0'], ['icon' => 'blender']) !!}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
                             <label>Archivos factura</label><br>
                             <file-upload color="danger" bname="PDF" fname="pdf_bill" ext="pdf"></file-upload>
                             <template v-if="provider.xml_required == 1">
                                 <file-upload color="primary" bname="XML" fname="xml" ext="xml"></file-upload>
                             </template>
+                        </div>
+                        <div v-if="provider.name == 'COFFEE DEPOT CHAPULTEPEC'" class="col-md-6">
+                            {!! Field::select('type', ['insumos' => 'INSUMOS', 'equipo' => 'EQUIPO', 'publicidad' => 'PUBLICIDAD'], null, ['tpl' => 'withicon', 'empty' => 'Seleccione tipo'], ['icon' => 'question']) !!}
                         </div>
                     </div>
 
@@ -54,30 +73,18 @@
                                 </span>
                             </div>
                         </div>
-                        <div v-if="provider.name == 'COFFEE DEPOT CHAPULTEPEC'" class="col-md-3">
-                            {!! Field::select('type', ['insumos' => 'INSUMOS', 'equipo' => 'EQUIPO', 'publicidad' => 'PUBLICIDAD'], null, ['tpl' => 'withicon', 'empty' => 'Seleccione tipo'], ['icon' => 'question']) !!}
+                        <div class="col-md-4">
+                            {!! Field::number('complement_amount', 0, ['tpl' => 'withicon', 'step' => '0.01', 'label' => 'Monto', 'min' => '0'], ['icon' => 'money']) !!}
                         </div>
+                        <div class="col-md-4">
+                            {!! Field::date('complement_date', date('Y-m-d'), ['tpl' => 'withicon', 'label' => 'Fecha'], ['icon' => 'calendar']) !!}
+                        </div>                   
                     </div>
 
-                    <br>
-
-                    <div class="row">
-                        <div v-if="complement">
-                            <div class="col-md-4">
-                                {!! Field::number('complement_amount', 0,
-                                    ['tpl' => 'withicon', 'step' => '0.01', 'label' => 'Monto', 'min' => '0'], 
-                                    ['icon' => 'money']) 
-                                !!}
-                            </div>
-                            <div class="col-md-4">
-                                {!! Field::date('complement_date', Date::now(), 
-                                    ['tpl' => 'withicon', 'label' => 'Fecha'], ['icon' => 'calendar']) 
-                                !!}
-                            </div>
-                            <div class="col-md-4">
-                                <label>Documento complemento</label><br>
-                                <file-upload bname="PDF COMPLEMENTO" fname="pdf_complement" ext="pdf" color="warning"></file-upload>
-                            </div>
+                    <div v-if="complement" class="row">
+                        <div class="col-md-4">
+                            {{-- <label>Documento complemento</label><br> --}}
+                            <file-upload bname="PDF" fname="pdf_complement" ext="pdf" color="warning"></file-upload>
                         </div>
                     </div>
 

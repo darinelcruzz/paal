@@ -37,6 +37,9 @@ class EgressRequest extends FormRequest
             'returned_to' => 'sometimes|required',
             'provider_name' => 'sometimes|required',
             'type' => 'sometimes|required',
+            'coffee' => 'sometimes|required',
+            'mbe' => 'sometimes|required',
+            'sanson' => 'sometimes|required',
         ];
     }
 
