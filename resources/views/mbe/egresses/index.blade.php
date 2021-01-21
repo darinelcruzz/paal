@@ -22,7 +22,7 @@
                     <div class="col-md-3">
                         <a href="{{ route('mbe.egress.index', 'pagado') }}">
                             <label class="btn btn-success btn-bg btn-block">
-                                $ {{ number_format($paid->sum('amount')  + $checkssum) }}
+                                {{ number_format($paid->sum('amount')  + $checkssum) }}
                             </label>
                         </a>
                     </div>
@@ -30,7 +30,7 @@
                     <div class="col-md-3">
                         <a href="{{ route('mbe.egress.index', 'pendiente') }}">
                             <label class="btn btn-warning btn-bg btn-block">
-                                $ {{ number_format($alltime->where('status', 'pendiente')->sum('amount') + $alltime->where('status', 'pendiente')->sum('iva'), 2) }}
+                                {{ number_format($alltime->where('status', 'pendiente')->sum('amount') + $alltime->where('status', 'pendiente')->sum('iva'), 2) }}
                             </label>
                         </a>
                     </div>
@@ -38,7 +38,7 @@
                     <div class="col-md-3">
                         <a href="{{ route('mbe.egress.index', 'vencido') }}">
                             <label class="btn btn-danger btn-bg btn-block">
-                                $ {{ number_format($alltime->where('status', 'vencido')->sum('amount') + $alltime->where('status', 'vencido')->sum('iva'), 2) }}
+                                {{ number_format($alltime->where('status', 'vencido')->sum('amount') + $alltime->where('status', 'vencido')->sum('iva'), 2) }}
                             </label>
                         </a>
                     </div>
@@ -67,8 +67,8 @@
                                     </td>
                                     <td>CAJA CHICA</td>
                                     <td>{{ fdate($check->charged_at, 'd M Y', 'Y-m-d') }}</td>
-                                    <td>$ {{ number_format($check->iva, 2) }}</td>
-                                    <td>$  {{ number_format($check->total, 2) }}</td>
+                                    <td>{{ number_format($check->iva, 2) }}</td>
+                                    <td>{{ number_format($check->total, 2) }}</td>
                                 </tr>
                             @endforeach
 
@@ -93,8 +93,14 @@
                                         <br>{{ $egress->provider->rfc }}
                                     </td>
                                     <td>{{ fdate($egress->emission, 'd M Y', 'Y-m-d') }}</td>
-                                    <td>$ {{ number_format($egress->iva, 2) }}</td>
-                                    <td>$ {{ number_format($egress->amount, 2) }}</td>
+                                    <td>{{ number_format($egress->iva, 2) }}</td>
+                                    <td>
+                                        @if($egress->provider->type == 'pd')
+                                            {{ number_format($egress->mbe, 2) }}
+                                        @else
+                                            {{ number_format($egress->amount, 2) }}
+                                        @endif
+                                    </td>
                                 </tr>
                             @endforeach
                         </template>
@@ -127,8 +133,14 @@
                                             {{ $egress->provider_name != null ? "($egress->provider_name" . ($egress->receiver != null ? ", $egress->return_name)": ')') : "" }}
                                             <br>{{ $egress->provider->rfc }}
                                         </td>
-                                        <td>$ {{ number_format($egress->iva, 2) }}</td>
-                                        <td>$  {{ number_format($egress->amount, 2) }}</td>
+                                        <td>{{ number_format($egress->iva, 2) }}</td>
+                                        <td>
+                                            @if($egress->provider->type == 'pd')
+                                                {{ number_format($egress->mbe, 2) }}
+                                            @else
+                                                {{ number_format($egress->amount, 2) }}
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endif
                             @endforeach
@@ -160,8 +172,8 @@
                                         <td>{{ $egress->provider->name ?? '' }}
                                             {{ $egress->returned_to != null ? " | REPOSICIÓN": '' }}
                                             {{ $egress->provider_name != null ? " ($egress->provider_name)": '' }}</td>
-                                        <td>$ {{ number_format($egress->iva, 2) }}</td>
-                                        <td>$  {{ number_format($egress->amount, 2) }}</td>
+                                        <td>{{ number_format($egress->iva, 2) }}</td>
+                                        <td> {{ number_format($egress->amount, 2) }}</td>
                                     </tr>
                                 @endif
                             @endforeach

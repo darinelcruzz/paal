@@ -95,9 +95,8 @@
                                             <span class="label label-{{ $egress->type == 'insumos' ? 'success': ($egress->type == 'publicidad' ? 'primary' :'danger') }}">
                                                 {{ strtoupper($egress->type) }}
                                             </span>
-                                        @elseif($egress->provider->type == 'pd')
-                                            <span class="label label-danger">{{ number_format($egress->coffee, 2) }}</span>
-                                            <span class="label label-success">{{ number_format($egress->mbe, 2) }}</span>
+                                        @elseif($egress->coffee > 0)
+                                            <span class="label label-default">PARCIAL</span>
                                         @endif
                                     </td>
                                     <td>
@@ -106,7 +105,13 @@
                                     </td>
                                     <td>{{ fdate($egress->emission, 'd M Y', 'Y-m-d') }}</td>
                                     <td>{{ number_format($egress->iva, 2) }}</td>
-                                    <td>{{ number_format($egress->amount, 2) }}</td>
+                                    <td>
+                                        @if($egress->provider->type == 'pd')
+                                            {{ number_format($egress->coffee, 2) }}
+                                        @else
+                                            {{ number_format($egress->amount, 2) }}
+                                        @endif
+                                    </td>
                                 </tr>
                             @endforeach
                         </template>
@@ -143,9 +148,8 @@
                                                 <span class="label label-{{ $egress->type == 'insumos' ? 'success': ($egress->type == 'publicidad' ? 'primary' :'danger') }}">
                                                     {{ strtoupper($egress->type) }}
                                                 </span>
-                                            @elseif($egress->provider->type == 'pd')
-                                                <span class="label label-danger">{{ number_format($egress->coffee, 2) }}</span>
-                                                <span class="label label-success">{{ number_format($egress->mbe, 2) }}</span>
+                                            @elseif($egress->coffee > 0)
+                                                <span class="label label-default">PARCIAL</span>
                                             @endif
                                         </td>
                                         <td>
@@ -154,8 +158,20 @@
                                             <br><code>{{ $egress->provider->rfc }}</code>
                                         </td>
                                         <td>{{ number_format($egress->iva, 2) }}</td>
-                                        <td> {{ number_format($egress->amount, 2) }}</td>
-                                        <td> {{ number_format($egress->debt, 2) }}</td>
+                                        <td>
+                                            @if($egress->provider->type == 'pd')
+                                                {{ number_format($egress->coffee, 2) }}
+                                            @else
+                                                {{ number_format($egress->amount, 2) }}
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if($egress->provider->type == 'pd')
+                                                {{ number_format($egress->coffee, 2) }}
+                                            @else
+                                                {{ number_format($egress->amount, 2) }}
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endif
                             @endforeach

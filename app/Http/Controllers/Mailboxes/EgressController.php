@@ -16,13 +16,13 @@ class EgressController extends Controller
 
         $paid = Egress::from($date, 'payment_date', 'mbe')
             ->where('status', 'pagado')
-            ->where('check_id', null)
+            ->where('check_id', null)->orWhere('mbe', '>', 0)
             ->orderByDesc('payment_date')
             ->get();
 
-        $pending = Egress::company('mbe')->where('status', 'pendiente')->get();
+        $pending = Egress::company('mbe')->orWhere('mbe', '>', 0)->where('status', 'pendiente')->get();
         
-        $expired = Egress::company('mbe')->where('status', 'vencido')->get();
+        $expired = Egress::company('mbe')->orWhere('mbe', '>', 0)->where('status', 'vencido')->get();
 
         $checks = Check::from($date, 'charged_at', 'mbe')->get();
 
@@ -30,7 +30,7 @@ class EgressController extends Controller
             return $product->total;
         });
 
-        $alltime = Egress::where('company', 'mbe')->get();
+        $alltime = Egress::where('company', 'mbe')->orWhere('mbe', '>', 0)->get();
 
         return view('mbe.egresses.index', compact('paid', 'pending', 'expired', 'date', 'alltime', 'checks', 'checkssum', 'status'));
     }
