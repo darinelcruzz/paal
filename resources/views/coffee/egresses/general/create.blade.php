@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-7">
             <solid-box title="Agregar egreso" color="danger" button>
                 {!! Form::open(['method' => 'POST', 'route' => 'coffee.egress.general.store', 'enctype' => 'multipart/form-data']) !!}
 
@@ -73,12 +73,12 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            {!! Field::number('complement_amount', 0, ['tpl' => 'withicon', 'step' => '0.01', 'label' => 'Monto', 'min' => '0'], ['icon' => 'money']) !!}
-                        </div>
-                        <div class="col-md-4">
+                        <div v-if="complement" class="col-md-4">
                             {!! Field::date('complement_date', date('Y-m-d'), ['tpl' => 'withicon', 'label' => 'Fecha'], ['icon' => 'calendar']) !!}
                         </div>                   
+                        <div v-if="complement" class="col-md-4">
+                            {!! Field::number('complement_amount', 0, ['tpl' => 'withicon', 'step' => '0.01', 'label' => 'Monto', 'min' => '0'], ['icon' => 'money']) !!}
+                        </div>
                     </div>
 
                     <div v-if="complement" class="row">
