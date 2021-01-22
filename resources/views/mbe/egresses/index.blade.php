@@ -22,7 +22,7 @@
                     <div class="col-md-3">
                         <a href="{{ route('mbe.egress.index', 'pagado') }}">
                             <label class="btn btn-success btn-bg btn-block">
-                                {{ number_format($paid->sum('amount')  + $checkssum) }}
+                                {{ number_format($paid->sum(function ($ingress) { return $ingress->mbe ?? $ingress->amount;})  + $checkssum) }}
                             </label>
                         </a>
                     </div>
@@ -30,7 +30,7 @@
                     <div class="col-md-3">
                         <a href="{{ route('mbe.egress.index', 'pendiente') }}">
                             <label class="btn btn-warning btn-bg btn-block">
-                                {{ number_format($alltime->where('status', 'pendiente')->sum('amount') + $alltime->where('status', 'pendiente')->sum('iva'), 2) }}
+                                {{ number_format($alltime->where('status', 'pendiente')->sum(function ($ingress) { return $ingress->mbe ?? $ingress->amount;}) + $alltime->where('status', 'pendiente')->sum('iva'), 2) }}
                             </label>
                         </a>
                     </div>
@@ -38,7 +38,7 @@
                     <div class="col-md-3">
                         <a href="{{ route('mbe.egress.index', 'vencido') }}">
                             <label class="btn btn-danger btn-bg btn-block">
-                                {{ number_format($alltime->where('status', 'vencido')->sum('amount') + $alltime->where('status', 'vencido')->sum('iva'), 2) }}
+                                {{ number_format($alltime->where('status', 'vencido')->sum(function ($ingress) { return $ingress->mbe ?? $ingress->amount;}) + $alltime->where('status', 'vencido')->sum('iva'), 2) }}
                             </label>
                         </a>
                     </div>

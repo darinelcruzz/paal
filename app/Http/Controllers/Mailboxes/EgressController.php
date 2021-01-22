@@ -15,8 +15,9 @@ class EgressController extends Controller
         $date = isset($request->date) ? $request->date: date('Y-m');
 
         $paid = Egress::from($date, 'payment_date', 'mbe')
+            ->orWhere('mbe', '>', 0)
+            ->where('check_id', null)
             ->where('status', 'pagado')
-            ->where('check_id', null)->orWhere('mbe', '>', 0)
             ->orderByDesc('payment_date')
             ->get();
 
