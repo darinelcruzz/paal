@@ -29,9 +29,14 @@ class EgressController extends Controller
             return $product->total;
         });
 
-        $alltime = Egress::where('company', 'coffee')->get();
+        $expired = Egress::where('company', 'coffee')
+            ->where('status', 'vencido')
+            ->get()
+            ->sum(function ($egress) { 
+                return $egress->coffee != 0 ? $egress->coffee : $egress->amount;
+            });
 
-        return view('coffee.egresses.index', compact('paid', 'pending', 'expired', 'date', 'alltime', 'checks', 'checkssum', 'status'));
+        return view('coffee.egresses.index', compact('paid', 'pending', 'expired', 'date', 'expired', 'checks', 'checkssum', 'status'));
     }
 
     function pay(Egress $egress)
@@ -39,18 +44,9 @@ class EgressController extends Controller
         return view('coffee.egresses.pay', compact('egress'));
     }
 
-
     function charge(Request $request, Egress $egress)
     {
-        // $attributes = $this->validate($request, [
-        //     'payment_date' => 'sometimes|required',
-        //     'method' => 'sometimes|required',
-        //     'mfolio' => 'sometimes|required',
-        //     'second_payment_date' => 'sometimes|required',
-        //     'second_method' => 'sometimes|required',
-        //     'nfolio' => 'sometimes|required',
-        // ]);
-
+        // dd($request->all());
         $attributes = $this->validate($request, [
             'paid_at' => 'required',
             'method' => 'required',

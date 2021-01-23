@@ -22,7 +22,7 @@
                     <div class="col-md-3">
                         <a href="{{ route('coffee.egress.index', ['pagado', $date]) }}">
                             <label class="btn btn-success btn-bg btn-block">
-                                {{ number_format($paid->sum(function ($ingress) { return $ingress->coffee ?? $ingress->amount;})  + $checkssum) }}
+                                {{ number_format($paid->sum(function ($egress) { return $egress->coffee != 0 ? $egress->coffee: $egress->amount;})  + $checkssum) }}
                             </label>
                         </a>
                     </div>
@@ -30,7 +30,7 @@
                     <div class="col-md-3">
                         <a href="{{ route('coffee.egress.index', ['pendiente', $date]) }}">
                             <label class="btn btn-warning btn-bg btn-block">
-                                {{ number_format($pending->sum(function ($ingress) { return $ingress->coffee ?? $ingress->amount;}), 2) }}
+                                {{ number_format($pending->sum(function ($egress) { return $egress->coffee != 0 ? $egress->coffee: $egress->amount;}), 2) }}
                             </label>
                         </a>
                     </div>
@@ -38,7 +38,7 @@
                     <div class="col-md-3">
                         <a href="{{ route('coffee.egress.index', ['vencido', $date]) }}">
                             <label class="btn btn-danger btn-bg btn-block">
-                                {{ number_format($alltime->where('status', 'vencido')->sum(function ($ingress) { return $ingress->coffee ?? $ingress->amount;}), 2) }}
+                                {{ number_format($expired, 2) }}
                             </label>
                         </a>
                     </div>
@@ -169,7 +169,7 @@
                                             @if($egress->provider->type == 'pd')
                                                 {{ number_format($egress->coffee, 2) }}
                                             @else
-                                                {{ number_format($egress->amount, 2) }}
+                                                {{ number_format($egress->debt, 2) }}
                                             @endif
                                         </td>
                                     </tr>
