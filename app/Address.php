@@ -18,6 +18,6 @@ class Address extends Model
 
     function getFullAddressAttribute()
     {
-    	return "$this->street #$this->street_number, $this->city";
+    	return "$this->street #$this->street_number, $this->district, $this->city";
     }
 }
