@@ -72,11 +72,11 @@
                                     @if($shipping->address) <br> <b>{{ $shipping->address->business_name }}</b> @endif
                                 </td>
                                 <td>
-                                    {{ $shipping->address->full_address or 'No se proporcionó' }}
+                                    {{ $shipping->address->full_address ?? 'No se proporcionó' }}
                                     @if($shipping->address) <br> <code>REF: {{ $shipping->address->reference }}</code> @endif
                                 </td>
                                 <td>
-                                    {{ fdate($shipping->shipped_at, 'd/m/Y', 'Y-m-d') }} <br>
+                                    {{ fdate($shipping->shipped_at, 'd/m/Y', 'Y-m-d') }}
                                 </td>
                                 <td>
                                     {{ fdate($shipping->delivered_at, 'd/m/Y', 'Y-m-d') }}

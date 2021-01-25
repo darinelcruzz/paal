@@ -35,11 +35,12 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th>Venta</th>
                                 <th><i class="fa fa-cogs"></i></th>
-                                <th>Cliente (Venta)</th>
+                                <th>Cliente</th>
                                 <th>Dirección</th>
-                                <th>Enviado</th>
-                                <th>Entregado</th>
+                                <th>Envío</th>
+                                <th>Entrega</th>
                                 <th>Paquetería</th>
                                 <th>Estado</th>
                                 <th>Observaciones</th>
@@ -50,6 +51,7 @@
                         @foreach($shippings as $shipping)
                             <tr>
                                 <td>{{ $shipping->id }}</td>
+                                <td>{{ $shipping->ingress->folio }}</td>
                                 <td>
                                     <dropdown color="info" icon="cogs">
                                         @if (!$shipping->guide_number)
@@ -66,10 +68,11 @@
                                 </td>
                                 <td>
                                     {{ $shipping->ingress->client->name }}
-                                    ({{ $shipping->ingress->folio }})
+                                    @if($shipping->address) <br> <b>{{ $shipping->address->business_name }}</b> @endif
                                 </td>
                                 <td>
-                                    {{ $shipping->address or $shipping->ingress->client->address }}
+                                    {{ $shipping->address->full_address ?? 'No se proporcionó' }}
+                                    @if($shipping->address) <br> <code>REF: {{ $shipping->address->reference }}</code> @endif
                                 </td>
                                 <td>
                                     {{ fdate($shipping->shipped_at, 'd/m/y', 'Y-m-d') }}
