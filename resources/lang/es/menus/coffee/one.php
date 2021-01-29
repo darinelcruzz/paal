@@ -24,7 +24,7 @@ return [
     'ingresses' => [
         'title' => 'Ventas',
         'icon' => 'fa fa-mug-hot',
-        'label' => soldProducts('coffee') > 0 ? soldProducts('coffee'): '',
+        // 'label' => soldProducts('coffee') > 0 ? soldProducts('coffee'): '',
         'submenu' => [
             'create' => [
                 'title' => 'Agregar',
@@ -56,7 +56,7 @@ return [
     'shippings' => [
         'title' => 'Envíos',
         'icon' => 'fa fa-shipping-fast',
-        'label' => pendingShippings(),
+        // 'label' => pendingShippings(),
         'submenu' => [
             'create' => [
                 'title' => 'Rastreo',
@@ -87,7 +87,7 @@ return [
     'egresses' => [
         'title' => 'Egresos',
         'icon' => 'fa fa-share',
-        'label' => expiringSoonEgresses() > 0 ? expiringSoonEgresses(): '',
+        // 'label' => expiringSoonEgresses() > 0 ? expiringSoonEgresses(): '',
         'submenu' => [
             'index' => [
                 'title' => 'Historial',
