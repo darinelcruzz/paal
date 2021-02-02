@@ -1,8 +1,6 @@
 @extends('coffee.root')
 
-@push('pageTitle')
-    Ventas | Historial
-@endpush
+@push('pageTitle', 'Ventas | Historial')
 
 @push('headerTitle')
     
@@ -33,12 +31,22 @@
 
                 <data-table example="1">
 
-                    {{ drawHeader('folio', '<i class="fa fa-cogs"></i>','fecha venta', 'cliente', 'tipo', 'IVA', 'total', 'anticipo', 'método', 'estado') }}
+                    {{ drawHeader('folio', '<i class="fa fa-cogs"></i>','fecha', 'cliente', 'tipo', 'IVA', 'total', 'método', 'estado') }}
 
                     <template slot="body">
                         @foreach($ingresses as $ingress)
                             <tr>
-                                <td>{{ $ingress->folio }}</td>
+                                <td style="text-align: center;">
+                                    {{ $ingress->folio }}
+                                    @if($ingress->quotation_id != null)
+                                        <br>
+                                        <a href="{{ route('coffee.quotation.show', $ingress->quotation_id) }}">
+                                            <code>
+                                                <small>COT {{ $ingress->quotation_id }}</small>
+                                            </code>
+                                        </a>
+                                    @endif
+                                </td>
                                 <td>
                                     <dropdown icon="cogs" color="{{ $ingress->areSerialNumbersMissing ? 'warning': 'danger' }}">
                                         <ddi v-if="{{ $ingress->status == 'pagado' || $ingress->status == 'cancelado' ? 0: 1 }}" to="{{ route('coffee.payment.create', $ingress) }}" icon="money" text="Pagar"></ddi>
@@ -61,16 +69,20 @@
 
                                     </dropdown>
                                 </td>
-                                <td>{{ fdate($ingress->bought_at, 'd M Y', 'Y-m-d') }}</td>
-                                <td style="width: 30%">{{ $ingress->client->name }}</td>
-                                <td>
+                                <td>{{ fdate($ingress->bought_at, 'd/M/y', 'Y-m-d') }}</td>
+                                <td style="width: 30%">
+                                    {{ $ingress->client_name ?? $ingress->client->name }}
+                                    @if($ingress->quotation)
+                                    <span class="{{ $ingress->quotation->internet_type == '' ? '': 'badge bg-aqua' }} pull-right"><em>{{ $ingress->quotation->internet_type }}</em></span>
+                                    @endif
+                                </td>
+                                <td style="text-align: center;">
                                     <label class="label label-{{$ingress->typeLabel }}">{{ strtoupper($ingress->type) }}</label>
                                 </td>
-                                <td>{{ number_format($ingress->iva, 2) }}</td>
-                                <td>{{ number_format($ingress->amount, 2) }}</td>
-                                <td>{{ $ingress->retainer > 0 ? number_format($ingress->retainer, 2): '' }}</td>
-                                <td>{{ ucfirst($ingress->method) }}</td>
-                                <td>
+                                <td style="text-align: right;">{{ number_format($ingress->iva, 2) }}</td>
+                                <td style="text-align: right;">{{ number_format($ingress->amount, 2) }}</td>
+                                <td style="text-align: center;"><small>{{ strtoupper($ingress->method) }}</small></td>
+                                <td style="text-align: center;">
                                     @if ($ingress->status == 'cancelado')
                                         <a type="button" class="label label-danger" data-toggle="modal" data-target="#modal-cancelation-{{$ingress->id}}">
                                             {{ ucfirst($ingress->status) }}
@@ -91,7 +103,7 @@
                                         </div>
                                     @else
                                         <span class="label label-{{ $ingress->statusColor }}">
-                                            {{ ucfirst($ingress->status) }}
+                                            {{ strtoupper($ingress->status) }}
                                         </span>
                                     @endif
                                 </td>

@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-md-3">
 
-            {!! Form::open(['method' => 'post', 'route' => 'coffee.quotation.internet']) !!}
+            {!! Form::open(['method' => 'post', 'route' => ['coffee.quotation.internet', 'formularios']]) !!}
                 
                 <div class="row">
                     <div class="col-md-3">                        
@@ -25,7 +25,7 @@
         </div>
 
         <div class="col-md-3">
-            <label class="btn btn-danger btn-bg btn-block">
+            <label class="btn btn-{{ $type == 'formularios' ? 'primary': 'info' }} btn-bg btn-block">
                TOTAL: {{ $total }}
             </label>
         </div>
@@ -49,18 +49,18 @@
 
         <div class="col-md-12">
 
-            <solid-box title="INTERNAS ({{ $quotations->where('client_id', 658)->count() }})" color="primary" button>
+            <solid-box title="{{ ucfirst($type) }}" color="{{ $type == 'formularios' ? 'primary': 'info' }}" button>
 
                 <data-table example="1">
 
                     {{ drawHeader('ID', '<i class="fa fa-cogs"></i>','fecha', 'cliente', 'tipo', 'IVA', 'total', 'ventas', 'ediciones') }}
 
                     <template slot="body">
-                        @foreach($quotations->where('client_id', 658) as $quotation)
+                        @foreach($quotations as $quotation)
                             <tr>
                                 <td>{{ $quotation->id }}</td>
                                 <td>
-                                    <dropdown icon="cogs" color="primary">
+                                    <dropdown icon="cogs" color="{{ $type == 'formularios' ? 'primary': 'info' }}">
                                         <ddi to="{{ route('coffee.quotation.show', $quotation) }}" icon="eye" text="Detalles"></ddi>
                                         <ddi to="{{ route('coffee.quotation.download', $quotation) }}" icon="file-pdf" text="Imprimir" target="_blank"></ddi>
                                         @if (!$quotation->is_canceled)
@@ -104,7 +104,7 @@
 
             </solid-box>
 
-            <solid-box title="EXTERNAS ({{ $quotations->where('client_id', 659)->count() }})" color="info" button collapsed>
+            {{-- <solid-box title="EXTERNAS ({{ $quotations->where('client_id', 659)->count() }})" color="info" button collapsed>
 
                 <data-table example="1">
 
@@ -158,9 +158,7 @@
                 </data-table>
 
             </solid-box>
-        </div>
+        </div> --}}
     </div>
-
-    @include('sweet::alert')
 
 @endsection

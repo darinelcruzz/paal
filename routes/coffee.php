@@ -87,8 +87,8 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	    $ctrl = 'Coffee\QuotationController';
 	    Route::get('/', usesas($ctrl, 'index'));
 	    Route::post('/', usesas($ctrl, 'index'));
-	    Route::get('internet', usesas($ctrl, 'internet'));
-	    Route::post('internet', usesas($ctrl, 'internet'));
+	    Route::get('internet/{type}', usesas($ctrl, 'internet'));
+	    Route::post('internet/{type}', usesas($ctrl, 'internet'));
 	    Route::get('agregar', usesas($ctrl, 'create'));
 	    Route::post('agregar', usesas($ctrl, 'store'));
 	    Route::get('editar/{quotation}', usesas($ctrl, 'edit'));

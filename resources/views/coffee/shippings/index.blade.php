@@ -81,8 +81,12 @@
                                 <td>
                                     {{ fdate($shipping->delivered_at, 'd/m/Y', 'Y-m-d') }}
                                 </td>
-                                <td>
-                                    <small>{{ strtoupper($shipping->company) }}</small>
+                                <td style="text-align: center;">
+                                    @if($shipping->company == 'estafeta')
+                                        <a href="#"><small>{{ strtoupper($shipping->company) }}</small></a>
+                                    @else
+                                        <small>{{ strtoupper($shipping->company) }}</small>
+                                    @endif
                                     <code>{{ $shipping->guide_number }}</code>
                                 </td>
                                 <td>

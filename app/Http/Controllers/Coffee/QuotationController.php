@@ -22,17 +22,17 @@ class QuotationController extends Controller
         return view('coffee.quotations.index', compact('quotations', 'sales', 'total', 'date'));
     }
 
-    function internet(Request $request)
+    function internet(Request $request, $type = 'formularios')
     {
         $date = isset($request->date) ? $request->date: date('Y-m');
 
-        $quotations = Quotation::internet('coffee', $date)->get();
+        $quotations = Quotation::internet('coffee', $date, $type)->get();
 
-        $sales = Quotation::internet('coffee', $date)->has('sales')->count();
+        $sales = Quotation::internet('coffee', $date, $type)->has('sales')->count();
 
         $total = count($quotations);
 
-        return view('coffee.quotations.internet', compact('quotations', 'sales', 'total', 'date'));
+        return view('coffee.quotations.internet', compact('quotations', 'sales', 'total', 'date', 'type'));
     }
 
     function create()

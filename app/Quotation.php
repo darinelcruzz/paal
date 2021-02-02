@@ -79,6 +79,11 @@ class Quotation extends Model
         return ['insumos' => 'danger', 'equipo' => 'warning', 'proyecto' => 'primary'][$this->type];
     }
 
+    function getInternetTypeAttribute()
+    {
+        return [658 => 'formulario', 659 => 'campaña'][$this->client_id] ?? '';
+    }
+
     function scopeNormal($query, $company, $date)
     {
         return $query->where('company', $company)
@@ -88,10 +93,11 @@ class Quotation extends Model
             ->with('client');
     }
 
-    function scopeInternet($query, $company, $date)
+    function scopeInternet($query, $company, $date, $type)
     {
         return $query->where('company', $company)
             ->whereNotNull('client_name')
+            ->where('client_id', $type == 'formularios' ? 658: 659)
             ->whereMonth('created_at', substr($date, 5, 7))
             ->whereYear('created_at', substr($date, 0, 4))
             ->with('client');

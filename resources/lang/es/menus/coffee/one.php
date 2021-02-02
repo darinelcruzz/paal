@@ -14,9 +14,13 @@ return [
                 'title' => 'Historial',
                 'route' => 'coffee.quotation.index'
             ],
-            'internet' => [
-                'title' => 'Internet',
-                'route' => 'coffee.quotation.internet'
+            'campaigns' => [
+                'title' => 'Campañas',
+                'route' => ['coffee.quotation.internet', 'campañas']
+            ],
+            'forms' => [
+                'title' => 'Formularios',
+                'route' => ['coffee.quotation.internet', 'formularios']
             ]
         ]
     ],
