@@ -56,10 +56,12 @@ class AdminController extends Controller
 
         $pending = Payment::monthly($date)->whereNull('cash_reference')->sum('cash');
 
+        $credit = Ingress::monthly($date)->where('status', 'crédito')->get();
+
         $type1 = Ingress::monthly($date)->where('status', 'pagado')->where('type', 'insumos')->get();
         $type2 = Ingress::monthly($date)->where('status', 'pagado')->where('type', 'equipo')->get();
 
-        return view('coffee.admin.monthly', compact('date', 'month', 'pending', 'working_days', 'shippings', 'type1', 'type2'));
+        return view('coffee.admin.monthly', compact('date', 'month', 'pending', 'working_days', 'shippings', 'type1', 'type2', 'credit'));
     }
 
     function invoices(Request $request, $thisDate = null)

@@ -9,6 +9,10 @@ return [
                 'title' => 'Agregar',
                 'route' => 'mbe.ingress.create'
             ],
+            'logistics' => [
+                'title' => 'Agregar logística',
+                'route' => ['mbe.ingress.create', 'logística']
+            ],
             'shift' => [
                 'title' => 'Desfasadas',
                 'route' => 'mbe.ingress.shift'

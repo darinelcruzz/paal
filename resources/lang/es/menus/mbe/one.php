@@ -10,6 +10,10 @@ return [
                 'title' => 'Agregar',
                 'route' => 'mbe.ingress.create'
             ],
+            // 'logistics' => [
+            //     'title' => 'Agregar logística',
+            //     'route' => ['mbe.ingress.create', 'logística']
+            // ],
             'daily' => [
                 'title' => 'Corte diario',
                 'route' => ['mbe.ingress.daily', 'factura']

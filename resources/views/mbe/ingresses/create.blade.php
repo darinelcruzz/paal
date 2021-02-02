@@ -22,20 +22,13 @@
                         finish-button-text="Completado">
 
                         <tab-content title="Detalles" icon="fa fa-keyboard">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    {!! Field::select('client_id', $clients, null,
-                            ['tpl' => 'withicon', 'label' => 'Cliente', 'empty' => 'Seleccione un cliente', 'v-model' => 'mbe.client'],
-                            ['icon' => 'user'])
-                        !!}
-                                </div>
-                                <div class="col-md-6">
-                                    {!! Field::select('method', ['MBE', 'Logística'], null,
-                                        ['label' => 'Empresa', 'tpl' => 'withicon', 'empty' => 'Elegir empresa'],
-                                        ['icon' => 'building'])
-                                    !!}
-                                </div>
-                            </div>
+                            {!! Field::select('client_id', $clients, null,
+                                ['tpl' => 'withicon', 'label' => 'Cliente', 'empty' => 'Seleccione un cliente', 'v-model' => 'mbe.client'],
+                                ['icon' => 'user'])
+                            !!}
+
+                            <input type="hidden" name="type" value="{{ $type }}">
+                            
                             <div class="row">
                                 <div v-if="mbe.client > '627'" class="col-md-6">
                                     {!! Field::text('folio', ['label' => 'OT', 'tpl' => 'withicon'], ['icon' => 'list']) !!}

@@ -36,9 +36,10 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Venta</th>
                             <th><i class="fa fa-cogs"></i></th>
+                            <th>Venta</th>
                             <th>Cliente</th>
+                            <th>Contacto</th>
                             <th>Dirección</th>
                             <th>Envío</th>
                             <th>Entrega</th>
@@ -52,7 +53,6 @@
                         @foreach($shippings as $shipping)
                             <tr>
                                 <td>{{ $shipping->id }}</td>
-                                <td>{{ $shipping->ingress->folio }}</td>
                                 <td>
                                     <dropdown color="danger" icon="cogs">
                                         @if (!$shipping->guide_number)
@@ -67,9 +67,16 @@
                                         </li>
                                     </dropdown>
                                 </td>
+                                <td>{{ $shipping->ingress->folio }}</td>
                                 <td style="width: 20%">
                                     {{ $shipping->ingress->client->name }}
                                     @if($shipping->address) <br> <b>{{ $shipping->address->business_name }}</b> @endif
+                                </td>
+                                <td>
+                                    @if($shipping->address)
+                                        {{ $shipping->address->contact }} <br>
+                                        {{ $shipping->address->phone }}
+                                    @endif
                                 </td>
                                 <td>
                                     {{ $shipping->address->full_address ?? 'No se proporcionó' }}
@@ -83,9 +90,9 @@
                                 </td>
                                 <td style="text-align: center;">
                                     @if($shipping->company == 'estafeta')
-                                        <a href="#"><small>{{ strtoupper($shipping->company) }}</small></a>
+                                        <a href="#"><small>{{ strtoupper($shipping->company) }}</small></a><br>
                                     @else
-                                        <small>{{ strtoupper($shipping->company) }}</small>
+                                        <small>{{ strtoupper($shipping->company) }}</small><br>
                                     @endif
                                     <code>{{ $shipping->guide_number }}</code>
                                 </td>

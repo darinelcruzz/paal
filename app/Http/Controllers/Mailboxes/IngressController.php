@@ -17,11 +17,11 @@ class IngressController extends Controller
         return view('mbe.ingresses.index', compact('ingresses', 'date'));
     }
 
-    function create()
+    function create($type = null)
     {
         $clients = Client::where('company', 'mbe')->pluck('name', 'id')->toArray();
         $methods = ['efectivo' => 'Efectivo', 'transferencia' => 'Transferencia', 'cheque' => 'Cheque', 'tarjeta débito' => 'Tarjeta de débito', 'tarjeta crédito' => 'Tarjeta de crédito'];
-        return view('mbe.ingresses.create', compact('clients', 'methods'));
+        return view('mbe.ingresses.create', compact('clients', 'methods', 'type'));
     }
 
     function shift()
@@ -48,6 +48,7 @@ class IngressController extends Controller
             'invoice' => 'sometimes|required',
             'status' => 'required',
             'company' => 'required',
+            'type' => 'required',
         ],[
             'amount.gt' => 'No puede ser menor que IVA',
         ]);

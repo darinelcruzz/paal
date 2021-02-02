@@ -61,8 +61,8 @@ Route::group(['prefix' => 'mbe', 'as' => 'mbe.'], function () {
 	    Route::get('/', usesas($ctrl, 'index'));
 	    Route::post('/', usesas($ctrl, 'index'));
 	    Route::get('agregar-desfasada', usesas($ctrl, 'shift'));
-	    Route::get('agregar', usesas($ctrl, 'create'));
-	    Route::post('agregar', usesas($ctrl, 'store'));
+	    Route::get('agregar/{type?}', usesas($ctrl, 'create'));
+	    Route::post('agregar/{type?}', usesas($ctrl, 'store'));
 	    Route::get('ticket/{ingress}', usesas($ctrl, 'ticket'));
 	    Route::get('cancelar/{ingress}/{reasons}', usesas($ctrl, 'destroy'));
 	    Route::get('{ingress}', usesas($ctrl, 'show'));

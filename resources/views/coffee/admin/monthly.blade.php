@@ -167,6 +167,16 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-4">
+                    <div class="small-box bg-teal">
+                        <div class="inner">
+                            <big>Anticipo</big>
+                            <h3>
+                                <small style="color: white">$ {{ number_format($credit->sum('amount'), 2) }}</small>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="row">
@@ -175,7 +185,7 @@
                         <div class="inner">
                             <big>Depositado BBVA</big>
                             <h3>
-                                <small style="color: white">$ {{ number_format($month->sum('cash') + $month->sum('credit_card') + $month->sum('debit_card') + $month->sum('transfer') + $month->sum('check') - $pending, 2) }}</small>
+                                <small style="color: white">$ {{ number_format($month->sum('cash') - $pending, 2) }}</small>
                             </h3>
                         </div>
                     </div>
