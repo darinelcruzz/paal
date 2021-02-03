@@ -34,6 +34,11 @@ class Ingress extends Model
         return $this->morphMany(Movement::class, 'movable');
     }
 
+    function serial_numbers()
+    {
+        return $this->hasMany(SerialNumber::class);
+    }
+
     function getDebtAttribute()
     {
         $payments_total = 0;
@@ -165,11 +170,7 @@ class Ingress extends Model
 
     function getAreSerialNumbersMissingAttribute()
     {
-        if ($this->bought_at < '2020-10-01') {
-            return false;
-        }
-
-        return $this->movements()->with('product')->whereHas('product.serial_numbers', function($q) {$q->where('ingress_id', 0);})->count() > 0;
+        return $this->serial_numbers()->where('number', null)->count() > 0;
     }
 
     function scopeFrom($query, $date)

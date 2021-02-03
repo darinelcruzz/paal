@@ -57,10 +57,14 @@ class SerialNumberController extends Controller
 
     function update(Request $request, Ingress $ingress)
     {
-        // dd(SerialNumber::find($request->numbers), $ingress->id);
+        $i = 0;
 
-        foreach (SerialNumber::find($request->numbers) as $number) {
-            $number->update(['ingress_id' => $ingress->id]);
+        foreach (SerialNumber::find($request->items) as $number) {
+            $number->update([
+                'number' => $request->numbers[$i],
+                'status' => 'vendido'
+            ]);
+            $i += 1;
         }
 
         return redirect(route('coffee.ingress.index'));

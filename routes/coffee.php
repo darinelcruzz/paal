@@ -112,6 +112,7 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	    $ctrl = 'Coffee\ProductController';
 	    Route::get('/', usesas($ctrl, 'index'));
 	    Route::get('editar/{product}', usesas($ctrl, 'edit'));
+	    Route::get('serializar/{product}', usesas($ctrl, 'serialize'));
 	    Route::post('editar/{product}', usesas($ctrl, 'update'));
 	});
 

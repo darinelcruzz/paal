@@ -12,6 +12,14 @@ class MovementObserver
             $movement->product->update([
                 'quantity' => $movement->product->quantity - $movement->quantity
             ]);
+
+            if ($movement->product->is_seriable == 1) {
+                for ($i=0; $i < $movement->quantity; $i++) { 
+                    $movement->product->serial_numbers()->create([
+                        'ingress_id' => $movement->movable_id,
+                    ]);
+                }
+            }
         }
 
         if ($movement->movable_type == 'App\Purchase') {

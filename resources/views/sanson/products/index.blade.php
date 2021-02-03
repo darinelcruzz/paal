@@ -22,7 +22,9 @@
                                 <td>
                                     <dropdown icon="cogs" color="info">
                                         <ddi icon="edit" to="{{ route('sanson.product.edit', $product) }}" text="Editar"></ddi>
-                                        <ddi icon="plus" to="{{ route('sanson.serial_number.create', $product) }}" text="Número(s) de serie"></ddi>
+                                        @if(auth()->user()->level == 0)
+                                            <ddi icon="barcode" to="{{ route('sanson.product.serialize', $product) }}" text="Hacer seriable"></ddi>
+                                        @endif
                                     </dropdown>
                                 </td>
                                 <td>{{ $product->description }}</td>

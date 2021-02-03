@@ -21,6 +21,13 @@ class ProductController extends Controller
         return view('coffee.products.edit', compact('product'));
     }
 
+    function serialize(Product $product)
+    {
+        $product->update(['is_seriable' => 1]);
+
+        return back();
+    }
+
     function update(Request $request, Product $product)
     {
         $validated = $request->validate([

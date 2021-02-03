@@ -127,6 +127,7 @@ Route::group(['prefix' => 'sanson', 'as' => 'sanson.'], function () {
 	    Route::get('agregar', usesas($ctrl, 'create'));
 	    Route::post('agregar', usesas($ctrl, 'store'));
 	    Route::get('editar/{product}', usesas($ctrl, 'edit'));
+	    Route::get('serializar/{product}', usesas($ctrl, 'serialize'));
 	    Route::post('editar/{product}', usesas($ctrl, 'update'));
 	    Route::post('{product}', usesas($ctrl, 'show'));
 	});

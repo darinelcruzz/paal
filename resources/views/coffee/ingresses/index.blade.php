@@ -38,6 +38,9 @@
                             <tr>
                                 <td style="text-align: center;">
                                     {{ $ingress->folio }}
+                                    @if($ingress->areSerialNumbersMissing)
+                                        <i class="fa fa-exclamation-circle" style="color: #f39c12;"></i>
+                                    @endif
                                     @if($ingress->quotation_id != null)
                                         <br>
                                         <a href="{{ route('coffee.quotation.show', $ingress->quotation_id) }}">
@@ -48,7 +51,7 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <dropdown icon="cogs" color="{{ $ingress->areSerialNumbersMissing ? 'warning': 'danger' }}">
+                                    <dropdown icon="cogs" color="danger">
                                         <ddi v-if="{{ $ingress->status == 'pagado' || $ingress->status == 'cancelado' ? 0: 1 }}" to="{{ route('coffee.payment.create', $ingress) }}" icon="money" text="Pagar"></ddi>
                                         <ddi to="{{ route('coffee.ingress.show', $ingress) }}" icon="eye" text="Detalles"></ddi>
                                         <li>
