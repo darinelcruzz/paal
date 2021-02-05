@@ -10,7 +10,7 @@ class SerialNumberController extends Controller
 {
     function index()
     {
-        $serial_numbers = SerialNumber::whereHas('product', function ($query) {
+        $serial_numbers = SerialNumber::whereHas('ingress', function ($query) {
             $query->where('company', 'COFFEE');
         })->get();
 
