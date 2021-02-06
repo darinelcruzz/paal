@@ -20,7 +20,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <solid-box title="Ingresos" color="success">
+            <solid-box title="Ingresos {{ $type ?? 'MBE' }}" color="success">
 
                 <data-table classes="spanish-simple">
 
@@ -29,7 +29,9 @@
                     <template slot="body">
                         @foreach($ingresses as $ingress)
                             <tr>
-                                <td>{{ $ingress->folio ? $ingress->folio: $ingress->invoice_id }}</td>
+                                <td>
+                                    {{ $ingress->folio ? $ingress->folio: $ingress->invoice_id }}
+                                </td>
                                 <td>
                                     <dropdown icon="cogs" color="success">
                                         @if ($ingress->status != 'cancelado')

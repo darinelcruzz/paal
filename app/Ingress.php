@@ -39,6 +39,11 @@ class Ingress extends Model
         return $this->hasMany(SerialNumber::class);
     }
 
+    function getIsShiftedAttribute()
+    {
+        return $this->created_at->format('Y-m-d') > $this->bought_at;
+    }
+
     function getDebtAttribute()
     {
         $payments_total = 0;

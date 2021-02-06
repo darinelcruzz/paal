@@ -38,7 +38,7 @@
                     <div class="col-md-3">
                         <a href="{{ route('coffee.egress.index', ['vencido', $date]) }}">
                             <label class="btn btn-danger btn-bg btn-block">
-                                {{ number_format($expired, 2) }}
+                                {{ number_format($expired->sum(function ($egress) { return $egress->coffee != 0 ? $egress->coffee: $egress->amount;}), 2) }}
                             </label>
                         </a>
                     </div>

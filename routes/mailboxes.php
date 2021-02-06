@@ -48,8 +48,8 @@ Route::group(['prefix' => 'mbe', 'as' => 'mbe.'], function () {
 
 	Route::group(['prefix' => 'ingresos', 'as' => 'ingress.'], function () {
 	    $ctrl = 'Mailboxes\AdminController';
-	    Route::get('mensual', usesas($ctrl, 'monthly'));
-	    Route::post('mensual', usesas($ctrl, 'monthly'));
+	    Route::get('mensual/{type?}', usesas($ctrl, 'monthly'));
+	    Route::post('mensual/{type?}', usesas($ctrl, 'monthly'));
 	    Route::match(['get', 'post'], 'diario/{status}/{thisDate?}', usesas($ctrl, 'daily'));
 	    Route::get('por-paqueteria/{date}', usesas($ctrl, 'companies'));
 	    Route::post('referencia', usesas($ctrl, 'reference'));
@@ -58,14 +58,14 @@ Route::group(['prefix' => 'mbe', 'as' => 'mbe.'], function () {
 
 	Route::group(['prefix' => 'ingresos', 'as' => 'ingress.'], function () {
 	    $ctrl = 'Mailboxes\IngressController';
-	    Route::get('/', usesas($ctrl, 'index'));
-	    Route::post('/', usesas($ctrl, 'index'));
-	    Route::get('agregar-desfasada', usesas($ctrl, 'shift'));
+	    Route::get('agregar-desfasada/{type?}', usesas($ctrl, 'shift'));
 	    Route::get('agregar/{type?}', usesas($ctrl, 'create'));
 	    Route::post('agregar/{type?}', usesas($ctrl, 'store'));
 	    Route::get('ticket/{ingress}', usesas($ctrl, 'ticket'));
 	    Route::get('cancelar/{ingress}/{reasons}', usesas($ctrl, 'destroy'));
-	    Route::get('{ingress}', usesas($ctrl, 'show'));
+	    Route::get('ver/{ingress}', usesas($ctrl, 'show'));
+	    Route::get('/{type?}', usesas($ctrl, 'index'));
+	    Route::post('/{type?}', usesas($ctrl, 'index'));
 	});
 
 	Route::group(['prefix' => 'tareas', 'as' => 'task.'], function () {
@@ -92,8 +92,8 @@ Route::group(['prefix' => 'mbe', 'as' => 'mbe.'], function () {
 
 	Route::group(['prefix' => 'ordenes', 'as' => 'order.'], function () {
 	    $ctrl = 'Mailboxes\OrderController';
-	    Route::post('/', usesas($ctrl, 'index'));
-	    Route::get('/', usesas($ctrl, 'index'));
+	    Route::post('/{type?}', usesas($ctrl, 'index'));
+	    Route::get('/{type?}', usesas($ctrl, 'index'));
 	    Route::get('{client}', usesas($ctrl, 'show'));
 	    Route::post('agregar-factura', usesas($ctrl, 'update'));
 	});

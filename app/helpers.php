@@ -172,3 +172,8 @@ function getThousandsFromAmount($amount)
         }
     } else return getHundredsFromAmount($amount);
 }
+
+function isAdmin()
+{
+    return auth()->user()->level == 0;
+}

@@ -5,31 +5,32 @@ namespace App\Http\Controllers\Mailboxes;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
-use App\{Ingress, Client, Payment, Product};
+use App\{Ingress, Client, Payment, Product, Variable};
 use Alert;
 
 class IngressController extends Controller
 {
-    function index()
+    function index($type = null)
     {
         $date = dateFromRequest('Y-m');
-        $ingresses = Ingress::monthly($date, 'mbe')->get();
-        return view('mbe.ingresses.index', compact('ingresses', 'date'));
+        $ingresses = Ingress::monthly($date, 'mbe')->whereType($type)->get();
+        return view('mbe.ingresses.index', compact('ingresses', 'date', 'type'));
     }
 
     function create($type = null)
     {
         $clients = Client::where('company', 'mbe')->pluck('name', 'id')->toArray();
+        $isShifted = false;
         $methods = ['efectivo' => 'Efectivo', 'transferencia' => 'Transferencia', 'cheque' => 'Cheque', 'tarjeta débito' => 'Tarjeta de débito', 'tarjeta crédito' => 'Tarjeta de crédito'];
-        return view('mbe.ingresses.create', compact('clients', 'methods', 'type'));
+        return view('mbe.ingresses.create', compact('clients', 'methods', 'isShifted', 'type'));
     }
 
-    function shift()
+    function shift($type = null)
     {
         $clients = Client::where('company', 'mbe')->pluck('name', 'id')->toArray();
-        $isShifted = true;
+        $isShifted = Variable::find(3)->value == 1;
         $methods = ['efectivo' => 'Efectivo', 'transferencia' => 'Transferencia', 'cheque' => 'Cheque', 'tarjeta débito' => 'Tarjeta de débito', 'tarjeta crédito' => 'Tarjeta de crédito'];
-        return view('mbe.ingresses.create', compact('clients', 'methods', 'isShifted'));
+        return view('mbe.ingresses.create', compact('clients', 'methods', 'isShifted', 'type'));
     }
 
     function store(Request $request)
@@ -37,20 +38,18 @@ class IngressController extends Controller
         // dd($request->all());
         $this->validate($request, ['reference' => 'sometimes|required']);
 
-        $validated = $this->validate($request, [
+        $validated = $request->validate([
             'client_id' => 'required',
-            'amount' => 'required|gt:iva',
+            'amount' => 'required',
             'iva' => 'required',
-            'bought_at' => 'required',
+            'bought_at' => 'sometimes|required',
             'folio' => 'sometimes|required',
             'invoice_id' => 'sometimes|required',
             'method' => 'sometimes|required',
             'invoice' => 'sometimes|required',
             'status' => 'required',
             'company' => 'required',
-            'type' => 'required',
-        ],[
-            'amount.gt' => 'No puede ser menor que IVA',
+            'type' => 'nullable',
         ]);
 
         $ingress = Ingress::create($validated + ['products' => $this->getSerializedItems($request)]);

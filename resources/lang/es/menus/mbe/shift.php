@@ -2,16 +2,12 @@
 
 return [
     'ingresses' => [
-        'title' => 'Ingresos',
+        'title' => 'MBE',
         'icon' => 'fa fa-truck-loading',
         'submenu' => [
             'create' => [
                 'title' => 'Agregar',
                 'route' => 'mbe.ingress.create'
-            ],
-            'logistics' => [
-                'title' => 'Agregar logística',
-                'route' => ['mbe.ingress.create', 'logística']
             ],
             'shift' => [
                 'title' => 'Desfasadas',
@@ -43,6 +39,45 @@ return [
             ],
         ]
     ],
+
+    // 'logistics' => [
+    //     'title' => 'Logística',
+    //     'icon' => 'fa fa-dolly',
+    //     'submenu' => [
+    //         'logistics' => [
+    //             'title' => 'Agregar',
+    //             'route' => ['mbe.ingress.create', 'logística']
+    //         ],
+    //         'shift' => [
+    //             'title' => 'Desfasadas',
+    //             'route' => ['mbe.ingress.shift', 'logística']
+    //         ],
+    //         'daily' => [
+    //             'title' => 'Corte diario',
+    //             'route' => ['mbe.ingress.daily', 'factura']
+    //         ],
+    //         'invoices' => [
+    //             'title' => 'Facturas',
+    //             'route' => 'mbe.invoice.index'
+    //         ],
+    //         'pending' => [
+    //             'title' => 'Pendientes',
+    //             'route' => 'mbe.invoice.pending'
+    //         ],
+    //         'orders' => [
+    //             'title' => 'Empresariales',
+    //             'route' => ['mbe.order.index',  'logística']
+    //         ],
+    //         'monthly' => [
+    //             'title' => 'Corte mensual',
+    //             'route' => ['mbe.ingress.monthly', 'logística']
+    //         ],
+    //         'index' => [
+    //             'title' => 'Historial',
+    //             'route' => ['mbe.ingress.index', 'logística']
+    //         ],
+    //     ]
+    // ],
     
     'egresses' => [
         'title' => 'Egresos',

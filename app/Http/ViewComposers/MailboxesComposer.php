@@ -9,6 +9,6 @@ class MailboxesComposer
 {
     function compose(View $view)
     {
-        $view->isShifted = Variable::find(3)->value;
+        // $view->isShifted = Variable::find(3)->value;
     }
 }

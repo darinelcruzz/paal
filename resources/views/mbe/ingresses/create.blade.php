@@ -1,8 +1,6 @@
 @extends('mbe.root')
 
-@push('pageTitle')
-    Ingresos | Agregar
-@endpush
+@push('pageTitle', 'Ingresos | Agregar')
 
 @section('content')
     <div class="row">
@@ -36,10 +34,10 @@
                                 <div v-else class="col-md-6">
                                     {!! Field::text('invoice_id', ['label' => 'FI', 'tpl' => 'withicon'], ['icon' => 'list']) !!}
                                 </div>
-                                @if($isShifted)
-                                <div class="col-md-6">
-                                    {!! Field::date('bought_at', date('Y-m-d'), ['label' => 'Fecha', 'tpl' => 'withicon'], ['icon' => 'calendar']) !!}
-                                </div>
+                                @if($isShifted && isAdmin())
+                                    <div class="col-md-6">
+                                        {!! Field::date('bought_at', date('Y-m-d'), ['label' => 'Fecha', 'tpl' => 'withicon'], ['icon' => 'calendar']) !!}
+                                    </div>
                                 @endif
                             </div>
                             <div class="row">

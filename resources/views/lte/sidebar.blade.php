@@ -7,10 +7,10 @@
     <ul class="sidebar-menu" data-widget="tree">
       <li class="header">MENÚ</li>
 
-      @switch(auth()->user()->company)
+      @switch($site)
 
         @case('mbe')
-          @if($isShifted == 1)
+          @if(\App\Variable::find(3)->value == 1)
             @each('lte.items', trans('menus/' . $site . '/shift'), 'item')
           @else
             @each('lte.items', trans('menus/' . $site . '/one'), 'item')
@@ -37,11 +37,7 @@
           @break
 
         @default
-          @if($isShifted == 1 && $site == 'mbe')
-            @each('lte.items', trans('menus/' . $site . '/shift'), 'item')
-          @else
-            @each('lte.items', trans('menus/' . $site . '/one'), 'item')
-          @endif
+          @each('lte.items', trans('menus/' . $site . '/one'), 'item')
       @endswitch
 
     </ul>

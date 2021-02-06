@@ -23,20 +23,22 @@ class EgressController extends Controller
         
         $expired = Egress::company('coffee')->where('status', 'vencido')->get();
 
+        // dd($expired);
+
         $checks = Check::from($date, 'charged_at')->get();
 
         $checkssum = $checks->sum(function ($product) {
             return $product->total;
         });
 
-        $expired = Egress::where('company', 'coffee')
-            ->where('status', 'vencido')
-            ->get()
-            ->sum(function ($egress) { 
-                return $egress->coffee != 0 ? $egress->coffee : $egress->amount;
-            });
+        // $expired = Egress::where('company', 'coffee')
+        //     ->where('status', 'vencido')
+        //     ->get()
+        //     ->sum(function ($egress) { 
+        //         return $egress->coffee != 0 ? $egress->coffee : $egress->amount;
+        //     });
 
-        return view('coffee.egresses.index', compact('paid', 'pending', 'expired', 'date', 'expired', 'checks', 'checkssum', 'status'));
+        return view('coffee.egresses.index', compact('paid', 'pending', 'expired', 'date', 'checks', 'checkssum', 'status'));
     }
 
     function pay(Egress $egress)
