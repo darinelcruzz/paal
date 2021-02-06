@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-md-3">
 
-            {!! Form::open(['method' => 'post', 'route' => ['coffee.quotation.internet', 'formularios']]) !!}
+            {!! Form::open(['method' => 'post', 'route' => ['coffee.quotation.internet', $type]]) !!}
                 
                 <div class="row">
                     <div class="col-md-3">                        

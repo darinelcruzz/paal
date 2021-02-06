@@ -57,7 +57,7 @@ class QuotationController extends Controller
         $quotation = Quotation::create($validated);
 
         if (isset($request->client_name)) {
-            return redirect(route('coffee.quotation.internet'));
+            return redirect(route('coffee.quotation.internet', $request->client_id == 658 ? 'formularios': 'campañas'));
         }
 
         return redirect(route('coffee.quotation.index'));

@@ -22,17 +22,17 @@ class QuotationController extends Controller
         return view('sanson.quotations.index', compact('quotations', 'sales', 'total', 'date'));
     }
 
-    function internet(Request $request)
+    function internet(Request $request, $type = 'formularios')
     {
         $date = isset($request->date) ? $request->date: date('Y-m');
 
-        $quotations = Quotation::internet('sanson', $date)->get();
+        $quotations = Quotation::internet('sanson', $date, $type)->get();
 
-        $sales = Quotation::internet('sanson', $date)->has('sales')->count();
+        $sales = Quotation::internet('sanson', $date, $type)->has('sales')->count();
 
         $total = count($quotations);
 
-        return view('sanson.quotations.internet', compact('quotations', 'total', 'sales', 'date'));
+        return view('sanson.quotations.internet', compact('quotations', 'total', 'sales', 'date', 'type'));
     }
 
     function create($type)
@@ -57,7 +57,7 @@ class QuotationController extends Controller
         $quotation = Quotation::create($attributes);
 
         if (isset($request->client_name)) {
-            return redirect(route('sanson.quotation.internet'));
+            return redirect(route('sanson.quotation.internet', $request->client_id == 658 ? 'formularios': 'campañas'));
         }
 
         return redirect(route('sanson.quotation.index'));

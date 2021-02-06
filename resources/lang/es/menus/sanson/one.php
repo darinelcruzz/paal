@@ -14,9 +14,13 @@ return [
                 'title' => 'Proyectos',
                 'route' => ['sanson.quotation.create', 'proyecto']
             ],
-            'internet' => [
-                'title' => 'Internet',
-                'route' => 'sanson.quotation.internet'
+            'campaigns' => [
+                'title' => 'Campañas',
+                'route' => ['sanson.quotation.internet', 'campañas']
+            ],
+            'forms' => [
+                'title' => 'Formularios',
+                'route' => ['sanson.quotation.internet', 'formularios']
             ],
             'index' => [
                 'title' => 'Historial',

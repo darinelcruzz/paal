@@ -93,7 +93,7 @@ class Quotation extends Model
             ->with('client');
     }
 
-    function scopeInternet($query, $company, $date, $type)
+    function scopeInternet($query, $company, $date, $type = null)
     {
         return $query->where('company', $company)
             ->whereNotNull('client_name')

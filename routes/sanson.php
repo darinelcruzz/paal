@@ -75,8 +75,8 @@ Route::group(['prefix' => 'sanson', 'as' => 'sanson.'], function () {
 	    $ctrl = 'Sanson\QuotationController';
 	    Route::get('/', usesas($ctrl, 'index'));
 	    Route::post('/', usesas($ctrl, 'index'));
-	    Route::get('internet', usesas($ctrl, 'internet'));
-	    Route::post('internet', usesas($ctrl, 'internet'));
+	    Route::get('internet/{type}', usesas($ctrl, 'internet'));
+	    Route::post('internet/{type}', usesas($ctrl, 'internet'));
 	    Route::get('agregar/{type}', usesas($ctrl, 'create'));
 	    Route::post('agregar', usesas($ctrl, 'store'));
 	    Route::get('editar/{quotation}', usesas($ctrl, 'edit'));

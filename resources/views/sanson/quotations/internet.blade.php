@@ -7,14 +7,14 @@
     <div class="row">
         <div class="col-md-3">
 
-            {!! Form::open(['method' => 'post', 'route' => 'sanson.quotation.internet']) !!}
+            {!! Form::open(['method' => 'post', 'route' => ['sanson.quotation.internet', $type]]) !!}
                 
                 <div class="row">
                     <div class="col-md-3">                        
                         <div class="input-group input-group-sm">
                             <input type="month" name="date" class="form-control" value="{{ $date }}">
                             <span class="input-group-btn">
-                                <button type="submit" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
+                                <button type="submit" class="btn btn-{{ $type == 'formularios' ? 'primary': 'info' }} btn-flat"><i class="fa fa-search"></i></button>
                             </span>
                         </div>
                     </div>
@@ -25,7 +25,7 @@
         </div>
 
         <div class="col-md-3">
-            <label class="btn btn-info btn-bg btn-block">TOTAL: {{ $total }}</label>
+            <label class="btn btn-{{ $type == 'formularios' ? 'primary': 'info' }} btn-bg btn-block">TOTAL: {{ $total }}</label>
         </div>
 
         <div class="col-md-3">
@@ -47,7 +47,7 @@
 
         <div class="col-md-12">
 
-            <solid-box title="INTERNAS ({{ $quotations->where('client_id', 658)->count() }})" color="info" button>
+            <solid-box title="{{ ucfirst($type) }}" color="{{ $type == 'formularios' ? 'primary': 'info' }}" button>
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered spanish">
                         <thead>
@@ -65,11 +65,11 @@
                         </thead>
 
                         <tbody>
-                            @foreach($quotations->where('client_id', 658) as $quotation)
+                            @foreach($quotations as $quotation)
                                 <tr>
                                     <td>{{ $quotation->id }}</td>
                                     <td>
-                                        <dropdown icon="cogs" color="info">
+                                        <dropdown icon="cogs" color="{{ $type == 'formularios' ? 'primary': 'info' }}">
                                             <ddi to="{{ route('sanson.quotation.show', $quotation) }}" icon="eye" text="Detalles"></ddi>
                                             <ddi to="{{ route('sanson.quotation.download', $quotation) }}" icon="file-pdf" text="Imprimir" target="_blank"></ddi>
                                             @if (!$quotation->is_canceled)
@@ -108,7 +108,7 @@
                 </div>
             </solid-box>
 
-            <solid-box title="EXTERNAS ({{ $quotations->where('client_id', 659)->count() }})" color="primary" button collapsed>
+            {{-- <solid-box title="EXTERNAS ({{ $quotations->where('client_id', 659)->count() }})" color="primary" button collapsed>
 
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered spanish">
@@ -168,10 +168,8 @@
                         </tbody>
                     </table>
                 </div>
-            </solid-box>
+            </solid-box> --}}
         </div>
     </div>
-
-    @include('sweet::alert')
 
 @endsection
