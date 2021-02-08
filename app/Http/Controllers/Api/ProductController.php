@@ -45,6 +45,19 @@ class ProductController extends Controller
             })->paginate(5);
     }
 
+    function seriable($company, $keyword = '')
+    {
+        return Product::whereCompany(strtoupper($company))
+            ->where(function ($query) use ($keyword) {
+                $query->where("description", "LIKE","%$keyword%")
+                    ->orWhere("code", "LIKE", "%$keyword%")
+                    ->orWhere("barcode", "LIKE", "%$keyword%")
+                    ->orWhere("family", "LIKE", "%$keyword%");
+            })
+            ->where('is_seriable', 1)
+            ->paginate(5);
+    }
+
     function show(Product $product)
     {
         return $product;

@@ -64,9 +64,13 @@ Vue.component('pdf-button', require('./components/lte/FileUploadButton.vue'));
 Vue.component('dynamic-inputs', require('./components/lte/DynamicInputs.vue'));
 Vue.component('color-card', require('./components/lte/ColorCard.vue'));
 Vue.component('multiple-inputs', require('./components/lte/MultipleInputs.vue'));
+Vue.component('notifications', require('./components/lte/Notifications.vue'));
 
 Vue.component('add-product', require('./components/AddProductButton.vue'));
 Vue.component('p-table', require('./components/ProductsTable.vue'));
+Vue.component('seriable-products-list', require('./components/SeriableProductsList.vue'));
+Vue.component('seriable-products', require('./components/SeriableProducts.vue'));
+Vue.component('seriable-product', require('./components/SeriableProduct.vue'));
 Vue.component('p-row', require('./components/ProductRow.vue'));
 Vue.component('shopping-list', require('./components/ShoppingList.vue'));
 Vue.component('shopping-list-item', require('./components/ShoppingListItemTwo.vue'));

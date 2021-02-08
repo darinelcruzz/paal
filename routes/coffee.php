@@ -193,8 +193,8 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	Route::group(['prefix' => 'numeros-de-serie', 'as' => 'serial_number.'], function () {
 	    $ctrl = 'Coffee\SerialNumberController';
 	    Route::get('/', usesas($ctrl, 'index'));
-	    Route::get('agregar/{product?}', usesas($ctrl, 'create'));
-	    Route::post('agregar/{product?}', usesas($ctrl, 'store'));
+	    Route::get('agregar', usesas($ctrl, 'create'));
+	    Route::post('agregar', usesas($ctrl, 'store'));
 	    Route::post('dar-salida/{serial_number}', usesas($ctrl, 'release'));
 	    Route::get('editar/{serial_number}', usesas($ctrl, 'edit'));
 	    Route::post('editar/{ingress}', usesas($ctrl, 'update'));

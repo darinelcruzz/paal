@@ -2,6 +2,10 @@
 
 @push('pageTitle', 'Números de serie')
 
+@push('headerTitle')
+    <a href="{{ route('coffee.serial_number.create') }}" class="btn btn-danger btn-xs"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR</a>
+@endpush
+
 @section('content')
     <div class="row">
         <div class="col-md-6">

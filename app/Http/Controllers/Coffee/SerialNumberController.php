@@ -10,37 +10,28 @@ class SerialNumberController extends Controller
 {
     function index()
     {
-        $serial_numbers = SerialNumber::whereHas('ingress', function ($query) {
+        $serial_numbers = SerialNumber::whereHas('product', function ($query) {
             $query->where('company', 'COFFEE');
         })->get();
 
         return view('coffee.serial_numbers.index', compact('serial_numbers'));
     }
 
-    function create(Product $product = null)
+    function create()
     {
-        if ($product == null) {
-            $product = Product::where('company', 'COFFEE')->where('category', 'EQUIPO')->pluck('description', 'id')->toArray();
-        }
-
-        return view('coffee.serial_numbers.create', compact('product'));       
+        return view('coffee.serial_numbers.create');       
     }
 
-    function store(Request $request, Product $product = null)
+    function store(Request $request)
     {
+        dd($request->all());
+        
         $request->validate([
-            'product_id' => 'required',
-            'purchase_id' => 'required',
-            'numbers' => 'required|array|min:1',
+            'purchased_at' => 'required',
+            'items' => 'required|array|min:1',
         ]);
 
-        foreach ($request->numbers as $number) {
-            SerialNumber::create([
-                'product_id' => $request->product_id,
-                'purchase_id' => $request->purchase_id,
-                'number' => $number,
-            ]);
-        }
+        SerialNumber::createMany($request->items);
 
         return redirect(route('coffee.serial_number.index'));
     }

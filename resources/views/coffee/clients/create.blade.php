@@ -1,8 +1,6 @@
 @extends('coffee.root')
 
-@push('pageTitle')
-    Clientes | Agregar
-@endpush
+@push('pageTitle', 'Clientes | Agregar')
 
 @section('content')
     <div class="row">
