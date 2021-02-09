@@ -28,6 +28,7 @@ class NotificationController extends Controller
 
     function numbers($company)
     {
+        return 0;
     	return Ingress::all()
 	        ->where('company', $company)
 	        ->where('are_serial_numbers_missing', true)

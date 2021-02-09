@@ -8,20 +8,28 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-8">
             <solid-box title="Números de serie" color="danger">
-                
-                <data-table>
 
-                    {{ drawHeader('número', 'producto', 'venta', 'estado') }}
+                <table class="table table-bordered table-striped spanish-simple">
+                    <thead>
+                        <tr>
+                            <th><small>FECHA</small></th>
+                            <th><small>NÚMERO</small></th>
+                            <th><small>PRODUCTO</small></th>
+                            <th style="text-align: center;"><small>VENTA</small></th>
+                            <th style="text-align: center;"><small>ESTADO</small></th>
+                        </tr>
+                    </thead>
 
-                    <template slot="body">
+                    <tbody>
                         @foreach($serial_numbers as $serial_number)
                             <tr>
+                                <td>{{ fdate($serial_number->purchased_at, 'd/m/y', 'Y-m-d') }}</td>
                                 <td>{{ $serial_number->number }}</td>
                                 <td>{{ $serial_number->product->description }}</td>
                                 <td style="text-align: center;">
-                                    {{ $serial_number->ingress->folio or 'N/A' }}
+                                    {{ $serial_number->ingress->folio ?? 'S/V' }}
                                 </td>
                                 <td style="text-align: center;">
                                     <span class="label label-{{ $serial_number->status == 'en inventario' ? 'default': 'success' }}">
@@ -30,10 +38,8 @@
                                 </td>
                             </tr>
                         @endforeach
-                    </template>
-                    
-                </data-table>
-
+                    </tbody>
+                </table>
             </solid-box>
         </div>
     </div>

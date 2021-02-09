@@ -12,7 +12,9 @@ class SerialNumberController extends Controller
     {
         $serial_numbers = SerialNumber::whereHas('product', function ($query) {
             $query->where('company', 'COFFEE');
-        })->get();
+        })
+        ->orderBy('purchased_at', 'asc')
+        ->get();
 
         return view('coffee.serial_numbers.index', compact('serial_numbers'));
     }
@@ -24,14 +26,20 @@ class SerialNumberController extends Controller
 
     function store(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
         
         $request->validate([
             'purchased_at' => 'required',
             'items' => 'required|array|min:1',
         ]);
 
-        SerialNumber::createMany($request->items);
+        foreach ($request->items as $item) {
+            SerialNumber::create([
+                'product_id' => $item['product_id'],
+                'number' => $item['number'],
+                'purchased_at' => $request->purchased_at,
+            ]);
+        }
 
         return redirect(route('coffee.serial_number.index'));
     }
@@ -48,14 +56,8 @@ class SerialNumberController extends Controller
 
     function update(Request $request, Ingress $ingress)
     {
-        $i = 0;
-
-        foreach (SerialNumber::find($request->items) as $number) {
-            $number->update([
-                'number' => $request->numbers[$i],
-                'status' => 'vendido'
-            ]);
-            $i += 1;
+        foreach (SerialNumber::find($request->numbers) as $number) {
+            $number->update(['ingress_id' => $ingress->id]);
         }
 
         return redirect(route('coffee.ingress.index'));

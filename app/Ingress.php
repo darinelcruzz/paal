@@ -175,7 +175,10 @@ class Ingress extends Model
 
     function getAreSerialNumbersMissingAttribute()
     {
-        return $this->serial_numbers()->where('number', null)->count() > 0;
+        if ($this->serial_numbers->count() > 0) {
+            return false;
+        }
+        return $this->movements()->whereHas('product', function ($query) {$query->where('is_seriable', 1);})->count() > 0;
     }
 
     function scopeFrom($query, $date)
