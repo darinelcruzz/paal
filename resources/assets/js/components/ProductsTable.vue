@@ -1,31 +1,31 @@
 <template>
 	<div id="products_table">
         <div class="row">
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button @click="fetch(pagination.first_page_url)" :disabled="!pagination.first_page_url" :class="btnClass">
+                        <i class="fa fa-angle-double-left"></i>
+                    </button>
+                    <button @click="fetch(pagination.prev_page_url)" :disabled="!pagination.prev_page_url" :class="btnClass">
+                        <i class="fa fa-angle-left"></i>
+                    </button>
+                    <button class="btn btn-default btn-sm">Página {{ pagination.current_page }} de {{ pagination.last_page }}</button>
+                    <button @click="fetch(pagination.next_page_url)" :disabled="!pagination.next_page_url" :class="btnClass">
+                        <i class="fa fa-angle-right"></i>
+                    </button>
+                    <button @click="fetch(pagination.last_page_url)" :disabled="!pagination.last_page_url" :class="btnClass">
+                        <i class="fa fa-angle-double-right"></i>
+                    </button>
+                </div>
+            </div>
             <div class="col-md-5 pull-right">
                 <div class="input-group input-group-sm">
-                    <input type="text" v-model="keyword" class="form-control" @keyup.enter="search" @change="search">
+                    <input type="text" v-model="keyword" class="form-control">
                     <span class="input-group-btn">
                       <button type="button" :class="'btn btn-' + color + ' btn-flat'">
                           <i class="fa fa-search"></i>
                       </button>
                     </span>
-                </div>
-            </div>
-            <div class="col-md-7">
-                <div class="btn-group">
-                    <button @click="fetchProducts(pagination.first_page_url)" :disabled="!pagination.first_page_url" :class="'btn btn-' + color + ' btn-sm'">
-                        <i class="fa fa-angle-double-left"></i>
-                    </button>
-                    <button @click="fetchProducts(pagination.prev_page_url)" :disabled="!pagination.prev_page_url" :class="'btn btn-' + color + ' btn-sm'">
-                        <i class="fa fa-angle-left"></i>
-                    </button>
-                    <button class="btn btn-default btn-sm">Página {{ pagination.current_page }} de {{ pagination.last_page }}</button>
-                    <button @click="fetchProducts(pagination.next_page_url)" :disabled="!pagination.next_page_url" :class="'btn btn-' + color + ' btn-sm'">
-                        <i class="fa fa-angle-right"></i>
-                    </button>
-                    <button @click="fetchProducts(pagination.last_page_url)" :disabled="!pagination.last_page_url" :class="'btn btn-' + color + ' btn-sm'">
-                        <i class="fa fa-angle-double-right"></i>
-                    </button>
                 </div>
             </div>
         </div>
@@ -67,17 +67,27 @@
                 keyword: '',
 			}
 		},
+        computed: {
+            pageUrl() {
+                return '/api/products/' + this.type + '/' + this.keyword;
+            },
+            btnClass() {
+                return 'btn btn-' + this.color + ' btn-sm';
+            }
+        },
+        watch: {
+            keyword(value) {
+                this.fetch();
+            }
+        },
 		methods: {
-			fetchProducts(page_url, keyword) {
-                keyword = keyword || ''
-                page_url = page_url || '/api/products/' + this.type + '/'
-                axios.get(page_url + keyword)
+			fetch(page_url) {
+                page_url = page_url || this.pageUrl;
+                axios.get(page_url)
                     .then((response) => {
-                        var productsReady = response.data.data.map((product) => {
-                            return product
-                        })
+                        this.products = response.data.data.map((product) => product)
 
-                        var pagination = {
+                        this.pagination = {
                             current_page: response.data.current_page,
                             last_page: response.data.last_page,
                             next_page_url: response.data.next_page_url,
@@ -85,17 +95,14 @@
                             last_page_url: response.data.last_page_url,
                             first_page_url: response.data.first_page_url,
                         }
-
-                        this.products = productsReady
-                        this.pagination = pagination
                     })
             },
             search() {
-                this.fetchProducts('/api/products/' + this.type + '/', this.keyword)
+                this.fetch('/api/products/' + this.type + '/', this.keyword)
             },
 		},
 		created() {
-			this.fetchProducts()
+			this.fetch()
 		}
 	};
 </script>

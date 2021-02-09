@@ -71,6 +71,17 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 		Route::get('{ingress}', usesas($ctrl, 'show'));
 	});
 
+	Route::group(['prefix' => 'anticipos', 'as' => 'retainer.'], function () {
+	    $ctrl = 'Coffee\RetainerController';
+	    Route::get('/', usesas($ctrl, 'index'));
+	    Route::post('/', usesas($ctrl, 'index'));
+	    Route::get('agregar', usesas($ctrl, 'create'));
+	    Route::post('agregar', usesas($ctrl, 'store'));
+		Route::get('ticket/{retainer}', usesas($ctrl, 'ticket'));
+		Route::get('cancelar/{retainer}/{reasons}', usesas($ctrl, 'destroy'));
+		Route::get('{retainer}', usesas($ctrl, 'show'));
+	});
+
 	Route::group(['prefix' => 'pagos', 'as' => 'payment.'], function () {
 	    $ctrl = 'Coffee\PaymentController';
 	    Route::get('agregar/{ingress}', usesas($ctrl, 'create'));

@@ -25,6 +25,21 @@ return [
         ]
     ],
 
+    'retainers' => [
+        'title' => ' Anticipos',
+        'icon' => 'fas fa-hand-holding-usd',
+        'submenu' => [
+            'create' => [
+                'title' => 'Agregar',
+                'route' => 'coffee.retainer.create'
+            ],
+            'index' => [
+                'title' => 'Historial',
+                'route' => 'coffee.retainer.index'
+            ],
+        ]
+    ],
+
     'ingresses' => [
         'title' => 'Ventas',
         'icon' => 'fa fa-mug-hot',

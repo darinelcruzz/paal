@@ -26,7 +26,7 @@ class Ingress extends Model
 
     function payments()
     {
-        return $this->hasMany(Payment::class);
+        return $this->morphMany(Payment::class, 'payable');
     }
 
     function movements()

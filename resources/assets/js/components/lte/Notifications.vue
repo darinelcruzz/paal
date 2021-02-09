@@ -6,14 +6,14 @@
     </a>
     <ul v-if="notificationsCount > 0" class="dropdown-menu">
     
-      <li class="header">Tienes {{ notificationsCount }} {{ notificationsCount > 1 ? 'notificaciones': 'notificación' }}</li>
+      <li class="header">{{ notificationsCount }} {{ notificationsCount > 1 ? 'pendientes': 'pendiente' }} por revisar</li>
 
       <li>
         <!-- inner menu: contains the actual data -->
         <ul class="menu">
           <li v-if="shippings > 0">
             <a :href="'/'+ company + '/envios/pendiente'">
-              <i class="fa fa-shipping-fast text-aqua"></i> {{ shippings }} envío{{ shippings > 1 ? 's': '' }} pendiente{{ shippings > 1 ? 's': '' }} [# guía]
+              <i class="fa fa-shipping-fast text-aqua"></i> {{ shippings }} envío{{ shippings > 1 ? 's': '' }} sin número de guía
             </a>
           </li>
           <li v-if="egresses > 0">
