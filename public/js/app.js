@@ -54435,9 +54435,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['color', 'exchange', 'qproducts', 'promo'],
+    props: ['color', 'exchange', 'qproducts', 'promo', 'retainer'],
     data: function data() {
         return {
             inputs: [],
@@ -54652,8 +54659,27 @@ var render = function() {
                   ])
                 ]),
                 _vm._v(" "),
+                _vm.retainer != undefined
+                  ? _c("tr", [
+                      _vm._m(3),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("span", { staticClass: "pull-right" }, [
+                          _vm._v(_vm._s(_vm._f("currency")(_vm.retainer)))
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          attrs: { type: "hidden", name: "retainer" },
+                          domProps: {
+                            value: _vm.retainer.toFixed(_vm.decimalsToFix)
+                          }
+                        })
+                      ])
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
                 _c("tr", [
-                  _vm._m(3),
+                  _vm._m(4),
                   _vm._v(" "),
                   _c("td", [
                     _c("input", {
@@ -54692,13 +54718,18 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("tr", [
-                  _vm._m(4),
+                  _vm._m(5),
                   _vm._v(" "),
                   _c("td", [
                     _c("span", { staticClass: "pull-right" }, [
                       _vm._v(
                         _vm._s(
-                          _vm._f("currency")(_vm.total + _vm.iva + _vm.redondeo)
+                          _vm._f("currency")(
+                            _vm.total +
+                              _vm.iva +
+                              _vm.redondeo -
+                              (_vm.retainer != undefined ? _vm.retainer : 0)
+                          )
                         )
                       )
                     ]),
@@ -54706,9 +54737,12 @@ var render = function() {
                     _c("input", {
                       attrs: { type: "hidden", name: "amount" },
                       domProps: {
-                        value: (_vm.total + _vm.iva + _vm.redondeo).toFixed(
-                          _vm.decimalsToFix
-                        )
+                        value: (
+                          _vm.total +
+                          _vm.iva +
+                          _vm.redondeo -
+                          (_vm.retainer != undefined ? _vm.retainer : 0)
+                        ).toFixed(_vm.decimalsToFix)
                       }
                     }),
                     _vm._v(" "),
@@ -54722,7 +54756,7 @@ var render = function() {
             ])
           ])
         ])
-      : _c("div", { attrs: { align: "center" } }, [_vm._m(5)]),
+      : _c("div", { attrs: { align: "center" } }, [_vm._m(6)]),
     _vm._v(" "),
     _c("hr")
   ])
@@ -54774,6 +54808,14 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("th", { attrs: { colspan: "5" } }, [
       _c("span", { staticClass: "pull-right" }, [_vm._v("IVA:")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", { attrs: { colspan: "5" } }, [
+      _c("span", { staticClass: "pull-right" }, [_vm._v("Anticipo")])
     ])
   },
   function() {
@@ -55788,6 +55830,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -55796,14 +55847,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             transfer: 0,
             debit_card: 0,
             credit_card: 0,
-            check: 0
+            check: 0,
+            total: 0
         };
     },
 
     props: ['amount'],
-    computed: {
-        total: function total() {
-            return this.amount;
+    created: function created() {
+        if (this.amount) {
+            this.total = this.amount;
         }
     }
 });
@@ -55819,23 +55871,66 @@ var render = function() {
   return _c("div", [
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-md-6" }, [
-        _c("div", { staticClass: "control-group" }, [
-          _c("label", [_vm._v("Total a pagar:")]),
-          _vm._v(" "),
-          _c(
-            "span",
-            { staticClass: "form-control", staticStyle: { color: "green" } },
-            [_c("b", [_vm._v(_vm._s(_vm.amount.toFixed(2)))])]
-          )
-        ])
+        _vm.amount != undefined
+          ? _c("div", { staticClass: "control-group" }, [
+              _c("label", [_vm._v("Total a pagar")]),
+              _vm._v(" "),
+              _c(
+                "span",
+                {
+                  staticClass: "form-control",
+                  staticStyle: { color: "green" }
+                },
+                [_c("b", [_vm._v(_vm._s(_vm.amount.toFixed(2)))])]
+              )
+            ])
+          : _c("div", { staticClass: "form-group" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("div", { staticClass: "input-group" }, [
+                _vm._m(1),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.number",
+                      value: _vm.total,
+                      expression: "total",
+                      modifiers: { number: true }
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "number",
+                    name: "amount",
+                    value: "0",
+                    min: "0",
+                    step: "0.01"
+                  },
+                  domProps: { value: _vm.total },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.total = _vm._n($event.target.value)
+                    },
+                    blur: function($event) {
+                      _vm.$forceUpdate()
+                    }
+                  }
+                })
+              ])
+            ])
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "col-md-6" }, [
         _c("div", { staticClass: "form-group" }, [
-          _vm._m(0),
+          _vm._m(2),
           _vm._v(" "),
           _c("div", { staticClass: "input-group" }, [
-            _vm._m(1),
+            _vm._m(3),
             _vm._v(" "),
             _c("input", {
               directives: [
@@ -55856,7 +55951,8 @@ var render = function() {
                 step: "0.01",
                 max:
                   _vm.total -
-                  (_vm.debit_card + _vm.credit_card + _vm.transfer + _vm.check)
+                  (_vm.debit_card + _vm.credit_card + _vm.transfer + _vm.check),
+                disabled: _vm.total == 0
               },
               domProps: { value: _vm.cash },
               on: {
@@ -55879,10 +55975,10 @@ var render = function() {
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-md-6" }, [
         _c("div", { staticClass: "form-group" }, [
-          _vm._m(2),
+          _vm._m(4),
           _vm._v(" "),
           _c("div", { staticClass: "input-group" }, [
-            _vm._m(3),
+            _vm._m(5),
             _vm._v(" "),
             _c("input", {
               directives: [
@@ -55903,7 +55999,8 @@ var render = function() {
                 step: "0.01",
                 max:
                   _vm.total -
-                  (_vm.debit_card + _vm.credit_card + _vm.transfer + _vm.cash)
+                  (_vm.debit_card + _vm.credit_card + _vm.transfer + _vm.cash),
+                disabled: _vm.total == 0
               },
               domProps: { value: _vm.check },
               on: {
@@ -55922,10 +56019,10 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "form-group" }, [
-          _vm._m(4),
+          _vm._m(6),
           _vm._v(" "),
           _c("div", { staticClass: "input-group" }, [
-            _vm._m(5),
+            _vm._m(7),
             _vm._v(" "),
             _c("input", {
               directives: [
@@ -55946,7 +56043,8 @@ var render = function() {
                 step: "0.01",
                 max:
                   _vm.total -
-                  (_vm.debit_card + _vm.cash + _vm.transfer + _vm.check)
+                  (_vm.debit_card + _vm.cash + _vm.transfer + _vm.check),
+                disabled: _vm.total == 0
               },
               domProps: { value: _vm.credit_card },
               on: {
@@ -55967,10 +56065,10 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "col-md-6" }, [
         _c("div", { staticClass: "form-group" }, [
-          _vm._m(6),
+          _vm._m(8),
           _vm._v(" "),
           _c("div", { staticClass: "input-group" }, [
-            _vm._m(7),
+            _vm._m(9),
             _vm._v(" "),
             _c("input", {
               directives: [
@@ -55991,7 +56089,8 @@ var render = function() {
                 step: "0.01",
                 max:
                   _vm.total -
-                  (_vm.debit_card + _vm.credit_card + _vm.cash + _vm.check)
+                  (_vm.debit_card + _vm.credit_card + _vm.cash + _vm.check),
+                disabled: _vm.total == 0
               },
               domProps: { value: _vm.transfer },
               on: {
@@ -56010,10 +56109,10 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "form-group" }, [
-          _vm._m(8),
+          _vm._m(10),
           _vm._v(" "),
           _c("div", { staticClass: "input-group" }, [
-            _vm._m(9),
+            _vm._m(11),
             _vm._v(" "),
             _c("input", {
               directives: [
@@ -56034,7 +56133,8 @@ var render = function() {
                 step: "0.01",
                 max:
                   _vm.total -
-                  (_vm.cash + _vm.credit_card + _vm.transfer + _vm.check)
+                  (_vm.cash + _vm.credit_card + _vm.transfer + _vm.check),
+                disabled: _vm.total == 0
               },
               domProps: { value: _vm.debit_card },
               on: {
@@ -56056,16 +56156,32 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
       _vm.credit_card + _vm.debit_card + _vm.transfer + _vm.check > 0
-        ? _c("div", { staticClass: "col-md-6" }, [_vm._m(10)])
+        ? _c("div", { staticClass: "col-md-6" }, [_vm._m(12)])
         : _vm._e(),
       _vm._v(" "),
       _vm.credit_card + _vm.debit_card > 0
-        ? _c("div", { staticClass: "col-md-6" }, [_vm._m(11)])
+        ? _c("div", { staticClass: "col-md-6" }, [_vm._m(13)])
         : _vm._e()
     ])
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { staticClass: "control-label" }, [
+      _c("b", [_vm._v("Total a pagar")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "input-group-addon" }, [
+      _c("i", { staticClass: "fa fa-cash-register" })
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -56079,7 +56195,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("span", { staticClass: "input-group-addon" }, [
-      _c("i", { staticClass: "fa fa-usd" })
+      _c("i", { staticClass: "fa fa-money-bill-alt" })
     ])
   },
   function() {
@@ -56095,7 +56211,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("span", { staticClass: "input-group-addon" }, [
-      _c("i", { staticClass: "fa fa-usd" })
+      _c("i", { staticClass: "fa fa-money-check-alt" })
     ])
   },
   function() {
@@ -56111,7 +56227,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("span", { staticClass: "input-group-addon" }, [
-      _c("i", { staticClass: "fa fa-usd" })
+      _c("i", { staticClass: "fab fa-cc-visa" })
     ])
   },
   function() {
@@ -56127,7 +56243,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("span", { staticClass: "input-group-addon" }, [
-      _c("i", { staticClass: "fa fa-usd" })
+      _c("i", { staticClass: "fa fa-exchange-alt" })
     ])
   },
   function() {
@@ -56143,7 +56259,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("span", { staticClass: "input-group-addon" }, [
-      _c("i", { staticClass: "fa fa-usd" })
+      _c("i", { staticClass: "fab fa-cc-mastercard" })
     ])
   },
   function() {

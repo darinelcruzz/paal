@@ -39,6 +39,13 @@
                                 <input type="hidden" name="iva" :value="iva.toFixed(decimalsToFix)">
                             </td>
                         </tr>
+                        <tr v-if="retainer != undefined">
+                            <th colspan="5"><span class="pull-right">Anticipo</span></th>
+                            <td>
+                                <span class="pull-right">{{ retainer | currency }}</span>
+                                <input type="hidden" name="retainer" :value="retainer.toFixed(decimalsToFix)">
+                            </td>
+                        </tr>
                         <tr>
                             <th colspan="5"><span class="pull-right">Redondeo:</span></th>
                             <td>
@@ -49,8 +56,8 @@
                         <tr>
                             <th colspan="5"><span class="pull-right">Total:</span></th>
                             <td>
-                                <span class="pull-right">{{ total + iva + redondeo | currency }}</span>
-                                <input type="hidden" name="amount" :value="(total + iva + redondeo).toFixed(decimalsToFix)">
+                                <span class="pull-right">{{ total + iva + redondeo - (retainer != undefined ? retainer: 0) | currency }}</span>
+                                <input type="hidden" name="amount" :value="(total + iva + redondeo - (retainer != undefined ? retainer: 0)).toFixed(decimalsToFix)">
                                 <input type="hidden" name="type" :value="type">
                             </td>
                         </tr>
@@ -69,7 +76,7 @@
 
 <script>
 	export default {
-		props: ['color', 'exchange', 'qproducts', 'promo'],
+		props: ['color', 'exchange', 'qproducts', 'promo', 'retainer'],
 		data() {
 			return {
                 inputs: [],
@@ -80,7 +87,7 @@
                 total: 0,
                 iva: 0,
                 redondeo: 0,
-                decimalsToFix: 2
+                decimalsToFix: 2,
 			}
 		},
 		methods: {

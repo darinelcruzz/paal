@@ -77,7 +77,8 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	    Route::post('/', usesas($ctrl, 'index'));
 	    Route::get('agregar', usesas($ctrl, 'create'));
 	    Route::post('agregar', usesas($ctrl, 'store'));
-		Route::get('ticket/{retainer}', usesas($ctrl, 'ticket'));
+	    Route::match(['get', 'post'], 'depositos/{retainer}', usesas($ctrl, 'deposit'));
+	    Route::get('transformar/{retainer}', usesas($ctrl, 'transform'));
 		Route::get('cancelar/{retainer}/{reasons}', usesas($ctrl, 'destroy'));
 		Route::get('{retainer}', usesas($ctrl, 'show'));
 	});

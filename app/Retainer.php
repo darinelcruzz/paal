@@ -18,8 +18,18 @@ class Retainer extends Model
         return $this->morphMany(Payment::class, 'payable');
     }
 
-    function movements()
+    function getMethodAttribute()
     {
-        return $this->morphMany(Movement::class, 'movable');
+        $methods = ['efectivo' => 0, 'cheque' => 0, 'transferencia' => 0, 'tarjeta débito' => 0, 'tarjeta crédito' => 0];
+
+        foreach ($this->payments as $payment) {
+            $methods['efectivo'] += $payment->cash;
+            $methods['cheque'] += $payment->check;
+            $methods['transferencia'] += $payment->transfer;
+            $methods['tarjeta débito'] += $payment->debit_card;
+            $methods['tarjeta crédito'] += $payment->credit_card;
+        }
+
+        return array_search(max($methods), $methods);
     }
 }

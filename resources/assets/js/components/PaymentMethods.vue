@@ -2,12 +2,21 @@
 	<div>
 		<div class="row">
 	        <div class="col-md-6">
-	            <div class="control-group">
-	                <label>Total a pagar:</label>
+	            <div v-if="amount != undefined" class="control-group">
+	                <label>Total a pagar</label>
 	                <span class="form-control" style="color: green;">
 	                    <b>{{ amount.toFixed(2) }}</b>
 	                </span>
 	            </div>
+	            <div v-else class="form-group">
+				    <label class="control-label">
+				        <b>Total a pagar</b>
+				    </label>				    
+				    <div class="input-group">
+				        <span class="input-group-addon"><i class="fa fa-cash-register"></i></span>
+				        <input type="number" name="amount" value="0" min="0" step="0.01" class="form-control" v-model.number="total">
+				    </div>
+				</div>
 	        </div>
 	        <div class="col-md-6">
 	        	<div class="form-group">
@@ -15,10 +24,10 @@
 				        <b>Efectivo</b>
 				    </label>				    
 				    <div class="input-group">
-				        <span class="input-group-addon"><i class="fa fa-usd"></i></span>
+				        <span class="input-group-addon"><i class="fa fa-money-bill-alt"></i></span>
 				        <input type="number" name="cash" value="0" min="0" step="0.01" class="form-control" 
 				        	:max="total - (debit_card + credit_card + transfer + check)" 
-				        	v-model.number="cash">
+				        	v-model.number="cash" :disabled="total == 0">
 				    </div>
 				</div>
 	        </div>
@@ -30,10 +39,10 @@
 				        <b>Cheque</b>
 				    </label>				    
 				    <div class="input-group">
-				        <span class="input-group-addon"><i class="fa fa-usd"></i></span>
+				        <span class="input-group-addon"><i class="fa fa-money-check-alt"></i></span>
 				        <input type="number" name="check" value="0" min="0" step="0.01" class="form-control" 
 				        	:max="total - (debit_card + credit_card + transfer + cash)" 
-				        	v-model.number="check">
+				        	v-model.number="check" :disabled="total == 0">
 				    </div>
 				</div>
 	            <div class="form-group">
@@ -41,10 +50,10 @@
 				        <b>Tarjeta de crédito</b>
 				    </label>				    
 				    <div class="input-group">
-				        <span class="input-group-addon"><i class="fa fa-usd"></i></span>
+				        <span class="input-group-addon"><i class="fab fa-cc-visa"></i></span>
 				        <input type="number" name="credit_card" value="0" min="0" step="0.01" class="form-control" 
 				        	:max="total - (debit_card + cash + transfer + check)" 
-				        	v-model.number="credit_card">
+				        	v-model.number="credit_card" :disabled="total == 0">
 				    </div>
 				</div>
 	        </div>
@@ -54,10 +63,10 @@
 				        <b>Transferencia</b>
 				    </label>				    
 				    <div class="input-group">
-				        <span class="input-group-addon"><i class="fa fa-usd"></i></span>
+				        <span class="input-group-addon"><i class="fa fa-exchange-alt"></i></span>
 				        <input type="number" name="transfer" value="0" min="0" step="0.01" class="form-control" 
 				        	:max="total - (debit_card + credit_card + cash + check)" 
-				        	v-model.number="transfer">
+				        	v-model.number="transfer" :disabled="total == 0">
 				    </div>
 				</div>
 	        	<div class="form-group">
@@ -65,10 +74,10 @@
 				        <b>Tarjeta de débito</b>
 				    </label>				    
 				    <div class="input-group">
-				        <span class="input-group-addon"><i class="fa fa-usd"></i></span>
+				        <span class="input-group-addon"><i class="fab fa-cc-mastercard"></i></span>
 				        <input type="number" name="debit_card" value="0" min="0" step="0.01" class="form-control" 
 				        	:max="total - (cash + credit_card + transfer + check)" 
-				        	v-model.number="debit_card">
+				        	v-model.number="debit_card" :disabled="total == 0">
 				    </div>
 				</div>
 	        </div>
@@ -112,13 +121,14 @@ export default {
             debit_card: 0,
             credit_card: 0,
             check: 0,
+            total: 0,
         };
     },
     props: ['amount'],
-    computed: {
-    	total() {
-    		return this.amount
-    	},
+    created() {
+    	if (this.amount) {
+    		this.total = this.amount
+    	}
     }
 };
 </script>

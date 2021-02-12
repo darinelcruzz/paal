@@ -46,11 +46,11 @@ class Payment extends Model
     function scopeMonthly($query, $date, $company = 'coffee')
     {
         return $query->whereYear('created_at', substr($date, 0, 4))
-            ->whereMonth('created_at', substr($date, 5))
-            ->whereHas('ingress', function($query) use ($company) {
-                $query->where('status', '!=', 'cancelado')
-                    ->where('status', '!=', 'crédito')
-                    ->where('company', $company);
-            });
+            ->whereMonth('created_at', substr($date, 5));
+            // ->whereHas('ingress', function($query) use ($company) {
+            //     $query->where('status', '!=', 'cancelado')
+            //         ->where('status', '!=', 'crédito')
+            //         ->where('company', $company);
+            // });
     }
 }
