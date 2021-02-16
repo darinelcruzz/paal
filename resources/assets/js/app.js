@@ -81,6 +81,7 @@ Vue.component('payment-inputs', require('./components/PaymentInputs.vue'));
 Vue.component('client-select', require('./components/ClientSelect.vue'));
 Vue.component('provider-select', require('./components/ProviderSelect.vue'));
 Vue.component('money-box', require('./components/MoneyBox.vue'));
+Vue.component('movements', require('./components/Movements.vue'));
 Vue.component('sale-products-list', require('./components/SaleProductsList.vue'));
 
 // NEW ONES FOR SANSON
@@ -134,8 +135,12 @@ const app = new Vue({
         },
         checkall: false,
         checked: [],
+        model: {},
     },
     methods: {
+        upmodel(object) {
+            this.model = object
+        },
         reset() {
             this.product_option = ''
         },

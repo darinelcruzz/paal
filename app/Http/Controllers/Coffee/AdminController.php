@@ -68,20 +68,24 @@ class AdminController extends Controller
     {
         $date = $thisDate == null ? dateFromRequest(): $thisDate;
 
-        $total = Payment::whereYear('created_at', substr($date, 0, 4))
-            ->whereMonth('created_at', substr($date, 5))
-            ->whereNull('cash_reference')
-            ->whereHas('ingress', function($query) {
-                $query->where('status', '!=', 'cancelado')
-                    ->where('company', 'coffee')
-                    ->where('invoice_id', '!=', null);
-            })
-            ->sum('cash');
+        // dd($date);
+        $total = 0;
+        // $total = Payment::whereYear('created_at', substr($date, 0, 4))
+        //     ->whereMonth('created_at', substr($date, 5))
+        //     ->whereNull('cash_reference')
+        //     ->whereHas('ingress', function($query) {
+        //         $query->where('status', '!=', 'cancelado')
+        //             ->where('company', 'coffee')
+        //             ->where('invoice_id', '!=', null);
+        //     })
+        //     ->sum('cash');
+
 
         $invoices = Ingress::where('invoice_id', '!=', null)
             ->whereDate('created_at', $date)
             ->where('status', '!=', 'cancelado')
             ->where('company', 'coffee')
+            ->with('payments')
             ->get()
             ->groupBy('invoice_id');
 

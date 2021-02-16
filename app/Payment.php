@@ -8,9 +8,9 @@ class Payment extends Model
 {
     protected $guarded = [];
 
-    function movable()
+    function ingress()
     {
-        return $this->morphTo();
+        return $this->belongsTo(Payment::class);
     }
 
     function getMethodsAttribute()

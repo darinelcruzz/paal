@@ -29,31 +29,48 @@
 
             <solid-box title="Ventas" color="danger">
 
-                <data-table example="1">
+                <table class="table table-striped table-bordered spanish-simple">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center;"><small>FOLIO</small></th>
+                            <th style="text-align: center;"><i class="fa fa-cogs"></i></th>
+                            <th><small>FECHA</small></th>
+                            <th><small>CLIENTE</small></th>
+                            <th style="text-align: center;"><small>TIPO</small></th>
+                            <th style="text-align: right;"><small>IVA</small></th>
+                            <th style="text-align: right;"><small>IMPORTE</small></th>
+                            <th style="text-align: center;"><small>MÉTODO</small></th>
+                        </tr>
+                    </thead>
 
-                    {{ drawHeader('folio', '<i class="fa fa-cogs"></i>','fecha', 'cliente', 'tipo', 'IVA', 'total', 'método', 'estado') }}
-
-                    <template slot="body">
+                    <tbody>
                         @foreach($ingresses as $ingress)
                             <tr>
                                 <td style="text-align: center;">
                                     {{ $ingress->folio }}
-                                    @if($ingress->areSerialNumbersMissing)
-                                        <i class="fa fa-exclamation-circle" style="color: #f39c12;"></i>
-                                    @endif
                                     @if($ingress->quotation_id != null)
                                         <br>
-                                        <a href="{{ route('coffee.quotation.show', $ingress->quotation_id) }}">
-                                            <code>
-                                                <small>COT {{ $ingress->quotation_id }}</small>
-                                            </code>
-                                        </a>
+                                        <code><small>COT {{ $ingress->quotation_id }}</small></code>
+                                    @endif
+                                    @if($ingress->type != 'anticipo')
+                                    @foreach($ingress->retainers as $retainer)
+                                        @if($loop->index == 0) <code style="color: blue"><br> NNC @endif
+                                        <small>{{ $retainer->folio }}</small>
+                                        @if($loop->last) </code> @endif
+                                    @endforeach
+                                    
                                     @endif
                                 </td>
-                                <td>
+                                <td style="text-align: center;">
                                     <dropdown icon="cogs" color="danger">
                                         <ddi v-if="{{ $ingress->status == 'pagado' || $ingress->status == 'cancelado' ? 0: 1 }}" to="{{ route('coffee.payment.create', $ingress) }}" icon="money" text="Pagar"></ddi>
-                                        <ddi to="{{ route('coffee.ingress.show', $ingress) }}" icon="eye" text="Detalles"></ddi>
+                                        @if($ingress->type != 'anticipo')
+                                        <li>
+                                            <a data-toggle="modal" data-target="#ingress-modal" v-on:click="upmodel({{ $ingress->toJson() }})">
+                                                <i class="fa fa-eye" aria-hidden="true"></i> Ver productos
+                                            </a>
+                                        </li>
+                                        @endif
                                         <li>
                                             <a href="{{ route('coffee.ingress.ticket', $ingress) }}" target="_blank">
                                                 <i class="fa fa-print" aria-hidden="true"></i> Imprimir
@@ -74,7 +91,7 @@
                                 </td>
                                 <td>{{ fdate($ingress->bought_at, 'd/M/y', 'Y-m-d') }}</td>
                                 <td style="width: 30%">
-                                    {{ $ingress->client_name ?? $ingress->client->name }}
+                                    {{ $ingress->quotation_id != null ? ($ingress->quotation->client_name ?? $ingress->quotation->client->name ) : $ingress->client->name }}
                                     @if($ingress->quotation)
                                     <span class="{{ $ingress->quotation->internet_type == '' ? '': 'badge bg-aqua' }} pull-right"><em>{{ $ingress->quotation->internet_type }}</em></span>
                                     @endif
@@ -83,9 +100,20 @@
                                     <label class="label label-{{$ingress->typeLabel }}">{{ strtoupper($ingress->type) }}</label>
                                 </td>
                                 <td style="text-align: right;">{{ number_format($ingress->iva, 2) }}</td>
-                                <td style="text-align: right;">{{ number_format($ingress->amount, 2) }}</td>
-                                <td style="text-align: center;"><small>{{ strtoupper($ingress->method) }}</small></td>
-                                <td style="text-align: center;">
+                                <td style="text-align: right;">
+                                    {{ number_format($ingress->amount, 2) }}
+                                    @if($ingress->type == 'anticipo')
+                                        <br>
+                                        <small><em>p.p.</em> {{ number_format($ingress->debt - $ingress->amount, 2) }}</small>
+                                    @else
+                                    @if($ingress->retainers->sum('amount') > 0)
+                                        <br>
+                                        <small>(-{{ number_format($ingress->retainers->sum('amount'), 2) }})</small>
+                                    @endif
+                                    @endif
+                                </td>
+                                <td style="text-align: center;"><small>{{ strtoupper($ingress->pay_method) }}</small></td>
+                                {{-- <td style="text-align: center;">
                                     @if ($ingress->status == 'cancelado')
                                         <a type="button" class="label label-danger" data-toggle="modal" data-target="#modal-cancelation-{{$ingress->id}}">
                                             {{ ucfirst($ingress->status) }}
@@ -109,14 +137,18 @@
                                             {{ strtoupper($ingress->status) }}
                                         </span>
                                     @endif
-                                </td>
+                                </td> --}}
                             </tr>
                         @endforeach
-                    </template>
+                    </tbody>
 
-                </data-table>
+                </table>
 
             </solid-box>
+
+            <modal title="Productos" color="danger" id="ingress-modal">
+                <movements :model="model"></movements>
+            </modal>
         </div>
     </div>
 

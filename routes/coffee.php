@@ -73,14 +73,8 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 
 	Route::group(['prefix' => 'anticipos', 'as' => 'retainer.'], function () {
 	    $ctrl = 'Coffee\RetainerController';
-	    Route::get('/', usesas($ctrl, 'index'));
-	    Route::post('/', usesas($ctrl, 'index'));
-	    Route::get('agregar', usesas($ctrl, 'create'));
-	    Route::post('agregar', usesas($ctrl, 'store'));
-	    Route::match(['get', 'post'], 'depositos/{retainer}', usesas($ctrl, 'deposit'));
-	    Route::get('transformar/{retainer}', usesas($ctrl, 'transform'));
-		Route::get('cancelar/{retainer}/{reasons}', usesas($ctrl, 'destroy'));
-		Route::get('{retainer}', usesas($ctrl, 'show'));
+	    Route::get('agregar/{quotation}', usesas($ctrl, 'create'));
+	    Route::post('agregar/{quotation}', usesas($ctrl, 'store'));
 	});
 
 	Route::group(['prefix' => 'pagos', 'as' => 'payment.'], function () {
@@ -97,10 +91,6 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 
 	Route::group(['prefix' => 'cotizaciones', 'as' => 'quotation.'], function () {
 	    $ctrl = 'Coffee\QuotationController';
-	    Route::get('/', usesas($ctrl, 'index'));
-	    Route::post('/', usesas($ctrl, 'index'));
-	    Route::get('internet/{type}', usesas($ctrl, 'internet'));
-	    Route::post('internet/{type}', usesas($ctrl, 'internet'));
 	    Route::get('agregar', usesas($ctrl, 'create'));
 	    Route::post('agregar', usesas($ctrl, 'store'));
 	    Route::get('editar/{quotation}', usesas($ctrl, 'edit'));
@@ -108,7 +98,9 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 		Route::get('imprimir/{quotation}', usesas($ctrl, 'print'));
 		Route::get('descargar/{quotation}', usesas($ctrl, 'download'));
 		Route::get('transformar/{quotation}', usesas($ctrl, 'transform'));
-		Route::get('{quotation}', usesas($ctrl, 'show'));
+		Route::get('ver/{quotation}', usesas($ctrl, 'show'));
+	    Route::get('/{type?}', usesas($ctrl, 'index'));
+	    Route::post('/{type?}', usesas($ctrl, 'index'));
 	});
 
 	Route::group(['prefix' => 'clientes', 'as' => 'client.'], function () {

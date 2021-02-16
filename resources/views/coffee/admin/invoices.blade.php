@@ -1,8 +1,6 @@
 @extends('coffee.root')
 
-@push('pageTitle')
-    Facturas
-@endpush
+@push('pageTitle', 'Facturas')
 
 @section('content')
 

@@ -26,7 +26,7 @@ class Ingress extends Model
 
     function payments()
     {
-        return $this->morphMany(Payment::class, 'payable');
+        return $this->hasMany(Payment::class);
     }
 
     function movements()
@@ -46,13 +46,20 @@ class Ingress extends Model
 
     function getDebtAttribute()
     {
-        $payments_total = 0;
+        $debt = 0;
 
-        foreach ($this->payments as $payment) {
-            $payments_total += $payment->cash + $payment->transfer + $payment->check + $payment->debit_card + $payment->credit_card;
+        foreach ($this->retainers as $retainer) {
+            if ($this->id == $retainer->id) {
+                break;
+            }
+            $debt += $retainer->amount;
         }
+        return $this->quotation->amount - $debt;
+    }
 
-        return $this->amount - $payments_total;
+    function getRetainersAttribute()
+    {
+        return Ingress::where('type', 'anticipo')->where('quotation_id', $this->quotation_id)->get();
     }
 
     function getDepositsSumAttribute()
@@ -80,6 +87,21 @@ class Ingress extends Model
         $descriptions = ['G01' => 'G01 Adquisición de mercancías', 'G03' => 'G03 Gastos en general', 'P01' => 'P01 Por definir'];
 
         return $descriptions[$this->invoice];
+    }
+
+    function getPayMethodAttribute()
+    {
+        $methods = ['efectivo' => 0, 'cheque' => 0, 'transferencia' => 0, 'tarjeta débito' => 0, 'tarjeta crédito' => 0];
+
+        foreach ($this->payments as $payment) {
+            $methods['efectivo'] += $payment->cash;
+            $methods['cheque'] += $payment->check;
+            $methods['transferencia'] += $payment->transfer;
+            $methods['tarjeta débito'] += $payment->debit_card;
+            $methods['tarjeta crédito'] += $payment->credit_card;
+        }
+
+        return array_search(max($methods), $methods);
     }
 
     function getInferredMethodAttribute()
@@ -170,7 +192,7 @@ class Ingress extends Model
 
     function getTypeLabelAttribute()
     {
-        return ['insumos' => 'danger', 'equipo' => 'warning', 'proyecto' => 'primary'][$this->type];
+        return ['insumos' => 'danger', 'equipo' => 'warning', 'proyecto' => 'primary', 'anticipo' => 'default'][$this->type];
     }
 
     function getAreSerialNumbersMissingAttribute()

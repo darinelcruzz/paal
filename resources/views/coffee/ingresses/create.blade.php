@@ -40,16 +40,6 @@
                                 !!}
                             </div>
                             <div class="col-md-6">
-                                {!! Field::select('is_retained', ['Sí', 'No'], 1,
-                                    ['tpl' => 'withicon', 'empty' => '¿Se deja anticipo?', 'v-model.number' => 'is_retained','required' => 'true'],
-                                    ['icon' => 'question'])
-                                !!}
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6"></div>
-                            <div class="col-md-6">
                                 {!! Field::select('shipping', ['No', 'Sí'], 0,
                                     ['label' => '¿Con envío?', 'tpl' => 'withicon', 'empty' => 'Elegir'],
                                     ['icon' => 'shipping-fast'])
@@ -73,7 +63,7 @@
 
                     </form-wizard>
 
-                    <input type="hidden" name="method" :value="is_retained == 0 ? 'anticipo': 'contado'">
+                    <input type="hidden" name="method" value="contado">
                     <input type="hidden" name="bought_at" value="{{ date('Y-m-d') }}">
                     <input type="hidden" name="company" value="coffee">
                     <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">

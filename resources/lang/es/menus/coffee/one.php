@@ -16,27 +16,12 @@ return [
             ],
             'campaigns' => [
                 'title' => 'Campañas',
-                'route' => ['coffee.quotation.internet', 'campañas']
+                'route' => ['coffee.quotation.index', 'campañas']
             ],
             'forms' => [
                 'title' => 'Formularios',
-                'route' => ['coffee.quotation.internet', 'formularios']
+                'route' => ['coffee.quotation.index', 'formularios']
             ]
-        ]
-    ],
-
-    'retainers' => [
-        'title' => ' Anticipos',
-        'icon' => 'fas fa-hand-holding-usd',
-        'submenu' => [
-            'create' => [
-                'title' => 'Agregar',
-                'route' => 'coffee.retainer.create'
-            ],
-            'index' => [
-                'title' => 'Historial',
-                'route' => 'coffee.retainer.index'
-            ],
         ]
     ],
 

@@ -7,14 +7,14 @@
     <div class="row">
         <div class="col-md-3">
 
-            {!! Form::open(['method' => 'post', 'route' => 'coffee.quotation.index']) !!}
+            {!! Form::open(['method' => 'post', 'route' => ['coffee.quotation.index', $type]]) !!}
                 
                 <div class="row">
                     <div class="col-md-3">                        
                         <div class="input-group input-group-sm">
                             <input type="month" name="date" class="form-control" value="{{ $date }}">
                             <span class="input-group-btn">
-                                <button type="submit" class="btn btn-warning btn-flat"><i class="fa fa-search"></i></button>
+                                <button type="submit" class="btn btn-{{ $color }} btn-flat"><i class="fa fa-search"></i></button>
                             </span>
                         </div>
                     </div>
@@ -25,7 +25,7 @@
         </div>
 
         <div class="col-md-3">
-            <label class="btn btn-warning btn-bg btn-block">
+            <label class="btn btn-{{ $color }} btn-bg btn-block">
                TOTAL: {{ $total }}
             </label>
         </div>
@@ -49,7 +49,7 @@
 
         <div class="col-md-12">
 
-            <solid-box title="Cotizaciones" color="warning">
+            <solid-box title="{{ ucfirst($type ?? 'Cotizaciones') }}" color="{{ $color }}" button>
 
                 <data-table example="1">
 
@@ -60,11 +60,16 @@
                             <tr>
                                 <td>{{ $quotation->id }}</td>
                                 <td>
-                                    <dropdown icon="cogs" color="warning">
-                                        <ddi to="{{ route('coffee.quotation.show', $quotation) }}" icon="eye" text="Detalles"></ddi>
+                                    <dropdown icon="cogs" color="{{ $color }}">
+                                        <li>
+                                            <a data-toggle="modal" data-target="#quotation-modal" v-on:click="upmodel({{ $quotation->toJson() }})">
+                                                <i class="fa fa-eye" aria-hidden="true"></i> Detalles
+                                            </a>
+                                        </li>
                                         <ddi to="{{ route('coffee.quotation.download', $quotation) }}" icon="file-pdf" text="Imprimir" target="_blank"></ddi>
-                                        @if (!$quotation->is_canceled)
+                                        @if (!$quotation->is_canceled && !$quotation->sale)
                                             <ddi to="{{ route('coffee.quotation.edit', $quotation) }}" icon="edit" text="Editar"></ddi>
+                                            <ddi to="{{ route('coffee.retainer.create', $quotation) }}" icon="hand-holding-usd" text="Anticipo"></ddi>
                                             @if($quotation->type)
                                                 <ddi to="{{ route('coffee.quotation.transform', [$quotation, $quotation->type]) }}" icon="mug-hot" text="Crear venta"></ddi>
                                             @else
@@ -74,7 +79,7 @@
                                     </dropdown>
                                 </td>
                                 <td>{{ fdate($quotation->created_at, 'd/m/Y') }}</td>
-                                <td style="width: 40%">{{ $quotation->client->name }}</td>
+                                <td style="width: 40%">{{ $quotation->client_name ?? $quotation->client->name }}</td>
                                 <td style="text-align: center">
                                     @if ($quotation->type)
                                         <label class="label label-{{ $quotation->typeLabel }}">{{ strtoupper($quotation->type) }}</label>
@@ -85,8 +90,8 @@
                                 <td style="text-align: right">{{ number_format($quotation->iva, 2) }}</td>
                                 <td style="text-align: right">{{ number_format($quotation->amount, 2) }}</td>
                                 <td style="text-align: center">
-                                    <span class="label label-{{ count($quotation->sales) > 0 ? 'success': 'default' }}">
-                                        <small>{{ count($quotation->sales) > 0 ? 'VENTA': 'SIN VENTA' }}</small>
+                                    <span class="label label-{{ $quotation->sale ? 'success': 'default' }}">
+                                        <small>{{ $quotation->sale ? 'VENTA': 'SIN VENTA' }}</small>
                                     </span>
                                 </td>
                                 <td style="text-align: center">
@@ -103,6 +108,10 @@
                 </data-table>
 
             </solid-box>
+
+            <modal title="Productos" color="{{ $color }}" id="quotation-modal">
+                <movements :model="model"></movements>
+            </modal>
         </div>
     </div>
 

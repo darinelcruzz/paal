@@ -19,14 +19,24 @@ class Quotation extends Model
     	return $this->belongsTo(User::class);
     }
 
-    function sales()
+    function sale()
     {
-        return $this->hasMany(Ingress::class, 'quotation_id');
+        return $this->hasOne(Ingress::class, 'quotation_id')->where('type', '!=', 'anticipo');
+    }
+
+    function retainers()
+    {
+        return $this->hasMany(Ingress::class, 'quotation_id')->where('type', 'anticipo');
     }
 
     function movements()
     {
         return $this->morphMany(Movement::class, 'movable');
+    }
+
+    function getDebtAttribute()
+    {
+        return $this->amount - $this->retainers->sum('amount');
     }
 
     function getProductsListAttribute()
@@ -69,11 +79,6 @@ class Quotation extends Model
         return $elapsed_time > $limit;
     }
 
-    function getIndexPageAttribute()
-    {
-        return route($this->company . '.quotation.' . ($this->client_name ? 'internet': 'index'));
-    }
-
     function getTypeLabelAttribute()
     {
         return ['insumos' => 'danger', 'equipo' => 'warning', 'proyecto' => 'primary'][$this->type];
@@ -84,22 +89,16 @@ class Quotation extends Model
         return [658 => 'formulario', 659 => 'campaña'][$this->client_id] ?? '';
     }
 
-    function scopeNormal($query, $company, $date)
+    function scopeMonthly($query, $company, $date, $type)
     {
         return $query->where('company', $company)
-            ->whereNull('client_name')
             ->whereMonth('created_at', substr($date, 5, 7))
             ->whereYear('created_at', substr($date, 0, 4))
-            ->with('client');
-    }
-
-    function scopeInternet($query, $company, $date, $type = null)
-    {
-        return $query->where('company', $company)
-            ->whereNotNull('client_name')
-            ->where('client_id', $type == 'formularios' ? 658: 659)
-            ->whereMonth('created_at', substr($date, 5, 7))
-            ->whereYear('created_at', substr($date, 0, 4))
-            ->with('client');
+            ->when($type, function ($query, $type) {
+                return $query->where('client_id', $type == 'formularios' ? 658: 659);
+            }, function ($query) {
+                return $query->whereNull('client_name');
+            })
+            ->with('client', 'movements.product');
     }
 }

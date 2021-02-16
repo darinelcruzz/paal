@@ -9,30 +9,15 @@ use PDF;
 
 class QuotationController extends Controller
 {
-    function index(Request $request)
+    function index(Request $request, $type = null)
     {
         $date = isset($request->date) ? $request->date: date('Y-m');
-
-        $quotations = Quotation::normal('coffee', $date)->get();
-
-        $sales = Quotation::normal('coffee', $date)->has('sales')->count();
-
+        $quotations = Quotation::monthly('coffee', $date, $type)->get();
+        $sales = Quotation::monthly('coffee', $date, $type)->has('retainers')->count();
+        $color = $type ? ($type == 'formularios' ? 'primary': 'info') : 'warning';
         $total = count($quotations);
 
-        return view('coffee.quotations.index', compact('quotations', 'sales', 'total', 'date'));
-    }
-
-    function internet(Request $request, $type = 'formularios')
-    {
-        $date = isset($request->date) ? $request->date: date('Y-m');
-
-        $quotations = Quotation::internet('coffee', $date, $type)->get();
-
-        $sales = Quotation::internet('coffee', $date, $type)->has('sales')->count();
-
-        $total = count($quotations);
-
-        return view('coffee.quotations.internet', compact('quotations', 'sales', 'total', 'date', 'type'));
+        return view('coffee.quotations.index', compact('quotations', 'sales', 'total', 'date', 'type', 'color'));
     }
 
     function create()
@@ -57,7 +42,7 @@ class QuotationController extends Controller
         $quotation = Quotation::create($validated);
 
         if (isset($request->client_name)) {
-            return redirect(route('coffee.quotation.internet', $request->client_id == 658 ? 'formularios': 'campañas'));
+            return redirect(route('coffee.quotation.index', $request->client_id == 658 ? 'formularios': 'campañas'));
         }
 
         return redirect(route('coffee.quotation.index'));
