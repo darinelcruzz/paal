@@ -17,10 +17,19 @@ class AdminController extends Controller
         $ingresses = Ingress::whereDate('created_at', $date)
             ->where('status', '!=', 'cancelado')
             ->whereCompany('coffee')
-            ->where($this->getConditions($status))
+            ->when($status == 'factura', function ($query) {
+                $query->where('invoice', '!=', 'no');
+            }, function ($query) use ($status) {
+                $query->where('invoice', 'no')->where('method', 'like', "%$status%");
+            })
+            ->with('payments', 'movements.product')
             ->get();
 
-        $payments = Payment::from($date);
+        $payments = Ingress::whereDate('created_at', $date)
+            ->where('status', '!=', 'cancelado')
+            ->whereCompany('coffee')
+            ->with('payments')
+            ->get();
 
         $color = ['factura' => 'primary', 'efectivo' => 'success', 'tarjeta' => 'warning', 'transferencia' => 'info'][$status];
 
@@ -46,48 +55,43 @@ class AdminController extends Controller
     {
         $date = isset($request->date) ? $request->date: date('Y-m');
 
-        $shippings = Shipping::monthly($date);
+        $ingresses = Ingress::where('company', 'coffee')
+            ->where('status', '!=', 'cancelado')
+            ->whereMonth('created_at', substr($date, 5, 7))
+            ->whereYear('created_at', substr($date, 0, 4))
+            ->with('payments', 'movements.product')
+            ->get();
 
-        $month = Payment::monthly($date);
+        $shippings = Shipping::monthly($date)->count();
 
-        $working_days = $month->selectRaw('DATE_FORMAT(created_at, "%Y-%m-%d") as date')->get()->groupBy('date')->count();
+        // $type1 = Ingress::monthly($date)->where('status', 'pagado')->where('type', 'insumos')->get();
+        // $type2 = Ingress::monthly($date)->where('status', 'pagado')->where('type', 'equipo')->get();
 
-        $working_days = $working_days == 0 ? 1: $working_days;
-
-        $pending = Payment::monthly($date)->whereNull('cash_reference')->sum('cash');
-
-        $credit = Ingress::monthly($date)->where('status', 'crédito')->get();
-
-        $type1 = Ingress::monthly($date)->where('status', 'pagado')->where('type', 'insumos')->get();
-        $type2 = Ingress::monthly($date)->where('status', 'pagado')->where('type', 'equipo')->get();
-
-        return view('coffee.admin.monthly', compact('date', 'month', 'pending', 'working_days', 'shippings', 'type1', 'type2', 'credit'));
+        return view('coffee.admin.monthly', compact('date', 'ingresses', 'shippings'));
     }
 
     function invoices(Request $request, $thisDate = null)
     {
         $date = $thisDate == null ? dateFromRequest(): $thisDate;
 
-        // dd($date);
-        $total = 0;
-        // $total = Payment::whereYear('created_at', substr($date, 0, 4))
-        //     ->whereMonth('created_at', substr($date, 5))
-        //     ->whereNull('cash_reference')
-        //     ->whereHas('ingress', function($query) {
-        //         $query->where('status', '!=', 'cancelado')
-        //             ->where('company', 'coffee')
-        //             ->where('invoice_id', '!=', null);
-        //     })
-        //     ->sum('cash');
-
-
         $invoices = Ingress::where('invoice_id', '!=', null)
             ->whereDate('created_at', $date)
             ->where('status', '!=', 'cancelado')
             ->where('company', 'coffee')
+            ->with('payments', 'movements.product')
+            ->get();
+
+        // dd(substr($date, 5, 2), substr($date, 0, 4));
+        $deposits = Ingress::where('company', 'coffee')
+            ->where('status', '!=', 'cancelado')
+            ->whereMonth('created_at', substr($date, 5, 2))
+            ->whereYear('created_at', substr($date, 0, 4))
             ->with('payments')
             ->get()
-            ->groupBy('invoice_id');
+            ->sum(function ($item)
+            {
+                return $item->payments->where('cash_reference', null)->sum('cash');
+            });
 
         $canceled = Ingress::where('invoice_id', '!=', null)
             ->whereDate('created_at', $date)
@@ -96,7 +100,7 @@ class AdminController extends Controller
             ->get()
             ->groupBy('invoice_id');
 
-        return view('coffee.admin.invoices', compact('invoices', 'date', 'total', 'canceled'));
+        return view('coffee.admin.invoices', compact('invoices', 'date', 'canceled', 'deposits'));
     }
 
     function reference(Request $request)
@@ -144,20 +148,6 @@ class AdminController extends Controller
             $date = null !== request('date') ? request('date'): date('Y-m-d');
             session()->put('date', $date);
             return $date;
-        }
-    }
-
-    function getConditions($value)
-    {
-        if ($value == 'factura') {
-            return [
-                ['invoice', '!=', 'no']
-            ];
-        } else {
-            return [
-                ['invoice', '=', 'no'],
-                ['method', 'LIKE', "%$value%"]
-            ];
         }
     }
 }

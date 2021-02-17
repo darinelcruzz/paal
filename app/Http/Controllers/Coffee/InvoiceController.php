@@ -11,6 +11,7 @@ class InvoiceController extends Controller
 {
 	function create(Request $request)
     {
+        // dd($request->all());
         $validated = $request->validate([
             'invoice_id' => 'required',
             'sales' => 'required',
