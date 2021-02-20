@@ -3,7 +3,8 @@
         <td>
             <div class="row">
                 <div class="col-md-7">
-                    <a href="#" @click="buttonPressed"><i class="fa fa-plus"></i></a>
+                    <a v-if="product.serial_numbers.length > 0 || product.category != 'EQUIPO'" href="#" @click="buttonPressed"><i class="fa fa-plus"></i></a>
+                    <i v-else class="fa fa-times"></i>
                     &nbsp;&nbsp;
                     {{ product.description }}
                 </div>
@@ -55,6 +56,7 @@
                 var product = this.product
                 product.quantity = 1
                 product.discount = 0
+                product.serial_numbers = product.serial_numbers.reduce((total, number) => total + (number.status == 'en inventario' ? 1: 0), 0)
                 product.price = this.setPrice(product)
                 product.total =  1 * product.price
                 this.$root.$emit('add-element', product);

@@ -17,10 +17,19 @@ class AdminController extends Controller
         $ingresses = Ingress::whereDate('created_at', $date)
             ->where('status', '!=', 'cancelado')
             ->whereCompany('sanson')
-            ->where($this->getConditions($status))
+            ->when($status == 'factura', function ($query) {
+                $query->where('invoice', '!=', 'no');
+            }, function ($query) use ($status) {
+                $query->where('invoice', 'no')->where('method', 'like', "%$status%");
+            })
+            ->with('payments', 'movements.product')
             ->get();
 
-        $payments = Payment::from($date, 'sanson');
+        $payments = Ingress::whereDate('created_at', $date)
+            ->where('status', '!=', 'cancelado')
+            ->whereCompany('sanson')
+            ->with('payments')
+            ->get();
 
         $color = ['factura' => 'primary', 'efectivo' => 'success', 'tarjeta' => 'warning', 'transferencia' => 'info'][$status];
 
@@ -71,22 +80,23 @@ class AdminController extends Controller
     {
         $date = $thisDate == null ? dateFromRequest(): $thisDate;
 
-        $total = Payment::whereYear('created_at', substr($date, 0, 4))
-            ->whereMonth('created_at', substr($date, 5))
-            ->whereNull('cash_reference')
-            ->whereHas('ingress', function($query) {
-                $query->where('status', '!=', 'cancelado')
-                    ->where('company', 'sanson')
-                    ->where('invoice_id', '!=', null);
-            })
-            ->sum('cash');
-
         $invoices = Ingress::where('invoice_id', '!=', null)
             ->whereDate('created_at', $date)
             ->where('status', '!=', 'cancelado')
             ->where('company', 'sanson')
+            ->with('payments', 'movements.product')
+            ->get();
+
+        $deposits = Ingress::where('company', 'sanson')
+            ->where('status', '!=', 'cancelado')
+            ->whereMonth('created_at', substr($date, 5, 2))
+            ->whereYear('created_at', substr($date, 0, 4))
+            ->with('payments')
             ->get()
-            ->groupBy('invoice_id');
+            ->sum(function ($item)
+            {
+                return $item->payments->where('cash_reference', null)->sum('cash');
+            });
 
         $canceled = Ingress::where('invoice_id', '!=', null)
             ->whereDate('created_at', $date)
@@ -95,7 +105,7 @@ class AdminController extends Controller
             ->get()
             ->groupBy('invoice_id');
 
-        return view('sanson.admin.invoices', compact('invoices', 'date', 'total', 'canceled'));
+        return view('sanson.admin.invoices', compact('invoices', 'date', 'deposits', 'canceled'));
     }
 
     function reference(Request $request)
@@ -120,7 +130,7 @@ class AdminController extends Controller
     function printDeposits($date)
     {
         $invoices = Ingress::whereYear('created_at', substr($date, 0, 4))
-            ->whereMonth('created_at', substr($date, 5))
+            ->whereMonth('created_at', substr($date, 5, 2))
             ->where('invoice_id', '!=', null)
             ->where('status', '!=', 'cancelado')
             ->where('company', 'sanson')
@@ -143,20 +153,6 @@ class AdminController extends Controller
             $date = null !== request('date') ? request('date'): date('Y-m-d');
             session()->put('date', $date);
             return $date;
-        }
-    }
-
-    function getConditions($value)
-    {
-        if ($value == 'factura') {
-            return [
-                ['invoice', '!=', 'no']
-            ];
-        } else {
-            return [
-                ['invoice', '=', 'no'],
-                ['method', 'LIKE', "%$value%"]
-            ];
         }
     }
 }

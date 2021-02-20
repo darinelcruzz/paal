@@ -51,7 +51,7 @@
             </div>
             <div v-else>
                 <input name="quantities[]" class="form-control input-sm" type="number" 
-                    min="1" v-model.number="quantity" @change="updateTotal">
+                    min="1" v-model.number="quantity" @change="updateTotal" :max="product.category == 'EQUIPO' ? product.serial_numbers: 10000">
             </div>
         </td>
         <td>

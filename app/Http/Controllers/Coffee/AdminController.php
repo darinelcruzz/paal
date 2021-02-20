@@ -81,7 +81,6 @@ class AdminController extends Controller
             ->with('payments', 'movements.product')
             ->get();
 
-        // dd(substr($date, 5, 2), substr($date, 0, 4));
         $deposits = Ingress::where('company', 'coffee')
             ->where('status', '!=', 'cancelado')
             ->whereMonth('created_at', substr($date, 5, 2))
@@ -125,7 +124,7 @@ class AdminController extends Controller
     function printDeposits($date)
     {
         $invoices = Ingress::whereYear('created_at', substr($date, 0, 4))
-            ->whereMonth('created_at', substr($date, 5))
+            ->whereMonth('created_at', substr($date, 5, 2))
             ->where('invoice_id', '!=', null)
             ->where('status', '!=', 'cancelado')
             ->where('company', 'coffee')

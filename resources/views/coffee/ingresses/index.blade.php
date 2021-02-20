@@ -2,10 +2,6 @@
 
 @push('pageTitle', 'Ventas | Historial')
 
-@push('headerTitle')
-    
-@endpush
-
 @section('content')
     <div class="row">
         <div class="col-md-12">
@@ -13,7 +9,6 @@
                 
                 <div class="row">
                     <div class="col-md-3">
-                        {{-- {!! Field::date('date', $date, ['label' => 'Seleccione fecha', 'tpl' => 'withicon'], ['icon' => 'calendar']) !!} --}}
                         <div class="input-group input-group-sm">
                             <input type="month" name="date" class="form-control" value="{{ $date }}">
                             <span class="input-group-btn">

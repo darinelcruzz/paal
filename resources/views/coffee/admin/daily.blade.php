@@ -155,15 +155,13 @@
                             <file-upload fname="xml" ext="xml" color="danger" bname=" SUBIR XML"></file-upload>
                         </div>
                     </div>
-                    
-
 
                     <template slot="footer">
                         {!! Form::submit('Guardar', ['class' => "btn btn-$color pull-right"]) !!}
                     </template>
                 </modal>
 
-                {!! Form::close() !!}
+            {!! Form::close() !!}
         </div>
 
 

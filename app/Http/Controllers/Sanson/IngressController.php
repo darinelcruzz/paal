@@ -18,6 +18,7 @@ class IngressController extends Controller
             ->whereMonth('created_at', substr($date, 5, 7))
             ->whereYear('created_at', substr($date, 0, 4))
             ->orderByDesc('id')
+            ->with('client', 'movements.product')
             ->get();
 
         return view('sanson.ingresses.index', compact('ingresses', 'date'));

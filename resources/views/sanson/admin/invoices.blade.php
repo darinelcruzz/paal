@@ -10,29 +10,28 @@
 
             <solid-box title="{{ strtoupper(fdate($date, 'l d \d\e F', 'Y-m-d')) }}" color="info">
                 
-                <data-table example="1">
-
-                    <template slot="header">
+                <table class="table table-striped table-bordered spanish-simple">
+                    <thead>
                         <tr>
-                            <th>FI</th>
-                            <th>Método</th>
-                            <th>Cliente</th>
-                            <th>XML</th>
-                            <th style="text-align: center;">Referencia</th>
-                            <th style="text-align: right;">Importe</th>
+                            <th><small>FI</small></th>
+                            <th><small>MÉTODO</small></th>
+                            <th><small>CLIENTE</small></th>
+                            <th><small>XML</small></th>
+                            <th style="text-align: center;"><small>REFERENCIA</small></th>
+                            <th style="text-align: right;"><small>IMPORTE</small></th>
                         </tr>
-                    </template>
+                    </thead>
 
-                    <template slot="body">
+                    <tbody>
 
                         @php
                             $pending = 0;
                         @endphp
 
-                        @foreach($invoices as $invoice => $sales)
+                        @foreach($invoices->groupBy('invoice_id') as $invoice => $sales)
                             <tr>
                                 <td style="width: 7%">{{ $invoice }}</td>
-                                <td style="width: 17%">{{ $sales->first()->cash > 0 ? 'Efectivo' : $sales->first()->method_name }}</td>
+                                <td style="width: 17%">{{ $sales->first()->cash > 0 ? 'Efectivo' : $sales->first()->pay_method }}</td>
                                 <td style="width: 35%">{{ $sales->first()->client->name }}</td>
                                 <td style="width: 5%; text-align: center;">
                                     <a href="{{ $sales->first()->xml }}" target="_blank" style="color: green">
@@ -111,9 +110,9 @@
                                 <td style="text-align: right; width: 15%;">$ {{ number_format($subamount, 2) }}</td>
                             </tr>
                         @endforeach
-                    </template>
+                    </tbody>
                     
-                </data-table>
+                </table>
 
             </solid-box>
         </div>
@@ -123,9 +122,7 @@
             <div class="small-box bg-red">
                 <div class="inner">
                     <p>TOTAL POR DEPOSITAR</p>
-                    <h3>
-                        <em>$ {{ number_format($total, 2) }}</em>
-                    </h3>
+                    <h3><em>{{ number_format($deposits, 2) }}</em></h3>
                 </div>
             </div>
             <a href="{{ route('sanson.admin.printDeposits', $date) }}" class="btn btn-default btn-block" target="_blank">
@@ -152,9 +149,7 @@
             <div class="small-box bg-yellow">
                 <div class="inner">
                     <p>POR DEPOSITAR DEL DÍA</p>
-                    <h3>
-                        <em>$ {{ number_format($pending, 2) }}</em>
-                    </h3>
+                    <h3><em>$ {{ number_format($pending, 2) }}</em></h3>
                 </div>
             </div>
             <a href="{{ route('sanson.admin.downloadExcel', $date) }}" class="btn btn-success btn-block">

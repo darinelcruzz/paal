@@ -19,7 +19,7 @@
 					<td style="text-align: right;">{{ movement.price.toFixed(2) }}</td>
 					<td style="text-align: center;">{{ movement.quantity }}</td>
 					<td style="text-align: right;">{{ movement.discount.toFixed(2) }}</td>
-					<td style="text-align: right;">{{ (movement.quantity * movement.price - movement.discount).toFixed(2) }}</td>
+					<td style="text-align: right;">{{ (movement.quantity * movement.price * (1 - movement.discount/100)).toFixed(2) }}</td>
 				</tr>
 			</tbody>
 
@@ -44,7 +44,7 @@
 		props: ['model'],
 		computed: {
 			total() {
-				return this.model.movements.reduce((total, movement) => total + (movement.quantity * movement.price - movement.discount), 0) + this.model.iva;
+				return this.model.movements.reduce((total, movement) => total + (movement.quantity * movement.price * (1 - movement.discount/100)), 0) + this.model.iva;
 			}
 		}
 	}

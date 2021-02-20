@@ -73,10 +73,6 @@ Route::group(['prefix' => 'sanson', 'as' => 'sanson.'], function () {
 
 	Route::group(['prefix' => 'cotizaciones', 'as' => 'quotation.'], function () {
 	    $ctrl = 'Sanson\QuotationController';
-	    Route::get('/', usesas($ctrl, 'index'));
-	    Route::post('/', usesas($ctrl, 'index'));
-	    Route::get('internet/{type}', usesas($ctrl, 'internet'));
-	    Route::post('internet/{type}', usesas($ctrl, 'internet'));
 	    Route::get('agregar/{type}', usesas($ctrl, 'create'));
 	    Route::post('agregar', usesas($ctrl, 'store'));
 	    Route::get('editar/{quotation}', usesas($ctrl, 'edit'));
@@ -84,7 +80,9 @@ Route::group(['prefix' => 'sanson', 'as' => 'sanson.'], function () {
 		Route::get('descargar/{quotation}', usesas($ctrl, 'download'));
 		Route::get('imprimir/{quotation}', usesas($ctrl, 'print'));
 		Route::get('transformar/{quotation}/{type?}', usesas($ctrl, 'transform'));
-		Route::get('{quotation}', usesas($ctrl, 'show'));
+		Route::get('ver/{quotation}', usesas($ctrl, 'show'));
+		Route::get('/{type?}', usesas($ctrl, 'index'));
+	    Route::post('/{type?}', usesas($ctrl, 'index'));
 	});
 
 	Route::group(['prefix' => 'ordenes-de-compra', 'as' => 'order.'], function () {

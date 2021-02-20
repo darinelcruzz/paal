@@ -14,18 +14,19 @@ return [
                 'title' => 'Proyectos',
                 'route' => ['sanson.quotation.create', 'proyecto']
             ],
-            'campaigns' => [
-                'title' => 'Campañas',
-                'route' => ['sanson.quotation.internet', 'campañas']
-            ],
-            'forms' => [
-                'title' => 'Formularios',
-                'route' => ['sanson.quotation.internet', 'formularios']
-            ],
             'index' => [
                 'title' => 'Historial',
                 'route' => 'sanson.quotation.index'
+            ],
+            'campaigns' => [
+                'title' => 'Campañas',
+                'route' => ['sanson.quotation.index', 'campañas']
+            ],
+            'forms' => [
+                'title' => 'Formularios',
+                'route' => ['sanson.quotation.index', 'formularios']
             ]
+
         ]
     ],
 

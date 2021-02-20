@@ -75,7 +75,7 @@
                                 <td style="text-align: right">{{ number_format($ingress->amount, 2) }}</td>
                                 <td style="text-align: center">{{ number_format($ingress->retainer, 2) }}</td>
                                 <td style="text-align: center">{{ number_format($ingress->deposits_sum, 2) }}</td>
-                                <td style="text-align: center">{{ number_format($ingress->debt, 2) }}</td>
+                                <td style="text-align: center">{{ $ingress->status == 'pagado' ? '0.00': number_format($ingress->amount - $ingress->deposits_sum, 2) }}</td>
                                 <td>{{ ucfirst($ingress->method) }}</td>
                                 <td>
                                     @if ($ingress->status == 'cancelado')

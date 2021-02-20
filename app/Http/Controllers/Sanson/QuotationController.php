@@ -9,30 +9,15 @@ use PDF;
 
 class QuotationController extends Controller
 {
-    function index(Request $request)
+    function index(Request $request, $type = null)
     {
         $date = isset($request->date) ? $request->date: date('Y-m');
-
-        $quotations = Quotation::normal('sanson', $date)->get();
-
-        $sales = Quotation::normal('sanson', $date)->has('sales')->count();
-
+        $quotations = Quotation::monthly('sanson', $date, $type)->get();
+        $sales = Quotation::monthly('sanson', $date, $type)->has('retainers')->count();
+        $color = $type ? ($type == 'formularios' ? 'primary': 'info') : 'warning';
         $total = count($quotations);
 
-        return view('sanson.quotations.index', compact('quotations', 'sales', 'total', 'date'));
-    }
-
-    function internet(Request $request, $type = 'formularios')
-    {
-        $date = isset($request->date) ? $request->date: date('Y-m');
-
-        $quotations = Quotation::internet('sanson', $date, $type)->get();
-
-        $sales = Quotation::internet('sanson', $date, $type)->has('sales')->count();
-
-        $total = count($quotations);
-
-        return view('sanson.quotations.internet', compact('quotations', 'total', 'sales', 'date', 'type'));
+        return view('sanson.quotations.index', compact('quotations', 'sales', 'total', 'date', 'type', 'color'));
     }
 
     function create($type)
@@ -57,7 +42,7 @@ class QuotationController extends Controller
         $quotation = Quotation::create($attributes);
 
         if (isset($request->client_name)) {
-            return redirect(route('sanson.quotation.internet', $request->client_id == 658 ? 'formularios': 'campañas'));
+            return redirect(route('sanson.quotation.index', $request->client_id == 658 ? 'formularios': 'campañas'));
         }
 
         return redirect(route('sanson.quotation.index'));
@@ -105,7 +90,7 @@ class QuotationController extends Controller
             'editions_count' => 'required'
         ]));
 
-        if ($quotation->client_name) return redirect(route('sanson.quotation.internet'));
+        if ($quotation->client_name) return redirect(route('sanson.quotation.index', $request->client_id == 658 ? 'formularios': 'campañas'));
 
         return redirect(route('sanson.quotation.index'));
     }

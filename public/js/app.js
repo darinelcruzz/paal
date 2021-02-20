@@ -54156,6 +54156,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['product', 'color', 'exchange', 'promo'],
@@ -54170,6 +54171,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var product = this.product;
             product.quantity = 1;
             product.discount = 0;
+            product.serial_numbers = product.serial_numbers.reduce(function (total, number) {
+                return total + (number.status == 'en inventario' ? 1 : 0);
+            }, 0);
             product.price = this.setPrice(product);
             product.total = 1 * product.price;
             this.$root.$emit('add-element', product);
@@ -54212,9 +54216,14 @@ var render = function() {
     _c("td", [
       _c("div", { staticClass: "row" }, [
         _c("div", { staticClass: "col-md-7" }, [
-          _c("a", { attrs: { href: "#" }, on: { click: _vm.buttonPressed } }, [
-            _c("i", { staticClass: "fa fa-plus" })
-          ]),
+          _vm.product.serial_numbers.length > 0 ||
+          _vm.product.category != "EQUIPO"
+            ? _c(
+                "a",
+                { attrs: { href: "#" }, on: { click: _vm.buttonPressed } },
+                [_c("i", { staticClass: "fa fa-plus" })]
+              )
+            : _c("i", { staticClass: "fa fa-times" }),
           _vm._v(
             "\n                      \n                    " +
               _vm._s(_vm.product.description) +
@@ -55215,7 +55224,11 @@ var render = function() {
               attrs: {
                 name: "items[" + _vm.index + "][quantity]",
                 type: "number",
-                min: "1"
+                min: "1",
+                max:
+                  _vm.product.category == "EQUIPO"
+                    ? _vm.product.serial_numbers
+                    : 10000
               },
               domProps: { value: _vm.quantity },
               on: {
@@ -57510,7 +57523,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	computed: {
 		total: function total() {
 			return this.model.movements.reduce(function (total, movement) {
-				return total + (movement.quantity * movement.price - movement.discount);
+				return total + movement.quantity * movement.price * (1 - movement.discount / 100);
 			}, 0) + this.model.iva;
 		}
 	}
@@ -57565,8 +57578,9 @@ var render = function() {
                     _vm._v(
                       _vm._s(
                         (
-                          movement.quantity * movement.price -
-                          movement.discount
+                          movement.quantity *
+                          movement.price *
+                          (1 - movement.discount / 100)
                         ).toFixed(2)
                       )
                     )
