@@ -192,7 +192,7 @@ class Ingress extends Model
 
     function getTypeLabelAttribute()
     {
-        return ['insumos' => 'danger', 'equipo' => 'warning', 'proyecto' => 'primary', 'anticipo' => 'default'][$this->type];
+        return ['insumos' => 'danger', 'equipo' => 'warning', 'proyecto' => 'primary', 'anticipo' => 'default', 'nota de crédito' => 'info'][$this->type];
     }
 
     function getAreSerialNumbersMissingAttribute()

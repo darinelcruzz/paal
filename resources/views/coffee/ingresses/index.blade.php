@@ -49,7 +49,7 @@
                                     @endif
                                     @if($ingress->type != 'anticipo')
                                     @foreach($ingress->retainers as $retainer)
-                                        @if($loop->index == 0) <code style="color: blue"><br> NNC @endif
+                                        @if($loop->index == 0) <code style="color: blue"><br>@endif
                                         <small>{{ $retainer->folio }}</small>
                                         @if($loop->last) </code> @endif
                                     @endforeach
@@ -101,10 +101,10 @@
                                         <br>
                                         <small><em>p.p.</em> {{ number_format($ingress->debt - $ingress->amount, 2) }}</small>
                                     @else
-                                    @if($ingress->retainers->sum('amount') > 0)
-                                        <br>
-                                        <small>(-{{ number_format($ingress->retainers->sum('amount'), 2) }})</small>
-                                    @endif
+                                        @if($ingress->retainers->sum('amount') > 0 && $ingress->type != 'nota de crédito')
+                                            <br>
+                                            <small>(-{{ number_format($ingress->retainers->sum('amount'), 2) }})</small>
+                                        @endif
                                     @endif
                                 </td>
                                 <td style="text-align: center;"><small>{{ strtoupper($ingress->pay_method) }}</small></td>
