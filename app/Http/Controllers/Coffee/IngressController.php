@@ -77,6 +77,10 @@ class IngressController extends Controller
             $ingress->update(['method' => $methods[$ingress->inferred_method]]);
         }
 
+        if ($ingress->areSerialNumbersMissing) {
+            return redirect(route('coffee.ingress.update', $ingress));
+        }
+
         return redirect(route('coffee.ingress.index'));
     }
 

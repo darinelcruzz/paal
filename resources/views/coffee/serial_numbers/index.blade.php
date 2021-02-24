@@ -17,6 +17,7 @@
                             <th><small>FECHA</small></th>
                             <th><small>NÚMERO</small></th>
                             <th><small>PRODUCTO</small></th>
+                            <th style="text-align: center;"><small>COMPRA</small></th>
                             <th style="text-align: center;"><small>VENTA</small></th>
                             <th style="text-align: center;"><small>ESTADO</small></th>
                         </tr>
@@ -28,6 +29,9 @@
                                 <td>{{ fdate($serial_number->purchased_at, 'd/m/y', 'Y-m-d') }}</td>
                                 <td>{{ $serial_number->number }}</td>
                                 <td>{{ $serial_number->product->description }}</td>
+                                <td style="text-align: center;">
+                                    {{ $serial_number->purchase_id }}
+                                </td>
                                 <td style="text-align: center;">
                                     {{ $serial_number->ingress->folio ?? 'S/V' }}
                                 </td>

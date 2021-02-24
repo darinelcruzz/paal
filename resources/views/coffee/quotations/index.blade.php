@@ -88,7 +88,13 @@
                                     @endif
                                 </td>
                                 <td style="text-align: right">{{ number_format($quotation->iva, 2) }}</td>
-                                <td style="text-align: right">{{ number_format($quotation->amount, 2) }}</td>
+                                <td style="text-align: right">
+                                    {{ number_format($quotation->amount, 2) }}
+                                    @if($quotation->retainers->count() > 0)
+                                        <br>
+                                        <small style="color: gray"><em>p.p.</em> {{ number_format($quotation->amount - $quotation->retainers->sum('amount'), 2) }}</small>
+                                    @endif
+                                </td>
                                 <td style="text-align: center">
                                     <span class="label label-{{ $quotation->sale ? 'success': 'default' }}">
                                         <small>{{ $quotation->sale ? 'VENTA': 'SIN VENTA' }}</small>

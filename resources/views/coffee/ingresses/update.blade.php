@@ -26,7 +26,7 @@
                                                 <select name="numbers[]">
                                                     <option value="">Seleccione un número de serie</option>
                                                     @foreach($movement->product->serial_numbers->where('ingress_id', null) as $serial_number)
-                                                        <option value="{{ $serial_number->id }}">{{ $serial_number->number }}</option>
+                                                        <option value="{{ $serial_number->id }}">{{ $serial_number->number }} / {{ $serial_number->purchased_at }}</option>
                                                     @endforeach
                                                 </select><br><br>
                                             @endfor

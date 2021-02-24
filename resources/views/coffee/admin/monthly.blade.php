@@ -137,7 +137,7 @@
             </div>
 
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="small-box bg-purple">
                         <div class="inner">
                             <big>Insumos</big>
@@ -147,7 +147,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="small-box bg-navy">
                         <div class="inner">
                             <big>Equipo</big>
@@ -157,12 +157,22 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="small-box bg-teal">
                         <div class="inner">
                             <big>Anticipo</big>
                             <h3>
                                 <small style="color: white">{{ number_format($ingresses->sum(function ($ingress) { return $ingress->type == 'anticipo' ? $ingress->amount: 0;}), 2) }}</small>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="small-box bg-gray">
+                        <div class="inner">
+                            <big>Notas de crédito</big>
+                            <h3>
+                                <small>-{{ number_format($ingresses->sum(function ($ingress) { return $ingress->type == 'nota de crédito' ? $ingress->amount: 0;}), 2) }}</small>
                             </h3>
                         </div>
                     </div>

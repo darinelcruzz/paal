@@ -30,12 +30,14 @@ class SerialNumberController extends Controller
         
         $request->validate([
             'purchased_at' => 'required',
+            'purchase_id' => 'required',
             'items' => 'required|array|min:1',
         ]);
 
         foreach ($request->items as $item) {
             SerialNumber::create([
                 'product_id' => $item['product_id'],
+                'purchase_id' => $request->purchase_id,
                 'number' => $item['number'],
                 'purchased_at' => $request->purchased_at,
             ]);

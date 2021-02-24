@@ -13,9 +13,6 @@
 
                 	<div class="row">
                 		<div class="col-md-6">
-                			{!! Field::text('guide_number', ['tpl' => 'withicon'], ['icon' => 'barcode']) !!}
-                		</div>
-                		<div class="col-md-6">
                 			{!! Field::select('company', 
 								[
 									'estafeta' => 'Estafeta', 
@@ -28,8 +25,15 @@
 									'otro' => 'Otro'
 								],
 								null,
-								['tpl' => 'withicon', 'empty' => 'Seleccione una paquetería'], ['icon' => 'shipping-fast']) 
+								['tpl' => 'withicon', 'empty' => 'Seleccione una paquetería', 'v-model' => 'provider'], ['icon' => 'shipping-fast']) 
 							!!}
+                		</div>
+                		<div v-if="provider != 'mbe etc'" class="col-md-6">
+                			{!! Field::text('guide_number', ['tpl' => 'withicon'], ['icon' => 'barcode']) !!}
+                		</div>
+                		<div v-else class="col-md-6">
+                			{!! Field::text('guide_number', $shipping->ingress->folio, ['tpl' => 'withicon', 'disabled'], ['icon' => 'barcode']) !!}
+                			<input type="hidden" name="guide_number" value="{{ $shipping->ingress->folio }}">
                 		</div>
                 	</div>
 

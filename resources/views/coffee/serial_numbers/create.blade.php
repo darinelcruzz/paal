@@ -8,8 +8,15 @@
             <solid-box title="Agregar número(s) de serie" color="danger">
 
             {!! Form::open(['method' => 'POST', 'route' => 'coffee.serial_number.store']) !!}
-                
-                {!! Field::date('purchased_at', date('Y-m-d'), ['label' => 'Fecha de entrada','tpl' => 'withicon'], ['icon' => 'calendar']) !!}
+
+                <div class="row">
+                    <div class="col-md-6">
+                        {!! Field::number('purchase_id', ['tpl' => 'withicon'], ['icon' => 'barcode']) !!}
+                    </div>
+                    <div class="col-md-6">
+                        {!! Field::date('purchased_at', date('Y-m-d'), ['label' => 'Fecha de entrada','tpl' => 'withicon'], ['icon' => 'calendar']) !!}
+                    </div>
+                </div>
 
                 <seriable-products-list></seriable-products-list>
 
