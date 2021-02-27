@@ -35,9 +35,9 @@
                 <span class="info-box-icon"><i class="fa fa-money-bill-alt"></i></span>
 
                 <div class="info-box-content">
-                    <span class="info-box-text">TOTAL</span>
+                    <span class="info-box-text"><big>TOTAL</big></span>
                     <span class="info-box-number">
-                        <big>$ {{ number_format($checkout_total + $credit_total + $invoiced_total, 2) }}</big>
+                        <h3><em>{{ number_format($ingresses->sum('amount'), 2) }}</em></h3>
                     </span>
                 </div>
             </div>
@@ -47,12 +47,12 @@
 
                 <div class="info-box-content">
                   <span class="info-box-text">MOSTRADOR</span>
-                  <span class="info-box-number">$ {{ number_format($checkout_total, 2) }}</span>
+                  <span class="info-box-number">{{ number_format($checkout, 2) }}</span>
 
                   <div class="progress">
-                    <div class="progress-bar" style="width: {{ number_format(100 - $pending*100/$checkout_div, 2) }}%"></div>
+                    <div class="progress-bar" style="width: {{ number_format(100 - $pending*100/($checkout > 0 ? $checkout: 1), 2) }}%"></div>
                   </div>
-                  <span class="progress-description">Por depositar: <em>$ {{ number_format($pending, 2) }}</em></span>
+                  <span class="progress-description">Por depositar: <em>{{ number_format($pending, 2) }}</em></span>
                 </div>
             </div>
 
@@ -61,7 +61,7 @@
 
                 <div class="info-box-content">
                   <span class="info-box-text">CRÉDITO</span>
-                  <span class="info-box-number">$ {{ number_format($credit_total, 2) }}</span>
+                  <span class="info-box-number">{{ number_format($credit, 2) }}</span>
                 </div>
             </div>
 
@@ -70,12 +70,12 @@
 
                 <div class="info-box-content">
                   <span class="info-box-text">FACTURADO</span>
-                  <span class="info-box-number">$ {{ number_format($invoiced_total, 2) }}</span>
+                  <span class="info-box-number">{{ number_format($invoiced, 2) }}</span>
 
                   <div class="progress">
-                    <div class="progress-bar" style="width: {{ $invoiced_total > 0 ? number_format($paid_total*100/$invoiced_total, 2) : 100 }}%"></div>
+                    <div class="progress-bar" style="width: {{ $invoiced > 0 ? number_format($paid*100/$invoiced, 2) : 100 }}%"></div>
                   </div>
-                  <span class="progress-description">Por pagar: <em>$ {{ number_format($invoiced_total - $paid_total, 2) }}</em></span>
+                  <span class="progress-description">Por pagar: <em>{{ number_format($invoiced - $paid, 2) }}</em></span>
                 </div>
             </div>
 
@@ -93,33 +93,20 @@
 
         <div class="col-md-8">
             <div class="row">
+            @foreach(['cash' => 'efectivo','credit_card' => 'tarjeta de crédito','debit_card' => 'tarjeta de débito','transfer' => 'transferencia','check' => 'cheque'] as $key => $name)
                 <div class="col-md-4">
-                    <color-card color="aqua" label="<big>Efectivo</big>">
-                        <small style="color: white">$ {{ number_format($month->sum('cash'), 2) }}</small>
-                    </color-card>
+                    <div class="small-box bg-aqua">
+                        <div class="inner">
+                            <big>{{ ucfirst($name) }}</big>
+                            <h3>
+                                <small style="color: white">
+                                    {{ number_format($ingresses->sum(function ($ingress) use ($key) { return $ingress->payments->sum($key);}), 2) }}
+                                </small>
+                            </h3>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-4">
-                    <color-card color="aqua" label="<big>Tarjeta de crédito</big>">
-                        <small style="color: white">$ {{ number_format($month->sum('credit_card'), 2) }}</small>
-                    </color-card>
-                </div>
-                <div class="col-md-4">
-                    <color-card color="aqua" label="<big>Tarjeta de débito</big>">
-                        <small style="color: white">$ {{ number_format($month->sum('debit_card'), 2) }}</small>
-                    </color-card>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <color-card color="aqua" label="<big>Transferencia</big>">
-                        <small style="color: white">$ {{ number_format($month->sum('transfer'), 2) }}</small>
-                    </color-card>
-                </div>
-                <div class="col-md-4">
-                    <color-card color="aqua" label="<big>Cheque</big>">
-                        <small style="color: white">$ {{ number_format($month->sum('check'), 2) }}</small>
-                    </color-card>
-                </div>
+            @endforeach
             </div>
         </div>
     </div>

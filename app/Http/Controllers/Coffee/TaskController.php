@@ -66,9 +66,9 @@ class TaskController extends Controller
 
         $task = auth()->user()->tasks()->create($validated + ['status' => 'pendiente']);
 
-        if ($task->user->telegram_user_id) {
-            $task->notify(new TaskCreatedAndAssigned($task->user));
-        }
+        // if ($task->user->telegram_user_id) {
+        //     $task->notify(new TaskCreatedAndAssigned($task->user));
+        // }
 
         return redirect(route('coffee.task.index'));
     }
@@ -94,9 +94,9 @@ class TaskController extends Controller
         if ($task->status == 'terminada') {
             $task->update(['completed_at' => date('Y-m-d')]);
             
-            if ($task->tasker->telegram_user_id) {
-                $task->notify(new TaskMarkedAsFinished);
-            }
+            // if ($task->tasker->telegram_user_id) {
+            //     $task->notify(new TaskMarkedAsFinished);
+            // }
 
         } else {
            $task->update([
@@ -104,9 +104,9 @@ class TaskController extends Controller
             'repetitions' => $task->repetitions + 1
            ]);
 
-           if ($task->user->telegram_user_id) {
-               $task->notify(new TaskNotAccepted($request->observations));
-           }
+           // if ($task->user->telegram_user_id) {
+           //     $task->notify(new TaskNotAccepted($request->observations));
+           // }
         }
 
         return redirect(route('coffee.task.index', $date));
@@ -118,9 +118,9 @@ class TaskController extends Controller
 
         $task->update(['status' => $status]);
 
-        if ($task->status == 'aceptada' && $task->user->telegram_id) {
-            $task->notify(new TaskAccepted);
-        }
+        // if ($task->status == 'aceptada' && $task->user->telegram_id) {
+        //     $task->notify(new TaskAccepted);
+        // }
 
         return redirect(route('coffee.task.index', $date));
     }

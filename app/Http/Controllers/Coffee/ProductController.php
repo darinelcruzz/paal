@@ -47,7 +47,7 @@ class ProductController extends Controller
                 'Precios modificados')
                 ->persistent('Cerrar');
 
-            $product->notify(new ProductPriceChanged(auth()->user()->name, [$r_old, $w_old]));
+            // $product->notify(new ProductPriceChanged(auth()->user()->name, [$r_old, $w_old]));
 
         } else {
             
@@ -56,7 +56,7 @@ class ProductController extends Controller
             
             Alert::success("El precio se cambió de $" . number_format($old, 2) . " a $" . number_format($product->retail_price, 2), 'Precio modificado')->persistent('Cerrar');
             
-            $product->notify(new ProductPriceChanged(auth()->user()->name, $old));
+            // $product->notify(new ProductPriceChanged(auth()->user()->name, $old));
         }
 
 

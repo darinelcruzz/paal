@@ -34,32 +34,23 @@ class AdminController extends Controller
     {
         $date = dateFromRequest('Y-m');
 
-        $month = Payment::monthly($date, 'mbe');
-
-        $working_days = $month->selectRaw('DATE_FORMAT(created_at, "%Y-%m-%d") as date')->get()->groupBy('date')->count();
+        $ingresses = Ingress::where('company', 'mbe')
+            ->where('status', '!=', 'cancelado')
+            ->whereMonth('created_at', substr($date, 5, 7))
+            ->whereYear('created_at', substr($date, 0, 4))
+            ->with('payments')
+            ->get();
 
         $shippings = $this->getShippingsTotal($date);
 
-        $checkout_total = Ingress::monthly($date, 'mbe')->whereStatus('pagado')->whereNull('invoiced_at')->sum('amount');
-        $checkout_div = $checkout_total > 0 ? $checkout_total: 1;
-        $credit_total = Ingress::monthly($date, 'mbe')->whereStatus('crédito')->whereNull('invoiced_at')->sum('amount');
-        $invoiced_total = Ingress::monthly($date, 'mbe')->whereNotNull('invoiced_at')->sum('amount');
-        $paid_total = Ingress::monthly($date, 'mbe')->whereNotNull('paid_at')->sum('amount');
+        $checkout = $ingresses->where('status', 'pagado')->where('invoiced_at', null)->sum('amount');
+        $credit = $ingresses->where('status', 'crédito')->where('invoiced_at', null)->sum('amount');
+        $invoiced = $ingresses->where('invoiced_at', '!=', null)->sum('amount');
+        $paid = $ingresses->where('paid_at', '!=', null)->sum('amount');
 
-        $working_days = $working_days == 0 ? 1: $working_days;
+        $pending = $ingresses->where('invoice_id', '!=', null)->sum(function ($ingress) { return $ingress->payments->where('cash_reference', '0000')->sum('cash');});
 
-        $pending = Payment::whereYear('created_at', substr($date, 0, 4))
-            ->whereMonth('created_at', substr($date, 5))
-            ->where('cash', '>', 0)
-            ->where('cash_reference', '0000')
-            ->whereHas('ingress', function($query) {
-                $query->where('status', '!=', 'cancelado')
-                    ->where('company', 'mbe')
-                    ->where('invoice_id', '!=', null);
-            })
-            ->sum('cash');
-
-        return view('mbe.admin.monthly', compact('date', 'month', 'pending', 'working_days', 'credit_total', 'shippings', 'invoiced_total', 'paid_total', 'checkout_total', 'checkout_div'));
+        return view('mbe.admin.monthly', compact('date', 'ingresses', 'shippings', 'pending', 'checkout', 'credit', 'paid', 'invoiced'));
     }
 
     function companies()
