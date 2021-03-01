@@ -57514,6 +57514,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	props: ['model'],
@@ -57612,7 +57640,84 @@ var render = function() {
           ])
         ])
       ]
-    )
+    ),
+    _vm._v(" "),
+    _vm.model.payments
+      ? _c(
+          "table",
+          {
+            staticClass:
+              "table table-bordered table-condensed table-hover table-striped"
+          },
+          [
+            _vm._m(3),
+            _vm._v(" "),
+            _c(
+              "tbody",
+              _vm._l(_vm.model.payments, function(payment) {
+                return _c("tr", [
+                  _vm._m(4, true),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm._v(
+                      _vm._s(payment.cash > 0 ? payment.cash.toFixed(2) : "X")
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm._v(
+                      _vm._s(
+                        payment.transfer > 0 ? payment.transfer.toFixed(2) : "X"
+                      )
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm._v(
+                      _vm._s(payment.check > 0 ? payment.check.toFixed(2) : "X")
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm._v(
+                      _vm._s(
+                        payment.debit_card > 0
+                          ? payment.debit_card.toFixed(2)
+                          : "X"
+                      )
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm._v(
+                      _vm._s(
+                        payment.credit_card > 0
+                          ? payment.credit_card.toFixed(2)
+                          : "X"
+                      )
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticStyle: { "text-align": "center" } }, [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(payment.reference) +
+                        " "
+                    ),
+                    _c("br"),
+                    _vm._v(
+                      " " +
+                        _vm._s(payment.card_number) +
+                        " \n                    "
+                    )
+                  ])
+                ])
+              }),
+              0
+            )
+          ]
+        )
+      : _vm._e()
   ])
 }
 var staticRenderFns = [
@@ -57659,6 +57764,36 @@ var staticRenderFns = [
     return _c("th", { staticStyle: { "text-align": "right" } }, [
       _c("small", [_vm._v("TOTAL")])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v(" ")]),
+        _vm._v(" "),
+        _c("th", [_c("small", [_vm._v("EFECTIVO")])]),
+        _vm._v(" "),
+        _c("th", [_c("small", [_vm._v("TRANSFERENCIA")])]),
+        _vm._v(" "),
+        _c("th", [_c("small", [_vm._v("CHEQUE")])]),
+        _vm._v(" "),
+        _c("th", [_c("small", [_vm._v("DÉBITO")])]),
+        _vm._v(" "),
+        _c("th", [_c("small", [_vm._v("CRÉDITO")])]),
+        _vm._v(" "),
+        _c("th", { staticStyle: { "text-align": "center" } }, [
+          _c("small", [_vm._v("REFERENCIA")])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", [_c("small", [_vm._v("PAGO")])])
   }
 ]
 render._withStripped = true

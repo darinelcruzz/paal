@@ -36,6 +36,34 @@
 				</tr>
 			</tfoot>
 		</table>
+
+		<table v-if="model.payments" class="table table-bordered table-condensed table-hover table-striped">
+			<thead>
+                <tr>
+                    <th>&nbsp;</th>
+                    <th><small>EFECTIVO</small></th>
+                    <th><small>TRANSFERENCIA</small></th>
+                    <th><small>CHEQUE</small></th>
+                    <th><small>DÉBITO</small></th>
+                    <th><small>CRÉDITO</small></th>
+                    <th style="text-align: center;"><small>REFERENCIA</small></th>
+                </tr>
+            </thead>
+
+            <tbody>
+            	<tr v-for="payment in model.payments">
+                    <th><small>PAGO</small></th>
+                    <td>{{ payment.cash > 0 ? payment.cash.toFixed(2): 'X' }}</td>
+                    <td>{{ payment.transfer > 0 ? payment.transfer.toFixed(2): 'X' }}</td>
+                    <td>{{ payment.check > 0 ? payment.check.toFixed(2): 'X' }}</td>
+                    <td>{{ payment.debit_card > 0 ? payment.debit_card.toFixed(2): 'X' }}</td>
+                    <td>{{ payment.credit_card > 0 ? payment.credit_card.toFixed(2): 'X' }}</td>
+                    <td style="text-align: center;">
+                        {{ payment.reference }} <br> {{ payment.card_number }} 
+                    </td>
+                </tr>
+            </tbody>
+		</table>
 	</div>
 </template>
 

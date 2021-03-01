@@ -62,7 +62,7 @@
                                         @if($ingress->type != 'anticipo')
                                         <li>
                                             <a data-toggle="modal" data-target="#ingress-modal" v-on:click="upmodel({{ $ingress->toJson() }})">
-                                                <i class="fa fa-eye" aria-hidden="true"></i> Ver productos
+                                                <i class="fa fa-eye" aria-hidden="true"></i> Detalles
                                             </a>
                                         </li>
                                         @endif
