@@ -57,7 +57,7 @@
                 var product = this.product
                 product.quantity = 1
                 product.discount = 0
-                product.serial_numbers = product.serial_numbers.reduce((total, number) => total + (number.status == 'en inventario' ? 1: 0), 0)
+                product.serial_numbers = product.serial_numbers > 0 ? product.serial_numbers.reduce((total, number) => total + (number.status == 'en inventario' ? 1: 0), 0): 0;
                 product.price = this.setPrice(product)
                 product.total =  1 * product.price
                 this.$root.$emit('add-element', product);
