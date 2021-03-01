@@ -64,9 +64,6 @@ class AdminController extends Controller
 
         $shippings = Shipping::monthly($date)->count();
 
-        // $type1 = Ingress::monthly($date)->where('status', 'pagado')->where('type', 'insumos')->get();
-        // $type2 = Ingress::monthly($date)->where('status', 'pagado')->where('type', 'equipo')->get();
-
         return view('coffee.admin.monthly', compact('date', 'ingresses', 'shippings'));
     }
 
