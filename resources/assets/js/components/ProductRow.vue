@@ -3,8 +3,9 @@
         <td>
             <div class="row">
                 <div class="col-md-7">
-                    <a v-if="product.serial_numbers.length > 0 || product.category != 'EQUIPO'" href="#" @click="buttonPressed"><i class="fa fa-plus"></i></a>
-                    <i v-else class="fa fa-times"></i>
+                    <!-- <a v-if="product.serial_numbers.length > 0 || product.category != 'EQUIPO'" href="#" @click="buttonPressed"><i class="fa fa-plus"></i></a> -->
+                    <a href="#" @click="buttonPressed"><i class="fa fa-plus"></i></a>
+                    <!-- <i v-else class="fa fa-times"></i> -->
                     &nbsp;&nbsp;
                     {{ product.description }}
                 </div>

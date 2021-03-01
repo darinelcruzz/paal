@@ -13,16 +13,27 @@ class InvoiceController extends Controller
     {
         $date = $thisDate == null ? dateFromRequest(): $thisDate;
 
-        $deposit = Payment::whereYear('created_at', substr($date, 0, 4))
-            ->whereMonth('created_at', substr($date, 5))
-            ->where('cash', '>', 0)
-            ->where('cash_reference', '0000')
-            ->whereHas('ingress', function ($query)
+        $deposit = Ingress::where('company', 'mbe')
+            ->where('status', '!=', 'cancelado')
+            ->whereMonth('created_at', substr($date, 5, 2))
+            ->whereYear('created_at', substr($date, 0, 4))
+            ->with('payments')
+            ->get()
+            ->sum(function ($item)
             {
-                $query->where('status', '!=', 'cancelado')
-                    ->where('company', 'mbe');
-            })
-            ->sum('cash');
+                return $item->payments->where('cash_reference', null)->sum('cash');
+            });
+
+        // $deposit = Payment::whereYear('created_at', substr($date, 0, 4))
+        //     ->whereMonth('created_at', substr($date, 5))
+        //     ->where('cash', '>', 0)
+        //     ->where('cash_reference', '0000')
+        //     ->whereHas('ingress', function ($query)
+        //     {
+        //         $query->where('status', '!=', 'cancelado')
+        //             ->where('company', 'mbe');
+        //     })
+        //     ->sum('cash');
 
 
         $cash_invoices = Ingress::where('invoice_id', '!=', null)
@@ -33,11 +44,13 @@ class InvoiceController extends Controller
             ->get()
             ->groupBy('invoice_id');
 
+        // dd($cash_invoices);
         $invoices = Ingress::where('invoice_id', '!=', null)
             ->whereDate('invoiced_at', $date)
             ->where('company', 'mbe')
             ->where('method', '!=', 'efectivo')
             ->where('status', '!=', 'cancelado')
+            ->with('payments')
             ->get()
             ->groupBy('invoice_id');
 

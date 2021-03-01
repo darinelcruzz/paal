@@ -54157,6 +54157,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['product', 'color', 'exchange', 'promo'],
@@ -54216,14 +54217,10 @@ var render = function() {
     _c("td", [
       _c("div", { staticClass: "row" }, [
         _c("div", { staticClass: "col-md-7" }, [
-          _vm.product.serial_numbers.length > 0 ||
-          _vm.product.category != "EQUIPO"
-            ? _c(
-                "a",
-                { attrs: { href: "#" }, on: { click: _vm.buttonPressed } },
-                [_c("i", { staticClass: "fa fa-plus" })]
-              )
-            : _c("i", { staticClass: "fa fa-times" }),
+          _c("a", { attrs: { href: "#" }, on: { click: _vm.buttonPressed } }, [
+            _c("i", { staticClass: "fa fa-plus" })
+          ]),
+          _vm._v(" "),
           _vm._v(
             "\n                      \n                    " +
               _vm._s(_vm.product.description) +
