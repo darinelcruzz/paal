@@ -92,7 +92,11 @@
                                     @endif
                                 </td>
                                 <td style="text-align: center;">
-                                    <label class="label label-{{$ingress->typeLabel }}">{{ strtoupper($ingress->type) }}</label>
+                                    @if($ingress->status == 'cancelado')
+                                        <label class="label label-default">CANCELADO</label>
+                                    @else
+                                        <label class="label label-{{$ingress->typeLabel }}">{{ strtoupper($ingress->type) }}</label>
+                                    @endif
                                 </td>
                                 <td style="text-align: right;">{{ number_format($ingress->iva, 2) }}</td>
                                 <td style="text-align: right;">
