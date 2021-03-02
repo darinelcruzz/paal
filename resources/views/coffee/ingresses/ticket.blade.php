@@ -51,7 +51,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <span class="pull-left">{{ strtoupper($ingress->client->name) }}</span> <br>
+            <span class="pull-left">{{ strtoupper($ingress->client_name ?? $ingress->client->name) }}</span> <br>
             <span class="pull-left">{{ $ingress->client->rfc }}</span> <br>
             <span class="pull-left">{{ $ingress->client->email }}</span> <br>
         </div>
@@ -88,8 +88,8 @@
                     <tr>
                         <th>CANT</th>
                         <th style="width: 55%">DESCRIPCIÓN</th>
-                        <th>UNITARIO</th>
-                        <th>TOTAL</th>
+                        <th style="text-align: right;">UNITARIO</th>
+                        <th style="text-align: right;">TOTAL</th>
                     </tr>
                 </thead>
 
@@ -154,7 +154,7 @@
                     @endif
                     <tr style="border:1px solid black">
                         <th colspan="3" style="text-align: right">Total</th>
-                        <td style="text-align: right">$ {{ number_format($ingress->amount, 2) }}</td>
+                        <td style="text-align: right">$ {{ number_format($ingress->type == 'anticipo' ? $ingress->quotation->amount: $ingress->amount, 2) }}</td>
                     </tr>
                     @if ($ingress->retainer > 0)
                         <tr>
@@ -164,6 +164,26 @@
                         <tr style="border:1px solid black">
                             <th colspan="3" style="text-align: right">Pendiente</th>
                             <td style="text-align: right">$ {{ number_format($ingress->debt, 2) }}</td>
+                        </tr>
+                    @endif
+                    @if ($ingress->type == 'anticipo')
+                        <tr>
+                            <th colspan="3" style="text-align: right">Anticipo</th>
+                            <td style="text-align: right">$ {{ number_format($ingress->amount, 2) }}</td>
+                        </tr>
+                        <tr style="border:1px solid black">
+                            <th colspan="3" style="text-align: right">Pendiente</th>
+                            <td style="text-align: right">$ {{ number_format($ingress->quotation->amount - $ingress->retainers->sum('amount'), 2) }}</td>
+                        </tr>
+                    @endif
+                    @if ($ingress->type != 'anticipo' && $ingress->retainers->sum('amount') > 0)
+                        <tr>
+                            <th colspan="3" style="text-align: right">Anticipo</th>
+                            <td style="text-align: right">$ {{ number_format($ingress->retainers->sum('amount'), 2) }}</td>
+                        </tr>
+                        <tr style="border:1px solid black">
+                            <th colspan="3" style="text-align: right">Importe</th>
+                            <td style="text-align: right">$ {{ number_format($ingress->amount - $ingress->retainers->sum('amount'), 2) }}</td>
                         </tr>
                     @endif
                 </tfoot>

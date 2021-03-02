@@ -67,7 +67,7 @@
                                             </a>
                                         </li>
                                         <ddi to="{{ route('coffee.quotation.download', $quotation) }}" icon="file-pdf" text="Imprimir" target="_blank"></ddi>
-                                        @if (!$quotation->is_canceled && !$quotation->sale)
+                                        @if (!$quotation->sale)
                                             <ddi to="{{ route('coffee.quotation.edit', $quotation) }}" icon="edit" text="Editar"></ddi>
                                             <ddi to="{{ route('coffee.retainer.create', $quotation) }}" icon="hand-holding-usd" text="Anticipo"></ddi>
                                             @if($quotation->type)

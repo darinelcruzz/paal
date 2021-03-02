@@ -50,7 +50,7 @@
                       <tab-content title="Productos" icon="fa fa-tag">
                             <shopping-list 
                                 color="danger" 
-                                :qproducts="{{ $quotation->products_list }}" 
+                                :qproducts="{{ $quotation->products_list }}"
                                 :exchange="{{ $exchange }}" 
                                 :promo="{{ $promo }}">
                             </shopping-list>

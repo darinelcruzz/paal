@@ -78,10 +78,6 @@
                                                 </a>
                                             </li>
                                         @endif
-                                        @if ($ingress->areSerialNumbersMissing)
-                                            <ddi to="{{ route('coffee.ingress.update', $ingress) }}" icon="plus" text="Agregar # de serie"></ddi>
-                                        @endif
-
                                     </dropdown>
                                 </td>
                                 <td>{{ fdate($ingress->bought_at, 'd/M/y', 'Y-m-d') }}</td>

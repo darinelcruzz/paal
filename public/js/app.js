@@ -55023,7 +55023,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			decimals: 2,
 			quantity: 1,
 			discount: {
-				max: 30,
+				max: 40,
 				apply: false,
 				amount: 0
 			},
@@ -55088,6 +55088,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		var p = t.product;
 		t.quantity = p.amount || 1;
 		t.discount.apply = p.is_variable == 1 && p.family != 'SERVICIOS';
+		if (t.product.discount) {
+			t.discount.amount = t.product.discount;
+		}
 		t.custom_price = p.retail_price == 0 && p.dollars || p.category == 'SERVICIOS' || p.family == 'ESPECIAL';
 		t.price = t.getPrice();
 	}
