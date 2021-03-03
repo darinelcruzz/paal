@@ -33,7 +33,7 @@
             <div class="small-box bg-green">
                 <div class="inner">
                     <p>Total Mensual</p>
-                    <h3><em>{{ number_format($ingresses->sum('amount'), 2) }}</em></h3>
+                    <h3><em>{{ number_format($ingresses->sum(function ($ingress) { return $ingress->type != 'anticipo' ? $ingress->amount - $ingress->retainers->sum('amount'): $ingress->amount;}), 2) }}</em></h3>
                 </div>
                 <div class="icon">
                     <i class="fa fa-usd"></i>
@@ -152,7 +152,7 @@
                         <div class="inner">
                             <big>Equipo</big>
                             <h3>
-                                <small style="color: white">{{ number_format($ingresses->sum(function ($ingress) { return $ingress->type == 'equipo' ? $ingress->amount - $ingress->retainers->sum('amount'): 0;}), 2) }}</small>
+                                <small style="color: white">{{ number_format($ingresses->sum(function ($ingress) { return $ingress->type == 'equipo' ? $ingress->amount: 0;}), 2) }}</small>
                             </h3>
                         </div>
                     </div>
