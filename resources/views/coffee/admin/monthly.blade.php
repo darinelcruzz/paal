@@ -59,7 +59,7 @@
                     <p>Promedio</p>
                     <h3>
                         <em>
-                            $ {{ number_format(($ingresses->sum('amount') / cal_days_in_month(CAL_GREGORIAN, substr($date, 5), substr($date, 0, 4))), 2) }}
+                            {{ number_format($ingresses->sum(function ($ingress) { return $ingress->type != 'anticipo' ? $ingress->amount - $ingress->retainers->sum('amount'): $ingress->amount;}) / $ingresses->groupBy('paid_at')->count(), 2) }}
                         </em>
                     </h3>
                 </div>
