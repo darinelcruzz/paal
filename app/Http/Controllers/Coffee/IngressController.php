@@ -75,10 +75,10 @@ class IngressController extends Controller
 
             $methods = ['undefined' => null, 'cash' => 'efectivo', 'transfer' => 'transferencia', 'check' => 'cheque', 'debit_card' => 'tarjeta débito', 'credit_card' => 'tarjeta crédito'];
             $ingress->update(['method' => $methods[$ingress->inferred_method]]);
-        }
 
-        if ($ingress->areSerialNumbersMissing) {
-            return redirect(route('coffee.ingress.update', $ingress));
+            if ($ingress->areSerialNumbersMissing) {
+                return redirect(route('coffee.ingress.update', $ingress));
+            }
         }
 
         return redirect(route('coffee.ingress.index'));
