@@ -26,8 +26,6 @@ class SerialNumberController extends Controller
 
     function store(Request $request)
     {
-        // dd($request->all());
-        
         $request->validate([
             'purchased_at' => 'required',
             'purchase_id' => 'required',

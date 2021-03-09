@@ -108,31 +108,6 @@
                                     @endif
                                 </td>
                                 <td style="text-align: center;"><small>{{ strtoupper($ingress->pay_method) }}</small></td>
-                                {{-- <td style="text-align: center;">
-                                    @if ($ingress->status == 'cancelado')
-                                        <a type="button" class="label label-danger" data-toggle="modal" data-target="#modal-cancelation-{{$ingress->id}}">
-                                            {{ ucfirst($ingress->status) }}
-                                        </a>
-
-                                        <div class="modal modal-danger fade" id="modal-cancelation-{{$ingress->id}}">
-                                          <div class="modal-dialog">
-                                            <div class="modal-content">
-                                              <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                  <span aria-hidden="true">&times;</span></button>
-                                                <h4 class="modal-title">Razones de la cancelación</h4>
-                                              </div>
-                                              <div class="modal-body">
-                                                    {{ $ingress->canceled_for }}
-                                              </div>
-                                          </div>
-                                        </div>
-                                    @else
-                                        <span class="label label-{{ $ingress->statusColor }}">
-                                            {{ strtoupper($ingress->status) }}
-                                        </span>
-                                    @endif
-                                </td> --}}
                             </tr>
                         @endforeach
                     </tbody>
@@ -146,7 +121,5 @@
             </modal>
         </div>
     </div>
-
-    @include('sweet::alert')
 
 @endsection

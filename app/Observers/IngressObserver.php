@@ -12,10 +12,6 @@ class IngressObserver
             $ingress->movements()->createMany(request('items'));
         }
 
-        if ($ingress->company == 'sanson') {
-            $ingress->payments()->create(request('payment') + ['type' => request('method')]);
-        }
-
         if (request('shipping')) $ingress->shipping()->create();
 
         if ($ingress->retainers->count() > 0 && $ingress->type != 'anticipo' && $ingress->type != 'nota de crédito') {

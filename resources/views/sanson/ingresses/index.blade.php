@@ -24,34 +24,53 @@
 
             <solid-box title="Ventas" color="info">
                 <div class="table-responsive">
-                    <table class="table table-striped table-bordered spanish">
+                    <table class="table table-striped table-bordered spanish-simple">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th><i class="fa fa-cogs"></i></th>
-                                <th>Fecha</th>
-                                <th>Cliente</th>
-                                <th>Tipo</th>
-                                <th>Monto</th>
-                                <th>Anticipo</th>
-                                <th>Abonos</th>
-                                <th>Debe</th>
-                                <th>Método</th>
-                                <th>Estado</th>
+                                <th style="text-align: center;"><small>FOLIO</small></th>
+                                <th style="text-align: center;"><i class="fa fa-cogs"></i></th>
+                                <th><small>FECHA</small></th>
+                                <th><small>CLIENTE</small></th>
+                                <th style="text-align: center;"><small>TIPO</small></th>
+                                <th style="text-align: right;"><small>IVA</small></th>
+                                <th style="text-align: right;"><small>IMPORTE</small></th>
+                                <th style="text-align: center;"><small>MÉTODO</small></th>
                             </tr>
                         </thead>
 
                         <tbody>
                         @foreach($ingresses as $ingress)
                             <tr>
-                                <td>
+                                <td style="text-align: center;">
                                     {{ $ingress->folio }}
+                                    @if($ingress->quotation_id != null)
+                                        <br>
+                                        <code><small>COT {{ $ingress->quotation_id }}</small></code>
+                                    @endif
+                                    @if($ingress->type != 'anticipo')
+                                    @foreach($ingress->retainers as $retainer)
+                                        @if($loop->index == 0) <code style="color: blue"><br>@endif
+                                        <small>{{ $retainer->folio }}</small>
+                                        @if($loop->last) </code> @endif
+                                    @endforeach
+                                    
+                                    @endif
                                 </td>
-                                <td>
-                                    <dropdown icon="cogs" color="{{ $ingress->areSerialNumbersMissing ? 'primary': 'info' }}">
+                                <td style="text-align: center;">
+                                    <dropdown icon="cogs" color="info">
                                         <ddi v-if="{{ $ingress->status == 'pagado' || $ingress->status == 'cancelado' ? 0: 1 }}" to="{{ route('sanson.payment.create', $ingress) }}" icon="money" text="Pagar"></ddi>
-                                        <ddi to="{{ route('sanson.ingress.show', $ingress) }}" icon="eye" text="Detalles"></ddi>
-                                        <ddi to="{{ route('sanson.ingress.ticket', $ingress) }}" icon="print" text="Imprimir" target="_blank"></ddi>
+                                        @if($ingress->type != 'anticipo')
+                                        <li>
+                                            <a data-toggle="modal" data-target="#ingress-modal" v-on:click="upmodel({{ $ingress->toJson() }})">
+                                                <i class="fa fa-eye" aria-hidden="true"></i> Detalles
+                                            </a>
+                                        </li>
+                                        @endif
+                                        <li>
+                                            <a href="{{ route('sanson.ingress.ticket', $ingress) }}" target="_blank">
+                                                <i class="fa fa-print" aria-hidden="true"></i> Imprimir
+                                            </a>
+                                        </li>
                                         @if ($ingress->status != 'cancelado')
                                             <li>
                                                 <a class="deleteThisObject" idInstance="{{ $ingress->id }}" route="ingresos">
@@ -59,58 +78,49 @@
                                                 </a>
                                             </li>
                                         @endif
-                                        @if ($ingress->areSerialNumbersMissing)
-                                            <ddi to="{{ route('sanson.ingress.update', $ingress) }}" icon="plus" text="Agregar # de serie"></ddi>
-                                        @endif
-
                                     </dropdown>
                                 </td>
                                 <td>{{ fdate($ingress->bought_at, 'd/m/Y', 'Y-m-d') }}</td>
-                                <td style="width: 30%">{{ $ingress->client->name }}</td>
-                                <td>
-                                    <label class="label label-{{$ingress->type == 'equipo' ? 'info': 'primary'}}">
-                                        {{ strtoupper($ingress->type) }}
-                                    </label>
-                                </td>
-                                <td style="text-align: right">{{ number_format($ingress->amount, 2) }}</td>
-                                <td style="text-align: center">{{ number_format($ingress->retainer, 2) }}</td>
-                                <td style="text-align: center">{{ number_format($ingress->deposits_sum, 2) }}</td>
-                                <td style="text-align: center">{{ $ingress->status == 'pagado' ? '0.00': number_format($ingress->amount - $ingress->deposits_sum, 2) }}</td>
-                                <td>{{ ucfirst($ingress->method) }}</td>
-                                <td>
-                                    @if ($ingress->status == 'cancelado')
-                                        <a type="button" class="label label-danger" data-toggle="modal" data-target="#modal-cancelation-{{$ingress->id}}">
-                                            {{ ucfirst($ingress->status) }}
-                                        </a>
-
-                                        <div class="modal modal-info fade" id="modal-cancelation-{{$ingress->id}}">
-                                          <div class="modal-dialog">
-                                            <div class="modal-content">
-                                              <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                  <span aria-hidden="true">&times;</span></button>
-                                                <h4 class="modal-title">Razones de la cancelación</h4>
-                                              </div>
-                                              <div class="modal-body">
-                                                    {{ $ingress->canceled_for }}
-                                              </div>
-                                          </div>
-                                        </div>
-                                    @else
-                                        <span class="label label-{{ $ingress->statusColor }}">
-                                            {{ ucfirst($ingress->status) }}
-                                        </span>
+                                <td style="width: 30%">
+                                    {{ $ingress->quotation_id != null ? ($ingress->quotation->client_name ?? $ingress->quotation->client->name ) : $ingress->client->name }}
+                                    @if($ingress->quotation)
+                                    <span class="{{ $ingress->quotation->internet_type == '' ? '': 'badge bg-aqua' }} pull-right"><em>{{ $ingress->quotation->internet_type }}</em></span>
                                     @endif
                                 </td>
+                                <td style="text-align: center;">
+                                    @if($ingress->status == 'cancelado')
+                                        <label class="label label-default">CANCELADO</label>
+                                    @else
+                                        <label class="label label-{{$ingress->typeLabel }}">{{ strtoupper($ingress->type) }}</label>
+                                    @endif
+                                </td>
+                                <td style="text-align: right;">{{ number_format($ingress->iva, 2) }}</td>
+                                <td style="text-align: right;">
+                                    {{ number_format($ingress->amount, 2) }}
+                                    @if($ingress->type == 'anticipo')
+                                        <br>
+                                        <small><em>p.p.</em> {{ number_format($ingress->debt - $ingress->amount, 2) }}</small>
+                                    @else
+                                        @if($ingress->retainers->sum('amount') > 0 && $ingress->type != 'nota de crédito')
+                                            <br>
+                                            <small>(-{{ number_format($ingress->retainers->sum('amount'), 2) }})</small>
+                                        @endif
+                                    @endif
+                                </td>
+                                <td style="text-align: center;"><small>{{ strtoupper($ingress->pay_method) }}</small></td>
                             </tr>
                         @endforeach
                         </tbody>
                     </table>
                 </div>
             </solid-box>
+            
+            <modal title="Productos" color="info" id="ingress-modal">
+                <movements :model="model"></movements>
+            </modal>
+
         </div>
     </div>
 
-    @include('sweet::alert')
 
 @endsection

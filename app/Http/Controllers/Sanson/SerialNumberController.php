@@ -12,32 +12,32 @@ class SerialNumberController extends Controller
     {
         $serial_numbers = SerialNumber::whereHas('product', function ($query) {
             $query->where('company', 'SANSON');
-        })->get();
+        })
+        ->orderBy('purchased_at', 'asc')
+        ->get();
+
         return view('sanson.serial_numbers.index', compact('serial_numbers'));
     }
 
-    function create(Product $product = null)
+    function create()
     {
-        if ($product == null) {
-            $product = Product::where('company', 'SANSON')->pluck('description', 'id')->toArray();
-        }
-
-        return view('sanson.serial_numbers.create', compact('product'));       
+        return view('sanson.serial_numbers.create');       
     }
 
-    function store(Request $request, Product $product = null)
+    function store(Request $request)
     {
         $request->validate([
-            'product_id' => 'required',
+            'purchased_at' => 'required',
             'purchase_id' => 'required',
-            'numbers' => 'required|array|min:1',
+            'items' => 'required|array|min:1',
         ]);
 
-        foreach ($request->numbers as $number) {
+        foreach ($request->items as $item) {
             SerialNumber::create([
-                'product_id' => $request->product_id,
+                'product_id' => $item['product_id'],
                 'purchase_id' => $request->purchase_id,
-                'number' => $number,
+                'number' => $item['number'],
+                'purchased_at' => $request->purchased_at,
             ]);
         }
 
@@ -56,8 +56,6 @@ class SerialNumberController extends Controller
 
     function update(Request $request, Ingress $ingress)
     {
-        // dd(SerialNumber::find($request->numbers), $ingress->id);
-
         foreach (SerialNumber::find($request->numbers) as $number) {
             $number->update(['ingress_id' => $ingress->id]);
         }

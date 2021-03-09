@@ -1,8 +1,6 @@
 @extends('coffee.root')
 
-@push('pageTitle')
-    Venta | Agregar
-@endpush
+@push('pageTitle', 'Venta | Agregar')
 
 @section('content')
     <div class="row">
@@ -62,8 +60,9 @@
 
                     </form-wizard>
 
-                    <input type="hidden" name="method" :value="is_retained == 0 ? 'anticipo': 'contado'">
+                    <input type="hidden" name="method" value="contado">
                     <input type="hidden" name="bought_at" value="{{ date('Y-m-d') }}">
+                    <input type="hidden" name="paid_at" value="{{ date('Y-m-d') }}">
                     <input type="hidden" name="company" value="coffee">
                     <input type="hidden" name="user_id" value="{{ $quotation->user_id }}">
                     <input type="hidden" name="folio" value="{{ $last_folio }}">

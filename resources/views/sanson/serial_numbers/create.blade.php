@@ -4,40 +4,34 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-6">
             <solid-box title="Agregar número(s) de serie" color="info">
 
-                @if(!is_array($product))
-                    {!! Form::open(['method' => 'POST', 'route' => ['sanson.serial_number.store', $product]]) !!}
-                        
-                        {!! Field::text('producto', $product->description, ['tpl' => 'withicon', 'disabled' => 'true'], ['icon' => 'tags']) !!}
+            {!! Form::open(['method' => 'POST', 'route' => 'sanson.serial_number.store']) !!}
 
-                        <input type="hidden" name="product_id" value="{{ $product->id }}">
-                        
-                        {!! Field::number('purchase_id', ['tpl' => 'withicon', 'min' => '1'], ['icon' => 'truck']) !!}
-                        
-                        <multiple-inputs color="info">
-                            {!! Field::text('numbers[]', ['tpl' => 'withicon'], ['icon' => 'barcode']) !!}
-                        </multiple-inputs>
-                @else
-                    {!! Form::open(['method' => 'POST', 'route' => 'sanson.serial_number.store']) !!}
-                        
-                        {!! Field::select('product_id', $product, null, ['tpl' => 'withicon', 'empty' => 'Seleccione un producto'], ['icon' => 'tags']) !!}
-                        
-                        {!! Field::number('purchase_id', ['tpl' => 'withicon', 'min' => '1'], ['icon' => 'truck']) !!}
-                        
-                        <multiple-inputs color="info">
-                            {!! Field::text('numbers[]', ['tpl' => 'withicon'], ['icon' => 'barcode']) !!}
-                        </multiple-inputs>
+                <div class="row">
+                    <div class="col-md-6">
+                        {!! Field::number('purchase_id', ['tpl' => 'withicon'], ['icon' => 'barcode']) !!}
+                    </div>
+                    <div class="col-md-6">
+                        {!! Field::date('purchased_at', date('Y-m-d'), ['label' => 'Fecha de entrada','tpl' => 'withicon'], ['icon' => 'calendar']) !!}
+                    </div>
+                </div>
 
-                @endif
+                <seriable-products-list></seriable-products-list>
 
                 <hr>
 
-                    {!! Form::submit('AGREGAR', ['class' => 'btn btn-info pull-right']) !!}
+                {!! Form::submit('AGREGAR', ['class' => 'btn btn-info pull-right']) !!}
 
-                {!! Form::close() !!}
+            {!! Form::close() !!}
 
+            </solid-box>
+        </div>
+
+        <div class="col-md-6">
+            <solid-box title="Productos" color="info">
+                <seriable-products color="info" company="sanson"></seriable-products>
             </solid-box>
         </div>
     </div>

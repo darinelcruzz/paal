@@ -18,7 +18,7 @@ class IngressController extends Controller
             ->whereMonth('created_at', substr($date, 5, 7))
             ->whereYear('created_at', substr($date, 0, 4))
             ->orderByDesc('id')
-            ->with('client', 'movements.product')
+            ->with('client', 'movements.product', 'payments')
             ->get();
 
         return view('sanson.ingresses.index', compact('ingresses', 'date'));
@@ -35,7 +35,7 @@ class IngressController extends Controller
     {
         // dd($request->all());
 
-        $validated = $this->validate($request, [
+        $validated = $request->validate([
             'client_id' => 'required',
             'user_id' => 'required',
             'quotation_id' => 'sometimes|required',
@@ -49,18 +49,23 @@ class IngressController extends Controller
             'folio' => 'required'
         ]);
 
-        $total = $request->payment['cash'] + $request->payment['transfer'] + $request->payment['check']
-                + $request->payment['debit_card'] + $request->payment['credit_card'];
+        if ($request->folio != Ingress::where('company', 'sanson')->get()->last()->folio) {
 
-        $ingress = Ingress::create($validated + [
-            'retainer' => $request->method == 'anticipo' ? $total: 0,
-            'retained_at' => $request->method == 'anticipo' ? date('Y-m-d'): null,
-            'paid_at' => $request->method == 'anticipo' ? null: date('Y-m-d'),
-            'status' => $request->method == 'anticipo' ? 'pendiente': 'pagado'
-        ]);
+            $last_sale = Ingress::where('company', 'sanson')->get()->last();
+            $validated['folio'] = $last_sale ? $last_sale->folio + 1: 1;
 
-        $methods = ['undefined' => null, 'cash' => 'efectivo', 'transfer' => 'transferencia', 'check' => 'cheque', 'debit_card' => 'tarjeta débito', 'credit_card' => 'tarjeta crédito'];
-        $ingress->update(['method' => $methods[$ingress->inferred_method]]);
+            $ingress = Ingress::create($validated);
+
+            $ingress->payments()->create($request->only('cash', 'transfer', 'check', 'debit_card', 'credit_card') + [
+                'type' => $request->method,
+                'reference' => isset($request->reference) ? $request->reference: null,
+                'card_number' => isset($request->card_number) ? $request->card_number: null,
+            ]);
+
+            if ($ingress->areSerialNumbersMissing) {
+                return redirect(route('sanson.ingress.update', $ingress));
+            }
+        }
 
         return redirect(route('sanson.ingress.index'));
     }

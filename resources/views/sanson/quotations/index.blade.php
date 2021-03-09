@@ -72,15 +72,15 @@
                                     <td>{{ $quotation->id }}</td>
                                     <td>
                                         <dropdown icon="cogs" color="{{ $color }}">
-                                            {{-- <ddi to="{{ route('sanson.quotation.show', $quotation) }}" icon="eye" text="Detalles"></ddi> --}}
                                             <li>
                                                 <a data-toggle="modal" data-target="#quotation-modal" v-on:click="upmodel({{ $quotation->toJson() }})">
                                                     <i class="fa fa-eye" aria-hidden="true"></i> Detalles
                                                 </a>
                                             </li>
                                             <ddi to="{{ route('sanson.quotation.download', $quotation) }}" icon="file-pdf" text="Imprimir" target="_blank"></ddi>
-                                            @if (!$quotation->is_canceled)
+                                            @if (!$quotation->sale)
                                                 <ddi to="{{ route('sanson.quotation.edit', $quotation) }}" icon="edit" text="Editar"></ddi>
+                                                <ddi to="{{ route('sanson.retainer.create', $quotation) }}" icon="hand-holding-usd" text="Anticipo"></ddi>
                                                 @if($quotation->type)
                                                     <ddi to="{{ route('sanson.quotation.transform', [$quotation, $quotation->type]) }}" icon="mug-hot" text="Crear venta"></ddi>
                                                 @else
@@ -91,11 +91,21 @@
                                     </td>
                                     <td>{{ fdate($quotation->created_at, 'd/m/Y') }}</td>
                                     <td style="width: 40%">{{ $quotation->client_name ?? $quotation->client->name }}</td>
-                                    <td>
-                                        <label class="label label-{{$quotation->type == 'proyecto' ? 'primary': 'info'}}">{{ strtoupper($quotation->type) }}</label>
+                                    <td style="text-align: center">
+                                        @if ($quotation->type)
+                                            <label class="label label-{{ $quotation->typeLabel }}">{{ strtoupper($quotation->type) }}</label>
+                                        @else
+                                            <label class="label label-{{$quotation->products_list_type == 'insumos' ? 'danger': 'warning'}}">{{ strtoupper($quotation->products_list_type) }}</label>
+                                        @endif
                                     </td>
-                                    <td>{{ number_format($quotation->iva, 2) }}</td>
-                                    <td>{{ number_format($quotation->amount, 2) }}</td>
+                                    <td style="text-align: right">{{ number_format($quotation->iva, 2) }}</td>
+                                    <td style="text-align: right">
+                                        {{ number_format($quotation->amount, 2) }}
+                                        @if($quotation->retainers->count() > 0)
+                                            <br>
+                                            <small style="color: gray"><em>p.p.</em> {{ number_format($quotation->amount - $quotation->retainers->sum('amount'), 2) }}</small>
+                                        @endif
+                                    </td>
                                     <td style="text-align: center">
                                         <span class="label label-{{ $quotation->sale ? 'success': 'default' }}">
                                             <small>{{ $quotation->sale ? 'VENTA': 'SIN VENTA' }}</small>
@@ -103,7 +113,7 @@
                                     </td>
                                     <td>
                                         @if ($quotation->editions_count)
-                                            <code style="color: blue">EDICIONES: {{ $quotation->editions_count }}</code>
+                                            <code style="color: blue">{{ $quotation->editions_count }}</code>
                                         @else
                                             <code>0</code>
                                         @endif
