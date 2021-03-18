@@ -51,29 +51,50 @@ class AdminController extends Controller
         return view('sanson.admin.index', compact('payments', 'paid', 'invoiced', 'deposits', 'date'));
     }
 
+    // function monthly(Request $request)
+    // {
+    //     $date = isset($request->date) ? $request->date: date('Y-m');
+
+    //     $shippings = Shipping::monthly($date, 'sanson');
+
+    //     $month = Payment::monthly($date, 'sanson');
+
+    //     $working_days = $month->selectRaw('DATE_FORMAT(created_at, "%Y-%m-%d") as date')->get()->groupBy('date')->count();
+
+    //     $working_days = $working_days == 0 ? 1: $working_days;
+
+    //     $pending = Payment::monthly($date, 'sanson')->whereNull('cash_reference')->sum('cash');
+
+    //     $project = Ingress::monthly($date, 'sanson')->where('type', 'proyecto')->sum('amount');
+    //     $equipment = Ingress::monthly($date, 'sanson')->where('type', 'equipo')->sum('amount');
+        
+    //     $imbera = Movement::monthly($date, 'sanson', 'IMBERA')->sum('total');
+    //     $rhino = Movement::monthly($date, 'sanson', 'RHINO')->sum('total');
+    //     $sanson_equipment = Movement::monthly($date, 'sanson', 'EQUIPOS SANSON')->sum('total');
+    //     $refactions = Movement::monthly($date, 'sanson', 'REFACCIONES SANSON')->sum('total');
+
+    //     return view('sanson.admin.monthly', compact('date', 'month', 'pending', 'working_days', 'shippings', 'project', 'equipment', 'imbera', 'rhino', 'sanson_equipment', 'refactions'));
+    // }
+
     function monthly(Request $request)
     {
         $date = isset($request->date) ? $request->date: date('Y-m');
 
-        $shippings = Shipping::monthly($date, 'sanson');
+        $ingresses = Ingress::where('company', 'sanson')
+            ->where('status', '!=', 'cancelado')
+            ->whereMonth('created_at', substr($date, 5, 7))
+            ->whereYear('created_at', substr($date, 0, 4))
+            ->with('payments', 'movements.product')
+            ->get();
 
-        $month = Payment::monthly($date, 'sanson');
+        $shippings = Shipping::monthly($date)->count();
 
-        $working_days = $month->selectRaw('DATE_FORMAT(created_at, "%Y-%m-%d") as date')->get()->groupBy('date')->count();
-
-        $working_days = $working_days == 0 ? 1: $working_days;
-
-        $pending = Payment::monthly($date, 'sanson')->whereNull('cash_reference')->sum('cash');
-
-        $project = Ingress::monthly($date, 'sanson')->where('type', 'proyecto')->sum('amount');
-        $equipment = Ingress::monthly($date, 'sanson')->where('type', 'equipo')->sum('amount');
-        
         $imbera = Movement::monthly($date, 'sanson', 'IMBERA')->sum('total');
         $rhino = Movement::monthly($date, 'sanson', 'RHINO')->sum('total');
-        $sanson_equipment = Movement::monthly($date, 'sanson', 'EQUIPOS SANSON')->sum('total');
+        $equipment = Movement::monthly($date, 'sanson', 'EQUIPOS SANSON')->sum('total');
         $refactions = Movement::monthly($date, 'sanson', 'REFACCIONES SANSON')->sum('total');
 
-        return view('sanson.admin.monthly', compact('date', 'month', 'pending', 'working_days', 'shippings', 'project', 'equipment', 'imbera', 'rhino', 'sanson_equipment', 'refactions'));
+        return view('sanson.admin.monthly', compact('date', 'ingresses', 'shippings', 'imbera', 'rhino', 'equipment', 'refactions'));
     }
 
     function invoices(Request $request, $thisDate = null)
