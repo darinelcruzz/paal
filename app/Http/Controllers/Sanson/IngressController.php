@@ -62,6 +62,8 @@ class IngressController extends Controller
                 'card_number' => isset($request->card_number) ? $request->card_number: null,
             ]);
 
+            $ingress->update(['method' => $ingress->pay_method]);
+
             if ($ingress->areSerialNumbersMissing) {
                 return redirect(route('sanson.ingress.update', $ingress));
             }
