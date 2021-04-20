@@ -54513,7 +54513,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         deleteRow: function deleteRow(index, family) {
             var category = this.inputs[index].category == 'EQUIPO' ? 'equipo' : 'insumos';
-            this.types.splice(this.types.indexOf(category), 1);
+            if (this.types.length > 1) {
+                this.types.splice(this.types.indexOf(category), 1);
+            }
             this.type = this.types.length == 2 ? 'proyecto' : this.types[0];
             this.inputs.splice(index, 1);
             this.subtotals.splice(index, 1);
