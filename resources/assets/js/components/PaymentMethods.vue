@@ -26,7 +26,7 @@
 				    <div class="input-group">
 				        <span class="input-group-addon"><i class="fa fa-money-bill-alt"></i></span>
 				        <input type="number" name="cash" value="0" min="0" step="0.01" class="form-control" 
-				        	:max="amount - (debit_card + credit_card + transfer + check)" 
+				        	:max="amount - (debit_card + credit_card + transfer + check)" :required="total == 0"
 				        	v-model.number="cash" :disabled="amount == 0">
 				    </div>
 				</div>
@@ -41,7 +41,7 @@
 				    <div class="input-group">
 				        <span class="input-group-addon"><i class="fa fa-money-check-alt"></i></span>
 				        <input type="number" name="check" value="0" min="0" step="0.01" class="form-control" 
-				        	:max="amount - (debit_card + credit_card + transfer + cash)" 
+				        	:max="amount - (debit_card + credit_card + transfer + cash)" :required="total == 0"
 				        	v-model.number="check" :disabled="amount == 0">
 				    </div>
 				</div>
@@ -52,7 +52,7 @@
 				    <div class="input-group">
 				        <span class="input-group-addon"><i class="fab fa-cc-visa"></i></span>
 				        <input type="number" name="credit_card" value="0" min="0" step="0.01" class="form-control" 
-				        	:max="amount - (debit_card + cash + transfer + check)" 
+				        	:max="amount - (debit_card + cash + transfer + check)" :required="total == 0"
 				        	v-model.number="credit_card" :disabled="amount == 0">
 				    </div>
 				</div>
@@ -65,7 +65,7 @@
 				    <div class="input-group">
 				        <span class="input-group-addon"><i class="fa fa-exchange-alt"></i></span>
 				        <input type="number" name="transfer" value="0" min="0" step="0.01" class="form-control" 
-				        	:max="amount - (debit_card + credit_card + cash + check)" 
+				        	:max="amount - (debit_card + credit_card + cash + check)"  :required="total == 0"
 				        	v-model.number="transfer" :disabled="amount == 0">
 				    </div>
 				</div>
@@ -76,7 +76,7 @@
 				    <div class="input-group">
 				        <span class="input-group-addon"><i class="fab fa-cc-mastercard"></i></span>
 				        <input type="number" name="debit_card" value="0" min="0" step="0.01" class="form-control" 
-				        	:max="amount - (cash + credit_card + transfer + check)" 
+				        	:max="amount - (cash + credit_card + transfer + check)" :required="total == 0"
 				        	v-model.number="debit_card" :disabled="amount == 0">
 				    </div>
 				</div>
@@ -122,8 +122,12 @@ export default {
             debit_card: 0,
             credit_card: 0,
             check: 0,
-            // amount: 0,
         };
     },
+    computed: {
+    	total() {
+    		return this.cash + this.transfer + this.debit_card + this.credit_card + this.check;
+    	}
+    }
 };
 </script>

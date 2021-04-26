@@ -46,35 +46,23 @@ class IngressController extends Controller
             'type' => 'required',
             'bought_at' => 'required',
             'rounding' => 'required',
+            'folio' => 'required',
        ]);
 
         if ($request->folio != Ingress::where('company', 'coffee')->get()->last()->folio) {
 
             $last_sale = Ingress::where('company', 'coffee')->get()->last();
-            $last_folio = $last_sale ? $last_sale->folio + 1: 1;
+            $validated['folio'] = $last_sale ? $last_sale->folio + 1: 1;
 
-            $total = $request->cash + $request->transfer + $request->check
-                + $request->debit_card + $request->credit_card;
-
-            $ingress = Ingress::create($validated + [
-                'folio' => $last_folio,
-                'retainer' => $request->method == 'anticipo' ? $total: 0,
-            ]);
-
-            $ingress->update([
-                'retained_at' => $request->method == 'anticipo' ? date('Y-m-d'): null,
-                'paid_at' => $request->method == 'anticipo' ? null: date('Y-m-d'),
-                'status' => $request->method == 'anticipo' ? 'pendiente': 'pagado'
-            ]);
+            $ingress = Ingress::create($validated);
 
             $ingress->payments()->create($request->only('cash', 'transfer', 'check', 'debit_card', 'credit_card') + [
                 'type' => $request->method,
                 'reference' => isset($request->reference) ? $request->reference: null,
                 'card_number' => isset($request->card_number) ? $request->card_number: null,
             ]);
-
-            $methods = ['undefined' => null, 'cash' => 'efectivo', 'transfer' => 'transferencia', 'check' => 'cheque', 'debit_card' => 'tarjeta débito', 'credit_card' => 'tarjeta crédito'];
-            $ingress->update(['method' => $methods[$ingress->inferred_method]]);
+            
+            $ingress->update(['method' => $ingress->pay_method]);
 
             if ($ingress->areSerialNumbersMissing) {
                 return redirect(route('coffee.ingress.update', $ingress));
