@@ -32,7 +32,7 @@
                 1 <input type="hidden" :name="'items[' + index + '][quantity]'" :value="1">
             </div>
             <div v-else>
-				<input :name="'items[' + index + '][quantity]'" class="form-control input-sm" type="number" min="1" v-model.number="quantity" @change="update" :max="product.category == 'EQUIPO' ? product.serial_numbers: 10000">
+				<input :name="'items[' + index + '][quantity]'" class="form-control input-sm" type="number" min="1" v-model.number="quantity" @change="update">
             </div>
 		</td>
 
