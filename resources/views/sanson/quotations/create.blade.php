@@ -14,7 +14,7 @@
                         title=""
                         subtitle=""
                         color="{{ $type == 'equipo' ? '#00c0ef': '#3c8dbc' }}"
-                        @on-complete="submit"
+                        @on-complete="submit('cotizacion')"
                         back-button-text="Anterior"
                         next-button-text="Siguiente"
                         finish-button-text="Completado">

@@ -126,6 +126,7 @@ export default {
     },
     computed: {
     	total() {
+    		this.$root.$emit('update-payment', this.cash + this.transfer + this.debit_card + this.credit_card + this.check)
     		return this.cash + this.transfer + this.debit_card + this.credit_card + this.check;
     	}
     }

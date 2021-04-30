@@ -95,6 +95,7 @@ const app = new Vue({
     data: {
     	complement: null,
         payment_method: 0,
+        payment_total: 0,
         is_retained: 1,
         retainer: 0,
         ingress_total: 0,
@@ -144,8 +145,14 @@ const app = new Vue({
         reset() {
             this.product_option = ''
         },
-        submit() {
-            this.$refs.cform.submit()
+        submit(type) {
+            if (type == 'venta') {
+                if (this.payment_total > 0) {
+                    this.$refs.cform.submit()
+                }
+            } else {
+                this.$refs.cform.submit()
+            }
         },
         checkIsInvoiced() {
             return this.is_invoiced != ''
@@ -200,6 +207,10 @@ const app = new Vue({
 
         t.$on('set-total', (total) => {
             t.ingress_total = total
+        });
+
+        t.$on('update-payment', (amount) => {
+            t.payment_total = amount
         });
 
         axios.get('/api/providers/mbe/of').then(({data}) => {
