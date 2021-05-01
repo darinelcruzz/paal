@@ -15243,6 +15243,8 @@ var app = new Vue({
             if (type == 'venta') {
                 if (this.payment_total > 0) {
                     this.$refs.cform.submit();
+                } else {
+                    alert('Falta importe según el método de pago');
                 }
             } else {
                 this.$refs.cform.submit();
