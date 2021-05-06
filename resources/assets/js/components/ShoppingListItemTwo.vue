@@ -28,7 +28,7 @@
 		</td>
 
 		<td class="centered-field">
-			<div v-if="product.category == 'SERVICIOS'">
+			<div v-if="product.category == 'SERVICIOS' && product.family != 'ESPECIAL'">
                 1 <input type="hidden" :name="'items[' + index + '][quantity]'" :value="1">
             </div>
             <div v-else>

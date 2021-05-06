@@ -13,17 +13,26 @@ class InvoiceController extends Controller
     {
         // dd($request->all());
         $validated = $request->validate([
-            'invoice_id' => 'required',
-            'sales' => 'required',
-            'xml' => 'required'
+            'invoice_id' => 'required_if:pinvoice_id,null',
+            'pinvoice_id' => 'required_if:invoice_id,null',
+            'xml' => 'required_with:invoice_id',
+            'pi_xml' => 'required_with:pinvoice_id'
         ]);
         
-        $path = Storage::putFileAs(
-            "public/coffee/invoices", $request->file('xml'), "$request->invoice_id.xml"
-        );
+        if ($request->file('xml')) {
+            Storage::putFileAs(
+                "public/coffee/invoices", $request->file('xml'), "$request->invoice_id.xml"
+            );
+        }
+
+        if ($request->file('pi_xml')) {
+            Storage::putFileAs(
+                "public/coffee/invoices", $request->file('pi_xml'), "pi_$request->pinvoice_id.xml"
+            );
+        }
         
         foreach (Ingress::find($request->sales) as $sale) {
-            $sale->update($request->only('invoice_id'));
+            $sale->update($request->only('invoice_id', 'pinvoice_id', 'pi_amount'));
         }
 
         return redirect(route('coffee.admin.daily', [$sale->route_method, $request->thisDate]));

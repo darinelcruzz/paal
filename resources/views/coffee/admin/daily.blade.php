@@ -36,7 +36,7 @@
 
             <solid-box title="{{ strtoupper($status) }}" color="{{ $color }}">
                 
-                <table class="table table-striped table-bordered spanish-simple">
+                <table class="table table-striped table-bordered">
 
                     <thead>
                         <tr>
@@ -55,8 +55,8 @@
                                 <td style="width: 10%">
                                     @if($ingress->invoice_id == null && $ingress->pay_method == 'efectivo' && $status == 'efectivo')
                                         <input type="checkbox" name="sales[]" value="{{ $ingress->id }}" checked>
-                                    @elseif($ingress->invoice_id != null)
-                                        <span style="color: green;">{!! $ingress->invoice_id == null ? '': "<i class='fa fa-check'></i>" !!}</span>
+                                    @elseif($ingress->invoice_id != null || $ingress->pinvoice_id != null)
+                                        <span style="color: green;"><i class='fa fa-check'></i></span>
                                     @endif
                                     {{ $ingress->folio }}
                                 </td>
@@ -99,25 +99,24 @@
                         <i class="fa fa-file-invoice-dollar fa-2x"></i>
                     </a>
 
-                    {{-- {!! Form::open(['method' => 'POST', 'route' => 'coffee.invoice.create', 'files' => 'true']) !!} --}}
                     <modal title="Agregar datos de la facturación" id="modal-cash" color="{{ $color }}">
 
                         <div class="row">
-                            <div class="col-md-4 col-md-offset-4">
-                                {!! Field::number('invoice_id', 
-                                    ['label' => 'Agregar FI', 'tpl' => 'withicon', 'ph' => 'XXXXXXXXX', 'required' => 'true'], 
-                                    ['icon' => 'file-invoice']) 
-                                !!}
+                            <div class="col-md-2"></div>
+                            <div class="col-md-6">
+                                {!! Field::number('invoice_id', ['label' => 'Agregar FI','tpl' => 'withicon', 'ph' => '010101'], ['icon' => 'file-invoice']) !!}
+                                {!! Field::number('pinvoice_id', ['label' => 'Agregar PI','tpl' => 'withicon', 'ph' => '010101'], ['icon' => 'file-excel']) !!}
+                                {!! Field::number('pi_amount', 0, ['label' => 'Monto PI', 'tpl' => 'withicon'], ['icon' => 'usd']) !!}
                                 <input type="hidden" name="thisDate" value="{{ $date }}">
-                                {{-- <input type="hidden" name="sales" :value="checked"> --}}
+                            </div>
+                            <div class="col-md-2">
+                                &nbsp;<br>
+                                <file-upload fname="xml" ext="xml" color="{{ $color }}" bname="fi.xml"></file-upload>
+                                &nbsp;<br>
+                                <file-upload fname="pi_xml" ext="xml" color="{{ $color }}" bname="pi.xml"></file-upload>                            
                             </div>
                         </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-md-2 col-md-offset-5">
-                                <file-upload bname=" SUBIR XML" fname="xml" ext="xml" color="danger"></file-upload>
-                            </div>
-                        </div>
+                        {{-- <input type="hidden" name="sales[]" :value="model.id"> --}}
 
                         <template slot="footer">
                             {!! Form::submit('Guardar', ['class' => "btn btn-$color pull-right"]) !!}
@@ -140,21 +139,22 @@
                 <modal title="Agregar datos de la facturación" id="invoice-modal" color="{{ $color }}">
 
                     <div class="row">
-                        <div class="col-md-4 col-md-offset-4">
-                            {!! Field::number('invoice_id', 
-                                ['label' => 'Agregar FI','tpl' => 'withicon', 'ph' => 'XXXXXXXXX', 'required' => 'true'], 
-                                ['icon' => 'file-invoice']) 
-                            !!}
+                        <div class="col-md-2"></div>
+                        <div class="col-md-6">
+                            {!! Field::number('invoice_id', ['label' => 'Agregar FI','tpl' => 'withicon', 'ph' => '010101'], ['icon' => 'file-invoice']) !!}
+                            {!! Field::number('pinvoice_id', ['label' => 'Agregar PI','tpl' => 'withicon', 'ph' => '010101'], ['icon' => 'file-excel']) !!}
+                            {!! Field::number('pi_amount', 0, ['label' => 'Monto PI', 'tpl' => 'withicon'], ['icon' => 'usd']) !!}
                             <input type="hidden" name="thisDate" value="{{ $date }}">
+                        </div>
+                        <div class="col-md-2">
+                            &nbsp;<br>
+                            <file-upload fname="xml" ext="xml" color="{{ $color }}" bname="fi.xml"></file-upload>
+                            &nbsp;<br>
+                            <file-upload fname="pi_xml" ext="xml" color="{{ $color }}" bname="pi.xml"></file-upload>                            
                         </div>
                     </div>
                     <input type="hidden" name="sales[]" :value="model.id">
                     <br>
-                    <div class="row">
-                        <div class="col-md-2 col-md-offset-5">
-                            <file-upload fname="xml" ext="xml" color="danger" bname=" SUBIR XML"></file-upload>
-                        </div>
-                    </div>
 
                     <template slot="footer">
                         {!! Form::submit('Guardar', ['class' => "btn btn-$color pull-right"]) !!}

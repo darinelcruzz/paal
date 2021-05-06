@@ -13,10 +13,11 @@
                 <table class="table table-striped table-bordered spanish-simple">
                     <thead>
                         <tr>
-                            <th><small>FI</small></th>
+                            <th style="text-align: center;"><small>FI</small></th>
+                            <th style="text-align: center;"><small>PI</small></th>
+                            <th><small>NOTAS</small></th>
                             <th><small>MÉTODO</small></th>
                             <th><small>CLIENTE</small></th>
-                            <th><small>XML</small></th>
                             <th style="text-align: center;"><small>REFERENCIA</small></th>
                             <th style="text-align: right;"><small>IMPORTE</small></th>
                         </tr>
@@ -30,14 +31,28 @@
 
                         @foreach($invoices->groupBy('invoice_id') as $invoice => $sales)
                             <tr>
-                                <td style="width: 7%">{{ $invoice }}</td>
-                                <td style="width: 17%">{{ $sales->first()->cash > 0 ? 'Efectivo' : $sales->first()->pay_method }}</td>
-                                <td style="width: 35%">{{ $sales->first()->client->name }}</td>
-                                <td style="width: 5%; text-align: center;">
+                                <td style="width: 10%;text-align: center;">
                                     <a href="{{ $sales->first()->xml }}" target="_blank" style="color: green">
-                                        <i class="fa fa-file-excel"></i>
-                                    </a>
+                                    {{ $invoice }}
+                                    </a><br>
+                                    {{ number_format($sales->sum('amount') - $sales->first()->pi_amount, 2) }}
                                 </td>
+                                <td style="width: 10%;text-align: center;">
+                                    <a href="{{ $sales->first()->pi_xml }}" target="_blank" style="color: blue">
+                                    {{ $sales->first()->pinvoice_id ?? 'N/A' }}
+                                    </a>
+                                    <br>
+                                    {{ number_format($sales->first()->pi_amount, 2) }}
+                                </td>
+                                <td>
+                                    @if($sales->count() > 1)
+                                        <em><small>GLOBAL</small></em>
+                                    @else
+                                        {{ $sales->first()->folio }}
+                                    @endif
+                                </td>
+                                <td style="width: 17%">{{ $sales->first()->cash > 0 ? 'Efectivo' : ucwords($sales->first()->pay_method) }}</td>
+                                <td style="width: 35%">{{ $sales->first()->client->name }}</td>
                                 @php
                                     $subamount = 0;
                                     foreach ($sales as $sale) {
@@ -84,7 +99,81 @@
                                         {{ $sales->first()->cash_reference ?? $sales->first()->reference  }}
                                     @endif
                                 </td>
-                                <td style="text-align: right; width: 15%;">$ {{ number_format($subamount, 2) }}</td>
+                                <td style="text-align: right; width: 15%;">{{ number_format($subamount, 2) }}</td>
+                            </tr>
+                        @endforeach
+
+                        @foreach($pinvoices->groupBy('pinvoice_id') as $invoice => $sales)
+                            <tr>
+                                <td style="width: 10%;text-align: center;">
+                                    <a href="{{ $sales->first()->xml }}" target="_blank" style="color: green">
+                                    N/A
+                                    </a><br>
+                                    {{ number_format($sales->sum('amount') - $sales->sum('pi_amount'), 2) }}
+                                </td>
+                                <td style="width: 10%;text-align: center;">
+                                    <a href="{{ $sales->first()->pi_xml }}" target="_blank" style="color: blue">
+                                    {{ $invoice }}
+                                    </a>
+                                    <br>
+                                    {{ number_format($sales->sum('pi_amount'), 2) }}
+                                </td>
+                                <td>
+                                    @if($sales->count() > 1)
+                                        GLOBAL
+                                    @else
+                                        {{ $sales->first()->folio }}
+                                    @endif
+                                </td>
+                                <td style="width: 17%">{{ $sales->first()->cash > 0 ? 'Efectivo' : ucwords($sales->first()->pay_method) }}</td>
+                                <td style="width: 35%">{{ $sales->first()->client->name }}</td>
+                                @php
+                                    $subamount = 0;
+                                    foreach ($sales as $sale) {
+                                        $subamount += $sale->cash > 0 ? $sale->payments->sum('cash'): $sale->amount;
+                                    }
+                                @endphp
+                                <td style="text-align: center">
+                                    @if (!$sales->first()->cash_reference && $sales->first()->cash > 0)
+                                        
+                                        @php
+                                            $pending += $subamount;
+                                        @endphp
+
+                                        <a href="" data-toggle="modal" data-target="#details{{ $invoice }}">
+                                            <em>agregar...</em>
+                                        </a>
+
+                                        {!! Form::open(['method' => 'POST', 'route' => 'coffee.admin.reference']) !!}
+                                
+                                        <modal title="Agregar referencia del depósito" id="details{{ $invoice }}" color="#dd4b39">
+
+                                            <div class="row">
+                                                <div class="col-md-4 col-md-offset-4">
+                                                    {!! Field::text('cash_reference', 
+                                                        ['tpl' => 'withicon', 'ph' => 'XXXXXXXXX', 'required' => 'true'], 
+                                                        ['icon' => 'exchange-alt']) 
+                                                    !!}
+
+                                                    <input type="hidden" name="thisDate" value="{{ $date }}">
+                                                </div>
+                                            </div>
+
+                                            @foreach ($sales as $sale)
+                                                <input type="hidden" name="sales[]" value="{{ $sale->id }}">
+                                            @endforeach
+
+                                            <template slot="footer">
+                                                {!! Form::submit('Guardar', ['class' => 'btn btn-danger pull-right']) !!}
+                                            </template>
+                                        </modal>
+
+                                        {!! Form::close() !!}
+                                    @else
+                                        {{ $sales->first()->cash_reference ?? $sales->first()->reference  }}
+                                    @endif
+                                </td>
+                                <td style="text-align: right; width: 15%;">{{ number_format($subamount, 2) }}</td>
                             </tr>
                         @endforeach
 

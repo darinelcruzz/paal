@@ -170,6 +170,15 @@ class Ingress extends Model
         return false;
     }
 
+    function getPiXmlAttribute()
+    {
+        if (Storage::exists("public/$this->company/invoices/pi$this->pinvoice_id.xml")) {
+            return Storage::url("public/$this->company/invoices/pi$this->pinvoice_id.xml");
+        }
+        
+        return false;
+    }
+
     function getXmlComplementAttribute()
     {
         if (Storage::exists("public/$this->company/complements/$this->invoice_id.xml")) {

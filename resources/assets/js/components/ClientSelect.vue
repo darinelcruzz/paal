@@ -8,7 +8,7 @@
         </v-select>
         <br>
 
-        <div v-if="client.name == 'INTERNET INTERNO' || client.name == 'INTERNET EXTERNO'">
+        <div v-if="client.name == 'CAMPAÑA' || client.name == 'FORMULARIO'">
         	<div class="form-group">
                 <label>Nombre</label>
 

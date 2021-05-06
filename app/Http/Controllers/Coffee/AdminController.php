@@ -78,6 +78,14 @@ class AdminController extends Controller
             ->with('payments', 'movements.product')
             ->get();
 
+        $pinvoices = Ingress::where('pinvoice_id', '!=', null)
+            ->where('invoice_id', null)
+            ->whereDate('created_at', $date)
+            ->where('status', '!=', 'cancelado')
+            ->where('company', 'coffee')
+            ->with('payments', 'movements.product')
+            ->get();
+
         $deposits = Ingress::where('company', 'coffee')
             ->where('status', '!=', 'cancelado')
             ->whereMonth('created_at', substr($date, 5, 2))
@@ -96,7 +104,7 @@ class AdminController extends Controller
             ->get()
             ->groupBy('invoice_id');
 
-        return view('coffee.admin.invoices', compact('invoices', 'date', 'canceled', 'deposits'));
+        return view('coffee.admin.invoices', compact('pinvoices', 'invoices', 'date', 'canceled', 'deposits'));
     }
 
     function reference(Request $request)
