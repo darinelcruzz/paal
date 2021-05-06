@@ -125,7 +125,16 @@ return [
     'products' => [
         'title' => 'Productos',
         'icon' => 'fa fa-tags',
-        'route' => 'coffee.product.index'
+        'submenu' => [
+            'index' => [
+                'title' => 'Todos',
+                'route' => 'coffee.product.index'
+            ],
+            'puremix' => [
+                'title' => 'PURE MIX',
+                'route' => 'coffee.product.puremix.index'
+            ],
+        ]
     ],
 
     'serial_numbers' => [

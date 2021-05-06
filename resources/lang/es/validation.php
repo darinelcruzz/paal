@@ -206,5 +206,6 @@ return [
         'purchase_id' => 'compra',
         'product_id' => 'producto',
         'numbers[]' => 'número de serie',
+        'purchased_at' => 'fecha',
     ],
 ];

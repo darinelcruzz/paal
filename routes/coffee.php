@@ -118,6 +118,11 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	    Route::get('editar/{product}', usesas($ctrl, 'edit'));
 	    Route::get('serializar/{product}', usesas($ctrl, 'serialize'));
 	    Route::post('editar/{product}', usesas($ctrl, 'update'));
+	    Route::group(['prefix' => 'pure-mix', 'as' => 'puremix.'], function () {
+	    	$ctrl = 'Coffee\PureMixController';
+	    	Route::get('/', usesas($ctrl, 'index'));
+	    	Route::post('agregar', usesas($ctrl, 'store'));
+	    });
 	});
 
 	Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
