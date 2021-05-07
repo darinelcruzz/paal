@@ -67,7 +67,7 @@
                                                 <i class="fa fa-eye" aria-hidden="true"></i> Ver productos
                                             </a>
                                         </li>
-                                        @if ($ingress->invoice_id)
+                                        @if ($ingress->invoice_id || $ingress->pinvoice_id)
                                             <li><a href="{{ $ingress->xml }}" target="_blank"><i class="fa fa-file-code"></i> XML</a></li>
                                         @elseif($status != 'efectivo')
                                             <li><a data-toggle="modal" data-target="#invoice-modal" v-on:click="upmodel({{ $ingress->toJson() }})"><i class="fa fa-plus"></i> Agregar FI</a></li>

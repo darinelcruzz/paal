@@ -128,15 +128,27 @@ class AdminController extends Controller
 
     function printDeposits($date)
     {
-        $invoices = Ingress::whereYear('created_at', substr($date, 0, 4))
-            ->whereMonth('created_at', substr($date, 5, 2))
-            ->where('invoice_id', '!=', null)
-            ->where('status', '!=', 'cancelado')
-            ->where('company', 'coffee')
-            ->whereHas('payments', function($query) {
-                $query->whereNull('cash_reference');
+        $invoices = Ingress::where(function ($query) use ($date) {
+                $query->whereYear('created_at', substr($date, 0, 4))
+                ->whereMonth('created_at', substr($date, 5, 2))
+                ->where('invoice_id', '!=', null)
+                ->where('status', '!=', 'cancelado')
+                ->where('company', 'coffee')
+                ->whereHas('payments', function($query) {
+                    $query->whereNull('cash_reference');
+                });
             })
-            ->selectRaw('id, client_id, iva, amount, invoice_id, DATE_FORMAT(created_at, "%Y-%m-%d") as date')
+            ->orWhere(function ($query) use ($date) {
+                $query->whereYear('created_at', substr($date, 0, 4))
+                ->whereMonth('created_at', substr($date, 5, 2))
+                ->where('pinvoice_id', '!=', null)
+                ->where('status', '!=', 'cancelado')
+                ->where('company', 'coffee')
+                ->whereHas('payments', function($query) {
+                    $query->whereNull('cash_reference');
+                });
+            })
+            ->selectRaw('id, client_id, iva, amount, DATE_FORMAT(created_at, "%Y-%m-%d") as date')
             ->with(['client:id,name', 'payments'])
             ->get()
             ->groupBy('date');
