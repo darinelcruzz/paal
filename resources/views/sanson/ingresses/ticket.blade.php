@@ -102,6 +102,14 @@
                             <td style="text-align: right">{{ number_format($movement->total, 2) }}</td>
                         </tr>
                     @endforeach
+                    @if($ingress->type == 'nota de crédito')
+                        <tr>
+                            <td style="text-align: center;">1</td>
+                            <td>Nota de crédito</td>
+                            <td style="text-align: right">{{ number_format($ingress->amount, 2) }}</td>
+                            <td style="text-align: right">{{ number_format($ingress->amount, 2) }}</td>
+                        </tr>
+                    @endif
                 </tbody>
 
                 <tfoot>
@@ -136,6 +144,7 @@
 
     <br>
     
+    @if($ingress->type != 'nota de crédito')
     <div class="row">
         <div class="col-md-12">
             <table align="center">
@@ -149,6 +158,7 @@
             </table>
         </div>
     </div>
+    @endif
 
     <br><br>
 
