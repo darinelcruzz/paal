@@ -59,7 +59,7 @@
                     <p>Promedio</p>
                     <h3>
                         <em>
-                            {{ number_format($ingresses->sum(function ($ingress) { return $ingress->type != 'anticipo' ? $ingress->amount - $ingress->retainers->sum('amount'): $ingress->amount;}) / $ingresses->count(), 2) }}
+                            {{ number_format($ingresses->sum(function ($ingress) { return $ingress->type != 'anticipo' ? $ingress->amount - $ingress->retainers->sum('amount'): $ingress->amount;}) / $divisor, 2) }}
                         </em>
                     </h3>
                 </div>

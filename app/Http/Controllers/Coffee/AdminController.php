@@ -64,7 +64,9 @@ class AdminController extends Controller
 
         $shippings = Shipping::monthly($date)->count();
 
-        return view('coffee.admin.monthly', compact('date', 'ingresses', 'shippings'));
+        $divisor = $ingresses->groupBy('bought_at')->count();
+
+        return view('coffee.admin.monthly', compact('date', 'ingresses', 'shippings', 'divisor'));
     }
 
     function invoices(Request $request, $thisDate = null)
