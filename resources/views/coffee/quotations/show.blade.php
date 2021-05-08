@@ -120,7 +120,7 @@
                     </table>
                 </div>
 
-                <a href="{{ $quotation->index_page }}" class="btn btn-danger pull-left">
+                <a href="{{ route($quotation->company . '.quotation.index') }}" class="btn btn-danger pull-left">
                     <i class="fa fa-backward"></i>&nbsp; HISTORIAL
                 </a>
                 <a href="{{ route('coffee.quotation.transform', $quotation) }}" class="btn btn-warning pull-right">CREAR VENTA</a>
