@@ -54,7 +54,7 @@ export default {
             dollars: 0,
         };
     },
-    props: ['product', 'index', 'exchange', 'promo', 'type'],
+    props: ['product', 'index', 'exchange', 'promo', 'type', 'maxdiscount'],
     methods: {
         deleteItem() {
             this.$root.$emit('delete-item', this.index)
@@ -68,7 +68,7 @@ export default {
     		return (this.quantity * this.price) - ((this.quantity * this.price) * this.discount / 100)
     	},
         max_discount() {
-            return this.type == 'info' ? 30: 40;
+            return this.maxdiscount == 99 ? 99: (this.type == 'info' ? 30: 40);
         },
     	computed_iva() {
             return this.total * 0.16 * this.iva

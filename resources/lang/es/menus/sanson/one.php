@@ -83,16 +83,16 @@ return [
     ],
 
     'purchases_and_orders' => [
-        'title' => 'Compras y órdenes',
+        'title' => 'Órdenes y compras',
         'icon' => 'fa fa-shopping-cart',
         'submenu' => [
-            'purchases' => [
-                'title' => 'Compras',
-                'route' => 'sanson.purchase.index'
-            ],
             'orders' => [
                 'title' => 'Órdenes',
                 'route' => 'sanson.order.index'
+            ],
+            'purchases' => [
+                'title' => 'Compras',
+                'route' => 'sanson.purchase.index'
             ],
         ]
     ],

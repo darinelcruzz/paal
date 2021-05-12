@@ -23,7 +23,7 @@ class RetainerController extends Controller
             'paid_at' => 'required',
         ]);
 
-        $ingress = Ingress::create($request->except('cash', 'check', 'credit_card', 'debit_card', 'transfer', 'reference'));
+        $ingress = Ingress::create($request->except('cash', 'check', 'credit_card', 'debit_card', 'transfer', 'reference', 'card_number'));
 
         $ingress->payments()->create([
             'type' => 'anticipo',
@@ -33,6 +33,7 @@ class RetainerController extends Controller
             'debit_card' => $request->debit_card,
             'transfer' => $request->transfer,
             'reference' => $request->reference,
+            'card_number' => $request->card_number,
             'created_at' => $request->paid_at,
         ]);
 

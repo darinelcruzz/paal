@@ -1,8 +1,6 @@
 @extends('sanson.root')
 
-@push('pageTitle')
-    Orden de compra | Agregar
-@endpush
+@push('pageTitle', 'Orden de compra | Agregar')
 
 @section('content')
     <div class="row">
@@ -19,7 +17,7 @@
                         </div>
                     </div>
 
-                    <shopping-cart color="info" :exchange="{{ $exchange }}" :promo="{{ $promo }}"></shopping-cart>
+                    <shopping-cart color="info" :exchange="{{ $exchange }}" :promo="{{ $promo }}" :maxdiscount="99"></shopping-cart>
 
                     <input type="hidden" name="company" value="sanson">
                     <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">

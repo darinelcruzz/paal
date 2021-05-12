@@ -2,10 +2,6 @@
 
 @push('pageTitle', 'Compras | Lista')
 
-@push('headerTitle')
-    <a href="{{ route('sanson.purchase.create') }}" class="btn btn-info btn-sm"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR</a>
-@endpush
-
 @section('content')
     <div class="row">
         <div class="col-md-10">

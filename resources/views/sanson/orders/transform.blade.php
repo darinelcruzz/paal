@@ -17,7 +17,7 @@
                         </div>
                     </div>
 
-                    <shopping-cart color="info" :movements="{{ $order->movements }}" :promo="{{ $promo }}"></shopping-cart>
+                    <shopping-cart color="info" :movements="{{ $order->movements }}" :promo="{{ $promo }}" :maxdiscount="99"></shopping-cart>
 
                     <input type="hidden" name="purchased_at" value="{{ date('Y-m-d') }}">
                     <input type="hidden" name="company" value="sanson">
