@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Sanson;
 
-use App\Purchase;
+use App\{Purchase, Egress, Provider};
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -21,6 +21,7 @@ class PurchaseController extends Controller
 
     function store(Request $request)
     {
+        // dd($request->all());
         $attributes = $request->validate([
             'provider_id' => 'required',
             'purchased_at' => 'required',
@@ -31,7 +32,35 @@ class PurchaseController extends Controller
             'folio' => 'required',
         ]);
 
-        Purchase::create($attributes);
+        $purchase = Purchase::create($attributes);
+
+        if ($purchase) {
+            // $provider = Provider::find($request->provider_id);
+
+            // $is_allowed = $provider->checkAmountAndInvoices();
+
+            // if($is_allowed[0]) {
+            //     return redirect()->back()->with('message', $is_allowed[1]);
+            // }
+
+            $expiration = strtotime($request->purchased_at) + ($request->expiration * 86400);
+
+            $egress = Egress::create([
+                'folio' => $request->folioE,
+                'provider_id' => $request->provider_id,
+                'iva' => $request->iva,
+                'amount' => $request->amount,
+                'emission' => $request->purchased_at,
+                'company' => $request->company
+            ]);
+
+            $egress->update([
+                // 'pdf_bill' => saveSansonFile($request->file("pdf_bill")),
+                // 'pdf_complement' => saveSansonFile($request->file("pdf_complement"), 'complements'),
+                // 'xml' => saveSansonFile($request->file("xml")),
+                'expiration' => date('Y-m-d', $expiration),
+            ]);
+        }
 
         return redirect(route('sanson.purchase.index'));
     }

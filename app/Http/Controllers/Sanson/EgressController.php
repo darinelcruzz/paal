@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use App\{Egress, Provider, Check};
+use Response;
 
 class EgressController extends Controller
 {
@@ -95,5 +96,23 @@ class EgressController extends Controller
         $egress->update(['pdf_bill' => saveSansonFile($request->file("pdf_bill"))]);
 
         return redirect(route('sanson.egress.index'));
+    }
+
+    function displayPDF(Egress $egress, $column)
+    {
+        $filePath = $egress->{$column};
+        
+        if(!Storage::exists($filePath) ) {
+          abort(404);
+        }
+
+        $pdfContent = Storage::get($filePath);
+        $type       = Storage::mimeType($filePath);
+        $fileName   = $egress->folio;
+
+        return Response::make($pdfContent, 200, [
+          'Content-Type'        => $type,
+          'Content-Disposition' => 'inline; filename="'.$fileName.'"'
+        ]);
     }
 }

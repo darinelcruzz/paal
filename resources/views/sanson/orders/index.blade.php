@@ -8,41 +8,46 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-8">
             <solid-box title="Órdenes de compra" color="info">
-                
-                <data-table>
 
-                    {{ drawHeader('ID', '<i class="fa fa-cogs"></i>', 'fecha', 'proveedor', 'monto', 'estado', 'compras') }}
-
-                    <template slot="body">
-                        @foreach($orders as $order)
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered spanish">
+                        <thead>
                             <tr>
-                                <td>{{ $order->id }}</td>
-                                <td>
-                                    <dropdown color="info" icon="cogs">
-                                        <ddi to="{{ route('sanson.order.show', $order) }}" icon="eye" text="Detalles"></ddi>
-                                        <ddi to="{{ route('sanson.order.print', $order) }}" icon="print" text="Imprimir" target="_blank"></ddi>
-                                        <ddi to="{{ route('sanson.order.transform', $order) }}" icon="edit" text="Crear compra"></ddi>
-                                    </dropdown>
-                                </td>
-                                <td>{{ $order->ordered_at }}</td>
-                                <td>{{ $order->provider->name }}</td>
-                                <td>{{ number_format($order->amount, 2) }}</td>
-                                <td>
-                                    <span class="label label-warning">PENDIENTE</span>
-                                </td>
-                                <td style="text-align: center">
-                                    <span class="label label-{{ count($order->purchases) > 0 ? 'success': 'default' }}">
-                                        <small>{{ count($order->purchases) > 0 ? 'COMPRA': 'SIN COMPRA' }}</small>
-                                    </span>
-                                </td>
+                                <th>ID</th>
+                                <th><i class="fa fa-cogs"></i></th>
+                                <th>Fecha</th>
+                                <th>Proveedor</th>
+                                <th>Estado</th>
+                                <th>Importe</th>
                             </tr>
-                        @endforeach
-                    </template>
-                    
-                </data-table>
+                        </thead>
 
+                        <tbody>
+                            @foreach($orders as $order)
+                                <tr>
+                                    <td>{{ $order->id }}</td>
+                                    <td>
+                                        <dropdown color="info" icon="cogs">
+                                            <ddi to="{{ route('sanson.order.show', $order) }}" icon="eye" text="Detalles"></ddi>
+                                            <ddi to="{{ route('sanson.order.print', $order) }}" icon="print" text="Imprimir" target="_blank"></ddi>
+                                            <ddi v-if="0 == {{ $order->is_completed ? 1: 0 }}" to="{{ route('sanson.order.transform', $order) }}" icon="edit" text="Crear compra"></ddi>
+                                        </dropdown>
+                                    </td>
+                                    <td>{{ $order->ordered_at }}</td>
+                                    <td>{{ $order->provider->name }}</td>
+                                    <td style="text-align: center">
+                                        <span class="label label-{{ count($order->purchases) > 0 ? ($order->is_completed ? 'success': 'warning'): 'default' }}">
+                                            {{ count($order->purchases) > 0 ? ($order->is_completed ? 'C. COMPLETA': 'C. PARCIAL'): 'SIN COMPRA' }}
+                                        </span>
+                                    </td>
+                                    <td style="text-align: right;">{{ number_format($order->amount, 2) }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </solid-box>
         </div>
     </div>

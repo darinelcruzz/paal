@@ -46,6 +46,7 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	    Route::post('reemplazar/{egress}', usesas($ctrl, 'upload'));
 	    Route::get('editar/{egress}', usesas($ctrl, 'edit'));
 	    Route::post('editar/{egress}', usesas($ctrl, 'update'));
+	    Route::get('pdf-factura/{egress}/{column}', usesas($ctrl, 'displayPDF'));
 	    Route::get('/{status}/{date?}', usesas($ctrl, 'index'));
 	    Route::post('/{status}/{date?}', usesas($ctrl, 'index'));
 	});

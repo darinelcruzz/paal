@@ -13,11 +13,38 @@
                             {!! Field::text('provider_id', $order->provider->name, ['tpl' => 'withicon', 'disabled' => 'true'], ['icon' => 'truck']) !!}
                         </div>
                         <div class="col-md-6">
-                            {!! Field::date('ordered_at', date('Y-m-d'), ['tpl' => 'withicon'], ['icon' => 'calendar']) !!}
+                            {!! Field::date('purchased_at', date('Y-m-d'), ['tpl' => 'withicon'], ['icon' => 'calendar']) !!}
                         </div>
                     </div>
 
-                    <shopping-cart color="info" :movements="{{ $order->movements }}" :promo="{{ $promo }}" :maxdiscount="99"></shopping-cart>
+                    <div class="row">
+                        <div class="col-md-6">
+                            {!! Field::text('folioE', ['label' => 'Folio', 'tpl' => 'withicon', 'ph' => 'XXXXX'], ['icon' => 'barcode']) !!}
+                        </div>
+                        <div class="col-md-6">
+                            {!! Field::number('expiration', 0, ['tpl' => 'withicon', 'min' => '0'], ['icon' => 'clock-o']) !!}
+                        </div>
+                    </div>
+
+                    @if($order->already_movements->count() > 0)
+                        <code><small>OTROS PRODUCTOS DE ESTA ORDEN (#{{ $order->id }})</small></code>
+                        <table class="table">
+                            <tbody>
+                                @foreach($order->already_movements as $movement)
+                                <tr>
+                                    <td></td>
+                                    <td style="width: 31%;">{{ $movement->product->description }}</td>
+                                    <td style="text-align: left;">{{ number_format($movement->price, 2) }}</td>
+                                    <td style="text-align: center;width: 15%;">{{ $movement->quantity }}</td>
+                                    <td style="text-align: right;">-{{ $movement->discount }}%</td>
+                                    <td style="text-align: right;">{{ number_format($movement->total, 2) }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        <code><small>LOS QUE HACEN FALTA</small></code>
+                    @endif
+                    <shopping-cart color="info" :movements="{{ $order->not_yet_movements }}" :promo="{{ $promo }}" :maxdiscount="99"></shopping-cart>
 
                     <input type="hidden" name="purchased_at" value="{{ date('Y-m-d') }}">
                     <input type="hidden" name="company" value="sanson">
