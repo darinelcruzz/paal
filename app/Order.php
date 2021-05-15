@@ -44,23 +44,39 @@ class Order extends Model
     {
         $already_purchased = Movement::where('movable_type', 'App\Purchase')
             ->whereIn('movable_id', $this->purchases->pluck('id'))
-            ->pluck('product_id');
+            ->pluck('quantity', 'product_id');
+
+        // dd($already_purchased->keys(), $already_purchased->values());
 
         return Movement::where('movable_type', 'App\Order')
             ->where('movable_id', $this->id)
-            ->whereIn('product_id', $already_purchased)
-            ->get();
+            ->whereIn('product_id', $already_purchased->keys())
+            ->get()
+            ->map(function ($item)  use ($already_purchased){
+                $item->quantity = $already_purchased[$item->product_id];
+                return $item;
+            });
     }
 
     function getNotYetMovementsAttribute()
     {
         $already_purchased = Movement::where('movable_type', 'App\Purchase')
             ->whereIn('movable_id', $this->purchases->pluck('id'))
-            ->pluck('product_id');
+            ->pluck('quantity', 'product_id');
 
         return Movement::where('movable_type', 'App\Order')
             ->where('movable_id', $this->id)
-            ->whereNotIn('product_id', $already_purchased)
-            ->get();
+            ->when($already_purchased->count() == 0, function ($query) use ($already_purchased) {
+                $query->whereNotIn('product_id', $already_purchased->keys());
+            }, function ($query) use ($already_purchased) {
+                $query->whereIn('product_id', $already_purchased->keys());
+            })
+            ->get()
+            ->map(function ($item)  use ($already_purchased){
+                if ($already_purchased->count() != 0) {
+                    $item->quantity -= $already_purchased[$item->product_id];
+                }
+                return $item;
+            });
     }
 }

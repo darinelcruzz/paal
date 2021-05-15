@@ -17,7 +17,7 @@ class ProductController extends Controller
                     ->orWhere("barcode", "LIKE", "%$keyword%")
                     ->orWhere("family", "LIKE", "%$keyword%");
             })
-            ->orWhere('family', 'ENVÍOS')
+            // ->orWhere('family', 'ENVÍOS')
             ->with('serial_numbers')
             ->paginate(5);
     }
@@ -31,7 +31,7 @@ class ProductController extends Controller
                     ->orWhere("barcode", "LIKE", "%$keyword%")
                     ->orWhere("family", "LIKE", "%$keyword%");
             })
-            ->orWhere('family', 'ENVÍOS')
+            // ->orWhere('family', 'ENVÍOS')
             ->with('serial_numbers')
             ->paginate(5);
     }
