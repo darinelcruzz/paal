@@ -88,7 +88,7 @@
                         <tr>
                             <th colspan="{{ $status == 'factura' ? '4': '3' }}"></th>
                             <th style="text-align: right;"><small>TOTAL</small></th>
-                            <th style="text-align: right;">{{ number_format($ingresses->sum('amount'), 2) }}</th>
+                            <th style="text-align: right;">{{ number_format($ingresses->sum(function ($ingress) { return $ingress->payments->sum(function ($py) { return $py->cash + $py->debit_card + $py->credit_card + $py->transfer + $py->check; }); }), 2) }}</th>
                         </tr>
                     </tfoot> 
                 </table>
