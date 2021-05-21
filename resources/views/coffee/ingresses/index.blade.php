@@ -24,6 +24,8 @@
 
             <solid-box title="Ventas" color="danger">
 
+                <div class="table-responsive">
+
                 <table class="table table-striped table-bordered spanish-simple">
                     <thead>
                         <tr>
@@ -59,13 +61,13 @@
                                 <td style="text-align: center;">
                                     <dropdown icon="cogs" color="danger">
                                         <ddi v-if="{{ $ingress->status == 'pagado' || $ingress->status == 'cancelado' ? 0: 1 }}" to="{{ route('coffee.payment.create', $ingress) }}" icon="money" text="Pagar"></ddi>
-                                        @if($ingress->type != 'anticipo')
                                         <li>
                                             <a data-toggle="modal" data-target="#ingress-modal" v-on:click="upmodel({{ $ingress->toJson() }})">
                                                 <i class="fa fa-eye" aria-hidden="true"></i> Detalles
                                             </a>
                                         </li>
-                                        @endif
+                                        {{-- @if($ingress->type != 'anticipo')
+                                        @endif --}}
                                         <li>
                                             <a href="{{ route('coffee.ingress.ticket', $ingress) }}" target="_blank">
                                                 <i class="fa fa-print" aria-hidden="true"></i> Imprimir
@@ -113,6 +115,7 @@
                     </tbody>
 
                 </table>
+                </div>
 
             </solid-box>
 
