@@ -1,8 +1,6 @@
 @extends('coffee.root')
 
-@push('pageTitle')
-    Envíos mensuales
-@endpush
+@push('pageTitle', 'Envíos mensuales')
 
 @section('content')
 
@@ -106,6 +104,16 @@
                             <big>Pack Service (AEXA)</big>
                             <h3>
                                 <small style="color: white">{{ $shippings->where('company', 'pack service')->count() }}</small>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="small-box bg-teal">
+                        <div class="inner">
+                            <big>MBE ETC</big>
+                            <h3>
+                                <small style="color: white">{{ $shippings->where('company', 'mbe etc')->count() }}</small>
                             </h3>
                         </div>
                     </div>
