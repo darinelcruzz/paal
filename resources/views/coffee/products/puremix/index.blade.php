@@ -92,6 +92,37 @@
                 {!! Form::close() !!}
 
             </solid-box>
+
+            <solid-box title="VENTA DE PURE MIX" color="danger">
+                
+                {!! Form::open(['method' => 'POST', 'route' => ['coffee.product.puremix.search']]) !!}
+
+                    {!! Field::select('product_id', $products->pluck('description', 'id')->toArray(), null,['label' => 'Producto', 'empty' => 'Selecciona el producto']) !!}
+
+                    <div class="row">
+                        <div class="col-md-5">
+                            {!! Field::date('from', $from ?? now(), ['label'=> 'Inicio', 'tpl' => 'withicon'], ['icon' => 'calendar']) !!}
+                        </div>
+                        <div class="col-md-5">
+                            {!! Field::date('to', $to ?? now(), ['label'=> 'Final', 'tpl' => 'withicon'], ['icon' => 'calendar']) !!}
+                        </div>
+                        <div class="col-md-2">
+                            <br>
+                            <button type="submit" class="btn btn-danger pull-right">BUSCAR</button>
+                        </div>
+                    </div>
+                    
+                {!! Form::close() !!}
+                
+                <code>Resultados:</code>
+                @if(isset($count))
+                    <p>
+                        En total se han vendido {{ $count }} piezas de {{ $sproduct->description }} <br>
+                        en el periodo que va del {{ fdate($from, 'd \d\e M', 'Y-m-d') }} al {{ fdate($to, 'd \d\e M', 'Y-m-d') }}.
+                    </p>
+                @endif
+
+            </solid-box>
         </div>
     </div>
 

@@ -123,6 +123,7 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	    	$ctrl = 'Coffee\PureMixController';
 	    	Route::get('/', usesas($ctrl, 'index'));
 	    	Route::post('agregar', usesas($ctrl, 'store'));
+	    	Route::post('buscar', usesas($ctrl, 'search'));
 	    });
 	});
 
