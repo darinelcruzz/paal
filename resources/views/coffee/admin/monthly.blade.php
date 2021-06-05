@@ -152,7 +152,14 @@
                         <div class="inner">
                             <big>Equipo</big>
                             <h3>
-                                <small style="color: white">{{ number_format($ingresses->sum(function ($ingress) { return $ingress->type == 'equipo' ? $ingress->amount: 0;}), 2) }}</small>
+                                <small style="color: white">
+                                    {{ number_format($ingresses->sum(function ($ingress) { 
+                                            return $ingress->movements->sum(function ($m) {
+                                                return $m->product->category == 'EQUIPO' ? $m->total: 0;
+                                            });
+                                        }), 2) 
+                                    }}
+                                </small>
                             </h3>
                         </div>
                     </div>
