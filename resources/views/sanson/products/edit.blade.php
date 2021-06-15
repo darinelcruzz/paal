@@ -38,11 +38,17 @@
                     
                     <div class="row">
                         <div class="col-md-6">
-                            {!! Field::number('retail_price', $product->retail_price, ['label' => 'Precio', 'tpl' => 'withicon', 'step' => '0.01', 'min' => '0'], ['icon' => 'dollar']) !!}
+                            {!! Field::number('retail_price', round($product->retail_price, 2), ['label' => 'Precio', 'tpl' => 'withicon', 'step' => '0.01', 'min' => '0'], ['icon' => 'dollar']) !!}
                         </div>
                         <div class="col-md-6">
                             {!! Field::select('dollars', ['No', 'Sí'], $product->dollars, ['tpl' => 'withicon', 'empty' => '¿Precio es en dólares?'], ['icon' => 'question']) 
                             !!} 
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            {!! Field::number('quantity', $product->quantity, ['label' => 'Cantidad (inventario)', 'tpl' => 'withicon', 'min' => '0'], ['icon' => 'dolly-flatbed']) !!}
                         </div>
                     </div>
 

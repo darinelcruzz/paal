@@ -61,6 +61,7 @@ class ProductController extends Controller
 
     function update(Request $request, Product $product)
     {
+        // dd($request->all());
         $attributes = $request->validate([
             'description' => 'required',
             'code' => 'required',
@@ -70,16 +71,17 @@ class ProductController extends Controller
             'retail_price' => 'required',
             'dollars' => 'required',
             'company' => 'required',
+            'quantity' => 'required',
         ]);
 
         $product->update($attributes);
 
-        if ($product->iva) {
-            $product->update([
-                'retail_price' => $product->retail_price * 1.16,
-                'wholesale_price' => $product->wholesale_price * 1.16,
-            ]);
-        }
+        // if ($product->iva) {
+        //     $product->update([
+        //         'retail_price' => $product->retail_price * (1.16),
+        //         'wholesale_price' => $product->wholesale_price * (1.16),
+        //     ]);
+        // }
 
         return redirect(route('sanson.product.index'));
     }
