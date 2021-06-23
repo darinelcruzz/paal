@@ -155,7 +155,7 @@
                                 <small style="color: white">
                                     {{ number_format($ingresses->sum(function ($ingress) { 
                                             return $ingress->movements->sum(function ($m) {
-                                                return $m->product->category == 'EQUIPO' ? $m->total: 0;
+                                                return $m->product->category == 'EQUIPO' ? $m->total * 1.16 : 0;
                                             });
                                         }), 2) 
                                     }}
@@ -169,7 +169,7 @@
                         <div class="inner">
                             <big>Anticipo</big>
                             <h3>
-                                <small style="color: white">{{ number_format($ingresses->sum(function ($ingress) { return $ingress->type == 'anticipo' ? $ingress->amount - $ingress->retainers->sum('amount'): 0;}), 2) }}</small>
+                                <small style="color: white">{{ number_format($ingresses->sum(function ($ingress) { return $ingress->type == 'anticipo' ? $ingress->amount: 0;}), 2) }}</small>
                             </h3>
                         </div>
                     </div>
