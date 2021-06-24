@@ -32,8 +32,11 @@
         <div class="col-md-4">
             <div class="small-box bg-green">
                 <div class="inner">
-                    <p>Total Mensual</p>
-                    <h3><em>{{ number_format($ingresses->sum(function ($ingress) { return $ingress->type != 'anticipo' ? $ingress->amount - $ingress->retainers->sum('amount'): $ingress->amount;}), 2) }}</em></h3>
+                    <p>TOTAL MENSUAL</p>
+                    <h3>
+                        {{-- <em>{{ number_format($ingresses->sum(function ($ingress) { return $ingress->type != 'anticipo' ? $ingress->amount - $ingress->retainers->sum('amount'): $ingress->amount;}), 2) }}</em>--}}
+                        <em>{{ number_format($ingresses->sum('amount'), 2) }}</em>
+                    </h3>
                 </div>
                 <div class="icon">
                     <i class="fa fa-usd"></i>
@@ -42,7 +45,7 @@
 
             <div class="small-box bg-red">
                 <div class="inner">
-                    <p>Por depositar</p>
+                    <p>POR DEPOSITAR</p>
                     <h3>
                         <em>
                             {{ number_format($ingresses->sum(function ($ingress) { return $ingress->payments->where('cash_reference', null)->sum('cash');}), 2) }}
@@ -56,7 +59,7 @@
 
             <div class="small-box bg-primary">
                 <div class="inner">
-                    <p>Promedio</p>
+                    <p>PROMEDIO</p>
                     <h3>
                         <em>
                             {{ number_format($ingresses->sum(function ($ingress) { return $ingress->type != 'anticipo' ? $ingress->amount - $ingress->retainers->sum('amount'): $ingress->amount;}) / $divisor, 2) }}
@@ -70,7 +73,7 @@
 
             <div class="small-box bg-yellow">
                 <div class="inner">
-                    <p>Envíos</p>
+                    <p>ENVÍOS</p>
                     <h3><em>{{ $shippings }}</em></h3>
                 </div>
                 <div class="icon">
@@ -84,7 +87,7 @@
                 <div class="col-md-4">
                     <div class="small-box bg-aqua">
                         <div class="inner">
-                            <big>Efectivo</big>
+                            EFECTIVO
                             <h3>
                                 <small style="color: white">{{ number_format($ingresses->sum('cash'), 2) }}</small>
                             </h3>
@@ -94,10 +97,11 @@
                 <div class="col-md-4">
                     <div class="small-box bg-aqua">
                         <div class="inner">
-                            <big>Tarjeta de crédito</big>
+                            TARJETA DE CRÉDITO
                             <h3>
-                                {{-- <small style="color: white">$ {{ number_format($month->sum('credit_card'), 2) }}</small> --}}
-                                <small style="color: white">{{ number_format($ingresses->sum(function ($ingress) { return $ingress->payments->sum('credit_card');}), 2) }}</small>
+                                <small style="color: white">
+                                    {{ number_format($ingresses->sum(function ($ingress) { return $ingress->payments->sum('credit_card');}), 2) }}
+                                </small>
                             </h3>
                         </div>
                     </div>
@@ -105,7 +109,7 @@
                 <div class="col-md-4">
                     <div class="small-box bg-aqua">
                         <div class="inner">
-                            <big>Tarjeta de débito</big>
+                            TARJETA DE DÉBITO
                             <h3>
                                 <small style="color: white">{{ number_format($ingresses->sum(function ($ingress) { return $ingress->payments->sum('debit_card');}), 2) }}</small>
                             </h3>
@@ -117,7 +121,7 @@
                 <div class="col-md-4">
                     <div class="small-box bg-aqua">
                         <div class="inner">
-                            <big>Transferencia</big>
+                            TRANSFERENCIA
                             <h3>
                                 <small style="color: white">{{ number_format($ingresses->sum(function ($ingress) { return $ingress->payments->sum('transfer');}), 2) }}</small>
                             </h3>
@@ -127,7 +131,7 @@
                 <div class="col-md-4">
                     <div class="small-box bg-aqua">
                         <div class="inner">
-                            <big>Cheque</big>
+                            CHEQUE
                             <h3>
                                 <small style="color: white">{{ number_format($ingresses->sum(function ($ingress) { return $ingress->payments->sum('check');}), 2) }}</small>
                             </h3>
@@ -140,9 +144,18 @@
                 <div class="col-md-3">
                     <div class="small-box bg-purple">
                         <div class="inner">
-                            <big>Insumos</big>
+                            INSUMOS
                             <h3>
-                                <small style="color: white">{{ number_format($ingresses->sum(function ($ingress) { return $ingress->type == 'insumos' ? $ingress->amount: 0;}), 2) }}</small>
+                                {{-- function ($ingress) { return $ingress->type == 'insumos' ? $ingress->amount: 0;} --}}
+                                {{-- <small style="color: white">{{ number_format($ingresses->where('type', 'insumos')->sum('amount'), 2) }}</small> --}}
+                                <small style="color: white">
+                                    {{ number_format($ingresses->where('type', 'insumos')->sum('amount') + $ingresses->where('type', 'proyecto')->sum(function ($ingress) { 
+                                            return $ingress->movements->sum(function ($m) use ($ingress){
+                                                return $m->product->category == 'INSUMOS' ? $m->total: 0;
+                                            });
+                                        }), 2) 
+                                    }}
+                                </small>
                             </h3>
                         </div>
                     </div>
@@ -150,12 +163,12 @@
                 <div class="col-md-3">
                     <div class="small-box bg-navy">
                         <div class="inner">
-                            <big>Equipo</big>
+                            EQUIPO
                             <h3>
                                 <small style="color: white">
                                     {{ number_format($ingresses->sum(function ($ingress) { 
-                                            return $ingress->movements->sum(function ($m) {
-                                                return $m->product->category == 'EQUIPO' ? $m->total * 1.16 : 0;
+                                            return $ingress->movements->sum(function ($m) use ($ingress){
+                                                return $m->product->category == 'EQUIPO' ? $m->total + $ingress->iva : 0;
                                             });
                                         }), 2) 
                                     }}
@@ -167,9 +180,9 @@
                 <div class="col-md-3">
                     <div class="small-box bg-teal">
                         <div class="inner">
-                            <big>Anticipo</big>
+                            ANTICIPO
                             <h3>
-                                <small style="color: white">{{ number_format($ingresses->sum(function ($ingress) { return $ingress->type == 'anticipo' ? $ingress->amount: 0;}), 2) }}</small>
+                                <small style="color: white">{{ number_format($ingresses->where('type', 'anticipo')->sum('amount'), 2) }}</small>
                             </h3>
                         </div>
                     </div>
@@ -177,9 +190,9 @@
                 <div class="col-md-3">
                     <div class="small-box bg-gray">
                         <div class="inner">
-                            <big>Notas de crédito</big>
+                            NOTAS DE CRÉDITO
                             <h3>
-                                <small>-{{ number_format($ingresses->sum(function ($ingress) { return $ingress->type == 'nota de crédito' ? $ingress->amount: 0;}), 2) }}</small>
+                                <small>-{{ number_format($ingresses->where('type', 'nota de crédito')->sum('amount'), 2) }}</small>
                             </h3>
                         </div>
                     </div>
@@ -190,7 +203,7 @@
                 <div class="col-md-3">
                     <div class="small-box bg-blue">
                         <div class="inner">
-                            <big>Depositado BBVA</big>
+                            DEPOSITADO BBVA
                             <h3>
                                 <small style="color: white;">{{ number_format($ingresses->sum(function ($ingress) { return $ingress->payments->where('cash_reference', '!=', null)->sum('cash');}), 2) }}</small>
                             </h3>
