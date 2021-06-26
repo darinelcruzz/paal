@@ -34,8 +34,8 @@
                 <div class="inner">
                     <p>TOTAL MENSUAL</p>
                     <h3>
-                        {{-- <em>{{ number_format($ingresses->sum(function ($ingress) { return $ingress->type != 'anticipo' ? $ingress->amount - $ingress->retainers->sum('amount'): $ingress->amount;}), 2) }}</em>--}}
-                        <em>{{ number_format($ingresses->sum('amount'), 2) }}</em>
+                         <em>{{ number_format($ingresses->sum(function ($ingress) { return $ingress->type != 'anticipo' ? $ingress->amount - $ingress->retainers->sum('amount'): $ingress->amount;}), 2) }}</em>
+                        {{-- <em>{{ number_format($ingresses->sum('amount'), 2) }}</em> --}}
                     </h3>
                 </div>
                 <div class="icon">
