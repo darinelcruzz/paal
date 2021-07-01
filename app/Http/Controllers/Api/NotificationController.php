@@ -38,7 +38,9 @@ class NotificationController extends Controller
     function tasks($company)
     {
     	return Task::where('company', $company)
-    		->where('assigned_to', auth()->user()->id)
+    		->when(auth()->user()->id > 2, function ($query) {
+    			$query->where('assigned_to', auth()->user()->id);
+    		})
     		->where('status', 'pendiente')
     		->count();
     }

@@ -11,8 +11,8 @@
     </a>
     <div class="navbar-custom-menu">
       <ul class="nav navbar-nav">
-
-        <notifications icon="bell" color="warning" company="{{ $site }}"></notifications>
+        
+        <notifications icon="bell" color="primary" company="{{ $site }}"></notifications>
               
         <li class="dropdown user user-menu">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
