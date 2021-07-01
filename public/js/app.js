@@ -54036,6 +54036,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['icon', 'color', 'company'],
@@ -54044,7 +54050,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       shippings: 0,
       egresses: 0,
       numbers: 0,
-      tasks: 0
+      tasks: 0,
+      expired: 0
     };
   },
 
@@ -54060,7 +54067,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   computed: {
     notificationsCount: function notificationsCount() {
-      return this.shippings + this.egresses + this.numbers + this.tasks;
+      return this.shippings + this.egresses + this.numbers + this.tasks + this.expired;
     }
   },
   created: function created() {
@@ -54068,6 +54075,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     this.fetch('egresses');
     this.fetch('numbers');
     this.fetch('tasks');
+    this.fetch('expired');
   }
 });
 
@@ -54196,6 +54204,29 @@ var render = function() {
                             " pendiente" +
                             _vm._s(_vm.tasks > 1 ? "s" : "") +
                             " de revisar\n          "
+                        )
+                      ]
+                    )
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.expired > 0
+                ? _c("li", [
+                    _c(
+                      "a",
+                      { attrs: { href: "/" + _vm.company + "/tareas" } },
+                      [
+                        _c("i", {
+                          staticClass: "fa fa-hourglass-end text-orange"
+                        }),
+                        _vm._v(
+                          " " +
+                            _vm._s(_vm.expired) +
+                            " tarea" +
+                            _vm._s(_vm.expired > 1 ? "s" : "") +
+                            " vencida" +
+                            _vm._s(_vm.expired > 1 ? "s" : "") +
+                            "\n          "
                         )
                       ]
                     )

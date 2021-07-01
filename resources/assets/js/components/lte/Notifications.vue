@@ -32,6 +32,12 @@
               <i class="fa fa-tasks text-green"></i> {{ tasks }} tarea{{ tasks > 1 ? 's': '' }} pendiente{{ tasks > 1 ? 's': '' }} de revisar
             </a>
           </li>
+
+          <li v-if="expired > 0">
+            <a :href="'/'+ company + '/tareas'">
+              <i class="fa fa-hourglass-end text-orange"></i> {{ expired }} tarea{{ expired > 1 ? 's': '' }} vencida{{ expired > 1 ? 's': '' }}
+            </a>
+          </li>
         </ul>
       </li>
     </ul>
@@ -47,6 +53,7 @@
         egresses: 0,
         numbers: 0,
         tasks: 0,
+        expired: 0,
       }
     },
     methods: {
@@ -60,7 +67,7 @@
     },
     computed: {
       notificationsCount() {
-        return this.shippings + this.egresses + this.numbers + this.tasks;
+        return this.shippings + this.egresses + this.numbers + this.tasks + this.expired;
       }
     },
     created() {
@@ -68,6 +75,7 @@
       this.fetch('egresses');
       this.fetch('numbers');
       this.fetch('tasks');
+      this.fetch('expired');
     }
   };
 </script>

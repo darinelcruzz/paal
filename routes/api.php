@@ -37,4 +37,5 @@ Route::group(['prefix' => 'notifications', 'as' => 'api.notification.'], functio
     Route::get('{company}/egresses', usesas($ctrl, 'egresses'));
     Route::get('{company}/numbers', usesas($ctrl, 'numbers'));
     Route::get('{company}/tasks', usesas($ctrl, 'tasks'));
+    Route::get('{company}/expired', usesas($ctrl, 'expired'));
 });

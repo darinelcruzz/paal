@@ -44,4 +44,14 @@ class NotificationController extends Controller
     		->where('status', 'pendiente')
     		->count();
     }
+
+    function expired($company)
+    {
+    	return Task::where('company', $company)
+    		->when(auth()->user()->id > 2, function ($query) {
+    			$query->where('assigned_to', auth()->user()->id);
+    		})
+    		->where('status', 'vencida')
+    		->count();
+    }
 }
