@@ -8,7 +8,7 @@ class CoffeeDepot
 {
     function handle($request, Closure $next)
     {
-        if ($request->user()->company == 'coffee' || $request->user()->company == 'both' || $request->user()->company == 'owner') {
+        if ($request->user()->company == 'paal' || $request->user()->company == 'coffee' || $request->user()->company == 'both' || $request->user()->company == 'owner') {
             return $next($request);
         }
 
