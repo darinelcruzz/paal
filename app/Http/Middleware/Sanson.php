@@ -8,7 +8,7 @@ class Sanson
 {
     function handle($request, Closure $next)
     {
-        if ($request->user()->company == 'paal' || $request->user()->company == 'sanson' || $request->user()->company == 'owner' || $request->user()->company == 'coffee') {
+        if ($request->user()->company == 'paal+' || $request->user()->company == 'sanson' || $request->user()->company == 'owner' || $request->user()->company == 'coffee') {
             return $next($request);
         }
 

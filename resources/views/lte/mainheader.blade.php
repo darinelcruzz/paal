@@ -26,7 +26,7 @@
 
           <ul class="dropdown-menu">
               <li class="user-footer">
-                @if(auth()->user()->company == 'owner' || auth()->user()->company == 'paal')
+                @if(auth()->user()->company == 'owner' || (auth()->user()->company == 'paal+'))
                   <a href="/coffee" class="btn btn-default" style="color: #f56954;">COFFEE</a>
                   <a href="/mbe" class="btn btn-default" style="color: #00a65a;">MBE</a>
                   <a href="/sanson" class="btn btn-default" style="color: #00c0ef;">SANSON</a>
