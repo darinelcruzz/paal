@@ -14,12 +14,16 @@ class EgressController extends Controller
         // return view('mbe.coming_soon');
         $date = isset($request->date) ? $request->date: date('Y-m');
 
-        $paid = Egress::from($date, 'payment_date', 'mbe')
-            ->orWhere('mbe', '>', 0)
+        $paid1 = Egress::from($date, 'payment_date', 'mbe')
             ->where('check_id', null)
             ->where('status', 'pagado')
-            ->orderByDesc('payment_date')
             ->get();
+
+        $paid2 = Egress::from($date, 'payment_date', 'coffee')
+            ->where('mbe', '!=', 0)
+            ->get();
+
+        $paid = $paid1->concat($paid2);
 
         $pending = Egress::company('mbe')->orWhere('mbe', '>', 0)->where('status', 'pendiente')->get();
         

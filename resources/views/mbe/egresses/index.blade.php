@@ -22,7 +22,7 @@
                     <div class="col-md-3">
                         <a href="{{ route('mbe.egress.index', 'pagado') }}">
                             <label class="btn btn-success btn-bg btn-block">
-                                {{ number_format($paid->sum(function ($ingress) { return $ingress->mbe ?? $ingress->amount;})  + $checkssum) }}
+                                {{ number_format($paid->sum(function ($ingress) { return $ingress->mbe > 0 ? $ingress->mbe: $ingress->amount;})  + $checkssum) }}
                             </label>
                         </a>
                     </div>
