@@ -18,6 +18,11 @@ class Movement extends Model
         return $this->belongsTo(Product::class);
     }
 
+    function getRealAmountAttribute()
+    {
+        return $this->total * (1 + $this->product->iva * 0.16);
+    }
+
     function scopeMonthly($query, $date, $company, $family)
     {
         return $query->whereYear('created_at', substr($date, 0, 4))

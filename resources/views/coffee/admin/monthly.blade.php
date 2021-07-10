@@ -146,15 +146,15 @@
                         <div class="inner">
                             INSUMOS
                             <h3>
-                                {{-- function ($ingress) { return $ingress->type == 'insumos' ? $ingress->amount: 0;} --}}
-                                {{-- <small style="color: white">{{ number_format($ingresses->where('type', 'insumos')->sum('amount'), 2) }}</small> --}}
-                                <small style="color: white">
-                                    {{ number_format($ingresses->where('type', 'insumos')->sum('amount') + $ingresses->where('type', 'proyecto')->sum(function ($ingress) { 
+                                @php
+                                    $suppliesSum = $ingresses->where('type', 'proyecto')->sum(function ($ingress) { 
                                             return $ingress->movements->sum(function ($m) use ($ingress){
-                                                return $m->product->category == 'INSUMOS' ? $m->total: 0;
+                                                return $m->product->category == 'INSUMOS' ? $m->real_amount: 0;
                                             });
-                                        }), 2) 
-                                    }}
+                                        });
+                                @endphp
+                                <small style="color: white">
+                                    {{ number_format($ingresses->where('type', 'insumos')->sum(function ($ingress) { return $ingress->type != 'anticipo' ? $ingress->amount - $ingress->retainers->sum('amount'): $ingress->amount;}) + $suppliesSum, 2) }}
                                 </small>
                             </h3>
                         </div>
@@ -165,13 +165,16 @@
                         <div class="inner">
                             EQUIPO
                             <h3>
-                                <small style="color: white">
-                                    {{ number_format($ingresses->sum(function ($ingress) { 
+                                @php
+                                    $equipmentsSum = $ingresses->where('type', 'proyecto')->sum(function ($ingress) { 
                                             return $ingress->movements->sum(function ($m) use ($ingress){
-                                                return $m->product->category == 'EQUIPO' ? $m->total + $ingress->iva : 0;
-                                            });
-                                        }), 2) 
-                                    }}
+                                                return $m->product->category == 'EQUIPO' ? $m->real_amount: 0;
+                                            }) + $ingress->rounding;
+                                        });
+                                @endphp
+                                {{-- <small style="color: white">{{ number_format($ingresses->where('type', 'equipo')->sum('amount'), 2) }}</small> --}}
+                                <small style="color: white">
+                                    {{ number_format($ingresses->where('type', 'equipo')->sum(function ($ingress) { return $ingress->type != 'anticipo' ? $ingress->amount - $ingress->retainers->sum('amount'): $ingress->amount;}) + $equipmentsSum, 2) }}
                                 </small>
                             </h3>
                         </div>

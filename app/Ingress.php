@@ -54,7 +54,8 @@ class Ingress extends Model
             }
             $debt += $retainer->amount;
         }
-        return $this->quotation->amount - $debt;
+
+        return $this->quotation ? $this->quotation->amount - $debt: 0;
     }
 
     function getRetainersAttribute()
