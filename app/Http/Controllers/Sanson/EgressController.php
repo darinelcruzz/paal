@@ -25,7 +25,7 @@ class EgressController extends Controller
         $pending = $pending1->concat($pending2);
         
         $expired1 = Egress::company('sanson')->where('status', 'vencido')->get();
-        $expired2 = Egress::where('sanson', '!=', 0)->where('status', 'pendiente')->get();
+        $expired2 = Egress::where('sanson', '!=', 0)->where('status', 'vencido')->get();
         $expired = $expired1->concat($expired2);
 
         $checks = Check::from($date, 'charged_at', 'sanson')->get();
