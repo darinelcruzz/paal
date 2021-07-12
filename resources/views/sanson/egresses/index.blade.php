@@ -101,8 +101,20 @@
                                         <br><code>{{ $egress->provider->rfc }}</code>
                                     </td>
                                     <td>{{ fdate($egress->emission, 'd M Y', 'Y-m-d') }}</td>
-                                    <td>$ {{ number_format($egress->iva, 2) }}</td>
-                                    <td>$ {{ number_format($egress->amount, 2) }}</td>
+                                    <td>
+                                        @if($egress->provider->type == 'pd')
+                                            {{ number_format($egress->sanson, 2) }}
+                                        @else
+                                            {{ number_format($egress->amount, 2) }}
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($egress->provider->type == 'pd')
+                                            {{ number_format($egress->sanson, 2) }}
+                                        @else
+                                            {{ number_format($egress->debt, 2) }}
+                                        @endif
+                                    </td>
                                 </tr>
                             @endforeach
                         </template>
@@ -146,8 +158,20 @@
                                             <br><code>{{ $egress->provider->rfc }}</code>
                                         </td>
                                         <td>$ {{ number_format($egress->iva, 2) }}</td>
-                                        <td>$  {{ number_format($egress->amount, 2) }}</td>
-                                        <td>$  {{ number_format($egress->debt, 2) }}</td>
+                                        <td>
+                                            @if($egress->provider->type == 'pd')
+                                                {{ number_format($egress->sanson, 2) }}
+                                            @else
+                                                {{ number_format($egress->amount, 2) }}
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if($egress->provider->type == 'pd')
+                                                {{ number_format($egress->sanson, 2) }}
+                                            @else
+                                                {{ number_format($egress->debt, 2) }}
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endif
                             @endforeach
@@ -185,7 +209,20 @@
                                             <br><code>{{ $egress->provider->rfc }}</code>
                                         </td>
                                         <td>$ {{ number_format($egress->iva, 2) }}</td>
-                                        <td>$  {{ number_format($egress->amount, 2) }}</td>
+                                        <td>
+                                            @if($egress->provider->type == 'pd')
+                                                {{ number_format($egress->sanson, 2) }}
+                                            @else
+                                                {{ number_format($egress->amount, 2) }}
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if($egress->provider->type == 'pd')
+                                                {{ number_format($egress->sanson, 2) }}
+                                            @else
+                                                {{ number_format($egress->debt, 2) }}
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endif
                             @endforeach

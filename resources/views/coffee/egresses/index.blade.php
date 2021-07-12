@@ -187,7 +187,7 @@
 
                     <data-table example="1">
 
-                        {{ drawHeader('emisión', 'folio', '<i class="fa fa-cogs"></i>', 'tipo', 'proveedor', 'I.V.A.', 'total') }}
+                        {{ drawHeader('emisión', 'folio', '<i class="fa fa-cogs"></i>', 'tipo', 'proveedor', 'I.V.A.', 'total', 'adeudo') }}
 
                         <template slot="body">
                             @foreach($expired as $egress)
@@ -209,7 +209,20 @@
                                             <br><code>{{ $egress->provider->rfc }}</code>
                                         </td>
                                         <td>{{ number_format($egress->iva, 2) }}</td>
-                                        <td> {{ number_format($egress->amount, 2) }}</td>
+                                        <td>
+                                            @if($egress->provider->type == 'pd')
+                                                {{ number_format($egress->coffee, 2) }}
+                                            @else
+                                                {{ number_format($egress->amount, 2) }}
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if($egress->provider->type == 'pd')
+                                                {{ number_format($egress->coffee, 2) }}
+                                            @else
+                                                {{ number_format($egress->debt, 2) }}
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endif
                             @endforeach

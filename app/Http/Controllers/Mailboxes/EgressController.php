@@ -19,15 +19,16 @@ class EgressController extends Controller
             ->where('status', 'pagado')
             ->get();
 
-        $paid2 = Egress::from($date, 'payment_date', 'coffee')
-            ->where('mbe', '!=', 0)
-            ->get();
-
+        $paid2 = Egress::from($date, 'payment_date', 'coffee')->where('mbe', '!=', 0)->get();
         $paid = $paid1->concat($paid2);
 
-        $pending = Egress::company('mbe')->orWhere('mbe', '>', 0)->where('status', 'pendiente')->get();
+        $pending1 = Egress::company('mbe')->where('status', 'pendiente')->get();
+        $pending2 = Egress::where('mbe', '!=', 0)->where('status', 'pendiente')->get();
+        $pending = $pending1->concat($pending2);
         
-        $expired = Egress::company('mbe')->orWhere('mbe', '>', 0)->where('status', 'vencido')->get();
+        $expired1 = Egress::company('mbe')->orWhere('mbe', '>', 0)->where('status', 'vencido')->get();
+        $expired2 = Egress::where('mbe', '!=', 0)->where('status', 'vencido')->get();
+        $expired = $expired1->concat($expired2);
 
         $checks = Check::from($date, 'charged_at', 'mbe')->get();
 
