@@ -54,21 +54,24 @@
 
         <div class="row">
             <div class="col-md-12">
-                <table class="table">
+                <table width="100%">
                     <tbody>
                         <tr>
-                            <th class="title">No. Asesor</th>
-                            <td>{{ auth()->user()->id }}</td>
-                            <th class="title">Email</th>
-                            <td>ventas@sansonchiapas.com</td>
-                            <th class="title">Fecha de expedición</th>
-                            <td>{{ fdate($quotation->updated_at, 'd/m/Y') }}</td>
+                            <th class="title">&nbsp;No. Asesor</th>
+                            <td>&nbsp;{{ auth()->user()->id }}</td>
+                            <th class="title">&nbsp;Email</th>
+                            <td>&nbsp;ventas@sansonchiapas.com</td>
+                            <th class="title">&nbsp;Fecha de expedición</th>
+                            <td style="width: 15%; text-align: right;">&nbsp;{{ fdate($quotation->updated_at, 'd/m/Y') }}</td>
                         </tr>
                         <tr>
-                            <th class="title">Nombre</th>
-                            <td colspan="3">{{ auth()->user()->name }}</td>
-                            <th class="title">Vigencia</th>
-                            <td>{{ date('d/m/Y', strtotime($quotation->updated_at) + 3 * 24 * 60 * 60) }}</td>
+                            <th class="title">&nbsp;Nombre</th>
+                            <td colspan="3">&nbsp;{{ auth()->user()->name }}</td>
+                            <th class="title">&nbsp;Vigencia</th>
+                            <td style="width: 15%; text-align: right;">&nbsp;{{ date('d/m/Y', strtotime($quotation->updated_at) + 3 * 24 * 60 * 60) }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">&nbsp;</td>
                         </tr>
                     </tbody>
                 </table>
@@ -80,36 +83,39 @@
                 <table>
                     <tbody>
                         <tr class="title">
-                            <th colspan="2" style="text-align: center">DATOS DEL CLIENTE</th>
+                            <th colspan="4" style="text-align: center">DATOS DEL CLIENTE</th>
                             <th style="width: 40%; text-align: center">OBSERVACIONES</th>
                         </tr>
                         <tr>
                             <td class="title" style="width: 10%"> &nbsp;Empresa</td>
-                            <td style="font-size: 10px;"> &nbsp;{{ $quotation->client->company == 'internet' ? $quotation->client_name: $quotation->client->name }}</td>
-                            <td rowspan="6">
+                            <td style="font-size: 10px;" colspan="3"> 
+                                &nbsp;{{ ucwords(strtolower($quotation->client->company == 'internet' ? $quotation->client_name: $quotation->client->name)) }}
+                            </td>
+                            <td rowspan="6" style="width: {{ strlen($quotation->client->name) > 20 ? '35%': '40%' }}; font-size: 10px;">
                                 PRECIOS CON VIGENCIA DE 3 DÍAS HÁBILES. <br>
                                 EN CASO DE COMPRA, CONFIRMAR EXISTENCIAS DE LOS EQUIPOS O EN SU CASO DE NO TENER EXISTENCIA VERIFICAR LOS TIEMPOS DE ENTREGA.
                             </td>
                         </tr>
                         <tr>
                             <td class="title"> &nbsp;Solicitante</td>
-                            <td style="font-size: 10px;"> &nbsp;{{ $quotation->client->company == 'internet' ? $quotation->client_name: $quotation->client->name }}</td>
+                            <td style="font-size: 10px;" colspan="3">
+                                &nbsp;{{ ucwords(strtolower($quotation->client->company == 'internet' ? $quotation->client_name: $quotation->client->name)) }}
+                            </td>
                         </tr>
                         <tr>
                             <td class="title"> &nbsp;Dirección</td>
-                            <td> &nbsp;{{ $quotation->client->address }}</td>
-                        </tr>
-                        <tr>
+                            <td> &nbsp;{{ ucwords(strtolower($quotation->client->address)) }}</td>
                             <td class="title"> &nbsp;Lugar</td>
-                            <td> &nbsp;{{ $quotation->client->city }}</td>
-                        </tr>
-                        <tr>
-                            <td class="title"> &nbsp;Teléfono</td>
-                            <td> &nbsp;{{ $quotation->client->phone }}</td>
+                            <td> &nbsp;{{ ucwords(strtolower($quotation->client->city)) }}</td>
                         </tr>
                         <tr>
                             <td class="title"> &nbsp;Email</td>
                             <td> &nbsp;{{ $quotation->client->company == 'internet' ? $quotation->email: $quotation->client->email }}</td>
+                            <td class="title"> &nbsp;Teléfono</td>
+                            <td> &nbsp;{{ $quotation->client->phone }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="5"></td>
                         </tr>
                     </tbody>
                 </table>
