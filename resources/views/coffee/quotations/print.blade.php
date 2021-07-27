@@ -56,21 +56,24 @@
 
         <div class="row">
             <div class="col-md-12">
-                <table class="table">
+                <table width="100%">
                     <tbody>
                         <tr>
-                            <td class="alt-title">No. Asesor</td>
-                            <td>{{ auth()->user()->id }}</td>
-                            <th class="alt-title">Email</th>
-                            <td>ventas.tuxtla1@coffeedepot.com.mx</td>
-                            <th class="alt-title" style="width: 20%">Fecha de expedición</th>
-                            <td>{{ fdate($quotation->updated_at, 'd/m/Y') }}</td>
+                            <td class="title">&nbsp;No. Asesor</td>
+                            <td>&nbsp;{{ auth()->user()->id }}</td>
+                            <th class="title">&nbsp;Email</th>
+                            <td>&nbsp;ventas.tuxtla1@coffeedepot.com.mx</td>
+                            <th class="title" style="width: 20%">&nbsp;Fecha de expedición</th>
+                            <td style="width: 15%; text-align: right;">&nbsp;{{ fdate($quotation->updated_at, 'd/m/Y') }}</td>
                         </tr>
                         <tr>
-                            <th class="alt-title" style="width: 15%">Vendedor</th>
-                            <td colspan="3">{{ $quotation->user->name }}</td>
-                            <th class="alt-title" style="width: 20%">Vigencia</th>
-                            <td style="width: 15%">{{ date('d/m/Y', strtotime($quotation->updated_at) + 3 * 24 * 60 * 60) }}</td>
+                            <th class="title" style="width: 15%">&nbsp;Vendedor</th>
+                            <td colspan="3">&nbsp;{{ $quotation->user->name }}</td>
+                            <th class="title" style="width: 20%">&nbsp;Vigencia</th>
+                            <td style="width: 15%; text-align: right;">&nbsp;{{ date('d/m/Y', strtotime($quotation->updated_at) + 3 * 24 * 60 * 60) }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">&nbsp;</td>
                         </tr>
                     </tbody>
                 </table>
@@ -82,16 +85,17 @@
                 <table>
                     <tbody>
                         <tr class="title">
-                            <th colspan="2" style="text-align: center">DATOS DEL CLIENTE</th>
+                            <th colspan="4" style="text-align: center">DATOS DEL CLIENTE</th>
                             <th style="width: 40%; text-align: center">OBSERVACIONES</th>
                         </tr>
                         <tr>
                             <td class="title" style="width: 10%"> &nbsp;Empresa</td>
-                            <td>
+                            <td colspan="3">
                                 @if(strlen($quotation->client->name) > 20)
-                                    <span style="font-size: 10px;">{{ $quotation->client->company == 'internet' ? $quotation->client_name: $quotation->client->name }}</span>
+                                    <span style="font-size: 10px;">
+                                         &nbsp;{{ ucwords(strtolower($quotation->client->company == 'internet' ? $quotation->client_name: $quotation->client->name)) }}</span>
                                 @else
-                                    {{ $quotation->client->company == 'internet' ? $quotation->client_name: $quotation->client->name }}
+                                     &nbsp;{{ ucwords(strtolower($quotation->client->company == 'internet' ? $quotation->client_name: $quotation->client->name)) }}
                                 @endif
                             </td>
                             <td rowspan="6" style="width: {{ strlen($quotation->client->name) > 20 ? '35%': '40%' }}; font-size: 10px;">
@@ -105,31 +109,30 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="title"> &nbsp;Solicitante</td>
-                            <td>
+                            <td class="title">&nbsp;Solicitante</td>
+                            <td colspan="3">
                                 @if(strlen($quotation->client->name) > 20)
-                                    <span style="font-size: 10px;">{{ $quotation->client->company == 'internet' ? $quotation->client_name: $quotation->client->name }}</span>
+                                    <span style="font-size: 10px;">
+                                         &nbsp;{{ ucwords(strtolower($quotation->client->company == 'internet' ? $quotation->client_name: $quotation->client->name)) }}
+                                    </span>
                                 @else
-                                    {{ $quotation->client->company == 'internet' ? $quotation->client_name: $quotation->client->name }}
+                                     &nbsp;{{ ucwords(strtolower($quotation->client->company == 'internet' ? $quotation->client_name: $quotation->client->name)) }}
                                 @endif
                             </td>
                         </tr>
                         <tr>
                             <td class="title"> &nbsp;Dirección</td>
-                            <td> &nbsp;{{ $quotation->client->address }}</td>
-                        </tr>
-                        <tr>
+                            <td> &nbsp;{{ ucwords(strtolower($quotation->client->address)) }}</td>
                             <td class="title"> &nbsp;Lugar</td>
-                            <td> &nbsp;{{ $quotation->client->city }}</td>
-                        </tr>
-                        <tr>
-                            <td class="title"> &nbsp;Teléfono</td>
-                            <td> &nbsp;{{ $quotation->client->phone }}</td>
+                            <td> &nbsp;{{ ucwords(strtolower($quotation->client->city)) }}</td>
                         </tr>
                         <tr>
                             <td class="title"> &nbsp;Email</td>
                             <td> &nbsp;{{ $quotation->client->company == 'internet' ? $quotation->email: $quotation->client->email }}</td>
+                            <td class="title"> &nbsp;Teléfono</td>
+                            <td> &nbsp;{{ $quotation->client->phone }}</td>
                         </tr>
+                        <tr><td colspan="2">&nbsp;</td></tr>
                         <tr><td colspan="2">&nbsp;</td></tr>
                     </tbody>
                 </table>
@@ -158,12 +161,12 @@
                     <tbody>
                     @foreach ($quotation->movements as $movement)
                         <tr>
-                            <td>{{ $movement->quantity }}</td>
-                            <td>{{ $movement->product->code }}</td>
-                            <td>{{ $movement->description or $movement->product->description }}</td>
-                            <td>{{ number_format($movement->price, 2) }}</td>
-                            <td>{{ number_format($movement->discount, 2) }}</td>
-                            <td>{{ number_format($movement->total, 2) }}</td>
+                            <td style="text-align: center;">{{ $movement->quantity }}</td>
+                            <td style="text-align: center;">{{ $movement->product->code }}</td>
+                            <td>{{ $movement->description ?? $movement->product->description }}</td>
+                            <td style="text-align: right;">{{ number_format($movement->price, 2) }}</td>
+                            <td style="text-align: right;">{{ number_format($movement->discount, 2) }}</td>
+                            <td style="text-align: right;">{{ number_format($movement->total, 2) }}</td>
                         </tr>
                         @php
                             $subtotal += $movement->total;
