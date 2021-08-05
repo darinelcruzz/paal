@@ -76,13 +76,22 @@
                             @foreach($paid as $egress)
                                 <tr style="text-align: center;">
                                     <td>
-                                        @if($egress->payment_date)
-                                            {{ fdate($egress->payment_date, 'd M Y', 'Y-m-d') }}
-                                            | {{ $egress->mfolio }}
-                                        @endif
-                                        @if($egress->second_payment_date)
-                                            {{ fdate($egress->second_payment_date, 'd M Y', 'Y-m-d') }}
-                                            | <br>{{ $egress->nfolio }}
+                                        @if($egress->payments)
+                                            @foreach($egress->payments as $epayment)
+                                                {{ fdate($epayment->paid_at, 'd M Y', 'Y-m-d') }} | {{ $epayment->folio }}
+                                                @if(!$loop->last)
+                                                 <br>
+                                                @endif
+                                            @endforeach
+                                        @else
+                                            @if($egress->payment_date)
+                                                {{ fdate($egress->payment_date, 'd M Y', 'Y-m-d') }}
+                                                | {{ $egress->mfolio }}
+                                            @endif
+                                            @if($egress->second_payment_date)
+                                                {{ fdate($egress->second_payment_date, 'd M Y', 'Y-m-d') }}
+                                                | <br>{{ $egress->nfolio }}
+                                            @endif
                                         @endif
                                     </td>
                                     <td>{{ $egress->folio }}</td>
@@ -187,7 +196,7 @@
 
                     <data-table example="1">
 
-                        {{ drawHeader('emisión', 'folio', '<i class="fa fa-cogs"></i>', 'tipo', 'proveedor', 'I.V.A.', 'total') }}
+                        {{ drawHeader('emisión', 'folio', '<i class="fa fa-cogs"></i>', 'tipo', 'proveedor', 'I.V.A.', 'total', 'adeudo') }}
 
                         <template slot="body">
                             @foreach($expired as $egress)
