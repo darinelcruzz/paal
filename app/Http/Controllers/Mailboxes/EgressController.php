@@ -9,10 +9,9 @@ use App\{Egress, Provider, Check};
 
 class EgressController extends Controller
 {
-    function index(Request $request, $status = 'pagado')
+    function index(Request $request, $status = 'pagado', $thisDate = null)
     {
-        // return view('mbe.coming_soon');
-        $date = isset($request->date) ? $request->date: date('Y-m');
+        $date = $thisDate == null ? dateFromRequest('Y-m'): $thisDate;
 
         $paid1 = Egress::from($date, 'payment_date', 'mbe')
             ->where('check_id', null)

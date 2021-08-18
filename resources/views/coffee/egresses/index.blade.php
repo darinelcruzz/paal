@@ -22,7 +22,7 @@
                     <div class="col-md-3">
                         <a href="{{ route('coffee.egress.index', ['pagado', $date]) }}">
                             <label class="btn btn-success btn-bg btn-block">
-                                {{ number_format($paid->sum(function ($egress) { return $egress->coffee != 0 ? $egress->coffee: $egress->amount;})  + $checkssum) }}
+                                {{ number_format($paid->sum(function ($egress) { return $egress->coffee != 0 ? $egress->coffee: $egress->amount;})  + $checkssum, 2) }}
                             </label>
                         </a>
                     </div>
@@ -47,125 +47,174 @@
             <br>
 
             @if($status == 'pagado')
-                <solid-box title="Pagados" color="success" button>
+                <solid-box title="PAGADOS" color="success" button>
 
-                    <data-table example="ordered">
+                    @php
+                        $paidTotal = 0;
+                    @endphp
 
-                        {{ drawHeader('pago (s)', 'folio', '<i class="fa fa-cogs"></i>', 'tipo', 'proveedor','compra', 'I.V.A.', 'total') }}
+                    <table class="table table-striped table-bordered spanish">
 
-                        <template slot="body">
+                        <thead>
+                            <tr>
+                                <th><small>PAGO(S)</small></th>
+                                <th style="width: 5%;"><i class="fa fa-cogs"></i></th>
+                                <th style="width: 10%;"><small>FOLIO</small></th>
+                                <th style="width: 8%;"><small>TIPO</small></th>
+                                <th><small>PROVEEDOR</small></th>
+                                <th style="text-align: right; width: 10%;"><small>F.COMPRA</small></th>
+                                <th style="text-align: right;width: 8%;"><small>I.V.A.</small></th>
+                                <th style="text-align: right;"><small>IMPORTE</small></th>
+                            </tr>
+                        </thead>
 
-                            @foreach($checks as $check)
-                                <tr style="text-align: center;">
-                                    <td>{{ fdate($check->charged_at, 'd M Y', 'Y-m-d') }}</td>
-                                    <td>CH {{ $check->folio }}</td>
-                                    <td>
-                                        <dropdown color="success" icon="cogs">
-                                            <ddi to="{{ Storage::url($check->pdf) }}" icon="file-pdf" text="Ver factura" target="_blank"></ddi>
-                                            <ddi to="{{ route('coffee.check.show', $check) }}" icon="eye" text="Detalles"></ddi>
-                                        </dropdown>
-                                    </td>
-                                    <td></td>
-                                    <td>CAJA CHICA</td>
-                                    <td>{{ fdate($check->charged_at, 'd M Y', 'Y-m-d') }}</td>
-                                    <td>{{ number_format($check->iva, 2) }}</td>
-                                    <td> {{ number_format($check->total, 2) }}</td>
-                                </tr>
-                            @endforeach
+                        <tbody>
+                        @foreach($checks as $check)
+                            <tr>
+                                <td><small>{{ strtoupper(fdate($check->charged_at, 'd M Y', 'Y-m-d')) }}</small></td>
+                                <td>
+                                    <dropdown color="success" icon="cogs">
+                                        <ddi to="{{ Storage::url($check->pdf) }}" icon="file-pdf" text="Ver factura" target="_blank"></ddi>
+                                        <ddi to="{{ route('coffee.check.show', $check) }}" icon="eye" text="Detalles"></ddi>
+                                    </dropdown>
+                                </td>
+                                <td>CH {{ $check->folio }}</td>
+                                <td>CHEQUE</td>
+                                <td>CAJA CHICA</td>
+                                <td style="text-align: right;"><small>{{ strtoupper(fdate($check->charged_at, 'd M Y', 'Y-m-d')) }}</small></td>
+                                <td style="text-align: right;">{{ number_format($check->iva, 2) }}</td>
+                                <td style="text-align: right;">{{ number_format($check->total, 2) }}</td>
+                            </tr>
+                            @php
+                                $paidTotal += $check->total;
+                            @endphp
+                        @endforeach
 
-                            @foreach($paid as $egress)
-                                <tr style="text-align: center;">
-                                    <td>
-                                        @if($egress->payment_date)
-                                            {{ fdate($egress->payment_date, 'd M Y', 'Y-m-d') }}
-                                            | {{ $egress->mfolio }}
+                        @foreach($paid as $egress)
+                            <tr>
+                                <td>
+                                    @foreach($egress->payments as $payment)
+                                        <small>{{ strtoupper(fdate($payment->paid_at, 'd M Y', 'Y-m-d')) }} - {{ $payment->folio }}</small> 
+                                        @if(!$loop->last)
+                                        <br>
                                         @endif
-                                        @if($egress->second_payment_date)
-                                            <br>
-                                            {{ fdate($egress->second_payment_date, 'd M Y', 'Y-m-d') }}
-                                            | {{ $egress->nfolio }}
-                                        @endif
-                                    </td>
-                                    <td>{{ $egress->folio }}</td>
-                                    <td>
-                                        @include('coffee.egresses._dropdown', ['color' => 'success'])
-                                    </td>
-                                    <td>
-                                        @if($egress->type)
-                                            <span class="label label-{{ $egress->type == 'insumos' ? 'success': ($egress->type == 'publicidad' ? 'primary' :'danger') }}">
-                                                {{ strtoupper($egress->type) }}
-                                            </span>
-                                        @elseif($egress->coffee > 0)
-                                            <span class="label label-default">PARCIAL</span>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        {{ $egress->provider->name ?? $egress->provider_name }} {{ $egress->provider_name != null ? " ($egress->provider_name)": ''}}
-                                        <br><code>{{ $egress->provider->rfc }}</code>
-                                    </td>
-                                    <td>{{ fdate($egress->emission, 'd M Y', 'Y-m-d') }}</td>
-                                    <td>{{ number_format($egress->iva, 2) }}</td>
-                                    <td>
-                                        @if($egress->provider->type == 'pd')
-                                            {{ number_format($egress->coffee, 2) }}
-                                        @else
-                                            {{ number_format($egress->amount, 2) }}
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </template>
+                                    @endforeach
+                                    {{-- @if($egress->payment_date)
+                                        
+                                    @endif
+                                    @if($egress->second_payment_date)
+                                        <br>
+                                        <small>{{ strtoupper(fdate($egress->second_payment_date, 'd M Y', 'Y-)m-d</small>') }}
+                                        | {{ $egress->nfolio }}
+                                    @endif --}}
+                                </td>
+                                <td>
+                                    @include('coffee.egresses._dropdown', ['color' => 'success'])
+                                </td>
+                                <td>{{ $egress->folio }}</td>
+                                <td>
+                                    @if($egress->type)
+                                        <span class="label label-{{ $egress->type == 'insumos' ? 'success': ($egress->type == 'publicidad' ? 'primary' :'danger') }}">
+                                            <small>{{ strtoupper($egress->type) }}</small>
+                                        </span>
+                                    @elseif($egress->coffee > 0)
+                                        <span class="label label-default"><small>PARCIAL</small></span>
+                                    @endif
+                                </td>
+                                <td>
+                                    {{ $egress->provider_name ?? $egress->provider->name }}
+                                    <code>{{ $egress->provider->rfc }}</code>
+                                </td>
+                                <td style="text-align: right;"><small>{{ strtoupper(fdate($egress->emission, 'd M Y', 'Y-m-d')) }}</small></td>
+                                <td style="text-align: right;">{{ number_format($egress->iva, 2) }}</td>
+                                <td style="text-align: right;">
+                                    @if($egress->provider->type == 'pd')
+                                        {{ number_format($egress->coffee, 2) }}
+                                    @else
+                                        {{ number_format($egress->amount, 2) }}
+                                    @endif
+                                </td>
+                            </tr>
+                            @php
+                                if($egress->provider->type == 'pd') {
+                                    $paidTotal += $egress->mbe;
+                                }
+                                else {
+                                    $paidTotal += $egress->amount;
+                                }
+                            @endphp
+                        @endforeach
+                        </tbody>
 
-                    </data-table>
+                        <tfoot>
+                            <tr>
+                                <th></th><th></th><th></th><th></th><th></th><th></th>
+                                <th style="text-align: right;"><small>TOTAL</small></th>
+                                <th style="text-align: right;">{{ number_format($paidTotal, 2) }}</th>
+                            </tr>
+                        </tfoot>
+                    </table>
 
                 </solid-box>
             
             @elseif($status == 'pendiente')
 
-                <solid-box title="Pendientes de pagar" color="warning" button>
+                <solid-box title="PENDIENTES" color="warning" button>
+                    @php
+                        $pendingTotal = 0;
+                        $pendingTotalDebt = 0;
+                    @endphp
+                    <table class="table table-striped table-bordered spanish">
 
-                    <data-table example="1">
+                        {{-- {{ drawHeader('vencimiento', 'emisión', 'folio', '<i class="fa fa-cogs"></i>', 'tipo', 'proveedor', 'I.V.A.', 'total', 'adeudo') }} --}}
+                        <thead>
+                            <tr>
+                                <th><small>VENCIMIENTO</small></th>
+                                <th style="width: 5%;"><i class="fa fa-cogs"></i></th>
+                                <th style="width: 10%;"><small>FOLIO</small></th>
+                                <th style="width: 8%;"><small>TIPO</small></th>
+                                <th><small>PROVEEDOR</small></th>
+                                <th style="text-align: right; width: 10%;"><small>EMISIÓN</small></th>
+                                <th style="text-align: right;width: 8%;"><small>I.V.A.</small></th>
+                                <th style="text-align: right;"><small>IMPORTE</small></th>
+                                <th style="text-align: right;"><small>ADEUDO</small></th>
+                            </tr>
+                        </thead>
 
-                        {{ drawHeader('vencimiento', 'emisión', 'folio', '<i class="fa fa-cogs"></i>', 'tipo', 'proveedor', 'I.V.A.', 'total', 'adeudo') }}
-
-                        <template slot="body">
+                        <tbody>
                             @foreach($pending as $egress)
                                 @if(!$egress->check_id)
                                 @php
                                     $egress->checkExpiration();
                                 @endphp
-                                    <tr style="text-align: center;">
-                                        <td>{{ fdate($egress->expiration, 'd M Y', 'Y-m-d') }}</td>
-                                        <td>{{ fdate($egress->emission, 'd M Y', 'Y-m-d') }}</td>
-                                        <td>
-                                            {{ $egress->folio }}
-                                        </td>
+                                    <tr>
+                                        <td><small>{{ strtoupper(fdate($egress->expiration, 'd M Y', 'Y-m-d')) }}</small></td>
                                         <td>
                                             @include('coffee.egresses._dropdown', ['color' => 'warning'])
                                         </td>
+                                        <td>{{ $egress->folio }}</td>
                                         <td>
                                             @if($egress->type)
                                                 <span class="label label-{{ $egress->type == 'insumos' ? 'success': ($egress->type == 'publicidad' ? 'primary' :'danger') }}">
-                                                    {{ strtoupper($egress->type) }}
+                                                    <small>{{ strtoupper($egress->type) }}</small>
                                                 </span>
                                             @elseif($egress->coffee > 0)
-                                                <span class="label label-default">PARCIAL</span>
+                                                <span class="label label-default"><small>PARCIAL</small></span>
                                             @endif
                                         </td>
                                         <td>
-                                            {{ $egress->provider->name }}
-                                            {{ $egress->provider_name != null ? "($egress->provider_name" . ($egress->receiver != null ? ", $egress->return_name)": ')') : "" }}
-                                            <br><code>{{ $egress->provider->rfc }}</code>
+                                            {{ $egress->provider_name ??  $egress->provider->name }} <code>{{ $egress->provider->rfc }}</code>
                                         </td>
-                                        <td>{{ number_format($egress->iva, 2) }}</td>
-                                        <td>
+                                        <td style="text-align: right;"><small>{{ strtoupper(fdate($egress->emission, 'd M Y', 'Y-m-d')) }}</small></td>
+                                        <td style="text-align: right;">{{ number_format($egress->iva, 2) }}</td>
+                                        <td style="text-align: right;">
                                             @if($egress->provider->type == 'pd')
                                                 {{ number_format($egress->coffee, 2) }}
                                             @else
                                                 {{ number_format($egress->amount, 2) }}
                                             @endif
                                         </td>
-                                        <td>
+                                        <td style="text-align: right;">
                                             @if($egress->provider->type == 'pd')
                                                 {{ number_format($egress->coffee, 2) }}
                                             @else
@@ -173,50 +222,85 @@
                                             @endif
                                         </td>
                                     </tr>
+                                    @php
+                                        if($egress->provider->type == 'pd') {
+                                            $pendingTotal += $egress->coffee;
+                                            $pendingTotalDebt += $egress->debt;
+                                        } else {
+                                            $pendingTotal += $egress->amount;
+                                            $pendingTotalDebt += $egress->debt;
+                                        }
+                                    @endphp
                                 @endif
                             @endforeach
-                        </template>
+                        </tbody>
 
-                    </data-table>
+                        <tfoot>
+                            <tr>
+                                <th></th><th></th><th></th><th></th><th></th><th></th>
+                                <th style="text-align: right;"><small>TOTAL</small></th>
+                                <th style="text-align: right;">{{ number_format($pendingTotal, 2) }}</th>
+                                <th style="text-align: right;">{{ number_format($pendingTotalDebt, 2) }}</th>
+                            </tr>
+                        </tfoot>
+
+                    </table>
 
                 </solid-box>
 
             @else
 
-                <solid-box title="Vencidos" color="danger" button>
+                <solid-box title="VENCIDOS" color="danger" button>
 
-                    <data-table example="1">
+                    <table class="table table-striped table-bordered spanish">
 
-                        {{ drawHeader('emisión', 'folio', '<i class="fa fa-cogs"></i>', 'tipo', 'proveedor', 'I.V.A.', 'total', 'adeudo') }}
+                        @php
+                            $expiredTotal = 0;
+                            $expiredTotalDebt = 0;
+                        @endphp
+                        <thead>
+                            <tr>
+                                <th style="width: 10%;"><small>EMISIÓN</small></th>
+                                <th style="width: 5%;"><i class="fa fa-cogs"></i></th>
+                                <th style="width: 10%;"><small>FOLIO</small></th>
+                                <th style="width: 8%;"><small>TIPO</small></th>
+                                <th><small>PROVEEDOR</small></th>
+                                <th style="text-align: right;width: 8%;"><small>I.V.A.</small></th>
+                                <th style="text-align: right;"><small>IMPORTE</small></th>
+                                <th style="text-align: right;"><small>ADEUDO</small></th>
+                            </tr>
+                        </thead>
 
-                        <template slot="body">
+                        <tbody>
                             @foreach($expired as $egress)
                                 @if(!$egress->check_id)
-                                    <tr style="text-align: center;">
-                                        <td>{{ fdate($egress->emission, 'd M Y', 'Y-m-d') }}</td>
-                                        <td>
-                                            {{ $egress->folio }}
-                                        </td>
+                                    <tr>
+                                        <td><small>{{ strtoupper(fdate($egress->emission, 'd M Y', 'Y-m-d')) }}</small></td>
                                         <td>
                                             @include('coffee.egresses._dropdown', ['color' => 'danger'])
                                         </td>
+                                        <td>{{ $egress->folio }}</td>
                                         <td>
-                                            {{ $egress->type }}
+                                            @if($egress->type)
+                                                <span class="label label-{{ $egress->type == 'insumos' ? 'success': ($egress->type == 'publicidad' ? 'primary' :'danger') }}">
+                                                    <small>{{ strtoupper($egress->type) }}</small>
+                                                </span>
+                                            @elseif($egress->coffee > 0)
+                                                <span class="label label-default"><small>PARCIAL</small></span>
+                                            @endif
                                         </td>
-                                        <td>{{ $egress->provider->name ?? '' }}
-                                            {{ $egress->returned_to != null ? " | REPOSICIÓN": '' }}
-                                            {{ $egress->provider_name != null ? " ($egress->provider_name)": '' }}
-                                            <br><code>{{ $egress->provider->rfc }}</code>
-                                        </td>
-                                        <td>{{ number_format($egress->iva, 2) }}</td>
                                         <td>
+                                            {{ $egress->provider_name ?? $egress->provider->name }}<code>{{ $egress->provider->rfc }}</code>
+                                        </td>
+                                        <td style="text-align: right;">{{ number_format($egress->iva, 2) }}</td>
+                                        <td style="text-align: right;">
                                             @if($egress->provider->type == 'pd')
                                                 {{ number_format($egress->coffee, 2) }}
                                             @else
                                                 {{ number_format($egress->amount, 2) }}
                                             @endif
                                         </td>
-                                        <td>
+                                        <td style="text-align: right;">
                                             @if($egress->provider->type == 'pd')
                                                 {{ number_format($egress->coffee, 2) }}
                                             @else
@@ -226,9 +310,18 @@
                                     </tr>
                                 @endif
                             @endforeach
-                        </template>
+                        </tbody>
 
-                    </data-table>
+                        <tfoot>
+                            <tr>
+                                <th></th><th></th><th></th><th></th><th></th>
+                                <th style="text-align: right;"><small>TOTAL</small></th>
+                                <th style="text-align: right;">{{ number_format($expiredTotal, 2) }}</th>
+                                <th style="text-align: right;">{{ number_format($expiredTotalDebt, 2) }}</th>
+                            </tr>
+                        </tfoot>
+
+                    </table>
 
                 </solid-box>
             @endif
