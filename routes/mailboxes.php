@@ -5,15 +5,6 @@ Route::group(['prefix' => 'mbe', 'as' => 'mbe.'], function () {
 	Route::get('/', usesas('Mailboxes\HomeController', 'index'));
 
 	Route::group(['prefix' => 'egresos', 'as' => 'egress.'], function () {
-	    $ctrl = 'Mailboxes\EgressController';
-	    Route::get('pagar/{egress}', usesas($ctrl, 'pay'));
-	    Route::post('pagar/{egress}', usesas($ctrl, 'charge'));
-	    Route::get('reemplazar/{egress}', usesas($ctrl, 'replace'));
-	    Route::post('reemplazar/{egress}', usesas($ctrl, 'upload'));
-	    Route::get('editar/{egress}', usesas($ctrl, 'edit'));
-	    Route::post('editar/{egress}', usesas($ctrl, 'update'));
-	    Route::get('/{status}/{date?}', usesas($ctrl, 'index'));
-	    Route::post('/{status}/{date?}', usesas($ctrl, 'index'));
 
 	    Route::group(['prefix' => 'general', 'as' => 'general.'], function () {
 		    $ctrl = 'Mailboxes\GeneralEgressController';
@@ -35,6 +26,16 @@ Route::group(['prefix' => 'mbe', 'as' => 'mbe.'], function () {
 		    Route::get('agregar/{check}', usesas($ctrl, 'create'));
 		    Route::post('agregar/{check}', usesas($ctrl, 'store'));
 		});
+	    
+	    $ctrl = 'Mailboxes\EgressController';
+	    Route::get('pagar/{egress}', usesas($ctrl, 'pay'));
+	    Route::post('pagar/{egress}', usesas($ctrl, 'charge'));
+	    Route::get('reemplazar/{egress}', usesas($ctrl, 'replace'));
+	    Route::post('reemplazar/{egress}', usesas($ctrl, 'upload'));
+	    Route::get('editar/{egress}', usesas($ctrl, 'edit'));
+	    Route::post('editar/{egress}', usesas($ctrl, 'update'));
+	    Route::get('/{status}/{date?}', usesas($ctrl, 'index'));
+	    Route::post('/{status}/{date?}', usesas($ctrl, 'index'));
 	});
 
 	Route::group(['prefix' => 'cheques', 'as' => 'check.'], function () {
