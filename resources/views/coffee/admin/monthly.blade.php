@@ -5,11 +5,8 @@
 @section('content')
 
     <div class="row">
-
         <div class="col-md-9">
-
             {!! Form::open(['method' => 'post', 'route' => 'coffee.admin.monthly']) !!}
-                
                 <div class="row">
                     <div class="col-md-3">
                         <div class="input-group input-group-sm">
@@ -20,198 +17,69 @@
                         </div>
                     </div>
                 </div>
-
+                <br>
             {!! Form::close() !!}
-
-            <br>
-
         </div>
     </div>
 
     <div class="row">
         <div class="col-md-4">
-            <div class="small-box bg-green">
-                <div class="inner">
-                    <p>TOTAL MENSUAL</p>
-                    <h3>
-                         <em>{{ number_format($ingresses->sum(function ($ingress) { return $ingress->type != 'anticipo' ? $ingress->amount - $ingress->retainers->sum('amount'): $ingress->amount;}), 2) }}</em>
-                        {{-- <em>{{ number_format($ingresses->sum('amount'), 2) }}</em> --}}
-                    </h3>
-                </div>
-                <div class="icon">
-                    <i class="fa fa-usd"></i>
-                </div>
-            </div>
-
-            <div class="small-box bg-red">
-                <div class="inner">
-                    <p>POR DEPOSITAR</p>
-                    <h3>
-                        <em>
-                            {{ number_format($ingresses->sum(function ($ingress) { return $ingress->payments->where('cash_reference', null)->sum('cash');}), 2) }}
-                        </em>
-                    </h3>
-                </div>
-                <div class="icon">
-                    <i class="fa fa-piggy-bank"></i>
-                </div>
-            </div>
-
-            <div class="small-box bg-primary">
-                <div class="inner">
-                    <p>PROMEDIO</p>
-                    <h3>
-                        <em>
-                            {{ number_format($ingresses->sum(function ($ingress) { return $ingress->type != 'anticipo' ? $ingress->amount - $ingress->retainers->sum('amount'): $ingress->amount;}) / $divisor, 2) }}
-                        </em>
-                    </h3>
-                </div>
-                <div class="icon">
-                    <i class="fa fa-chart-line"></i>
-                </div>
-            </div>
-
-            <div class="small-box bg-yellow">
-                <div class="inner">
-                    <p>ENVÍOS</p>
-                    <h3><em>{{ $shippings }}</em></h3>
-                </div>
-                <div class="icon">
-                    <i class="fa fa-shipping-fast"></i>
-                </div>
-            </div>
+            <icon-box title="total mensual" color="green" icon="usd" company="coffee" model="index" type="total" date="{{ $date }}"></icon-box>
+            <icon-box title="por depositar" color="red" icon="piggy-bank" company="coffee" model="index" type="depositar" date="{{ $date }}"></icon-box>
+            <icon-box title="promedio" color="primary" icon="chart-line" company="coffee" model="index" type="promedio" date="{{ $date }}"></icon-box>
+            <icon-box title="envíos" color="yellow" icon="shipping-fast" company="coffee" model="index" type="envíos" date="{{ $date }}"></icon-box>
         </div>
 
         <div class="col-md-8">
             <div class="row">
                 <div class="col-md-4">
-                    <div class="small-box bg-aqua">
-                        <div class="inner">
-                            EFECTIVO
-                            <h3>
-                                <small style="color: white">{{ number_format($ingresses->sum('cash'), 2) }}</small>
-                            </h3>
-                        </div>
-                    </div>
+                    <info-box title="efectivo" color="aqua" company="coffee" type="efectivo" date="{{ $date }}" model="payments">
+                    </info-box>
                 </div>
                 <div class="col-md-4">
-                    <div class="small-box bg-aqua">
-                        <div class="inner">
-                            TARJETA DE CRÉDITO
-                            <h3>
-                                <small style="color: white">
-                                    {{ number_format($ingresses->sum(function ($ingress) { return $ingress->payments->sum('credit_card');}), 2) }}
-                                </small>
-                            </h3>
-                        </div>
-                    </div>
+                    <info-box title="tarjeta de crédito" color="aqua" company="coffee" type="tarjeta de crédito" date="{{ $date }}" model="payments">
+                    </info-box>
                 </div>
                 <div class="col-md-4">
-                    <div class="small-box bg-aqua">
-                        <div class="inner">
-                            TARJETA DE DÉBITO
-                            <h3>
-                                <small style="color: white">{{ number_format($ingresses->sum(function ($ingress) { return $ingress->payments->sum('debit_card');}), 2) }}</small>
-                            </h3>
-                        </div>
-                    </div>
+                    <info-box title="tarjeta de débito" color="aqua" company="coffee" type="tarjeta de débito" date="{{ $date }}" model="payments">
+                    </info-box>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-4">
-                    <div class="small-box bg-aqua">
-                        <div class="inner">
-                            TRANSFERENCIA
-                            <h3>
-                                <small style="color: white">{{ number_format($ingresses->sum(function ($ingress) { return $ingress->payments->sum('transfer');}), 2) }}</small>
-                            </h3>
-                        </div>
-                    </div>
+                    <info-box title="transferencia" color="aqua" company="coffee" type="transferencia" date="{{ $date }}" model="payments">
+                    </info-box>
                 </div>
                 <div class="col-md-4">
-                    <div class="small-box bg-aqua">
-                        <div class="inner">
-                            CHEQUE
-                            <h3>
-                                <small style="color: white">{{ number_format($ingresses->sum(function ($ingress) { return $ingress->payments->sum('check');}), 2) }}</small>
-                            </h3>
-                        </div>
-                    </div>
+                    <info-box title="cheque" color="aqua" company="coffee" type="cheque" date="{{ $date }}" model="payments">
+                    </info-box>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-md-3">
-                    <div class="small-box bg-purple">
-                        <div class="inner">
-                            INSUMOS
-                            <h3>
-                                @php
-                                    $suppliesSum = $ingresses->where('type', 'proyecto')->sum(function ($ingress) { 
-                                            return $ingress->movements->sum(function ($m) use ($ingress){
-                                                return $m->product->category == 'INSUMOS' ? $m->real_amount: 0;
-                                            });
-                                        });
-                                @endphp
-                                <small style="color: white">
-                                    {{ number_format($ingresses->where('type', 'insumos')->sum(function ($ingress) { return $ingress->type != 'anticipo' ? $ingress->amount - $ingress->retainers->sum('amount'): $ingress->amount;}) + $suppliesSum, 2) }}
-                                </small>
-                            </h3>
-                        </div>
-                    </div>
+                    <info-box title="insumos" color="purple" company="coffee" type="insumos" date="{{ $date }}" model="ingresses">
+                    </info-box>
+                </div>
+
+                <div class="col-md-3">
+                    <info-box title="equipos" color="navy" company="coffee" type="equipo" date="{{ $date }}" model="ingresses">
+                    </info-box>
                 </div>
                 <div class="col-md-3">
-                    <div class="small-box bg-navy">
-                        <div class="inner">
-                            EQUIPO
-                            <h3>
-                                @php
-                                    $equipmentsSum = $ingresses->where('type', 'proyecto')->sum(function ($ingress) { 
-                                            return $ingress->movements->sum(function ($m) use ($ingress){
-                                                return $m->product->category == 'EQUIPO' ? $m->real_amount: 0;
-                                            }) + $ingress->rounding;
-                                        });
-                                @endphp
-                                {{-- <small style="color: white">{{ number_format($ingresses->where('type', 'equipo')->sum('amount'), 2) }}</small> --}}
-                                <small style="color: white">
-                                    {{ number_format($ingresses->where('type', 'equipo')->sum(function ($ingress) { return $ingress->type != 'anticipo' ? $ingress->amount - $ingress->retainers->sum('amount'): $ingress->amount;}) + $equipmentsSum, 2) }}
-                                </small>
-                            </h3>
-                        </div>
-                    </div>
+                    <info-box title="anticipo" color="teal" company="coffee" type="anticipo" date="{{ $date }}" model="ingresses">
+                    </info-box>
                 </div>
                 <div class="col-md-3">
-                    <div class="small-box bg-teal">
-                        <div class="inner">
-                            ANTICIPO
-                            <h3>
-                                <small style="color: white">{{ number_format($ingresses->where('type', 'anticipo')->sum('amount'), 2) }}</small>
-                            </h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="small-box bg-gray">
-                        <div class="inner">
-                            NOTAS DE CRÉDITO
-                            <h3>
-                                <small>-{{ number_format($ingresses->where('type', 'nota de crédito')->sum('amount'), 2) }}</small>
-                            </h3>
-                        </div>
-                    </div>
+                    <info-box title="notas de crédito" color="gray" company="coffee" type="nota de crédito" date="{{ $date }}" model="ingresses">
+                    </info-box>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-md-3">
-                    <div class="small-box bg-blue">
-                        <div class="inner">
-                            DEPOSITADO BBVA
-                            <h3>
-                                <small style="color: white;">{{ number_format($ingresses->sum(function ($ingress) { return $ingress->payments->where('cash_reference', '!=', null)->sum('cash');}), 2) }}</small>
-                            </h3>
-                        </div>
-                    </div>
+                    <info-box title="depositado bbva" color="blue" company="coffee" type="depositado" date="{{ $date }}" model="ingresses">
+                    </info-box>
                 </div>
             </div>
         </div>

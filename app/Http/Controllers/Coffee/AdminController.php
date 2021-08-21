@@ -54,19 +54,7 @@ class AdminController extends Controller
     function monthly(Request $request)
     {
         $date = isset($request->date) ? $request->date: date('Y-m');
-
-        $ingresses = Ingress::where('company', 'coffee')
-            ->where('status', '!=', 'cancelado')
-            ->whereMonth('created_at', substr($date, 5, 7))
-            ->whereYear('created_at', substr($date, 0, 4))
-            ->with('payments', 'movements.product')
-            ->get();
-
-        $shippings = Shipping::monthly($date)->count();
-
-        $divisor = $ingresses->groupBy('bought_at')->count();
-
-        return view('coffee.admin.monthly', compact('date', 'ingresses', 'shippings', 'divisor'));
+        return view('coffee.admin.monthly', compact('date'));
     }
 
     function invoices(Request $request, $thisDate = null)

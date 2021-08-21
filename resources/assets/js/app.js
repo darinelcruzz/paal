@@ -83,6 +83,8 @@ Vue.component('provider-select', require('./components/ProviderSelect.vue'));
 Vue.component('money-box', require('./components/MoneyBox.vue'));
 Vue.component('movements', require('./components/Movements.vue'));
 Vue.component('sale-products-list', require('./components/SaleProductsList.vue'));
+Vue.component('info-box', require('./components/InfoBox.vue'));
+Vue.component('icon-box', require('./components/IconBox.vue'));
 
 // NEW ONES FOR SANSON
 Vue.component('shopping-cart', require('./components/ShoppingCart.vue'));

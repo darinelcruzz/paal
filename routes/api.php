@@ -39,3 +39,10 @@ Route::group(['prefix' => 'notifications', 'as' => 'api.notification.'], functio
     Route::get('{company}/tasks', usesas($ctrl, 'tasks'));
     Route::get('{company}/expired', usesas($ctrl, 'expired'));
 });
+
+Route::group(['prefix' => 'monthly', 'as' => 'api.ingress.'], function () {
+    $ctrl = 'Api\IngressController';
+    Route::get('ingresses/{date?}/{company?}/{type?}', usesas($ctrl, 'ingresses'));
+    Route::get('payments/{date?}/{company?}/{method?}', usesas($ctrl, 'payments'));
+    Route::get('index/{date?}/{company?}/{type?}', usesas($ctrl, 'index'));
+});
