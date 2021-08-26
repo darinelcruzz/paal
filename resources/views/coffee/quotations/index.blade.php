@@ -79,7 +79,11 @@
                                     </dropdown>
                                 </td>
                                 <td>{{ fdate($quotation->created_at, 'd/m/Y') }}</td>
-                                <td style="width: 40%">{{ $quotation->client_name ?? $quotation->client->name }}</td>
+                                <td style="width: 40%">
+                                    <a href="#" target="_blank">
+                                        {{ $quotation->client_name ?? $quotation->client->name }}
+                                    </a>
+                                </td>
                                 <td style="text-align: center">
                                     @if ($quotation->type)
                                         <label class="label label-{{ $quotation->typeLabel }}">{{ strtoupper($quotation->type) }}</label>

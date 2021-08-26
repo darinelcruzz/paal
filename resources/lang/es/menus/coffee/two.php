@@ -37,10 +37,6 @@ return [
                 'title' => 'Historial',
                 'route' => 'coffee.ingress.index'
             ],
-            'invoices' => [
-                'title' => 'Facturadas',
-                'route' => 'coffee.admin.invoices'
-            ],
             'daily' => [
                 'title' => 'Corte diario',
                 'route' => ['coffee.admin.daily', 'factura']

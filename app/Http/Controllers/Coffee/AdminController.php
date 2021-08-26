@@ -68,6 +68,7 @@ class AdminController extends Controller
             ->with('payments', 'movements.product')
             ->get();
 
+
         $pinvoices = Ingress::where('pinvoice_id', '!=', null)
             ->where('invoice_id', null)
             ->whereDate('created_at', $date)

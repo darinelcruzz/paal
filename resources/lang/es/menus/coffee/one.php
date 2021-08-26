@@ -38,10 +38,6 @@ return [
                 'title' => 'Historial',
                 'route' => 'coffee.ingress.index'
             ],
-            'invoices' => [
-                'title' => 'Facturadas',
-                'route' => 'coffee.admin.invoices'
-            ],
             'daily' => [
                 'title' => 'Corte diario',
                 'route' => ['coffee.admin.daily', 'factura']
@@ -49,6 +45,10 @@ return [
             'monthly' => [
                 'title' => 'Corte mensual',
                 'route' => 'coffee.admin.monthly'
+            ],
+            'invoices' => [
+                'title' => 'Facturadas',
+                'route' => 'coffee.admin.invoices'
             ],
             'variables' => [
                 'title' => 'Tipo de Cambio',

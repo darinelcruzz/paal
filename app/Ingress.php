@@ -127,12 +127,14 @@ class Ingress extends Model
 
     function getReferenceAttribute()
     {
-        if ($this->payments->first()) {
-
-            return $this->payments->first()->reference;
+        $references = '';
+        if ($this->payments) {
+            foreach ($this->payments as $payment) {
+                $references .= $payment->reference . ', ';
+            }
         }
 
-        return 'undefined';
+        return 'N/A';
     }
 
     function getCashReferenceAttribute()

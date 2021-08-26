@@ -8,7 +8,7 @@
         
         <div class="col-md-9">
 
-            <solid-box title="{{ strtoupper(fdate($date, 'l d \d\e F', 'Y-m-d')) }}" color="danger">
+            <solid-box title="EFECTIVO {{ strtoupper(fdate($date, 'l d \d\e F', 'Y-m-d')) }}" color="success">
                 
                 <table class="table table-striped table-bordered spanish-simple">
                     <thead>
@@ -221,15 +221,11 @@
 
             {!! Form::open(['method' => 'post', 'route' => 'coffee.admin.invoices']) !!}
                 
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="input-group input-group-sm">
-                            <input type="date" name="date" class="form-control" value="{{ $date }}">
-                            <span class="input-group-btn">
-                                <button type="submit" class="btn btn-danger btn-flat"><i class="fa fa-search"></i></button>
-                            </span>
-                        </div>
-                    </div>
+                <div class="input-group input-group-sm">
+                    <input type="date" name="date" class="form-control" value="{{ $date }}">
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-danger btn-flat"><i class="fa fa-search"></i></button>
+                    </span>
                 </div>
 
             {!! Form::close() !!}
@@ -239,6 +235,28 @@
                 <div class="inner">
                     <p>POR DEPOSITAR DEL DÍA</p>
                     <h3><em>$ {{ number_format($pending, 2) }}</em></h3>
+                </div>
+            </div>
+
+            <div class="small-box bg-teal">
+                <div class="inner">
+                    <p>DÉBITO</p>
+                    <h3>
+                        <em>
+                            $ {{ number_format($invoices->where('method', 'tarjeta débito')->sum('amount') + $pinvoices->where('method', 'tarjeta de débito')->sum('amount'), 2) }}
+                        </em>
+                    </h3>
+                </div>
+            </div>
+
+            <div class="small-box bg-black">
+                <div class="inner">
+                    <p>CRÉDITO</p>
+                    <h3>
+                        <em>
+                            $ {{ number_format($invoices->where('method', 'tarjeta crédito')->sum('amount') + $pinvoices->where('method', 'tarjeta de crédito')->sum('amount'), 2) }}
+                        </em>
+                    </h3>
                 </div>
             </div>
             <a href="{{ route('coffee.admin.downloadExcel', $date) }}" class="btn btn-success btn-block">

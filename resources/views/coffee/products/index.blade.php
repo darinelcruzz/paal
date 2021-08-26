@@ -4,12 +4,12 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-7">
+        <div class="col-md-12">
             <solid-box title="Productos" color="danger">
                 
                 <data-table>
 
-                    {{ drawHeader('ID', '<i class="fa fa-cogs"></i>', 'descripción', 'menudeo', 'mayoreo', '¿Dólares?') }}
+                    {{ drawHeader('ID', '<i class="fa fa-cogs"></i>', 'descripción', 'categoría', 'familia', 'menudeo', 'mayoreo', '¿Dólares?') }}
 
                     <template slot="body">
                         @foreach($products as $product)
@@ -26,6 +26,8 @@
                                 <td>
                                     {{ $product->description }} | <code>{{ $product->code }}</code>
                                 </td>
+                                <td>{{ $product->category }}</td>
+                                <td>{{ $product->family }}</td>
                                 <td>$ {{ number_format($product->retail_price, 2) }}</td>
                                 <td>$ {{ number_format($product->wholesale_price, 2) }}</td>
                                 <td> {{ $product->dollars ? 'Sí': 'No' }}</td>
