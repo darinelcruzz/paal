@@ -11,7 +11,8 @@
                 <div class="row">
                     <div class="col-md-2"></div>
                     <div class="col-md-8" align="center" valign="middle">
-                        <img width="100%" height="100%" src="{{ asset("/img/$company.png") }}">
+                        {{-- <img width="100%" height="100%" src="{{ asset("/img/logo.png") }}"> --}}
+                        <img width="100%" height="100%" src="{{ asset("img/$company.png") }}">
                     </div>
                 </div>
 

@@ -20,6 +20,8 @@ class LoginController extends Controller
 
         $company = substr(redirect()->intended()->getTargetUrl(), strlen(env('APP_URL')));
 
+        // dd($company);
+
         return view('auth.login', compact('company'));
     }
     

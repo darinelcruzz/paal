@@ -1,8 +1,6 @@
 @extends('paal.root')
 
-@push('pageTitle')
-    Productos | Lista
-@endpush
+@push('pageTitle', 'Productos | Lista')
 
 @push('headerTitle')
     <a href="{{ route('paal.product.index') }}" class="btn btn-danger btn-sm">COFFEE DEPOT</a>
@@ -19,41 +17,64 @@
     <div class="row">
         <div class="col-md-12">
             @if($company == 'coffee')
-                <solid-box title="Productos Coffee Depot" color="danger">
+                <solid-box title="PRODUCTOS" color="danger">
                 
-                    <data-table example="1">
+                    <table class="table table-striped table-bordered spanish">
 
-                        {{ drawHeader('ID', '<i class="fa fa-cogs"></i>', 'descripción', 'familia', 'menudeo', 'mayoreo', 'cantidad') }}
+                        <thead>
+                            <tr>
+                                <th style="width: 5%"><small>ID</small></th>
+                                <th style="width: 5%"><small><i class="fa fa-cogs"></i></small></th>
+                                <th><small>DESCRIPCION</small></th>
+                                <th style="width: 5%;"><small>CÓDIGO</small></th>
+                                <th><small>CATEGORÍA</small></th>
+                                <th><small>FAMILIA</small></th>
+                                <th style="width: 5%;"><small>CANTIDAD</small></th>
+                                <th><small>MENUDEO</small></th>
+                                <th><small>MAYOREO</small></th>
+                            </tr>
+                        </thead>
 
-                        <template slot="body">
+                        <tbody>
                             @foreach($products as $product)
                                 <tr>
-                                    <td style="width: 5%">{{ $product->id }}</td>
-                                    <td style="width: 5%">
+                                    <td>{{ $product->id }}</td>
+                                    <td>
                                         <dropdown icon="cogs" color="danger">
                                             <ddi to="{{ route('paal.product.edit', $product) }}" icon="edit" text="Editar"></ddi>
                                         </dropdown>
                                     </td>
                                     <td>{{ $product->description }}</td>
+                                    <td>{{ $product->code }}</td>
+                                    <td>{{ $product->category != '' ? $product->category: 'NO TIENE' }}</td>
                                     <td>{{ $product->family }}</td>
-                                    <td>$ {{ number_format($product->retail_price, 2) }}</td>
-                                    <td>$ {{ number_format($product->wholesale_price, 2) }}</td>
-                                    <td>{{ $product->wholesale_quantity }}</td>
+                                    <td style="text-align: center;">{{ $product->wholesale_quantity }}</td>
+                                    <td style="text-align: right;">{{ number_format($product->retail_price, 2) }}</td>
+                                    <td style="text-align: right;">{{ number_format($product->wholesale_price == 0 ? $product->retail_price: $product->wholesale_price, 2) }}</td>
                                 </tr>
                             @endforeach
-                        </template>
+                        </tbody>
                         
-                    </data-table>
+                    </table>
 
                 </solid-box>
             @else
                 <solid-box title="Productos Mailboxes" color="success">
                 
-                    <data-table example="1">
+                    <table class="table table-striped table-bordered spanish">
+
+                        <thead>
+                            <tr>
+                                <th style="width: 5%"><small>ID</small></th>
+                                <th style="width: 5%"><small><i class="fa fa-cogs"></i></small></th>
+                                <th><small>DESCRIPCION</small></th>
+                                <th><small>FAMILIA</small></th>
+                            </tr>
+                        </thead>
 
                         {{ drawHeader('ID', '<i class="fa fa-cogs"></i>', 'descripción', 'familia') }}
 
-                        <template slot="body">
+                        <tbody>
                             @foreach($products as $product)
                                 <tr>
                                     <td style="width: 5%">{{ $product->id }}</td>
@@ -66,9 +87,9 @@
                                     <td>{{ $product->family }}</td>
                                 </tr>
                             @endforeach
-                        </template>
+                        </tbody>
                         
-                    </data-table>
+                    </table>
 
                 </solid-box>
             @endif

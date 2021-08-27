@@ -132,9 +132,11 @@ class Ingress extends Model
             foreach ($this->payments as $payment) {
                 $references .= $payment->reference . ', ';
             }
+
+            return rtrim($references, ", ");
         }
 
-        return 'N/A';
+        return null;
     }
 
     function getCashReferenceAttribute()

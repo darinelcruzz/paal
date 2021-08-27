@@ -49,24 +49,21 @@ class IngressController extends Controller
             'folio' => 'required',
        ]);
 
-        if ($request->folio != Ingress::where('company', 'coffee')->get()->last()->folio) {
+        $last_sale = Ingress::where('company', 'coffee')->get()->last();
+        $validated['folio'] = $last_sale ? $last_sale->folio + 1: 1;
 
-            $last_sale = Ingress::where('company', 'coffee')->get()->last();
-            $validated['folio'] = $last_sale ? $last_sale->folio + 1: 1;
+        $ingress = Ingress::create($validated);
 
-            $ingress = Ingress::create($validated);
+        $ingress->payments()->create($request->only('cash', 'transfer', 'check', 'debit_card', 'credit_card') + [
+            'type' => $request->method,
+            'reference' => isset($request->reference) ? $request->reference: null,
+            'card_number' => isset($request->card_number) ? $request->card_number: null,
+        ]);
+        
+        $ingress->update(['method' => $ingress->pay_method]);
 
-            $ingress->payments()->create($request->only('cash', 'transfer', 'check', 'debit_card', 'credit_card') + [
-                'type' => $request->method,
-                'reference' => isset($request->reference) ? $request->reference: null,
-                'card_number' => isset($request->card_number) ? $request->card_number: null,
-            ]);
-            
-            $ingress->update(['method' => $ingress->pay_method]);
-
-            if ($ingress->areSerialNumbersMissing) {
-                return redirect(route('coffee.ingress.update', $ingress));
-            }
+        if ($ingress->areSerialNumbersMissing) {
+            return redirect(route('coffee.ingress.update', $ingress));
         }
 
         return redirect(route('coffee.ingress.index'));

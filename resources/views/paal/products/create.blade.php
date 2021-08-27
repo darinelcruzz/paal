@@ -1,12 +1,10 @@
 @extends('paal.root')
 
-@push('pageTitle')
-    Productos | Agregar
-@endpush
+@push('pageTitle', 'Productos | Agregar')
 
 @section('content')
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-6">
             <solid-box title="Agregar producto" color="primary" button>
 
                 {!! Form::open(['method' => 'POST', 'route' => 'paal.product.store']) !!}
@@ -42,7 +40,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             {!! Field::select('category', 
-                                ['ACCESORIOS' => 'ACCESORIOS', 'BARRAS' => 'BARRAS', 'EQUIPOS' => 'EQUIPOS', 'INSUMOS' => 'INSUMOS', 'SERVICIOS' => 'SERVICIOS', 'REFACCIONES' => 'REFACCIONES', 'OTROS' => 'OTROS'], 
+                                ['ACCESORIOS' => 'ACCESORIOS', 'BARRAS' => 'BARRAS', 'EQUIPOS' => 'EQUIPOS', 'INSUMOS' => 'INSUMOS', 'SERVICIOS' => 'SERVICIOS', 'REFACCIONES' => 'REFACCIONES', 'CURSO' => 'CURSO', 'OTROS' => 'OTROS'], 
                                 null, 
                                 ['tpl' => 'withicon', 'empty' => 'Seleccione una categoría', 'v-model' => 'product_family', 'v-on:change' => 'reset'], 
                                 ['icon' => 'tag']) 

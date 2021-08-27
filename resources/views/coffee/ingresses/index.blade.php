@@ -33,8 +33,8 @@
                             <th style="text-align: center;"><i class="fa fa-cogs"></i></th>
                             <th><small>FECHA</small></th>
                             <th><small>CLIENTE</small></th>
-                            <th style="text-align: center;"><small>TIPO</small></th>
-                            <th style="text-align: center;"><small>REFERENCIA</small></th>
+                            <th style="text-align: center;width: 5%;"><small>TIPO</small></th>
+                            <th style="text-align: center;width: 5%;"><small>REFERENCIA</small></th>
                             <th style="text-align: right;"><small>IVA</small></th>
                             <th style="text-align: right;"><small>IMPORTE</small></th>
                             <th style="text-align: center;"><small>MÉTODO</small></th>
@@ -97,7 +97,7 @@
                                         <label class="label label-{{$ingress->typeLabel }}">{{ strtoupper($ingress->type) }}</label>
                                     @endif
                                 </td>
-                                <td>{{ $ingress->reference }}</td>
+                                <td style="text-align: center;">{{ $ingress->reference }}</td>
                                 <td style="text-align: right;">{{ number_format($ingress->iva, 2) }}</td>
                                 <td style="text-align: right;">
                                     {{ number_format($ingress->amount, 2) }}

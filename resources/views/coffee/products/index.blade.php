@@ -7,11 +7,21 @@
         <div class="col-md-12">
             <solid-box title="Productos" color="danger">
                 
-                <data-table>
+                <table class="table table-striped table-bordered spanish">
+                    <thead>
+                        <tr>
+                            <th><small>ID</small></th>
+                            <th><small><i class="fa fa-cogs"></i></small></th>
+                            <th><small>DESCRIPCIÓN</small></th>
+                            <th><small>CÓDIGO</small></th>
+                            <th><small>CATEGORÍA</small></th>
+                            <th><small>FAMILIA</small></th>
+                            <th><small>MENUDEO</small></th>
+                            <th><small>MAYOREO</small></th>
+                        </tr>
+                    </thead>
 
-                    {{ drawHeader('ID', '<i class="fa fa-cogs"></i>', 'descripción', 'categoría', 'familia', 'menudeo', 'mayoreo', '¿Dólares?') }}
-
-                    <template slot="body">
+                    <tbody>
                         @foreach($products as $product)
                             <tr>
                                 <td>{{ $product->id }}</td>
@@ -23,19 +33,21 @@
                                         @endif
                                     </dropdown>
                                 </td>
-                                <td>
-                                    {{ $product->description }} | <code>{{ $product->code }}</code>
-                                </td>
+                                <td>{{ $product->description }}</td>
+                                <td>{{ $product->code }}</td>
                                 <td>{{ $product->category }}</td>
                                 <td>{{ $product->family }}</td>
-                                <td>$ {{ number_format($product->retail_price, 2) }}</td>
-                                <td>$ {{ number_format($product->wholesale_price, 2) }}</td>
-                                <td> {{ $product->dollars ? 'Sí': 'No' }}</td>
+                                <td style="text-align: right;">
+                                    {{ number_format($product->retail_price, 2) }}{{ $product->dollars ? ' USD': '' }}
+                                </td>
+                                <td style="text-align: right;">
+                                    {{ number_format($product->wholesale_price, 2) }}{{ $product->dollars ? ' USD': '' }}
+                                </td>
                             </tr>
                         @endforeach
-                    </template>
+                    </tbody>
                     
-                </data-table>
+                </table>
 
             </solid-box>
         </div>
