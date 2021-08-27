@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Client extends Model
 {
-    protected $fillable = ['name', 'phone', 'email', 'address', 'postcode', 'city', 'state', 'rfc', 'credit', 'company'];
+    protected $guarded = [];
 
     function ingresses()
     {
@@ -16,6 +16,11 @@ class Client extends Model
     function addresses()
     {
     	return $this->hasMany(Address::class);
+    }
+
+    function quotations()
+    {
+        return $this->hasMany(Quotation::class);
     }
 
     function getCompleteAddressAttribute()

@@ -32,13 +32,13 @@
 
         <div class="col-md-3">
             <label class="btn btn-success btn-bg btn-block">
-               VENTAS: {{ $sales }} | {{ round($sales * 100 / ($total ? $total : 1)) }} %
+               VENTAS: {{ $sales }} | {{ round($sales * 100 / ($total > 0 ? $total : 1)) }} %
             </label>
         </div>
 
         <div class="col-md-3">
             <label class="btn btn-default btn-bg btn-block">
-                SIN VENTAS: {{ $total - $sales }} | {{ round(($total - $sales) * 100 / ($total ? $total : 1)) }} %
+                SIN VENTAS: {{ $total - $sales }} | {{ round(($total - $sales) * 100 / ($total > 0 ? $total : 1)) }} %
             </label>
         </div>
     </div>
@@ -80,7 +80,7 @@
                                 </td>
                                 <td>{{ fdate($quotation->created_at, 'd/m/Y') }}</td>
                                 <td style="width: 40%">
-                                    <a href="#" target="_blank">
+                                    <a href="{{ route('coffee.client.show', $quotation->client) }}" target="_blank">
                                         {{ $quotation->client_name ?? $quotation->client->name }}
                                     </a>
                                 </td>

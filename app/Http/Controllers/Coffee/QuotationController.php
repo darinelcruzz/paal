@@ -13,9 +13,11 @@ class QuotationController extends Controller
     {
         $date = isset($request->date) ? $request->date: date('Y-m');
         $quotations = Quotation::monthly('coffee', $date, $type)->get();
-        $sales = Quotation::monthly('coffee', $date, $type)->has('retainers')->count();
+        $sales = Quotation::monthly('coffee', $date, $type)->has('sale')->count();
         $color = $type ? ($type == 'formularios' ? 'primary': 'info') : 'warning';
         $total = count($quotations);
+
+        // dd($total);
 
         return view('coffee.quotations.index', compact('quotations', 'sales', 'total', 'date', 'type', 'color'));
     }

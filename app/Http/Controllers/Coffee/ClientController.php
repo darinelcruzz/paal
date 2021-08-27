@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Coffee;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
-use App\{Ingress, Product, Client};
+use App\{Ingress, Product, Client, Quotation};
 
 class ClientController extends Controller
 {
@@ -30,6 +30,14 @@ class ClientController extends Controller
         Client::create($request->all() + ['company' => 'coffee']);
 
         return redirect(route('coffee.client.index'));
+    }
+
+    function show(Request $request, Client $client)
+    {
+        $quotations = Quotation::whereClientId($client->id)
+            ->whereBetween('created_at', [$request->start ?? date('Y-m-d', time() - 60*60*24*30), $request->end ?? date('Y-m-d')])
+            ->get();
+        return view('coffee.clients.show', compact('client', 'quotations'));
     }
 
     function edit(Client $client)
