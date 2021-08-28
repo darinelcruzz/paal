@@ -51,11 +51,25 @@
 
             <solid-box title="{{ ucfirst($type ?? 'Cotizaciones') }}" color="{{ $color }}" button>
 
-                <data-table example="1">
+                <table class="table table-striped table-bordered spanish">
 
-                    {{ drawHeader('ID', '<i class="fa fa-cogs"></i>','fecha', 'cliente', 'tipo', 'IVA', 'total', 'ventas', 'ediciones') }}
+                    {{-- {{ drawHeader('ID', '<i class="fa fa-cogs"></i>','fecha', 'cliente', 'tipo', 'IVA', 'total', 'ventas', 'ediciones') }} --}}
+                    <thead>
+                        <tr>
+                            <th><small>ID</small></th>
+                            <th><small><i class="fa fa-cogs"></i></small></th>
+                            <th><small>FECHA</small></th>
+                            <th><small>CLIENTE</small></th>
+                            <th><small>TIPO</small></th>
+                            <th v-if="'campañas' == '{{ $type }}'"><small>VIA</small></th>
+                            <th><small>IVA</small></th>
+                            <th><small>TOTAL</small></th>
+                            <th><small>VENTA</small></th>
+                            <th><small>EDICIONES</small></th>
+                        </tr>
+                    </thead>
 
-                    <template slot="body">
+                    <tbody>
                         @foreach($quotations as $quotation)
                             <tr>
                                 <td>{{ $quotation->id }}</td>
@@ -86,10 +100,13 @@
                                 </td>
                                 <td style="text-align: center">
                                     @if ($quotation->type)
-                                        <label class="label label-{{ $quotation->typeLabel }}">{{ strtoupper($quotation->type) }}</label>
+                                        <label class="label label-{{ $quotation->typeLabel }}"><small>{{ strtoupper($quotation->type) }}</small></label>
                                     @else
-                                        <label class="label label-{{$quotation->products_list_type == 'insumos' ? 'danger': 'warning'}}">{{ strtoupper($quotation->products_list_type) }}</label>
+                                        <label class="label label-{{$quotation->products_list_type == 'insumos' ? 'danger': 'warning'}}"><small>{{ strtoupper($quotation->products_list_type) }}</small></label>
                                     @endif
+                                </td>
+                                <td style="text-align: center" v-if="'campañas' == '{{ $type }}'">
+                                    <label class="label label-default"><small>{{ strtoupper($quotation->via ?? 'S/E') }}</small></label>
                                 </td>
                                 <td style="text-align: right">{{ number_format($quotation->iva, 2) }}</td>
                                 <td style="text-align: right">
@@ -113,9 +130,9 @@
                                 </td>
                             </tr>
                         @endforeach
-                    </template>
+                    </tbody>
 
-                </data-table>
+                </table>
 
             </solid-box>
 

@@ -20,16 +20,40 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label>Correo</label>
+            <div class="row">
+            	<div class="col-md-6">
+            		<div class="form-group">
+		                <label>Correo</label>
 
-                <div class="input-group date">
-                  <div class="input-group-addon">
-                    <i class="fa fa-at"></i>
-                  </div>
-                  <input type="email" class="form-control pull-right" name="email">
-                </div>
+		                <div class="input-group date">
+		                  <div class="input-group-addon">
+		                    <i class="fa fa-at"></i>
+		                  </div>
+		                  <input type="email" class="form-control pull-right" name="email">
+		                </div>
+		            </div>
+            	</div>
+            	<div class="col-md-6">
+			          <div class="form-group">
+			              <label>Origen</label>
+
+			              <div class="input-group date">
+			                <div class="input-group-addon">
+			                  <i class="fa fa-microphone"></i>
+			                </div>
+			                <select name="via" class="form-control pull-right">
+			                	<option value="facebook" selected>Facebook</option>
+			                	<option value="google">Google</option>
+			                	<option value="adword">Adword</option>
+			                	<option value="página web">Página web</option>
+			                	<option value="recomendación">Recomendación</option>
+			                	<option value="otro">Otro</option>
+			                </select>
+			              </div>
+			          </div>
+            	</div>
             </div>
+        	<hr>
         </div>
         <input type="hidden" name="client_id" :value="client.id">
 	</div>
