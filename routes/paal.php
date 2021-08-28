@@ -83,6 +83,15 @@ Route::group(['prefix' => 'paal', 'as' => 'paal.'], function () {
 	    Route::post('editar/{user}', usesas($ctrl, 'update'));
 	});
 
+	Route::group(['prefix' => 'estados', 'as' => 'state.', 'middleware' => 'admin'], function () {
+	    $ctrl = 'StateController';
+	    Route::get('/', usesas($ctrl, 'index'));
+	    Route::get('agregar', usesas($ctrl, 'create'));
+	    Route::post('agregar', usesas($ctrl, 'store'));
+	    Route::get('editar/{state}', usesas($ctrl, 'edit'));
+	    Route::post('editar/{state}', usesas($ctrl, 'update'));
+	});
+
 	Route::group(['prefix' => 'variables', 'as' => 'variable.', 'middleware' => 'admin'], function () {
 	    $ctrl = 'Paal\VariableController';
 	    Route::get('/', usesas($ctrl, 'index'));
