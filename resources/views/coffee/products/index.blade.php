@@ -2,10 +2,23 @@
 
 @push('pageTitle', 'Productos | Lista')
 
+@push('headerTitle')
+    <div class="row">
+        <div class="col-md-9">
+            PRODUCTOS COFFEE DEPOT
+        </div>
+        <div class="col-md-3">
+            <a href="{{ route('coffee.product.export') }}" class="btn btn-success btn-xs pull-right">
+                <i class="fa fa-file-excel"></i>&nbsp;&nbsp;EXPORTAR&nbsp;&nbsp;<i class="fa fa-file-export"></i>
+            </a>
+        </div>
+    </div>
+@endpush
+
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <solid-box title="Productos" color="danger">
+            <solid-box title="Lista" color="danger">
                 
                 <table class="table table-striped table-bordered spanish">
                     <thead>
@@ -38,10 +51,10 @@
                                 <td>{{ $product->category }}</td>
                                 <td>{{ $product->family }}</td>
                                 <td style="text-align: right;">
-                                    {{ number_format($product->retail_price, 2) }}{{ $product->dollars ? ' USD': '' }}
+                                    <small>{{ $product->dollars ? 'USD ': '' }}</small>{{ number_format($product->retail_price, 2) }}
                                 </td>
                                 <td style="text-align: right;">
-                                    {{ number_format($product->wholesale_price, 2) }}{{ $product->dollars ? ' USD': '' }}
+                                    <small>{{ $product->dollars ? 'USD ': '' }}</small>{{ number_format($product->wholesale_price, 2) }}
                                 </td>
                             </tr>
                         @endforeach

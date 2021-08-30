@@ -109,6 +109,7 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	    Route::get('/', usesas($ctrl, 'index'));
 	    Route::get('agregar', usesas($ctrl, 'create'));
 	    Route::post('agregar', usesas($ctrl, 'store'));
+	    Route::get('exportar', usesas($ctrl, 'export'));
 	    Route::get('editar/{client}', usesas($ctrl, 'edit'));
 	    Route::post('editar/{client}', usesas($ctrl, 'update'));
 	    Route::get('detalles/{client}', usesas($ctrl, 'show'));
@@ -118,6 +119,7 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	Route::group(['prefix' => 'productos', 'as' => 'product.'], function () {
 	    $ctrl = 'Coffee\ProductController';
 	    Route::get('/', usesas($ctrl, 'index'));
+	    Route::get('exportar', usesas($ctrl, 'export'));
 	    Route::get('editar/{product}', usesas($ctrl, 'edit'));
 	    Route::get('serializar/{product}', usesas($ctrl, 'serialize'));
 	    Route::post('editar/{product}', usesas($ctrl, 'update'));

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use App\{Ingress, Product, Client, Quotation};
+use App\Exports\ClientsExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ClientController extends Controller
 {
@@ -38,6 +40,11 @@ class ClientController extends Controller
             ->whereBetween('created_at', [$request->start ?? date('Y-m-d', time() - 60*60*24*30), $request->end ?? date('Y-m-d')])
             ->get();
         return view('coffee.clients.show', compact('client', 'quotations'));
+    }
+
+    public function export() 
+    {
+        return Excel::download(new ClientsExport, 'CLIENTES_' . date('d-m-y_his') . '.xlsx');
     }
 
     function edit(Client $client)

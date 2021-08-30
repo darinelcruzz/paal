@@ -1,11 +1,18 @@
 @extends('coffee.root')
 
-@push('pageTitle')
-    Clientes | Lista
-@endpush
+@push('pageTitle', 'Clientes | Lista')
 
 @push('headerTitle')
-    <a href="{{ route('coffee.client.create') }}" class="btn btn-danger btn-xs"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR</a>
+    <div class="row">
+        <div class="col-md-9">
+            <a href="{{ route('coffee.client.create') }}" class="btn btn-danger btn-xs"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR</a>
+        </div>
+        <div class="col-md-3">
+            <a href="{{ route('coffee.client.export') }}" class="btn btn-success btn-xs pull-right">
+                <i class="fa fa-file-excel"></i>&nbsp;&nbsp;EXPORTAR&nbsp;&nbsp;<i class="fa fa-file-export"></i>
+            </a>
+        </div>
+    </div>
 @endpush
 
 @section('content')

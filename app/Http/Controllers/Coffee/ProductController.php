@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Product;
 use Alert;
+use App\Exports\ProductsExport;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Notifications\ProductPriceChanged;
 
 class ProductController extends Controller
@@ -19,6 +21,11 @@ class ProductController extends Controller
     function edit(Product $product)
     {
         return view('coffee.products.edit', compact('product'));
+    }
+
+    public function export() 
+    {
+        return Excel::download(new ProductsExport, 'PRODUCTOS_' . date('d-m-y_his') . '.xlsx');
     }
 
     function serialize(Product $product)
