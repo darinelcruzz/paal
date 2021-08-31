@@ -29,7 +29,7 @@
                                 </a>
                             </div>                            
                             <div class="col-md-11">
-                                <client-select></client-select>
+                                <client-select model="quotation"></client-select>
                             </div>
                         </div>
                       </tab-content>

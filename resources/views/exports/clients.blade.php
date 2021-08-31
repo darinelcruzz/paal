@@ -9,10 +9,12 @@
         <th>dirección</th>
         <th>c.p.</th>
         <th>ciudad</th>
+        <th>municipio</th>
         <th>estado</th>
         <th>envío</th>
         <th>c.p.</th>
         <th>ciudad</th>
+        <th>municipio</th>
         <th>estado</th>
     </tr>
     </thead>
@@ -27,13 +29,21 @@
                 <td>{{ $client->address }}</td>
                 <td>{{ $client->postcode }}</td>
                 <td>{{ $client->city }}</td>
+                <td>no proporcionado</td>
                 <td>{{ $client->state }}</td>
-                @foreach($client->addresses as $address)
+                @forelse($client->addresses as $address)
                 <td>{{ $address->street . ' ' . $address->street_number . ', col.' . $address->district }}</td>
                 <td>{{ $address->postcode }}</td>
                 <td>{{ $address->city }}</td>
+                <td>no proporcionado</td>
                 <td>{{ $address->state }}</td>
-                @endforeach
+                @empty
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                @endforelse
             </tr>
         @endforeach
     </tbody>

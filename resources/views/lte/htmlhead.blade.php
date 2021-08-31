@@ -36,6 +36,12 @@
 
   <link href="{{ asset('css/flag-icon.css') }}" rel="stylesheet">
 
+  <style>
+    .client-address:hover {
+      text-decoration: underline;
+    }
+  </style>
+
   <!-- Sweet Alert -->
   <script src="{{ asset('adminlte/plugins/sweetalert/sweetalert.min.js') }}"></script>
 </head>

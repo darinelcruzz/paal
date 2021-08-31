@@ -12,4 +12,9 @@ class ClientController extends Controller
     {
         return Client::where('company', $company)->orWhere('company', 'internet')->get(['id', 'name', 'rfc']);
     }
+
+    function addresses(Client $client)
+    {
+        return $client->addresses;
+    }
 }

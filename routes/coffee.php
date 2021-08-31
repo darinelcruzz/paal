@@ -110,6 +110,7 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	    Route::get('agregar', usesas($ctrl, 'create'));
 	    Route::post('agregar', usesas($ctrl, 'store'));
 	    Route::get('exportar', usesas($ctrl, 'export'));
+	    Route::post('importar', usesas($ctrl, 'import'));
 	    Route::get('editar/{client}', usesas($ctrl, 'edit'));
 	    Route::post('editar/{client}', usesas($ctrl, 'update'));
 	    Route::get('detalles/{client}', usesas($ctrl, 'show'));

@@ -4,13 +4,14 @@ namespace App\Http\Controllers\Coffee;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\{Client, Address};
+use App\{Client, Address, State};
 
 class AddressController extends Controller
 {
     function create(Client $client)
     {
-        return view('coffee.addresses.create', compact('client'));
+        $states = State::selectRaw('UPPER(name) as uppercase, name')->pluck('uppercase', 'name')->toArray();
+        return view('coffee.addresses.create', compact('client', 'states'));
     }
 
     function store(Request $request, Client $client)

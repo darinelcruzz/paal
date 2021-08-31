@@ -1,13 +1,11 @@
 @extends('coffee.root')
 
-@push('pageTitle')
-    Dirección | Agregar
-@endpush
+@push('pageTitle', 'Dirección | Agregar')
 
 @section('content')
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <solid-box title="Agregar dirección de envío" color="danger" button>
+        <div class="col-md-8">
+            <solid-box title="Agregar dirección de envío" color="danger">
 
                 {!! Form::open(['method' => 'POST', 'route' => ['coffee.address.store', $client]]) !!}
 
@@ -47,10 +45,10 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            {!! Field::text('city', ['tpl' => 'withicon'], ['icon' => 'city']) !!}
+                            {!! Field::select('state', $states, 'chiapas', ['tpl' => 'withicon', 'empty' => 'Elija un estado'], ['icon' => 'flag']) !!}
                         </div>
                         <div class="col-md-6">
-                            {!! Field::text('state', ['tpl' => 'withicon'], ['icon' => 'flag']) !!}
+                            {!! Field::text('city', ['tpl' => 'withicon'], ['icon' => 'city']) !!}
                         </div>
                     </div>
                     

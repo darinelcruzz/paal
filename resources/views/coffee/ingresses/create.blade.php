@@ -19,14 +19,14 @@
 
                       <tab-content title="Cliente" icon="fa fa-user" :before-change="checkIsInvoiced">
                         <div class="row">
-                            <div class="col-md-1">
+                            {{-- <div class="col-md-1">
                                 <label for="">&nbsp;</label><br>
                                 <a class="btn btn-sm btn-danger" href="{{ route('coffee.client.create') }}"
                                     target="_blank" title="AGREGAR CLIENTE NUEVO">
                                     <i class="fa fa-user-plus"></i>
                                 </a>
-                            </div>                            
-                            <div class="col-md-11">
+                            </div>  --}}                           
+                            <div class="col-md-12">
                                 <client-select></client-select>
                             </div>
                         </div>
@@ -39,7 +39,7 @@
                             </div>
                             <div class="col-md-6">
                                 {!! Field::select('shipping', ['No', 'Sí'], 0,
-                                    ['label' => '¿Con envío?', 'tpl' => 'withicon', 'empty' => 'Elegir'],
+                                    ['label' => '¿Enviar por paquetería?', 'tpl' => 'withicon', 'empty' => 'Elegir'],
                                     ['icon' => 'shipping-fast'])
                                 !!}
                             </div>

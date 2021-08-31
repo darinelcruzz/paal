@@ -207,5 +207,6 @@ return [
         'product_id' => 'producto',
         'numbers[]' => 'número de serie',
         'purchased_at' => 'fecha',
+        'shipping_address' => 'dirección de envío',
     ],
 ];

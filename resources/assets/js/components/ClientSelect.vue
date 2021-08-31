@@ -8,6 +8,21 @@
         </v-select>
         <br>
 
+        <div v-if="addresses.length > 0 && model == 'sale'">
+	        <div class="form-group">
+	          <label>Entregar en</label>
+
+	          <div class="input-group date">
+	            <div class="input-group-addon">
+	              <i class="fa fa-shipping-fast"></i>
+	            </div>
+	            <select name="shipped_to" class="form-control pull-right">
+	            	<option v-for="address in addresses" :value="address.id" selected>{{ address.street }}</option>
+	            </select>
+	          </div>
+	        </div>
+        </div>
+
         <div v-if="client.name == 'CAMPAÑA' || client.name == 'FORMULARIO'">
         	<div class="form-group">
                 <label>Nombre</label>
@@ -65,22 +80,35 @@
       company: {
         type: String,
         default: 'coffee'
+      },
+      model: {
+        type: String,
+        default: 'sale'
       }
     },
 		data() {
 			return {
 				client: '',
-				clients: []
+				clients: [],
+				addresses: [],
 			}
 		},
 		methods: {
 			refresh() {
 				const t = this;
 				t.client_id = client.id
-
-		        axios.get('/api/clients/' + this.company).then(({data}) => {
-		            t.clients = data;
-		        });
+        axios.get('/api/clients/' + this.company).then(({data}) => {
+            t.clients = data;
+        });
+			},
+		},
+		watch: {
+			client(value) {
+				if (value != '') {
+						axios.get('/api/clients/' + this.client.id + '/addresses').then(({data}) => {
+	            this.addresses = data;
+	        });
+				}
 			}
 		},
 		created() {
