@@ -113,8 +113,8 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	    Route::post('importar', usesas($ctrl, 'import'));
 	    Route::get('editar/{client}', usesas($ctrl, 'edit'));
 	    Route::post('editar/{client}', usesas($ctrl, 'update'));
-	    Route::get('detalles/{client}', usesas($ctrl, 'show'));
-	    Route::post('detalles/{client}', usesas($ctrl, 'show'));
+	    Route::get('{client}/{model?}', usesas($ctrl, 'show'));
+	    Route::post('{client}/{model?}', usesas($ctrl, 'show'));
 	});
 
 	Route::group(['prefix' => 'productos', 'as' => 'product.'], function () {

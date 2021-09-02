@@ -85,7 +85,9 @@
                                 </td>
                                 <td>{{ fdate($ingress->bought_at, 'd/M/y', 'Y-m-d') }}</td>
                                 <td style="width: 30%">
-                                    {{ $ingress->quotation_id != null ? ($ingress->quotation->client_name ?? $ingress->quotation->client->name ) : $ingress->client->name }}
+                                    <a href="{{ route('coffee.client.show', [$ingress->client, 'ventas']) }}" target="_blank">
+                                        {{ $ingress->quotation->client_name ?? $ingress->client->name }}
+                                    </a>
                                     @if($ingress->quotation)
                                     <span class="{{ $ingress->quotation->internet_type == '' ? '': 'badge bg-aqua' }} pull-right"><em>{{ $ingress->quotation->internet_type }}</em></span>
                                     @endif

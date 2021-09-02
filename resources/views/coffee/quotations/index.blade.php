@@ -52,8 +52,6 @@
             <solid-box title="{{ ucfirst($type ?? 'Cotizaciones') }}" color="{{ $color }}" button>
 
                 <table class="table table-striped table-bordered spanish">
-
-                    {{-- {{ drawHeader('ID', '<i class="fa fa-cogs"></i>','fecha', 'cliente', 'tipo', 'IVA', 'total', 'ventas', 'ediciones') }} --}}
                     <thead>
                         <tr>
                             <th><small>ID</small></th>
@@ -94,7 +92,7 @@
                                 </td>
                                 <td>{{ fdate($quotation->created_at, 'd/m/Y') }}</td>
                                 <td style="width: 40%">
-                                    <a href="{{ route('coffee.client.show', $quotation->client) }}" target="_blank">
+                                    <a href="{{ route('coffee.client.show', [$quotation->client, 'cotizaciones']) }}" target="_blank">
                                         {{ $quotation->client_name ?? $quotation->client->name }}
                                     </a>
                                 </td>

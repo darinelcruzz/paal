@@ -1,8 +1,6 @@
 @extends('coffee.root')
 
-@push('pageTitle')
-    Número de guía y +
-@endpush
+@push('pageTitle', 'Número de guía y +')
 
 @section('content')
     <div class="row">
@@ -37,12 +35,12 @@
                 		</div>
                 	</div>
 
-					@if ($addresses)
+					@if ($addresses && $shipping->address_id == null)
 						{!! Field::select('address_id', $addresses, null,
 							['label' => 'Dirección', 'tpl' => 'withicon', 'empty' => 'Seleccione una dirección'], ['icon' => 'map-marked-alt']) 
 						!!}
 					@else
-						<code>No hay direcciones de envío (en el rótulo se pondrá la dirección principal)</code>
+						{!! Field::text('se entregará en', $shipping->address->street . ", ". $shipping->address->city . ", ".  $shipping->address->state, ['tpl' => 'withicon', 'disabled'], ['icon' => 'dolly']) !!}
 					@endif
 
 					<hr>

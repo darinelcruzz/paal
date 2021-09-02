@@ -3,6 +3,7 @@
 @push('pageTitle', 'Clientes | Lista')
 
 @push('headerTitle')
+    @if(auth()->user()->id > 1)
     <div class="row">
         <div class="col-md-6">
             <a href="{{ route('coffee.client.create') }}" class="btn btn-danger btn-sm"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR</a>
@@ -23,6 +24,18 @@
             {!! Form::close() !!}
         </div>
     </div>
+    @else
+    <div class="row">
+        <div class="col-md-9">
+            <a href="{{ route('coffee.client.create') }}" class="btn btn-danger btn-xs"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR</a>
+        </div>
+        <div class="col-md-3">
+            <a href="{{ route('coffee.client.export') }}" class="btn btn-success btn-xs pull-right">
+                <i class="fa fa-file-excel"></i>&nbsp;&nbsp;EXPORTAR&nbsp;&nbsp;<i class="fa fa-file-export"></i>
+            </a>
+        </div>
+    </div>
+    @endif
 @endpush
 
 @section('content')
@@ -57,10 +70,12 @@
                                     <dropdown icon="cogs" color="danger">
                                         <ddi icon="edit" to="{{ route('coffee.client.edit', $client) }}" text="Editar"></ddi>
                                         <ddi icon="plus" to="{{ route('coffee.address.create', $client) }}" text="Agregar dirección"></ddi>
+                                        <ddi icon="mug-hot" to="{{ route('coffee.client.show', [$client, 'ventas']) }}" text="Ventas"></ddi>
+                                        <ddi icon="file-pdf" to="{{ route('coffee.client.show', [$client, 'cotizaciones']) }}" text="Cotizaciones"></ddi>
                                     </dropdown>
                                 </td>
                                 <td>
-                                    {{ $client->name }} <br>
+                                    {{ ucwords(strtolower($client->name)) }} <br>
                                     <span style="color: navy;">{{ $client->email }}</span>
                                 </td>
                                 <td><code>{{ $client->rfc }}</code></td>

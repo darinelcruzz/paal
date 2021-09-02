@@ -27,7 +27,7 @@
                                 </a>
                             </div>  --}}                           
                             <div class="col-md-12">
-                                <client-select></client-select>
+                                <client-select model="quotation"></client-select>
                             </div>
                         </div>
                         <div class="row">

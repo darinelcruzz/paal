@@ -12,7 +12,7 @@ class IngressObserver
             $ingress->movements()->createMany(request('items'));
         }
 
-        if (request('shipping')) $ingress->shipping()->create();
+        if (request('shipping')) $ingress->shipping()->create(['address_id' => request('address_id') ?? null]);
 
         if ($ingress->retainers->count() > 0 && $ingress->type != 'anticipo' && $ingress->type != 'nota de crédito') {
             Ingress::create([

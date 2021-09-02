@@ -19,7 +19,7 @@ class IngressController extends Controller
             ->whereYear('created_at', substr($date, 0, 4))
             ->orderByDesc('id')
             ->with('client', 'movements.product', 'payments')
-            ->get();     
+            ->get();
 
         return view('coffee.ingresses.index', compact('ingresses', 'date'));
     }

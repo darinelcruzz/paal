@@ -16,7 +16,7 @@
 	            <div class="input-group-addon">
 	              <i class="fa fa-shipping-fast"></i>
 	            </div>
-	            <select name="shipped_to" class="form-control pull-right">
+	            <select name="address_id" class="form-control pull-right" required>
 	            	<option v-for="address in addresses" :value="address.id" selected>{{ address.street }}</option>
 	            </select>
 	          </div>

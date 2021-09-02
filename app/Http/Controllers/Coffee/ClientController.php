@@ -14,7 +14,9 @@ class ClientController extends Controller
 {
     function index()
     {
-        $clients = Client::where('company', 'coffee')->get();
+        $clients = Client::where('company', 'coffee')
+            ->with('addresses')
+            ->get();
         return view('coffee.clients.index', compact('clients'));
     }
 
@@ -55,12 +57,17 @@ class ClientController extends Controller
         return redirect(route('coffee.client.index'));
     }
 
-    function show(Request $request, Client $client)
+    function show(Request $request, Client $client, $model = 'ventas')
     {
-        $quotations = Quotation::whereClientId($client->id)
-            ->whereBetween('created_at', [$request->start ?? date('Y-m-d', time() - 60*60*24*30), $request->end ?? date('Y-m-d')])
+        $spanish = $model;
+        $model = ['ventas' => 'App\Ingress', 'cotizaciones' => 'App\Quotation'][$model];
+        $collection = $model::whereClientId($client->id)
+            ->whereCompany('coffee')
+            ->whereBetween($spanish == 'cotizaciones' ? 'created_at': 'bought_at', [$request->start ?? date('Y-m-d', time() - 60*60*24*30), $request->end ?? date('Y-m-d')])
+            ->with('movements.product')
             ->get();
-        return view('coffee.clients.show', compact('client', 'quotations'));
+        // dd($collection);
+        return view('coffee.clients.show', compact('client', 'collection', 'model', 'spanish'));
     }
 
     public function export() 

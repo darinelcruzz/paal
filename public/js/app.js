@@ -57198,7 +57198,7 @@ var render = function() {
                   "select",
                   {
                     staticClass: "form-control pull-right",
-                    attrs: { name: "shipped_to" }
+                    attrs: { name: "address_id", required: "" }
                   },
                   _vm._l(_vm.addresses, function(address) {
                     return _c(
