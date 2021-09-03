@@ -41,18 +41,33 @@
                             {!! Field::text('postcode', ['tpl' => 'withicon'], ['icon' => 'mail-bulk']) !!}
                         </div>
                     </div>
-                    
 
                     <div class="row">
                         <div class="col-md-6">
-                            {!! Field::select('state', $states, 'chiapas', ['tpl' => 'withicon', 'empty' => 'Elija un estado'], ['icon' => 'flag']) !!}
+                            <conditioned-select
+                                name="state_id" label="Estado" model="states" :loaded="true" icon="globe-americas"
+                                emitting="counties" recieving="states">
+                            </conditioned-select>
                         </div>
                         <div class="col-md-6">
-                            {!! Field::text('city', ['tpl' => 'withicon'], ['icon' => 'city']) !!}
+                            <conditioned-select
+                                name="county_id" label="Municipio" model="counties" icon="map-marked-alt"
+                                emitting="cities" recieving="states">
+                            </conditioned-select>
                         </div>
                     </div>
-                    
-                    {!! Field::text('reference', ['tpl' => 'withicon'], ['icon' => 'barcode']) !!}
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <conditioned-select 
+                                name="city_id" label="Ciudad/Localidad" model="cities" icon="city"
+                                emitting="" recieving="counties">
+                            </conditioned-select>
+                        </div>
+                        <div class="col-md-6">
+                            {!! Field::text('reference', ['tpl' => 'withicon'], ['icon' => 'barcode']) !!}
+                        </div>
+                    </div>
 
                     <hr>
 

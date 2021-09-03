@@ -12,4 +12,9 @@ class State extends Model
     {
         $this->attributes['name'] = ucwords($value);
     }
+
+    function counties()
+    {
+        return $this->hasMany(County::class);
+    }
 }

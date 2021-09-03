@@ -18,14 +18,7 @@
                         finish-button-text="Completado">
 
                       <tab-content title="Cliente" icon="fa fa-user" :before-change="checkIsInvoiced">
-                        <div class="row">
-                            {{-- <div class="col-md-1">
-                                <label for="">&nbsp;</label><br>
-                                <a class="btn btn-sm btn-danger" href="{{ route('coffee.client.create') }}"
-                                    target="_blank" title="AGREGAR CLIENTE NUEVO">
-                                    <i class="fa fa-user-plus"></i>
-                                </a>
-                            </div>  --}}                           
+                        <div class="row">                         
                             <div class="col-md-12">
                                 <client-select model="quotation"></client-select>
                             </div>
@@ -59,6 +52,19 @@
                             <payment-methods :amount="ingress_total"></payment-methods>
                        </tab-content>
 
+                       <template slot="footer" slot-scope="props">
+                           <div class="wizard-footer-left">
+                               <wizard-button v-if="props.activeTabIndex > 0 && !formSubmitted" @click.native="props.prevTab()" :style="props.fillButtonStyle">
+                                    <small>ANTERIOR</small>
+                                </wizard-button>
+                            </div>
+
+                            <div class="wizard-footer-right">
+                              <wizard-button v-if="!formSubmitted" @click.native="props.nextTab()" class="wizard-footer-right" :style="props.fillButtonStyle">
+                                <small v-text="props.isLastStep ? 'AGREGAR' : 'SIGUIENtE'"></small>
+                              </wizard-button>
+                            </div>
+                        </template>
                     </form-wizard>
 
                     <input type="hidden" name="method" value="contado">

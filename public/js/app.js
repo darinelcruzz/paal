@@ -14338,7 +14338,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(15);
-module.exports = __webpack_require__(205);
+module.exports = __webpack_require__(208);
 
 
 /***/ }),
@@ -14446,10 +14446,11 @@ Vue.component('movements', __webpack_require__(187));
 Vue.component('sale-products-list', __webpack_require__(190));
 Vue.component('info-box', __webpack_require__(193));
 Vue.component('icon-box', __webpack_require__(196));
+Vue.component('conditioned-select', __webpack_require__(199));
 
 // NEW ONES FOR SANSON
-Vue.component('shopping-cart', __webpack_require__(199));
-Vue.component('shopping-cart-item', __webpack_require__(202));
+Vue.component('shopping-cart', __webpack_require__(202));
+Vue.component('shopping-cart-item', __webpack_require__(205));
 
 var Bus = new Vue({});
 
@@ -14496,7 +14497,7 @@ var app = new Vue({
             general: [],
             register: []
         }
-    }), _defineProperty(_data, 'checkall', false), _defineProperty(_data, 'checked', []), _defineProperty(_data, 'model', {}), _data),
+    }), _defineProperty(_data, 'checkall', false), _defineProperty(_data, 'formSubmitted', false), _defineProperty(_data, 'checked', []), _defineProperty(_data, 'model', {}), _data),
     methods: {
         upmodel: function upmodel(object) {
             this.model = object;
@@ -14507,14 +14508,14 @@ var app = new Vue({
         submit: function submit(type) {
             if (type == 'venta') {
                 if (this.payment_total > 0) {
+                    this.formSubmitted = true;
                     this.$refs.cform.submit();
-                    this.$refs.cform.reset();
                 } else {
                     alert('Falta importe según el método de pago');
                 }
             } else {
+                this.formSubmitted = true;
                 this.$refs.cform.submit();
-                this.$refs.cform.reset();
             }
         },
         checkIsInvoiced: function checkIsInvoiced() {
@@ -58527,6 +58528,230 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
+Component.options.__file = "resources/assets/js/components/ConditionedSelect.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-37425f22", Component.options)
+  } else {
+    hotAPI.reload("data-v-37425f22", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 200 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	props: {
+		loaded: {
+			type: Boolean,
+			default: false
+		},
+		name: {
+			type: String,
+			default: ''
+		},
+		label: {
+			type: String,
+			default: ''
+		},
+		icon: {
+			type: String,
+			default: 'cogs'
+		},
+		model: {
+			type: String,
+			default: ''
+		},
+		emitting: {
+			type: String,
+			default: ''
+		},
+		recieving: {
+			type: String,
+			default: ''
+		}
+	},
+	data: function data() {
+		return {
+			items: [],
+			selected: '',
+			recieved: ''
+		};
+	},
+
+	methods: {
+		fetch: function fetch(route) {
+			var _this = this;
+
+			axios.get(route).then(function (_ref) {
+				var data = _ref.data;
+
+				_this.items = data;
+			});
+		}
+	},
+	computed: {
+		route: function route() {
+			return '/api/' + this.recieving + '/' + this.recieved + '/' + this.model;
+		}
+	},
+	watch: {
+		selected: function selected(value) {
+			this.$root.$emit("EV" + this.emitting, value);
+			console.log('TEST EMIT: ' + "EV" + this.emitting + ": " + value);
+		}
+	},
+	created: function created() {
+		var _this2 = this;
+
+		if (this.loaded) {
+			this.fetch('/api/' + this.recieving);
+		}
+		this.$root.$on("EV" + this.model, function (recieved) {
+			_this2.recieved = recieved;
+			_this2.fetch(_this2.route);
+		});
+	}
+});
+
+/***/ }),
+/* 201 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "form-group", attrs: { id: "field_" + _vm.name } },
+    [
+      _c("label", { staticClass: "control-label", attrs: { for: _vm.name } }, [
+        _c("b", [_vm._v(_vm._s(_vm.label))])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "input-group" }, [
+        _c("span", { staticClass: "input-group-addon" }, [
+          _c("i", { class: "fa fa-" + _vm.icon })
+        ]),
+        _vm._v(" "),
+        _c(
+          "select",
+          {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.selected,
+                expression: "selected"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { id: _vm.name, name: _vm.name },
+            on: {
+              change: function($event) {
+                var $$selectedVal = Array.prototype.filter
+                  .call($event.target.options, function(o) {
+                    return o.selected
+                  })
+                  .map(function(o) {
+                    var val = "_value" in o ? o._value : o.value
+                    return val
+                  })
+                _vm.selected = $event.target.multiple
+                  ? $$selectedVal
+                  : $$selectedVal[0]
+              }
+            }
+          },
+          [
+            _c("option", { attrs: { value: "", selected: "selected" } }, [
+              _vm._v("Seleccionar una opción")
+            ]),
+            _vm._v(" "),
+            _vm._l(_vm.items, function(item) {
+              return _c("option", { domProps: { value: item.name } }, [
+                _vm._v(_vm._s(item.name))
+              ])
+            })
+          ],
+          2
+        )
+      ])
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-37425f22", module.exports)
+  }
+}
+
+/***/ }),
+/* 202 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(203)
+/* template */
+var __vue_template__ = __webpack_require__(204)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
 Component.options.__file = "resources/assets/js/components/ShoppingCart.vue"
 
 /* hot reload */
@@ -58549,7 +58774,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 200 */
+/* 203 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -58710,7 +58935,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 201 */
+/* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -58923,15 +59148,15 @@ if (false) {
 }
 
 /***/ }),
-/* 202 */
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(203)
+var __vue_script__ = __webpack_require__(206)
 /* template */
-var __vue_template__ = __webpack_require__(204)
+var __vue_template__ = __webpack_require__(207)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -58970,7 +59195,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 203 */
+/* 206 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -59058,11 +59283,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         iva: function iva(val) {
             this.$root.$emit('update-total', [this.index, this.total, this.computed_iva]);
-        },
-        quantity: function quantity(val) {
-            if (this.product.family == 'ACCESORIOS' && val >= this.product.wholesale_quantity) {
-                this.price = this.product.wholesale_price;
-            }
         }
     },
     created: function created() {
@@ -59097,7 +59317,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 204 */
+/* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -59317,7 +59537,7 @@ if (false) {
 }
 
 /***/ }),
-/* 205 */
+/* 208 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

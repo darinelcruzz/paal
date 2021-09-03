@@ -81,11 +81,6 @@ export default {
         iva(val) {
             this.$root.$emit('update-total', [this.index, this.total, this.computed_iva])
         },
-        quantity(val) {
-            if (this.product.family == 'ACCESORIOS' && val >= this.product.wholesale_quantity) {
-                this.price = this.product.wholesale_price
-            }
-        }
     },
     created() {
         if (this.product.quantity > 0) {

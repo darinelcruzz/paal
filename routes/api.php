@@ -22,6 +22,18 @@ Route::group(['prefix' => 'providers', 'as' => 'api.provider.'], function () {
     Route::get('{company}/{group}', usesas($ctrl, 'index'));
 });
 
+Route::group(['prefix' => 'states', 'as' => 'api.state.'], function () {
+    $ctrl = 'Api\StateController';
+    Route::get('/', usesas($ctrl, 'index'));
+    Route::get('{state}', usesas($ctrl, 'show'));
+    Route::get('{state}/counties', usesas($ctrl, 'counties'));
+});
+
+Route::group(['prefix' => 'counties', 'as' => 'api.county.'], function () {
+    $ctrl = 'Api\CountyController';
+    Route::get('{county}/cities', usesas($ctrl, 'cities'));
+});
+
 Route::group(['prefix' => 'sales', 'as' => 'api.sale.'], function () {
 	$ctrl = 'Api\SaleController';
 	Route::get('show/{ingress}', usesas($ctrl, 'show'));

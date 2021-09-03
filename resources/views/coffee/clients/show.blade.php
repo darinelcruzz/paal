@@ -6,6 +6,11 @@
     <div class="row">
         <div class="col-md-6">
             {{ $client->name }}
+            <span class="pull-right">
+                <a href="{{ route('coffee.client.show', [$client, $spanish == 'ventas' ? 'cotizaciones': 'ventas']) }}" class="btn btn-xs btn-{{ $spanish != 'ventas' ? 'danger': 'warning' }}">
+                    <i class="fa fa-random"></i>&nbsp;&nbsp;{{ $spanish == 'ventas' ? 'COTIZACIONES': 'VENTAS' }}
+                </a>
+            </span>
         </div>
         <div class="col-md-6">
             {!! Form::open(['method' => 'post', 'route' => ['coffee.client.show', $client, $spanish]]) !!}
@@ -14,7 +19,7 @@
                     <div class="input-group input-group-sm">
                         <input type="date" name="start" class="form-control" value="{{ request('start') ?? date('Y-m-d', time() - 60*60*24*31) }}">
                         <span class="input-group-btn">
-                            <button type="button" class="btn btn-danger btn-flat"><i class="fa fa-angle-double-right"></i></button>
+                            <button type="button" class="btn btn-{{ $spanish == 'cotizaciones' ? 'warning': 'danger' }} btn-flat"><i class="fa fa-angle-double-right"></i></button>
                         </span>
                     </div>
                 </div>
@@ -22,7 +27,7 @@
                     <div class="input-group input-group-sm">
                         <input type="date" name="end" class="form-control" value="{{ request('end') ?? date('Y-m-d') }}">
                         <span class="input-group-btn">
-                            <button type="submit" class="btn btn-danger btn-flat"><i class="fa fa-search"></i></button>
+                            <button type="submit" class="btn btn-{{ $spanish == 'cotizaciones' ? 'warning': 'danger' }} btn-flat"><i class="fa fa-search"></i></button>
                         </span>
                     </div>
                 </div>

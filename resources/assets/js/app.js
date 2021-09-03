@@ -85,6 +85,7 @@ Vue.component('movements', require('./components/Movements.vue'));
 Vue.component('sale-products-list', require('./components/SaleProductsList.vue'));
 Vue.component('info-box', require('./components/InfoBox.vue'));
 Vue.component('icon-box', require('./components/IconBox.vue'));
+Vue.component('conditioned-select', require('./components/ConditionedSelect.vue'));
 
 // NEW ONES FOR SANSON
 Vue.component('shopping-cart', require('./components/ShoppingCart.vue'));
@@ -137,6 +138,7 @@ const app = new Vue({
             }
         },
         checkall: false,
+        formSubmitted: false,
         checked: [],
         model: {},
     },
@@ -150,14 +152,14 @@ const app = new Vue({
         submit(type) {
             if (type == 'venta') {
                 if (this.payment_total > 0) {
-                    this.$refs.cform.submit()
-                    this.$refs.cform.reset();
+                    this.formSubmitted = true;
+                    this.$refs.cform.submit();
                 } else {
                     alert('Falta importe según el método de pago');
                 }
             } else {
+                this.formSubmitted = true;
                 this.$refs.cform.submit();
-                this.$refs.cform.reset();
             }
         },
         checkIsInvoiced() {
