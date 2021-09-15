@@ -2,6 +2,17 @@
 
 return [
 
+    'statistics' => [
+        'title' => 'Estadísticas',
+        'icon' => 'fas fa-chart-pie',
+        'submenu' => [
+            'create' => [
+                'title' => 'Marketing',
+                'route' => 'coffee.statistics.index'
+            ],
+        ]
+    ],
+
     'quotations' => [
         'title' => 'Cotizaciones',
         'icon' => 'fas fa-file-invoice',

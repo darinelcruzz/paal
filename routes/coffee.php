@@ -215,4 +215,9 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	    Route::get('editar/{serial_number}', usesas($ctrl, 'edit'));
 	    Route::post('editar/{ingress}', usesas($ctrl, 'update'));
 	});
+
+	Route::group(['prefix' => 'estadisticas', 'as' => 'statistics.'], function () {
+	    $ctrl = 'Coffee\StatisticsController';
+	    Route::get('marketing', usesas($ctrl, 'index'));
+	});
 });
