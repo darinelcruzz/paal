@@ -8,6 +8,46 @@ use App\{Client, Ingress, Quotation, Movement};
 
 class StatisticsController extends Controller
 {
+    function sales(Request $request, $category = 'total')
+    {
+        $date = $request->date ?? date('Y-m');
+        $category = strtoupper($category);
+
+        $groups = Movement::whereYear('created_at', substr($date, 0, 4))
+            ->whereMonth('created_at', substr($date, 5, 2))
+            ->whereHas('product', function ($query) use ($category) {
+                return $query->when($category == 'TOTAL', function ($query) {
+                    $query->whereIn('category', ['INSUMOS', 'ACCESORIOS', 'VASOS', 'EQUIPO', 'REFACCIONES', 'BARRAS', 'CURSOS', 'OTROS']);
+                }, function ($query) use ($category) {
+                    $query->where('category', $category);
+                });
+            })
+            ->with('product')
+            ->get()
+            ->groupBy($category == 'TOTAL' ? 'product.category': 'product.family')
+            ->transform(function ($item, $key) {
+                return ['quantity' => $item->sum('quantity'), 'amount' => $item->sum('total')];
+            })
+            ->sortByDesc('quantity');
+
+        $topProducts = Movement::where('movable_type', 'App\Ingress')
+            ->whereYear('created_at', substr($date, 0, 4))
+            ->whereMonth('created_at', substr($date, 5, 2))
+            ->with('product')
+            ->get()
+            ->groupBy('product.description')
+            ->sortByDesc(function ($product, $key) {
+                return $product->sum('quantity');
+            })
+            ->transform(function ($item, $key) {
+                return ['quantity' => $item->sum('quantity'), 'amount' => $item->sum('total')];
+            })
+            ->take(5);
+
+        // dd($groups);
+        return view('coffee.statistics.sales', compact('date', 'category', 'groups', 'topProducts'));
+    }
+
     function index(Request $request)
     {
         $date = $request->date ?? date('Y-m');
@@ -30,6 +70,28 @@ class StatisticsController extends Controller
             ->whereHas('ingresses', function ($query) use ($date) {
                 $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', substr($date, 5, 2));
             })->count();
+
+        $topClients = Client::where('company', 'coffee')
+            ->where('name', '!=', 'VENTA MOSTRADOR')
+            ->where('name', '!=', 'MOSTRADOR  (DEPOSITO)')
+            ->with('ingresses')
+            ->get()
+            ->sortByDesc(function ($client, $key) use ($date) {
+                return $client->ingresses()->whereYear('bought_at', substr($date, 0, 4))
+                    ->whereMonth('bought_at', '>=', substr($date, 5, 2) - 1)
+                    ->sum('amount');
+            })
+            ->transform(function ($client, $key) use ($date) {
+                return [
+                    'id' => $client->id, 
+                    'name' => $client->name, 
+                    'amount' => $client->ingresses()
+                        ->whereYear('bought_at', substr($date, 0, 4))
+                        ->whereMonth('bought_at', '>=', substr($date, 5, 2) - 1)
+                        ->sum('amount'), 
+                    'quantity' => $client->ingresses->count()];
+            })
+            ->take(5);
 
         $quotations = Quotation::whereCompany('coffee')
             ->whereYear('created_at', substr($date, 0, 4))
@@ -61,6 +123,6 @@ class StatisticsController extends Controller
 
         // dd($topProducts);
         
-        return view('coffee.statistics.index', compact('clientsTotal', 'clientsOfThisMonth', 'clientsOfLastTwoMonths', 'newClients', 'quotationsTotal', 'equipmentQuotations', 'campaigns', 'salesFromQuotations', 'topProducts'));
+        return view('coffee.statistics.index', compact('clientsTotal', 'clientsOfThisMonth', 'clientsOfLastTwoMonths', 'newClients', 'topClients', 'quotationsTotal', 'equipmentQuotations', 'campaigns', 'salesFromQuotations', 'topProducts'));
     }
 }

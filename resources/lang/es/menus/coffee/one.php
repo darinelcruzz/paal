@@ -3,9 +3,13 @@
 return [
 
     'statistics' => [
-        'title' => 'Estadísticas',
+        'title' => 'Análisis',
         'icon' => 'fas fa-chart-pie',
         'submenu' => [
+            'sales' => [
+                'title' => 'Ventas',
+                'route' => 'coffee.statistics.sales'
+            ],
             'create' => [
                 'title' => 'Marketing',
                 'route' => 'coffee.statistics.index'

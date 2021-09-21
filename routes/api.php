@@ -8,6 +8,7 @@ Route::group(['prefix' => 'products', 'as' => 'api.product.'], function () {
     Route::get('mbe/{keyword?}', usesas($ctrl, 'mbe'));
     Route::get('sanson/{keyword?}', usesas($ctrl, 'sanson'));
     Route::get('coffee/{keyword?}', usesas($ctrl, 'coffee'));
+    Route::get('amount/{date}/{category?}', usesas($ctrl, 'amount'));
     Route::get('{product}', usesas($ctrl, 'show'));
 });
 

@@ -218,6 +218,8 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 
 	Route::group(['prefix' => 'estadisticas', 'as' => 'statistics.'], function () {
 	    $ctrl = 'Coffee\StatisticsController';
-	    Route::get('marketing', usesas($ctrl, 'index'));
+	    Route::get('ventas/{category?}', usesas($ctrl, 'sales'));
+	    Route::post('ventas/{category?}', usesas($ctrl, 'sales'));
+	    Route::get('clientes', usesas($ctrl, 'index'));
 	});
 });
