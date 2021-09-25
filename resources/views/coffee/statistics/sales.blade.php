@@ -10,7 +10,7 @@
         <div class="col-md-5">
             <solid-box 
                 title="{{ $category == 'TOTAL' ? 'TOTAL MENSUAL': $category }}" 
-                color="{{ ['TOTAL' => 'success', 'INSUMOS' => 'danger', 'ACCESORIOS' => 'warning', 'VASOS' => 'info', 'EQUIPO' => 'primary', 'REFACCIONES' => 'default', 'BARRAS' => 'default', 'CURSOS' => 'default', 'OTROS' => 'default'][$category] }}">
+                color="{{ ['TOTAL' => 'success', 'INSUMOS' => 'danger', 'ACCESORIOS' => 'warning', 'VASOS' => 'info', 'EQUIPO' => 'primary', 'REFACCIONES' => 'danger', 'BARRAS' => 'warning', 'CURSOS' => 'primary', 'OTROS' => 'default'][$category] }}">
                 <table class="table table-striped table-bordered table-hover table-condensed">
                     <thead>
                         <tr>
@@ -42,7 +42,7 @@
         </div>
 
         <div class="col-md-5">
-            <solid-box title="TOP 5" color="success">
+            <solid-box title="TOP 5" color="{{ ['TOTAL' => 'success', 'INSUMOS' => 'danger', 'ACCESORIOS' => 'warning', 'VASOS' => 'info', 'EQUIPO' => 'primary', 'REFACCIONES' => 'danger', 'BARRAS' => 'warning', 'CURSOS' => 'primary', 'OTROS' => 'default'][$category] }}">
                 <table class="table table-striped table-bordered table-hover table-condensed">
                     <thead>
                         <tr>
@@ -69,7 +69,7 @@
 
         <div class="col-md-2">
             <div class="btn-group-vertical">
-                @foreach(['TOTAL' => 'success', 'INSUMOS' => 'danger', 'ACCESORIOS' => 'warning', 'VASOS' => 'info', 'EQUIPO' => 'primary', 'REFACCIONES' => 'github', 'BARRAS' => 'vk', 'CURSOS' => 'foursquare', 'OTROS' => 'tumblr'] as $label => $color)
+                @foreach(['TOTAL' => 'success', 'INSUMOS' => 'danger', 'ACCESORIOS' => 'warning', 'VASOS' => 'info', 'EQUIPO' => 'primary', 'REFACCIONES' => 'danger', 'BARRAS' => 'warning', 'CURSOS' => 'primary', 'OTROS' => 'info'] as $label => $color)
                 <button class="btn btn-{{ $color }}">
                 <a href="{{ route('coffee.statistics.sales', strtolower($label)) }}" style="color: white;">
                     {{ $label == 'EQUIPO' ? 'EQUIPOS': $label }}<br>

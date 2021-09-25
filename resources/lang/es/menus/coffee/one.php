@@ -10,9 +10,13 @@ return [
                 'title' => 'Ventas',
                 'route' => 'coffee.statistics.sales'
             ],
-            'create' => [
-                'title' => 'Marketing',
-                'route' => 'coffee.statistics.index'
+            'shippings' => [
+                'title' => 'Envíos',
+                'route' => 'coffee.statistics.shippings'
+            ],
+            'clients' => [
+                'title' => 'Clientes',
+                'route' => 'coffee.statistics.clients'
             ],
         ]
     ],
