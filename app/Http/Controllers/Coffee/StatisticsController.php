@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Coffee;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\{Client, Ingress, Quotation, Movement};
+use App\{Client, Ingress, Quotation, Movement, Shipping};
 
 class StatisticsController extends Controller
 {
@@ -125,6 +125,24 @@ class StatisticsController extends Controller
 
     function shippings(Request $request)
     {
-        return "ENVÍOS";
+        $date = $request->date ?? date('Y-m');
+
+        $shippings = Shipping::whereYear('created_at', substr($date, 0, 4))
+            ->whereMonth('created_at', substr($date, 5, 2))
+            ->whereNotNull('company')
+            ->with('ingress', 'address')
+            ->get();
+
+        $shippingsByCompany = $shippings->groupBy('company')->transform(function ($company, $key) {
+            return ['quantity' => $company->count(), 'amount' => $company->sum(function ($item) {
+                return $item->ingress->amount;
+            })];
+        });
+
+        $shippingsByState = $shippings->groupBy(function ($shipping) {return strtoupper($shipping->address->state);});
+
+        // dd();
+
+        return view('coffee.statistics.shippings', compact('shippings', 'shippingsByCompany', 'shippingsByState'));
     }
 }
