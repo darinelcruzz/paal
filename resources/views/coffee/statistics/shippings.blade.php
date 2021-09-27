@@ -18,7 +18,7 @@
                     </thead>
 
                     <tbody>
-                        @foreach($shippingsByState as $state => $shippings)
+                        @foreach($shippingsByState as $state => $collection)
                         <tr>
                             <td>{{ $state == '' ? 'NO AÑADIDO': $state }}</td>
                             <td style="text-align: center;">
@@ -26,8 +26,8 @@
                                     <i class="fa fa-eye"></i>
                                 </a>
                             </td>
-                            <td style="text-align: center;">{{ $shippings->count() }}</td>
-                            <td style="text-align: right;">{{ number_format($shippings->sum(function ($shipping) { return $shipping->ingress->amount; }), 2) }}</td>
+                            <td style="text-align: center;">{{ $collection->count() }}</td>
+                            <td style="text-align: right;">{{ number_format($collection->sum(function ($shipping) { return $shipping->ingress->amount; }), 2) }}</td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -44,11 +44,11 @@
         </div>
 
         <div class="col-md-5">
-            <solid-box title="ESTADOS" color="danger">
+            <solid-box title="TOP 5 LUGARES" color="danger">
                 <table class="table table-striped table-bordered table-hover table-condensed">
                     <thead>
                         <tr>
-                            <th><small>ESTADO</small></th>
+                            <th><small>CIUDAD</small></th>
                             <th style="text-align: center; width: 5%;"><small><i class="fa fa-eye"></i></small></th>
                             <th style="text-align: center; width: 15%;"><small>ENVÍOS</small></th>
                             <th style="text-align: right; width: 25%;"><small>MONTO</small></th>
@@ -56,16 +56,16 @@
                     </thead>
 
                     <tbody>
-                        @foreach(['Chiapas', 'Tabasco', 'Oaxaca', 'Veracruz', 'Puebla'] as $item)
+                        @foreach($topPlaces as $city => $collection)
                         <tr>
-                            <td>{{ $item }}</td>
+                            <td>{{ $city == '' ? 'NO AÑADIDO': $city }}</td>
                             <td style="text-align: center;">
                                 <a href="#" style="text-decoration: none;">
                                     <i class="fa fa-eye"></i>
                                 </a>
                             </td>
-                            <td style="text-align: center;">{{ random_int(10, 50) }}</td>
-                            <td style="text-align: right;">{{ number_format(random_int(1000, 30000) * 0.987, 2) }}</td>
+                            <td style="text-align: center;">{{ $collection->count() }}</td>
+                            <td style="text-align: right;">{{ number_format($collection->sum(function ($shipping) { return $shipping->ingress->amount; }), 2) }}</td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -73,8 +73,8 @@
                     <tfoot>
                         <tr>
                             <th colspan="2"></th>
-                            <th style="text-align: center;">{{ 100 }}</th>
-                            <th style="text-align: right;">{{ number_format(0, 2) }}</th>
+                            <th style="text-align: center;">{{ $topPlaces->sum(function ($shippings) { return $shippings->count();}) }}</th>
+                            <th style="text-align: right;">{{ number_format($topPlaces->sum(function ($shippings) { return $shippings->sum(function ($shipping) {return $shipping->ingress->amount;}); }), 2) }}</th>
                         </tr>
                     </tfoot>
                 </table>

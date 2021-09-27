@@ -63,8 +63,18 @@ class StatisticsController extends Controller
         })->get();
 
         $unusualClients = Client::where('company', 'coffee')->whereDoesntHave('ingresses', function ($query) use ($date) {
-            $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', '>=', substr($date, 5, 2) - 2);
+            $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', '>=', substr($date, 5, 2) - 3);
         })->get();
+
+        $newUnusualClients = Client::where('company', 'coffee')->whereHas('ingresses', function ($query) use ($date) {
+            $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', '>=', substr($date, 5, 2) - 3);
+        })->whereDoesntHave('ingresses', function ($query) use ($date) {
+            $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', '>=', substr($date, 5, 2));
+        })->get()
+        ->transform(function ($client, $key) {
+            return ['id' => $client->id, 'name' => $client->name, 'quantity' => $client->ingresses->count(), 'amount' => $client->ingresses->sum('amount')];
+        })
+        ->sortByDesc('amount');
 
         $clientsComingBack = Client::where('company', 'coffee')
             ->whereYear('created_at', '!=', date('Y'))
@@ -96,7 +106,7 @@ class StatisticsController extends Controller
             ->transform(function ($client, $key) {
                 return ['id' => $client->id, 'name' => $client->name, 'quantity' => $client->ingresses->count(), 'amount' => $client->ingresses->sum('amount')];
             })
-            ->sortByDesc('amount');;
+            ->sortByDesc('amount');
 
         $topClients = Client::where('company', 'coffee')
             ->where('name', '!=', 'VENTA MOSTRADOR')
@@ -120,7 +130,7 @@ class StatisticsController extends Controller
             })
             ->take(5);
         
-        return view('coffee.statistics.clients', compact('usualClients', 'unusualClients', 'clientsComingBack', 'newClients', 'topClients'));
+        return view('coffee.statistics.clients', compact('usualClients', 'unusualClients', 'newUnusualClients', 'clientsComingBack', 'newClients', 'topClients'));
     }
 
     function shippings(Request $request)
@@ -141,8 +151,12 @@ class StatisticsController extends Controller
 
         $shippingsByState = $shippings->groupBy(function ($shipping) {return strtoupper($shipping->address->state);});
 
-        // dd();
+        $topPlaces = $shippings->groupBy(function ($shipping) {return strtoupper($shipping->address->city);})
+            ->sortByDesc(function ($city, $key) {
+                return $city->count();
+            })
+            ->take(5);
 
-        return view('coffee.statistics.shippings', compact('shippings', 'shippingsByCompany', 'shippingsByState'));
+        return view('coffee.statistics.shippings', compact('shippings', 'shippingsByCompany', 'shippingsByState', 'topPlaces'));
     }
 }

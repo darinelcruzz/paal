@@ -35,8 +35,8 @@
       "oPaginate": {
           "sFirst":    "Primero",
           "sLast":     "Último",
-          "sNext":     "Siguiente",
-          "sPrevious": "Anterior"
+          "sNext":     "<i class='fa fa-forward' aria-hidden='true'></i>",
+          "sPrevious": "<i class='fa fa-backward' aria-hidden='true'></i>"
       },
       "oAria": {
           "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
