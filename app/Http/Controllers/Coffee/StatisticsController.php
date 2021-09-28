@@ -130,7 +130,7 @@ class StatisticsController extends Controller
             })
             ->take(5);
         
-        return view('coffee.statistics.clients', compact('usualClients', 'unusualClients', 'newUnusualClients', 'clientsComingBack', 'newClients', 'topClients'));
+        return view('coffee.statistics.clients', compact('usualClients', 'unusualClients', 'newUnusualClients', 'clientsComingBack', 'newClients', 'topClients', 'date'));
     }
 
     function shippings(Request $request)
@@ -140,6 +140,7 @@ class StatisticsController extends Controller
         $shippings = Shipping::whereYear('created_at', substr($date, 0, 4))
             ->whereMonth('created_at', substr($date, 5, 2))
             ->whereNotNull('company')
+            ->whereHas('address')
             ->with('ingress', 'address')
             ->get();
 
@@ -157,6 +158,6 @@ class StatisticsController extends Controller
             })
             ->take(5);
 
-        return view('coffee.statistics.shippings', compact('shippings', 'shippingsByCompany', 'shippingsByState', 'topPlaces'));
+        return view('coffee.statistics.shippings', compact('shippings', 'shippingsByCompany', 'shippingsByState', 'topPlaces', 'date'));
     }
 }

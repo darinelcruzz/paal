@@ -2,6 +2,21 @@
 
 @push('pageTitle', 'Coffee | Marketing')
 
+@push('headerTitle')
+    {!! Form::open(['method' => 'post', 'route' => 'coffee.statistics.clients']) !!}
+        <div class="row">
+            <div class="col-md-3">
+                <div class="input-group input-group-sm">
+                    <input type="month" name="date" class="form-control" value="{{ $date }}">
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-danger btn-flat"><i class="fa fa-search"></i></button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    {!! Form::close() !!}
+@endpush
+
 @section('content')
 
     <div class="row">
