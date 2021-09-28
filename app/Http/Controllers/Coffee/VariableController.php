@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\Coffee;
 
-use Alert;
-use App\Variable;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Variable;
 
 class VariableController extends Controller
 {
@@ -19,7 +18,7 @@ class VariableController extends Controller
     {
         $variable->update($request->validate(['value' => 'required']));
 
-        Alert::success("El precio del dólar se cambió exitosamente")->persistent('Cerrar');
+        \Alert::success("El precio del dólar se cambió exitosamente")->persistent('Cerrar');
 
         return redirect(route('coffee.variable.edit'));
     }

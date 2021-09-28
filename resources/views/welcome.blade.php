@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 @include('lte.htmlhead', ['company' => '/paal'])
 

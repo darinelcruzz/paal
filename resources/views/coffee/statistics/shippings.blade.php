@@ -21,10 +21,40 @@
                         @foreach($shippingsByState as $state => $collection)
                         <tr>
                             <td>{{ $state == '' ? 'NO AÑADIDO': $state }}</td>
-                            <td style="text-align: center;">
-                                <a href="#" style="text-decoration: none;">
-                                    <i class="fa fa-eye"></i>
+                            <td>
+                                <a data-toggle="modal" data-target="#cities{{ $loop->index }}">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
                                 </a>
+                                <modal title="{{ $state }}" color="danger" id="cities{{ $loop->index }}">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered table-hover table-condensed">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 70%;"><small>CIUDAD</small></th>
+                                                    <th style="text-align: center;width: 10%;"><small>ENVÍOS</small></th>
+                                                    <th style="text-align: right;width: 20%;"><small>MONTO</small></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach($collection->groupBy(function ($shipping) {return strtoupper($shipping->address->city);}) as $city => $values)
+                                                {{-- @dd($city, $values) --}}
+                                                <tr>
+                                                    <td style="width: 70%;">
+                                                        <small>{{ $city }}</small>
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        {{ $values->count() }}
+                                                    </td>
+                                                    <td style="text-align: right;">{{ number_format($values->sum(function ($shipping)
+                                                    {
+                                                        return $shipping->ingress->amount;
+                                                    }), 2) }}</td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </modal>
                             </td>
                             <td style="text-align: center;">{{ $collection->count() }}</td>
                             <td style="text-align: right;">{{ number_format($collection->sum(function ($shipping) { return $shipping->ingress->amount; }), 2) }}</td>
@@ -48,8 +78,8 @@
                 <table class="table table-striped table-bordered table-hover table-condensed">
                     <thead>
                         <tr>
-                            <th><small>CIUDAD</small></th>
                             <th style="text-align: center; width: 5%;"><small><i class="fa fa-eye"></i></small></th>
+                            <th><small>CIUDAD</small></th>
                             <th style="text-align: center; width: 15%;"><small>ENVÍOS</small></th>
                             <th style="text-align: right; width: 25%;"><small>MONTO</small></th>
                         </tr>
@@ -58,12 +88,8 @@
                     <tbody>
                         @foreach($topPlaces as $city => $collection)
                         <tr>
+                            <td>#{{ $loop->iteration }}</td>
                             <td>{{ $city == '' ? 'NO AÑADIDO': $city }}</td>
-                            <td style="text-align: center;">
-                                <a href="#" style="text-decoration: none;">
-                                    <i class="fa fa-eye"></i>
-                                </a>
-                            </td>
                             <td style="text-align: center;">{{ $collection->count() }}</td>
                             <td style="text-align: right;">{{ number_format($collection->sum(function ($shipping) { return $shipping->ingress->amount; }), 2) }}</td>
                         </tr>
@@ -72,7 +98,8 @@
 
                     <tfoot>
                         <tr>
-                            <th colspan="2"></th>
+                            <th></th>
+                            <th></th>
                             <th style="text-align: center;">{{ $topPlaces->sum(function ($shippings) { return $shippings->count();}) }}</th>
                             <th style="text-align: right;">{{ number_format($topPlaces->sum(function ($shippings) { return $shippings->sum(function ($shipping) {return $shipping->ingress->amount;}); }), 2) }}</th>
                         </tr>

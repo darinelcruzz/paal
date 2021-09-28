@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Sanson;
+namespace App\Http\Controllers;
 
 use App\SerialNumber;
 use Illuminate\Http\Request;
@@ -13,9 +13,9 @@ class SerialNumberController extends Controller
         return view('sanson.serial_numbers.index', compact('serial_numbers'));
     }
 
-    function create(Product $product == null)
+    function create(Product $product)
     {
-        if ($product == null) {
+        if ($product) {
             $product = Product::where('company', 'SANSON')->pluck('description', 'id')->toArray();
         }
 

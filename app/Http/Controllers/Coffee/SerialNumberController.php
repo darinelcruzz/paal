@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Coffee;
 
-use App\{SerialNumber, Product, Ingress};
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\{SerialNumber, Product, Ingress};
 
 class SerialNumberController extends Controller
 {
