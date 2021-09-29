@@ -93,7 +93,7 @@
                 <table class="table table-striped table-bordered table-hover table-condensed">
                     <thead>
                         <tr>
-                            <th style="text-align: center; width: 5%;"><small><i class="fa fa-eye"></i></small></th>
+                            <th style="text-align: center; width: 5%;"><small>#</small></th>
                             <th><small>CIUDAD</small></th>
                             <th style="text-align: center; width: 15%;"><small>ENVÍOS</small></th>
                             <th style="text-align: right; width: 25%;"><small>MONTO</small></th>

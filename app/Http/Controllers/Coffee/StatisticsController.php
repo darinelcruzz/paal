@@ -33,6 +33,7 @@ class StatisticsController extends Controller
         $topProducts = Movement::where('movable_type', 'App\Ingress')
             ->whereYear('created_at', substr($date, 0, 4))
             ->whereMonth('created_at', substr($date, 5, 2))
+            ->with('product')
             ->whereHas('product', function ($query) use ($category) {
                 return $query->when($category == 'TOTAL', function ($query) {
                     $query->whereIn('category', ['INSUMOS', 'ACCESORIOS', 'VASOS', 'EQUIPO', 'REFACCIONES', 'BARRAS', 'CURSOS', 'OTROS']);
@@ -60,25 +61,11 @@ class StatisticsController extends Controller
 
         $usualClients = Client::where('company', 'coffee')->whereHas('ingresses', function ($query) use ($date) {
             $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', '>=', substr($date, 5, 2) - 2);
-        })->get();
-
-        $unusualClients = Client::where('company', 'coffee')->whereDoesntHave('ingresses', function ($query) use ($date) {
-            $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', '>=', substr($date, 5, 2) - 3);
-        })->get();
-
-        $newUnusualClients = Client::where('company', 'coffee')->whereHas('ingresses', function ($query) use ($date) {
-            $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', '>=', substr($date, 5, 2) - 3);
-        })->whereDoesntHave('ingresses', function ($query) use ($date) {
-            $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', '>=', substr($date, 5, 2));
-        })->get()
-        ->transform(function ($client, $key) {
-            return ['id' => $client->id, 'name' => $client->name, 'quantity' => $client->ingresses->count(), 'amount' => $client->ingresses->sum('amount')];
         })
-        ->sortByDesc('amount');
-
+        ->pluck('id');
+        
         $clientsComingBack = Client::where('company', 'coffee')
-            ->whereYear('created_at', '!=', date('Y'))
-            ->whereMonth('created_at', '!=', date('m'))
+            ->with('ingresses')
             ->whereHas('ingresses', function ($query) use ($date) {
                 $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', substr($date, 5, 2));
             })->whereHas('ingresses', function ($query) use ($date) {
@@ -93,12 +80,10 @@ class StatisticsController extends Controller
             })
             ->sortByDesc('amount');
 
-        // dd($clientsComingBack);
-
         $newClients = Client::whereCompany('coffee')
             ->whereYear('created_at', date('Y'))
             ->whereMonth('created_at', date('m'))
-            ->with('ingresses')
+            ->with('ingresses:id,amount,bought_at')
             ->whereHas('ingresses', function ($query) use ($date) {
                 $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', substr($date, 5, 2));
             })
@@ -108,26 +93,47 @@ class StatisticsController extends Controller
             })
             ->sortByDesc('amount');
 
+        // dd($usualClients, $newClients->count(), $clientsComingBack->count());
+
+        $unusualClients = Client::where('company', 'coffee')->whereDoesntHave('ingresses', function ($query) use ($date) {
+            $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', '>=', substr($date, 5, 2) - 3);
+        })->count();
+
+        $newUnusualClients = Client::where('company', 'coffee')
+            ->with('ingresses')
+            ->whereHas('ingresses', function ($query) use ($date) {
+            $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', '>=', substr($date, 5, 2) - 3);
+        })->whereDoesntHave('ingresses', function ($query) use ($date) {
+            $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', '>=', substr($date, 5, 2));
+        })->get()
+        ->transform(function ($client, $key) {
+            return ['id' => $client->id, 'name' => $client->name, 'quantity' => $client->ingresses->count(), 'amount' => $client->ingresses->sum('amount')];
+        })
+        ->sortByDesc('amount');
+
         $topClients = Client::where('company', 'coffee')
             ->where('name', '!=', 'VENTA MOSTRADOR')
             ->where('name', '!=', 'MOSTRADOR  (DEPOSITO)')
-            ->with('ingresses')
+            ->with('ingresses:id,amount')
             ->get()
-            ->sortByDesc(function ($client, $key) use ($date) {
-                return $client->ingresses()->whereYear('bought_at', substr($date, 0, 4))
-                    ->whereMonth('bought_at', '>=', substr($date, 5, 2) - 1)
-                    ->sum('amount');
-            })
             ->transform(function ($client, $key) use ($date) {
+                $ingresses = $client->ingresses()
+                        ->whereYear('bought_at', substr($date, 0, 4))
+                        ->whereMonth('bought_at', '>=', substr($date, 5, 2) - 1)
+                        ->get();
                 return [
                     'id' => $client->id, 
                     'name' => $client->name, 
-                    'amount' => $client->ingresses()
-                        ->whereYear('bought_at', substr($date, 0, 4))
-                        ->whereMonth('bought_at', '>=', substr($date, 5, 2) - 1)
-                        ->sum('amount'), 
-                    'quantity' => $client->ingresses->count()];
+                    'amount' => $ingresses->sum('amount'), 
+                    'quantity' => $ingresses->count()
+                ];
             })
+            ->sortByDesc('amount')
+            // ->sortByDesc(function ($client, $key) use ($date) {
+            //     return $client->ingresses()->whereYear('bought_at', substr($date, 0, 4))
+            //         ->whereMonth('bought_at', '>=', substr($date, 5, 2) - 1)
+            //         ->sum('amount');
+            // })
             ->take(5);
         
         return view('coffee.statistics.clients', compact('usualClients', 'unusualClients', 'newUnusualClients', 'clientsComingBack', 'newClients', 'topClients', 'date'));
@@ -141,7 +147,7 @@ class StatisticsController extends Controller
             ->whereMonth('created_at', substr($date, 5, 2))
             ->whereNotNull('company')
             ->whereHas('address')
-            ->with('ingress', 'address')
+            ->with('ingress:id,amount', 'address:id,city,state')
             ->get();
 
         $shippingsByCompany = $shippings->groupBy('company')->transform(function ($company, $key) {

@@ -110,7 +110,7 @@
                         <tr>
                             <th><small>NO FRECUENTES</small></th>
                             <th style="text-align: right;width: 5%;"></th>
-                            <th style="text-align: right;">{{ $unusualClients->count() + $newUnusualClients->count() }}</th>
+                            <th style="text-align: right;">{{ $unusualClients + $newUnusualClients->count() }}</th>
                         </tr>
                         <tr>
                             <td>&nbsp;&nbsp;&nbsp;<small>NUEVOS</small></td>
@@ -150,7 +150,7 @@
                         <tr>
                             <td>&nbsp;&nbsp;&nbsp;<small>HABITUALES</small></td>
                             <td style="text-align: right;width: 5%;"></td>
-                            <td style="text-align: right;">{{ $unusualClients->count() }}</td>
+                            <td style="text-align: right;">{{ $unusualClients }}</td>
                         </tr>
                     </tbody>
                 </table>

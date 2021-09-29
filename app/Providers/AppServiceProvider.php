@@ -24,7 +24,9 @@ class AppServiceProvider extends ServiceProvider
             base_path() . '\vendor\almasaeed2010\adminlte\plugins' => public_path('adminlte/plugins'),
         ], 'adminlte');
 
-        View::composer('*', SalesAndQuotationsComposer::class);
+        View::composer('coffee.sales', SalesAndQuotationsComposer::class);
+        View::composer('sanson.sales', SalesAndQuotationsComposer::class);
+        View::composer('mbe.sales', SalesAndQuotationsComposer::class);
         $this->registerObservers();
     }
 
