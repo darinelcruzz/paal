@@ -101,7 +101,7 @@
                     @foreach ($ingress->movements as $movement)
                         <tr>
                             <td style="text-align: center;">{{ $movement->quantity }}</td>
-                            <td>{{ $movement->description or $movement->product->description }}{{ $movement->discount != 0 ? '*': ''}}</td>
+                            <td>{{ $movement->description ?? $movement->product->description }}{{ $movement->discount != 0 ? '*': ''}}</td>
                             <td style="text-align: right">$ {{ number_format($movement->price, 2) }}</td>
                             <td style="text-align: right">$ {{ number_format($movement->total, 2) }}</td>
                         </tr>
