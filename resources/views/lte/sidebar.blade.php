@@ -19,7 +19,9 @@
           @break
 
         @case('coffee')
-          @if(auth()->user()->level < 3)
+          @if(auth()->user()->level < 1)
+            @each('lte.items', trans('menus/' . $site . '/admin'), 'item')
+          @elseif(auth()->user()->level < 3)
             @each('lte.items', trans('menus/' . $site . '/one'), 'item')
           @else
             @each('lte.items', trans('menus/' . $site . '/two'), 'item')
