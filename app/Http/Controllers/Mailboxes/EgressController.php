@@ -21,8 +21,8 @@ class EgressController extends Controller
         $paid2 = Egress::from($date, 'payment_date', 'coffee')->where('mbe', '!=', 0)->get();
         $paid = $paid1->concat($paid2);
 
-        $pending1 = Egress::company('mbe')->where('status', 'pendiente')->get();
-        $pending2 = Egress::where('mbe', '!=', 0)->where('status', 'pendiente')->get();
+        $pending1 = Egress::company('mbe')->where('status', 'pendiente')->with('payments')->get();
+        $pending2 = Egress::where('mbe', '!=', 0)->where('status', 'pendiente')->with('payments')->get();
         $pending = $pending1->concat($pending2);
         
         $expired1 = Egress::company('mbe')->where('status', 'vencido')->get();
@@ -47,20 +47,40 @@ class EgressController extends Controller
 
     function charge(Request $request, Egress $egress)
     {
+        // dd($request->all());
         $attributes = $this->validate($request, [
-            'payment_date' => 'sometimes|required',
-            'method' => 'sometimes|required',
-            'mfolio' => 'sometimes|required',
-            'second_payment_date' => 'sometimes|required',
-            'second_method' => 'sometimes|required',
-            'nfolio' => 'sometimes|required',
+            'paid_at' => 'required',
+            'method' => 'required',
+            'folio' => 'required',
+            'amount' => 'required'
         ]);
 
-        $egress->update($attributes);
+        $egress->payments()->create($attributes);
 
-        $egress->update([
-            'status' => $request->single_payment == 0 ? 'pagado': 'pendiente',
-        ]);
+        if ($request->single_payment == 0 || $egress->debt == 0) {
+            $egress->update([
+                'status' => 'pagado',
+                'method' => $request->method,
+                'payment_date' => $request->paid_at,
+            ]);
+        }
+
+        // return redirect(route('coffee.egress.index', $egress->status));
+
+        // $attributes = $this->validate($request, [
+        //     'payment_date' => 'sometimes|required',
+        //     'method' => 'sometimes|required',
+        //     'mfolio' => 'sometimes|required',
+        //     'second_payment_date' => 'sometimes|required',
+        //     'second_method' => 'sometimes|required',
+        //     'nfolio' => 'sometimes|required',
+        // ]);
+
+        // $egress->update($attributes);
+
+        // $egress->update([
+        //     'status' => $request->single_payment == 0 ? 'pagado': 'pendiente',
+        // ]);
 
         return redirect(route('mbe.egress.index', $egress->status));
     }

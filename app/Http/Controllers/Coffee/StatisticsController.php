@@ -65,7 +65,6 @@ class StatisticsController extends Controller
         ->pluck('id');
         
         $clientsComingBack = Client::where('company', 'coffee')
-            ->with('ingresses')
             ->whereHas('ingresses', function ($query) use ($date) {
                 $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', substr($date, 5, 2));
             })->whereHas('ingresses', function ($query) use ($date) {
@@ -73,10 +72,12 @@ class StatisticsController extends Controller
             })->whereHas('ingresses', function ($query) use ($date) {
                 $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', '!=', substr($date, 5, 2) - 2);
             })
+            ->with('ingresses:id,amount,bought_at')
             ->get()
             ->transform(function ($client, $key) {
                 $ingresses = $client->ingresses->where('bought_at', '>=', date('Y-m') . '-01');
                 return ['id' => $client->id, 'name' => $client->name, 'quantity' => $ingresses->count(), 'amount' => $ingresses->sum('amount')];
+                // return ['id' => $client->id, 'name' => $client->name, 'quantity' => 100, 'amount' => 200];
             })
             ->sortByDesc('amount');
 
@@ -100,27 +101,28 @@ class StatisticsController extends Controller
         })->count();
 
         $newUnusualClients = Client::where('company', 'coffee')
-            ->with('ingresses')
+            ->with('ingresses:id,amount,bought_at')
             ->whereHas('ingresses', function ($query) use ($date) {
-            $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', '>=', substr($date, 5, 2) - 3);
-        })->whereDoesntHave('ingresses', function ($query) use ($date) {
-            $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', '>=', substr($date, 5, 2));
-        })->get()
-        ->transform(function ($client, $key) {
-            return ['id' => $client->id, 'name' => $client->name, 'quantity' => $client->ingresses->count(), 'amount' => $client->ingresses->sum('amount')];
-        })
-        ->sortByDesc('amount');
+                $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', '>=', substr($date, 5, 2) - 3);
+            })->whereDoesntHave('ingresses', function ($query) use ($date) {
+                $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', '>=', substr($date, 5, 2));
+            })
+            ->get()
+            ->transform(function ($client, $key) {
+                return ['id' => $client->id, 'name' => $client->name, 'quantity' => $client->ingresses->count(), 'amount' => $client->ingresses->sum('amount')];
+            })
+            ->sortByDesc('amount');
 
         $topClients = Client::where('company', 'coffee')
             ->where('name', '!=', 'VENTA MOSTRADOR')
             ->where('name', '!=', 'MOSTRADOR  (DEPOSITO)')
-            ->with('ingresses:id,amount')
+            ->with('ingresses:id,amount,bought_at')
             ->get()
             ->transform(function ($client, $key) use ($date) {
                 $ingresses = $client->ingresses()
                         ->whereYear('bought_at', substr($date, 0, 4))
                         ->whereMonth('bought_at', '>=', substr($date, 5, 2) - 1)
-                        ->get();
+                        ->get(['id', 'amount']);
                 return [
                     'id' => $client->id, 
                     'name' => $client->name, 
@@ -129,11 +131,6 @@ class StatisticsController extends Controller
                 ];
             })
             ->sortByDesc('amount')
-            // ->sortByDesc(function ($client, $key) use ($date) {
-            //     return $client->ingresses()->whereYear('bought_at', substr($date, 0, 4))
-            //         ->whereMonth('bought_at', '>=', substr($date, 5, 2) - 1)
-            //         ->sum('amount');
-            // })
             ->take(5);
         
         return view('coffee.statistics.clients', compact('usualClients', 'unusualClients', 'newUnusualClients', 'clientsComingBack', 'newClients', 'topClients', 'date'));

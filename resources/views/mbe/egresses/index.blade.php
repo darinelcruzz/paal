@@ -92,15 +92,28 @@
                             @foreach($paid as $egress)
                                 <tr>
                                     <td>
-                                        @if($egress->payment_date)
+                                        {{-- @if($egress->payment_date)
                                             {{ fdate($egress->payment_date, 'd M Y', 'Y-m-d') }}
                                             | {{ $egress->mfolio }}
                                         @endif
                                         @if($egress->second_payment_date)
                                             {{ fdate($egress->second_payment_date, 'd M Y', 'Y-m-d') }}
                                             | <br>{{ $egress->nfolio }}
-                                        @endif
-
+                                        @endif --}}
+                                        @forelse($egress->payments as $payment)
+                                            <small>{{ strtoupper(fdate($payment->paid_at, 'd M Y', 'Y-m-d')) }} - {{ $payment->folio }}</small> 
+                                            @if(!$loop->last)
+                                            <br>
+                                            @endif
+                                        @empty
+                                            @if($egress->payment_date)
+                                                <small>{{ strtoupper(fdate($egress->payment_date, 'd M Y', 'Y-m-d')) }} - {{ $egress->mfolio }}</small>
+                                            @endif
+                                            @if($egress->second_payment_date)
+                                                <br>
+                                                <small>{{ strtoupper(fdate($egress->second_payment_date, 'd M Y', 'Y-m-d')) }} - {{ $egress->nfolio }}</small>
+                                            @endif
+                                        @endforelse
                                     </td>
                                     <td>
                                         @include('mbe.egresses._dropdown', ['color' => 'success'])
@@ -149,18 +162,21 @@
 
                     @php
                         $pendingTotal = 0;
+                        $pendingTotalDebt = 0;
                     @endphp
 
                     <table class="table table-striped table-bordered spanish">
-
                         <thead>
                             <tr>
-                                <th style="width: 10%;"><small>F. EMISIÓN</small></th>
+                                <th><small>VENCIMIENTO</small></th>
                                 <th style="width: 5%;"><i class="fa fa-cogs"></i></th>
                                 <th style="width: 10%;"><small>FOLIO</small></th>
+                                {{-- <th style="width: 8%;"><small>TIPO</small></th> --}}
                                 <th><small>PROVEEDOR</small></th>
+                                <th style="text-align: right; width: 10%;"><small>EMISIÓN</small></th>
                                 <th style="text-align: right;width: 8%;"><small>I.V.A.</small></th>
                                 <th style="text-align: right;"><small>IMPORTE</small></th>
+                                <th style="text-align: right;"><small>ADEUDO</small></th>
                             </tr>
                         </thead>
 
@@ -168,7 +184,7 @@
                             @foreach($pending as $egress)
                                 @if(!$egress->check_id)
                                     <tr>
-                                        <td><small>{{ strtoupper(fdate($egress->emission, 'd M Y', 'Y-m-d')) }}</small></td>
+                                        <td><small>{{ strtoupper(fdate($egress->expiration, 'd M Y', 'Y-m-d')) }}</small></td>
                                         <td>
                                             @include('mbe.egresses._dropdown', ['color' => 'warning'])
                                         </td>
@@ -177,6 +193,7 @@
                                             {{ $egress->provider_name ?? $egress->provider->name }}
                                             <code>{{ $egress->provider->rfc ?? '' }}</code>
                                         </td>
+                                        <td><small>{{ strtoupper(fdate($egress->emission, 'd M Y', 'Y-m-d')) }}</small></td>
                                         <td style="text-align: right;">{{ number_format($egress->iva, 2) }}</td>
                                         <td style="text-align: right;">
                                             @if($egress->provider->type == 'pd')
@@ -185,12 +202,21 @@
                                                 {{ number_format($egress->amount, 2) }}
                                             @endif
                                         </td>
+                                        <td style="text-align: right;">
+                                            @if($egress->provider->type == 'pd')
+                                                {{ number_format($egress->coffee, 2) }}
+                                            @else
+                                                {{ number_format($egress->debt, 2) }}
+                                            @endif
+                                        </td>
                                     </tr>
                                     @php
                                         if($egress->provider->type == 'pd') {
                                             $pendingTotal += $egress->mbe;
+                                            $pendingTotalDebt += $egress->debt;
                                         } else {
                                             $pendingTotal += $egress->amount;
+                                            $pendingTotalDebt += $egress->debt;
                                         }
                                     @endphp
                                 @endif
@@ -199,9 +225,9 @@
 
                         <tfoot>
                             <tr>
-                                <th></th><th></th><th></th><th></th>
-                                <th style="text-align: right;"><small>TOTAL</small></th>
+                                <th></th><th></th><th></th><th></th><th></th><th></th>
                                 <th style="text-align: right;">{{ number_format($pendingTotal, 2) }}</th>
+                                <th style="text-align: right;">{{ number_format($pendingTotalDebt, 2) }}</th>
                             </tr>
                         </tfoot>
                     </table>
