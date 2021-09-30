@@ -23,8 +23,8 @@
                                 <td>{{ $provider->id }}</td>
                                 <td>
                                     <dropdown icon="cogs" color="primary">
-                                        <ddi to="{{ route('paal.provider.edit', ['id'=>$provider->id]) }}" icon="edit" text="Editar"></ddi>
-                                        <ddi to="{{ route('paal.provider.destroy', ['id'=>$provider->id]) }}" icon="times" text="Dar de baja"></ddi>
+                                        <ddi to="{{ route('paal.provider.edit', $provider) }}" icon="edit" text="Editar"></ddi>
+                                        <ddi to="{{ route('paal.provider.destroy', $provider) }}" icon="times" text="Dar de baja"></ddi>
                                     </dropdown>
                                 </td>
                                 <td><b style="color: {{ $provider->color }}">{{ $provider->social }}</b> <br> {{ $provider->name }}</td>
