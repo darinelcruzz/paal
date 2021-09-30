@@ -1,6 +1,7 @@
 <?php
 
 use Jenssegers\Date\Date;
+use Illuminate\Support\Str;
 use App\{Shipping, Egress, Product, Ingress, SerialNumber, Purchase, Order, Movement};
 use Illuminate\Support\Facades\Storage;
 
@@ -67,7 +68,7 @@ function releasedProducts($company = 'COFFEE')
 function saveCoffeeFile($file, $folder = 'bills')
 {
     if ($file) {
-        return Storage::putFileAs("public/coffee/$folder", $file, str_random(15) . '.' . $file->getClientOriginalExtension());
+        return Storage::putFileAs("public/coffee/$folder", $file, Str::random(15) . '.' . $file->getClientOriginalExtension());
     }
 
     return null;
@@ -76,7 +77,7 @@ function saveCoffeeFile($file, $folder = 'bills')
 function saveMbeFile($file, $folder = 'bills')
 {
     if ($file) {
-        return Storage::putFileAs("public/mbe/$folder", $file, str_random(15) . '.' . $file->getClientOriginalExtension());
+        return Storage::putFileAs("public/mbe/$folder", $file, Str::random(15) . '.' . $file->getClientOriginalExtension());
     }
 
     return null;
@@ -85,7 +86,7 @@ function saveMbeFile($file, $folder = 'bills')
 function saveSansonFile($file, $folder = 'bills')
 {
     if ($file) {
-        return Storage::putFileAs("public/sanson/$folder", $file, str_random(15) . '.' . $file->getClientOriginalExtension());
+        return Storage::putFileAs("public/sanson/$folder", $file, Str::random(15) . '.' . $file->getClientOriginalExtension());
     }
 
     return null;
