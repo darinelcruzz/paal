@@ -169,16 +169,22 @@
                     </thead>
 
                     <tbody>
-                        @foreach($topClients as $client)
+                        @php
+                        $total = 0;
+                        @endphp
+                        @foreach($topClients as $client => $ingresses)
                         <tr>
                             <td>
-                                <a href="{{ route('coffee.client.show', [$client['id'], 'ventas']) }}" target="_BLANK">
-                                    {{ ucwords(strtolower($client['name'])) }}
+                                <a href="{{ route('coffee.client.show', [$ingresses->first()->client, 'ventas']) }}" target="_BLANK">
+                                    {{ ucwords(strtolower($client)) }}
                                 </a>
                             </td>
-                            <td style="text-align: center;">{{ $client['quantity'] }}</td>
-                            <td style="text-align: right;">{{ number_format($client['amount'], 2) }}</td>
+                            <td style="text-align: center;">{{ $ingresses->count() }}</td>
+                            <td style="text-align: right;">{{ number_format($ingresses->sum('amount'), 2) }}</td>
                         </tr>
+                        @php
+                        $total += $ingresses->sum('amount');
+                        @endphp
                         @endforeach
                     </tbody>
 
@@ -186,7 +192,7 @@
                         <tr>
                             <th></th>
                             <th></th>
-                            <th style="text-align: right;">{{ number_format($topClients->sum('amount'), 2) }}</th>
+                            <th style="text-align: right;">{{ number_format($total, 2) }}</th>
                         </tr>
                     </tfoot>
                 </table>
