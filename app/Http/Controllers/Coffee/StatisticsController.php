@@ -72,7 +72,7 @@ class StatisticsController extends Controller
             })->whereHas('ingresses', function ($query) use ($date) {
                 $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', '!=', substr($date, 5, 2) - 2);
             })
-            ->with('latest_ingresses:id,amount,bought_at')
+            ->with('latest_ingresses')
             ->get()
             ->transform(function ($client, $key) {
                 $ingresses = $client->latest_ingresses;
@@ -84,7 +84,7 @@ class StatisticsController extends Controller
         $newClients = Client::whereCompany('coffee')
             ->whereYear('created_at', date('Y'))
             ->whereMonth('created_at', date('m'))
-            ->with('ingresses:id,amount,bought_at')
+            ->with('ingresses')
             ->whereHas('ingresses', function ($query) use ($date) {
                 $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', substr($date, 5, 2));
             })
@@ -94,7 +94,7 @@ class StatisticsController extends Controller
             })
             ->sortByDesc('amount');
 
-        // dd($usualClients, $newClients->count(), $clientsComingBack->count());
+        // dd($usualClients, $newClients, $clientsComingBack);
 
         $unusualClients = Client::where('company', 'coffee')->whereDoesntHave('ingresses', function ($query) use ($date) {
             $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', '>=', substr($date, 5, 2) - 3);
@@ -113,12 +113,10 @@ class StatisticsController extends Controller
             })
             ->sortByDesc('amount');
 
-        $topClients = Ingress::whereYear('bought_at', substr($date, 0, 4))
+        $topClients = Ingress::whereCompany('coffee')
+            ->whereYear('bought_at', substr($date, 0, 4))
             ->whereMonth('bought_at', substr($date, 5, 2))
-            ->whereHas('client', function ($query) {
-                $query->where('name', '!=', 'VENTA MOSTRADOR')
-                    ->where('name', '!=', 'MOSTRADOR  (DEPOSITO)');
-            })
+            ->whereNotIn('client_id', [55, 333, 532, 568])
             ->with('client:id,name')
             ->get()
             ->groupBy('client.name')
@@ -126,27 +124,6 @@ class StatisticsController extends Controller
                 return $ingresses->sum('amount');
             })
             ->take(5);
-
-        // $topClients = Client::where('company', 'coffee')
-        //     ->where('name', '!=', 'VENTA MOSTRADOR')
-        //     ->where('name', '!=', 'MOSTRADOR  (DEPOSITO)')
-        //     ->with('latest_ingresses:id,amount,bought_at')
-        //     ->get();
-            // dd($topClients);
-            // ->transform(function ($client, $key) use ($date) {
-            //     $ingresses = $client->ingresses()
-            //             ->whereYear('bought_at', substr($date, 0, 4))
-            //             ->whereMonth('bought_at', '>=', substr($date, 5, 2) - 1)
-            //             ->get(['id', 'amount']);
-            //     return [
-            //         'id' => $client->id, 
-            //         'name' => $client->name, 
-            //         'amount' => $client->latest_ingresses->sum('amount'), 
-            //         'quantity' => $client->latest_ingresses->count()
-            //     ];
-            // })
-            // ->sortByDesc('amount')
-            // ->take(5);
         
         return view('coffee.statistics.clients', compact('usualClients', 'unusualClients', 'newUnusualClients', 'clientsComingBack', 'newClients', 'topClients', 'date'));
     }
