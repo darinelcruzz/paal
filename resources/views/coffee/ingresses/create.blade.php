@@ -20,7 +20,7 @@
                       <tab-content title="Cliente" icon="fa fa-user" :before-change="checkIsInvoiced">
                         <div class="row">                         
                             <div class="col-md-12">
-                                <client-select model="quotation"></client-select>
+                                <client-select model="sale"></client-select>
                             </div>
                         </div>
                         <div class="row">

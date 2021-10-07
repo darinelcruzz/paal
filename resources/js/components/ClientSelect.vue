@@ -106,7 +106,7 @@
 			client(value) {
 				if (value != '') {
 						axios.get('/api/clients/' + this.client.id + '/addresses').then(({data}) => {
-	            this.addresses = data;
+	            this.addresses = data.filter((address) => address.type === 'envío');
 	        });
 				}
 			}

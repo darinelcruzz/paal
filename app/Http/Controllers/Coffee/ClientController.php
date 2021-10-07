@@ -41,7 +41,7 @@ class ClientController extends Controller
                 'business_name' => $request->businessname,
                 'contact' => $request->contact,
                 'phone' => $request->phone,
-                'status' => 'facturación'
+                'type' => 'facturación'
             ]);
         }
 
@@ -50,7 +50,7 @@ class ClientController extends Controller
                 'business_name' => $request->businessname,
                 'contact' => $request->contact,
                 'phone' => $request->phone,
-                'status' => 'envío'
+                'type' => 'envío'
             ]);
         }
 
