@@ -59,12 +59,15 @@ class StatisticsController extends Controller
     {
         $date = $request->date ?? date('Y-m');
 
-        $usualClients = Client::where('company', 'coffee')->whereHas('ingresses', function ($query) use ($date) {
-            $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', '>=', substr($date, 5, 2) - 2);
-        })
-        ->pluck('id');
+        $usualClients = Client::where('company', 'coffee')
+            ->whereNotIn('id', [55, 333, 532, 568])
+            ->whereHas('ingresses', function ($query) use ($date) {
+                $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', '>=', substr($date, 5, 2) - 2);
+            })
+            ->pluck('id');
         
         $clientsComingBack = Client::where('company', 'coffee')
+            ->whereNotIn('id', [55, 333, 532, 568])
             ->whereHas('ingresses', function ($query) use ($date) {
                 $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', substr($date, 5, 2));
             })->whereHas('ingresses', function ($query) use ($date) {
@@ -75,7 +78,7 @@ class StatisticsController extends Controller
             ->with('latest_ingresses')
             ->get()
             ->transform(function ($client, $key) {
-                $ingresses = $client->latest_ingresses;
+                $ingresses = $client->latest_ingresses->where('company', 'coffee');
                 return ['id' => $client->id, 'name' => $client->name, 'quantity' => $ingresses->count(), 'amount' => $ingresses->sum('amount')];
                 // return ['id' => $client->id, 'name' => $client->name, 'quantity' => 100, 'amount' => 200];
             })
@@ -96,11 +99,15 @@ class StatisticsController extends Controller
 
         // dd($usualClients, $newClients, $clientsComingBack);
 
-        $unusualClients = Client::where('company', 'coffee')->whereDoesntHave('ingresses', function ($query) use ($date) {
-            $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', '>=', substr($date, 5, 2) - 3);
-        })->count();
+        $unusualClients = Client::where('company', 'coffee')
+            ->whereNotIn('id', [55, 333, 532, 568])
+            ->whereDoesntHave('ingresses', function ($query) use ($date) {
+                $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', '>=', substr($date, 5, 2) - 3);
+            })
+            ->count();
 
         $newUnusualClients = Client::where('company', 'coffee')
+            ->whereNotIn('id', [55, 333, 532, 568])
             ->with('ingresses:id,amount,bought_at')
             ->whereHas('ingresses', function ($query) use ($date) {
                 $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', '>=', substr($date, 5, 2) - 3);
