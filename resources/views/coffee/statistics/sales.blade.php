@@ -84,12 +84,12 @@
         <div class="col-md-2">
             <div class="btn-group-vertical">
                 @foreach(['TOTAL' => 'success', 'INSUMOS' => 'danger', 'ACCESORIOS' => 'warning', 'VASOS' => 'info', 'EQUIPO' => 'primary', 'REFACCIONES' => 'danger', 'BARRAS' => 'warning', 'CURSOS' => 'primary', 'OTROS' => 'info'] as $label => $color)
-                <button class="btn btn-{{ $color }}">
-                <a href="{{ route('coffee.statistics.sales', strtolower($label)) }}" style="color: white;">
+                {{-- <a href="{{ route('coffee.statistics.sales', strtolower($label)) }}" style="color: white;"> --}}
+                <a type="button" href="{{ route('coffee.statistics.sales', strtolower($label)) }}" class="btn btn-{{ $color }}">
                     {{ $label == 'EQUIPO' ? 'EQUIPOS': $label }}<br>
                     <product-quantity-and-amount category="{{ $label }}" date="{{ $date }}"></product-quantity-and-amount>
                 </a>
-                </button>
+                {{-- </a> --}}
                 @endforeach
             </div>
         </div>
