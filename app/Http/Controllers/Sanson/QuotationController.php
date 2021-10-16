@@ -13,7 +13,7 @@ class QuotationController extends Controller
     {
         $date = isset($request->date) ? $request->date: date('Y-m');
         $quotations = Quotation::monthly('sanson', $date, $type)->get();
-        $sales = Quotation::monthly('sanson', $date, $type)->has('retainers')->count();
+        $sales = Quotation::monthly('sanson', $date, $type)->has('sale')->count();
         $color = $type ? ($type == 'formularios' ? 'primary': 'info') : 'warning';
         $total = count($quotations);
 
@@ -22,7 +22,8 @@ class QuotationController extends Controller
 
     function create($type)
     {
-        return view('sanson.quotations.create', compact('type'));
+        $color = $type == 'equipo' ? 'info': 'primary';
+        return view('sanson.quotations.create', compact('type', 'color'));
     }
 
     function store(Request $request)

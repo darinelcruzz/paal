@@ -66,8 +66,9 @@ class ClientController extends Controller
             ->whereBetween($spanish == 'cotizaciones' ? 'created_at': 'bought_at', [$request->start ?? date('Y-m-d', time() - 60*60*24*30), $request->end ?? date('Y-m-d')])
             ->with('movements.product')
             ->get();
-        // dd($collection);
-        return view('coffee.clients.show', compact('client', 'collection', 'model', 'spanish'));
+        $first = $collection->first();
+        $name = $first->client_name ?? $first->client->name;
+        return view('coffee.clients.show', compact('client', 'collection', 'model', 'spanish', 'name'));
     }
 
     public function export() 

@@ -108,15 +108,4 @@
       0 => 'laravelcollective/html',
     ),
   ),
-  'uxweb/sweet-alert' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'UxWeb\\SweetAlert\\SweetAlertServiceProvider',
-    ),
-    'aliases' => 
-    array (
-      'Alert' => 'UxWeb\\SweetAlert\\SweetAlert',
-    ),
-  ),
 );

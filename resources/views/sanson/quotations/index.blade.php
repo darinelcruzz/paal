@@ -54,15 +54,16 @@
                     <table class="table table-striped table-bordered spanish">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th><i class="fa fa-cogs"></i></th>
-                                <th>Fecha</th>
-                                <th>Cliente</th>
-                                <th>Tipo</th>
-                                <th>IVA</th>
-                                <th>Total</th>
-                                <th>Ventas</th>
-                                <th>Ediciones</th>
+                                <th><small>ID</small></th>
+                                <th><small><i class="fa fa-cogs"></i></small></th>
+                                <th><small>FECHA</small></th>
+                                <th><small>CLIENTE</small></th>
+                                <th><small>TIPO</small></th>
+                                <th v-if="'campañas' == '{{ $type }}'"><small>VIA</small></th>
+                                <th><small>IVA</small></th>
+                                <th><small>TOTAL</small></th>
+                                <th><small>VENTA</small></th>
+                                <th><small>EDICIONES</small></th>
                             </tr>
                         </thead>
 
@@ -90,13 +91,20 @@
                                         </dropdown>
                                     </td>
                                     <td>{{ fdate($quotation->created_at, 'd/m/Y') }}</td>
-                                    <td style="width: 40%">{{ $quotation->client_name ?? $quotation->client->name }}</td>
+                                    <td style="width: 40%">
+                                        <a href="{{ route('sanson.client.show', [$quotation->client, 'cotizaciones']) }}" target="_blank">
+                                            {{ $quotation->client_name ?? $quotation->client->name }}
+                                        </a>
+                                    </td>
                                     <td style="text-align: center">
                                         @if ($quotation->type)
                                             <label class="label label-{{ $quotation->typeLabel }}">{{ strtoupper($quotation->type) }}</label>
                                         @else
                                             <label class="label label-{{$quotation->products_list_type == 'insumos' ? 'danger': 'warning'}}">{{ strtoupper($quotation->products_list_type) }}</label>
                                         @endif
+                                    </td>
+                                    <td style="text-align: center" v-if="'campañas' == '{{ $type }}'">
+                                        <label class="label label-default"><small>{{ strtoupper($quotation->via ?? 'S/E') }}</small></label>
                                     </td>
                                     <td style="text-align: right">{{ number_format($quotation->iva, 2) }}</td>
                                     <td style="text-align: right">
@@ -111,7 +119,7 @@
                                             <small>{{ $quotation->sale ? 'VENTA': 'SIN VENTA' }}</small>
                                         </span>
                                     </td>
-                                    <td>
+                                    <td style="text-align: center">
                                         @if ($quotation->editions_count)
                                             <code style="color: blue">{{ $quotation->editions_count }}</code>
                                         @else
@@ -130,7 +138,5 @@
             </modal>
         </div>
     </div>
-
-    @include('sweet::alert')
-
+    
 @endsection

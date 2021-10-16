@@ -1,4 +1,4 @@
-@extends('coffee.root')
+@extends('sanson.root')
 
 @push('pageTitle', 'Clientes | Detalle')
 
@@ -7,13 +7,13 @@
         <div class="col-md-6">
             {{  $name }}
             <span class="pull-right">
-                <a href="{{ route('coffee.client.show', [$client, $spanish == 'ventas' ? 'cotizaciones': 'ventas']) }}" class="btn btn-xs btn-{{ $spanish != 'ventas' ? 'danger': 'warning' }}">
+                <a href="{{ route('sanson.client.show', [$client, $spanish == 'ventas' ? 'cotizaciones': 'ventas']) }}" class="btn btn-xs btn-{{ $spanish != 'ventas' ? 'danger': 'warning' }}">
                     <i class="fa fa-random"></i>&nbsp;&nbsp;{{ $spanish == 'ventas' ? 'COTIZACIONES': 'VENTAS' }}
                 </a>
             </span>
         </div>
         <div class="col-md-6">
-            {!! Form::open(['method' => 'post', 'route' => ['coffee.client.show', $client, $spanish]]) !!}
+            {!! Form::open(['method' => 'post', 'route' => ['sanson.client.show', $client, $spanish]]) !!}
             <div class="row">
                 <div class="col-md-6">
                     <div class="input-group input-group-sm">
@@ -83,17 +83,17 @@
                                         </a>
                                     </li>
                                     @if($spanish == 'cotizaciones')
-                                        <ddi to="{{ route('coffee.' . strtolower(substr($model, 4)) . '.download', $item) }}" icon="file-pdf" text="Imprimir" target="_blank"></ddi>
+                                        <ddi to="{{ route('sanson.' . strtolower(substr($model, 4)) . '.download', $item) }}" icon="file-pdf" text="Imprimir" target="_blank"></ddi>
                                     @endif
                                     @if (!$item->sale)
                                         @if($spanish == 'cotizaciones')
-                                            <ddi to="{{ route('coffee.' . strtolower(substr($model, 4)) . '.edit', $item) }}" icon="edit" text="Editar"></ddi>
+                                            <ddi to="{{ route('sanson.' . strtolower(substr($model, 4)) . '.edit', $item) }}" icon="edit" text="Editar"></ddi>
                                         @endif
-                                        <ddi to="{{ route('coffee.retainer.create', $item) }}" icon="hand-holding-usd" text="Anticipo"></ddi>
+                                        <ddi to="{{ route('sanson.retainer.create', $item) }}" icon="hand-holding-usd" text="Anticipo"></ddi>
                                         @if($item->type && $spanish == 'cotizaciones')
-                                            <ddi to="{{ route('coffee.' . strtolower(substr($model, 4)) . '.transform', [$item, $item->type]) }}" icon="mug-hot" text="Crear venta"></ddi>
+                                            <ddi to="{{ route('sanson.' . strtolower(substr($model, 4)) . '.transform', [$item, $item->type]) }}" icon="mug-hot" text="Crear venta"></ddi>
                                         @elseif($spanish == 'cotizaciones')
-                                            <ddi to="{{ route('coffee.' . strtolower(substr($model, 4)) . '.transform', $item) }}" icon="mug-hot" text="Crear venta"></ddi>
+                                            <ddi to="{{ route('sanson.' . strtolower(substr($model, 4)) . '.transform', $item) }}" icon="mug-hot" text="Crear venta"></ddi>
                                         @endif
                                     @endif
                                 </dropdown>

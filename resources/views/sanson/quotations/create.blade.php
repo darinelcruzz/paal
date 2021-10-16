@@ -1,13 +1,11 @@
 @extends('sanson.root')
 
-@push('pageTitle')
-    Cotización | Agregar
-@endpush
+@push('pageTitle', 'Cotización | Agregar')
 
 @section('content')
     <div class="row">
-        <div class="col-md-7">
-            <solid-box title="Agregar cotización" color="{{ $type == 'equipo' ? 'info': 'primary'}}">
+        <div class="col-md-6">
+            <solid-box title="Agregar cotización" color="{{ $color }}">
                 {!! Form::open(['method' => 'POST', 'route' => 'sanson.quotation.store', 'ref' => 'cform']) !!}
 
                     <form-wizard
@@ -21,24 +19,20 @@
 
                       <tab-content title="Cliente" icon="fa fa-user">
                         <div class="row">
-                            <div class="col-md-8 col-md-offset-2">
-                                <client-select company="sanson"></client-select>
-                            </div>
-                            
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <a class="btn btn-app" href="{{ route('sanson.client.create') }}" target="_blank">
-                                    <i class="fa fa-user-plus"></i> CLIENTE
+                            <div class="col-md-1">
+                                <label for="">&nbsp;</label><br>
+                                <a class="btn btn-sm btn-{{ $color }}" href="{{ route('sanson.client.create') }}" target="_blank" title="AGREGAR CLIENTE">
+                                    <i class="fa fa-user-plus"></i>
                                 </a>
                             </div>
+                            <div class="col-md-11">
+                                <client-select company="sanson" model="quotation"></client-select>
+                            </div>
                         </div>
-                        <hr>
                       </tab-content>
 
                       <tab-content title="Equipos y refacciones" icon="fa fa-tag">
-                          <shopping-cart color="{{ $type == 'equipo' ? 'info': 'primary'}}" :exchange="{{ $exchange }}" :promo="{{ $promo }}"></shopping-cart>
+                          <shopping-cart color="{{ $color }}" :exchange="{{ $exchange }}" :promo="{{ $promo }}"></shopping-cart>
                        </tab-content>
 
                     </form-wizard>
@@ -51,7 +45,7 @@
             </solid-box>
         </div>
 
-        <div class="col-md-5">
+        <div class="col-md-6">
             <solid-box title="Productos" color="{{ $type == 'equipo' ? 'info': 'primary' }}">
                 <p-table 
                     color="{{ $type == 'equipo' ? 'info': 'primary'}}" 

@@ -17,8 +17,6 @@ class QuotationController extends Controller
         $color = $type ? ($type == 'formularios' ? 'primary': 'info') : 'warning';
         $total = count($quotations);
 
-        // dd($total);
-
         return view('coffee.quotations.index', compact('quotations', 'sales', 'total', 'date', 'type', 'color'));
     }
 

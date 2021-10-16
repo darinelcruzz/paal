@@ -32,6 +32,20 @@ class ClientController extends Controller
         return redirect(route('sanson.client.index'));
     }
 
+    function show(Request $request, Client $client, $model = 'ventas')
+    {
+        $spanish = $model;
+        $model = ['ventas' => 'App\Ingress', 'cotizaciones' => 'App\Quotation'][$model];
+        $collection = $model::whereClientId($client->id)
+            ->whereCompany('sanson')
+            ->whereBetween($spanish == 'cotizaciones' ? 'created_at': 'bought_at', [$request->start ?? date('Y-m-d', time() - 60*60*24*30), $request->end ?? date('Y-m-d')])
+            ->with('movements.product')
+            ->get();
+        $first = $collection->first();
+        $name = $first->client_name ?? $first->client->name;
+        return view('sanson.clients.show', compact('client', 'collection', 'model', 'spanish', 'name'));
+    }
+
     function edit(Client $client)
     {
         return view('sanson.clients.edit', compact('client'));
