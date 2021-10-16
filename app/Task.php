@@ -2,6 +2,7 @@
 
 namespace App;
 
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
@@ -19,6 +20,10 @@ class Task extends Model
     function user()
     {
     	return $this->belongsTo(User::class, 'assigned_to');
+    }
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
     }
 
     function getOnTimeAttribute()

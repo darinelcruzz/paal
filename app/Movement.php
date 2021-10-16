@@ -2,6 +2,7 @@
 
 namespace App;
 
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 
 class Movement extends Model
@@ -16,6 +17,10 @@ class Movement extends Model
     function product()
     {
         return $this->belongsTo(Product::class);
+    }
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
     }
 
     function getRealAmountAttribute()

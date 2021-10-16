@@ -2,6 +2,7 @@
 
 namespace App;
 
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 
 class Check extends Model
@@ -11,6 +12,10 @@ class Check extends Model
     function egresses()
     {
     	return $this->hasMany(Egress::class);
+    }
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
     }
 
     function getTotalAttribute()

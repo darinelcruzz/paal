@@ -2,6 +2,7 @@
 
 namespace App;
 
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 
 class Payment extends Model
@@ -11,6 +12,10 @@ class Payment extends Model
     function ingress()
     {
         return $this->belongsTo(Payment::class);
+    }
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
     }
 
     function getMethodsAttribute()

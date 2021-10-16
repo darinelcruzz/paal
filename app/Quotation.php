@@ -2,6 +2,7 @@
 
 namespace App;
 
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 use Jenssegers\Date\Date;
 
@@ -32,6 +33,10 @@ class Quotation extends Model
     function movements()
     {
         return $this->morphMany(Movement::class, 'movable');
+    }
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
     }
 
     function getDebtAttribute()

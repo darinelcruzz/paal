@@ -2,6 +2,7 @@
 
 namespace App;
 
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 
 class Egress extends Model
@@ -26,6 +27,10 @@ class Egress extends Model
     function payments()
     {
         return $this->hasMany(EgressPayment::class);
+    }
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
     }
 
     function getDebtAttribute()
