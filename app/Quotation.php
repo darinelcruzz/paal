@@ -89,6 +89,11 @@ class Quotation extends Model
         return ['insumos' => 'danger', 'equipo' => 'warning', 'proyecto' => 'primary'][$this->type];
     }
 
+    function getViaLabelAttribute()
+    {
+        return ['google' => 'google', 'facebook' => 'facebook', 'página web' => 'vk', 'recomendación' => 'foursquare', 'otro' => 'github'][$this->via] ?? 'default';
+    }
+
     function getInternetTypeAttribute()
     {
         return [658 => 'formulario', 659 => 'campaña'][$this->client_id] ?? '';

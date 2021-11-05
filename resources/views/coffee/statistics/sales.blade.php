@@ -95,4 +95,12 @@
         </div>
     </div>
 
+    {{-- <div class="row">
+        <div class="col-md-10">
+            <solid-box title="GRÁFICA" color="{{ ['TOTAL' => 'success', 'INSUMOS' => 'danger', 'ACCESORIOS' => 'warning', 'VASOS' => 'info', 'EQUIPO' => 'primary', 'REFACCIONES' => 'danger', 'BARRAS' => 'warning', 'CURSOS' => 'primary', 'OTROS' => 'default'][$category] }}">
+                <div id="chart" style="height: 300px;"></div>
+            </solid-box>
+        </div>
+    </div> --}}
+
 @endsection

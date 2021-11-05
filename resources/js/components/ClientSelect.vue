@@ -58,8 +58,7 @@
 			                </div>
 			                <select name="via" class="form-control pull-right">
 			                	<option value="facebook" selected>Facebook</option>
-			                	<option value="google">Google</option>
-			                	<option value="adword">Adword</option>
+			                	<option value="google">Google/Adword</option>
 			                	<option value="página web">Página web</option>
 			                	<option value="recomendación">Recomendación</option>
 			                	<option value="otro">Otro</option>

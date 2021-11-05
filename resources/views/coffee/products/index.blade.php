@@ -5,7 +5,9 @@
 @push('headerTitle')
     <div class="row">
         <div class="col-md-9">
-            PRODUCTOS COFFEE DEPOT
+            @if(auth()->user()->level <= 2)
+            <a href="{{ route('coffee.product.create') }}" class="btn btn-danger btn-xs"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR</a>
+            @endif
         </div>
         <div class="col-md-3">
             <a href="{{ route('coffee.product.export') }}" class="btn btn-success btn-xs pull-right">

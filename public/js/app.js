@@ -58347,7 +58347,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	props: {
@@ -58572,11 +58571,7 @@ var staticRenderFns = [
                 ]),
                 _vm._v(" "),
                 _c("option", { attrs: { value: "google" } }, [
-                  _vm._v("Google")
-                ]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "adword" } }, [
-                  _vm._v("Adword")
+                  _vm._v("Google/Adword")
                 ]),
                 _vm._v(" "),
                 _c("option", { attrs: { value: "página web" } }, [

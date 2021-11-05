@@ -49,6 +49,33 @@
 
         <div class="col-md-12">
 
+            @if(count($vias) > 0)
+            <div class="btn-group">
+              
+              <button type="button" class="btn btn-sm btn-google btn-social">
+                <i class="fab fa-google"></i>{{ count($vias['google'] ?? []) }}
+              </button>
+              
+              <button type="button" class="btn btn-sm btn-facebook btn-social">
+                <i class="fab fa-facebook"></i>{{ count($vias['facebook'] ?? []) }}
+              </button>
+              
+              <button type="button" class="btn btn-sm btn-vk btn-social">
+                <i class="fa fa-wifi"></i> {{ count($vias['página web'] ?? []) }}
+              </button>
+              
+              <button type="button" class="btn btn-sm btn-foursquare btn-social">
+                <i class="fa fa-comments"></i> {{ count($vias['recomendación'] ?? []) }}
+              </button>
+              
+              <button type="button" class="btn btn-sm btn-github btn-social">
+                <i class="fa fa-question"></i> {{ count($vias['otro'] ?? []) }}
+              </button>
+
+            </div>
+            <br><br>
+            @endif
+
             <solid-box title="{{ ucfirst($type ?? 'Cotizaciones') }}" color="{{ $color }}">
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered spanish">
@@ -104,7 +131,7 @@
                                         @endif
                                     </td>
                                     <td style="text-align: center" v-if="'campañas' == '{{ $type }}'">
-                                        <label class="label label-default"><small>{{ strtoupper($quotation->via ?? 'S/E') }}</small></label>
+                                        <label class="label btn-{{ $quotation->via_label }}"><small>{{ strtoupper($quotation->via ?? 'S/E') }}</small></label>
                                     </td>
                                     <td style="text-align: right">{{ number_format($quotation->iva, 2) }}</td>
                                     <td style="text-align: right">

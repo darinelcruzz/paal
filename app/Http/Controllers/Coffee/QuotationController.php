@@ -16,8 +16,13 @@ class QuotationController extends Controller
         $sales = Quotation::monthly('coffee', $date, $type)->has('sale')->count();
         $color = $type ? ($type == 'formularios' ? 'primary': 'info') : 'warning';
         $total = count($quotations);
+        $vias = [];
 
-        return view('coffee.quotations.index', compact('quotations', 'sales', 'total', 'date', 'type', 'color'));
+        if ($type == 'campañas') {
+            $vias = Quotation::monthly('coffee', $date, $type)->get()->groupBy('via');
+        }
+
+        return view('coffee.quotations.index', compact('quotations', 'sales', 'total', 'date', 'type', 'color', 'vias'));
     }
 
     function create()
@@ -32,6 +37,7 @@ class QuotationController extends Controller
             'user_id' => 'required',
             'amount' => 'required',
             'iva' => 'required',
+            'via' => 'sometimes|required',
             'company' => 'required',
             'type' => 'required',
             'client_name' => 'sometimes|required',

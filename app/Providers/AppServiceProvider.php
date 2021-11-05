@@ -8,6 +8,7 @@ use App\Http\ViewComposers\MailboxesComposer;
 use Illuminate\Support\Facades\View;
 use App\{Ingress, Quotation, Movement, Order, Purchase};
 use App\Observers\{IngressObserver, QuotationObserver, MovementObserver, OrderObserver, PurchaseObserver};
+use ConsoleTVs\Charts\Registrar as Charts;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -16,7 +17,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(Charts $charts)
     {
         $this->publishes([
             base_path() . '\vendor\almasaeed2010\adminlte\bower_components' => public_path('adminlte/bower_components'),
@@ -26,6 +27,9 @@ class AppServiceProvider extends ServiceProvider
 
         View::composer('*', SalesAndQuotationsComposer::class);
         $this->registerObservers();
+        $charts->register([
+            \App\Charts\BasicChart::class
+        ]);
     }
 
     /**

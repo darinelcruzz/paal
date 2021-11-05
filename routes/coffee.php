@@ -120,6 +120,8 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	Route::group(['prefix' => 'productos', 'as' => 'product.'], function () {
 	    $ctrl = 'Coffee\ProductController';
 	    Route::get('/', usesas($ctrl, 'index'));
+	    Route::get('agregar', usesas($ctrl, 'create'));
+	    Route::post('agregar', usesas($ctrl, 'store'));
 	    Route::get('exportar', usesas($ctrl, 'export'));
 	    Route::get('editar/{product}', usesas($ctrl, 'edit'));
 	    Route::get('serializar/{product}', usesas($ctrl, 'serialize'));
