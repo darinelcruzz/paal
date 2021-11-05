@@ -35,17 +35,18 @@
 
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th><small>ID</small></th>
                             <th><i class="fa fa-cogs"></i></th>
-                            <th>Venta</th>
-                            <th>Cliente</th>
-                            <th>Contacto</th>
-                            <th>Dirección</th>
-                            <th>Envío</th>
-                            <th>Entrega</th>
-                            <th>Paquetería</th>
-                            <th>Estado</th>
-                            <th>Observaciones</th>
+                            <th><small>VENTA</small></th>
+                            <th><small>CLIENTE</small></th>
+                            <th><small>CONTACTO</small></th>
+                            <th><small>DIRECCIÓN</small></th>
+                            <th><small>ENVÍO</small></th>
+                            <th><small>ENTREGA</small></th>
+                            <th><small>PAQUETERÍA</small></th>
+                            <th><small>COSTO</small></th>
+                            <th><small>ESTADO</small></th>
+                            <th><small>OBSERVACIONES</small></th>
                         </tr>
                     </thead>
 
@@ -96,6 +97,7 @@
                                     @endif
                                     <code>{{ $shipping->guide_number }}</code>
                                 </td>
+                                <td style="text-align: right;">{{ number_format($shipping->ingress->shipping_cost, 2) }}</td>
                                 <td>
                                     <span class="label label-{{ $shipping->color }}">
                                         <small>{{ strtoupper($shipping->status) }}</small>

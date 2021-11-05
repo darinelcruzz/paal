@@ -50,6 +50,11 @@ class Ingress extends Model
         return $this->created_at->format('Y-m-d') > $this->bought_at;
     }
 
+    function getShippingCostAttribute()
+    {
+        return $this->movements()->whereIn('product_id', [262, 263, 264, 265, 266, 289, 997])->sum('total');
+    }
+
     function getDebtAttribute()
     {
         $debt = 0;
