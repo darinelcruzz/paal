@@ -83,7 +83,7 @@
                                         @endif
                                     </dropdown>
                                 </td>
-                                <td>{{ fdate($ingress->bought_at, 'd/M/y', 'Y-m-d') }}</td>
+                                <td>{{ date('d/m/y', strtotime($ingress->bought_at)) }}</td>
                                 <td style="width: 30%">
                                     <a href="{{ route('coffee.client.show', [$ingress->client, 'ventas']) }}" target="_blank">
                                         {{ $ingress->quotation->client_name ?? $ingress->client->name }}

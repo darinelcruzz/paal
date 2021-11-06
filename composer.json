@@ -9,7 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.2.5|^8.0",
-        "almasaeed2010/adminlte": "~2.4",
+        "almasaeed2010/adminlte": "~3.1",
         "barryvdh/laravel-dompdf": "^0.8.4",
         "consoletvs/charts": "7.*",
         "doctrine/dbal": "^2.12.1",
