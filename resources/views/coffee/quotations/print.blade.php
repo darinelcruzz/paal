@@ -12,12 +12,18 @@
         <link rel="stylesheet" href="{{ asset('css/printable.css') }}" media="all">
 
         <link rel="icon" href="{{ asset("/img/coffee.ico") }}" />
+
+        <style>
+            table.print-friendly tr td, table.print-friendly tr th {
+                page-break-inside: avoid;
+            }
+        </style>
     </head>
 
     <body onload="window.print();">
         <div class="row">
             <div class="col-md-12">
-                <table class="table">
+                <table class="table print-friendly">
                     <tbody>
                         <tr>
                             <td style="text-align: center;">

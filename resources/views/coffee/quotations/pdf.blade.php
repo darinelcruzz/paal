@@ -15,13 +15,16 @@
         .page-break {
             page-break-after: always;
         }
+        table.print-friendly tr td, table.print-friendly tr th {
+            page-break-inside: avoid;
+        }
         </style>
     </head>
 
     <body>
         <div class="row">
             <div class="col-md-12">
-                <table class="table">
+                <table class="table print-friendly">
                     <tbody>
                         <tr>
                             <td>
