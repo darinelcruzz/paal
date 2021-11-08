@@ -87,7 +87,9 @@ class IngressController extends Controller
 
     function destroy(Ingress $ingress, $reason)
     {
-        Alert::success('Venta cancelada', "La venta $ingress->folio se ha cancelado exitosamente")->persistent('Cerrar');
+        // Alert::info('Venta cancelada')
+        //     ->details("La venta $ingress->folio se ha cancelado exitosamente")
+        //     ->button('Cerrar', 'primary');
 
         $ingress->update([
             'status' => 'cancelado',
@@ -98,7 +100,7 @@ class IngressController extends Controller
             $ingress->shipping->update(['status' => 'cancelado']);
         }
 
-        return back();
+        return redirect(route('coffee.ingress.index'));
     }
 
 }
