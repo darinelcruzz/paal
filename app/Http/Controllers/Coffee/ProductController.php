@@ -86,10 +86,10 @@ class ProductController extends Controller
             
             $product->update($validated);
 
-            Alert::success( 
-                "Precio menudeo de $" . number_format($r_old, 2) . " a $" . number_format($product->retail_price, 2) . ".\n Precio mayoreo de $" . number_format($w_old, 2) . " a $" . number_format($product->wholesale_price, 2),
-                'Precios modificados')
-                ->persistent('Cerrar');
+            // Alert::success( 
+            //     "Precio menudeo de $" . number_format($r_old, 2) . " a $" . number_format($product->retail_price, 2) . ".\n Precio mayoreo de $" . number_format($w_old, 2) . " a $" . number_format($product->wholesale_price, 2),
+            //     'Precios modificados')
+            //     ->persistent('Cerrar');
 
             // $product->notify(new ProductPriceChanged(auth()->user()->name, [$r_old, $w_old]));
 
@@ -98,13 +98,13 @@ class ProductController extends Controller
             $old = $product->retail_price;
             $product->update($validated + ['wholesale_price' => $request->retail_price]);
             
-            Alert::success("El precio se cambió de $" . number_format($old, 2) . " a $" . number_format($product->retail_price, 2), 'Precio modificado')->persistent('Cerrar');
+            // Alert::success("El precio se cambió de $" . number_format($old, 2) . " a $" . number_format($product->retail_price, 2), 'Precio modificado')->persistent('Cerrar');
             
             // $product->notify(new ProductPriceChanged(auth()->user()->name, $old));
         }
 
 
 
-        return redirect(route('coffee.product.edit', $product));
+        return redirect(route('coffee.product.index'));
     }
 }
