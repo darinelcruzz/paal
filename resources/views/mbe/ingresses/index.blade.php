@@ -63,6 +63,6 @@
         </div>
     </div>
 
-    @include('sweet::alert')
+    {{-- @include('sweet::alert') --}}
 
 @endsection
