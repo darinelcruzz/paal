@@ -18,6 +18,10 @@ return [
                 'title' => 'Clientes',
                 'route' => 'coffee.statistics.clients'
             ],
+            'places' => [
+                'title' => 'Lugares',
+                'route' => 'coffee.statistics.places'
+            ],
         ]
     ],
 

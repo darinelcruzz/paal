@@ -23,6 +23,11 @@ class Client extends Model
     	return $this->hasMany(Address::class);
     }
 
+    function shipping_address()
+    {
+        return $this->hasOne(Address::class)->where('type', 'envío');
+    }
+
     function quotations()
     {
         return $this->hasMany(Quotation::class);

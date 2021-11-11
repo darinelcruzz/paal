@@ -7,6 +7,7 @@ namespace App\Charts;
 use Chartisan\PHP\Chartisan;
 use ConsoleTVs\Charts\BaseChart;
 use Illuminate\Http\Request;
+use App\{Movement, Ingress};
 
 class BasicChart extends BaseChart
 {
@@ -32,9 +33,45 @@ class BasicChart extends BaseChart
      */
     public function handler(Request $request): Chartisan
     {
-        return Chartisan::build()
-            ->labels(['Uno', 'Dos', 'Tres'])
-            ->dataset('Muestra 1', [1, 2, 3])
-            ->dataset('Muestra 2', [3, 2, 1]);
+        $movementsByMonth = Movement::whereYear('created_at', date('Y'))
+            ->whereHasMorph('movable', Ingress::class, function ($query) {
+                $query->where('company', 'coffee');
+            })
+            ->whereHas('product', function ($query) {
+                $query->whereIn('category', ['INSUMOS', 'ACCESORIOS', 'VASOS', 'EQUIPO', 'REFACCIONES', 'BARRAS', 'CURSOS', 'OTROS']);
+            })
+            ->with('product')
+            ->get()
+            ->groupBy([function ($item, $key) {
+                // dd($item->created_at);
+                return date('M', strtotime((string)$item->created_at));
+            }, 'product.category']);
+
+        // ddd($groups);
+
+        $chart = Chartisan::build();
+
+        $chart->labels($movementsByMonth->keys()->toArray());
+
+        foreach ($movementsByMonth as $month => $categories) {
+            // dd($categories);
+            foreach ($categories as $name => $movements) {
+                $dataset["$name"] = [];
+            }
+        }
+
+        foreach ($movementsByMonth as $month => $categories) {
+            // dd($categories);
+            foreach ($categories as $name => $movements) {
+                array_push($dataset["$name"], $movements->sum('quantity'));
+            }
+        }
+
+        foreach ($dataset as $key => $value) {
+            $chart->dataset($key, $value);
+        }
+        
+        
+        return $chart;
     }
 }

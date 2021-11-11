@@ -33,6 +33,21 @@ class StatisticsController extends Controller
             })
             ->sortByDesc('quantity');
 
+        // $movementsByMonth = Movement::whereYear('created_at', date('Y'))
+        //     ->whereHasMorph('movable', Ingress::class, function ($query) {
+        //         $query->where('company', 'coffee');
+        //     })
+        //     ->whereHas('product', function ($query) {
+        //         $query->whereIn('category', ['INSUMOS', 'ACCESORIOS', 'VASOS', 'EQUIPO', 'REFACCIONES', 'BARRAS', 'CURSOS', 'OTROS']);
+        //     })
+        //     ->with('product')
+        //     ->get()
+        //     ->groupBy([function ($item, $key) {
+        //         return date('m', strtotime($item->created_at));
+        //     }, 'product.category']);
+
+        // dd($movementsByMonth);
+
         $topProducts = Movement::where('movable_type', 'App\Ingress')
             ->whereYear('created_at', substr($date, 0, 4))
             ->whereMonth('created_at', substr($date, 5, 2))
@@ -141,20 +156,32 @@ class StatisticsController extends Controller
         return view('coffee.statistics.clients', compact('usualClients', 'unusualClients', 'newUnusualClients', 'clientsComingBack', 'newClients', 'topClients', 'date'));
     }
 
-    function shippings(Request $request)
+    function shippings(Request $request, $company = null)
     {
         $date = $request->date ?? date('Y-m');
 
         $shippings = Shipping::whereYear('created_at', substr($date, 0, 4))
             ->whereMonth('created_at', substr($date, 5, 2))
-            ->whereNotNull('company')
+            ->where('company', ($company == null ? '!=': '='), $company)
             ->whereHas('address')
             ->with('ingress:id,amount', 'address:id,city,state')
             ->get();
 
-        $shippingsByCompany = $shippings->groupBy('company')->transform(function ($company, $key) {
-            return ['quantity' => $company->count(), 'amount' => $company->sum(function ($item) {
-                return $item->ingress->amount;
+        $total = Shipping::whereYear('created_at', substr($date, 0, 4))
+            ->whereMonth('created_at', substr($date, 5, 2))
+            ->whereNotNull('company')
+            ->with('ingress:id,amount')
+            ->get();
+
+        $shippingsByCompany = Shipping::whereYear('created_at', substr($date, 0, 4))
+            ->whereMonth('created_at', substr($date, 5, 2))
+            ->whereNotNull('company')
+            ->whereHas('address')
+            ->with('ingress:id,amount', 'address:id,city,state')
+            ->get()
+            ->groupBy('company')->transform(function ($company, $key) {
+                return ['quantity' => $company->count(), 'amount' => $company->sum(function ($item) {
+                    return $item->ingress->amount;
             })];
         });
 
@@ -166,6 +193,38 @@ class StatisticsController extends Controller
             })
             ->take(5);
 
-        return view('coffee.statistics.shippings', compact('shippings', 'shippingsByCompany', 'shippingsByState', 'topPlaces', 'date'));
+        $color = ['mbe etc' => 'danger', 'business express' => 'warning', 'pack service' => 'primary', 'paquete express' => 'info', 'estafeta' => 'default'][$company] ?? 'success';
+
+        return view('coffee.statistics.shippings', compact('shippings', 'shippingsByCompany', 'shippingsByState', 'topPlaces', 'date', 'color', 'company', 'total'));
+    }
+
+    function places(Request $request)
+    {
+        $date = $request->date ?? date('Y-m');
+
+        $ingresses = Ingress::whereYear('bought_at', substr($date, 0, 4))
+            ->whereMonth('bought_at', substr($date, 5, 2))
+            ->whereHas('client')
+            ->with('client.shipping_address')
+            ->get();
+
+
+        $ingressesByState = $ingresses->groupBy(function ($ingress) {
+                if ($ingress->client->shipping_address) {
+                    return strtoupper($ingress->client->shipping_address->state);
+                }
+            });
+
+        $topPlaces = $ingresses->groupBy(function ($ingress) {
+                if ($ingress->client->shipping_address) {
+                    return strtoupper($ingress->client->shipping_address->city);
+                }
+            })
+            ->sortByDesc(function ($city, $key) {
+                return $city->count();
+            })
+            ->take(5);
+
+        return view('coffee.statistics.places', compact('ingressesByState', 'topPlaces', 'date'));
     }
 }

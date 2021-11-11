@@ -1,15 +1,15 @@
 @extends('coffee.root')
 
-@push('pageTitle', 'Análisis | Envíos')
+@push('pageTitle', 'Análisis | Lugares')
 
 @push('headerTitle')
-    {!! Form::open(['method' => 'post', 'route' => 'coffee.statistics.shippings']) !!}
+    {!! Form::open(['method' => 'post', 'route' => 'coffee.statistics.places']) !!}
         <div class="row">
             <div class="col-md-3">
                 <div class="input-group input-group-sm">
                     <input type="month" name="date" class="form-control" value="{{ $date }}">
                     <span class="input-group-btn">
-                        <button type="submit" class="btn btn-{{ $color }} btn-flat"><i class="fa fa-search"></i></button>
+                        <button type="submit" class="btn btn-danger btn-flat"><i class="fa fa-search"></i></button>
                     </span>
                 </div>
             </div>
@@ -21,7 +21,7 @@
 
     <div class="row">
         <div class="col-md-5">
-            <solid-box title="{{ ucwords($company ?? 'TODOS') }}" color="{{ $color }}">
+            <solid-box title="ENVÍOS" color="danger">
                 <table class="table table-striped table-bordered table-hover table-condensed">
                     <thead>
                         <tr>
@@ -33,14 +33,16 @@
                     </thead>
 
                     <tbody>
-                        @foreach($shippingsByState as $state => $collection)
+                        @foreach($ingressesByState as $state => $collection)
+                        {{-- @dd($collection) --}}
                         <tr>
                             <td>{{ $state == '' ? 'NO AÑADIDO': $state }}</td>
                             <td>
+                                @if($state != '')
                                 <a data-toggle="modal" data-target="#cities{{ $loop->index }}">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                 </a>
-                                <modal title="{{ $state }}" color="{{ $color }}" id="cities{{ $loop->index }}">
+                                <modal title="{{ $state }}" color="danger" id="cities{{ $loop->index }}">
                                     <div class="table-responsive">
                                         <table class="table table-striped table-bordered table-hover table-condensed">
                                             <thead>
@@ -51,8 +53,8 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach($collection->groupBy(function ($shipping) {return strtoupper($shipping->address->city);}) as $city => $values)
-                                                {{-- @dd($city, $values) --}}
+                                                @foreach($collection->groupBy(function ($ingress) {return strtoupper($ingress->client->shipping_address->city);}) as $city => $values)
+                                                {{-- @dd($values) --}}
                                                 <tr>
                                                     <td style="width: 70%;">
                                                         <small>{{ $city }}</small>
@@ -60,9 +62,9 @@
                                                     <td style="text-align: center;">
                                                         {{ $values->count() }}
                                                     </td>
-                                                    <td style="text-align: right;">{{ number_format($values->sum(function ($shipping)
+                                                    <td style="text-align: right;">{{ number_format($values->sum(function ($ingress)
                                                     {
-                                                        return $shipping->ingress->amount;
+                                                        return $ingress->amount;
                                                     }), 2) }}</td>
                                                 </tr>
                                                 @endforeach
@@ -70,9 +72,12 @@
                                         </table>
                                     </div>
                                 </modal>
+                                @else
+                                <i class="fa fa-eye-slash" aria-hidden="true"></i>
+                                @endif
                             </td>
                             <td style="text-align: center;">{{ $collection->count() }}</td>
-                            <td style="text-align: right;">{{ number_format($collection->sum(function ($shipping) { return $shipping->ingress->amount; }), 2) }}</td>
+                            <td style="text-align: right;">{{ number_format($collection->sum(function ($ingress) { return $ingress->amount; }), 2) }}</td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -80,8 +85,8 @@
                     <tfoot>
                         <tr>
                             <th colspan="2"></th>
-                            <th style="text-align: center;">{{ $shippingsByState->sum(function ($shippings) { return $shippings->count();}) }}</th>
-                            <th style="text-align: right;">{{ number_format($shippingsByState->sum(function ($shippings) { return $shippings->sum(function ($shipping) {return $shipping->ingress->amount;}); }), 2) }}</th>
+                            <th style="text-align: center;">{{ $ingressesByState->sum(function ($state) { return $state->count(); }) }}</th>
+                            <th style="text-align: right;">{{ number_format($ingressesByState->sum(function ($state) { return $state->sum('amount'); }), 2) }}</th>
                         </tr>
                     </tfoot>
                 </table>
@@ -89,7 +94,7 @@
         </div>
 
         <div class="col-md-5">
-            <solid-box title="TOP 5 LUGARES" color="{{ $color }}">
+            <solid-box title="TOP 5 LUGARES" color="danger">
                 <table class="table table-striped table-bordered table-hover table-condensed">
                     <thead>
                         <tr>
@@ -106,7 +111,7 @@
                             <td>#{{ $loop->iteration }}</td>
                             <td>{{ $city == '' ? 'NO AÑADIDO': $city }}</td>
                             <td style="text-align: center;">{{ $collection->count() }}</td>
-                            <td style="text-align: right;">{{ number_format($collection->sum(function ($shipping) { return $shipping->ingress->amount; }), 2) }}</td>
+                            <td style="text-align: right;">{{ number_format($collection->sum(function ($ingress) { return $ingress->amount; }), 2) }}</td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -115,31 +120,12 @@
                         <tr>
                             <th></th>
                             <th></th>
-                            <th style="text-align: center;">{{ $topPlaces->sum(function ($shippings) { return $shippings->count();}) }}</th>
-                            <th style="text-align: right;">{{ number_format($topPlaces->sum(function ($shippings) { return $shippings->sum(function ($shipping) {return $shipping->ingress->amount;}); }), 2) }}</th>
+                            <th style="text-align: center;">{{ $topPlaces->sum(function ($place) { return $place->count(); }) }}</th>
+                            <th style="text-align: right;">{{ number_format($topPlaces->sum(function ($place) { return $place->sum('amount'); }), 2) }}</th>
                         </tr>
                     </tfoot>
                 </table>
             </solid-box>
-        </div>
-
-        <div class="col-md-2">
-            <div class="btn-group-vertical">
-                <button class="btn btn-success">
-                <a href="{{ route('coffee.statistics.shippings') }}" style="color: inherit;">
-                    TOTAL<br>
-                    {{ $total->count() }} - {{ number_format($total->sum(function ($shipping) { return $shipping->ingress->amount;}), 2) }}
-                </a>
-                </button>
-                @foreach($shippingsByCompany as $label => $values)
-                <button class="btn btn-{{ ['danger', 'warning', 'primary', 'info', 'default'][$loop->index] }}">
-                <a href="{{ route('coffee.statistics.shippings', strtolower($label)) }}" style="color: inherit;">
-                    {{ strtoupper($label) }}<br>
-                    {{ $values['quantity'] }} - {{ number_format($values['amount'], 2) }}
-                </a>
-                </button>
-                @endforeach
-            </div>
         </div>
     </div>
 

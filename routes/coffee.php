@@ -222,9 +222,11 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	    $ctrl = 'Coffee\StatisticsController';
 	    Route::get('ventas/{category?}', usesas($ctrl, 'sales'));
 	    Route::post('ventas/{category?}', usesas($ctrl, 'sales'));
-	    Route::get('envíos', usesas($ctrl, 'shippings'));
-	    Route::post('envíos', usesas($ctrl, 'shippings'));
+	    Route::get('envíos/{provider?}', usesas($ctrl, 'shippings'));
+	    Route::post('envíos/{provider?}', usesas($ctrl, 'shippings'));
 	    Route::get('clientes', usesas($ctrl, 'clients'));
 	    Route::post('clientes', usesas($ctrl, 'clients'));
+	    Route::get('lugares', usesas($ctrl, 'places'));
+	    Route::post('lugares', usesas($ctrl, 'places'));
 	});
 });

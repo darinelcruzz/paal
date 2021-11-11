@@ -69,12 +69,19 @@
 <!-- Chartisan -->
 <script src="https://unpkg.com/@chartisan/echarts/dist/chartisan_echarts.js"></script>
 <!-- Your application script -->
-{{-- <script>
+<script>
   const chart = new Chartisan({
     el: '#chart',
     url: "@chart('basic')",
+    hooks: new ChartisanHooks()
+        .colors(['#dd4b39', '#00c0ef', '#f39c12', '#3c8dbc'])
+        // .responsive()
+        // .beginAtZero()
+        .legend({ position: 'bottom' })
+        .title('Productos vendidos')
+        .datasets('bar'),
   });
-</script> --}}
+</script>
 
 <script>
     function submitForm(btn) {
