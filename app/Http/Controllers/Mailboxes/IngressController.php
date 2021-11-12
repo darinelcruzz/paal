@@ -84,7 +84,7 @@ class IngressController extends Controller
 
     function destroy(Ingress $ingress, $reason)
     {
-        Alert::success('Venta cancelada', "La venta $ingress->folio se ha cancelado exitosamente")->persistent('Cerrar');
+        // Alert::success('Venta cancelada', "La venta $ingress->folio se ha cancelado exitosamente")->persistent('Cerrar');
 
         $ingress->update([
             'status' => 'cancelado',
