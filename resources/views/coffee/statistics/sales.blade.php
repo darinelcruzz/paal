@@ -86,8 +86,8 @@
 
         <div class="row">
             <div class="col-md-12">
-                <solid-box title="GRÁFICA" color="{{ ['TOTAL' => 'success', 'INSUMOS' => 'danger', 'ACCESORIOS' => 'warning', 'VASOS' => 'info', 'EQUIPO' => 'primary', 'REFACCIONES' => 'danger', 'BARRAS' => 'warning', 'CURSOS' => 'primary', 'OTROS' => 'default'][$category] }}">
-                    <div id="chart" style="height: 300px;"></div>
+                <solid-box title="{{ $category == 'TOTAL' ? 'CATEGORÍAS': 'FAMILIAS' }}" color="{{ ['TOTAL' => 'success', 'INSUMOS' => 'danger', 'ACCESORIOS' => 'warning', 'VASOS' => 'info', 'EQUIPO' => 'primary', 'REFACCIONES' => 'danger', 'BARRAS' => 'warning', 'CURSOS' => 'primary', 'OTROS' => 'default'][$category] }}">
+                    <div id="chart" style="height: 500px;"></div>
                 </solid-box>
             </div>
         </div>
@@ -108,4 +108,34 @@
     </div>
 </div>
 
+@endsection
+
+@section('chartisan')
+@if($category == 'TOTAL')
+<script>
+  const chart = new Chartisan({
+    el: '#chart',
+    url: "@chart('basic')",
+    hooks: new ChartisanHooks()
+        .colors(['#dd4b39', '#00c0ef', '#f39c12', '#3c8dbc', '#b5bbc8', '#00a65a', '#001F3F', '#39CCCC', '#605ca8', '#ff851b', '#D81B60', '#444444'])
+        // .responsive()
+        // .beginAtZero()
+        .legend({ position: 'bottom' })
+        .datasets('bar'),
+  });
+</script>
+@else
+<script>
+  const chart = new Chartisan({
+    el: '#chart',
+    url: "@chart('categories')" + "?category={{ $category }}",
+    hooks: new ChartisanHooks()
+        .colors(['#dd4b39', '#00c0ef', '#f39c12', '#3c8dbc', '#b5bbc8', '#00a65a', '#001F3F', '#39CCCC', '#605ca8', '#ff851b', '#D81B60', '#444444'])
+        // .responsive()
+        // .beginAtZero()
+        .legend({ position: 'bottom' })
+        .datasets('bar'),
+  });
+</script>
+@endif
 @endsection

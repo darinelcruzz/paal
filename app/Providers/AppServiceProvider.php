@@ -28,7 +28,8 @@ class AppServiceProvider extends ServiceProvider
         View::composer('*', SalesAndQuotationsComposer::class);
         $this->registerObservers();
         $charts->register([
-            \App\Charts\BasicChart::class
+            \App\Charts\BasicChart::class,
+            \App\Charts\CategoriesChart::class,
         ]);
     }
 
