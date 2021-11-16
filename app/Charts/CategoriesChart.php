@@ -36,16 +36,16 @@ class CategoriesChart extends BaseChart
         // dd($request->all());
         $movementsByMonth = Movement::whereYear('created_at', date('Y'))
             ->whereHasMorph('movable', Ingress::class, function ($query) {
-                $query->where('company', 'coffee');
+                $query->where('company', 'coffee')
+                    ->where('status', '!=', 'cancelado');
             })
             ->whereHas('product', function ($query) use ($request) {
                 $query->where('category', $request->category)
-                    ->where('family', '!=', 'DESCONTINUADO');
+                    ->where('company', 'COFFEE');
             })
             ->with('product')
             ->get()
             ->groupBy([function ($item, $key) {
-                // dd($item->created_at);
                 return date('M', strtotime((string)$item->created_at));
             }, 'product.family']);
 
@@ -58,7 +58,7 @@ class CategoriesChart extends BaseChart
         foreach ($movementsByMonth as $month => $families) {
             // dd($categories);
             foreach ($families as $name => $movements) {
-                $dataset["$name"] = [];
+                $dataset[$name] = [];
             }
         }
 
@@ -68,6 +68,8 @@ class CategoriesChart extends BaseChart
                 array_push($dataset["$name"], $movements->sum('quantity'));
             }
         }
+
+        // ddd($dataset);
 
         foreach ($dataset as $key => $value) {
             $chart->dataset($key, $value);

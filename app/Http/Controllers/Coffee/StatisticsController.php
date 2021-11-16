@@ -8,21 +8,24 @@ use App\{Client, Ingress, Quotation, Movement, Shipping};
 
 class StatisticsController extends Controller
 {
-    function sales(Request $request, $category = 'total')
+    function sales(Request $request, $category = 'total', $date = null)
     {
-        $date = $request->date ?? date('Y-m');
+        $date = $date ?? ($request->date ?? date('Y-m'));
         $category = strtoupper($category);
 
         $groups = Movement::whereYear('created_at', substr($date, 0, 4))
             ->whereMonth('created_at', substr($date, 5, 2))
             ->whereHasMorph('movable', Ingress::class, function ($query) {
-                $query->where('company', 'coffee');
+                $query->where('company', 'coffee')
+                    ->where('status', '!=', 'cancelado');
             })
             ->whereHas('product', function ($query) use ($category) {
                 return $query->when($category == 'TOTAL', function ($query) {
-                    $query->whereIn('category', ['INSUMOS', 'ACCESORIOS', 'VASOS', 'EQUIPO', 'REFACCIONES', 'BARRAS', 'CURSOS', 'OTROS']);
+                    $query->whereIn('category', ['INSUMOS', 'ACCESORIOS', 'VASOS', 'EQUIPO', 'REFACCIONES', 'BARRAS', 'CURSOS', 'OTROS'])
+                        ->where('company', 'COFFEE');
                 }, function ($query) use ($category) {
-                    $query->where('category', $category);
+                    $query->where('category', $category)
+                        ->where('company', 'COFFEE');
                 });
             })
             ->with('product')
@@ -32,21 +35,6 @@ class StatisticsController extends Controller
                 return ['quantity' => $item->sum('quantity'), 'amount' => $item->sum('total')];
             })
             ->sortByDesc('quantity');
-
-        // $movementsByMonth = Movement::whereYear('created_at', date('Y'))
-        //     ->whereHasMorph('movable', Ingress::class, function ($query) {
-        //         $query->where('company', 'coffee');
-        //     })
-        //     ->whereHas('product', function ($query) {
-        //         $query->whereIn('category', ['INSUMOS', 'ACCESORIOS', 'VASOS', 'EQUIPO', 'REFACCIONES', 'BARRAS', 'CURSOS', 'OTROS']);
-        //     })
-        //     ->with('product')
-        //     ->get()
-        //     ->groupBy([function ($item, $key) {
-        //         return date('m', strtotime($item->created_at));
-        //     }, 'product.category']);
-
-        // dd($movementsByMonth);
 
         $topProducts = Movement::where('movable_type', 'App\Ingress')
             ->whereYear('created_at', substr($date, 0, 4))
@@ -156,9 +144,9 @@ class StatisticsController extends Controller
         return view('coffee.statistics.clients', compact('usualClients', 'unusualClients', 'newUnusualClients', 'clientsComingBack', 'newClients', 'topClients', 'date'));
     }
 
-    function shippings(Request $request, $company = null)
+    function shippings(Request $request, $company = null, $date = null)
     {
-        $date = $request->date ?? date('Y-m');
+        $date = $date ?? ($request->date ?? date('Y-m'));
 
         $shippings = Shipping::whereYear('created_at', substr($date, 0, 4))
             ->whereMonth('created_at', substr($date, 5, 2))

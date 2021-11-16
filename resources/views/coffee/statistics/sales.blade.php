@@ -3,7 +3,7 @@
 @push('pageTitle', 'Análisis | Ventas')
 
 @push('headerTitle')
-    {!! Form::open(['method' => 'post', 'route' => 'coffee.statistics.sales']) !!}
+    {!! Form::open(['method' => 'post', 'route' => ['coffee.statistics.sales', strtolower($category)]]) !!}
         <div class="row">
             <div class="col-md-3">
                 <div class="input-group input-group-sm">
@@ -98,7 +98,7 @@
         <div class="btn-group-vertical">
             @foreach(['TOTAL' => 'success', 'INSUMOS' => 'danger', 'ACCESORIOS' => 'warning', 'VASOS' => 'info', 'EQUIPO' => 'primary', 'REFACCIONES' => 'danger', 'BARRAS' => 'warning', 'CURSOS' => 'primary', 'OTROS' => 'info'] as $label => $color)
             {{-- <a href="{{ route('coffee.statistics.sales', strtolower($label)) }}" style="color: white;"> --}}
-            <a type="button" href="{{ route('coffee.statistics.sales', strtolower($label)) }}" class="btn btn-{{ $color }}">
+            <a type="button" href="{{ route('coffee.statistics.sales', [strtolower($label), $date]) }}" class="btn btn-{{ $color }}">
                 {{ $label == 'EQUIPO' ? 'EQUIPOS': $label }}<br>
                 <product-quantity-and-amount category="{{ $label }}" date="{{ $date }}"></product-quantity-and-amount>
             </a>

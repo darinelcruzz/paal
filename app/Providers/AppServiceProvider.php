@@ -30,6 +30,8 @@ class AppServiceProvider extends ServiceProvider
         $charts->register([
             \App\Charts\BasicChart::class,
             \App\Charts\CategoriesChart::class,
+            \App\Charts\ShippingsChart::class,
+            \App\Charts\PlacesChart::class,
         ]);
     }
 
