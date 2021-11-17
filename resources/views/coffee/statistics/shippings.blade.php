@@ -165,8 +165,6 @@
     url: "@chart('shippings')" + "?company={{ $company ?? 'todos' }}",
     hooks: new ChartisanHooks()
         .colors(['#dd4b39', '#00c0ef', '#f39c12', '#3c8dbc', '#b5bbc8', '#00a65a', '#001F3F', '#39CCCC', '#605ca8', '#ff851b', '#D81B60', '#444444'])
-        // .responsive()
-        // .beginAtZero()
         .legend({ position: 'bottom' })
         .datasets('bar'),
   });
