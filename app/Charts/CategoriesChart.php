@@ -40,8 +40,7 @@ class CategoriesChart extends BaseChart
                     ->where('status', '!=', 'cancelado');
             })
             ->whereHas('product', function ($query) use ($request) {
-                $query->where('category', $request->category)
-                    ->where('company', 'COFFEE');
+                $query->where('category', $request->category);
             })
             ->with('product')
             ->get()

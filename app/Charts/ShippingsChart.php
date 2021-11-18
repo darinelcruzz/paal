@@ -35,34 +35,34 @@ class ShippingsChart extends BaseChart
                     return strtoupper($item->address->state);
                 }
             }]);
-            // ->groupBy(function ($shipping) {
-            //     if ($shipping->address->state) {
-            //         return strtoupper($shipping->address->state);
-            //     }
-            // });
-
-        // dd($shippingsByMonth);
 
         $chart = Chartisan::build();
 
         $chart->labels($shippingsByMonth->keys()->toArray());
 
+        // ddd($shippingsByMonth);
+
         foreach ($shippingsByMonth as $month => $states) {
             // dd($categories);
             foreach ($states as $name => $shippings) {
-                $dataset["$name"] = [];
+                $dataset["$name"] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
             }
         }
 
+        // ddd($dataset);
+        $i = 0;
+
         foreach ($shippingsByMonth as $month => $states) {
-            // dd($states);
+            // dd($month, $states, $dataset);
+
             foreach ($states as $name => $shippings) {
-                array_push($dataset["$name"], $shippings->count());
+                $dataset["$name"][$i] = $shippings->count();
             }
+            $i += 1;
         }
 
         foreach ($dataset as $key => $value) {
-            $chart->dataset($key == '' ? 'NO AÑADIDO': $key, $value);
+            $chart->dataset($key == '' ? 'INCOMPLETO': $key, $value);
         }        
         
         return $chart;

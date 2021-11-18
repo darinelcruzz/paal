@@ -34,11 +34,13 @@ class BasicChart extends BaseChart
     public function handler(Request $request): Chartisan
     {
         $movementsByMonth = Movement::whereYear('created_at', date('Y'))
-            ->whereHasMorph('movable', Ingress::class, function ($query) {
-                $query->where('company', 'coffee');
-            })
+            // ->whereHasMorph('movable', Ingress::class, function ($query) {
+            //     $query->where('company', 'coffee');
+            // })
+            ->where('movable_type', 'App\Ingress')
             ->whereHas('product', function ($query) {
-                $query->whereIn('category', ['INSUMOS', 'ACCESORIOS', 'VASOS', 'EQUIPO', 'REFACCIONES', 'BARRAS', 'CURSOS', 'OTROS']);
+                $query->whereIn('category', ['INSUMOS', 'ACCESORIOS', 'VASOS', 'EQUIPO', 'REFACCIONES', 'BARRAS', 'CURSOS', 'OTROS'])
+                    ->where('company', 'COFFEE');
             })
             ->with('product')
             ->get()
