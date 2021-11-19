@@ -45,13 +45,13 @@
                     <div class="row">
                         <div class="col-md-6">
                             <conditioned-select
-                                name="state_id" label="Estado" model="states" :loaded="true" icon="globe-americas"
+                                name="state" label="Estado" model="states" :loaded="true" icon="globe-americas"
                                 emitting="counties" recieving="states">
                             </conditioned-select>
                         </div>
                         <div class="col-md-6">
                             <conditioned-select
-                                name="county_id" label="Municipio" model="counties" icon="map-marked-alt"
+                                name="county" label="Municipio" model="counties" icon="map-marked-alt"
                                 emitting="cities" recieving="states">
                             </conditioned-select>
                         </div>
@@ -60,7 +60,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <conditioned-select 
-                                name="city_id" label="Ciudad/Localidad" model="cities" icon="city"
+                                name="city" label="Ciudad/Localidad" model="cities" icon="city"
                                 emitting="" recieving="counties">
                             </conditioned-select>
                         </div>
