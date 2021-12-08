@@ -18,7 +18,7 @@ class VariableController extends Controller
     {
         $variable->update($request->validate(['value' => 'required']));
 
-        \Alert::success("El precio del dólar se cambió exitosamente")->persistent('Cerrar');
+        // \Alert::success("El precio del dólar se cambió exitosamente")->persistent('Cerrar');
 
         return redirect(route('coffee.variable.edit'));
     }
