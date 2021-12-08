@@ -38,7 +38,7 @@
                     <div class="col-md-3">
                         <a href="{{ route('sanson.egress.index', ['vencido', $date]) }}">
                             <label class="btn btn-danger btn-bg btn-block">
-                                $ {{ number_format($alltime->where('status', 'vencido')->sum('amount') + $alltime->where('status', 'vencido')->sum('iva'), 2) }}
+                                $ {{ number_format($alltime->where('status', 'vencido')->sum('amount'), 2) }}
                             </label>
                         </a>
                     </div>
