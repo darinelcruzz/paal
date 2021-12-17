@@ -66,13 +66,13 @@
                                             $pending += $subamount;
                                         @endphp
 
-                                        <a href="" data-toggle="modal" data-target="#details{{ $invoice }}">
+                                        <a href="" data-toggle="modal" data-target="#details{{ str_replace('/', '-', $invoice) }}">
                                             <em>agregar...</em>
                                         </a>
 
                                         {!! Form::open(['method' => 'POST', 'route' => 'coffee.admin.reference']) !!}
                                 
-                                        <modal title="Agregar referencia del depósito" id="details{{ $invoice }}" color="#dd4b39">
+                                        <modal title="Agregar referencia del depósito" id="details{{ str_replace('/', '-', $invoice) }}" color="#dd4b39">
 
                                             <div class="row">
                                                 <div class="col-md-4 col-md-offset-4">
