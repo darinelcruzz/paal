@@ -11,8 +11,14 @@ class Payment extends Model
 
     function ingress()
     {
-        return $this->belongsTo(Payment::class);
+        return $this->belongsTo(Ingress::class);
     }
+
+    function logs()
+    {
+        return $this->morphMany(Log::class, 'loggable');
+    }
+
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');

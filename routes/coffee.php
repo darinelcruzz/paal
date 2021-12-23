@@ -82,7 +82,14 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	    $ctrl = 'Coffee\PaymentController';
 	    Route::get('agregar/{ingress}', usesas($ctrl, 'create'));
 	    Route::post('agregar/{ingress}', usesas($ctrl, 'store'));
+	    Route::get('editar/{ingress}', usesas($ctrl, 'edit'));
+	    Route::post('editar/{payment}', usesas($ctrl, 'update'));
 	    Route::get('{ingress}', usesas($ctrl, 'print'));
+	});
+
+	Route::group(['prefix' => 'ediciones', 'as' => 'log.'], function () {
+	    $ctrl = 'LogController';
+	    Route::get('/', usesas($ctrl, 'index'));
 	});
 
 	Route::group(['prefix' => 'facturas', 'as' => 'invoice.'], function () {

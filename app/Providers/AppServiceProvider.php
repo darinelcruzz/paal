@@ -6,8 +6,8 @@ use Illuminate\Support\ServiceProvider;
 use App\Http\ViewComposers\SalesAndQuotationsComposer;
 use App\Http\ViewComposers\MailboxesComposer;
 use Illuminate\Support\Facades\View;
-use App\{Ingress, Quotation, Movement, Order, Purchase};
-use App\Observers\{IngressObserver, QuotationObserver, MovementObserver, OrderObserver, PurchaseObserver};
+use App\{Ingress, Quotation, Movement, Order, Purchase, Payment};
+use App\Observers\{IngressObserver, QuotationObserver, MovementObserver, OrderObserver, PurchaseObserver, PaymentObserver};
 use ConsoleTVs\Charts\Registrar as Charts;
 
 class AppServiceProvider extends ServiceProvider
@@ -52,5 +52,6 @@ class AppServiceProvider extends ServiceProvider
         Movement::observe(MovementObserver::class);
         Order::observe(OrderObserver::class);
         Purchase::observe(PurchaseObserver::class);
+        Payment::observe(PaymentObserver::class);
     }
 }

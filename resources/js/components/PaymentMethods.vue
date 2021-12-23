@@ -91,7 +91,7 @@
 				    </label>				    
 				    <div class="input-group">
 				        <span class="input-group-addon"><i class="fa fa-barcode"></i></span>
-				        <input type="text" name="reference" value="" class="form-control">
+				        <input type="text" name="reference" v-model="reference" class="form-control">
 				    </div>
 				</div>
 	        </div>
@@ -103,7 +103,7 @@
 				    </label>				    
 				    <div class="input-group">
 				        <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
-				        <input type="text" name="card_number" value="" class="form-control">
+				        <input type="text" name="card_number" v-model="card_number" class="form-control">
 				    </div>
 				</div>
 	        </div>
@@ -114,7 +114,7 @@
 
 <script>
 export default {
-    props: ['amount'],
+    props: ['amount', 'payment'],
     data() {
         return {
             cash: 0,
@@ -122,12 +122,25 @@ export default {
             debit_card: 0,
             credit_card: 0,
             check: 0,
+            card_number: '',
+            reference: '',
         };
     },
     computed: {
     	total() {
     		this.$root.$emit('update-payment', this.cash + this.transfer + this.debit_card + this.credit_card + this.check)
     		return this.cash + this.transfer + this.debit_card + this.credit_card + this.check;
+    	}
+    },
+    created() {
+    	if (this.payment) {
+    		this.cash = this.payment.cash;
+            this.transfer = this.payment.transfer;
+            this.debit_card = this.payment.debit_card;
+            this.credit_card = this.payment.credit_card;
+            this.check = this.payment.check;
+            this.card_number = this.payment.card_number;
+            this.reference = this.payment.reference;
     	}
     }
 };

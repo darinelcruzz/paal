@@ -35,6 +35,11 @@ class Ingress extends Model
         return $this->morphMany(Movement::class, 'movable');
     }
 
+    function logs()
+    {
+        return $this->morphMany(Log::class, 'loggable');
+    }
+
     function serial_numbers()
     {
         return $this->hasMany(SerialNumber::class);

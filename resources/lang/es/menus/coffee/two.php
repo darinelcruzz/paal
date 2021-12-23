@@ -45,6 +45,10 @@ return [
                 'title' => 'Corte mensual',
                 'route' => 'coffee.admin.monthly'
             ],
+            'logs' => [
+                'title' => 'Correciones',
+                'route' => 'coffee.log.index'
+            ],
             'variables' => [
                 'title' => 'Tipo de Cambio',
                 'route' => 'coffee.variable.edit'

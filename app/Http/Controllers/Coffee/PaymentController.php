@@ -40,6 +40,31 @@ class PaymentController extends Controller
         return view('coffee.ingresses.show', compact('ingress'));
     }
 
+    function edit(Ingress $ingress)
+    {
+        $payment = $ingress->payments->first();
+        $total = $ingress->amount;
+        return view('coffee.payments.edit', compact('payment', 'total'));
+    }
+
+    function update(Request $request, Payment $payment)
+    {
+        // dd($request->all());
+        $attributes = $request->validate([
+            'cash' => 'required',
+            'transfer' => 'required',
+            'check' => 'required',
+            'debit_card' => 'required',
+            'credit_card' => 'required',
+            'reference' => 'sometimes|required',
+            'card_number' => 'sometimes|required',
+        ]);
+
+        $payment->update($attributes);
+
+        return redirect(route('coffee.ingress.index'));
+    }
+
     function print(Ingress $ingress)
     {
         return view('coffee.payments.print', compact('ingress'));

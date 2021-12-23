@@ -125,6 +125,9 @@
 
             <modal title="Productos" color="danger" id="ingress-modal">
                 <movements :model="model"></movements>
+                <template slot="footer">
+                    <a :href="'/coffee/pagos/editar/' + model.id" class="btn btn-danger pull-right btn-sm">Editar pago</button>
+                </template>
             </modal>
         </div>
     </div>

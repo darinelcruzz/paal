@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Coffee;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
-use App\{Ingress, Product, Client, Payment};
+use App\{Ingress, Product, Client, Payment, Log};
 use Alert;
 
 class IngressController extends Controller
