@@ -113,4 +113,11 @@ class EgressController extends Controller
           'Content-Disposition' => 'inline; filename="'.$fileName.'"'
         ]);
     }
+
+    function destroy(Egress $egress)
+    {
+        $egress->update(['status' => 'eliminado']);
+
+        return redirect(route('coffee.egress.index', ['pagado', dateFromRequest('Y-m')]));
+    }
 }

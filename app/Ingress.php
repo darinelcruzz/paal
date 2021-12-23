@@ -25,6 +25,11 @@ class Ingress extends Model
     	return $this->belongsTo(Quotation::class);
     }
 
+    function retainers()
+    {
+        return $this->hasMany(self::class, 'quotation_id')->where('type', 'anticipo');
+    }
+
     function payments()
     {
         return $this->hasMany(Payment::class);
@@ -74,10 +79,10 @@ class Ingress extends Model
         return $this->quotation ? $this->quotation->amount - $debt: 0;
     }
 
-    function getRetainersAttribute()
-    {
-        return Ingress::where('type', 'anticipo')->where('quotation_id', $this->quotation_id)->get();
-    }
+    // function getRetainersAttribute()
+    // {
+    //     return Ingress::where('type', 'anticipo')->where('quotation_id', $this->quotation_id)->get();
+    // }
 
     function getDepositsSumAttribute()
     {

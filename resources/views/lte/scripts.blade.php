@@ -108,5 +108,22 @@
                 }
             });
         });
+
+        $('tbody').on('click', '.deleteThisObjectNoReason', function () {
+            id = $(this).attr('idInstance');
+            route = $(this).attr('route');
+
+            swal('¿Está seguro?', 'Si no lo está, puede cancelar la acción', 'warning', {
+                buttons: ['Salir', 'Confirmar'],
+                dangerMode: true
+            })
+            .then((result) => {
+                if(result) {
+                    window.location = '/coffee/' + route + "/eliminar/" + id;
+                } else {
+                  swal('No se cancelará nada :)')
+                }
+            });
+        });
     });
 </script>

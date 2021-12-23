@@ -30,6 +30,17 @@
 
     @endif
 
+    @if(isAdmin())
+
+        {{-- <ddi icon="times" to="{{ route('coffee.egress.destroy', $egress) }}" text="Eliminar"></ddi> --}}
+        <li>
+            <a class="deleteThisObjectNoReason" idInstance="{{ $egress->id }}" route="egresos">
+                <i class="fa fa-times" aria-hidden="true"></i> Eliminar
+            </a>
+        </li>
+
+    @endif
+
 </dropdown>
 
 

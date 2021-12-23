@@ -125,9 +125,11 @@
 
             <modal title="Productos" color="danger" id="ingress-modal">
                 <movements :model="model"></movements>
+                @if(auth()->user()->level < 3)
                 <template slot="footer">
                     <a :href="'/coffee/pagos/editar/' + model.id" class="btn btn-danger pull-right btn-sm">Editar pago</button>
                 </template>
+                @endif
             </modal>
         </div>
     </div>
