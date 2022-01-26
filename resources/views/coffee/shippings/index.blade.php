@@ -84,10 +84,10 @@
                                     @if($shipping->address) <br> <code>REF: {{ $shipping->address->reference }}</code> @endif
                                 </td>
                                 <td>
-                                    {{ fdate($shipping->shipped_at, 'd/m/Y', 'Y-m-d') }}
+                                    {{ $shipping->shipped_at ? date('d/m/Y', strtotime($shipping->shipped_at)): '...' }}
                                 </td>
                                 <td>
-                                    {{ fdate($shipping->delivered_at, 'd/m/Y', 'Y-m-d') }}
+                                    {{ $shipping->delivered_at ? date('d/m/Y', strtotime($shipping->delivered_at)): '...' }}
                                 </td>
                                 <td style="text-align: center;">
                                     @if($shipping->company == 'estafeta')
