@@ -1,4 +1,4 @@
-<html>
+<html translate="no">
 <head>
     <meta charset="UTF-8">
     <title>Ventas | Comprobante</title>
