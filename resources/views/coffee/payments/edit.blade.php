@@ -14,6 +14,8 @@
                         </div>
                     </div>
 
+                    <input type="hidden" name="update_path" value="edit">
+
                     {!! Form::submit('CORREGIR', ['class' => 'btn btn-danger pull-right']) !!}
 
                 {!! Form::close() !!}
