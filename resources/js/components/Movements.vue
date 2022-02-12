@@ -29,6 +29,11 @@
 					<th style="text-align: right;"><small>I.V.A.</small></th>
 					<td style="text-align: right;">{{ model.iva.toFixed(2) }}</td>
 				</tr>
+				<tr v-if="model.rounding != 0">
+					<td colspan="4"></td>
+					<th style="text-align: right;"><small>Ajuste</small></th>
+					<td style="text-align: right;">{{ model.rounding.toFixed(2) }}</td>
+				</tr>
 				<tr>
 					<td colspan="4"></td>
 					<th style="text-align: right;"><small>TOTAL</small></th>
@@ -72,7 +77,7 @@
 		props: ['model'],
 		computed: {
 			total() {
-				return this.model.movements.reduce((total, movement) => total + (movement.quantity * movement.price * (1 - movement.discount/100)), 0) + this.model.iva;
+				return this.model.movements.reduce((total, movement) => total + (movement.quantity * movement.price * (1 - movement.discount/100)), 0) + this.model.iva + this.model.rounding;
 			}
 		}
 	}
