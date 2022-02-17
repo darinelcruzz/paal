@@ -105,7 +105,8 @@
                                     {{ number_format($ingress->amount, 2) }}
                                     @if($ingress->type == 'anticipo')
                                         <br>
-                                        <small><em>p.p.</em> {{ number_format($ingress->debt - $ingress->amount, 2) }}</small>
+                                        {{-- <small><em>p.p.</em> {{ number_format($ingress->debt - $ingress->amount, 2) }}</small> --}}
+                                        <small style="color: gray"><em>p.p.</em> {{ number_format($ingress->quotation->amount - $ingress->quotation->retainers->sum('amount'), 2) }}</small>
                                     @else
                                         @if($ingress->retainers->sum('amount') > 0 && $ingress->type != 'nota de crédito')
                                             <br>

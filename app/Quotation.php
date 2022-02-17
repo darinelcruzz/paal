@@ -27,7 +27,7 @@ class Quotation extends Model
 
     function retainers()
     {
-        return $this->hasMany(Ingress::class, 'quotation_id')->where('type', 'anticipo');
+        return $this->hasMany(Ingress::class, 'quotation_id')->where('type', 'anticipo')->where('status', '!=', 'cancelado');
     }
 
     function movements()
