@@ -1,8 +1,6 @@
 @extends('sanson.root')
 
-@push('pageTitle')
-    Productos | Agregar
-@endpush
+@push('pageTitle', 'Productos | Agregar')
 
 @section('content')
     <div class="row">
@@ -25,7 +23,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             {!! Field::select('family', 
-                                ['EQUIPOS SANSON' => 'EQUIPOS SANSON', 'REFACCIONES SANSON' => 'REFACCIONES SANSON', 'RHINO' => 'RHINO', 'IMBERA' => 'IMBERA', 'MIGSA' => 'MIGSA'], 
+                                ['EQUIPOS SANSON' => 'EQUIPOS SANSON', 'REFACCIONES SANSON' => 'REFACCIONES SANSON', 'RHINO' => 'RHINO', 'IMBERA' => 'IMBERA', 'MIGSA' => 'MIGSA', 'TRAVESSA' => 'TRAVESSA'], 
                                 null, 
                                 ['label' => 'Marca', 'tpl' => 'withicon', 'empty' => 'Elija marca'], 
                                 ['icon' => 'tag']) 
