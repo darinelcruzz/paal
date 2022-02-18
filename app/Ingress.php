@@ -67,22 +67,8 @@ class Ingress extends Model
 
     function getDebtAttribute()
     {
-        $debt = 0;
-
-        foreach ($this->retainers as $retainer) {
-            if ($this->id == $retainer->id) {
-                break;
-            }
-            $debt += $retainer->amount;
-        }
-
-        return $this->quotation ? $this->quotation->amount - $debt: 0;
+        return $this->quotation ? $this->quotation->amount - $this->quotation->retainers->sum('amount'): 0;
     }
-
-    // function getRetainersAttribute()
-    // {
-    //     return Ingress::where('type', 'anticipo')->where('quotation_id', $this->quotation_id)->get();
-    // }
 
     function getDepositsSumAttribute()
     {

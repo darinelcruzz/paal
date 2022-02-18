@@ -182,7 +182,7 @@
                         </tr>
                         <tr style="border:1px solid black">
                             <th colspan="3" style="text-align: right">Pendiente</th>
-                            <td style="text-align: right">$ {{ number_format($ingress->quotation->amount - $ingress->retainers->sum('amount'), 2) }}</td>
+                            <td style="text-align: right">$ {{ number_format($ingress->debt, 2) }}</td>
                         </tr>
                     @endif
                     @if ($ingress->type != 'anticipo' && $ingress->retainers->sum('amount') > 0)
