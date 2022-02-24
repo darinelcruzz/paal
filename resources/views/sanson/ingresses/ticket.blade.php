@@ -174,9 +174,10 @@
 
     <div class="row">
         <div class="col-md-12">
-            <small>
+            <small style="font-weight: bold;">
                 FACTURACIÓN AL DÍA <br>
-                FAVOR DE SOLICITAR EN EL MOMENTO DE SU COMPRA, DE LO CONTRATIO SERÁ PARTE DE LA <b>FACTURA GLOBAL</b> DEL DÍA Y VEREIFICAR SUS DATOS YA QUE NO HABRÁ CANCELACIONES NI REFACTURACIÓN.
+                FAVOR DE SOLICITAR EN EL MOMENTO DE SU COMPRA, DE LO CONTRARIO SERÁ PARTE DE LA FACTURA GLOBAL DEL DÍA. <br>
+                VERIFICAR SUS DATOS YA QUE NO HABRÁ CANCELACIONES NI REFACTURACIÓN.
             </small>
         </div>
     </div>
