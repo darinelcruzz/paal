@@ -170,6 +170,17 @@
         </div>
     </div>
 
+    <br><br>
+
+    <div class="row">
+        <div class="col-md-12">
+            <small>
+                FACTURACIÓN AL DÍA <br>
+                FAVOR DE SOLICITAR EN EL MOMENTO DE SU COMPRA, DE LO CONTRATIO SERÁ PARTE DE LA FACTURA GLOBAL DEL DÍA Y VEREIFICAR SUS DATOS YA QUE NO HABRÁ CANCELACIONES NI REFACTURACIÓN.
+            </small>
+        </div>
+    </div>
+
     <br>
     =============================================================================
         
