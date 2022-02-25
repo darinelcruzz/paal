@@ -15,6 +15,7 @@
                         <tr>
                             <th style="text-align: center;"><small>#</small></th>
                             <th><small>VENTA</small></th>
+                            <th><small>EMPRESA</small></th>
                             <th><small>FECHA</small></th>
                             <th><small>HORA</small></th>
                             <th style="width: 50%;"><small>CAMBIOS</small></th>
@@ -27,6 +28,7 @@
                             <tr>
                                 <td>{{ $log->id }}</td>
                                 <td>{{ $log->loggable->ingress->folio }}</td>
+                                <td><small>{{ strtoupper($log->loggable->ingress->company) }}</small></td>
                                 <td>{{ date('d/m/y', strtotime($log->created_at)) }}</td>
                                 <td>{{ date('H:ia', strtotime($log->created_at)) }}</td>
                                 <td>

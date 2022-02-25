@@ -40,6 +40,31 @@ class PaymentController extends Controller
         return view('sanson.ingresses.show', compact('ingress'));
     }
 
+    function edit(Ingress $ingress)
+    {
+        $payment = $ingress->payments->first();
+        $total = $ingress->amount;
+        return view('sanson.payments.edit', compact('payment', 'total'));
+    }
+
+    function update(Request $request, Payment $payment)
+    {
+        // dd($request->all());
+        $attributes = $request->validate([
+            'cash' => 'required',
+            'transfer' => 'required',
+            'check' => 'required',
+            'debit_card' => 'required',
+            'credit_card' => 'required',
+            'reference' => 'sometimes|required',
+            'card_number' => 'sometimes|required',
+        ]);
+
+        $payment->update($attributes);
+
+        return redirect(route('sanson.ingress.index'));
+    }
+
     function print(Ingress $ingress)
     {
         return view('sanson.payments.print', compact('ingress'));

@@ -117,6 +117,11 @@
             
             <modal title="Productos" color="info" id="ingress-modal">
                 <movements :model="model"></movements>
+                @if(auth()->user()->level < 3)
+                <template slot="footer">
+                    <a :href="'/sanson/pagos/editar/' + model.id" class="btn btn-info pull-right btn-sm">Editar pago</button>
+                </template>
+                @endif
             </modal>
 
         </div>
