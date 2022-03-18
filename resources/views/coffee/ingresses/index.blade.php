@@ -96,7 +96,7 @@
                                     @if($ingress->status == 'cancelado')
                                         <label class="label label-default">CANCELADO</label>
                                     @else
-                                        <label class="label label-{{$ingress->typeLabel }}">{{ strtoupper($ingress->type) }}</label>
+                                        <label class="label label-{{$ingress->typeLabel }}">{{ strtoupper($ingress->family == 'CURSO' || $ingress->family == 'CAFETERÍA' ? $ingress->family: $ingress->type) }}</label>
                                     @endif
                                 </td>
                                 <td style="text-align: center;">{{ $ingress->reference }}</td>

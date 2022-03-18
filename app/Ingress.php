@@ -50,6 +50,11 @@ class Ingress extends Model
         return $this->hasMany(SerialNumber::class);
     }
 
+    function getFamilyAttribute()
+    {
+        return $this->movements->first()->product->family;
+    }
+
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
@@ -213,7 +218,7 @@ class Ingress extends Model
 
     function getTypeLabelAttribute()
     {
-        return ['insumos' => 'danger', 'equipo' => 'warning', 'proyecto' => 'primary', 'anticipo' => 'default', 'nota de crédito' => 'info'][$this->type];
+        return ['CAFETERÍA' => 'success', 'CURSO' => 'success', 'insumos' => 'danger', 'equipo' => 'warning', 'proyecto' => 'primary', 'anticipo' => 'default', 'nota de crédito' => 'info'][($this->family == 'CURSO' || $this->family == 'CAFETERÍA' ? $this->family: $this->type)];
     }
 
     function getAreSerialNumbersMissingAttribute()
