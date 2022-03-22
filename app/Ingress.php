@@ -52,7 +52,7 @@ class Ingress extends Model
 
     function getFamilyAttribute()
     {
-        return $this->movements->first()->product->family;
+        return $this->movements->first()->product->family ?? '';
     }
 
     protected function serializeDate(DateTimeInterface $date)
