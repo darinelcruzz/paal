@@ -17,7 +17,7 @@ class IngressController extends Controller
         $ingresses = Ingress::where('company', 'coffee')
             ->whereMonth('created_at', substr($date, 5, 7))
             ->whereYear('created_at', substr($date, 0, 4))
-            ->orderByDesc('id')
+            ->orderByDesc('bought_at')
             ->with('client', 'movements.product', 'payments', 'quotation')
             ->get();
 
