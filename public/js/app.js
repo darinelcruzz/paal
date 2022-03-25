@@ -60815,7 +60815,12 @@ var render = function() {
         _c("small", { staticStyle: { color: "inherit" } }, [
           _vm._v(
             "\n                " +
-              _vm._s(_vm.number_format(_vm.value).substring(1)) +
+              _vm._s(_vm.type == "nota de crédito" ? "-" : "") +
+              _vm._s(
+                _vm
+                  .number_format(_vm.value)
+                  .substring(_vm.type == "nota de crédito" ? 2 : 1)
+              ) +
               "\n            "
           )
         ])

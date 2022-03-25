@@ -4,7 +4,7 @@
             {{ title.toUpperCase() }}
             <h3>
                 <small style="color: inherit;">
-                    {{ number_format(value).substring(1) }}
+                    {{ type == 'nota de crédito' ? '-': '' }}{{ number_format(value).substring(type == 'nota de crédito' ? 2: 1) }}
                 </small>
             </h3>
         </div>

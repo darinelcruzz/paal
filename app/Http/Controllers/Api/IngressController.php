@@ -71,7 +71,7 @@ class IngressController extends Controller
                 if($type == 'depositado') {
                     return $ingress->payments->where('cash_reference', '!=', null)->sum('cash');
                 } else {
-                    return $ingress->type != 'anticipo' ? $ingress->amount - $ingress->retainers->sum('amount'): $ingress->amount;
+                    return $ingress->type == 'anticipo' ? $ingress->quotation->amount - $ingress->retainers->sum('amount'): $ingress->amount;
                 }
             }) + $projectSum;
     }
