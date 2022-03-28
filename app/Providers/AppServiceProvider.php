@@ -19,6 +19,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(Charts $charts)
     {
+        if (config('app.env') == 'production') {
+            \URL::forceScheme('https');
+        }
+
         $this->publishes([
             base_path() . '\vendor\almasaeed2010\adminlte\bower_components' => public_path('adminlte/bower_components'),
             base_path() . '\vendor\almasaeed2010\adminlte\dist' => public_path('adminlte/dist'),

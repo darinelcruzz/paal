@@ -59,13 +59,13 @@
                                 <td style="text-align: center;">
                                     <dropdown icon="cogs" color="info">
                                         <ddi v-if="{{ $ingress->status == 'pagado' || $ingress->status == 'cancelado' ? 0: 1 }}" to="{{ route('sanson.payment.create', $ingress) }}" icon="money" text="Pagar"></ddi>
-                                        @if($ingress->type != 'anticipo')
+                                        {{-- @if($ingress->type != 'anticipo') --}}
                                         <li>
                                             <a data-toggle="modal" data-target="#ingress-modal" v-on:click="upmodel({{ $ingress->toJson() }})">
                                                 <i class="fa fa-eye" aria-hidden="true"></i> Detalles
                                             </a>
                                         </li>
-                                        @endif
+                                        {{-- @endif --}}
                                         <li>
                                             <a href="{{ route('sanson.ingress.ticket', $ingress) }}" target="_blank">
                                                 <i class="fa fa-print" aria-hidden="true"></i> Imprimir
@@ -95,11 +95,24 @@
                                     @endif
                                 </td>
                                 <td style="text-align: right;">{{ number_format($ingress->iva, 2) }}</td>
-                                <td style="text-align: right;">
+                                {{-- <td style="text-align: right;">
                                     {{ number_format($ingress->amount, 2) }}
                                     @if($ingress->type == 'anticipo')
                                         <br>
                                         <small><em>p.p.</em> {{ number_format($ingress->debt - $ingress->amount, 2) }}</small>
+                                    @else
+                                        @if($ingress->retainers->sum('amount') > 0 && $ingress->type != 'nota de crédito')
+                                            <br>
+                                            <small>(-{{ number_format($ingress->retainers->sum('amount'), 2) }})</small>
+                                        @endif
+                                    @endif
+                                </td> --}}
+                                <td style="text-align: right;">
+                                    {{ number_format($ingress->amount, 2) }}
+                                    @if($ingress->type == 'anticipo')
+                                        <br>
+                                        {{-- <small><em>p.p.</em> {{ number_format($ingress->debt - $ingress->amount, 2) }}</small> --}}
+                                        <small style="color: gray"><em>p.p.</em> {{ number_format($ingress->quotation->amount - $ingress->quotation->retainers->sum('amount'), 2) }}</small>
                                     @else
                                         @if($ingress->retainers->sum('amount') > 0 && $ingress->type != 'nota de crédito')
                                             <br>
