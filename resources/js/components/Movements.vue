@@ -13,7 +13,15 @@
 			</thead>
 
 			<tbody>
-				<tr v-if="model" v-for="(movement, index) in model.movements">
+				<tr v-if="model && model.type != 'anticipo'" v-for="(movement, index) in model.movements">
+					<td>{{ index + 1 }}</td>
+					<td>{{ movement.description || movement.product.description }}</td>
+					<td style="text-align: right;">{{ movement.price.toFixed(2) }}</td>
+					<td style="text-align: center;">{{ movement.quantity }}</td>
+					<td style="text-align: right;">{{ movement.discount.toFixed(2) }}</td>
+					<td style="text-align: right;">{{ (movement.quantity * movement.price * (1 - movement.discount/100)).toFixed(2) }}</td>
+				</tr>
+				<tr v-else v-for="(movement, index) in model.quotation.movements">
 					<td>{{ index + 1 }}</td>
 					<td>{{ movement.description || movement.product.description }}</td>
 					<td style="text-align: right;">{{ movement.price.toFixed(2) }}</td>
