@@ -114,7 +114,7 @@
                                         @endif
                                     @endif
                                 </td>
-                                <td style="text-align: center;"><small>{{ strtoupper($ingress->pay_method) }}</small></td>
+                                <td style="text-align: center;"><small>{{ strtoupper($ingress->method) }}</small></td>
                             </tr>
                         @endforeach
                     </tbody>

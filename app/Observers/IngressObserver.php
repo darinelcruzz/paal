@@ -23,6 +23,7 @@ class IngressObserver
                 'bought_at' => date('Y-m-d'),
                 'paid_at' => date('Y-m-d'),
                 'invoice' => 'G02',
+                'method' => $ingress->method,
                 'status' => 'pagado',
                 'type' => 'nota de crédito',
                 'quotation_id' => $ingress->quotation_id,
