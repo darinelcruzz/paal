@@ -60195,12 +60195,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	props: ['model'],
+	data: function data() {
+		return {
+			movements: [],
+			iva: 0,
+			rounding: 0
+		};
+	},
+
 	computed: {
 		total: function total() {
-			return this.model.movements.reduce(function (total, movement) {
+			return this.movements.reduce(function (total, movement) {
 				return total + movement.quantity * movement.price * (1 - movement.discount / 100);
-			}, 0) + this.model.iva + this.model.rounding;
+			}, 0) + this.iva + this.rounding;
 		}
+	},
+	updated: function updated() {
+		this.movements = this.model.type == 'anticipo' ? this.model.quotation.movements : this.model.movements;
+		this.iva = this.model.type == 'anticipo' ? this.model.quotation.iva : this.model.iva;
+		this.rounding = this.model.type == 'anticipo' ? this.model.quotation.rounding : this.model.rounding;
 	}
 });
 
@@ -60224,44 +60237,40 @@ var render = function() {
         _vm._v(" "),
         _c(
           "tbody",
-          _vm._l(_vm.model.movements, function(movement, index) {
-            return _vm.model
-              ? _c("tr", [
-                  _c("td", [_vm._v(_vm._s(index + 1))]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v(
-                      _vm._s(
-                        movement.description || movement.product.description
-                      )
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", { staticStyle: { "text-align": "right" } }, [
-                    _vm._v(_vm._s(movement.price.toFixed(2)))
-                  ]),
-                  _vm._v(" "),
-                  _c("td", { staticStyle: { "text-align": "center" } }, [
-                    _vm._v(_vm._s(movement.quantity))
-                  ]),
-                  _vm._v(" "),
-                  _c("td", { staticStyle: { "text-align": "right" } }, [
-                    _vm._v(_vm._s(movement.discount.toFixed(2)))
-                  ]),
-                  _vm._v(" "),
-                  _c("td", { staticStyle: { "text-align": "right" } }, [
-                    _vm._v(
-                      _vm._s(
-                        (
-                          movement.quantity *
-                          movement.price *
-                          (1 - movement.discount / 100)
-                        ).toFixed(2)
-                      )
-                    )
-                  ])
-                ])
-              : _vm._e()
+          _vm._l(_vm.movements, function(movement, index) {
+            return _c("tr", [
+              _c("td", [_vm._v(_vm._s(index + 1))]),
+              _vm._v(" "),
+              _c("td", [
+                _vm._v(
+                  _vm._s(movement.description || movement.product.description)
+                )
+              ]),
+              _vm._v(" "),
+              _c("td", { staticStyle: { "text-align": "right" } }, [
+                _vm._v(_vm._s(movement.price.toFixed(2)))
+              ]),
+              _vm._v(" "),
+              _c("td", { staticStyle: { "text-align": "center" } }, [
+                _vm._v(_vm._s(movement.quantity))
+              ]),
+              _vm._v(" "),
+              _c("td", { staticStyle: { "text-align": "right" } }, [
+                _vm._v(_vm._s(movement.discount.toFixed(2)))
+              ]),
+              _vm._v(" "),
+              _c("td", { staticStyle: { "text-align": "right" } }, [
+                _vm._v(
+                  _vm._s(
+                    (
+                      movement.quantity *
+                      movement.price *
+                      (1 - movement.discount / 100)
+                    ).toFixed(2)
+                  )
+                )
+              ])
+            ])
           }),
           0
         ),

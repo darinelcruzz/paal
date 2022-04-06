@@ -13,15 +13,7 @@
 			</thead>
 
 			<tbody>
-				<tr v-if="model && model.type != 'anticipo'" v-for="(movement, index) in model.movements">
-					<td>{{ index + 1 }}</td>
-					<td>{{ movement.description || movement.product.description }}</td>
-					<td style="text-align: right;">{{ movement.price.toFixed(2) }}</td>
-					<td style="text-align: center;">{{ movement.quantity }}</td>
-					<td style="text-align: right;">{{ movement.discount.toFixed(2) }}</td>
-					<td style="text-align: right;">{{ (movement.quantity * movement.price * (1 - movement.discount/100)).toFixed(2) }}</td>
-				</tr>
-				<tr v-else v-for="(movement, index) in model.quotation.movements">
+				<tr v-for="(movement, index) in movements">
 					<td>{{ index + 1 }}</td>
 					<td>{{ movement.description || movement.product.description }}</td>
 					<td style="text-align: right;">{{ movement.price.toFixed(2) }}</td>
@@ -83,10 +75,22 @@
 <script>
 	export default {
 		props: ['model'],
+		data() {
+			return {
+				movements: [],
+				iva: 0,
+				rounding: 0,
+			}
+		},
 		computed: {
 			total() {
-				return this.model.movements.reduce((total, movement) => total + (movement.quantity * movement.price * (1 - movement.discount/100)), 0) + this.model.iva + this.model.rounding;
+				return this.movements.reduce((total, movement) => total + (movement.quantity * movement.price * (1 - movement.discount/100)), 0) + this.iva + this.rounding;
 			}
+		},
+		updated() {
+			this.movements = this.model.type == 'anticipo' ? this.model.quotation.movements: this.model.movements;
+			this.iva = this.model.type == 'anticipo' ? this.model.quotation.iva: this.model.iva;
+			this.rounding = this.model.type == 'anticipo' ? this.model.quotation.rounding: this.model.rounding;
 		}
 	}
 </script>
