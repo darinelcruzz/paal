@@ -23,7 +23,7 @@ class IngressController extends Controller
             $divisor = $type == 'promedio' ? $ingresses->groupBy('bought_at')->count(): 1;
 
             return $ingresses->sum(function ($ingress) use ($type) {
-                if ($type == 'total') {
+                if ($type == 'total' && $ingress->type != 'nota de crédito') {
                     return $ingress->amount;
                 } elseif ($type == 'depositar') {
                     return $ingress->payments->where('cash_reference', null)->sum('cash');
