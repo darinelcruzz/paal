@@ -27,7 +27,7 @@ class IngressObserver
                 'status' => 'pagado',
                 'type' => 'nota de crédito',
                 'quotation_id' => $ingress->quotation_id,
-                'amount' => $ingress->retainers->sum('amount'),
+                'amount' => -$ingress->retainers->sum('amount'),
             ]);
         }
     }
