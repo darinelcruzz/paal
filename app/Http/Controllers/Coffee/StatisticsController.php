@@ -25,7 +25,7 @@ class StatisticsController extends Controller
                         ->where('company', 'COFFEE');
                 }, function ($query) use ($category) {
                     $query->where('category', $category)
-                        ->where('company', 'COFFEE');
+                        ->where('company', 'coffee');
                 });
             })
             ->with('product')
