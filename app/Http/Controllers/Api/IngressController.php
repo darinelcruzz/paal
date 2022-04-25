@@ -14,7 +14,7 @@ class IngressController extends Controller
 
         if ($type != 'envíos') {
             $ingresses = Ingress::whereYear('bought_at', substr($date, 0, 4))
-                ->whereMonth('bought_at', substr($date, 5, 7))
+                ->whereMonth('bought_at', substr($date, 5, 2))
                 ->where('company', $company)
                 ->where('status', '!=', 'cancelado')
                 ->with('payments')
@@ -22,9 +22,13 @@ class IngressController extends Controller
 
             $divisor = $type == 'promedio' ? $ingresses->groupBy('bought_at')->count(): 1;
 
+            // return $ingresses->sum('amount') / $divisor;
+
             return $ingresses->sum(function ($ingress) use ($type) {
-                if ($type == 'total' && $ingress->type != 'nota de crédito') {
-                    return $ingress->amount;
+                if ($type == 'total') {
+                    return $ingress->payments->sum(function ($payment) {
+                        return $payment->cash + $payment->check + $payment->credit_card + $payment->debit_card + $payment->transfer;
+                    });
                 } elseif ($type == 'depositar') {
                     return $ingress->payments->where('cash_reference', null)->sum('cash');
                 } elseif ($type == 'promedio') {
@@ -45,7 +49,7 @@ class IngressController extends Controller
                 ->whereMonth('bought_at', substr($date, 5, 7))
                 ->where('company', $company)
                 ->where('status', '!=', 'cancelado')
-                ->where('type', 'proyecto')
+                ->whereIn('type', ['proyecto', 'anticipo'])
                 ->with('movements.product')
                 ->get()
                 ->sum(function ($ingress) use ($type) { 
@@ -56,6 +60,8 @@ class IngressController extends Controller
         } else {
             $projectSum = 0;
         }
+
+        // $projectSum = 0;
 
         return Ingress::whereYear('bought_at', substr($date, 0, 4))
             ->whereMonth('bought_at', substr($date, 5, 7))
@@ -71,7 +77,8 @@ class IngressController extends Controller
                 if($type == 'depositado') {
                     return $ingress->payments->where('cash_reference', '!=', null)->sum('cash');
                 } else {
-                    return $ingress->type == 'anticipo' ? $ingress->quotation->amount - $ingress->retainers->sum('amount'): $ingress->amount;
+                    // return $ingress->type == 'anticipo' ? $ingress->quotation->amount - $ingress->retainers->sum('amount'): $ingress->amount;
+                    return $ingress->amount;
                 }
             }) + $projectSum;
     }
