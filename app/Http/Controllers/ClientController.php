@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Client;
+use App\{Client, Variable};
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
@@ -15,7 +15,10 @@ class ClientController extends Controller
 
     function create()
     {
-        return view('paal.clients.create');
+        $regimes = Variable::where('id', '>', 3)
+            ->selectRaw('CONCAT(value, " - ", description) as name, id')
+            ->pluck('name', 'id');
+        return view('paal.clients.create', compact('regimes'));
     }
 
     function store(Request $request)

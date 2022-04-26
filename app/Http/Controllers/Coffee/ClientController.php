@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Coffee;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
-use App\{Ingress, Product, Client, Quotation, State};
+use App\{Ingress, Product, Client, Quotation, State, Variable};
 use App\Exports\ClientsExport;
 use App\Imports\ClientsImport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -23,7 +23,11 @@ class ClientController extends Controller
     function create()
     {
         $states = State::selectRaw('UPPER(name) as uppercase, name')->pluck('uppercase', 'name')->toArray();
-        return view('coffee.clients.create', compact('states'));
+        $regimes = Variable::where('id', '>', 3)
+            ->selectRaw('CONCAT(value, " - ", description) as name, id')
+            ->pluck('name', 'id')
+            ->toArray();
+        return view('coffee.clients.create', compact('states', 'regimes'));
     }
 
     function store(Request $request)
@@ -84,7 +88,11 @@ class ClientController extends Controller
 
     function edit(Client $client)
     {
-        return view('coffee.clients.edit', compact('client'));
+        $regimes = Variable::where('id', '>', 3)
+            ->selectRaw('CONCAT(value, " - ", description) as name, id')
+            ->pluck('name', 'id')
+            ->toArray();
+        return view('coffee.clients.edit', compact('client', 'regimes'));
     }
 
     function update(Request $request, Client $client)
@@ -92,6 +100,7 @@ class ClientController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'rfc' => 'required',
+            'tax_regime_id' => 'required',
         ]);
 
         $client->update($request->all());

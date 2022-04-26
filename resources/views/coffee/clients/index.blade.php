@@ -56,7 +56,7 @@
                             <th style="width: 5%;"><small>ID</small></th>
                             <th style="width: 5%;"><small><i class="fa fa-cogs"></i></small></th>
                             <th style="width: 15%"><small>CLIENTE</small></th>
-                            <th style="width: 10%"><small>R.F.C.</small></th>
+                            <th style="width: 15%"><small>R.F.C.</small></th>
                             <th style="width: 30%"><small>FACTURACIÓN</small></th>
                             <th><small>ENVÍO</small></th>
                         </tr>
@@ -78,7 +78,10 @@
                                     {{ ucwords(strtolower($client->name)) }} <br>
                                     <span style="color: navy;">{{ $client->email }}</span>
                                 </td>
-                                <td><code>{{ $client->rfc }}</code></td>
+                                <td>
+                                    <code>{{ $client->rfc }}</code><br>
+                                    <em>{{ $client->tax_regime ? $client->tax_regime->value . ' : ' . substr($client->tax_regime->description, 0, 19) . (strlen($client->tax_regime->description) > 19 ? '...': ''): '' }}</em>
+                                </td>
                                 <td>
                                 @forelse ($client->addresses as $address)
                                 @if($loop->index == 0)

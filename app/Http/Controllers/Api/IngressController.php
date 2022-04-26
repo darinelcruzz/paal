@@ -49,12 +49,16 @@ class IngressController extends Controller
                 ->whereMonth('bought_at', substr($date, 5, 7))
                 ->where('company', $company)
                 ->where('status', '!=', 'cancelado')
-                ->whereIn('type', ['proyecto', 'anticipo'])
+                ->where('type', 'proyecto')
                 ->with('movements.product')
                 ->get()
                 ->sum(function ($ingress) use ($type) { 
                     return $ingress->movements->sum(function ($m) use ($ingress, $type) {
-                        return $m->product->category == strtoupper($type) ? $m->real_amount: 0;
+                        if ($type == 'equipo') {
+                            return in_array($m->product->category, ['EQUIPO', 'BARRAS', 'REFACCIONES']) ? $m->real_amount: 0;
+                        } else {
+                            return in_array($m->product->category, ['INSUMOS', 'ACCESORIOS', 'VASOS', 'SERVICIOS', 'LIMPIEZA']) ? $m->real_amount: 0;
+                        }
                     }) + $ingress->rounding;
                 });
         } else {

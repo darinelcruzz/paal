@@ -8,6 +8,11 @@ class Client extends Model
 {
     protected $guarded = [];
 
+    function tax_regime()
+    {
+        return $this->belongsTo(Variable::class, 'tax_regime_id');
+    }
+
     function ingresses()
     {
         return $this->hasMany(Ingress::class);
