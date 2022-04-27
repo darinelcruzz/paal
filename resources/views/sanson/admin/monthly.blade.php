@@ -30,112 +30,36 @@
 
     <div class="row">
         <div class="col-md-4">
-            <div class="small-box bg-green">
-                <div class="inner">
-                    <p>Total Mensual</p>
-                    <h3><em>{{ number_format($ingresses->sum(function ($ingress) { return $ingress->type != 'anticipo' ? $ingress->amount - $ingress->retainers->sum('amount'): $ingress->amount;}), 2) }}</em></h3>
-                </div>
-                <div class="icon">
-                    <i class="fa fa-usd"></i>
-                </div>
-            </div>
-
-            <div class="small-box bg-red">
-                <div class="inner">
-                    <p>Por depositar</p>
-                    <h3>
-                        <em>
-                            {{ number_format($ingresses->sum(function ($ingress) { return $ingress->payments->where('cash_reference', null)->sum('cash');}), 2) }}
-                        </em>
-                    </h3>
-                </div>
-                <div class="icon">
-                    <i class="fa fa-piggy-bank"></i>
-                </div>
-            </div>
-
-            <div class="small-box bg-primary">
-                <div class="inner">
-                    <p>Promedio</p>
-                    <h3>
-                        <em>
-                            {{ number_format($ingresses->sum(function ($ingress) { return $ingress->type != 'anticipo' ? $ingress->amount - $ingress->retainers->sum('amount'): $ingress->amount;}) / $ingresses->groupBy('paid_at')->count(), 2) }}
-                        </em>
-                    </h3>
-                </div>
-                <div class="icon">
-                    <i class="fa fa-chart-line"></i>
-                </div>
-            </div>
-
-            <div class="small-box bg-yellow">
-                <div class="inner">
-                    <p>Envíos</p>
-                    <h3><em>{{ $shippings }}</em></h3>
-                </div>
-                <div class="icon">
-                    <i class="fa fa-shipping-fast"></i>
-                </div>
-            </div>
+            <icon-box title="total mensual" color="green" icon="usd" company="sanson" model="index" type="total" date="{{ $date }}"></icon-box>
+            <icon-box title="por depositar" color="red" icon="piggy-bank" company="sanson" model="index" type="depositar" date="{{ $date }}"></icon-box>
+            <icon-box title="promedio" color="primary" icon="chart-line" company="sanson" model="index" type="promedio" date="{{ $date }}"></icon-box>
+            <icon-box title="envíos" color="yellow" icon="shipping-fast" company="sanson" model="index" type="envíos" date="{{ $date }}"></icon-box>
         </div>
 
 
         <div class="col-md-8">
             <div class="row">
                 <div class="col-md-4">
-                    <div class="small-box bg-aqua">
-                        <div class="inner">
-                            <big>Efectivo</big>
-                            <h3>
-                                <small style="color: white">{{ number_format($ingresses->sum('cash'), 2) }}</small>
-                            </h3>
-                        </div>
-                    </div>
+                    <info-box title="efectivo" color="aqua" company="sanson" type="efectivo" date="{{ $date }}" model="payments">
+                    </info-box>
                 </div>
-          
                 <div class="col-md-4">
-                    <div class="small-box bg-aqua">
-                        <div class="inner">
-                            <big>Tarjeta de crédito</big>
-                            <h3>
-                                <small style="color: white">{{ number_format($ingresses->sum(function ($ingress) { return $ingress->payments->sum('credit_card');}), 2) }}</small>
-                            </h3>
-                        </div>
-                    </div>
+                    <info-box title="tarjeta de crédito" color="aqua" company="sanson" type="tarjeta de crédito" date="{{ $date }}" model="payments">
+                    </info-box>
                 </div>
-        
                 <div class="col-md-4">
-                    <div class="small-box bg-aqua">
-                        <div class="inner">
-                            <big>Tarjeta de débito</big>
-                            <h3>
-                                <small style="color: white">{{ number_format($ingresses->sum(function ($ingress) { return $ingress->payments->sum('debit_card');}), 2) }}</small>
-                            </h3>
-                        </div>
-                    </div>
+                    <info-box title="tarjeta de débito" color="aqua" company="sanson" type="tarjeta de débito" date="{{ $date }}" model="payments">
+                    </info-box>
                 </div>
             </div>
-        
             <div class="row">
                 <div class="col-md-4">
-                    <div class="small-box bg-aqua">
-                        <div class="inner">
-                            <big>Transferencia</big>
-                            <h3>
-                                <small style="color: white">{{ number_format($ingresses->sum(function ($ingress) { return $ingress->payments->sum('transfer');}), 2) }}</small>
-                            </h3>
-                        </div>
-                    </div>
+                    <info-box title="transferencia" color="aqua" company="sanson" type="transferencia" date="{{ $date }}" model="payments">
+                    </info-box>
                 </div>
                 <div class="col-md-4">
-                    <div class="small-box bg-aqua">
-                        <div class="inner">
-                            <big>Cheque</big>
-                            <h3>
-                                <small style="color: white">{{ number_format($ingresses->sum(function ($ingress) { return $ingress->payments->sum('check');}), 2) }}</small>
-                            </h3>
-                        </div>
-                    </div>
+                    <info-box title="cheque" color="aqua" company="sanson" type="cheque" date="{{ $date }}" model="payments">
+                    </info-box>
                 </div>
             </div>
 

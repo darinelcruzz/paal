@@ -82,8 +82,8 @@ class AdminController extends Controller
 
         $ingresses = Ingress::where('company', 'sanson')
             ->where('status', '!=', 'cancelado')
-            ->whereMonth('created_at', substr($date, 5, 7))
-            ->whereYear('created_at', substr($date, 0, 4))
+            ->whereMonth('bought_at', substr($date, 5, 7))
+            ->whereYear('bought_at', substr($date, 0, 4))
             ->with('payments', 'movements.product')
             ->get();
 

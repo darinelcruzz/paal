@@ -37,7 +37,7 @@ class IngressController extends Controller
             }) / $divisor;
         }
 
-        return Shipping::monthly($date)->count();;
+        return Shipping::monthly($date, $company)->count();;
     }
 
     function ingresses($date = null, $company = 'coffee', $type = 'insumos')
