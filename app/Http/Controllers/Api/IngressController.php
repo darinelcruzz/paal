@@ -30,7 +30,7 @@ class IngressController extends Controller
                         return $payment->cash + $payment->check + $payment->credit_card + $payment->debit_card + $payment->transfer;
                     });
                 } elseif ($type == 'depositar') {
-                    return $ingress->where('invoice_id', null)->payments->where('cash_reference', null)->sum('cash');
+                    return $ingress->payments->where('cash_reference', null)->sum('cash');
                 } elseif ($type == 'promedio') {
                     return $ingress->type != 'anticipo' ? $ingress->amount - $ingress->retainers->sum('amount'): $ingress->amount;
                 }

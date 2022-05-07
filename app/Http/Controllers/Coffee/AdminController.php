@@ -81,7 +81,7 @@ class AdminController extends Controller
             ->where('status', '!=', 'cancelado')
             ->whereMonth('created_at', substr($date, 5, 2))
             ->whereYear('created_at', substr($date, 0, 4))
-            ->where('invoice_id', null)
+            // ->where('invoice_id', null)
             ->with('payments')
             ->get()
             ->sum(function ($item)
