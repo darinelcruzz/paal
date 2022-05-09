@@ -35,6 +35,7 @@ class ClientController extends Controller
         // dd($request->all());
         $this->validate($request, [
             'name' => 'required',
+            'phone' => 'required',
             'rfc' => 'required',
         ]);
 
