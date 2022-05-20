@@ -37,6 +37,7 @@ class ClientController extends Controller
             'name' => 'required',
             'phone' => 'required',
             'rfc' => 'required',
+            'tax_regime_id' => 'required',
         ]);
 
         $client = Client::create($request->except('items', 'shipping_address', 'businessname', 'contact'));

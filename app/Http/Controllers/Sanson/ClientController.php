@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Sanson;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
-use App\{Ingress, Product, Client};
+use App\{Ingress, Product, Client, Variable};
 
 class ClientController extends Controller
 {
@@ -17,7 +17,11 @@ class ClientController extends Controller
 
     function create()
     {
-        return view('sanson.clients.create');
+        $regimes = Variable::where('id', '>', 3)
+            ->selectRaw('CONCAT(value, " - ", description) as name, id')
+            ->pluck('name', 'id')
+            ->toArray();
+        return view('sanson.clients.create', compact('regimes'));
     }
 
     function store(Request $request)
@@ -25,6 +29,7 @@ class ClientController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'rfc' => 'required',
+            'tax_regime_id' => 'required'
         ]);
 
         Client::create($request->all() + ['company' => 'sanson']);
@@ -48,7 +53,11 @@ class ClientController extends Controller
 
     function edit(Client $client)
     {
-        return view('sanson.clients.edit', compact('client'));
+        $regimes = Variable::where('id', '>', 3)
+            ->selectRaw('CONCAT(value, " - ", description) as name, id')
+            ->pluck('name', 'id')
+            ->toArray();
+        return view('sanson.clients.edit', compact('client', 'regimes'));
     }
 
     function update(Request $request, Client $client)

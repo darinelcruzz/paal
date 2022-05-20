@@ -9,11 +9,18 @@
 
                 {!! Form::open(['method' => 'POST', 'route' => ['sanson.client.update', $client]]) !!}
 
-                    {!! Field::text('name', $client->name, ['tpl' => 'withicon'], ['icon' => 'user']) !!}
-
                     <div class="row">
                         <div class="col-md-6">
+                            {!! Field::text('name', $client->name, ['tpl' => 'withicon'], ['icon' => 'comments']) !!}
+                        </div>
+                        <div class="col-md-6">
                             {!! Field::text('rfc', $client->rfc, ['tpl' => 'withicon', 'label' => 'R.F.C.'], ['icon' => 'barcode']) !!}
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            {!! Field::select('tax_regime_id', $regimes, $client->tax_regime_id, ['tpl' => 'withicon', 'empty' => 'Elija una opción'], ['icon' => 'comments']) !!}
                         </div>
                         <div class="col-md-6">
                             {!! Field::text('email', $client->email, ['tpl' => 'withicon'], ['icon' => 'at']) !!}

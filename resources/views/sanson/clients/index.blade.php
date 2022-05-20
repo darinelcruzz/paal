@@ -39,7 +39,9 @@
                                     <code>{{ $client->email }}</code>
                                 </td>
                                 <td>
-                                    {{ $client->rfc }}
+                                    <code>{{ $client->rfc }}</code><br>
+                                    <em>{{ $client->tax_regime ? $client->tax_regime->value . ' : ' . substr($client->tax_regime->description, 0, 19) . (strlen($client->tax_regime->description) > 19 ? '...': ''): '' }}</em>
+                                </td>
                                 </td>
                                 <td>
                                     {{ $client->city }} 
