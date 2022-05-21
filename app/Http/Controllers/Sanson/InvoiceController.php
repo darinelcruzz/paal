@@ -14,12 +14,14 @@ class InvoiceController extends Controller
         $validated = $request->validate([
             'invoice_id' => 'required',
             'sales' => 'required',
-            'xml' => 'required'
+            // 'xml' => 'required'
         ]);
-        
-        $path = Storage::putFileAs(
-            "public/coffee/invoices", $request->file('xml'), "$request->invoice_id.xml"
-        );
+
+        if ($request->file('xml')) {
+            $path = Storage::putFileAs(
+                "public/coffee/invoices", $request->file('xml'), "$request->invoice_id.xml"
+            );
+        }
         
         foreach (Ingress::find($request->sales) as $sale) {
             $sale->update($request->only('invoice_id'));

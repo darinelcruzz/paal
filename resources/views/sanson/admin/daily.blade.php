@@ -68,7 +68,7 @@
                                             </a>
                                         </li>
                                         @if ($ingress->invoice_id)
-                                            <li><a href="{{ $ingress->xml }}" target="_blank"><i class="fa fa-file-code"></i> XML</a></li>
+                                            {{-- <li><a href="{{ $ingress->xml }}" target="_blank"><i class="fa fa-file-code"></i> XML</a></li> --}}
                                         @elseif($status != 'efectivo')
                                             <li><a data-toggle="modal" data-target="#invoice-modal" v-on:click="upmodel({{ $ingress->toJson() }})"><i class="fa fa-plus"></i> Agregar FI</a></li>
                                         @endif
@@ -113,11 +113,11 @@
                             </div>
                         </div>
                         <br>
-                        <div class="row">
+                        {{-- <div class="row">
                             <div class="col-md-2 col-md-offset-5">
                                 <file-upload bname=" SUBIR XML" fname="xml" ext="xml" color="danger"></file-upload>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <template slot="footer">
                             {!! Form::submit('Guardar', ['class' => "btn btn-$color pull-right"]) !!}
@@ -150,11 +150,11 @@
                     </div>
                     <input type="hidden" name="sales[]" :value="model.id">
                     <br>
-                    <div class="row">
+                    {{-- <div class="row">
                         <div class="col-md-2 col-md-offset-5">
                             <file-upload fname="xml" ext="xml" color="danger" bname=" SUBIR XML"></file-upload>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <template slot="footer">
                         {!! Form::submit('Guardar', ['class' => "btn btn-$color pull-right"]) !!}

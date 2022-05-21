@@ -68,7 +68,7 @@
                                             </a>
                                         </li>
                                         @if ($ingress->invoice_id || $ingress->pinvoice_id)
-                                            <li><a href="{{ $ingress->xml }}" target="_blank"><i class="fa fa-file-code"></i> XML</a></li>
+                                            {{-- <li><a href="{{ $ingress->xml }}" target="_blank"><i class="fa fa-file-code"></i> XML</a></li> --}}
                                         @elseif($status != 'efectivo')
                                             <li><a data-toggle="modal" data-target="#invoice-modal" v-on:click="upmodel({{ $ingress->toJson() }})"><i class="fa fa-plus"></i> Agregar FI</a></li>
                                         @endif
@@ -103,18 +103,18 @@
 
                         <div class="row">
                             <div class="col-md-2"></div>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 {!! Field::number('invoice_id', ['label' => 'Agregar FI','tpl' => 'withicon', 'ph' => '010101'], ['icon' => 'file-invoice']) !!}
                                 {!! Field::number('pinvoice_id', ['label' => 'Agregar PI','tpl' => 'withicon', 'ph' => '010101'], ['icon' => 'file-excel']) !!}
                                 {!! Field::number('pi_amount', 0, ['label' => 'Monto PI', 'tpl' => 'withicon'], ['icon' => 'usd']) !!}
                                 <input type="hidden" name="thisDate" value="{{ $date }}">
                             </div>
-                            <div class="col-md-2">
+                            {{-- <div class="col-md-2">
                                 &nbsp;<br>
                                 <file-upload fname="xml" ext="xml" color="{{ $color }}" bname="fi.xml"></file-upload>
                                 &nbsp;<br>
                                 <file-upload fname="pi_xml" ext="xml" color="{{ $color }}" bname="pi.xml"></file-upload>                            
-                            </div>
+                            </div> --}}
                         </div>
                         {{-- <input type="hidden" name="sales[]" :value="model.id"> --}}
 
@@ -140,18 +140,18 @@
 
                     <div class="row">
                         <div class="col-md-2"></div>
-                        <div class="col-md-6">
+                        <div class="col-md-8">
                             {!! Field::number('invoice_id', ['label' => 'Agregar FI','tpl' => 'withicon', 'ph' => '010101'], ['icon' => 'file-invoice']) !!}
                             {!! Field::number('pinvoice_id', ['label' => 'Agregar PI','tpl' => 'withicon', 'ph' => '010101'], ['icon' => 'file-excel']) !!}
                             {!! Field::number('pi_amount', 0, ['label' => 'Monto PI', 'tpl' => 'withicon'], ['icon' => 'usd']) !!}
                             <input type="hidden" name="thisDate" value="{{ $date }}">
                         </div>
-                        <div class="col-md-2">
+                        {{-- <div class="col-md-2">
                             &nbsp;<br>
                             <file-upload fname="xml" ext="xml" color="{{ $color }}" bname="fi.xml"></file-upload>
                             &nbsp;<br>
                             <file-upload fname="pi_xml" ext="xml" color="{{ $color }}" bname="pi.xml"></file-upload>                            
-                        </div>
+                        </div> --}}
                     </div>
                     <input type="hidden" name="sales[]" :value="model.id">
                     <br>

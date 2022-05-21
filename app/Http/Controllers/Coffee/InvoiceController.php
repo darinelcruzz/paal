@@ -15,8 +15,8 @@ class InvoiceController extends Controller
         $validated = $request->validate([
             'invoice_id' => 'required_if:pinvoice_id,null',
             'pinvoice_id' => 'required_if:invoice_id,null',
-            'xml' => 'required_with:invoice_id',
-            'pi_xml' => 'required_with:pinvoice_id'
+            // 'xml' => 'required_with:invoice_id',
+            // 'pi_xml' => 'required_with:pinvoice_id'
         ]);
         
         if ($request->file('xml')) {
