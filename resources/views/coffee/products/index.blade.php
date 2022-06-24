@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-9">
             @if(auth()->user()->level <= 2)
-            <a href="{{ route('coffee.product.create') }}" class="btn btn-danger btn-xs"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR</a>
+            <a href="{{ route('coffee.product.create') }}" class="btn btn-warning btn-xs"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR</a>
             @endif
         </div>
         <div class="col-md-3">
@@ -20,7 +20,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <solid-box title="Lista" color="danger">
+            <solid-box title="Lista" color="warning">
                 
                 <table class="table table-striped table-bordered spanish">
                     <thead>
@@ -41,7 +41,7 @@
                             <tr>
                                 <td>{{ $product->id }}</td>
                                 <td>
-                                    <dropdown icon="cogs" color="danger">
+                                    <dropdown icon="cogs" color="warning">
                                         <ddi icon="edit" to="{{ route('coffee.product.edit', $product) }}" text="Editar"></ddi>
                                         @if(auth()->user()->level == 0)
                                             <ddi icon="barcode" to="{{ route('coffee.product.serialize', $product) }}" text="Hacer seriable"></ddi>

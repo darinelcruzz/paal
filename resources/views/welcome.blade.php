@@ -33,15 +33,15 @@
   <div class="lockscreen-item">
 
     <div class="lockscreen-image">
-      <img src="{{ asset('/img/coffee.png')  }}" alt="Coffee Depot">
+      <img src="{{ asset('/img/cocinaspaal.png')  }}" alt="Cocinas Paal">
     </div>
 
     <div class="lockscreen-credentials">
       <div class="input-group">
-        <input type="text" class="form-control" value="COFFEE" disabled>
+        <input type="text" class="form-control" value="COCINAS PAAL" disabled>
 
         <div class="input-group-btn">
-          <a href="/coffee" class="btn"><i class="fa fa-arrow-right text-muted"></i></a>
+          <a href="/cocinaspaal" class="btn"><i class="fa fa-arrow-right text-muted"></i></a>
         </div>
       </div>
     </div>
@@ -71,7 +71,7 @@
 
   <br>
 
-  <div class="lockscreen-item">
+  {{-- <div class="lockscreen-item">
 
     <div class="lockscreen-image">
       <img src="{{ asset('/img/sanson_login.png')  }}" alt="San - Son">
@@ -87,7 +87,7 @@
       </div>
     </div>
 
-  </div>
+  </div> --}}
   
   <div class="help-block text-center">
     Elija a qué sitio quiere dirigirse

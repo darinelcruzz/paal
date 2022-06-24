@@ -3,13 +3,13 @@
 @push('pageTitle', 'Números de serie')
 
 @push('headerTitle')
-    <a href="{{ route('coffee.serial_number.create') }}" class="btn btn-danger btn-xs"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR</a>
+    <a href="{{ route('coffee.serial_number.create') }}" class="btn btn-warning btn-xs"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR</a>
 @endpush
 
 @section('content')
     <div class="row">
         <div class="col-md-8">
-            <solid-box title="Números de serie" color="danger">
+            <solid-box title="Números de serie" color="warning">
 
                 <table class="table table-bordered table-striped spanish-simple">
                     <thead>
@@ -36,8 +36,8 @@
                                     {{ $serial_number->ingress->folio ?? 'S/V' }}
                                 </td>
                                 <td style="text-align: center;">
-                                    <span class="label label-{{ $serial_number->status == 'en inventario' ? 'default': 'success' }}">
-                                        <small>{{ strtoupper($serial_number->status) }}</small>
+                                    <span class="label label-{{ $serial_number->ingress ? 'default': 'success' }}">
+                                        <small>{{ strtoupper($serial_number->ingress ? 'vendido': 'disponible') }}</small>
                                     </span>
                                 </td>
                             </tr>

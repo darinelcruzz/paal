@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 
-    @include('lte.htmlhead', ['company' => 'coffee'])
+    @include('lte.htmlhead', ['company' => 'cocinaspaal'])
 
-    <body class="hold-transition skin-red sidebar-mini">
+    <body class="hold-transition skin-yellow sidebar-mini">
         <div id="app">
             <div class="wrapper">
-                @include('lte.mainheader', ['logoMini' => "<b>C</b>D", 'logoLg' => "<b>Coffee</b>Depot", 'site' => 'coffee'])
+                @include('lte.mainheader', ['logoMini' => "<b>C</b>P", 'logoLg' => "<b>Cocinas</b>PAAL", 'site' => 'coffee'])
                 @include('lte.sidebar', ['site' => 'coffee'])
 
                 <div class="content-wrapper">

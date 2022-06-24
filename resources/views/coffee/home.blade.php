@@ -1,7 +1,7 @@
 @extends('coffee.root')
 
 @push('pageTitle')
-    Coffee Depot | Inicio
+    CP | Inicio
 @endpush
 
 @push('headerTitle')
@@ -11,7 +11,7 @@
 @section('content')
 
 	<div align="center">
-    	<img width="40%" height="20%" src="{{ asset('/img/coffee.png') }}">
+    	<img width="40%" height="20%" src="{{ asset('/img/cocinaspaal.png') }}">
     </div>
 
 @endsection

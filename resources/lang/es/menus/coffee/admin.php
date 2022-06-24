@@ -22,6 +22,10 @@ return [
                 'title' => 'Lugares',
                 'route' => 'coffee.statistics.places'
             ],
+            'monthly' => [
+                'title' => 'Corte mensual',
+                'route' => 'coffee.admin.monthly'
+            ],
         ]
     ],
 
@@ -32,6 +36,10 @@ return [
             'create' => [
                 'title' => 'Agregar',
                 'route' => 'coffee.quotation.create'
+            ],
+            'make' => [
+                'title' => 'Proyecto',
+                'route' => ['coffee.quotation.create', 'proyecto']
             ],
             'index' => [
                 'title' => 'Historial',
@@ -57,6 +65,10 @@ return [
                 'title' => 'Agregar',
                 'route' => 'coffee.ingress.create'
             ],
+            'make' => [
+                'title' => 'Proyecto',
+                'route' => ['coffee.ingress.create', 'proyecto']
+            ],
             'index' => [
                 'title' => 'Historial',
                 'route' => 'coffee.ingress.index'
@@ -64,10 +76,6 @@ return [
             'daily' => [
                 'title' => 'Corte diario',
                 'route' => ['coffee.admin.daily', 'factura']
-            ],
-            'monthly' => [
-                'title' => 'Corte mensual',
-                'route' => 'coffee.admin.monthly'
             ],
             'invoices' => [
                 'title' => 'Facturadas',
@@ -100,49 +108,6 @@ return [
         ]
     ],
 
-    // 'purchases_and_orders' => [
-    //     'title' => 'Compras y órdenes',
-    //     'icon' => 'fa fa-shopping-cart',
-    //     'submenu' => [
-    //         'purchases' => [
-    //             'title' => 'Compras',
-    //             'route' => 'coffee.purchase.index'
-    //         ],
-    //         'orders' => [
-    //             'title' => 'Órdenes',
-    //             'route' => 'coffee.order.index'
-    //         ],
-    //     ]
-    // ],
-
-    'egresses' => [
-        'title' => 'Egresos',
-        'icon' => 'fa fa-share',
-        // 'label' => expiringSoonEgresses() > 0 ? expiringSoonEgresses(): '',
-        'submenu' => [
-            'index' => [
-                'title' => 'Historial',
-                'route' => ['coffee.egress.index', 'pagado']
-            ],
-            'general' => [
-                'title' => 'Generales',
-                'route' => 'coffee.egress.general.create'
-            ],
-            'cashier' => [
-                'title' => 'Caja Chica',
-                'route' => 'coffee.egress.register.index'
-            ],
-            'returns' => [
-                'title' => 'Reposiciones',
-                'route' => 'coffee.egress.return.create'
-            ],
-            'extra' => [
-                'title' => 'Gastos extra',
-                'route' => 'coffee.egress.return.make'
-            ],
-        ]
-    ],
-
     'tasks' => [
         'title' => 'Tareas',
         'icon' => 'fa fa-tasks',
@@ -152,16 +117,7 @@ return [
     'products' => [
         'title' => 'Productos',
         'icon' => 'fa fa-tags',
-        'submenu' => [
-            'index' => [
-                'title' => 'Todos',
-                'route' => 'coffee.product.index'
-            ],
-            'puremix' => [
-                'title' => 'PURE MIX',
-                'route' => 'coffee.product.puremix.index'
-            ],
-        ]
+        'route' => 'coffee.product.index'
     ],
 
     'serial_numbers' => [

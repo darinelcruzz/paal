@@ -1,4 +1,4 @@
-@extends('coffee.root')
+@extends('paal.root')
 
 @push('pageTitle')
     Egresos | Reemplazar
@@ -7,8 +7,8 @@
 @section('content')
     <div class="row">
         <div class="col-md-3">
-            <solid-box title="Subir el archivo correcto" color="danger" button>
-                {!! Form::open(['method' => 'POST', 'route' => ['coffee.egress.replace', $egress], 'enctype' => 'multipart/form-data']) !!}
+            <solid-box title="Subir el archivo correcto" color="primary" button>
+                {!! Form::open(['method' => 'POST', 'route' => ['paal.egress.replace', $egress], 'enctype' => 'multipart/form-data']) !!}
 
                     <div class="row">
                         
@@ -20,7 +20,7 @@
 
                     <hr>
 
-                    {!! Form::submit('GUARDAR', ['class' => 'btn btn-danger pull-right']) !!}
+                    {!! Form::submit('GUARDAR', ['class' => 'btn btn-primary pull-right']) !!}
                     
                 {!! Form::close() !!}
             </solid-box>

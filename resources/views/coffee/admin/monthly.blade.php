@@ -57,7 +57,7 @@
             </div>
 
             <div class="row">
-                <div class="col-md-3">
+                {{-- <div class="col-md-3">
                     <info-box title="insumos" color="purple" company="coffee" type="insumos" date="{{ $date }}" model="ingresses">
                     </info-box>
                 </div>
@@ -65,7 +65,7 @@
                 <div class="col-md-3">
                     <info-box title="equipos" color="navy" company="coffee" type="equipo" date="{{ $date }}" model="ingresses">
                     </info-box>
-                </div>
+                </div> --}}
                 <div class="col-md-3">
                     <info-box title="anticipo" color="teal" company="coffee" type="anticipo" date="{{ $date }}" model="ingresses">
                     </info-box>

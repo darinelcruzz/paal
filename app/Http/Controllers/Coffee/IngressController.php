@@ -24,12 +24,12 @@ class IngressController extends Controller
         return view('coffee.ingresses.index', compact('ingresses', 'date'));
     }
 
-    function create()
+    function create($type = null)
     {
         $clients = Client::where('company', '!=', 'mbe')->get(['id', 'name', 'rfc'])->toJson();
         $last_sale = Ingress::where('company', 'coffee')->get()->last();
         $last_folio = $last_sale ? $last_sale->folio + 1: 1;
-        return view('coffee.ingresses.create', compact('clients', 'last_folio'));
+        return view('coffee.ingresses.create', compact('clients', 'last_folio', 'type'));
     }
 
     function store(Request $request)

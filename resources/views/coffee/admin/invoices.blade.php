@@ -14,7 +14,7 @@
                     <thead>
                         <tr>
                             <th style="text-align: center;"><small>FI</small></th>
-                            <th style="text-align: center;"><small>PI</small></th>
+                            {{-- <th style="text-align: center;"><small>PI</small></th> --}}
                             <th><small>NOTAS</small></th>
                             <th><small>MÉTODO</small></th>
                             <th><small>CLIENTE</small></th>
@@ -37,13 +37,13 @@
                                     </a><br>
                                     {{ number_format($sales->sum('amount') - $sales->first()->pi_amount, 2) }}
                                 </td>
-                                <td style="width: 10%;text-align: center;">
-                                    <a href="{{ $sales->first()->pi_xml }}" target="_blank" style="color: blue">
-                                    {{ $sales->first()->pinvoice_id ?? 'N/A' }}
-                                    </a>
-                                    <br>
-                                    {{ number_format($sales->first()->pi_amount, 2) }}
-                                </td>
+                                    {{-- <td style="width: 10%;text-align: center;">
+                                        <a href="{{ $sales->first()->pi_xml }}" target="_blank" style="color: blue">
+                                        {{ $sales->first()->pinvoice_id ?? 'N/A' }}
+                                        </a>
+                                        <br>
+                                        {{ number_format($sales->first()->pi_amount, 2) }}
+                                    </td> --}}
                                 <td>
                                     @if($sales->count() > 1)
                                         <em><small>GLOBAL</small></em>

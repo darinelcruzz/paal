@@ -6,42 +6,26 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use App\{Egress, Provider, Check};
+use Response;
 
 class EgressController extends Controller
 {
-    function index($company, $status = 'pagado')
+    function index(Request $request, $status = 'pagado', $thisDate = null)
     {
-        $date = dateFromRequest('Y-m');
+        $date = $thisDate == null ? dateFromRequest('Y-m'): $thisDate;
 
-        $colors = ['pagado' => 'success', 'pendiente' => 'warning', 'vencido' => 'danger'];
-        $color = $colors[$status];
+        $egresses = Egress::from($date, 'emission')
+            ->where('check_id', null)
+            ->orderByDesc('id')
+            ->get();
 
-        $conditions = [
-            ['company', '=', $company],
-            ['status', '=', $status]
-        ];
-
-        if ($status == 'pagado') {
-            array_push($conditions, ['check_id', '=', null]);
-
-            $egresses = Egress::whereYear('payment_date', substr($date, 0, 4))
-                ->whereMonth('payment_date', substr($date, 5, 7))
-                ->where($conditions)
-                ->get();
-        } else {
-            $egresses = Egress::where($conditions)->get();
-        }
-
-        $checks = Check::from($date, 'charged_at', $company)->get();
+        $checks = Check::from($date, 'charged_at')->get();
 
         $checkssum = $checks->sum(function ($product) {
             return $product->total;
         });
 
-        $alltime = Egress::company($company)->get();
-        $paid = Egress::from($date, 'payment_date', $company)->get();
-
-        return view('paal.egresses.index', compact('egresses','paid', 'date', 'alltime', 'checks', 'checkssum', 'status', 'company', 'color'));
+        return view('paal.egresses.index', compact('egresses', 'date', 'checks', 'checkssum'));
     }
 
     function pay(Egress $egress)
@@ -51,84 +35,75 @@ class EgressController extends Controller
 
     function charge(Request $request, Egress $egress)
     {
+        // dd($request->all());
         $attributes = $this->validate($request, [
-            'payment_date' => 'sometimes|required',
-            'method' => 'sometimes|required',
-            'mfolio' => 'sometimes|required',
-            'second_payment_date' => 'sometimes|required',
-            'second_method' => 'sometimes|required',
-            'nfolio' => 'sometimes|required',
+            'paid_at' => 'required',
+            'method' => 'required',
+            'folio' => 'required',
+            'amount' => 'required'
         ]);
 
-        $egress->update($attributes);
+        $egress->payments()->create($attributes);
 
-        $egress->update([
-            'status' => $request->single_payment == 0 ? 'pagado': 'pendiente',
-        ]);
+        if ($request->single_payment == 0 || $egress->debt == 0) {
+            $egress->update([
+                'status' => 'pagado',
+                'method' => $request->method,
+                'payment_date' => $request->paid_at,
+            ]);
+        }
 
-        return redirect(route('paal.egress.index', $egress->company));
+        return redirect(route('paal.egress.index', $egress->status));
     }
 
-    function monthly($company = 'coffee')
+    function edit(Egress $egress)
     {
-        $date = dateFromRequest('Y-m');
-        $total = Egress::from($date, 'created_at', $company)->sum('amount');
-        $pending = Egress::whereCompany($company)->whereStatus('pendiente')->sum('amount');
-        $expired = Egress::whereCompany($company)->whereStatus('vencido')->sum('amount');
+        return view('paal.egresses.edit', compact('egress'));
+    }
 
-        $general = Egress::from($date, 'created_at', $company)
-            ->whereHas('provider', function ($query) {
-                $query->where('group', 'of');
-            })
-            ->sum('amount');
+    function update(Request $request, Egress $egress)
+    {
+        $egress->update($request->validate(['folio' => 'required']));
 
-        $register = Egress::from($date, 'created_at', $company)
-            ->whereHas('provider', function ($query) {
-                $query->where('group', 'cc');
-            })
-            ->sum('amount');
+        return redirect(route('paal.egress.index', $egress->status));
+    }
+    
+    function replace(Egress $egress)
+    {
+        return view('paal.egresses.replace', compact('egress'));
+    }
 
-        $reposition = Egress::from($date, 'created_at', $company)
-            ->whereHas('provider', function ($query) {
-                $query->where('group', 'rp');
-            })
-            ->sum('amount');
+    function upload(Request $request, Egress $egress)
+    {
+        $request->validate(['pdf_bill' => 'required']);
 
-        $extra = Egress::from($date, 'created_at', $company)
-            ->whereHas('provider', function ($query) {
-                $query->where('group', 'ex');
-            })
-            ->sum('amount');
+        $egress->update(['pdf_bill' => saveCoffeeFile($request->file("pdf_bill"))]);
 
-        $expenses = Egress::from($date, 'created_at', $company)
-            ->whereHas('provider', function ($query) {
-                $query->where('type', 'gg');
-            })
-            ->sum('amount');
+        return redirect(route('paal.egress.index'));
+    }
 
-        $sales = Egress::from($date, 'created_at', $company)
-            ->whereHas('provider', function ($query) {
-                $query->where('type', 'cv');
-            })
-            ->sum('amount');
+    function displayPDF(Egress $egress, $column)
+    {
+        $filePath = $egress->{$column};
+        
+        if(!Storage::exists($filePath) ) {
+          abort(404);
+        }
 
-        $undeductible = Egress::from($date, 'created_at', $company)
-            ->whereHas('provider', function ($query) {
-                $query->where('is_deductible', 0);
-            })
-            ->sum('amount');
+        $pdfContent = Storage::get($filePath);
+        $type       = Storage::mimeType($filePath);
+        $fileName   = $egress->folio;
 
-        $deductible = Egress::from($date, 'created_at', $company)
-            ->whereHas('provider', function ($query) {
-                $query->where('is_deductible', 1);
-            })
-            ->sum('amount');
+        return Response::make($pdfContent, 200, [
+          'Content-Type'        => $type,
+          'Content-Disposition' => 'inline; filename="'.$fileName.'"'
+        ]);
+    }
 
-        return view('paal.admin.monthly_e', 
-            compact(
-                'total', 'pending', 'expired', 'general', 'register', 'reposition', 'extra', 
-                'expenses', 'sales', 'undeductible', 'deductible', 'company', 'date'
-            )
-        );
+    function destroy(Egress $egress)
+    {
+        $egress->update(['status' => 'eliminado']);
+
+        return redirect(route('paal.egress.index', ['pagado', dateFromRequest('Y-m')]));
     }
 }

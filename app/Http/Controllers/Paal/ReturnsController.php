@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Coffee;
+namespace App\Http\Controllers\Paal;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -16,7 +16,7 @@ class ReturnsController extends Controller
 
         $users = User::whereIn('id', [2, 4, 8])->pluck('name', 'id')->toArray();
 
-        return view('coffee.egresses.returns.create', compact('provider', 'users'));
+        return view('paal.egresses.returns.create', compact('provider', 'users'));
     }
 
     function store(EgressRequest $request)
@@ -31,14 +31,14 @@ class ReturnsController extends Controller
             'expiration' => date('Y-m-d', $expiration),
         ]);
 
-        return redirect(route('coffee.egress.index', 'pendiente'));
+        return redirect(route('paal.egress.index', 'pendiente'));
     }
 
     function make()
     {
         $provider = Provider::whereIn('company', ['coffee', 'both'])->where('group', 'ex')->first();
 
-        return view('coffee.egresses.returns.make', compact('provider'));
+        return view('paal.egresses.returns.make', compact('provider'));
     }
 
     function save(EgressRequest $request)
@@ -53,6 +53,6 @@ class ReturnsController extends Controller
             'expiration' => date('Y-m-d', $expiration),
         ]);
 
-        return redirect(route('coffee.egress.index', 'pagado'));
+        return redirect(route('paal.egress.index', 'pagado'));
     }
 }

@@ -1,12 +1,12 @@
-@extends('coffee.root')
+@extends('paal.root')
 
 @push('pageTitle', 'Egresos | Agregar')
 
 @section('content')
     <div class="row">
         <div class="col-md-7">
-            <solid-box title="Agregar egreso" color="danger" button>
-                {!! Form::open(['method' => 'POST', 'route' => 'coffee.egress.general.store', 'enctype' => 'multipart/form-data']) !!}
+            <solid-box title="Agregar egreso" color="primary" button>
+                {!! Form::open(['method' => 'POST', 'route' => 'paal.egress.general.store', 'enctype' => 'multipart/form-data']) !!}
 
                     <div class="row">
                         <div class="col-md-6">
@@ -90,7 +90,7 @@
 
                     <hr>
                     <input type="hidden" name="company" value="coffee">
-                    <button type="submit" class="btn btn-danger pull-right" onclick="submitForm(this);">Agregar</button>
+                    <button type="submit" class="btn btn-primary pull-right" onclick="submitForm(this);">Agregar</button>
 
                 {!! Form::close() !!}
             </solid-box>

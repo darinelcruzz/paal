@@ -1,6 +1,6 @@
 <dropdown color="{{ $color }}" icon="cogs">
 
-	<ddi icon="edit" to="{{ route('paal.egress.edit', $egress) }}" text="Editar folio"></ddi>
+	<ddi icon="edit" to="{{ route('coffee.egress.edit', $egress) }}" text="Editar folio"></ddi>
 
 	@if($egress->pdf_bill)
         
@@ -8,7 +8,7 @@
 
     @else
 
-    	<ddi icon="upload" to="{{ route('paal.egress.replace', $egress) }}" text="Subir factura"></ddi>
+    	<ddi icon="upload" to="{{ route('coffee.egress.replace', $egress) }}" text="Subir factura"></ddi>
 
     @endif
 
@@ -17,7 +17,7 @@
 	@endif   
 
     @if ($egress->status != 'pagado')
-        <ddi icon="usd" to="{{ route('paal.egress.pay', $egress) }}" text="Pagar"></ddi>
+        <ddi icon="usd" to="{{ route('coffee.egress.pay', $egress) }}" text="Pagar"></ddi>
     @endif
 
     @if($egress->pdf_payment)
@@ -30,13 +30,25 @@
 
     @endif
 
+    @if(isAdmin())
+
+        {{-- <ddi icon="times" to="{{ route('coffee.egress.destroy', $egress) }}" text="Eliminar"></ddi> --}}
+        <li>
+            <a class="deleteThisObjectNoReason" idInstance="{{ $egress->id }}" route="egresos">
+                <i class="fa fa-times" aria-hidden="true"></i> Eliminar
+            </a>
+        </li>
+
+    @endif
+
 </dropdown>
 
 
 @if($egress->pdf_bill)
         
     <modal id="pdf{{ $egress->id}}" title="Factura (pdf)">
-	    <iframe src="{{ Storage::url($egress->pdf_bill) }}#view=FitH" width="100%" height="600"></iframe>
+	    {{-- <iframe src="{{ Storage::url($egress->pdf_bill) }}#view=FitH" width="100%" height="600"></iframe> --}}
+        <embed src="{{ route('coffee.egress.displayPDF', [$egress, 'pdf_bill']) }}" style="width:100%; height:800px;" frameborder="0">
 	</modal>
 
 @endif
@@ -44,7 +56,8 @@
 @if($egress->pdf_complement)
 
     <modal id="pdf_complement_{{ $egress->id}}" title="Factura (pdf)">
-	    <iframe src="{{ Storage::url($egress->pdf_complement) }}#view=FitH" width="100%" height="600"></iframe>
+	    {{-- <iframe src="{{ Storage::url($egress->pdf_complement) }}#view=FitH" width="100%" height="600"></iframe> --}}
+        <embed src="{{ route('coffee.egress.displayPDF', [$egress, 'pdf_complement']) }}" style="width:100%; height:800px;" frameborder="0">
 	</modal>
 
 @endif
@@ -52,7 +65,8 @@
 @if($egress->pdf_payment)
 
     <modal id="ppdf{{ $egress->id}}" title="Pago (pdf)">
-	    <iframe src="{{ Storage::url($egress->pdf_payment) }}#view=FitH" width="100%" height="600"></iframe>
+	    {{-- <iframe src="{{ Storage::url($egress->pdf_payment) }}#view=FitH" width="100%" height="600"></iframe> --}}
+        <embed src="{{ route('coffee.egress.displayPDF', [$egress, 'pdf_payment']) }}" style="width:100%; height:800px;" frameborder="0">
 	</modal>
 	
 @endif

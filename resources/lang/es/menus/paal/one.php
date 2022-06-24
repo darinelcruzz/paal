@@ -27,14 +27,26 @@ return [
         'title' => 'Egresos',
         'icon' => 'fa fa-share',
         'submenu' => [
-            'monthly' => [
-                'title' => 'Corte mensual',
-                'route' => 'paal.egress.monthly'
-            ],
             'index' => [
                 'title' => 'Historial',
-                'route' => ['paal.egress.index', 'coffee']
-            ]
+                'route' => ['paal.egress.index', 'pagado']
+            ],
+            'general' => [
+                'title' => 'Generales',
+                'route' => 'paal.egress.general.create'
+            ],
+            'cashier' => [
+                'title' => 'Caja Chica',
+                'route' => 'paal.egress.register.index'
+            ],
+            'returns' => [
+                'title' => 'Reposiciones',
+                'route' => 'paal.egress.return.create'
+            ],
+            'extra' => [
+                'title' => 'Gastos extra',
+                'route' => 'paal.egress.return.make'
+            ],
         ]
     ],
 
@@ -54,12 +66,6 @@ return [
         'title' => 'Usuarios',
         'icon' => 'fa fa-key',
         'route' => 'paal.user.index'
-    ],
-
-    'products' => [
-        'title' => 'Productos',
-        'icon' => 'fa fa-tag',
-        'route' => 'paal.product.index'
     ],
 
     'reports' => [

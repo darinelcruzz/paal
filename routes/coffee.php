@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
+Route::group(['prefix' => 'cocinaspaal', 'as' => 'coffee.'], function () {
 
 	Route::get('/', usesas('Coffee\HomeController', 'index'));
 
@@ -48,8 +48,8 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	    Route::get('eliminar/{egress}', usesas($ctrl, 'destroy'));
 	    Route::post('editar/{egress}', usesas($ctrl, 'update'));
 	    Route::get('pdf-factura/{egress}/{column}', usesas($ctrl, 'displayPDF'));
-	    Route::get('/{status}/{date?}', usesas($ctrl, 'index'));
-	    Route::post('/{status}/{date?}', usesas($ctrl, 'index'));
+	    Route::get('/{status?}/{date?}', usesas($ctrl, 'index'));
+	    Route::post('/{status?}/{date?}', usesas($ctrl, 'index'));
 	});
 
 	Route::group(['prefix' => 'cheques', 'as' => 'check.'], function () {
@@ -65,7 +65,7 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 	    $ctrl = 'Coffee\IngressController';
 	    Route::get('/', usesas($ctrl, 'index'));
 	    Route::post('/', usesas($ctrl, 'index'));
-	    Route::get('agregar', usesas($ctrl, 'create'));
+	    Route::get('agregar/{type?}', usesas($ctrl, 'create'));
 	    Route::post('agregar', usesas($ctrl, 'store'));
 	    Route::get('numeros-de-serie/{ingress}', usesas($ctrl, 'update'));
 		Route::get('ticket/{ingress}', usesas($ctrl, 'ticket'));
@@ -100,7 +100,7 @@ Route::group(['prefix' => 'coffee', 'as' => 'coffee.'], function () {
 
 	Route::group(['prefix' => 'cotizaciones', 'as' => 'quotation.'], function () {
 	    $ctrl = 'Coffee\QuotationController';
-	    Route::get('agregar', usesas($ctrl, 'create'));
+	    Route::get('agregar/{type?}', usesas($ctrl, 'create'));
 	    Route::post('agregar', usesas($ctrl, 'store'));
 	    Route::get('editar/{quotation}', usesas($ctrl, 'edit'));
 	    Route::post('editar/{quotation}', usesas($ctrl, 'update'));

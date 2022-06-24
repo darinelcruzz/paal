@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Coffee;
+namespace App\Http\Controllers\Paal;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -14,7 +14,7 @@ class GeneralEgressController extends Controller
     {
         $providers = Provider::general()->pluck('provider', 'id')->toArray();
 
-        return view('coffee.egresses.general.create', compact('providers'));
+        return view('paal.egresses.general.create', compact('providers'));
     }
 
     function store(EgressRequest $request)
@@ -38,6 +38,6 @@ class GeneralEgressController extends Controller
             'expiration' => date('Y-m-d', $expiration),
         ]);
 
-        return redirect(route('coffee.egress.index', 'pagado'));
+        return redirect(route('paal.egress.index', 'pagado'));
     }
 }

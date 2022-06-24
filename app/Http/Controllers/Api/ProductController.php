@@ -10,7 +10,7 @@ class ProductController extends Controller
 {
     function coffee($keyword = '')
     {
-        return Product::where('company', 'COFFEE')
+        return Product::whereIn('company', ['COFFEE', 'SANSON'])
             ->where(function ($query) use ($keyword) {
                 $query->where("description", "LIKE","%$keyword%")
                     ->orWhere("code", "LIKE", "%$keyword%")

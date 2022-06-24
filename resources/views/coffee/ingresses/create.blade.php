@@ -5,13 +5,13 @@
 @section('content')
     <div class="row">
         <div class="col-md-6">
-            <solid-box title="Agregar venta [{{ $last_folio }}]" color="danger">
+            <solid-box title="Agregar venta {{ $type ? '(proyecto)': '' }} [{{ $last_folio }}]" color="warning">
                 {!! Form::open(['method' => 'POST', 'route' => 'coffee.ingress.store', 'ref' => 'cform']) !!}
 
                     <form-wizard
                         title=""
                         subtitle=""
-                        color="#dd4b39"
+                        color="#f39c12"
                         @on-complete="submit('venta')"
                         back-button-text="Anterior"
                         next-button-text="Siguiente"
@@ -37,12 +37,21 @@
                                 !!}
                             </div>
                         </div>
+                        {{-- <div class="row">
+                            <div class="col-md-6">
+                                {!! Field::select('origin', ['amazon' => 'Amazon', 'mercado libre' => 'Mercado Libre'], null,
+                                    ['label' => 'Origen', 'tpl' => 'withicon', 'empty' => '¿De dónde viene?'],
+                                    ['icon' => 'shopping-cart'])
+                                !!}
+                            </div>
+                        </div> --}}
                         <hr>
                       </tab-content>
 
                       <tab-content title="Productos" icon="fa fa-tag">
                             <shopping-list 
-                                color="danger" 
+                                color="warning" 
+                                type="{{ $type }}"
                                 :exchange="{{ $exchange }}" 
                                 :promo="{{ $promo }}">
                             </shopping-list>
@@ -78,8 +87,8 @@
         </div>
 
         <div class="col-md-6">
-            <solid-box title="Productos" color="danger">
-                <p-table color="danger" :exchange="{{ $exchange }}" :promo="{{ $promo }}" type="coffee"></p-table>
+            <solid-box title="Productos" color="warning">
+                <p-table color="warning" :exchange="{{ $exchange }}" :promo="{{ $promo }}" type="coffee"></p-table>
             </solid-box>
         </div>
     </div>

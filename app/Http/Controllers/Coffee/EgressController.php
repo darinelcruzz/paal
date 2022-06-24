@@ -14,17 +14,10 @@ class EgressController extends Controller
     {
         $date = $thisDate == null ? dateFromRequest('Y-m'): $thisDate;
 
-        $paid = Egress::from($date, 'payment_date')
-            ->where('status', 'pagado')
+        $egresses = Egress::from($date, 'emission')
             ->where('check_id', null)
-            ->orderByDesc('payment_date')
+            ->orderByDesc('id')
             ->get();
-
-        $pending = Egress::company('coffee')->where('status', 'pendiente')->where('check_id', null)->get();
-        
-        $expired = Egress::company('coffee')->where('status', 'vencido')->get();
-
-        // dd($expired);
 
         $checks = Check::from($date, 'charged_at')->get();
 
@@ -32,14 +25,7 @@ class EgressController extends Controller
             return $product->total;
         });
 
-        // $expired = Egress::where('company', 'coffee')
-        //     ->where('status', 'vencido')
-        //     ->get()
-        //     ->sum(function ($egress) { 
-        //         return $egress->coffee != 0 ? $egress->coffee : $egress->amount;
-        //     });
-
-        return view('coffee.egresses.index', compact('paid', 'pending', 'expired', 'date', 'checks', 'checkssum', 'status'));
+        return view('coffee.egresses.index', compact('egresses', 'date', 'checks', 'checkssum'));
     }
 
     function pay(Egress $egress)

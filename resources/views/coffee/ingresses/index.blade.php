@@ -12,7 +12,7 @@
                         <div class="input-group input-group-sm">
                             <input type="month" name="date" class="form-control" value="{{ $date }}">
                             <span class="input-group-btn">
-                                <button type="submit" class="btn btn-danger btn-flat"><i class="fa fa-search"></i></button>
+                                <button type="submit" class="btn btn-warning btn-flat"><i class="fa fa-search"></i></button>
                             </span>
                         </div>
                     </div>
@@ -22,7 +22,7 @@
 
             <br>
 
-            <solid-box title="Ventas" color="danger">
+            <solid-box title="Ventas" color="warning">
 
                 <div class="table-responsive">
 
@@ -60,7 +60,7 @@
                                     @endif
                                 </td>
                                 <td style="text-align: center;">
-                                    <dropdown icon="cogs" color="danger">
+                                    <dropdown icon="cogs" color="warning">
                                         <ddi v-if="{{ $ingress->status == 'pagado' || $ingress->status == 'cancelado' ? 0: 1 }}" to="{{ route('coffee.payment.create', $ingress) }}" icon="money" text="Pagar"></ddi>
                                         <li>
                                             <a data-toggle="modal" data-target="#ingress-modal" v-on:click="upmodel({{ $ingress->toJson() }})">
@@ -124,11 +124,11 @@
 
             </solid-box>
 
-            <modal title="Productos" color="danger" id="ingress-modal">
+            <modal :title="model.folio ?? ''" color="warning" id="ingress-modal">
                 <movements :model="model"></movements>
                 @if(auth()->user()->level < 3)
                 <template slot="footer">
-                    <a :href="'/coffee/pagos/editar/' + model.id" class="btn btn-danger pull-right btn-sm">Editar pago</button>
+                    <a :href="'/coffee/pagos/editar/' + model.id" class="btn btn-warning pull-right btn-sm">Editar pago</button>
                 </template>
                 @endif
             </modal>

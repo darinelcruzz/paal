@@ -14,17 +14,53 @@ Route::group(['prefix' => 'paal', 'as' => 'paal.'], function () {
 	    Route::get('cancelar/{provider}', usesas($ctrl, 'destroy'));
 	});
 
+	// Route::group(['prefix' => 'egresos', 'as' => 'egress.'], function () {
+	//     $ctrl = 'Paal\EgressController';
+	//     Route::get('cancelar/{egress}', usesas($ctrl, 'cancel'));
+	//     Route::post('cancelar/{egress}', usesas($ctrl, 'destroy'));
+	//     Route::get('editar/{egress}', usesas($ctrl, 'edit'));
+	//     Route::get('pagar/{egress}', usesas($ctrl, 'pay'));
+	//     Route::post('pagar/{egress}', usesas($ctrl, 'charge'));
+	//     Route::get('mensual/{company?}', usesas($ctrl, 'monthly'));
+	//     Route::post('mensual/{company?}', usesas($ctrl, 'monthly'));
+	//     Route::get('/{company}/{status?}', usesas($ctrl, 'index'));
+	//     Route::post('/{company}/{status?}', usesas($ctrl, 'index'));
+	// });
+
 	Route::group(['prefix' => 'egresos', 'as' => 'egress.'], function () {
+
+	    Route::group(['prefix' => 'general', 'as' => 'general.'], function () {
+		    $ctrl = 'Paal\GeneralEgressController';
+		    Route::get('agregar', usesas($ctrl, 'create'));
+		    Route::post('agregar', usesas($ctrl, 'store'));
+		});
+
+		Route::group(['prefix' => 'reposiciones', 'as' => 'return.'], function () {
+		    $ctrl = 'Paal\ReturnsController';
+		    Route::get('agregar', usesas($ctrl, 'create'));
+		    Route::post('agregar', usesas($ctrl, 'store'));
+		    Route::get('gasto-extra', usesas($ctrl, 'make'));
+		    Route::post('gasto-extra', usesas($ctrl, 'save'));
+		});
+
+		Route::group(['prefix' => 'caja-chica', 'as' => 'register.'], function () {
+		    $ctrl = 'Paal\CashRegisterController';
+		    Route::get('/cheques', usesas($ctrl, 'index'));
+		    Route::get('agregar/{check}', usesas($ctrl, 'create'));
+		    Route::post('agregar/{check}', usesas($ctrl, 'store'));
+		});
+	    
 	    $ctrl = 'Paal\EgressController';
-	    Route::get('cancelar/{egress}', usesas($ctrl, 'cancel'));
-	    Route::post('cancelar/{egress}', usesas($ctrl, 'destroy'));
-	    Route::get('editar/{egress}', usesas($ctrl, 'edit'));
 	    Route::get('pagar/{egress}', usesas($ctrl, 'pay'));
 	    Route::post('pagar/{egress}', usesas($ctrl, 'charge'));
-	    Route::get('mensual/{company?}', usesas($ctrl, 'monthly'));
-	    Route::post('mensual/{company?}', usesas($ctrl, 'monthly'));
-	    Route::get('/{company}/{status?}', usesas($ctrl, 'index'));
-	    Route::post('/{company}/{status?}', usesas($ctrl, 'index'));
+	    Route::get('reemplazar/{egress}', usesas($ctrl, 'replace'));
+	    Route::post('reemplazar/{egress}', usesas($ctrl, 'upload'));
+	    Route::get('editar/{egress}', usesas($ctrl, 'edit'));
+	    Route::get('eliminar/{egress}', usesas($ctrl, 'destroy'));
+	    Route::post('editar/{egress}', usesas($ctrl, 'update'));
+	    Route::get('pdf-factura/{egress}/{column}', usesas($ctrl, 'displayPDF'));
+	    Route::get('/{status?}/{date?}', usesas($ctrl, 'index'));
+	    Route::post('/{status?}/{date?}', usesas($ctrl, 'index'));
 	});
 
 	Route::group(['prefix' => 'ingresos', 'as' => 'ingress.'], function () {

@@ -1,14 +1,12 @@
-@extends('coffee.root')
+@extends('paal.root')
 
-@push('pageTitle')
-    Egresos | Caja Chica
-@endpush
+@push('pageTitle', 'Egresos | Caja Chica')
 
 @section('content')
     <div class="row">
         <div class="col-md-6">
-            <solid-box title="Agregar factura al cheque {{ $check->folio }}" color="danger" button>
-                {!! Form::open(['method' => 'POST', 'route' => ['coffee.egress.register.store', $check], 'enctype' => 'multipart/form-data']) !!}
+            <solid-box title="Agregar factura al cheque {{ $check->folio }}" color="primary" button>
+                {!! Form::open(['method' => 'POST', 'route' => ['paal.egress.register.store', $check], 'enctype' => 'multipart/form-data']) !!}
 
                     <div class="row">
                         <div class="col-md-12">
@@ -60,7 +58,7 @@
                     <input type="hidden" name="company" value="coffee">
                     <input type="hidden" name="expiration" value="0">
 
-                    <button type="submit" class="btn btn-danger pull-right" onclick="submitForm(this);">Agregar</button>
+                    <button type="submit" class="btn btn-primary pull-right" onclick="submitForm(this);">Agregar</button>
 
                 {!! Form::close() !!}
             </solid-box>

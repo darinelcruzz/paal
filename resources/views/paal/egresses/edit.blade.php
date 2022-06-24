@@ -1,4 +1,4 @@
-@extends('coffee.root')
+@extends('paal.root')
 
 @push('pageTitle')
     Egresos | Editar
@@ -7,14 +7,14 @@
 @section('content')
     <div class="row">
         <div class="col-md-3">
-            <solid-box title="Modificar folio" color="danger" button>
-                {!! Form::open(['method' => 'POST', 'route' => ['coffee.egress.update', $egress]]) !!}
+            <solid-box title="Modificar folio" color="primary" button>
+                {!! Form::open(['method' => 'POST', 'route' => ['paal.egress.update', $egress]]) !!}
 
                     {!! Field::text('folio', $egress->folio, ['tpl' => 'withicon'], ['icon' => 'barcode']) !!}
 
                     <hr>
 
-                    {!! Form::submit('MODIFICAR', ['class' => 'btn btn-danger pull-right']) !!}
+                    {!! Form::submit('MODIFICAR', ['class' => 'btn btn-primary pull-right']) !!}
                     
                 {!! Form::close() !!}
             </solid-box>

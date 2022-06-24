@@ -23,7 +23,7 @@
                             :exchange="exchange"
                             :promo="promo"
                             :maxdiscount="maxdiscount"
-                            :type="color">
+                            :type="type">
                         </tr>
                     </tbody>
 
@@ -68,7 +68,7 @@
 
 <script>
 	export default {
-		props: ['color', 'exchange', 'movements', 'promo', 'maxdiscount'],
+		props: ['color', 'exchange', 'movements', 'promo', 'maxdiscount', 'type'],
 		data() {
 			return {
                 elements: [],
