@@ -1,14 +1,12 @@
 @extends('coffee.root')
 
-@push('pageTitle')
-    Tareas | Lista
-@endpush
+@push('pageTitle', 'Tareas | Lista')
 
 @push('headerTitle')
     <div class="row">
         <div class="col-md-2">
             @if (auth()->user()->level < 4)
-                <a href="{{ route('coffee.task.create') }}" class="btn btn-danger btn-sm"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR</a>
+                <a href="{{ route('coffee.task.create') }}" class="btn btn-warning btn-sm"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR</a>
             @endif
         </div>
         <div class="col-md-7" style="text-align: center;">
@@ -20,7 +18,7 @@
                     <div class="input-group input-group-sm">
                         <input type="month" name="date" class="form-control" value="{{ $date }}">
                         <span class="input-group-btn">
-                            <button type="submit" class="btn btn-danger btn-flat"><i class="fa fa-search"></i></button>
+                            <button type="submit" class="btn btn-warning btn-flat"><i class="fa fa-search"></i></button>
                         </span>
                     </div>
                 {!! Form::close() !!}
@@ -99,7 +97,7 @@
     @forelse($users as $user => $tasks)
         <div class="row">
             <div class="col-md-12">
-                <solid-box title="{{ $tasks->first()->user->name }}" color="{{ $loop->iteration % 2 == 0 ? 'danger': 'warning' }}" button {{ $loop->iteration == 1 ? '': ' collapsed'}}>
+                <solid-box title="{{ $tasks->first()->user->name ?? 'SIN ASIGNAR' }}" color="{{ $loop->iteration % 2 == 0 ? 'danger': 'warning' }}" button {{ $loop->iteration == 1 ? '': ' collapsed'}}>
 
                     <div class="row">
                         <div class="col-md-12">
@@ -121,6 +119,10 @@
                                             <td>{{ $task->id }}</td>
                                             <td>
                                                 <dropdown color="{{ $loop->parent->iteration % 2 == 0 ? 'danger': 'warning' }}" icon="cogs">
+                                                    @if (!$task->assigned_to)
+                                                        <ddi icon="edit" text="Editar/Asignar" to="{{ route('coffee.task.edit', $task) }}"></ddi>
+                                                    @endif
+
                                                     @if ($task->status != 'aceptada' && $task->assigned_to == auth()->user()->id)
                                                         <li>
                                                             <a type="button" data-toggle="modal" data-target="#completeTask{{ $task->id }}">

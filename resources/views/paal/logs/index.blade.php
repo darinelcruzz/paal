@@ -1,4 +1,4 @@
-@extends('coffee.root')
+@extends('paal.root')
 
 @push('pageTitle', 'Ediciones | Historial')
 
@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-10">
 
-            <solid-box title="Ediciones" color="warning">
+            <solid-box title="Bitácora correcciones" color="primary">
 
                 <div class="table-responsive">
 
@@ -27,8 +27,8 @@
                         @foreach($logs as $log)
                             <tr>
                                 <td>{{ $log->id }}</td>
-                                <td>{{ $log->loggable->ingress->folio }}</td>
-                                <td><small>{{ strtoupper($log->loggable->ingress->company) }}</small></td>
+                                <td>{{ $log->loggable->ingress->folio ?? '-' }}</td>
+                                <td><small>{{ strtoupper($log->loggable->ingress->company ?? 'paal') }}</small></td>
                                 <td>{{ date('d/m/y', strtotime($log->created_at)) }}</td>
                                 <td>{{ date('H:ia', strtotime($log->created_at)) }}</td>
                                 <td>

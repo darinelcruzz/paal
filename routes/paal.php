@@ -135,6 +135,11 @@ Route::group(['prefix' => 'paal', 'as' => 'paal.'], function () {
 	    Route::post('editar/{variable}', usesas($ctrl, 'update'));
 	});
 
+	Route::group(['prefix' => 'ediciones', 'as' => 'log.'], function () {
+	    $ctrl = 'LogController';
+	    Route::get('/', usesas($ctrl, 'index'));
+	});
+
 	Route::get('tipo_de_cambio', function ()
 	{
 		return view('auth.exchange');

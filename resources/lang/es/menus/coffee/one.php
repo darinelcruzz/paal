@@ -54,10 +54,6 @@ return [
                 'title' => 'Facturadas',
                 'route' => 'coffee.admin.invoices'
             ],
-            'logs' => [
-                'title' => 'Correciones',
-                'route' => 'coffee.log.index'
-            ],
             'variables' => [
                 'title' => 'Tipo de Cambio',
                 'route' => 'coffee.variable.edit'

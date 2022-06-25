@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Coffee;
 
 use Alert;
-use App\{Task, User};
+use App\{Task, User, Category};
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Notifications\TaskAssigned;
@@ -48,37 +48,53 @@ class TaskController extends Controller
 
     function create()
     {
+        $categories = Category::whereType('tareas')->pluck('name', 'id')->toArray();
+
         $users = User::where('company', '!=', 'mbe')
             ->where('level', '>', auth()->user()->level)
             ->pluck('name', 'id')
             ->toArray();
 
-        return view('coffee.tasks.create', compact('users'));
+        return view('coffee.tasks.create', compact('users', 'categories'));
     }
 
     function store(Request $request)
     {
         $validated = $request->validate([
             'description' => 'required',
-            'assigned_to' => 'required',
+            'category_id' => 'required',
             'assigned_at' => 'required',
         ]);
 
         $task = auth()->user()->tasks()->create($validated + ['status' => 'pendiente']);
-
-        // if ($task->user->telegram_user_id) {
-        //     $task->notify(new TaskCreatedAndAssigned($task->user));
-        // }
 
         return redirect(route('coffee.task.index'));
     }
 
     function edit(Task $task)
     {
-        return view('coffee.tasks.edit', compact('task'));
+        $users = User::where('company', '!=', 'mbe')
+            ->where('level', '>', auth()->user()->level)
+            ->pluck('name', 'id')
+            ->toArray();
+        $categories = Category::whereType('tareas')->pluck('name', 'id')->toArray();
+        return view('coffee.tasks.edit', compact('task', 'categories', 'users'));
     }
 
-    function update(Request $request, Task $task, $thisDate = null)
+    function update(Request $request, Task $task)
+    {
+        $validated = $request->validate([
+            'description' => 'required',
+            'category_id' => 'required',
+            'assigned_at' => 'required',
+        ]);
+
+        $task->update($request->all());
+
+        return redirect(route('coffee.task.index'));
+    }
+
+    function updateold(Request $request, Task $task, $thisDate = null)
     {
         $date = $thisDate == null ? dateFromRequest('Y-m'): $thisDate;
 

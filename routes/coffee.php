@@ -200,8 +200,8 @@ Route::group(['prefix' => 'cocinaspaal', 'as' => 'coffee.'], function () {
 	    $ctrl = 'Coffee\TaskController';
 	    Route::get('agregar', usesas($ctrl, 'create'));
 	    Route::post('agregar', usesas($ctrl, 'store'));
-	    Route::get('editar', usesas($ctrl, 'edit'));
-	    Route::post('editar/{task}/{thisDate?}', usesas($ctrl, 'update'));
+	    Route::get('editar/{task}', usesas($ctrl, 'edit'));
+	    Route::post('editar/{task}', usesas($ctrl, 'update'));
 	    Route::get('estado/{task}/{status}/{thisDate?}', usesas($ctrl, 'change'));
 	    Route::get('/{thisDate?}', usesas($ctrl, 'index'));
 	    Route::post('/{thisDate?}', usesas($ctrl, 'index'));

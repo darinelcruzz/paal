@@ -102,7 +102,7 @@ class EgressController extends Controller
 
     function destroy(Egress $egress)
     {
-        $egress->update(['status' => 'eliminado']);
+        $egress->delete();
 
         return redirect(route('paal.egress.index', ['pagado', dateFromRequest('Y-m')]));
     }

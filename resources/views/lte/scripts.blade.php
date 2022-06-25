@@ -119,7 +119,7 @@
             })
             .then((result) => {
                 if(result) {
-                    window.location = '/coffee/' + route + "/eliminar/" + id;
+                    window.location = '/paal/' + route + "/eliminar/" + id;
                 } else {
                   swal('No se cancelará nada :)')
                 }

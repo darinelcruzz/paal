@@ -9,11 +9,11 @@ class LogController extends Controller
 {
     function index()
     {
-        $logs = Log::where('company', 'coffee')
-            ->with('user', 'loggable.ingress')
+        $logs = Log::with('user', 'loggable.ingress')
+            ->orderByDesc('id')
             ->get();
 
-        return view('coffee.logs.index', compact('logs'));
+        return view("paal.logs.index", compact('logs'));
     }
 
     function create()

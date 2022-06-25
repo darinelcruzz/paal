@@ -6,13 +6,13 @@ use App\Egress;
 
 class EgressObserver
 {
-    function updated(Egress $egress)
+    function deleted(Egress $egress)
     {
-        if ($egress->status == 'eliminado') {
-            $egress->logs()->create([
-                'description' => "ELIMINADO",
-                'user_id' => auth()->user()->id,
-            ]);
-        }
+        $description = 'Se eliminó el egresso ' . $egress->id . ' folio: ' . $egress->folio;
+
+        $egress->logs()->create([
+            'description' => $description,
+            'user_id' => auth()->user()->id,
+        ]);
     }
 }
