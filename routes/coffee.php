@@ -130,7 +130,7 @@ Route::group(['prefix' => 'cocinaspaal', 'as' => 'coffee.'], function () {
 	    Route::get('/', usesas($ctrl, 'index'));
 	    Route::get('agregar', usesas($ctrl, 'create'));
 	    Route::post('agregar', usesas($ctrl, 'store'));
-	    Route::get('exportar', usesas($ctrl, 'export'));
+	    Route::get('exportar/{company?}', usesas($ctrl, 'export'));
 	    Route::get('editar/{product}', usesas($ctrl, 'edit'));
 	    Route::get('serializar/{product}', usesas($ctrl, 'serialize'));
 	    Route::post('editar/{product}', usesas($ctrl, 'update'));

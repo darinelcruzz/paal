@@ -62,7 +62,7 @@ class ProductController extends Controller
 
     public function export() 
     {
-        return Excel::download(new ProductsExport, 'PRODUCTOS_' . date('d-m-y_his') . '.xlsx');
+        return Excel::download(new ProductsExport('coffee'), 'PRODUCTOS_' . date('d-m-y_his') . '.xlsx');
     }
 
     function serialize(Product $product)
