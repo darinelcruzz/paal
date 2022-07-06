@@ -50,6 +50,10 @@ return [
                 'title' => 'Corte diario',
                 'route' => ['coffee.admin.daily', 'factura']
             ],
+            'monthly' => [
+                'title' => 'Corte mensual',
+                'route' => 'coffee.analysis.index',
+            ],
             'invoices' => [
                 'title' => 'Facturadas',
                 'route' => 'coffee.admin.invoices'

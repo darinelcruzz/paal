@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\{Ingress, Shipping};
+use App\{Ingress, Shipping, Movement};
 
 class IngressController extends Controller
 {
@@ -102,5 +102,26 @@ class IngressController extends Controller
             ->sum(function ($ingress) use ($column){
                 return $ingress->payments->sum($column);
             });
+    }
+
+    function table($type = 'INSUMOS')
+    {
+        $movementsByMonth = Movement::whereYear('created_at', date('Y'))
+            ->whereHasMorph('movable', Ingress::class, function ($query) {
+                $query->where('company', 'coffee')
+                    ->where('status', '!=', 'cancelado');
+            })
+            ->whereHas('product', function ($query) use ($type) {
+                $query->where('category', $type);
+            })
+            ->with('product')
+            ->get()
+            ->groupBy([function ($item, $key) {
+                return date('M', strtotime((string)$item->created_at));
+            }, 'product.family']);
+
+        ddd($movementsByMonth);
+
+        // $chart->labels($movementsByMonth->keys()->toArray());
     }
 }

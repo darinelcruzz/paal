@@ -60,4 +60,5 @@ Route::group(['prefix' => 'monthly', 'as' => 'api.ingress.'], function () {
     Route::get('ingresses/{date?}/{company?}/{type?}', usesas($ctrl, 'ingresses'));
     Route::get('payments/{date?}/{company?}/{method?}', usesas($ctrl, 'payments'));
     Route::get('index/{date?}/{company?}/{type?}', usesas($ctrl, 'index'));
+    Route::get('table/{type?}', usesas($ctrl, 'table'));
 });

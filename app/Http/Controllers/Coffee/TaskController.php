@@ -94,7 +94,7 @@ class TaskController extends Controller
         return redirect(route('coffee.task.index'));
     }
 
-    function updateold(Request $request, Task $task, $thisDate = null)
+    function complete(Request $request, Task $task, $thisDate = null)
     {
         $date = $thisDate == null ? dateFromRequest('Y-m'): $thisDate;
 
@@ -109,20 +109,6 @@ class TaskController extends Controller
 
         if ($task->status == 'terminada') {
             $task->update(['completed_at' => date('Y-m-d')]);
-            
-            // if ($task->tasker->telegram_user_id) {
-            //     $task->notify(new TaskMarkedAsFinished);
-            // }
-
-        } else {
-           $task->update([
-            'completed_at' => null,
-            'repetitions' => $task->repetitions + 1
-           ]);
-
-           // if ($task->user->telegram_user_id) {
-           //     $task->notify(new TaskNotAccepted($request->observations));
-           // }
         }
 
         return redirect(route('coffee.task.index', $date));
@@ -133,10 +119,6 @@ class TaskController extends Controller
         $date = $thisDate == null ? dateFromRequest('Y-m'): $thisDate;
 
         $task->update(['status' => $status]);
-
-        // if ($task->status == 'aceptada' && $task->user->telegram_id) {
-        //     $task->notify(new TaskAccepted);
-        // }
 
         return redirect(route('coffee.task.index', $date));
     }

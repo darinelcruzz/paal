@@ -202,6 +202,7 @@ Route::group(['prefix' => 'cocinaspaal', 'as' => 'coffee.'], function () {
 	    Route::post('agregar', usesas($ctrl, 'store'));
 	    Route::get('editar/{task}', usesas($ctrl, 'edit'));
 	    Route::post('editar/{task}', usesas($ctrl, 'update'));
+	    Route::post('terminar/{task}/{thisDate?}', usesas($ctrl, 'complete'));
 	    Route::get('estado/{task}/{status}/{thisDate?}', usesas($ctrl, 'change'));
 	    Route::get('/{thisDate?}', usesas($ctrl, 'index'));
 	    Route::post('/{thisDate?}', usesas($ctrl, 'index'));
@@ -236,5 +237,10 @@ Route::group(['prefix' => 'cocinaspaal', 'as' => 'coffee.'], function () {
 	    Route::post('clientes', usesas($ctrl, 'clients'));
 	    Route::get('lugares', usesas($ctrl, 'places'));
 	    Route::post('lugares', usesas($ctrl, 'places'));
+	});
+
+	Route::group(['prefix' => 'ventas/analisis', 'as' => 'analysis.'], function () {
+	    $ctrl = 'Coffee\SalesAnalysisController';
+	    Route::get('/', usesas($ctrl, 'index'));
 	});
 });

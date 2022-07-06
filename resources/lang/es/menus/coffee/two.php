@@ -43,7 +43,7 @@ return [
             ],
             'monthly' => [
                 'title' => 'Corte mensual',
-                'route' => 'coffee.admin.monthly'
+                'route' => 'coffee.analysis.index',
             ],
             'logs' => [
                 'title' => 'Correciones',

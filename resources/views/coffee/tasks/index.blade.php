@@ -45,7 +45,7 @@
                                     <td>{{ $task->id }}</td>
                                     <td>
                                         <dropdown color="success" icon="cogs">
-                                            @if ($task->status != 'aceptada' && $task->assigned_to == auth()->user()->id)
+                                            @if ($task->status != 'terminada' && $task->assigned_to == auth()->user()->id)
                                                 <li>
                                                     <a type="button" data-toggle="modal" data-target="#completeTask{{ $task->id }}">
                                                         <i class="fa fa-check"></i> Terminar
@@ -134,10 +134,10 @@
                                                     @if ($task->status == 'terminada' && $task->assigned_by == auth()->user()->id)
                                                         <li>
                                                             <a type="button" data-toggle="modal" data-target="#rejectTask{{ $task->id }}">
-                                                                <i class="fa fa-times"></i> Rechazar
+                                                                <i class="fa fa-eye"></i> Revisar
                                                             </a>
                                                         </li>
-                                                        <ddi icon="check" text="Aceptar" to="{{ route('coffee.task.change', [$task, 'aceptada']) }}"></ddi>
+                                                        {{-- <ddi icon="check" text="Aceptar" to="{{ route('coffee.task.change', [$task, 'aceptada']) }}"></ddi> --}}
                                                     @endif
                                                 </dropdown>
 

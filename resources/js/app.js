@@ -87,6 +87,7 @@ Vue.component('info-box', require('./components/InfoBox.vue'));
 Vue.component('icon-box', require('./components/IconBox.vue'));
 Vue.component('conditioned-select', require('./components/ConditionedSelect.vue'));
 Vue.component('product-quantity-and-amount', require('./components/ProductQuantityAndAmount.vue'));
+Vue.component('categories-and-families-table', require('./components/CategoriesAndFamiliesTable.vue'));
 
 // NEW ONES FOR SANSON
 Vue.component('shopping-cart', require('./components/ShoppingCart.vue'));
