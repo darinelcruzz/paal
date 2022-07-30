@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Product;
 use Alert;
 use App\Exports\ProductsExport;
+use App\Imports\ProductsImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Notifications\ProductPriceChanged;
 
@@ -14,7 +15,7 @@ class ProductController extends Controller
 {
     function index()
     {
-        $products = Product::whereCompany('coffee')->get();
+        $products = Product::where('company', '!=', 'mbe')->get();
         return view('coffee.products.index', compact('products'));
     }
 
@@ -60,9 +61,15 @@ class ProductController extends Controller
         return view('coffee.products.edit', compact('product'));
     }
 
-    public function export() 
+    function export() 
     {
         return Excel::download(new ProductsExport('coffee'), 'PRODUCTOS_' . date('d-m-y_his') . '.xlsx');
+    }
+
+    function import(Request $request) 
+    {
+        Excel::import(new ProductsImport, $request->file('products'));
+        return redirect(route('coffee.product.index'));
     }
 
     function serialize(Product $product)

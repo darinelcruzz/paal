@@ -5,13 +5,13 @@
 @section('content')
     <div class="row">
         <div class="col-md-6">
-            <solid-box title="Agregar cotización" color="danger">
+            <solid-box title="Agregar cotización" color="warning">
                 {!! Form::open(['method' => 'POST', 'route' => 'coffee.quotation.store', 'ref' => 'cform']) !!}
 
                     <form-wizard
                         title=""
                         subtitle=""
-                        color="#dd4b39"
+                        color="#f39c12"
                         @on-complete="submit('cotizacion')"
                         back-button-text="Anterior"
                         next-button-text="Siguiente"
@@ -21,7 +21,7 @@
                         <div class="row">
                             <div class="col-md-1">
                                 <label for="">&nbsp;</label><br>
-                                <a class="btn btn-sm btn-danger" href="{{ route('coffee.client.create') }}"
+                                <a class="btn btn-sm btn-warning" href="{{ route('coffee.client.create') }}"
                                     target="_blank" title="AGREGAR CLIENTE NUEVO">
                                     <i class="fa fa-user-plus"></i>
                                 </a>
@@ -60,8 +60,8 @@
         </div>
 
         <div class="col-md-6">
-            <solid-box title="Productos" color="danger">
-                <p-table color="danger" :exchange="{{ $exchange }}" :promo="{{ $promo }}" type="coffee"></p-table>
+            <solid-box title="Productos" color="warning">
+                <p-table color="warning" :exchange="{{ $exchange }}" :promo="{{ $promo }}" type="coffee"></p-table>
             </solid-box>
         </div>
     </div>

@@ -134,6 +134,7 @@ Route::group(['prefix' => 'cocinaspaal', 'as' => 'coffee.'], function () {
 	    Route::get('editar/{product}', usesas($ctrl, 'edit'));
 	    Route::get('serializar/{product}', usesas($ctrl, 'serialize'));
 	    Route::post('editar/{product}', usesas($ctrl, 'update'));
+	    Route::post('importar', usesas($ctrl, 'import'));
 	    Route::group(['prefix' => 'pure-mix', 'as' => 'puremix.'], function () {
 	    	$ctrl = 'Coffee\PureMixController';
 	    	Route::get('/', usesas($ctrl, 'index'));

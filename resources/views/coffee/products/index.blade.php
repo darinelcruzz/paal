@@ -4,10 +4,22 @@
 
 @push('headerTitle')
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-6">
             @if(auth()->user()->level <= 2)
             <a href="{{ route('coffee.product.create') }}" class="btn btn-warning btn-xs"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR</a>
             @endif
+        </div>
+        <div class="col-md-3">
+            @if(isAdmin())
+            {!! Form::open(['method' => 'post', 'route' => 'coffee.product.import', 'enctype' => 'multipart/form-data']) !!}
+                <div class="input-group input-group-sm">
+                    <input type="file" name="products" class="form-control">
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-primary btn-flat"><i class="fa fa-upload"></i></button>
+                    </span>
+                </div>
+            {!! Form::close() !!}
+            @endif            
         </div>
         <div class="col-md-3">
             <a href="{{ route('coffee.product.export') }}" class="btn btn-success btn-xs pull-right">
