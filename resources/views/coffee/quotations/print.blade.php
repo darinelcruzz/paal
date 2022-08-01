@@ -11,7 +11,7 @@
         
         <link rel="stylesheet" href="{{ asset('css/printable.css') }}" media="all">
 
-        <link rel="icon" href="{{ asset("/img/coffee.ico") }}" />
+        <link rel="icon" href="{{ asset("/img/cocinaspaal.ico") }}" />
 
         <style>
             table.print-friendly tr td, table.print-friendly tr th {
@@ -27,10 +27,10 @@
                     <tbody>
                         <tr>
                             <td style="text-align: center;">
-                                <img width="100px" src="{{ asset('/img/coffee_depot.jpeg') }}">
+                                <img width="100px" src="{{ asset('/img/cocinaspaal.png') }}">
                             </td>
                             <td width="60%">
-                                <big><b>COFFEE DEPOT</b></big>
+                                <big><b>COCINASPAAL</b></big>
                                 SUCURSAL CHIAPAS<br>
                                 16 Poniente Norte #138<br>
                                 Col. Las Arboledas, C.P. 29030 <br>
