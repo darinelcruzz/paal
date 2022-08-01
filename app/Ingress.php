@@ -218,7 +218,7 @@ class Ingress extends Model
 
     function getTypeLabelAttribute()
     {
-        return ['CAFETERÍA' => 'success', 'CURSO' => 'success', 'no equipo' => 'warning', 'equipo' => 'danger', 'proyecto' => 'primary', 'anticipo' => 'default', 'nota de crédito' => 'info'][($this->family == 'CURSO' || $this->family == 'CAFETERÍA' ? $this->family: $this->type)];
+        return ['CAFETERÍA' => 'success', 'CURSO' => 'success', 'no equipo' => 'warning', 'equipo' => 'danger', 'proyecto' => 'primary', 'anticipo' => 'default', 'nota de crédito' => 'info', 'insumos' => 'warning'][($this->family == 'CURSO' || $this->family == 'CAFETERÍA' ? $this->family: $this->type)];
     }
 
     function getAreSerialNumbersMissingAttribute()
