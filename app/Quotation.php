@@ -101,7 +101,7 @@ class Quotation extends Model
 
     function scopeMonthly($query, $company, $date, $type)
     {
-        return $query->where('company', $company)
+        return $query->whereIn('company', ['coffee', 'sanson'])
             ->whereMonth('created_at', substr($date, 5, 7))
             ->whereYear('created_at', substr($date, 0, 4))
             ->when($type, function ($query, $type) {
