@@ -128,7 +128,7 @@
                 <movements :model="model"></movements>
                 @if(auth()->user()->level < 3)
                 <template slot="footer">
-                    <a :href="'/coffee/pagos/editar/' + model.id" class="btn btn-warning pull-right btn-sm">Editar pago</button>
+                    <a :href="'/cocinaspaal/pagos/editar/' + model.id" class="btn btn-warning pull-right btn-sm">Editar pago</button>
                 </template>
                 @endif
             </modal>

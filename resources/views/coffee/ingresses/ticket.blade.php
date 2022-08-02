@@ -4,7 +4,7 @@
     <title>Ventas | Comprobante</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="icon" href="{{ asset('/img/coffee.ico') }}" />
+    <link rel="icon" href="{{ asset('/img/cocinaspaal.ico') }}" />
 
     <!-- Bootstrap 3.3.7 -->  
     <link rel="stylesheet" href="{{ asset('adminlte/bower_components/bootstrap/dist/css/bootstrap-print.css') }}">
@@ -31,7 +31,7 @@
 
     <div class="row">
         <div class="col-xs-10 col-xs-offset-1">
-            <img width="300px" src="{{ asset('/img/coffee mono.png') }}">
+            <img width="200px" src="{{ asset('/img/cocinaspaal.png') }}">
         </div>
     </div>
 
@@ -44,7 +44,7 @@
                 Tuxtla Gutiérrez <br>
                 <i class="fas fa-phone"></i> 01 (961) 121 34 04 - <i class="fab fa-whatsapp"></i> 961 330 65 28 <br>
                 <i class="fas fa-envelope"></i> ventas@coffeedepotchiapas.com.mx <br>
-                <i class="fab fa-facebook"></i> Coffee Depot TGZ
+                {{-- <i class="fab fa-facebook"></i> Coffee Depot TGZ --}}
             </p>
         </div>
     </div>

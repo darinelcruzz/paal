@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="{{ asset('adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
         <!-- Font Awesome -->
         <link rel="stylesheet" href="{{ asset('adminlte/bower_components/font-awesome/css/font-awesome.min.css') }}">
+        <link rel="icon" href="{{ asset('/img/cocinaspaal.ico') }}" />
         <style>
         body {
             font-style: bold;
@@ -28,7 +29,7 @@
                     <tbody>
                         <tr>
                             <td>
-                                <img width="150px" src="{{ asset('/img/coffee.png') }}">
+                                <img width="150px" src="{{ asset('/img/cocinaspaal.png') }}">
                             </td>
                             <td width="60%">
                                 <b>COFFEE DEPOT</b> -
