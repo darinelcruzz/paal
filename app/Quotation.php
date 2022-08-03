@@ -86,7 +86,12 @@ class Quotation extends Model
 
     function getTypeLabelAttribute()
     {
-        return ['no equipo' => 'danger', 'equipo' => 'warning', 'proyecto' => 'primary'][$this->type];
+        return ['varios' => 'danger', 'insumos' => 'danger', 'no equipo' => 'danger', 'equipo' => 'warning', 'proyecto' => 'primary'][$this->type];
+    }
+
+    function getTypeAttribute()
+    {
+        return $this->type == 'insumos' || $this->type == 'no equipo' ? 'varios': $this->type;
     }
 
     function getViaLabelAttribute()
