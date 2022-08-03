@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-8">
             <solid-box title="PRODUCTO" color="danger">
 
                 {!! Form::open(['method' => 'POST', 'route' => ['coffee.product.update', $product]]) !!}
@@ -27,6 +27,15 @@
                         </div>
                         <div class="col-md-6">
                             {!! Field::text('barcode', $product->barcode, ['tpl' => 'withicon', 'disabled' => 'true'], ['icon' => 'barcode']) !!}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            {!! Field::select('dollars', ['0' => 'No', '1' => 'Sí'], $product->dollars, ['label' => '¿Precio en dólares?', 'tpl' => 'withicon', 'empty' => 'Elegir'], ['icon' => 'comment-dollar']) !!}
+                        </div>
+                        <div class="col-md-6">
+                            {!! Field::select('status', ['activo' => 'activo', 'inactivo' => 'inactivo/descontinuado'], $product->status, ['tpl' => 'withicon', 'label' => 'Estado'], ['icon' => 'toggle-on']) !!}
                         </div>
                     </div>
 
