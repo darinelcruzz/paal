@@ -81,36 +81,12 @@ class ProductController extends Controller
 
     function update(Request $request, Product $product)
     {
-        $validated = $request->validate([
+        $request->validate([
             'retail_price' => 'required',
             'wholesale_price' => 'sometimes|required',
         ]);
 
-        if (isset($request->wholesale_price)) {
-            
-            $r_old = $product->retail_price;
-            $w_old = $product->wholesale_price;
-            
-            $product->update($validated);
-
-            // Alert::success( 
-            //     "Precio menudeo de $" . number_format($r_old, 2) . " a $" . number_format($product->retail_price, 2) . ".\n Precio mayoreo de $" . number_format($w_old, 2) . " a $" . number_format($product->wholesale_price, 2),
-            //     'Precios modificados')
-            //     ->persistent('Cerrar');
-
-            // $product->notify(new ProductPriceChanged(auth()->user()->name, [$r_old, $w_old]));
-
-        } else {
-            
-            $old = $product->retail_price;
-            $product->update($validated + ['wholesale_price' => $request->retail_price]);
-            
-            // Alert::success("El precio se cambió de $" . number_format($old, 2) . " a $" . number_format($product->retail_price, 2), 'Precio modificado')->persistent('Cerrar');
-            
-            // $product->notify(new ProductPriceChanged(auth()->user()->name, $old));
-        }
-
-
+        $product->update($request->all());
 
         return redirect(route('coffee.product.index'));
     }

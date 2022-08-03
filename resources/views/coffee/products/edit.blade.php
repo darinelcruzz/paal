@@ -35,7 +35,7 @@
                             {!! Field::select('dollars', ['0' => 'No', '1' => 'Sí'], $product->dollars, ['label' => '¿Precio en dólares?', 'tpl' => 'withicon', 'empty' => 'Elegir'], ['icon' => 'comment-dollar']) !!}
                         </div>
                         <div class="col-md-6">
-                            {!! Field::select('status', ['activo' => 'activo', 'inactivo' => 'inactivo/descontinuado'], $product->status, ['tpl' => 'withicon', 'label' => 'Estado'], ['icon' => 'toggle-on']) !!}
+                            {!! Field::select('status', ['activo' => 'Activo', 'inactivo' => 'Inactivo/descontinuado'], $product->status, ['tpl' => 'withicon', 'label' => 'Estado', 'empty' => 'Elegir'], ['icon' => 'toggle-on']) !!}
                         </div>
                     </div>
 
