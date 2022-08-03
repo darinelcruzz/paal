@@ -89,11 +89,6 @@ class Quotation extends Model
         return ['varios' => 'danger', 'insumos' => 'danger', 'no equipo' => 'danger', 'equipo' => 'warning', 'proyecto' => 'primary'][$this->type];
     }
 
-    function getTypeAttribute()
-    {
-        return $this->type == 'insumos' || $this->type == 'no equipo' ? 'varios': $this->type;
-    }
-
     function getViaLabelAttribute()
     {
         return ['google' => 'google', 'facebook' => 'facebook', 'página web' => 'vk', 'recomendación' => 'foursquare', 'otro' => 'github'][$this->via] ?? 'default';
