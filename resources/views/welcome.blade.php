@@ -13,7 +13,7 @@
   <div class="lockscreen-item">
 
     <div class="lockscreen-image">
-      <img src="{{ asset('/img/paal.png') }}" alt="Paal Admin">
+      <img src="{{ asset('/img/paal.jpg') }}" alt="Paal Admin">
     </div>
 
     <div class="lockscreen-credentials">
@@ -33,12 +33,12 @@
   <div class="lockscreen-item">
 
     <div class="lockscreen-image">
-      <img src="{{ asset('/img/cocinaspaal.png')  }}" alt="Cocinas Paal">
+      <img src="{{ asset('/img/cocinas_paal_icon.jpg')  }}" alt="Cocinas Paal">
     </div>
 
     <div class="lockscreen-credentials">
       <div class="input-group">
-        <input type="text" class="form-control" value="COCINAS PAAL" disabled>
+        <input type="text" class="form-control" value="COCINASPAAL" disabled>
 
         <div class="input-group-btn">
           <a href="/cocinaspaal" class="btn"><i class="fa fa-arrow-right text-muted"></i></a>
@@ -54,12 +54,12 @@
   <div class="lockscreen-item">
 
     <div class="lockscreen-image">
-      <img src="{{ asset('/img/mbe.png')  }}" alt="Mailboxes etc">
+      <img src="{{ asset('/img/logistica_paal_icon.png')  }}" alt="mbe">
     </div>
 
     <div class="lockscreen-credentials">
       <div class="input-group">
-        <input type="text" class="form-control" value="MAILBOXES" disabled>
+        <input type="text" class="form-control" value="LOGÍSTICAPAAL" disabled>
 
         <div class="input-group-btn">
           <a href="/mbe" class="btn"><i class="fa fa-arrow-right text-muted"></i></a>

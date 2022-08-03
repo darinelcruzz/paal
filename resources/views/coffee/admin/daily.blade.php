@@ -105,8 +105,8 @@
                             <div class="col-md-2"></div>
                             <div class="col-md-8">
                                 {!! Field::number('invoice_id', ['label' => 'Agregar FI','tpl' => 'withicon', 'ph' => '010101'], ['icon' => 'file-invoice']) !!}
-                                {!! Field::number('pinvoice_id', ['label' => 'Agregar PI','tpl' => 'withicon', 'ph' => '010101'], ['icon' => 'file-excel']) !!}
-                                {!! Field::number('pi_amount', 0, ['label' => 'Monto PI', 'tpl' => 'withicon'], ['icon' => 'usd']) !!}
+                                {{-- {!! Field::number('pinvoice_id', ['label' => 'Agregar PI','tpl' => 'withicon', 'ph' => '010101'], ['icon' => 'file-excel']) !!}
+                                {!! Field::number('pi_amount', 0, ['label' => 'Monto PI', 'tpl' => 'withicon'], ['icon' => 'usd']) !!} --}}
                                 <input type="hidden" name="thisDate" value="{{ $date }}">
                             </div>
                             {{-- <div class="col-md-2">
