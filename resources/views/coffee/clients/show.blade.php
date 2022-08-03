@@ -100,7 +100,7 @@
                             </td>
                             <td>{{ date('d/m/Y', strtotime($item->created_at)) }}</td>
                             <td style="text-align: center;">
-                                <label class="label label-{{ ['proyecto' => 'primary', 'insumos' => 'danger', 'equipo' => 'warning'][$item->type ?? 'insumos'] }}">
+                                <label class="label label-{{ ['proyecto' => 'primary', 'no equipo' => 'danger', 'equipo' => 'warning'][$item->type ?? 'no equipo'] }}">
                                     {{ strtoupper($item->type) }}
                                 </label>
                             </td>
