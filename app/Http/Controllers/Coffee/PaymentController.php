@@ -62,6 +62,8 @@ class PaymentController extends Controller
 
         $payment->update($attributes);
 
+        $payment->ingress->update(['method' => $payment->ingress->pay_method]);
+
         return redirect(route('coffee.ingress.index'));
     }
 

@@ -5,7 +5,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-6">
-            <solid-box title="Agregar producto" color="danger" button>
+            <solid-box title="Agregar producto" color="warning" button>
 
                 {!! Form::open(['method' => 'POST', 'route' => 'coffee.product.store']) !!}
 
@@ -70,7 +70,7 @@
                     <input type="hidden" name="company" value="coffee">
                     <input type="hidden" name="is_variable" value="1">
 
-                    <button type="submit" class="btn btn-danger pull-right">AGREGAR</button>
+                    <button type="submit" class="btn btn-warning pull-right">AGREGAR</button>
 
                 {!! Form::close() !!}
 

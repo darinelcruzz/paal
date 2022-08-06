@@ -1,5 +1,11 @@
 <?php
 
+Route::get('/insumos-a-varios', function ()
+{
+	App\Ingress::whereIn('type', ['insumos', 'no equipo'])->update(['type' => 'varios']);
+	App\Quotation::whereIn('type', ['insumos', 'no equipo'])->update(['type' => 'varios']);
+});
+
 Route::group(['prefix' => 'cocinaspaal', 'as' => 'coffee.'], function () {
 
 	Route::get('/', usesas('Coffee\HomeController', 'index'));

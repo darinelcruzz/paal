@@ -69,7 +69,7 @@
 		},
         computed: {
             pageUrl() {
-                return '/api/products/' + this.type + '/' + this.keyword;
+                return '/api/products/' + this.type + (this.keyword != '' ? ('/' + this.keyword): '');
             },
             btnClass() {
                 return 'btn btn-' + this.color + ' btn-sm';

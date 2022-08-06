@@ -55624,7 +55624,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     computed: {
         pageUrl: function pageUrl() {
-            return '/api/products/' + this.type + '/' + this.keyword;
+            return '/api/products/' + this.type + (this.keyword != '' ? '/' + this.keyword : '');
         },
         btnClass: function btnClass() {
             return 'btn btn-' + this.color + ' btn-sm';
@@ -56899,7 +56899,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             subtotals: [],
             families: [],
             types: [],
-            type: 'no equipo',
+            type: 'varios',
             total: 0,
             iva: 0,
             redondeo: 0,
@@ -56945,7 +56945,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.setTotal();
         },
         deleteRow: function deleteRow(index, family) {
-            var category = this.inputs[index].category == 'EQUIPO' ? 'equipo' : 'no equipo';
+            var category = this.inputs[index].category == 'EQUIPO' ? 'equipo' : 'varios';
             if (this.types.length > 1) {
                 this.types.splice(this.types.indexOf(category), 1);
             }
@@ -57005,7 +57005,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         updateTypes: function updateTypes(product) {
-            var category = product.category == 'EQUIPO' ? 'equipo' : 'no equipo';
+            var category = product.category == 'EQUIPO' ? 'equipo' : 'varios';
 
             if (this.types.includes(category)) {
                 console.log('Ya hay un equipo');

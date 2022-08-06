@@ -55,7 +55,7 @@
                                 <td>
                                     <dropdown icon="cogs" color="warning">
                                         <ddi icon="edit" to="{{ route('coffee.product.edit', $product) }}" text="Editar"></ddi>
-                                        @if(auth()->user()->level == 0)
+                                        @if(auth()->user()->level == 0 && $product->type == 'EQUIPO')
                                             <ddi icon="barcode" to="{{ route('coffee.product.serialize', $product) }}" text="Hacer seriable"></ddi>
                                         @endif
                                     </dropdown>

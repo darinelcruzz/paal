@@ -70,7 +70,7 @@
 
                             <div class="wizard-footer-right">
                               <wizard-button v-if="!formSubmitted" @click.native="props.nextTab()" class="wizard-footer-right" :style="props.fillButtonStyle">
-                                <small v-text="props.isLastStep ? 'AGREGAR' : 'SIGUIENtE'"></small>
+                                <small v-text="props.isLastStep ? 'AGREGAR' : 'SIGUIENTE'"></small>
                               </wizard-button>
                             </div>
                         </template>

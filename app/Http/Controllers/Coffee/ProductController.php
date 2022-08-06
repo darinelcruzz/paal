@@ -21,8 +21,8 @@ class ProductController extends Controller
 
     function create()
     {
-        $categories = Product::where('company', 'COFFEE')->groupBy('category')->pluck('category', 'category')->toArray();
-        $families = Product::where('company', 'COFFEE')->get()->groupBy(['category', 'family']);
+        $categories = Product::where('company', '!=', 'mbe')->groupBy('category')->pluck('category', 'category')->toArray();
+        $families = Product::where('company', '!=', 'mbe')->get()->groupBy(['category', 'family']);
         // dd($families['ACCESORIOS']);
         return view('coffee.products.create', compact('families', 'categories'));
     }

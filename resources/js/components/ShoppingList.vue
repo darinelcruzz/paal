@@ -83,7 +83,7 @@
                 subtotals: [],
                 families: [],
                 types:[],
-                type: 'no equipo',
+                type: 'varios',
                 total: 0,
                 iva: 0,
                 redondeo: 0,
@@ -128,7 +128,7 @@
                 this.setTotal()
             },
             deleteRow(index, family) {
-                let category = this.inputs[index].category == 'EQUIPO' ? 'equipo': 'no equipo'
+                let category = this.inputs[index].category == 'EQUIPO' ? 'equipo': 'varios'
                 if(this.types.length > 1) {
                     this.types.splice(this.types.indexOf(category), 1)
                 }
@@ -181,7 +181,7 @@
                 }
             },
             updateTypes(product) {
-                let category = product.category == 'EQUIPO' ? 'equipo': 'no equipo'
+                let category = product.category == 'EQUIPO' ? 'equipo': 'varios'
 
                 if (this.types.includes(category)) {
                     console.log('Ya hay un equipo')
