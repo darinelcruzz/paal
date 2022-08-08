@@ -40,36 +40,36 @@ class IngressController extends Controller
         return Shipping::monthly($date, $company)->count();;
     }
 
-    function ingresses($date = null, $company = 'coffee', $type = 'no equipo')
+    function ingresses($date = null, $company = 'coffee', $type = 'varios')
     {
         $date = $date ?? date('Y-m');
 
-        // if ($type == 'no equipo' || $type == 'equipo') {
-        //     $projectSum = Ingress::whereYear('bought_at', substr($date, 0, 4))
-        //         ->whereMonth('bought_at', substr($date, 5, 7))
-        //         ->where('company', $company)
-        //         ->where('status', '!=', 'cancelado')
-        //         ->where('type', 'proyecto')
-        //         ->with('movements.product')
-        //         ->get()
-        //         ->sum(function ($ingress) use ($type) { 
-        //             return $ingress->movements->sum(function ($m) use ($ingress, $type) {
-        //                 if ($type == 'equipo') {
-        //                     return in_array($m->product->category, ['EQUIPO', 'BARRAS', 'REFACCIONES']) ? $m->real_amount: 0;
-        //                 } else {
-        //                     return in_array($m->product->category, ['INSUMOS', 'ACCESORIOS', 'VASOS', 'SERVICIOS', 'LIMPIEZA']) ? $m->real_amount: 0;
-        //                 }
-        //             }) + $ingress->rounding;
-        //         });
-        // } else {
-        //     $projectSum = 0;
-        // }
+        if ($type == 'varios' || $type == 'equipo') {
+            $projectSum = Ingress::whereYear('bought_at', substr($date, 0, 4))
+                ->whereMonth('bought_at', substr($date, 5, 7))
+                ->where('company', $company)
+                ->where('status', '!=', 'cancelado')
+                ->where('type', 'proyecto')
+                ->with('movements.product')
+                ->get()
+                ->sum(function ($ingress) use ($type) { 
+                    return $ingress->movements->sum(function ($m) use ($ingress, $type) {
+                        if ($type == 'equipo') {
+                            return in_array($m->product->category, ['EQUIPO', 'BARRAS', 'REFACCIONES']) ? $m->real_amount: 0;
+                        } else {
+                            return in_array($m->product->category, ['INSUMOS', 'ACCESORIOS', 'VASOS', 'SERVICIOS', 'LIMPIEZA']) ? $m->real_amount: 0;
+                        }
+                    }) + $ingress->rounding;
+                });
+        } else {
+            $projectSum = 0;
+        }
 
-        // $projectSum = 0;
+        $projectSum = 0;
 
         return Ingress::whereYear('bought_at', substr($date, 0, 4))
             ->whereMonth('bought_at', substr($date, 5, 7))
-            ->where('company', $company)
+            ->where('company', '!=', 'mbe')
             ->where('status', '!=', 'cancelado')
             ->when($type == 'depositado', function ($query) {
                 $query->with('payments');
@@ -104,11 +104,11 @@ class IngressController extends Controller
             });
     }
 
-    function table($type = 'INSUMOS')
+    function table($type = 'VARIOS')
     {
         $movementsByMonth = Movement::whereYear('created_at', date('Y'))
             ->whereHasMorph('movable', Ingress::class, function ($query) {
-                $query->where('company', 'coffee')
+                $query->where('company', '!=', 'mbe')
                     ->where('status', '!=', 'cancelado');
             })
             ->whereHas('product', function ($query) use ($type) {

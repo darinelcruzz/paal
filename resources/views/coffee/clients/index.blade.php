@@ -6,7 +6,7 @@
     @if(auth()->user()->id > 1)
     <div class="row">
         <div class="col-md-6">
-            <a href="{{ route('coffee.client.create') }}" class="btn btn-danger btn-sm"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR</a>
+            <a href="{{ route('coffee.client.create') }}" class="btn btn-warning btn-sm"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR</a>
         </div>
         <div class="col-md-2">
             <a href="{{ route('coffee.client.export') }}" class="btn btn-success btn-sm pull-right">
@@ -18,7 +18,7 @@
             <div class="input-group input-group-sm">
                 <input type="file" name="clients" class="form-control">
                 <span class="input-group-btn">
-                    <button type="submit" class="btn btn-danger btn-flat"><i class="fa fa-file-upload"></i></button>
+                    <button type="submit" class="btn btn-warning btn-flat"><i class="fa fa-file-upload"></i></button>
                 </span>
             </div>
             {!! Form::close() !!}
@@ -27,7 +27,7 @@
     @else
     <div class="row">
         <div class="col-md-9">
-            <a href="{{ route('coffee.client.create') }}" class="btn btn-danger btn-xs"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR</a>
+            <a href="{{ route('coffee.client.create') }}" class="btn btn-warning btn-xs"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;AGREGAR</a>
         </div>
         <div class="col-md-3">
             <a href="{{ route('coffee.client.export') }}" class="btn btn-success btn-xs pull-right">
@@ -41,7 +41,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <solid-box title="Clientes" color="danger" button>
+            <solid-box title="Clientes" color="warning" button>
                 
                 <table class="table table-striped table-bordered spanish">
                     <thead>
@@ -67,7 +67,7 @@
                             <tr>
                                 <td>{{ $client->id }}</td>
                                 <td>
-                                    <dropdown icon="cogs" color="danger">
+                                    <dropdown icon="cogs" color="warning">
                                         <ddi icon="edit" to="{{ route('coffee.client.edit', $client) }}" text="Editar"></ddi>
                                         <ddi icon="plus" to="{{ route('coffee.address.create', $client) }}" text="Agregar dirección"></ddi>
                                         <ddi icon="mug-hot" to="{{ route('coffee.client.show', [$client, 'ventas']) }}" text="Ventas"></ddi>

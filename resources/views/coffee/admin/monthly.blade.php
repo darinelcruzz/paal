@@ -58,7 +58,7 @@
 
             <div class="row">
                 <div class="col-md-3">
-                    <info-box title="no equipo" color="purple" company="coffee" type="no equipo" date="{{ $date }}" model="ingresses">
+                    <info-box title="varios" color="purple" company="coffee" type="varios" date="{{ $date }}" model="ingresses">
                     </info-box>
                 </div>
 

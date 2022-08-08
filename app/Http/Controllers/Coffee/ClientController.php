@@ -36,7 +36,7 @@ class ClientController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'phone' => 'required',
-            'rfc' => 'required',
+            'rfc' => 'required|unique:clients',
             'tax_regime_id' => 'required',
         ]);
 

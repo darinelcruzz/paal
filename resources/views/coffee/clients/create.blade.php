@@ -5,7 +5,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <solid-box title="Agregar cliente" color="danger" button>
+            <solid-box title="Agregar cliente" color="warning" button>
 
                 {!! Form::open(['method' => 'POST', 'route' => 'coffee.client.store']) !!}
                     
@@ -134,7 +134,7 @@
 
                     <hr>
                     <input type="hidden" name="company" value="coffee">
-                    <button type="submit" class="btn btn-danger pull-right">AGREGAR</button>
+                    <button type="submit" class="btn btn-warning pull-right">AGREGAR</button>
 
                 {!! Form::close() !!}
 
