@@ -12,29 +12,29 @@
         <!-- inner menu: contains the actual data -->
         <ul class="menu">
           <li v-if="shippings > 0">
-            <a :href="'/'+ company + '/envios/pendiente'">
+            <a :href="'/'+ route + '/envios/pendiente'">
               <i class="fa fa-shipping-fast text-aqua"></i> {{ shippings }} envío{{ shippings > 1 ? 's': '' }} sin número de guía
             </a>
           </li>
           <li v-if="egresses > 0">
-            <a :href="'/'+ company + '/egresos/pendiente'">
+            <a :href="'/'+ route + '/egresos/pendiente'">
               <i class="fa fa-calendar-times text-red"></i> {{ egresses }} egreso{{ egresses > 1 ? 's': '' }} va{{ egresses > 1 ? 'n': '' }} a expirar pronto
             </a>
           </li>
           <li v-if="numbers > 0">
-            <a :href="'/'+ company + '/ingresos'">
+            <a :href="'/'+ route + '/ingresos'">
               <i class="fa fa-barcode text-yellow"></i> A {{ numbers }} venta{{ numbers > 1 ? 's': '' }} le faltan números de serie
             </a>
           </li>
 
           <li v-if="tasks > 0">
-            <a :href="'/'+ company + '/tareas'">
+            <a :href="'/'+ route + '/tareas'">
               <i class="fa fa-tasks text-green"></i> {{ tasks }} tarea{{ tasks > 1 ? 's': '' }} pendiente{{ tasks > 1 ? 's': '' }} de revisar
             </a>
           </li>
 
           <li v-if="expired > 0">
-            <a :href="'/'+ company + '/tareas'">
+            <a :href="'/'+ route + '/tareas'">
               <i class="fa fa-hourglass-end text-orange"></i> {{ expired }} tarea{{ expired > 1 ? 's': '' }} vencida{{ expired > 1 ? 's': '' }}
             </a>
           </li>
@@ -68,6 +68,9 @@
     computed: {
       notificationsCount() {
         return this.shippings + this.egresses + this.numbers + this.tasks + this.expired;
+      },
+      route() {
+        return this.company == 'coffee' ? 'cocinaspaal': this.company;
       }
     },
     created() {

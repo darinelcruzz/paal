@@ -55195,6 +55195,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   computed: {
     notificationsCount: function notificationsCount() {
       return this.shippings + this.egresses + this.numbers + this.tasks + this.expired;
+    },
+    route: function route() {
+      return this.company == 'coffee' ? 'cocinaspaal' : this.company;
     }
   },
   created: function created() {
@@ -55252,7 +55255,7 @@ var render = function() {
                     _c(
                       "a",
                       {
-                        attrs: { href: "/" + _vm.company + "/envios/pendiente" }
+                        attrs: { href: "/" + _vm.route + "/envios/pendiente" }
                       },
                       [
                         _c("i", {
@@ -55275,9 +55278,7 @@ var render = function() {
                     _c(
                       "a",
                       {
-                        attrs: {
-                          href: "/" + _vm.company + "/egresos/pendiente"
-                        }
+                        attrs: { href: "/" + _vm.route + "/egresos/pendiente" }
                       },
                       [
                         _c("i", {
@@ -55301,7 +55302,7 @@ var render = function() {
                 ? _c("li", [
                     _c(
                       "a",
-                      { attrs: { href: "/" + _vm.company + "/ingresos" } },
+                      { attrs: { href: "/" + _vm.route + "/ingresos" } },
                       [
                         _c("i", { staticClass: "fa fa-barcode text-yellow" }),
                         _vm._v(
@@ -55318,45 +55319,37 @@ var render = function() {
               _vm._v(" "),
               _vm.tasks > 0
                 ? _c("li", [
-                    _c(
-                      "a",
-                      { attrs: { href: "/" + _vm.company + "/tareas" } },
-                      [
-                        _c("i", { staticClass: "fa fa-tasks text-green" }),
-                        _vm._v(
-                          " " +
-                            _vm._s(_vm.tasks) +
-                            " tarea" +
-                            _vm._s(_vm.tasks > 1 ? "s" : "") +
-                            " pendiente" +
-                            _vm._s(_vm.tasks > 1 ? "s" : "") +
-                            " de revisar\n          "
-                        )
-                      ]
-                    )
+                    _c("a", { attrs: { href: "/" + _vm.route + "/tareas" } }, [
+                      _c("i", { staticClass: "fa fa-tasks text-green" }),
+                      _vm._v(
+                        " " +
+                          _vm._s(_vm.tasks) +
+                          " tarea" +
+                          _vm._s(_vm.tasks > 1 ? "s" : "") +
+                          " pendiente" +
+                          _vm._s(_vm.tasks > 1 ? "s" : "") +
+                          " de revisar\n          "
+                      )
+                    ])
                   ])
                 : _vm._e(),
               _vm._v(" "),
               _vm.expired > 0
                 ? _c("li", [
-                    _c(
-                      "a",
-                      { attrs: { href: "/" + _vm.company + "/tareas" } },
-                      [
-                        _c("i", {
-                          staticClass: "fa fa-hourglass-end text-orange"
-                        }),
-                        _vm._v(
-                          " " +
-                            _vm._s(_vm.expired) +
-                            " tarea" +
-                            _vm._s(_vm.expired > 1 ? "s" : "") +
-                            " vencida" +
-                            _vm._s(_vm.expired > 1 ? "s" : "") +
-                            "\n          "
-                        )
-                      ]
-                    )
+                    _c("a", { attrs: { href: "/" + _vm.route + "/tareas" } }, [
+                      _c("i", {
+                        staticClass: "fa fa-hourglass-end text-orange"
+                      }),
+                      _vm._v(
+                        " " +
+                          _vm._s(_vm.expired) +
+                          " tarea" +
+                          _vm._s(_vm.expired > 1 ? "s" : "") +
+                          " vencida" +
+                          _vm._s(_vm.expired > 1 ? "s" : "") +
+                          "\n          "
+                      )
+                    ])
                   ])
                 : _vm._e()
             ])
