@@ -11,7 +11,7 @@
 @section('content')
 
 	<div align="center">
-    	<img width="40%" height="20%" src="{{ asset('/img/paal.png') }}">
+    	<img width="40%" height="20%" src="{{ asset('/img/paal.jpg') }}">
     </div>
 
 @endsection

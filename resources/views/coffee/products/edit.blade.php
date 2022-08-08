@@ -5,7 +5,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-8">
-            <solid-box title="PRODUCTO" color="danger">
+            <solid-box title="PRODUCTO" color="warning">
 
                 {!! Form::open(['method' => 'POST', 'route' => ['coffee.product.update', $product]]) !!}
 
@@ -64,7 +64,7 @@
 
                     <hr>
 
-                    <button type="submit" class="btn btn-danger pull-right">
+                    <button type="submit" class="btn btn-warning pull-right">
                         <i class="fa fa-check"></i>&nbsp;&nbsp; MODIFICAR
                     </button>
 

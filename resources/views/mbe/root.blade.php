@@ -3,10 +3,10 @@
 
     @include('lte.htmlhead', ['company' => 'mbe'])
 
-    <body class="hold-transition skin-green sidebar-mini">
+    <body class="hold-transition skin-blue sidebar-mini">
         <div id="app">
             <div class="wrapper">
-                @include('lte.mainheader', ['logoMini' => "<b>M</b>BE", 'logoLg' => "<b>Mail</b>boxes", 'site' => 'mbe'])
+                @include('lte.mainheader', ['logoMini' => "<b>L</b>P", 'logoLg' => "Logística<b>PAAL</b>", 'site' => 'mbe'])
                 @include('lte.sidebar', ['site' => 'mbe'])
 
                 <div class="content-wrapper">

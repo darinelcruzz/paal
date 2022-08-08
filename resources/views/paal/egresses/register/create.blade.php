@@ -48,9 +48,9 @@
                         <div class="col-md-6">
                             <label>Archivos</label><br>
                             <file-upload color="danger" bname="PDF" fname="pdf_bill" ext="pdf"></file-upload>
-                            <template v-if="provider.xml_required == 1">
+                            {{-- <template v-if="provider.xml_required == 1">
                                 <file-upload color="primary" bname="XML" fname="xml" ext="xml"></file-upload>
-                            </template>
+                            </template> --}}
                         </div>
                     </div>
 

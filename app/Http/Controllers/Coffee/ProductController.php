@@ -86,7 +86,7 @@ class ProductController extends Controller
             'wholesale_price' => 'sometimes|required',
         ]);
 
-        $product->update($request->all());
+        $product->update($request->except('wholesale_price') + ['wholesale_price' => ($request->wholesale_price ?? $request->retail_price)]);
 
         return redirect(route('coffee.product.index'));
     }

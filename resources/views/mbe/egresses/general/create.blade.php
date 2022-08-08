@@ -38,9 +38,9 @@
                         <div class="col-md-3">
                             <label>Archivos factura</label><br>
                             <file-upload color="success" bname="PDF" fname="pdf_bill" ext="pdf"></file-upload>
-                            <template v-if="provider.xml_required == 1">
+                            {{-- <template v-if="provider.xml_required == 1">
                                 <file-upload color="primary" bname="XML" fname="xml" ext="xml"></file-upload>
-                            </template>
+                            </template> --}}
                         </div>
                     </div>
 
