@@ -57519,7 +57519,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		if (t.product.discount) {
 			t.discount.amount = t.product.discount;
 		}
-		t.custom_price = p.retail_price == 0 && p.dollars || p.category == 'SERVICIOS' || p.family == 'ESPECIAL';
+		t.custom_price = p.retail_price == 0 && p.dollars || p.category == 'SERVICIOS' || p.family == 'ESPECIAL' || p.category == 'ENVIOS';
 		t.price = t.getPrice();
 	}
 });
@@ -60933,6 +60933,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         var _this = this;
 
         axios.get('/api/monthly/' + this.model + '/' + this.date + '/' + this.company + '/' + this.type).then(function (response) {
+            console.log('/api/monthly/' + _this.model + '/' + _this.date + '/' + _this.company + '/' + _this.type);
             _this.value = response.data;
         });
     }

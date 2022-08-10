@@ -15,7 +15,7 @@ class IngressController extends Controller
         if ($type != 'envíos') {
             $ingresses = Ingress::whereYear('bought_at', substr($date, 0, 4))
                 ->whereMonth('bought_at', substr($date, 5, 2))
-                ->where('company', $company)
+                ->where('company', '!=', 'mbe')
                 ->where('status', '!=', 'cancelado')
                 ->with('payments')
                 ->get();
@@ -29,8 +29,13 @@ class IngressController extends Controller
                     return $ingress->payments->sum(function ($payment) {
                         return $payment->cash + $payment->check + $payment->credit_card + $payment->debit_card + $payment->transfer;
                     });
-                } elseif ($type == 'depositar') {
-                    return $ingress->payments->where('cash_reference', null)->sum('cash');
+                } elseif ($type == 'parcial') {
+                    $shippingsTotal = $ingress->movements->sum(function ($m){
+                        return $m->product->category == 'ENVIOS' ? $m->total: 0;
+                    });
+                    return $ingress->payments->sum(function ($payment) {
+                        return $payment->cash + $payment->check + $payment->credit_card + $payment->debit_card + $payment->transfer;
+                    }) - $shippingsTotal;
                 } elseif ($type == 'promedio') {
                     return $ingress->type != 'anticipo' ? $ingress->amount - $ingress->retainers->sum('amount'): $ingress->amount;
                 }
@@ -47,7 +52,7 @@ class IngressController extends Controller
         if ($type == 'varios' || $type == 'equipo') {
             $projectSum = Ingress::whereYear('bought_at', substr($date, 0, 4))
                 ->whereMonth('bought_at', substr($date, 5, 7))
-                ->where('company', $company)
+                ->where('company', '!=', 'mbe')
                 ->where('status', '!=', 'cancelado')
                 ->where('type', 'proyecto')
                 ->with('movements.product')
@@ -55,9 +60,9 @@ class IngressController extends Controller
                 ->sum(function ($ingress) use ($type) { 
                     return $ingress->movements->sum(function ($m) use ($ingress, $type) {
                         if ($type == 'equipo') {
-                            return in_array($m->product->category, ['EQUIPO', 'BARRAS', 'REFACCIONES']) ? $m->real_amount: 0;
+                            return $m->product->type == 'EQUIPO' ? $m->real_amount: 0;
                         } else {
-                            return in_array($m->product->category, ['INSUMOS', 'ACCESORIOS', 'VASOS', 'SERVICIOS', 'LIMPIEZA']) ? $m->real_amount: 0;
+                            return $m->product->type == 'VARIOS' ? $m->real_amount: 0;
                         }
                     }) + $ingress->rounding;
                 });

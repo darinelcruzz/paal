@@ -25,7 +25,8 @@
     <div class="row">
         <div class="col-md-4">
             <icon-box title="total mensual" color="green" icon="usd" company="coffee" model="index" type="total" date="{{ $date }}"></icon-box>
-            <icon-box title="por depositar" color="red" icon="piggy-bank" company="coffee" model="index" type="depositar" date="{{ $date }}"></icon-box>
+            <icon-box title="total sin envíos" color="teal" icon="usd" company="coffee" model="index" type="parcial" date="{{ $date }}"></icon-box>
+            {{-- <icon-box title="por depositar" color="red" icon="piggy-bank" company="coffee" model="index" type="depositar" date="{{ $date }}"></icon-box> --}}
             <icon-box title="promedio" color="primary" icon="chart-line" company="coffee" model="index" type="promedio" date="{{ $date }}"></icon-box>
             <icon-box title="envíos" color="yellow" icon="shipping-fast" company="coffee" model="index" type="envíos" date="{{ $date }}"></icon-box>
         </div>

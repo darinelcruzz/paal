@@ -35,6 +35,7 @@
         created() {
             axios.get('/api/monthly/' + this.model + '/' + this.date + '/' + this.company + '/' + this.type)
                 .then((response) => {
+                    console.log('/api/monthly/' + this.model + '/' + this.date + '/' + this.company + '/' + this.type);
                     this.value = response.data
                 })
         }

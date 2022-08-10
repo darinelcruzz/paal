@@ -124,7 +124,7 @@
 			if (t.product.discount) {
 				t.discount.amount = t.product.discount
 			}
-			t.custom_price = (p.retail_price == 0 && p.dollars) || p.category == 'SERVICIOS' || p.family == 'ESPECIAL'
+			t.custom_price = (p.retail_price == 0 && p.dollars) || p.category == 'SERVICIOS' || p.family == 'ESPECIAL' || p.category == 'ENVIOS'
 			t.price = t.getPrice()
 		}
 	};
