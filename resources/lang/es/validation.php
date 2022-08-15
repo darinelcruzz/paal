@@ -209,5 +209,11 @@ return [
         'purchased_at' => 'fecha',
         'shipping_address' => 'dirección de envío',
         'tax_regime_id' => 'régimen fiscal',
+        'iva_type' => 'tipo de I.V.A.',
+        'retained_iva' => 'I.V.A. retenido',
+        'retained_isr' => 'I.S.R. retenido',
+        'ieps' => 'I.E.P.S.',
+        'discount' => 'descuento',
+        'ish' => 'I.S.H',
     ],
 ];

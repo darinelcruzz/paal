@@ -56,11 +56,17 @@ return [
         'route' => 'paal.client.index'
     ],
 
-    'clients' => [
-        'title' => 'Des/Activar',
-        'icon' => 'fa fa-toggle-on',
-        'route' => ['paal.variable.edit', 3]
+    'logs' => [
+        'title' => 'Correciones',
+        'icon' => 'fa fa-edit',
+        'route' => 'paal.log.index'
     ],
+
+    // 'clients' => [
+    //     'title' => 'Des/Activar',
+    //     'icon' => 'fa fa-toggle-on',
+    //     'route' => ['paal.variable.edit', 3]
+    // ],
 
     'users' => [
         'title' => 'Usuarios',
@@ -68,11 +74,11 @@ return [
         'route' => 'paal.user.index'
     ],
 
-    'reports' => [
-        'title' => 'Reportes',
-        'icon' => 'fa fa-bar-chart',
-        'route' => 'paal.report.index'
-    ],
+    // 'reports' => [
+    //     'title' => 'Reportes',
+    //     'icon' => 'fa fa-bar-chart',
+    //     'route' => 'paal.report.index'
+    // ],
 
     'logout' => [
         'title' => 'Salir',

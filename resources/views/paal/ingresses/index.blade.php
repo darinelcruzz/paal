@@ -1,8 +1,6 @@
 @extends('paal.root')
 
-@push('pageTitle')
-    Ingresos | Historial
-@endpush
+@push('pageTitle', 'Ingresos | Historial')
 
 @section('content')
     <div class="row">
@@ -143,7 +141,5 @@
             </solid-box>
         </div>
     </div>
-
-    @include('sweet::alert')
 
 @endsection

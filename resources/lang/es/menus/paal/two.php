@@ -26,11 +26,11 @@ return [
         'route' => 'paal.client.index'
     ],
 
-    'reports' => [
-        'title' => 'Reportes',
-        'icon' => 'fa fa-bar-chart',
-        'route' => 'paal.report.index'
-    ],
+    // 'reports' => [
+    //     'title' => 'Reportes',
+    //     'icon' => 'fa fa-bar-chart',
+    //     'route' => 'paal.report.index'
+    // ],
 
     'logout' => [
         'title' => 'Salir',

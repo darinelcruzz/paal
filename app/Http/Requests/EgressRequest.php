@@ -40,6 +40,11 @@ class EgressRequest extends FormRequest
             'coffee' => 'sometimes|required',
             'mbe' => 'sometimes|required',
             'sanson' => 'sometimes|required',
+            'iva_type' => 'sometimes|required',
+            'retained_isr' => 'sometimes|required',
+            'retained_iva' => 'sometimes|required',
+            'ish' => 'sometimes|required',
+            'ieps' => 'sometimes|required',
         ];
     }
 
