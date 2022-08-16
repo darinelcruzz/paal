@@ -50,9 +50,9 @@ Route::group(['prefix' => 'paal', 'as' => 'paal.'], function () {
 
 		Route::group(['prefix' => 'caja-chica', 'as' => 'register.'], function () {
 		    $ctrl = 'Paal\CashRegisterController';
-		    Route::get('/cheques', usesas($ctrl, 'index'));
 		    Route::get('agregar/{check}', usesas($ctrl, 'create'));
 		    Route::post('agregar/{check}', usesas($ctrl, 'store'));
+		    Route::get('/cheques', usesas($ctrl, 'index'));
 		});
 	    
 	    $ctrl = 'Paal\EgressController';

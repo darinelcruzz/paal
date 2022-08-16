@@ -16,6 +16,7 @@ class IngressController extends Controller
             $ingresses = Ingress::whereYear('bought_at', substr($date, 0, 4))
                 ->whereMonth('bought_at', substr($date, 5, 2))
                 ->where('company', '!=', 'mbe')
+                // ->where('company', 'sanson')
                 ->where('status', '!=', 'cancelado')
                 ->with('payments')
                 ->get();

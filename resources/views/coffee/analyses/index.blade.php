@@ -29,13 +29,13 @@
                                 <th><small>MONTO</small></th>
                                 <td style="text-align: center;">{{ number_format($ingresses->sum('amount'), 2) }}</td>
                                 <td style="text-align: center;">{{ number_format($ingresses2->sum('amount'), 2) }}</td>
-                                <td style="text-align: center;">{{ number_format($ingresses3->sum('amount') / date('m'), 2) }}</td>
+                                <td style="text-align: center;">{{ number_format($ingresses3->sum('amount') / (date('m') - 1), 2) }}</td>
                             </tr>
                             <tr>
                                 <th><small>VENTAS</small></th>
                                 <td style="text-align: center;">{{ $ingresses->count() }}</td>
                                 <td style="text-align: center;">{{ $ingresses2->count() }}</td>
-                                <td style="text-align: center;">{{ number_format($ingresses3->count() / date('m'), 0) }}</td>
+                                <td style="text-align: center;">{{ number_format($ingresses3->count() / (date('m') - 1), 0) }}</td>
                             </tr>
                         </tbody>
                     </table>

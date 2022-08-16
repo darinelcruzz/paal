@@ -31,7 +31,7 @@
                                 <th style="width: 8%;"><small>TIPO</small></th>
                                 <th style="width: 8%;"><small>ESTADO</small></th>
                                 <th><small>PROVEEDOR</small></th>
-                                <th style="text-align: right;width: 8%;"><small>I.V.A.</small></th>
+                                <th style="text-align: right;width: 10%;"><small>I.V.A.</small></th>
                                 <th style="text-align: right;"><small>IMPORTE</small></th>
                             </tr>
                         </thead>
@@ -53,7 +53,10 @@
                                     <span class="label label-success"><small>PAGADO</small></span>
                                 </td>
                                 <td>CAJA CHICA</td>
-                                <td style="text-align: right;">{{ number_format($check->iva, 2) }}</td>
+                                <td style="text-align: right;">
+                                    @if($egress->iva_type)<span class="label label-default">{{ $egress->iva_type }}</span>@endif
+                                    {{ number_format($check->iva, 2) }}
+                                </td>
                                 <td style="text-align: right;">{{ number_format($check->total, 2) }}</td>
                             </tr>
                         @endforeach
@@ -92,7 +95,10 @@
                                     {{ $egress->provider_name ?? $egress->provider->name }}
                                     <code>{{ $egress->provider->rfc }}</code>
                                 </td>
-                                <td style="text-align: right;">{{ number_format($egress->iva, 2) }}</td>
+                                <td style="text-align: right;">
+                                    @if($egress->iva_type)<span class="label label-default">{{ $egress->iva_type }}</span>@endif
+                                    {{ number_format($egress->iva, 2) }}
+                                </td>
                                 <td style="text-align: right;">
                                     @if($egress->provider->type == 'pd')
                                         {{ number_format($egress->coffee, 2) }}

@@ -12,14 +12,20 @@ class SalesAnalysisController extends Controller
     {
         $ingresses = Ingress::whereYear('bought_at', date('Y'))
             ->whereMonth('bought_at', date('m'))
+            ->where('company', '!=', 'mbe')
+            ->where('status', '!=', 'cancelado')
             ->get();
 
         $ingresses2 = Ingress::whereYear('bought_at', date('Y'))
             ->whereMonth('bought_at', date('m') - 1)
+            ->where('company', '!=', 'mbe')
+            ->where('status', '!=', 'cancelado')
             ->get();
 
         $ingresses3 = Ingress::whereYear('bought_at', date('Y'))
             ->whereMonth('bought_at', '!=', date('m'))
+            ->where('company', '!=', 'mbe')
+            ->where('status', '!=', 'cancelado')
             ->get();
 
         return view('coffee.analyses.index', compact('ingresses3', 'ingresses2', 'ingresses'));

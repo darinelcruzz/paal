@@ -28,33 +28,35 @@
             </solid-box>
         </div>
 
-        <div class="col-md-8">
+        <div class="col-md-4">
             <solid-box title="Cheques" color="primary" button>
                 
-                <table class="table table-striped table-bordered">
+                <table class="table table-striped table-bordered table-hover table-condensed spanish-simple">
                     <thead>
                         <tr>
-                            <th>Folio</th>
-                            <th><i class="fa fa-cogs"></i></th>
-                            <th>Fecha</th>
-                            <th>Total</th>
+                            <th style="width: 8%;">Folio</th>
+                            <th style="width: 5%;"><i class="fa fa-cogs"></i></th>
+                            <th style="width: 5%;">Facturas</th>
+                            <th style="text-align: center;">Fecha</th>
+                            <th style="text-align: right;">Total</th>
                         </tr>
                     </thead>
 
                     <tbody>
                         @foreach($checks as $check)
                             <tr>
-                                <td>{{ $check->folio }}</td>
-                                <td>
+                                <td style="width: 8%;">{{ $check->folio }}</td>
+                                <td style="width: 5%;">
                                     <dropdown color="primary" icon="cogs">
-                                        <ddi to="{{ route('coffee.egress.register.create', $check) }}" icon="plus" text="Agregar factura"></ddi>
+                                        <ddi to="{{ route('paal.egress.register.create', $check) }}" icon="plus" text="Agregar factura"></ddi>
                                         <ddi to="{{ Storage::url($check->pdf) }}" icon="file-pdf" text="PDF" target="_blank"></ddi>
                                         <ddi to="{{ route('coffee.check.show', $check) }}" icon="eye" text="Detalles"></ddi>
                                         <ddi to="{{ route('coffee.check.edit', $check) }}" icon="edit" text="Editar"></ddi>
                                     </dropdown>
                                 </td>
-                                <td>{{ $check->charged_at }}</td>
-                                <td>$ {{ number_format($check->total, 2) }}</td>
+                                <td style="text-align: center;">{{ $check->egresses->count() }}</td>
+                                <td style="text-align: center;">{{ fdate($check->charged_at, 'd/M/y', 'Y-m-d') }}</td>
+                                <td style="text-align: right;">{{ number_format($check->total, 2) }}</td>
                             </tr>
                         @endforeach
                     </tbody>

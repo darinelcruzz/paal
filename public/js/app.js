@@ -56883,6 +56883,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['color', 'exchange', 'qproducts', 'promo', 'retainer'],
@@ -56900,6 +56901,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         };
     },
 
+    computed: {
+        typeColor: function typeColor() {
+            if (this.type == 'proyecto') {
+                return 'primary';
+            } else if (this.type == 'equipo') {
+                return 'danger';
+            } else {
+                return 'warning';
+            }
+        }
+    },
     methods: {
         addRow: function addRow(product) {
             this.inputs.push(product);
@@ -56938,7 +56950,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.setTotal();
         },
         deleteRow: function deleteRow(index, family) {
-            var category = this.inputs[index].category == 'EQUIPO' ? 'equipo' : 'varios';
+            var category = this.inputs[index].type == 'EQUIPO' ? 'equipo' : 'varios';
             if (this.types.length > 1) {
                 this.types.splice(this.types.indexOf(category), 1);
             }
@@ -56998,7 +57010,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         updateTypes: function updateTypes(product) {
-            var category = product.category == 'EQUIPO' ? 'equipo' : 'varios';
+            var category = product.type == 'EQUIPO' ? 'equipo' : 'varios';
 
             if (this.types.includes(category)) {
                 console.log('Ya hay un equipo');
@@ -57078,6 +57090,12 @@ var render = function() {
               _vm._v(" "),
               _c("tfoot", [
                 _c("tr", [
+                  _c("th", [
+                    _c("span", { class: "label label-" + _vm.typeColor }, [
+                      _vm._v(_vm._s(_vm.type.toUpperCase()))
+                    ])
+                  ]),
+                  _vm._v(" "),
                   _vm._m(1),
                   _vm._v(" "),
                   _c("td", [
@@ -57241,7 +57259,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("th", { attrs: { colspan: "5" } }, [
+    return _c("th", { attrs: { colspan: "4" } }, [
       _c("span", { staticClass: "pull-right" }, [_vm._v("Subtotal:")])
     ])
   },
