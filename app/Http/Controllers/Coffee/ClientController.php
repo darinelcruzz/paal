@@ -73,7 +73,7 @@ class ClientController extends Controller
             ->with('movements.product')
             ->get();
         $first = $collection->first();
-        $name = $first->client_name ?? $first->client->name;
+        $name = $first ? ($first->client_name ?? $first->client->name): '';
         return view('coffee.clients.show', compact('client', 'collection', 'model', 'spanish', 'name'));
     }
 

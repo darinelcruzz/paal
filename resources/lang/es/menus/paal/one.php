@@ -50,6 +50,12 @@ return [
         ]
     ],
 
+    'financial-flow' => [
+        'title' => 'Flujo financiero',
+        'icon' => 'fa fa-wind',
+        'route' => 'paal.financial-flow.index'
+    ],
+
     'clients' => [
         'title' => 'Clientes',
         'icon' => 'fa fa-user',

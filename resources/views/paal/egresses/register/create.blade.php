@@ -37,10 +37,10 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            {!! Field::number('subtotal', 0, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0'], ['icon' => 'usd']) !!}
+                            {!! Field::number('subtotal', 0, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0', 'v-model.number' => 'ingress_total'], ['icon' => 'usd']) !!}
                         </div>
                         <div class="col-md-6">
-                            {!! Field::number('discount', 0, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0'], ['icon' => 'percentage']) !!}
+                            {!! Field::number('discount', 0, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0', 'v-model.number' => 'payment_total'], ['icon' => 'percentage']) !!}
                         </div>
                     </div>
 
@@ -49,51 +49,21 @@
                             {!! Field::select('iva_type', ['0%' => '0%', '4%' => '4%', '8%' => '8%', '16%' => '16%'], '16%', ['tpl' => 'withicon', 'empty' => 'Seleccione tipo de iva'], ['icon' => 'mouse-pointer']) !!}
                         </div>
                         <div class="col-md-6">
-                            {!! Field::number('iva', 0, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0'], ['icon' => 'hand-holding-usd']) !!}
+                            {!! Field::number('iva', 0, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0', 'v-model.number' => 'retainer'], ['icon' => 'hand-holding-usd']) !!}
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-md-6">
-                            {!! Field::number('retained_iva', 0, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0'], ['icon' => 'donate']) !!}
-                        </div>
-                        <div class="col-md-6">
-                            {!! Field::number('retained_isr', 0, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0'], ['icon' => 'bank']) !!}
+                            {!! Field::number('amount', 0, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0', 'v-bind:value' => 'ingress_total - payment_total - retainer', 'disabled'], ['icon' => 'money']) !!}
+                            <input name="amount" type="hidden" :value="ingress_total - payment_total - retainer">
                         </div>
                     </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            {!! Field::number('ieps', 0, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0'], ['icon' => 'balance-scale']) !!}
-                        </div>
-                        <div class="col-md-6">
-                            {!! Field::number('ish', 0, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0'], ['icon' => 'briefcase']) !!}
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            {!! Field::number('amount', 0, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0'], ['icon' => 'money']) !!}
-                        </div>
-                    </div>
-
-                    {{-- <div class="row">
-                        <div class="col-md-6">
-                            {!! Field::number('amount', 0, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0'], ['icon' => 'money']) !!}
-                        </div>
-                        <div v-if="provider.name != 'NO DEDUCIBLE'" class="col-md-6">
-                            {!! Field::number('iva', 0, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0'], ['icon' => 'bank']) !!}
-                        </div>
-                    </div> --}}
 
                     <div class="row">
                         <div class="col-md-6">
                             <label>Archivos</label><br>
                             <file-upload color="danger" bname="PDF" fname="pdf_bill" ext="pdf"></file-upload>
-                            {{-- <template v-if="provider.xml_required == 1">
-                                <file-upload color="primary" bname="XML" fname="xml" ext="xml"></file-upload>
-                            </template> --}}
-                        </div>
                     </div>
 
                     <hr>

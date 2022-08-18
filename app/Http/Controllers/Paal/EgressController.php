@@ -16,6 +16,7 @@ class EgressController extends Controller
 
         $egresses = Egress::from($date, 'emission')
             ->where('check_id', null)
+            ->orWhere('status', '!=', 'pagado')
             ->orderByDesc('id')
             ->get();
 

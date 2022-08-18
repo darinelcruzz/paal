@@ -23,6 +23,7 @@
                                 <td>{{ $provider->id }}</td>
                                 <td>
                                     <dropdown icon="cogs" color="primary">
+                                        <ddi to="{{ route('paal.provider.show', $provider) }}" icon="eye" text="Ver egresos"></ddi>
                                         <ddi to="{{ route('paal.provider.edit', $provider) }}" icon="edit" text="Editar"></ddi>
                                         <ddi to="{{ route('paal.provider.destroy', $provider) }}" icon="times" text="Dar de baja"></ddi>
                                     </dropdown>

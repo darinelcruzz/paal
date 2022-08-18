@@ -8,7 +8,6 @@ use App\Http\ViewComposers\MailboxesComposer;
 use Illuminate\Support\Facades\View;
 use App\{Ingress, Quotation, Movement, Order, Purchase, Payment, Egress};
 use App\Observers\{IngressObserver, QuotationObserver, MovementObserver, OrderObserver, PurchaseObserver, PaymentObserver, EgressObserver};
-use ConsoleTVs\Charts\Registrar as Charts;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -17,12 +16,8 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot(Charts $charts)
+    public function boot()
     {
-        if (config('app.env') == 'production') {
-            \URL::forceScheme('https');
-        }
-
         $this->publishes([
             base_path() . '\vendor\almasaeed2010\adminlte\bower_components' => public_path('adminlte/bower_components'),
             base_path() . '\vendor\almasaeed2010\adminlte\dist' => public_path('adminlte/dist'),
@@ -31,12 +26,6 @@ class AppServiceProvider extends ServiceProvider
 
         View::composer('*', SalesAndQuotationsComposer::class);
         $this->registerObservers();
-        $charts->register([
-            \App\Charts\BasicChart::class,
-            \App\Charts\CategoriesChart::class,
-            \App\Charts\ShippingsChart::class,
-            \App\Charts\PlacesChart::class,
-        ]);
     }
 
     /**

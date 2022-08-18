@@ -150,6 +150,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Jenssegers\Date\DateServiceProvider::class,
 
         /*
          * Application Service Providers...
