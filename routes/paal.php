@@ -18,6 +18,7 @@ Route::group(['prefix' => 'paal', 'as' => 'paal.'], function () {
 	    Route::post('editar/{provider}', usesas($ctrl, 'update'));
 	    Route::get('cancelar/{provider}', usesas($ctrl, 'destroy'));
 	    Route::get('{provider}', usesas($ctrl, 'show'));
+	    Route::post('{provider}', usesas($ctrl, 'show'));
 	});
 
 	Route::group(['prefix' => 'flujos-financieros', 'as' => 'financial-flow.'], function () {

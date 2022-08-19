@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Provider;
 use Illuminate\Http\Request;
+use App\{Provider, Egress};
 
 class ProviderController extends Controller
 {
     function index()
     {
-        $providers = Provider::where('status','activo')->get();
+        $providers = Provider::where('status', 'activo')->get();
         return view('paal.providers.index', compact('providers'));
     }
 
@@ -43,9 +43,13 @@ class ProviderController extends Controller
         return redirect(route('paal.provider.index'));
     }
 
-    function show(Provider $provider)
+    function show(Request $request, Provider $provider)
     {
-        // todo
+        $egresses = Egress::whereProviderId($provider->id)
+            ->whereBetween('emission', [$request->start ?? date('Y-m-d', time() - 60*60*24*30*3), $request->end ?? date('Y-m-d')])
+            ->get();
+
+        return view('paal.providers.show', compact('provider', 'egresses'));
     }
 
     function edit(Provider $provider)
