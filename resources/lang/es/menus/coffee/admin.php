@@ -41,17 +41,21 @@ return [
                 'title' => 'Proyecto',
                 'route' => ['coffee.quotation.create', 'proyecto']
             ],
+            'pre' => [
+                'title' => 'Precotizaciones',
+                'route' => ['coffee.quotation.index', 'pendiente']
+            ],
             'index' => [
                 'title' => 'Historial',
-                'route' => 'coffee.quotation.index'
+                'route' => ['coffee.quotation.index', 'terminada']
             ],
             'campaigns' => [
                 'title' => 'Campañas',
-                'route' => ['coffee.quotation.index', 'campañas']
+                'route' => ['coffee.quotation.index', 'terminada', 'campañas']
             ],
             'forms' => [
                 'title' => 'Formularios',
-                'route' => ['coffee.quotation.index', 'formularios']
+                'route' => ['coffee.quotation.index', 'terminada', 'formularios']
             ]
         ]
     ],

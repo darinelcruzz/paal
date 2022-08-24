@@ -7,7 +7,7 @@ use App\{Ingress, Egress};
 
 class FinancialFlowController extends Controller
 {
-    function index()
+    function index($type = 'iva')
     {
         $egresses = Egress::whereYear('emission', date('Y'))
             ->whereMonth('emission', date('m'))
@@ -17,7 +17,7 @@ class FinancialFlowController extends Controller
             ->whereMonth('bought_at', date('m'))
             ->get();
 
-        return view('paal.financial-flows.index', compact('egresses', 'ingresses'));
+        return view('paal.financial-flows.index', compact('egresses', 'ingresses', 'type'));
     }
 
     function create()

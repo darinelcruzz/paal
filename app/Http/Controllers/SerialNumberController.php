@@ -9,7 +9,9 @@ class SerialNumberController extends Controller
 {
     function index()
     {
-        $serial_numbers = SerialNumber::all();
+        $serial_numbers = SerialNumber::whereYear('created_at', date('Y'))
+            ->orderByDesc('status', 'desc')
+            ->get();
         return view('sanson.serial_numbers.index', compact('serial_numbers'));
     }
 

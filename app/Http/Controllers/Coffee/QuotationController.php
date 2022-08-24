@@ -9,20 +9,20 @@ use PDF;
 
 class QuotationController extends Controller
 {
-    function index(Request $request, $type = null)
+    function index(Request $request, $status, $type = null)
     {
         $date = isset($request->date) ? $request->date: date('Y-m');
-        $quotations = Quotation::monthly('coffee', $date, $type)->get();
-        $sales = Quotation::monthly('coffee', $date, $type)->has('sale')->count();
+        $quotations = Quotation::monthly('coffee', $date, $type)->where('status', $status)->get();
+        $sales = Quotation::monthly('coffee', $date, $type)->where('status', $status)->has('sale')->count();
         $color = $type ? ($type == 'formularios' ? 'primary': 'info') : 'warning';
         $total = count($quotations);
         $vias = [];
 
         if ($type == 'campañas') {
-            $vias = Quotation::monthly('coffee', $date, $type)->get()->groupBy('via');
+            $vias = Quotation::monthly('coffee', $date, $type)->where('status', $status)->get()->groupBy('via');
         }
 
-        return view('coffee.quotations.index', compact('quotations', 'sales', 'total', 'date', 'type', 'color', 'vias'));
+        return view('coffee.quotations.index', compact('quotations', 'sales', 'total', 'date', 'type', 'color', 'vias', 'status'));
     }
 
     function create()
@@ -43,6 +43,7 @@ class QuotationController extends Controller
             'client_name' => 'sometimes|required',
             'email' => 'sometimes|required',
             'rounding' => 'sometimes|required',
+            'status' => 'required',
         ]);
 
         $quotation = Quotation::create($validated);
@@ -51,7 +52,7 @@ class QuotationController extends Controller
             return redirect(route('coffee.quotation.index', $request->client_id == 658 ? 'formularios': 'campañas'));
         }
 
-        return redirect(route('coffee.quotation.index'));
+        return redirect(route('coffee.quotation.index', $request->status));
     }
 
     function show(Quotation $quotation)
@@ -78,6 +79,12 @@ class QuotationController extends Controller
         $last_sale = Ingress::where('company', 'coffee')->get()->last();
         $last_folio = $last_sale ? $last_sale->folio + 1: 1;
         return view('coffee.quotations.transform', compact('quotation', 'last_folio'));
+    }
+
+    function move(Quotation $quotation)
+    {
+        $quotation->update(['status' => 'terminada']);
+        return redirect(route('coffee.quotation.index', 'terminada'));
     }
 
     function edit(Quotation $quotation)

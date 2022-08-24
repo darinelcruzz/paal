@@ -37,16 +37,15 @@
                                 <i class="fa fa-phone"></i> 01 (961) 121 34 04 &nbsp;&nbsp;&nbsp;&nbsp;
                                 <i class="fa fa-whatsapp"></i> 961 330 65 28<br>
                                 <i class="fa fa-envelope"></i> ventas@coffeedepotchiapas.com.mx <br>
-                                <i class="fa fa-facebook"></i> Coffee Depot TGZ
                             </td>
                             <td>                                
                                 <table style="text-align: right">
                                     <tbody>
                                         <tr style="text-align: right;">
-                                            <td><b>COTIZACIÓN</b></td>
+                                            <td><b>{{ $quotation->status == 'terminada' ? 'COTIZACIÓN': 'PRECOT' }}</b></td>
                                         </tr>
                                         <tr style="background-color: rgb(78, 78, 78); color: white; text-align: right">
-                                            <td>&nbsp;&nbsp;{{ $quotation->type == 'equipo' ? 'MAQUINARIA': 'INSUMOS' }}&nbsp;&nbsp;</td>
+                                            <td>&nbsp;&nbsp;{{ strtoupper($quotation->type) }}&nbsp;&nbsp;</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -153,9 +152,9 @@
                             <th class="centered">CANTIDAD</th>
                             <th class="centered">MODELO</th>
                             <th class="centered" style="width: 35%;">DESCRIPCIÓN</th>
-                            <th class="centered">PRECIO</th>
+                            @if($quotation->status == 'terminada')<th class="centered">PRECIO</th>@endif
                             <th class="centered">DESCUENTO</th>
-                            <th class="centered">IMPORTE</th>
+                            <th class="centered">{{ $quotation->status == 'terminada' ? 'IMPORTE': 'TOTAL (+IVA)'}}</th>
                         </tr>
                     </thead>
                     
@@ -170,9 +169,9 @@
                             <td style="text-align: center;">{{ $movement->quantity }}</td>
                             <td style="text-align: center;">{{ $movement->product->code }}</td>
                             <td>{{ $movement->description ?? $movement->product->description }}</td>
-                            <td style="text-align: right;">{{ number_format($movement->price, 2) }}</td>
+                            @if($quotation->status == 'terminada')<td style="text-align: right;">{{ number_format($movement->price, 2) }}</td>@endif
                             <td style="text-align: right;">{{ number_format($movement->discount, 2) }}</td>
-                            <td style="text-align: right;">{{ number_format($movement->total, 2) }}</td>
+                            <td style="text-align: right;">{{ number_format($quotation->status == 'terminada' ? $movement->total: $movement->real_amount, 2) }}</td>
                         </tr>
                         @php
                             $subtotal += $movement->total;
@@ -190,7 +189,7 @@
                                     <td class="centered">{{ $item['q'] }}</td>
                                     <td class="centered">{{ $product->code }}</td>
                                     <td class="centered">{{ $product->description }}</td>
-                                    <td style="text-align: right;">{{ number_format($item['p'], 2) }}</td>
+                                    @if($quotation->status == 'terminada')<td style="text-align: right;">{{ number_format($item['p'], 2) }}</td>@endif
                                     <td class="centered">{{ $item['d'] }} %</td>
                                     <td style="text-align: right;">{{ number_format($item['t'], 2) }}</td>
                                 </tr>
@@ -211,7 +210,7 @@
                                 <td>{{ $product['q'] }}</td>
                                 <td>N/A</td>
                                 <td>{{ $product['i'] }}</td>
-                                <td>{{ number_format($product['p'], 2) }}</td>
+                                @if($quotation->status == 'terminada')<td>{{ number_format($product['p'], 2) }}</td>@endif
                                 <td>{{ number_format($product['d'], 2) }}</td>
                                 <td>{{ number_format($product['t'], 2) }}</td>
                             </tr>
@@ -231,14 +230,18 @@
                                 Todos los productos que vendemos están protegidos por nuestro programa de garantía, servicio y refacciones <br><br>
                             </td>
                             <td>
+                                @if($quotation->status == 'terminada')
                                 ENVÍO <br>
                                 I.V.A. <br>
                                 <span style="color: red"><big>TOTAL</big></span>
+                                @endif
                             </td>
                             <td style="text-align: right;">
+                                @if($quotation->status == 'terminada')
                                 {{ number_format($shipping, 2) }} <br>
                                 {{ number_format($quotation->iva, 2) }} <br>
                                 <span style="color: red; text-align: right;"><big>{{ number_format($quotation->amount, 2) }}</big></span>
+                                @endif
                             </td>
                         </tr>
                         <tr>

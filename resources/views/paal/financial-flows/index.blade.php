@@ -12,21 +12,25 @@
 
                 <table class="table table-striped table-bordered table-hover table-condensed">
                     @php
-                        $chargedIva = $egresses->sum('iva');
-                        $chargedIvaCP = $egresses->whereIn('company', ['coffee', 'sanson', 'cocinaspaal'])->sum('iva');
-                        $chargedIvaLP = $egresses->where('company', 'mbe')->sum('iva');
+                        $charged = $egresses->sum($type);
+                        $chargedCP = $egresses->whereIn('company', ['coffee', 'sanson', 'cocinaspaal'])->sum($type);
+                        $chargedLP = $egresses->where('company', 'mbe')->sum($type);
 
-                        $paidIva = $ingresses->sum('iva');
-                        $paidIvaCP = $ingresses->whereIn('company', ['coffee', 'sanson', 'cocinaspaal'])->sum('iva');
-                        $paidIvaLP = $ingresses->where('company', 'mbe')->sum('iva');
+                        $charged4 = $egresses->where('iva_type', '4%')->sum($type);
+                        $charged4CP = $egresses->where('iva_type', '4%')->whereIn('company', ['coffee', 'sanson', 'cocinaspaal'])->sum($type);
+                        $charged4LP = $egresses->where('iva_type', '4%')->where('company', 'mbe')->sum($type);
 
-                        $chargedSubtotal = $egresses->sum('subtotal');
-                        $chargedSubtotalCP = $egresses->whereIn('company', ['coffee', 'sanson', 'cocinaspaal'])->sum('subtotal');
-                        $chargedSubtotalLP = $egresses->where('company', 'mbe')->sum('subtotal');
+                        $charged16 = $egresses->where('iva_type', '16%')->sum($type);
+                        $charged16CP = $egresses->where('iva_type', '16%')->whereIn('company', ['coffee', 'sanson', 'cocinaspaal'])->sum($type);
+                        $charged16LP = $egresses->where('iva_type', '16%')->where('company', 'mbe')->sum($type);
 
-                        $paidSubtotal = $ingresses->sum(function ($ingress) { return $ingress->amount - $ingress->iva; });
-                        $paidSubtotalCP = $ingresses->whereIn('company', ['coffee', 'sanson', 'cocinaspaal'])->sum(function ($ingress) { return $ingress->amount - $ingress->iva; });
-                        $paidSubtotalLP =$ingresses->where('company', 'mbe')->sum(function ($ingress) { return $ingress->amount - $ingress->iva; });
+                        $paid = $ingresses->sum($type);
+                        $paidCP = $ingresses->whereIn('company', ['coffee', 'sanson', 'cocinaspaal'])->sum($type);
+                        $paidLP = $ingresses->where('company', 'mbe')->sum($type);
+
+                        $paid16 = $ingresses->sum($type);
+                        $paid16CP = $ingresses->whereIn('company', ['coffee', 'sanson', 'cocinaspaal'])->sum($type);
+                        $paid16LP = $ingresses->where('company', 'mbe')->sum($type);
                     @endphp
                     <thead>
                         <tr>
@@ -39,30 +43,45 @@
 
                     <tbody>
                         <tr>
-                            <td><em>IVA PAGADO</em></td>
-                            <td style="text-align: right;">{{ number_format($chargedIva, 2) }}</td>
-                            <td style="text-align: right;">{{ number_format($chargedIvaCP, 2) }}</td>
-                            <td style="text-align: right;">{{ number_format($chargedIvaLP, 2) }}</td>
+                            <td><em>{{ strtoupper($type) }} PAGADO</em></td>
+                            <td style="text-align: right;">{{ number_format($charged, 2) }}</td>
+                            <td style="text-align: right;">{{ number_format($chargedCP, 2) }}</td>
+                            <td style="text-align: right;">{{ number_format($chargedLP, 2) }}</td>
                         </tr>
                         <tr>
-                            <td><em>IVA COBRADO</em></td>
-                            <td style="text-align: right;">{{ number_format($paidIva, 2) }}</td>
-                            <td style="text-align: right;">{{ number_format($paidIvaCP, 2) }}</td>
-                            <td style="text-align: right;">{{ number_format($paidIvaLP, 2) }}</td>
+                            <td><em>4%</em></td>
+                            <td style="text-align: right;">{{ number_format($charged4, 2) }}</td>
+                            <td style="text-align: right;">{{ number_format($charged4CP, 2) }}</td>
+                            <td style="text-align: right;">{{ number_format($charged4LP, 2) }}</td>
                         </tr>
                         <tr>
-                            <td><em>SUBTOTAL PAGADO</em></td>
-                            <td style="text-align: right;">{{ number_format($chargedSubtotal - $chargedIva, 2) }}</td>
-                            <td style="text-align: right;">{{ number_format($chargedSubtotalCP - $chargedIvaCP, 2) }}</td>
-                            <td style="text-align: right;">{{ number_format($chargedSubtotalLP - $chargedIvaLP, 2) }}</td>
+                            <td><em>16%</em></td>
+                            <td style="text-align: right;">{{ number_format($charged16, 2) }}</td>
+                            <td style="text-align: right;">{{ number_format($charged16CP, 2) }}</td>
+                            <td style="text-align: right;">{{ number_format($charged16LP, 2) }}</td>
                         </tr>
                         <tr>
-                        <td><em>SUBTOTAL COBRADO</em></td>
-                            <td style="text-align: right;">{{ number_format($paidSubtotal, 2) }}</td>
-                            <td style="text-align: right;">{{ number_format($paidSubtotalCP, 2) }}</td>
-                            <td style="text-align: right;">{{ number_format($paidSubtotalLP, 2) }}</td>
+                            <td><em>{{ strtoupper($type) }} COBRADO</em></td>
+                            <td style="text-align: right;">{{ number_format($paid, 2) }}</td>
+                            <td style="text-align: right;">{{ number_format($paidCP, 2) }}</td>
+                            <td style="text-align: right;">{{ number_format($paidLP, 2) }}</td>
+                        </tr>
+                        <tr>
+                            <td><em>16%</em></td>
+                            <td style="text-align: right;">{{ number_format($paid16, 2) }}</td>
+                            <td style="text-align: right;">{{ number_format($paid16CP, 2) }}</td>
+                            <td style="text-align: right;">{{ number_format($paid16LP, 2) }}</td>
                         </tr>
                     </tbody>
+
+                    <tfoot>
+                        <tr>
+                            <th><small>DIFERENCIA</small></th>
+                            <td style="text-align: right;">{{ number_format($paid - $charged, 2) }}</td>
+                            <td style="text-align: right;">{{ number_format($paidCP - $chargedCP, 2) }}</td>
+                            <td style="text-align: right;">{{ number_format($paidLP - $chargedLP, 2) }}</td>
+                        </tr>
+                    </tfoot>
 
                 </table>
                 </div>

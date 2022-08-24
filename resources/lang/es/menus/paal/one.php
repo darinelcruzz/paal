@@ -51,9 +51,18 @@ return [
     ],
 
     'financial-flow' => [
-        'title' => 'Flujo financiero',
+        'title' => 'Flujos financieros',
         'icon' => 'fa fa-wind',
-        'route' => 'paal.financial-flow.index'
+        'submenu' => [
+            'iva' => [
+                'title' => 'I.V.A.',
+                'route' => ['paal.financial-flow.index', 'iva']
+            ],
+            'subtotal' => [
+                'title' => 'Subtotal',
+                'route' => ['paal.financial-flow.index', 'subtotal']
+            ]
+        ]
     ],
 
     'clients' => [

@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-md-3">
 
-            {!! Form::open(['method' => 'post', 'route' => ['coffee.quotation.index', $type]]) !!}
+            {!! Form::open(['method' => 'post', 'route' => ['coffee.quotation.index', $status, $type]]) !!}
                 
                 <div class="row">
                     <div class="col-md-3">                        
@@ -24,6 +24,7 @@
             
         </div>
 
+        @if($status == 'terminada')
         <div class="col-md-3">
             <label class="btn btn-{{ $color }} btn-bg btn-block">
                TOTAL: {{ $total }}
@@ -41,6 +42,7 @@
                 SIN VENTAS: {{ $total - $sales }} | {{ round(($total - $sales) * 100 / ($total > 0 ? $total : 1)) }} %
             </label>
         </div>
+        @endif
     </div>
 
     <br>
@@ -76,7 +78,7 @@
             <br><br>
             @endif
 
-            <solid-box title="{{ ucfirst($type ?? 'Cotizaciones') }}" color="{{ $color }}">
+            <solid-box title="{{ ucfirst($type ? $type: ( $status == 'terminada' ? 'Cotizaciones': 'Precotizaciones')) }}" color="{{ $color }}">
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered spanish">
                         <thead>
@@ -108,11 +110,15 @@
                                             <ddi to="{{ route('coffee.quotation.download', $quotation) }}" icon="file-pdf" text="Imprimir" target="_blank"></ddi>
                                             @if (!$quotation->sale)
                                                 <ddi to="{{ route('coffee.quotation.edit', $quotation) }}" icon="edit" text="Editar"></ddi>
-                                                <ddi to="{{ route('coffee.retainer.create', $quotation) }}" icon="hand-holding-usd" text="Anticipo"></ddi>
-                                                @if($quotation->type)
-                                                    <ddi to="{{ route('coffee.quotation.transform', [$quotation, $quotation->type]) }}" icon="mug-hot" text="Crear venta"></ddi>
+                                                @if($status == 'terminada')
+                                                    <ddi to="{{ route('coffee.retainer.create', $quotation) }}" icon="hand-holding-usd" text="Anticipo"></ddi>
+                                                    @if($quotation->type)
+                                                        <ddi to="{{ route('coffee.quotation.transform', [$quotation, $quotation->type]) }}" icon="mug-hot" text="Crear venta"></ddi>
+                                                    @else
+                                                        <ddi to="{{ route('coffee.quotation.transform', $quotation) }}" icon="mug-hot" text="Crear venta"></ddi>
+                                                    @endif
                                                 @else
-                                                    <ddi to="{{ route('coffee.quotation.transform', $quotation) }}" icon="mug-hot" text="Crear venta"></ddi>
+                                                    <ddi to="{{ route('coffee.quotation.move', $quotation) }}" icon="share" text="Hacer cotización"></ddi>
                                                 @endif
                                             @endif
                                         </dropdown>

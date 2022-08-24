@@ -35,6 +35,7 @@
                             <th><small>CLIENTE</small></th>
                             <th style="text-align: center;width: 5%;"><small>TIPO</small></th>
                             <th style="text-align: center;width: 5%;"><small>REFERENCIA</small></th>
+                            <th style="text-align: right;"><small>SUBTOTAL</small></th>
                             <th style="text-align: right;"><small>IVA</small></th>
                             <th style="text-align: right;"><small>IMPORTE</small></th>
                             <th style="text-align: center;"><small>MÉTODO</small></th>
@@ -100,7 +101,8 @@
                                     @endif
                                 </td>
                                 <td style="text-align: center;">{{ $ingress->reference }}</td>
-                                <td style="text-align: right;">{{ number_format($ingress->iva, 2) }}</td>
+                                <td style="text-align: right;">{{ number_format($ingress->amount - $ingress->iva, 2) }}</td>
+                                <td style="text-align: right;">{{ $ingress->iva > 0 ? number_format($ingress->iva, 2): '...' }}</td>
                                 <td style="text-align: right;">
                                     {{ number_format($ingress->amount, 2) }}
                                     @if($ingress->type == 'anticipo')

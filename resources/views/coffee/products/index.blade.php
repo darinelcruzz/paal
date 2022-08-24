@@ -43,6 +43,7 @@
                             <th><small>CÓDIGO</small></th>
                             <th><small>CATEGORÍA</small></th>
                             <th><small>FAMILIA</small></th>
+                            <th><small>TIPO</small></th>
                             <th><small>MENUDEO</small></th>
                             <th><small>MAYOREO</small></th>
                         </tr>
@@ -60,10 +61,11 @@
                                         @endif
                                     </dropdown>
                                 </td>
-                                <td>{{ $product->description }}</td>
+                                <td><small>{{ $product->description }}</small></td>
                                 <td>{{ $product->code }}</td>
-                                <td>{{ $product->category }}</td>
-                                <td>{{ $product->family }}</td>
+                                <td><small>{{ $product->category }}</small></td>
+                                <td><small>{{ $product->family }}</small></td>
+                                <td><span class="label label-{{ $product->type == 'EQUIPO' ? 'warning': 'danger' }}">{{ $product->type }}</span></td>
                                 <td style="text-align: right;">
                                     <small>{{ $product->dollars ? 'USD ': '' }}</small>{{ number_format($product->retail_price, 2) }}
                                 </td>

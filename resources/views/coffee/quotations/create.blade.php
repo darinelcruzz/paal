@@ -53,6 +53,7 @@
                     </form-wizard>
 
                     <input type="hidden" name="company" value="coffee">
+                    <input type="hidden" name="status" value="pendiente">
                     <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
 
                 {!! Form::close() !!}
