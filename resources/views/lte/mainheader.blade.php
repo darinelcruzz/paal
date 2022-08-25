@@ -1,6 +1,6 @@
 <header class="main-header">
 
-  <a href="/{{ $site }}" class="logo">
+  <a href="/{{ $site == 'coffee' ? 'cocinaspaal': $site }}" class="logo">
     <span class="logo-mini">{!! $logoMini !!}</span>
     <span class="logo-lg">{!! $logoLg !!}</span>
   </a>

@@ -153,8 +153,8 @@
                             <th class="centered">MODELO</th>
                             <th class="centered" style="width: 35%;">DESCRIPCIÓN</th>
                             @if($quotation->status == 'terminada')<th class="centered">PRECIO</th>@endif
-                            <th class="centered">DESCUENTO</th>
-                            <th class="centered">{{ $quotation->status == 'terminada' ? 'IMPORTE': 'TOTAL (+IVA)'}}</th>
+                            <th style="text-align: right;">DESCUENTO</th>
+                            <th style="text-align: right;">{{ $quotation->status == 'terminada' ? 'IMPORTE': 'TOTAL*'}}</th>
                         </tr>
                     </thead>
                     
@@ -241,6 +241,8 @@
                                 {{ number_format($shipping, 2) }} <br>
                                 {{ number_format($quotation->iva, 2) }} <br>
                                 <span style="color: red; text-align: right;"><big>{{ number_format($quotation->amount, 2) }}</big></span>
+                                @else
+                                * IVA inc   luido
                                 @endif
                             </td>
                         </tr>
