@@ -120,8 +120,8 @@
                     </table>
                 </div>
 
-                <a href="{{ route($quotation->company . '.quotation.index') }}" class="btn btn-danger pull-left">
-                    <i class="fa fa-backward"></i>&nbsp; HISTORIAL
+                <a href="{{ route($quotation->company . '.quotation.index', $quotation->status) }}" class="btn btn-danger pull-left">
+                    <i class="fa fa-backward"></i>&nbsp; {{ $quotation->status == 'terminada' ? 'HISTORIAL': 'PRECOTIZACIONES'}}
                 </a>
                 <a href="{{ route('coffee.quotation.transform', $quotation) }}" class="btn btn-warning pull-right">CREAR VENTA</a>
             </solid-box>

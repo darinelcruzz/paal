@@ -242,7 +242,8 @@
                                 {{ number_format($quotation->iva, 2) }} <br>
                                 <span style="color: red; text-align: right;"><big>{{ number_format($quotation->amount, 2) }}</big></span>
                                 @else
-                                * IVA inc   luido
+                                * el precio total de cada producto <br>
+                                es con IVA incluido
                                 @endif
                             </td>
                         </tr>

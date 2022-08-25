@@ -13,7 +13,9 @@ class QuotationObserver
 
     function updated(Quotation $quotation)
     {
-        if($quotation->getOriginal('status') != 'pendiente') {
+        if($quotation->getOriginal('status') == 'pendiente' && $quotation->status == 'terminada') {
+            //
+        } else {
             if (count($quotation->movements) > 0) {
                 $products = $quotation->movements->pluck('product_id')->toArray();
                 foreach (request('items') as $index => $item) {
