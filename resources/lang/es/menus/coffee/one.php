@@ -7,19 +7,19 @@ return [
         'icon' => 'fas fa-file-invoice',
         'submenu' => [
             'create' => [
-                'title' => 'Agregar',
+                'title' => 'Nueva',
                 'route' => 'coffee.quotation.create'
             ],
-            'make' => [
-                'title' => 'Proyecto',
-                'route' => ['coffee.quotation.create', 'proyecto']
-            ],
+            // 'make' => [
+            //     'title' => 'Proyecto',
+            //     'route' => ['coffee.quotation.create', 'proyecto']
+            // ],
             'pre' => [
-                'title' => 'Precotizaciones',
+                'title' => 'Abiertas',
                 'route' => ['coffee.quotation.index', 'pendiente']
             ],
             'index' => [
-                'title' => 'Historial',
+                'title' => 'Cerradas',
                 'route' => ['coffee.quotation.index', 'terminada']
             ],
             'campaigns' => [

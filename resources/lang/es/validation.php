@@ -215,5 +215,7 @@ return [
         'ieps' => 'I.E.P.S.',
         'discount' => 'descuento',
         'ish' => 'I.S.H',
+        'category_id' => 'categoría',
+        'group_id' => 'grupo',
     ],
 ];

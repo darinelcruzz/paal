@@ -7,19 +7,15 @@ return [
         'icon' => 'fas fa-file-invoice',
         'submenu' => [
             'create' => [
-                'title' => 'Agregar',
+                'title' => 'Nueva',
                 'route' => 'coffee.quotation.create'
             ],
-            'index' => [
-                'title' => 'Historial',
-                'route' => 'coffee.quotation.index'
-            ],
             'pre' => [
-                'title' => 'Precotizaciones',
+                'title' => 'Abiertas',
                 'route' => ['coffee.quotation.index', 'pendiente']
             ],
             'index' => [
-                'title' => 'Historial',
+                'title' => 'Cerradas',
                 'route' => ['coffee.quotation.index', 'terminada']
             ],
             'campaigns' => [

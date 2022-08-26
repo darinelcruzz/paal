@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\EgressRequest;
-use App\{Egress, Provider, Check};
+use App\{Egress, Provider, Check, Category};
 
 class CashRegisterController extends Controller
 {
@@ -21,7 +21,9 @@ class CashRegisterController extends Controller
 
     function create(Check $check)
     {
-        return view('paal.egresses.register.create', compact('check'));
+        $categories = Category::whereType('egresos')->pluck('name', 'id')->toArray();
+        $groups = Category::whereType('gastos')->pluck('name', 'id')->toArray();
+        return view('paal.egresses.register.create', compact('check', 'categories', 'groups'));
     }
 
     function store(EgressRequest $request, Check $check)

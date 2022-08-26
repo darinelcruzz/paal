@@ -22,6 +22,16 @@
 
                     <div class="row">
                         <div class="col-md-6">
+                            {!! Field::select('category_id', $categories, 10, ['tpl' => 'withicon', 'empty' => 'Seleccione una opción', 'disabled'], ['icon' => 'project-diagram']) !!}
+                            <input type="hidden" name="category_id" value="10">
+                        </div>
+                        <div class="col-md-6">
+                            {!! Field::select('group_id', $groups, null, ['tpl' => 'withicon', 'empty' => 'Seleccione una opción'], ['icon' => 'object-ungroup']) !!}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
                             {!! Field::number('amount', 0, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0'], ['icon' => 'money']) !!}
                         </div>
                         <div class="col-md-6">

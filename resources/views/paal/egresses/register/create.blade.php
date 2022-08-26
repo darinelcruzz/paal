@@ -37,6 +37,16 @@
 
                     <div class="row">
                         <div class="col-md-6">
+                            {!! Field::select('category_id', $categories, 8, ['tpl' => 'withicon', 'empty' => 'Seleccione una opción', 'disabled'], ['icon' => 'project-diagram']) !!}
+                            <input type="hidden" name="category_id" value="8">
+                        </div>
+                        <div class="col-md-6">
+                            {!! Field::select('group_id', $groups, null, ['tpl' => 'withicon', 'empty' => 'Seleccione una opción'], ['icon' => 'object-ungroup']) !!}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
                             {!! Field::number('subtotal', 0, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0', 'v-model.number' => 'ingress_total'], ['icon' => 'usd']) !!}
                         </div>
                         <div class="col-md-6">
@@ -55,8 +65,8 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            {!! Field::number('amount', 0, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0', 'v-bind:value' => 'ingress_total - payment_total - retainer', 'disabled'], ['icon' => 'money']) !!}
-                            <input name="amount" type="hidden" :value="ingress_total - payment_total - retainer">
+                            {!! Field::number('amount', 0, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0', 'v-bind:value' => 'ingress_total - payment_total + retainer', 'disabled'], ['icon' => 'money']) !!}
+                            <input name="amount" type="hidden" :value="ingress_total - payment_total + retainer">
                         </div>
                     </div>
 

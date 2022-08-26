@@ -19,6 +19,16 @@
 
                     <div class="row">
                         <div class="col-md-6">
+                            {!! Field::select('category_id', $categories, 7, ['tpl' => 'withicon', 'empty' => 'Seleccione una opción', 'disabled'], ['icon' => 'project-diagram']) !!}
+                            <input type="hidden" name="category_id" value="7">
+                        </div>
+                        <div class="col-md-6">
+                            {!! Field::select('group_id', $groups, null, ['tpl' => 'withicon', 'empty' => 'Seleccione una opción'], ['icon' => 'object-ungroup']) !!}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
                             <label><b>Proveedor</b></label><br>
                             <v-select label="name" :options="providers.coffee.general" v-model="provider" placeholder="Seleccione un proveedor...">
                             </v-select>
@@ -49,8 +59,8 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            {!! Field::number('amount', 0, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0', 'v-bind:value' => 'ingress_total - payment_total - retainer', 'disabled'], ['icon' => 'money']) !!}
-                            <input name="amount" type="hidden" :value="ingress_total - payment_total - retainer">
+                            {!! Field::number('amount', 0, ['tpl' => 'withicon', 'step' => '0.01', 'min' => '0', 'v-bind:value' => 'ingress_total - payment_total + retainer', 'disabled'], ['icon' => 'money']) !!}
+                            <input name="amount" type="hidden" :value="ingress_total - payment_total + retainer">
                         </div>
                     </div>
 

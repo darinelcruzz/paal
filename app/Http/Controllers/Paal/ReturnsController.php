@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EgressRequest;
 use Illuminate\Support\Facades\Storage;
-use App\{User, Egress, Provider};
+use App\{User, Egress, Provider, Category};
 
 class ReturnsController extends Controller
 {
@@ -15,8 +15,10 @@ class ReturnsController extends Controller
         $provider = Provider::whereIn('company', ['coffee', 'both'])->where('group', 'rp')->first();
 
         $users = User::whereIn('id', [2, 4, 8])->pluck('name', 'id')->toArray();
+        $categories = Category::whereType('egresos')->pluck('name', 'id')->toArray();
+        $groups = Category::whereType('gastos')->pluck('name', 'id')->toArray();
 
-        return view('paal.egresses.returns.create', compact('provider', 'users'));
+        return view('paal.egresses.returns.create', compact('provider', 'users', 'categories', 'groups'));
     }
 
     function store(EgressRequest $request)
@@ -37,8 +39,10 @@ class ReturnsController extends Controller
     function make()
     {
         $provider = Provider::whereIn('company', ['coffee', 'both'])->where('group', 'ex')->first();
+        $categories = Category::whereType('egresos')->pluck('name', 'id')->toArray();
+        $groups = Category::whereType('gastos')->pluck('name', 'id')->toArray();
 
-        return view('paal.egresses.returns.make', compact('provider'));
+        return view('paal.egresses.returns.make', compact('provider', 'categories', 'groups'));
     }
 
     function save(EgressRequest $request)

@@ -92,7 +92,7 @@
                                 <th><small>IVA</small></th>
                                 <th><small>TOTAL</small></th>
                                 <th><small>VENTA</small></th>
-                                <th><small>EDICIONES</small></th>
+                                @if($status == 'terminada')<th><small>EDICIONES</small></th>@endif
                             </tr>
                         </thead>
 
@@ -152,6 +152,7 @@
                                             <small>{{ $quotation->sale ? 'VENTA': 'SIN VENTA' }}</small>
                                         </span>
                                     </td>
+                                    @if($status == 'terminada')
                                     <td style="text-align: center">
                                         @if ($quotation->editions_count)
                                             <code style="color: blue">{{ $quotation->editions_count }}</code>
@@ -159,6 +160,7 @@
                                             <code>0</code>
                                         @endif
                                     </td>
+                                    @endif
                                 </tr>
                             @endforeach
                     </tbody>

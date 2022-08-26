@@ -6,15 +6,17 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EgressRequest;
 use Illuminate\Support\Facades\Storage;
-use App\{Egress, Provider};
+use App\{Egress, Provider, Category};
 
 class GeneralEgressController extends Controller
 {
     function create()
     {
         $providers = Provider::general()->pluck('provider', 'id')->toArray();
+        $categories = Category::whereType('egresos')->pluck('name', 'id')->toArray();
+        $groups = Category::whereType('gastos')->pluck('name', 'id')->toArray();
 
-        return view('paal.egresses.general.create', compact('providers'));
+        return view('paal.egresses.general.create', compact('providers', 'categories', 'groups'));
     }
 
     function store(EgressRequest $request)
