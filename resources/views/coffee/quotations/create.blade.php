@@ -30,6 +30,7 @@
                                 <client-select model="quotation"></client-select>
                             </div>
                         </div>
+                        <hr>
                       </tab-content>
 
                       <tab-content title="Productos" icon="fa fa-tag">
@@ -53,7 +54,6 @@
                     </form-wizard>
 
                     <input type="hidden" name="company" value="coffee">
-                    <input type="hidden" name="status" value="pendiente">
                     <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
 
                 {!! Form::close() !!}

@@ -33,6 +33,8 @@
                   </div>
                   <input type="text" class="form-control pull-right" name="client_name">
                 </div>
+
+                <input type="hidden" name="status" value="terminada">
             </div>
 
             <div class="row">
@@ -68,6 +70,20 @@
             	</div>
             </div>
         	<hr>
+        </div>
+        <div v-else>
+        	<div class="form-group">
+	          <label>Tipo</label>
+	        	<div class="input-group date">
+	            <div class="input-group-addon">
+	              <i class="fa fa-question"></i>
+	            </div>
+	            <select name="status" class="form-control pull-right" required>
+	            	<option value="terminada" selected>Cerrada</option>
+	            	<option value="pendiente">Abierta</option>
+	            </select>
+	          </div>
+	        </div>
         </div>
         <input type="hidden" name="client_id" :value="client.id">
 	</div>

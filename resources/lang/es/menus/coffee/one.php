@@ -24,11 +24,11 @@ return [
             ],
             'campaigns' => [
                 'title' => 'Campañas',
-                'route' => ['coffee.quotation.index', 'terminada', 'campañas']
+                'route' => ['coffee.quotation.index', ['terminada', 'campañas']]
             ],
             'forms' => [
                 'title' => 'Formularios',
-                'route' => ['coffee.quotation.index', 'terminada', 'formularios']
+                'route' => ['coffee.quotation.index', ['terminada', 'formularios']]
             ]
         ]
     ],

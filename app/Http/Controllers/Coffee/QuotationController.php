@@ -19,7 +19,7 @@ class QuotationController extends Controller
         $vias = [];
 
         if ($type == 'campañas') {
-            $vias = Quotation::monthly('coffee', $date, $type)->where('status', $status)->get()->groupBy('via');
+            $vias = Quotation::monthly('coffee', $date, $type)->where('status', 'terminada')->get()->groupBy('via');
         }
 
         return view('coffee.quotations.index', compact('quotations', 'sales', 'total', 'date', 'type', 'color', 'vias', 'status'));
@@ -52,7 +52,7 @@ class QuotationController extends Controller
             return redirect(route('coffee.quotation.index', $request->client_id == 658 ? 'formularios': 'campañas'));
         }
 
-        return redirect(route('coffee.quotation.index', $request->status));
+        return redirect(route('coffee.quotation.index', $quotation->status));
     }
 
     function show(Quotation $quotation)

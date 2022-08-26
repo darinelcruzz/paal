@@ -217,5 +217,6 @@ return [
         'ish' => 'I.S.H',
         'category_id' => 'categoría',
         'group_id' => 'grupo',
+        'status' => 'estado',
     ],
 ];
