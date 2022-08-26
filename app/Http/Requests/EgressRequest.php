@@ -45,6 +45,8 @@ class EgressRequest extends FormRequest
             'retained_iva' => 'sometimes|required',
             'ish' => 'sometimes|required',
             'ieps' => 'sometimes|required',
+            'category_id' => 'required',
+            'group_id' => 'required',
         ];
     }
 

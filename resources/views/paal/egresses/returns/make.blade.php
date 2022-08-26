@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-8">
             <solid-box title="AGREGAR {{ $provider->name }}" color="primary" button>
-                {!! Form::open(['method' => 'POST', 'route' => 'coffee.egress.return.store', 'enctype' => 'multipart/form-data']) !!}
+                {!! Form::open(['method' => 'POST', 'route' => 'paal.egress.return.store', 'enctype' => 'multipart/form-data']) !!}
 
                     <div class="row">
                         <div class="col-md-6">
