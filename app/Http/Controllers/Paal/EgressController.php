@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Paal;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\EgressRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
-use App\{Egress, Provider, Check};
+use App\{Egress, Provider, Check, Category, User};
 use Response;
 
 class EgressController extends Controller
@@ -27,6 +28,40 @@ class EgressController extends Controller
         });
 
         return view('paal.egresses.index', compact('egresses', 'date', 'checks', 'checkssum'));
+    }
+
+    function create()
+    {
+        $users = User::whereIn('id', [2, 7])->pluck('name', 'id')->toArray();
+        $providers = Provider::general()->pluck('provider', 'id')->toArray();
+        $categories = Category::whereType('egresos')->where('name', '!=', 'CAJA CHICA')->pluck('name', 'id')->toArray();
+        $groups = Category::whereType('gastos')->pluck('name', 'id')->toArray();
+
+        return view('paal.egresses.create', compact('users', 'providers', 'categories', 'groups'));
+    }
+
+    function store(EgressRequest $request)
+    {
+        $provider = Provider::find($request->provider_id);
+
+        $is_allowed = $provider->checkAmountAndInvoices();
+
+        if($is_allowed[0]) {
+            return redirect()->back()->with('message', $is_allowed[1]);
+        }
+
+        $expiration = strtotime($request->emission) + ($request->expiration * 24 * 60 * 60);
+
+        $egress = Egress::create($request->except(['pdf_bill', 'xml', 'pdf_complement', 'complement', 'expiration']));
+
+        $egress->update([
+            'pdf_bill' => saveCoffeeFile($request->file("pdf_bill")),
+            'pdf_complement' => saveCoffeeFile($request->file("pdf_complement"), 'complements'),
+            'xml' => saveCoffeeFile($request->file("xml")),
+            'expiration' => date('Y-m-d', $expiration),
+        ]);
+
+        return redirect(route('paal.egress.index'));
     }
 
     function pay(Egress $egress)

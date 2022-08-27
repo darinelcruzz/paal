@@ -11,41 +11,24 @@ return [
     'ingresses' => [
         'title' => 'Ingresos',
         'icon' => 'fa fa-shopping-cart',
-        'submenu' => [
-            'daily' => [
-                'title' => 'Corte diario',
-                'route' => ['paal.ingress.daily', ['coffee', 'factura']]
-            ],
-            'index' => [
-                'title' => 'Historial',
-                'route' => 'paal.ingress.index'
-            ]
-        ]
+        'route' => 'paal.ingress.index',
     ],
 
     'egresses' => [
         'title' => 'Egresos',
         'icon' => 'fa fa-share',
         'submenu' => [
+            'general' => [
+                'title' => 'Nuevo',
+                'route' => 'paal.egress.create'
+            ],
             'index' => [
                 'title' => 'Historial',
-                'route' => ['paal.egress.index', 'pagado']
-            ],
-            'general' => [
-                'title' => 'Generales',
-                'route' => 'paal.egress.general.create'
+                'route' => 'paal.egress.index'
             ],
             'cashier' => [
                 'title' => 'Caja Chica',
                 'route' => 'paal.egress.register.index'
-            ],
-            'returns' => [
-                'title' => 'Reposiciones',
-                'route' => 'paal.egress.return.create'
-            ],
-            'extra' => [
-                'title' => 'Gastos extra',
-                'route' => 'paal.egress.return.make'
             ],
         ]
     ],

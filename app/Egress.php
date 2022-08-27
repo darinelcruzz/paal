@@ -14,6 +14,16 @@ class Egress extends Model
         return $this->belongsTo(Provider::class);
     }
 
+    function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    function group()
+    {
+        return $this->belongsTo(Category::class, 'group_id');
+    }
+
     function check()
     {
         return $this->belongsTo(Check::class);

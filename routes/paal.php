@@ -28,20 +28,6 @@ Route::group(['prefix' => 'paal', 'as' => 'paal.'], function () {
 
 	Route::group(['prefix' => 'egresos', 'as' => 'egress.'], function () {
 
-	    Route::group(['prefix' => 'general', 'as' => 'general.'], function () {
-		    $ctrl = 'Paal\GeneralEgressController';
-		    Route::get('agregar', usesas($ctrl, 'create'));
-		    Route::post('agregar', usesas($ctrl, 'store'));
-		});
-
-		Route::group(['prefix' => 'reposiciones', 'as' => 'return.'], function () {
-		    $ctrl = 'Paal\ReturnsController';
-		    Route::get('agregar', usesas($ctrl, 'create'));
-		    Route::post('agregar', usesas($ctrl, 'store'));
-		    Route::get('gasto-extra', usesas($ctrl, 'make'));
-		    Route::post('gasto-extra', usesas($ctrl, 'save'));
-		});
-
 		Route::group(['prefix' => 'caja-chica', 'as' => 'register.'], function () {
 		    $ctrl = 'Paal\CashRegisterController';
 		    Route::get('agregar/{check}', usesas($ctrl, 'create'));
@@ -50,6 +36,8 @@ Route::group(['prefix' => 'paal', 'as' => 'paal.'], function () {
 		});
 	    
 	    $ctrl = 'Paal\EgressController';
+	    Route::get('agregar', usesas($ctrl, 'create'));
+		Route::post('agregar', usesas($ctrl, 'store'));
 	    Route::get('pagar/{egress}', usesas($ctrl, 'pay'));
 	    Route::post('pagar/{egress}', usesas($ctrl, 'charge'));
 	    Route::get('reemplazar/{egress}', usesas($ctrl, 'replace'));

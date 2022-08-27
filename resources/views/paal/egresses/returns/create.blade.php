@@ -5,7 +5,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-8">
-            <solid-box title="AGREGAR {{ $provider->name }}" color="primary" button>
+            <solid-box title="NUEVO INGRESO" color="primary" button>
                 {!! Form::open(['method' => 'POST', 'route' => 'paal.egress.return.store', 'enctype' => 'multipart/form-data']) !!}
 
                     <div class="row">
