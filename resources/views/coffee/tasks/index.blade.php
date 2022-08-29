@@ -74,10 +74,10 @@
                                     <td>{{ $task->description }}</td>
                                     <td>{{ $task->tasker->name }}</td>
                                     <td style="{{ !$task->completed_at ? 'color: black;': ($task->onTime ? 'color: green;': 'color:red;') }}">
-                                        {{ fdate($task->assigned_at, 'd \d\e F', 'Y-m-d') }}
+                                        {{ $task->assigned_at ? date('d/m/y', strtotime($task->assigned_at)): '' }}
                                     </td>
                                     <td style="{{ $task->onTime ? 'color: green;': 'color:red;' }}">
-                                        {{ fdate($task->completed_at, 'd \d\e F', 'Y-m-d') }}
+                                        {{ $task->completed_at ? date('d/m/y', strtotime($task->completed_at)): '' }}
                                     </td>
                                     <td>
                                         <label class="label label-{{ $task->status_color }}">
@@ -152,10 +152,10 @@
                                             <td>{{ $task->description }}</td>
                                             <td>{{ $task->tasker->name }}</td>
                                             <td style="{{ !$task->completed_at ? 'color: black;': ($task->onTime ? 'color: green;': 'color:red;') }}">
-                                                {{ fdate($task->assigned_at, 'd \d\e F', 'Y-m-d') }}
+                                                {{ $task->assigned_at ? date('d/m/y', strtotime($task->assigned_at)): '' }}
                                             </td>
                                             <td style="{{ $task->onTime ? 'color: green;': 'color:red;' }}">
-                                                {{ fdate($task->completed_at, 'd \d\e F', 'Y-m-d') }}
+                                                {{ $task->completed_at ? date('d/m/y', strtotime($task->completed_at)): '' }}
                                             </td>
                                             <td>
                                                 <label class="label label-{{ $task->status_color }}">

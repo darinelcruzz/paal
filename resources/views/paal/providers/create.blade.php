@@ -79,7 +79,7 @@
                     <div v-if="provider_form.deductible == '1'" class="row">
                         <div class="col-md-6">
                             {!! Field::select('type',
-                                ['cv' => 'Costo/Venta', 'gg' => 'Gastos generales'], null,
+                                ['cv' => 'Costo/Venta', 'gg' => 'Gastos generales', 'rf' => 'Refacciones'], null,
                                 ['empty' => 'Seleccione tipo', 'tpl' => 'withicon'], ['icon' => 'object-ungroup'])
                             !!}
                         </div>

@@ -65,6 +65,23 @@ class Egress extends Model
         return "<span class=\"label label-{$colors[$this->status]}\">" . ucfirst($this->status) . "</span>";
     }
 
+    function getCategoryColorAttribute()
+    {
+        $colors = ['G. GENERALES' => 'success', 'REPOSICIONES' => 'warning', 'GASTOS EXTRA' => 'primary', 'CAJA CHICA' => 'danger'];
+
+        return $colors[$this->category->name ?? 'default'] ?? 'NOHAY';
+    }
+
+    function getGroupColorAttribute()
+    {
+        $colors = [
+            'IEPS' => 'default', 'ISH' => 'default', 'COSTO VENTA' => 'success', 'GASTOS FIJOS' => 'warning', 'GASTOS VARIABLES' => 'primary', 
+            'GASTOS INTERNACIONALES' => 'danger', 'CRÉDITO' => 'info'
+        ];
+
+        return $colors[$this->group->name ?? 'defaultt'] ?? 'NOHAY';
+    }
+
     function getReturnNameAttribute()
     {
         $names = ['EXTRA', 'TRASPASO', 'HÉCTOR'];

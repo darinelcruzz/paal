@@ -21,13 +21,13 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             {!! Field::select('category', $categories, null, 
                                 ['tpl' => 'withicon', 'empty' => 'Elija categoría', 'v-model' => 'provider'], 
                                 ['icon' => 'tag']) 
                             !!}  
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             @foreach($categories as $category => $some)
                             <div v-if="provider == '{{ $category }}'" class="form-group">
                                 <label for="familym" class="control-label"><b>Familia</b></label>
@@ -42,6 +42,12 @@
                                 </div>
                             </div>
                             @endforeach
+                        </div>
+                        <div class="col-md-4">
+                            {!! Field::select('type', ['EQUIPO' => 'EQUIPO', 'NO EQUIPO' => 'NO EQUIPO'], null, 
+                                ['tpl' => 'withicon', 'empty' => 'Elija tipo'], 
+                                ['icon' => 'cube']) 
+                            !!}  
                         </div>
                     </div>
                     

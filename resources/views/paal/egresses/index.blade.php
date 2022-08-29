@@ -16,6 +16,21 @@
                             </div>
                         {!! Form::close() !!}
                     </div>
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-success btn-flat btn-block">
+                            PAGADO | {{ number_format($egresses->sum(function ($egress) { return $egress->status == 'pagado' ? $egress->amount: 0;}) + $checks->sum('total'), 2) }}
+                        </button>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-warning btn-flat btn-block">
+                            PENDIENTE | {{ number_format($egresses->sum(function ($egress) { return $egress->status == 'pendiente' ? $egress->amount: 0;}), 2) }}
+                        </button>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-danger btn-flat btn-block">
+                            VENCIDO | {{ number_format($egresses->sum(function ($egress) { return $egress->status == 'vencido' ? $egress->amount: 0;}), 2) }}
+                        </button>
+                    </div>
                 </div>
 
             <br>
@@ -31,18 +46,18 @@
                                 </tr>
                                 <tr>
                                     <th style="width: 5%;"><small>ID</small></th>
+                                    <th style="width: 5%;"><i class="fa fa-cogs"></i></th>
                                     <th style="width: 10%;"><small>EMISIÓN</small></th>
                                     <th style="width: 10%;"><small>VENCIMIENTO</small></th>
-                                    <th style="width: 5%;"><i class="fa fa-cogs"></i></th>
-                                    <th style="width: 10%;"><small>FOLIO</small></th>
+                                    <th style="width: 5%;"><small>FOLIO</small></th>
+                                    <th><small>PROVEEDOR</small></th>
                                     <th style="width: 8%;"><small>CLASE</small></th>
                                     <th style="width: 8%;"><small>GRUPO</small></th>
                                     <th style="width: 8%;"><small>TIPO</small></th>
-                                    <th style="width: 8%;"><small>ESTADO</small></th>
-                                    <th><small>PROVEEDOR</small></th>
-                                    <th style="text-align: right;"><small>%</small></th>
-                                    <th style="text-align: right;"><small>MONTO</small></th>
-                                    <th style="text-align: right;"><small>IMPORTE</small></th>
+                                    <th style="width: 5%;"><small>ESTADO</small></th>
+                                    <th style="text-align: right;width: 5%;"><small>%</small></th>
+                                    <th style="text-align: right;width: 8%;"><small>MONTO</small></th>
+                                    <th style="text-align: right;width: 10%;"><small>IMPORTE</small></th>
                                 </tr>
                             </thead>
 
@@ -50,14 +65,14 @@
                             @foreach($checks as $check)
                                 <tr>
                                     <td><small>{{ $check->id }}</small></td>
-                                    <td><small>{{ strtoupper(fdate($check->charged_at, 'd M Y', 'Y-m-d')) }}</small></td>
-                                    <td><small>{{ strtoupper(fdate($check->charged_at, 'd M Y', 'Y-m-d')) }}</small></td>
                                     <td>
                                         <dropdown color="success" icon="cogs">
                                             <ddi to="{{ Storage::url($check->pdf) }}" icon="file-pdf" text="Ver factura" target="_blank"></ddi>
                                             <ddi to="{{ route('paal.check.show', $check) }}" icon="eye" text="Detalles"></ddi>
                                         </dropdown>
                                     </td>
+                                    <td><small>{{ strtoupper(fdate($check->charged_at, 'd M Y', 'Y-m-d')) }}</small></td>
+                                    <td><small>{{ strtoupper(fdate($check->charged_at, 'd M Y', 'Y-m-d')) }}</small></td>
                                     <td>CH {{ $check->folio }}</td>
                                     <td>CHEQUE</td>
                                     <td>
@@ -81,14 +96,26 @@
                             @foreach($egresses as $egress)
                                 <tr>
                                     <td><small>{{ $egress->id }}</small></td>
-                                    <td><small>{{ strtoupper(fdate($egress->emission, 'd M Y', 'Y-m-d')) }}</small></td>
-                                    <td><small>{{ strtoupper(fdate($egress->expiration, 'd M Y', 'Y-m-d')) }}</small></td>
                                     <td>
                                         @include('paal.egresses._dropdown', ['color' => 'primary'])
                                     </td>
+                                    <td><small>{{ strtoupper(fdate($egress->emission, 'd M Y', 'Y-m-d')) }}</small></td>
+                                    <td><small>{{ strtoupper(fdate($egress->expiration, 'd M Y', 'Y-m-d')) }}</small></td>
                                     <td>{{ $egress->folio }}</td>
-                                    <td><small>{{ $egress->category->name ?? '...' }}</small></td>
-                                    <td><small>{{ $egress->group->name ?? '...' }}</small></td>
+                                    <td>
+                                        {{ $egress->provider_name ?? $egress->provider->name }}
+                                        <code>{{ $egress->provider->rfc }}</code>
+                                    </td>
+                                    <td>
+                                        <span class="label label-{{ $egress->categoryColor }}">
+                                            <small>{{ $egress->category->name ?? '...' }}</small>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="label label-{{ $egress->groupColor }}">
+                                            <small>{{ $egress->group->name ?? '...' }}</small>
+                                        </span>
+                                    </td>
                                     <td style="text-align: center;">
                                         @if($egress->type)
                                             <span class="label label-{{ $egress->type == 'no equipo' ? 'info': ($egress->type == 'publicidad' ? 'default' :'primary') }}">
@@ -102,10 +129,6 @@
                                     </td>
                                     <td style="text-align: center;">
                                         <span class="label label-{{ $egress->status == 'pagado' ? 'success' : ($egress->status == 'pendiente' ? 'warning': 'danger') }}"><small>{{ strtoupper($egress->status) }}</small></span>
-                                    </td>
-                                    <td>
-                                        {{ $egress->provider_name ?? $egress->provider->name }}
-                                        <code>{{ $egress->provider->rfc }}</code>
                                     </td>
                                     <td style="text-align: center;">
                                         @if($egress->iva_type)
@@ -125,29 +148,6 @@
                                 </tr>
                             @endforeach
                             </tbody>
-
-                            <tfoot>
-                                <tr>
-                                    <th colspan="10"></th>
-                                    <th style="text-align: right;"><span class="label label-danger"><small>VENCIDO</small></span></th>
-                                    <th style="text-align: right;">{{ number_format($egresses->sum(function ($egress) { return $egress->status == 'vencido' ? $egress->amount: 0;}), 2) }}</th>
-                                </tr>
-                                <tr>
-                                    <th colspan="10"></th>
-                                    <th style="text-align: right;"><span class="label label-warning"><small>PENDIENTE</small></span></th>
-                                    <th style="text-align: right;">{{ number_format($egresses->sum(function ($egress) { return $egress->status == 'pendiente' ? $egress->amount: 0;}), 2) }}</th>
-                                </tr>
-                                <tr>
-                                    <th colspan="10"></th>
-                                    <th style="text-align: right;"><span class="label label-success"><small>PAGADO</small></span></th>
-                                    <th style="text-align: right;">{{ number_format($egresses->sum(function ($egress) { return $egress->status == 'pagado' ? $egress->amount: 0;}) + $checks->sum('total'), 2) }}</th>
-                                </tr>
-                                <tr>
-                                    <th colspan="10"></th>
-                                    <th style="text-align: right;"><small>TOTAL</small></th>
-                                    <th style="text-align: right;">{{ number_format($egresses->sum('amount') + $checks->sum('total'), 2) }}</th>
-                                </tr>
-                            </tfoot>
                         </table>
                     </div>
 

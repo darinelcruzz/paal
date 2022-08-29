@@ -32,6 +32,15 @@
 
                     <div class="row">
                         <div class="col-md-6">
+                            {!! Field::select('type', ['EQUIPO' => 'EQUIPO', 'NO EQUIPO' => 'NO EQUIPO'], $product->type, 
+                                ['tpl' => 'withicon', 'empty' => 'Elija tipo'], 
+                                ['icon' => 'cube']) 
+                            !!}  
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
                             {!! Field::select('dollars', ['0' => 'No', '1' => 'Sí'], $product->dollars, ['label' => '¿Precio en dólares?', 'tpl' => 'withicon', 'empty' => 'Elegir'], ['icon' => 'comment-dollar']) !!}
                         </div>
                         <div class="col-md-6">
