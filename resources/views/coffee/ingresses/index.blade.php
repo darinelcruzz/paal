@@ -33,6 +33,7 @@
                             <th style="text-align: center;"><i class="fa fa-cogs"></i></th>
                             <th><small>FECHA</small></th>
                             <th><small>CLIENTE</small></th>
+                            <th style="text-align: center;width: 5%;"><small>CFDI</small></th>
                             <th style="text-align: center;width: 5%;"><small>TIPO</small></th>
                             <th style="text-align: center;width: 5%;"><small>REFERENCIA</small></th>
                             <th style="text-align: right;"><small>SUBTOTAL</small></th>
@@ -68,13 +69,14 @@
                                                 <i class="fa fa-eye" aria-hidden="true"></i> Detalles
                                             </a>
                                         </li>
-                                        {{-- @if($ingress->type != 'anticipo')
-                                        @endif --}}
                                         <li>
                                             <a href="{{ route('coffee.ingress.ticket', $ingress) }}" target="_blank">
                                                 <i class="fa fa-print" aria-hidden="true"></i> Imprimir
                                             </a>
                                         </li>
+                                        @if(auth()->user()->level < 3)
+                                            <ddi to="{{ route('coffee.payment.edit', $ingress) }}" icon="edit" text="Editar"></ddi>                                        
+                                        @endif
                                         @if ($ingress->status != 'cancelado')
                                             <li>
                                                 <a class="deleteThisObject" idInstance="{{ $ingress->id }}" route="ingresos">
@@ -91,6 +93,11 @@
                                     </a>
                                     @if($ingress->quotation)
                                     <span class="{{ $ingress->quotation->internet_type == '' ? '': 'badge bg-aqua' }} pull-right"><em>{{ $ingress->quotation->internet_type }}</em></span>
+                                    @endif
+                                </td>
+                                <td style="text-align: center;">
+                                    @if($ingress->invoice != 'no')
+                                    <label class="label label-default"><small>{{ $ingress->invoice }}</small></label>
                                     @endif
                                 </td>
                                 <td style="text-align: center;">
@@ -128,11 +135,6 @@
 
             <modal :title="model.folio ?? ''" color="warning" id="ingress-modal">
                 <movements :model="model"></movements>
-                @if(auth()->user()->level < 3)
-                <template slot="footer">
-                    <a :href="'/cocinaspaal/pagos/editar/' + model.id" class="btn btn-warning pull-right btn-sm">Editar pago</button>
-                </template>
-                @endif
             </modal>
         </div>
     </div>

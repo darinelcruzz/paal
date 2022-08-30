@@ -5,12 +5,27 @@
 @section('content')
     <div class="row">
         <div class="col-md-6">
-            <solid-box title="Editar pago (total: {{ number_format($total, 2) }})" color="warning">
+            <solid-box title="Editar venta de {{ $ingress->client->name}} ({{ $ingress->folio }})" color="warning">
                 {!! Form::open(['method' => 'POST', 'route' => ['coffee.payment.update', $payment]]) !!}
+
+                    <h5>VENTA</h5>
+                    <hr>
 
                     <div class="row">
                         <div class="col-md-12">
-                            <payment-methods :amount="{{ $total }}" :payment="{{ $payment }}"></payment-methods>
+                            {!! Field::select('invoice', ['no' => 'No require factura', 'G01' => 'G01 Adquisición de mercancías', 'G03' => 'G03 Gastos en general', 'P01' => 'P01 Por definir', 'otro' => 'Otro'], $ingress->invoice,
+                                ['label' => 'Uso de CFDI', 'tpl' => 'withicon', 'empty' => 'Elegir uso de CFDI'],
+                                ['icon' => 'file-invoice'])
+                            !!}
+                        </div>
+                    </div>
+
+                    <h5>PAGO</h5>
+                    <hr>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <payment-methods :amount="{{ $ingress->amount }}" :payment="{{ $payment }}"></payment-methods>
                         </div>
                     </div>
 

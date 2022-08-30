@@ -43,8 +43,7 @@ class PaymentController extends Controller
     function edit(Ingress $ingress)
     {
         $payment = $ingress->payments->first();
-        $total = $ingress->amount;
-        return view('coffee.payments.edit', compact('payment', 'total'));
+        return view('coffee.payments.edit', compact('ingress', 'payment'));
     }
 
     function update(Request $request, Payment $payment)
@@ -62,7 +61,7 @@ class PaymentController extends Controller
 
         $payment->update($attributes);
 
-        $payment->ingress->update(['method' => $payment->ingress->pay_method]);
+        $payment->ingress->update(['method' => $payment->ingress->pay_method, 'invoice' => $request->invoice]);
 
         return redirect(route('coffee.ingress.index'));
     }
