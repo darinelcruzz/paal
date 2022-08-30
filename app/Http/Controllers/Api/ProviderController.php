@@ -10,8 +10,7 @@ class ProviderController extends Controller
 {
     function index($company, $group)
     {
-        return Provider::whereIn('company', [$company, 'both'])
-        	->where('group', $group)
+        return Provider::whereIn('company', [$company, 'both', 'sanson', 'mbe'])
         	->get(['id', 'name', 'xml_required', 'type']);
     }
 }
