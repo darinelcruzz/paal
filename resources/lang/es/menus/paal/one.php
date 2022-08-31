@@ -39,11 +39,11 @@ return [
         'submenu' => [
             'iva' => [
                 'title' => 'I.V.A.',
-                'route' => ['paal.financial-flow.index', 'iva']
+                'route' => 'paal.financial-flow.iva',
             ],
             'subtotal' => [
                 'title' => 'Subtotal',
-                'route' => ['paal.financial-flow.index', 'subtotal']
+                'route' => 'paal.financial-flow.subtotal',
             ]
         ]
     ],

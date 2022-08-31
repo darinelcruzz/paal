@@ -23,7 +23,8 @@ Route::group(['prefix' => 'paal', 'as' => 'paal.'], function () {
 
 	Route::group(['prefix' => 'flujos-financieros', 'as' => 'financial-flow.'], function () {
 	    $ctrl = 'FinancialFlowController';
-	    Route::get('/{type}', usesas($ctrl, 'index'));
+	    Route::get('iva', usesas($ctrl, 'iva'));
+	    Route::get('subtotal', usesas($ctrl, 'subtotal'));
 	});
 
 	Route::group(['prefix' => 'egresos', 'as' => 'egress.'], function () {
