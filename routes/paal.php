@@ -51,6 +51,15 @@ Route::group(['prefix' => 'paal', 'as' => 'paal.'], function () {
 	    Route::post('/{status?}/{date?}', usesas($ctrl, 'index'));
 	});
 
+	Route::group(['prefix' => 'cheques', 'as' => 'check.'], function () {
+	    $ctrl = 'Paal\CheckController';
+	    Route::get('agregar', usesas($ctrl, 'create'));
+	    Route::post('agregar', usesas($ctrl, 'store'));
+	    Route::get('editar/{check}', usesas($ctrl, 'edit'));
+	    Route::post('editar/{check}', usesas($ctrl, 'update'));
+	    Route::get('{check}', usesas($ctrl, 'show'));
+	});
+
 	Route::group(['prefix' => 'ingresos', 'as' => 'ingress.'], function () {
 	    $ctrl = 'Paal\AdminController';
 	    Route::get('mensual/{company}', usesas($ctrl, 'monthly'));

@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-4">
             <solid-box title="Agregar cheque" color="primary" button>
-                {!! Form::open(['method' => 'POST', 'route' => 'coffee.check.store', 'enctype' => 'multipart/form-data']) !!}
+                {!! Form::open(['method' => 'POST', 'route' => 'paal.check.store', 'enctype' => 'multipart/form-data']) !!}
 
                     {!! Field::number('folio', $last_folio + 1, 
                         ['tpl' => 'withicon'], 
@@ -50,8 +50,8 @@
                                     <dropdown color="primary" icon="cogs">
                                         <ddi to="{{ route('paal.egress.register.create', $check) }}" icon="plus" text="Agregar factura"></ddi>
                                         <ddi to="{{ Storage::url($check->pdf) }}" icon="file-pdf" text="PDF" target="_blank"></ddi>
-                                        <ddi to="{{ route('coffee.check.show', $check) }}" icon="eye" text="Detalles"></ddi>
-                                        <ddi to="{{ route('coffee.check.edit', $check) }}" icon="edit" text="Editar"></ddi>
+                                        <ddi to="{{ route('paal.check.show', $check) }}" icon="eye" text="Detalles"></ddi>
+                                        <ddi to="{{ route('paal.check.edit', $check) }}" icon="edit" text="Editar"></ddi>
                                     </dropdown>
                                 </td>
                                 <td style="width: 10%; text-align: center;">{{ $check->folio }}</td>

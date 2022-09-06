@@ -66,7 +66,7 @@
                                 <tr>
                                     <td><small>{{ $check->id }}</small></td>
                                     <td>
-                                        <dropdown color="success" icon="cogs">
+                                        <dropdown color="primary" icon="cogs">
                                             <ddi to="{{ Storage::url($check->pdf) }}" icon="file-pdf" text="Ver factura" target="_blank"></ddi>
                                             <ddi to="{{ route('paal.check.show', $check) }}" icon="eye" text="Detalles"></ddi>
                                         </dropdown>
@@ -78,11 +78,11 @@
                                     <td>
                                         <span class="label label-success"><small>PAGADO</small></span>
                                     </td>
-                                    <td>{{ $check->egress->category->name }}</td>
-                                    <td>{{ $check->egress->group->name }}</td>
+                                    <td>{{ $check->egress->category->name ?? 'N/A' }}</td>
+                                    <td>{{ $check->egress->group->name ?? 'N/A' }}</td>
                                     <td>CAJA CHICA</td>
                                     <td style="text-align: center;">
-                                        @if($check->egress->iva_type)
+                                        @if($check->egress->iva_type ?? false)
                                             <span class="label label-default">{{ $egress->iva_type }}</span>
                                         @else
                                             <code>N/A</code>

@@ -58,15 +58,6 @@ Route::group(['prefix' => 'cocinaspaal', 'as' => 'coffee.'], function () {
 	    Route::post('/{status?}/{date?}', usesas($ctrl, 'index'));
 	});
 
-	Route::group(['prefix' => 'cheques', 'as' => 'check.'], function () {
-	    $ctrl = 'Coffee\CheckController';
-	    Route::get('agregar', usesas($ctrl, 'create'));
-	    Route::post('agregar', usesas($ctrl, 'store'));
-	    Route::get('editar/{check}', usesas($ctrl, 'edit'));
-	    Route::post('editar/{check}', usesas($ctrl, 'update'));
-	    Route::get('{check}', usesas($ctrl, 'show'));
-	});
-
 	Route::group(['prefix' => 'ingresos', 'as' => 'ingress.'], function () {
 	    $ctrl = 'Coffee\IngressController';
 	    Route::get('/', usesas($ctrl, 'index'));
