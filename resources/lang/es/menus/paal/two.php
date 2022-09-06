@@ -20,18 +20,6 @@ return [
         'route' => ['paal.ingress.daily', ['coffee', 'factura']]
     ],
 
-    'clients' => [
-        'title' => 'Clientes',
-        'icon' => 'fa fa-user',
-        'route' => 'paal.client.index'
-    ],
-
-    // 'reports' => [
-    //     'title' => 'Reportes',
-    //     'icon' => 'fa fa-bar-chart',
-    //     'route' => 'paal.report.index'
-    // ],
-
     'logout' => [
         'title' => 'Salir',
         'icon' => 'fa fa-door-open',

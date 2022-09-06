@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-5">
             <solid-box title="Agregar cheque" color="primary" button>
                 {!! Form::open(['method' => 'POST', 'route' => 'paal.check.store', 'enctype' => 'multipart/form-data']) !!}
 
@@ -28,7 +28,7 @@
             </solid-box>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-7">
             <solid-box title="Cheques" color="primary" button>
                 
                 <table class="table table-striped table-bordered table-hover table-condensed spanish-simple">
@@ -36,8 +36,9 @@
                         <tr>
                             <th style="width: 25%;">F. Pago</th>
                             <th style="width: 5%;"><i class="fa fa-cogs"></i></th>
-                            <th style="width: 10%; text-align: center;">Folio</th>
+                            <th style="width: 5%; text-align: center;">Folio</th>
                             <th style="width: 5%;">Facturas</th>
+                            <th style="width: 25%; text-align: center;">Origen</th>
                             <th style="text-align: right;">Total</th>
                         </tr>
                     </thead>
@@ -56,6 +57,7 @@
                                 </td>
                                 <td style="width: 10%; text-align: center;">{{ $check->folio }}</td>
                                 <td style="text-align: center; width: 5%;">{{ $check->egresses->count() }}</td>
+                                <td style="text-align: center;"><label class="label label-{{ $check->company == 'coffee' ? 'warning': 'primary' }}">{{ $check->company == 'coffee' ? 'COCINAS': 'LOGÍSTICA' }}</label></td>
                                 <td style="text-align: right;">{{ number_format($check->total, 2) }}</td>
                             </tr>
                         @endforeach
