@@ -57491,12 +57491,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			if (this.product.is_summable) {
 				this.$root.$emit('update-family-count', [this.product.family, newVal - oldVal, this.iva]);
 			}
-			if (this.product.category != 'SERVICIOS' && this.product.category != 'EQUIPO') {
+			if (this.product.family != 'SERVICIOS' && this.product.category != 'EQUIPO') {
 				this.price = this.getPrice();
 			}
 		},
 		familycount: function familycount(val) {
-			if (this.product.category != 'SERVICIOS') {
+			if (this.product.family != 'SERVICIOS') {
 				this.price = this.getPrice();
 			}
 		},
@@ -57537,7 +57537,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		if (t.product.discount) {
 			t.discount.amount = t.product.discount;
 		}
-		t.custom_price = p.retail_price == 0 && p.dollars || p.category == 'SERVICIOS' || p.family == 'ESPECIAL' || p.category == 'ENVIOS';
+		t.custom_price = p.retail_price == 0 && p.dollars || p.family == 'SERVICIOS' || p.family == 'ESPECIAL' || p.category == 'ENVIOS';
 		t.price = t.getPrice();
 	}
 });
@@ -57644,7 +57644,7 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("td", { staticClass: "centered-field" }, [
-      _vm.product.category == "SERVICIOS" && _vm.product.family != "ESPECIAL"
+      _vm.product.family == "SERVICIOS" && _vm.product.family != "ESPECIAL"
         ? _c("div", [
             _vm._v("\n                1 "),
             _c("input", {

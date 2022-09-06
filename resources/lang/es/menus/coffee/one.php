@@ -36,15 +36,10 @@ return [
     'ingresses' => [
         'title' => 'Ventas',
         'icon' => 'fa fa-mug-hot',
-        // 'label' => soldProducts('coffee') > 0 ? soldProducts('coffee'): '',
         'submenu' => [
             'create' => [
                 'title' => 'Agregar',
                 'route' => 'coffee.ingress.create'
-            ],
-            'make' => [
-                'title' => 'Proyecto',
-                'route' => ['coffee.ingress.create', 'proyecto']
             ],
             'index' => [
                 'title' => 'Historial',

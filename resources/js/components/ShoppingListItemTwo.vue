@@ -28,7 +28,7 @@
 		</td>
 
 		<td class="centered-field">
-			<div v-if="product.category == 'SERVICIOS' && product.family != 'ESPECIAL'">
+			<div v-if="product.family == 'SERVICIOS' && product.family != 'ESPECIAL'">
                 1 <input type="hidden" :name="'items[' + index + '][quantity]'" :value="1">
             </div>
             <div v-else>
@@ -78,12 +78,12 @@
 	            if (this.product.is_summable) {
 	                this.$root.$emit('update-family-count', [this.product.family, newVal - oldVal, this.iva])
 	            }
-	            if (this.product.category != 'SERVICIOS' && this.product.category != 'EQUIPO') {
+	            if (this.product.family != 'SERVICIOS' && this.product.category != 'EQUIPO') {
 	                this.price = this.getPrice()
 	            }
 	        },
 	        familycount: function (val) {
-	            if (this.product.category != 'SERVICIOS') {
+	            if (this.product.family != 'SERVICIOS') {
 	                this.price = this.getPrice()
 	            }
 	        },
@@ -124,7 +124,7 @@
 			if (t.product.discount) {
 				t.discount.amount = t.product.discount
 			}
-			t.custom_price = (p.retail_price == 0 && p.dollars) || p.category == 'SERVICIOS' || p.family == 'ESPECIAL' || p.category == 'ENVIOS'
+			t.custom_price = (p.retail_price == 0 && p.dollars) || p.family == 'SERVICIOS' || p.family == 'ESPECIAL' || p.category == 'ENVIOS'
 			t.price = t.getPrice()
 		}
 	};
