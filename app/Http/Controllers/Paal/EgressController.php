@@ -15,11 +15,17 @@ class EgressController extends Controller
     {
         $date = $thisDate == null ? dateFromRequest('Y-m'): $thisDate;
 
-        $egresses = Egress::from($date, 'emission')
+        $egresses = Egress::whereYear('emission', substr($date, 0, 4))
+            ->whereMonth('emission', substr($date, 5, 7))
             ->where('check_id', null)
             ->orWhere(function ($query) {
                 $query->where('check_id', null)
                     ->where('status', '!=', 'pagado');
+            })
+            ->orWhere(function ($query) use ($date) {
+                $query->whereYear('payment_date', substr($date, 0, 4))
+                    ->whereMonth('payment_date', substr($date, 5, 7))
+                    ->where('check_id', null);
             })
             ->orderByDesc('id')
             ->get();
