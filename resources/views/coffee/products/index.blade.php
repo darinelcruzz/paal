@@ -65,7 +65,11 @@
                                 <td>{{ $product->code }}</td>
                                 <td><small>{{ $product->category }}</small></td>
                                 <td><small>{{ $product->family }}</small></td>
-                                <td><span class="label label-{{ $product->type == 'EQUIPO' ? 'warning': 'danger' }}">{{ $product->type }}</span></td>
+                                <td>
+                                    <span class="label label-{{ $product->type ? ($product->type == 'EQUIPO' ? 'danger': 'warning'): 'default' }}">
+                                        <small>{{ $product->type ?? 'SIN DEFINIR' }}</small>
+                                    </span>
+                                </td>
                                 <td style="text-align: right;">
                                     <small>{{ $product->dollars ? 'USD ': '' }}</small>{{ number_format($product->retail_price, 2) }}
                                 </td>

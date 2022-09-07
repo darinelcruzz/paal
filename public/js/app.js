@@ -59695,7 +59695,15 @@ var render = function() {
       _vm._v(" "),
       _vm.client.name == "CAMPAÑA" || _vm.client.name == "FORMULARIO"
         ? _c("div", [_vm._m(2), _vm._v(" "), _vm._m(3), _vm._v(" "), _c("hr")])
-        : _c("div", [_vm._m(4)]),
+        : _c("div", [
+            _vm.model != "sale"
+              ? _c("div", { staticClass: "form-group" }, [
+                  _c("label", [_vm._v("Tipo")]),
+                  _vm._v(" "),
+                  _vm._m(4)
+                ])
+              : _vm._e()
+          ]),
       _vm._v(" "),
       _c("input", {
         attrs: { type: "hidden", name: "client_id" },
@@ -59809,29 +59817,25 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c("label", [_vm._v("Tipo")]),
+    return _c("div", { staticClass: "input-group date" }, [
+      _c("div", { staticClass: "input-group-addon" }, [
+        _c("i", { staticClass: "fa fa-question" })
+      ]),
       _vm._v(" "),
-      _c("div", { staticClass: "input-group date" }, [
-        _c("div", { staticClass: "input-group-addon" }, [
-          _c("i", { staticClass: "fa fa-question" })
-        ]),
-        _vm._v(" "),
-        _c(
-          "select",
-          {
-            staticClass: "form-control pull-right",
-            attrs: { name: "status", required: "" }
-          },
-          [
-            _c("option", { attrs: { value: "terminada", selected: "" } }, [
-              _vm._v("Cerrada")
-            ]),
-            _vm._v(" "),
-            _c("option", { attrs: { value: "pendiente" } }, [_vm._v("Abierta")])
-          ]
-        )
-      ])
+      _c(
+        "select",
+        {
+          staticClass: "form-control pull-right",
+          attrs: { name: "status", required: "" }
+        },
+        [
+          _c("option", { attrs: { value: "terminada", selected: "" } }, [
+            _vm._v("Cerrada")
+          ]),
+          _vm._v(" "),
+          _c("option", { attrs: { value: "pendiente" } }, [_vm._v("Abierta")])
+        ]
+      )
     ])
   }
 ]

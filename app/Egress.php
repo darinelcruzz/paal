@@ -89,6 +89,11 @@ class Egress extends Model
         return $names[$this->returned_to];
     }
 
+    function getCustomCompanyAttribute()
+    {
+        return ['mbe' => 'logística', 'coffee' => 'cocinas'][$this->company] ?? 'paal';
+    }
+
     function scopeCompany($query, $company = 'coffee')
     {
         return $query->where('company', $company);

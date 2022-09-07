@@ -22,6 +22,7 @@ class TaskController extends Controller
             ->where('assigned_to', auth()->user()->id)
             ->whereMonth('assigned_at', substr($date, 5, 7))
             ->whereYear('assigned_at', substr($date, 0, 4))
+            ->orWhere('status', '!=', 'aceptada')
             ->with('user:id,name')
             ->get();
 
@@ -30,6 +31,7 @@ class TaskController extends Controller
             $tasks = Task::where('company', 'coffee')
                 ->whereMonth('assigned_at', substr($date, 5, 7))
                 ->whereYear('assigned_at', substr($date, 0, 4))
+                ->orWhere('status', '!=', 'aceptada')
                 ->with('user:id,name')
                 ->get();
         } else {
@@ -37,6 +39,7 @@ class TaskController extends Controller
                 ->where('assigned_by', auth()->user()->id)
                 ->whereMonth('assigned_at', substr($date, 5, 7))
                 ->whereYear('assigned_at', substr($date, 0, 4))
+                ->orWhere('status', '!=', 'aceptada')
                 ->with('user:id,name')
                 ->get();
         }

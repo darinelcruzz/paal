@@ -53,7 +53,7 @@
                                     <th><small>PROVEEDOR</small></th>
                                     <th style="width: 8%;"><small>CLASE</small></th>
                                     <th style="width: 8%;"><small>GRUPO</small></th>
-                                    <th style="width: 8%;"><small>TIPO</small></th>
+                                    <th style="width: 8%;"><small>EMPRESA</small></th>
                                     <th style="width: 5%;"><small>ESTADO</small></th>
                                     <th style="text-align: right;width: 5%;"><small>%</small></th>
                                     <th style="text-align: right;width: 8%;"><small>MONTO</small></th>
@@ -73,14 +73,24 @@
                                     </td>
                                     <td><small>{{ strtoupper(fdate($check->charged_at, 'd M Y', 'Y-m-d')) }}</small></td>
                                     <td><small>{{ strtoupper(fdate($check->charged_at, 'd M Y', 'Y-m-d')) }}</small></td>
-                                    <td>CH {{ $check->folio }}</td>
-                                    <td>CHEQUE</td>
+                                    <td>{{ $check->folio }}</td>
                                     <td>
-                                        <span class="label label-success"><small>PAGADO</small></span>
+                                        @foreach($check->egresses as $egress)
+                                        <small>{{ strtoupper($egress->provider->name) }}</small> @if($loop->last) <br> @endif
+                                        @endforeach
                                     </td>
-                                    <td>{{ $check->egress->category->name ?? 'N/A' }}</td>
+                                    <td>
+                                        <span class="label label-danger">
+                                            <small>CAJA CHICA</small>
+                                        </span>
+                                    </td>
                                     <td>{{ $check->egress->group->name ?? 'N/A' }}</td>
-                                    <td>CAJA CHICA</td>
+                                    <td>
+                                        <span class="label label-{{ $check->company == 'coffee' ? 'warning' : 'primary' }}">
+                                            {{ $check->company == 'coffee' ? 'COCINAS' : 'LOGÍSTICA' }}
+                                        </span>
+                                    </td>
+                                    <td><span class="label label-success"><small>PAGADO</small></span></td>
                                     <td style="text-align: center;">
                                         @if($check->egress->iva_type ?? false)
                                             <span class="label label-default">{{ $egress->iva_type }}</span>
@@ -118,7 +128,7 @@
                                     </td>
                                     <td style="text-align: center;">
                                         @if($egress->type)
-                                            <span class="label label-{{ $egress->type == 'no equipo' ? 'info': ($egress->type == 'publicidad' ? 'default' :'primary') }}">
+                                            <span class="label label-{{ $egress->type == 'varios' ? 'info': ($egress->type == 'publicidad' ? 'default' :'primary') }}">
                                                 <small>{{ strtoupper($egress->type) }}</small>
                                             </span>
                                         @elseif($egress->coffee > 0)

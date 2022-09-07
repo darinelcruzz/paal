@@ -72,7 +72,7 @@
         	<hr>
         </div>
         <div v-else>
-        	<div class="form-group">
+        	<div v-if="model != 'sale'" class="form-group">
 	          <label>Tipo</label>
 	        	<div class="input-group date">
 	            <div class="input-group-addon">
