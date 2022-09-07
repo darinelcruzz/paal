@@ -32,7 +32,7 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            {!! Field::select('type', ['EQUIPO' => 'EQUIPO', 'NO EQUIPO' => 'NO EQUIPO'], $product->type, 
+                            {!! Field::select('type', ['EQUIPO' => 'EQUIPO', 'VARIOS' => 'VARIOS'], $product->type, 
                                 ['tpl' => 'withicon', 'empty' => 'Elija tipo'], 
                                 ['icon' => 'cube']) 
                             !!}  

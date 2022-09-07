@@ -44,7 +44,7 @@
                             @endforeach
                         </div>
                         <div class="col-md-4">
-                            {!! Field::select('type', ['EQUIPO' => 'EQUIPO', 'NO EQUIPO' => 'NO EQUIPO'], null, 
+                            {!! Field::select('type', ['EQUIPO' => 'EQUIPO', 'VARIOS' => 'VARIOS'], null, 
                                 ['tpl' => 'withicon', 'empty' => 'Elija tipo'], 
                                 ['icon' => 'cube']) 
                             !!}  

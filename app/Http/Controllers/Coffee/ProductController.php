@@ -42,6 +42,7 @@ class ProductController extends Controller
             'dollars' => 'required',
             'is_variable' => 'required',
             'company' => 'required',
+            'type' => 'required',
         ]);
 
         $product = Product::create($attributes);
