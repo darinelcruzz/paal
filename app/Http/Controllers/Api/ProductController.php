@@ -51,7 +51,7 @@ class ProductController extends Controller
 
     function seriable($company, $keyword = '')
     {
-        return Product::whereCompany(strtoupper($company))
+        return Product::where('company', '!=', 'mbe')
             ->where(function ($query) use ($keyword) {
                 $query->where("description", "LIKE","%$keyword%")
                     ->orWhere("code", "LIKE", "%$keyword%")

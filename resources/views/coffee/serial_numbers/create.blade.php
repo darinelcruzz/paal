@@ -5,7 +5,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-6">
-            <solid-box title="Agregar número(s) de serie" color="danger">
+            <solid-box title="Agregar número(s) de serie" color="warning">
 
             {!! Form::open(['method' => 'POST', 'route' => 'coffee.serial_number.store']) !!}
 
@@ -22,7 +22,7 @@
 
                 <hr>
 
-                {!! Form::submit('AGREGAR', ['class' => 'btn btn-danger pull-right']) !!}
+                {!! Form::submit('AGREGAR', ['class' => 'btn btn-warning pull-right']) !!}
 
             {!! Form::close() !!}
 
@@ -30,8 +30,8 @@
         </div>
 
         <div class="col-md-6">
-            <solid-box title="Productos" color="danger">
-                <seriable-products color="danger" company="coffee"></seriable-products>
+            <solid-box title="Productos" color="warning">
+                <seriable-products color="warning" company="coffee"></seriable-products>
             </solid-box>
         </div>
     </div>
