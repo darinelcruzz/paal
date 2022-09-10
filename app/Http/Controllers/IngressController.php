@@ -3,34 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\{Ingress, Client, Payment, Product};
+use App\Ingress;
 
 class IngressController extends Controller
 {
-    function index($company = 'coffee')
+    function index(Request $request, $thisDate = null)
     {
-        $date = dateFromRequest('Y-m');
-        $ingresses = Ingress::monthly($date, $company)->get();
-        return view('paal.ingresses.index', compact('date', 'ingresses', 'company'));
-    }
+        $date = $thisDate == null ? dateFromRequest('Y-m'): $thisDate;
+        // dd($thisDate);
 
-    function show(Ingress $ingress)
-    {
-        return view('paal.ingresses.show', compact('ingress'));
-    }
+        $ingresses = Ingress::whereYear('bought_at', substr($date, 0, 4))
+            ->whereMonth('bought_at', substr($date, 5, 7))
+            ->with('payments')
+            ->get();
 
-    function edit(Ingress $ingress)
-    {
-        //
-    }
-
-    function update(Request $request, Ingress $ingress)
-    {
-        //
-    }
-
-    function destroy(Ingress $ingress)
-    {
-        //
+        return view('paal.ingresses.index', compact('date', 'ingresses'));
     }
 }

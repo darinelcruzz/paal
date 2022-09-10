@@ -70,22 +70,9 @@ Route::group(['prefix' => 'paal', 'as' => 'paal.'], function () {
 
 	Route::group(['prefix' => 'ingresos', 'as' => 'ingress.'], function () {
 	    $ctrl = 'IngressController';
-	    Route::get('/{company?}', usesas($ctrl, 'index'));
-	    Route::post('/{company?}', usesas($ctrl, 'index'));
-	    Route::get('pagar/{ingress}', usesas($ctrl, 'charge'));
-	    Route::post('pagar/{ingress}', usesas($ctrl, 'pay'));
-	    Route::post('imprimir', usesas($ctrl, 'print'));
-	    Route::post('cancelar', usesas($ctrl, 'destroy'));
-	    Route::get('{ingress}', usesas($ctrl, 'show'));
+	    Route::get('/{thisDate?}', usesas($ctrl, 'index'));
+	    Route::post('/', usesas($ctrl, 'index'));
 	});
-
-	// Route::group(['prefix' => 'reportes', 'as' => 'report.'], function () {
-	//     $ctrl = 'ReportController';
-	//     Route::get('/', usesas($ctrl, 'index'));
-	//     Route::post('pendientes', usesas($ctrl, 'pending'));
-	//     Route::post('pagadas', usesas($ctrl, 'paid'));
-	//     Route::post('proveedores', usesas($ctrl, 'providers'));
-	// });
 
 	Route::group(['prefix' => 'productos', 'as' => 'product.'], function () {
 	    $ctrl = 'ProductController';
