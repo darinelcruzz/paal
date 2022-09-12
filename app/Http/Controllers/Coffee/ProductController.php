@@ -45,14 +45,10 @@ class ProductController extends Controller
             'type' => 'required',
         ]);
 
-        $product = Product::create($attributes);
 
-        if ($product->iva == 1) {
-            $product->update([
-                'retail_price' => $product->retail_price * 1.16,
-                'wholesale_price' => $product->wholesale_price * 1.16,
-            ]);
-        }
+        $product = Product::create($attributes);
+        $wsp = $product->wholesale_price == 0 ? $product->retail_price: $product->wholesale_price;
+        $product->update(['wholesale_price' => $wsp]);
 
         return redirect(route('coffee.product.index'));
     }
@@ -87,7 +83,9 @@ class ProductController extends Controller
             'wholesale_price' => 'sometimes|required',
         ]);
 
-        $product->update($request->except('wholesale_price') + ['wholesale_price' => ($request->wholesale_price ?? $request->retail_price)]);
+        $wsp = $request->wholesale_price == 0 ? $request->retail_price: $request->wholesale_price;
+
+        $product->update($request->all() + ['wholesale_price' => $wsp]);
 
         return redirect(route('coffee.product.index'));
     }

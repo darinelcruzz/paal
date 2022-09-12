@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Coffee;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Ingress;
+use App\{Ingress, Movement};
 
 class SalesAnalysisController extends Controller
 {
@@ -28,7 +28,26 @@ class SalesAnalysisController extends Controller
             ->where('status', '!=', 'cancelado')
             ->get();
 
-        return view('coffee.analyses.index', compact('ingresses3', 'ingresses2', 'ingresses'));
+        $topProducts = Movement::where('movable_type', 'App\Ingress')
+            ->whereYear('created_at', date('Y'))
+            ->whereMonth('created_at', date('m'))
+            ->with('product')
+            ->whereHasMorph('movable', Ingress::class, function ($query) {
+                $query->where('company', '!=', 'mbe');
+            })
+            ->get()
+            ->groupBy('product.description')
+            ->sortByDesc(function ($product, $key) {
+                return $product->sum('quantity');
+            })
+            ->transform(function ($item, $key) {
+                return ['quantity' => $item->sum('quantity'), 'amount' => $item->sum('total')];
+            })
+            ->take(5);
+
+        $topSales = $ingresses->sortByDesc('amount')->take(5);
+
+        return view('coffee.analyses.index', compact('ingresses3', 'ingresses2', 'ingresses', 'topProducts', 'topSales'));
     }
 
     function create()
