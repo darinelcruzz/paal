@@ -4,6 +4,23 @@
 
 @section('content')
 
+    {!! Form::open(['method' => 'post', 'route' => 'coffee.analysis.index']) !!}
+            
+    <div class="row">
+        <div class="col-md-3">
+            <div class="input-group input-group-sm">
+                <input type="month" name="date" class="form-control" value="{{ $date }}">
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-warning btn-flat"><i class="fa fa-search"></i></button>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    {!! Form::close() !!}
+
+    <br>
+
     <div class="row">
         <div class="col-md-4">
             <icon-box title="total mensual" color="green" icon="usd" company="coffee" model="index" type="total" date="{{ date('Y-m') }}"></icon-box>

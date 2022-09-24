@@ -241,5 +241,6 @@ Route::group(['prefix' => 'cocinaspaal', 'as' => 'coffee.'], function () {
 	Route::group(['prefix' => 'ventas/analisis', 'as' => 'analysis.'], function () {
 	    $ctrl = 'Coffee\SalesAnalysisController';
 	    Route::get('/', usesas($ctrl, 'index'));
+	    Route::post('/', usesas($ctrl, 'index'));
 	});
 });

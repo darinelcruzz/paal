@@ -8,29 +8,31 @@ use App\{Ingress, Movement};
 
 class SalesAnalysisController extends Controller
 {
-    function index()
+    function index(Request $request)
     {
-        $ingresses = Ingress::whereYear('bought_at', date('Y'))
-            ->whereMonth('bought_at', date('m'))
+        $date = isset($request->date) ? $request->date: date('Y-m');
+
+        $ingresses = Ingress::whereYear('bought_at', substr($date, 0, 4))
+            ->whereMonth('bought_at', substr($date, 5, 2))
             ->where('company', '!=', 'mbe')
             ->where('status', '!=', 'cancelado')
             ->get();
 
-        $ingresses2 = Ingress::whereYear('bought_at', date('Y'))
-            ->whereMonth('bought_at', date('m') - 1)
+        $ingresses2 = Ingress::whereYear('bought_at', substr($date, 0, 4))
+            ->whereMonth('bought_at', substr($date, 5, 2) - 1)
             ->where('company', '!=', 'mbe')
             ->where('status', '!=', 'cancelado')
             ->get();
 
-        $ingresses3 = Ingress::whereYear('bought_at', date('Y'))
-            ->whereMonth('bought_at', '!=', date('m'))
+        $ingresses3 = Ingress::whereYear('bought_at', substr($date, 0, 4))
+            ->whereMonth('bought_at', '!=', substr($date, 5, 2))
             ->where('company', '!=', 'mbe')
             ->where('status', '!=', 'cancelado')
             ->get();
 
         $topProducts = Movement::where('movable_type', 'App\Ingress')
-            ->whereYear('created_at', date('Y'))
-            ->whereMonth('created_at', date('m'))
+            ->whereYear('created_at', substr($date, 0, 4))
+            ->whereMonth('created_at', substr($date, 5, 2))
             ->with('product')
             ->whereHasMorph('movable', Ingress::class, function ($query) {
                 $query->where('company', '!=', 'mbe');
@@ -47,7 +49,7 @@ class SalesAnalysisController extends Controller
 
         $topSales = $ingresses->sortByDesc('amount')->take(5);
 
-        return view('coffee.analyses.index', compact('ingresses3', 'ingresses2', 'ingresses', 'topProducts', 'topSales'));
+        return view('coffee.analyses.index', compact('ingresses3', 'ingresses2', 'ingresses', 'topProducts', 'topSales', 'date'));
     }
 
     function create()
