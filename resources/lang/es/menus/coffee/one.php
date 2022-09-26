@@ -1,6 +1,32 @@
 <?php
 
 return [
+    'statistics' => [
+        'title' => 'Análisis',
+        'icon' => 'fas fa-chart-pie',
+        'submenu' => [
+            'sales' => [
+                'title' => 'Ventas',
+                'route' => 'coffee.statistics.sales'
+            ],
+            'shippings' => [
+                'title' => 'Envíos',
+                'route' => 'coffee.statistics.shippings'
+            ],
+            'clients' => [
+                'title' => 'Clientes',
+                'route' => 'coffee.statistics.clients'
+            ],
+            'places' => [
+                'title' => 'Lugares',
+                'route' => 'coffee.statistics.places'
+            ],
+            'monthly' => [
+                'title' => 'Corte mensual',
+                'route' => 'coffee.admin.monthly'
+            ],
+        ]
+    ],
 
     'quotations' => [
         'title' => 'Cotizaciones',
