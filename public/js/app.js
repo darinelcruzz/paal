@@ -60257,6 +60257,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	props: ['model'],
@@ -60269,10 +60276,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 
 	computed: {
-		total: function total() {
+		subtotal: function subtotal() {
 			return this.movements.reduce(function (total, movement) {
 				return total + movement.quantity * movement.price * (1 - movement.discount / 100);
-			}, 0) + this.iva + this.rounding;
+			}, 0);
+		},
+		total: function total() {
+			return this.subtotal + this.iva + this.rounding;
 		}
 	},
 	updated: function updated() {
@@ -60330,6 +60340,20 @@ var render = function() {
                     (
                       movement.quantity *
                       movement.price *
+                      (1 - movement.discount / 100) *
+                      movement.product.iva *
+                      0.16
+                    ).toFixed(2)
+                  )
+                )
+              ]),
+              _vm._v(" "),
+              _c("td", { staticStyle: { "text-align": "right" } }, [
+                _vm._v(
+                  _vm._s(
+                    (
+                      movement.quantity *
+                      movement.price *
                       (1 - movement.discount / 100)
                     ).toFixed(2)
                   )
@@ -60341,11 +60365,21 @@ var render = function() {
         ),
         _vm._v(" "),
         _c("tfoot", [
+          _c("tr", [
+            _c("td", { attrs: { colspan: "5" } }),
+            _vm._v(" "),
+            _vm._m(1),
+            _vm._v(" "),
+            _c("td", { staticStyle: { "text-align": "right" } }, [
+              _vm._v(_vm._s(_vm.subtotal.toFixed(2)))
+            ])
+          ]),
+          _vm._v(" "),
           _vm.model.iva > 0
             ? _c("tr", [
-                _c("td", { attrs: { colspan: "4" } }),
+                _c("td", { attrs: { colspan: "5" } }),
                 _vm._v(" "),
-                _vm._m(1),
+                _vm._m(2),
                 _vm._v(" "),
                 _c("td", { staticStyle: { "text-align": "right" } }, [
                   _vm._v(_vm._s(_vm.model.iva.toFixed(2)))
@@ -60355,9 +60389,9 @@ var render = function() {
           _vm._v(" "),
           _vm.model.rounding != 0
             ? _c("tr", [
-                _c("td", { attrs: { colspan: "4" } }),
+                _c("td", { attrs: { colspan: "5" } }),
                 _vm._v(" "),
-                _vm._m(2),
+                _vm._m(3),
                 _vm._v(" "),
                 _c("td", { staticStyle: { "text-align": "right" } }, [
                   _vm._v(_vm._s(_vm.model.rounding.toFixed(2)))
@@ -60366,9 +60400,9 @@ var render = function() {
             : _vm._e(),
           _vm._v(" "),
           _c("tr", [
-            _c("td", { attrs: { colspan: "4" } }),
+            _c("td", { attrs: { colspan: "5" } }),
             _vm._v(" "),
-            _vm._m(3),
+            _vm._m(4),
             _vm._v(" "),
             _c("th", { staticStyle: { "text-align": "right" } }, [
               _vm._v(_vm._s(_vm.total.toFixed(2)))
@@ -60386,13 +60420,13 @@ var render = function() {
               "table table-bordered table-condensed table-hover table-striped"
           },
           [
-            _vm._m(4),
+            _vm._m(5),
             _vm._v(" "),
             _c(
               "tbody",
               _vm._l(_vm.model.payments, function(payment) {
                 return _c("tr", [
-                  _vm._m(5, true),
+                  _vm._m(6, true),
                   _vm._v(" "),
                   _c("td", [
                     _vm._v(
@@ -60480,9 +60514,21 @@ var staticRenderFns = [
         ]),
         _vm._v(" "),
         _c("th", { staticStyle: { "text-align": "right" } }, [
+          _c("small", [_vm._v("IVA")])
+        ]),
+        _vm._v(" "),
+        _c("th", { staticStyle: { "text-align": "right" } }, [
           _c("small", [_vm._v("IMPORTE")])
         ])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", { staticStyle: { "text-align": "right" } }, [
+      _c("small", [_vm._v("SUBTOTAL")])
     ])
   },
   function() {
@@ -60498,7 +60544,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("th", { staticStyle: { "text-align": "right" } }, [
-      _c("small", [_vm._v("Ajuste")])
+      _c("small", [_vm._v("AJUSTE")])
     ])
   },
   function() {

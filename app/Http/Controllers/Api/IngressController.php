@@ -33,12 +33,9 @@ class IngressController extends Controller
                 } elseif ($type == 'depositar') {
                     return $ingress->payments->where('cash_reference', null)->sum('cash');
                 } elseif ($type == 'parcial') {
-                    $shippingsTotal = $ingress->movements->sum(function ($m){
-                        return $m->product->category == 'ENVIOS' ? $m->total: 0;
-                    });
                     return $ingress->payments->sum(function ($payment) {
                         return $payment->cash + $payment->check + $payment->credit_card + $payment->debit_card + $payment->transfer;
-                    }) - $shippingsTotal;
+                    }) - $ingress->shipping_cost;
                 } elseif ($type == 'promedio') {
                     return $ingress->type != 'anticipo' ? $ingress->amount - $ingress->retainers->sum('amount'): $ingress->amount;
                 }

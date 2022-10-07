@@ -10,6 +10,8 @@ class Ingress extends Model
 {
     protected $guarded = [];
 
+    protected $appends = ['shipping_cost'];
+
     function client()
     {
         return $this->belongsTo(Client::class);
@@ -67,7 +69,9 @@ class Ingress extends Model
 
     function getShippingCostAttribute()
     {
-        return $this->movements()->whereIn('product_id', [262, 263, 264, 265, 266, 289, 997])->sum('total');
+        return $this->movements->sum(function ($m){
+            return $m->product->category == 'ENVIOS' ? $m->total: 0;
+        });
     }
 
     function getDebtAttribute()
