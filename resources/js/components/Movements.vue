@@ -49,7 +49,7 @@
 			</tfoot>
 		</table>
 
-		<table v-if="model.payments" class="table table-bordered table-condensed table-hover table-striped">
+		<table v-if="payments.length > 0" class="table table-bordered table-condensed table-hover table-striped">
 			<thead>
                 <tr>
                     <th>&nbsp;</th>
@@ -63,7 +63,7 @@
             </thead>
 
             <tbody>
-            	<tr v-for="payment in model.payments">
+            	<tr v-for="payment in payments">
                     <th><small>PAGO</small></th>
                     <td>{{ payment.cash > 0 ? payment.cash.toFixed(2): 'X' }}</td>
                     <td>{{ payment.transfer > 0 ? payment.transfer.toFixed(2): 'X' }}</td>
@@ -81,10 +81,11 @@
 
 <script>
 	export default {
-		props: ['model'],
+		props: ['model', 'type'],
 		data() {
 			return {
 				movements: [],
+				payments: [],
 				iva: 0,
 				rounding: 0,
 			}
@@ -94,13 +95,28 @@
 				return this.movements.reduce((total, movement) => total + (movement.quantity * movement.price * (1 - movement.discount/100)), 0);
 			},
 			total() {
-				return this.subtotal + this.iva + this.rounding;
+				return this.subtotal + this.model.iva + this.model.rounding;
 			}
 		},
-		updated() {
-			this.movements = this.model.type == 'anticipo' ? this.model.quotation.movements: this.model.movements;
-			this.iva = this.model.type == 'anticipo' ? this.model.quotation.iva: this.model.iva;
-			this.rounding = this.model.type == 'anticipo' ? this.model.quotation.rounding: this.model.rounding;
-		}
+		watch: {
+	    	model(oldVal, newVal) {
+	    		this.fetchMovements(this.type, this.model.id);
+	    		this.fetchPayments(this.model.id);
+	    	}
+	    },
+	    methods: {
+	        fetchMovements(type, id) {
+            	axios.get('/api/movements/' + type + '/' + id).then((response) => {
+            		console.log('movements', response.data)
+            		this.movements = response.data;
+            	});
+	        },
+	        fetchPayments(id) {
+            	axios.get('/api/payments/' + id).then((response) => {
+            		console.log('payments', response.data)
+            		this.payments = response.data;
+            	});
+	        }
+	    }
 	}
 </script>

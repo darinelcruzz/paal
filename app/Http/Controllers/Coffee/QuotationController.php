@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Coffee;
 
-use App\{Quotation, Client, Ingress};
+use App\{Quotation, Client, Ingress, Variable};
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use PDF;
@@ -27,7 +27,9 @@ class QuotationController extends Controller
 
     function create()
     {
-        return view('coffee.quotations.create');
+        $exchange = Variable::find(1)->value;
+        $promo = Variable::find(2)->value;
+        return view('coffee.quotations.create', compact('exchange', 'promo'));
     }
 
     function store(Request $request)

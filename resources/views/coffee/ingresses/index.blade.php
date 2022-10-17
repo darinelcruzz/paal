@@ -35,7 +35,6 @@
                             <th><small>CLIENTE</small></th>
                             <th style="text-align: center;width: 5%;"><small>CFDI</small></th>
                             <th style="text-align: center;width: 5%;"><small>TIPO</small></th>
-                            <th style="text-align: center;width: 5%;"><small>REFERENCIA</small></th>
                             <th style="text-align: right;"><small>SUBTOTAL</small></th>
                             <th style="text-align: right;"><small>IVA</small></th>
                             <th style="text-align: right;"><small>IMPORTE</small></th>
@@ -96,18 +95,19 @@
                                     @endif
                                 </td>
                                 <td style="text-align: center;">
-                                    @if($ingress->invoice != 'no')
-                                    <label class="label label-default"><small>{{ $ingress->invoice }}</small></label>
-                                    @endif
+                                    <label class="label label-default">
+                                        <small>{{ $ingress->invoice != 'no' ? $ingress->invoice: 'n/a' }}</small>
+                                    </label>
                                 </td>
                                 <td style="text-align: center;">
                                     @if($ingress->status == 'cancelado')
                                         <label class="label label-default">CANCELADO</label>
                                     @else
-                                        <label class="label label-{{$ingress->typeLabel }}">{{ strtoupper($ingress->family == 'CURSO' || $ingress->family == 'CAFETERÍA' ? $ingress->family: $ingress->type) }}</label>
+                                        <label class="label label-{{ $ingress->type == 'varios' ? 'warning': 'danger'}}">
+                                            {{ strtoupper($ingress->type) }}
+                                        </label>
                                     @endif
                                 </td>
-                                <td style="text-align: center;">{{ $ingress->reference }}</td>
                                 <td style="text-align: right;">{{ number_format($ingress->amount - $ingress->iva, 2) }}</td>
                                 <td style="text-align: right;">{{ $ingress->iva > 0 ? number_format($ingress->iva, 2): '...' }}</td>
                                 <td style="text-align: right;">
@@ -134,7 +134,7 @@
             </solid-box>
 
             <modal :title="model.folio ?? ''" color="warning" id="ingress-modal">
-                <movements :model="model"></movements>
+                <movements :model="model" type="ingress"></movements>
             </modal>
         </div>
     </div>

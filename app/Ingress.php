@@ -10,8 +10,6 @@ class Ingress extends Model
 {
     protected $guarded = [];
 
-    protected $appends = ['shipping_cost'];
-
     function client()
     {
         return $this->belongsTo(Client::class);

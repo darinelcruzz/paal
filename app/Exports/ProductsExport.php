@@ -21,8 +21,9 @@ class ProductsExport implements FromView, ShouldAutoSize
     */
     public function view(): View
     {
-        $products = Product::select('id', 'description', 'code', 'retail_price', 'wholesale_price', 'family', 'category')
-            ->whereCompany($this->company)
+        $products = Product::select('id', 'description', 'code', 'retail_price', 'wholesale_price', 'family', 'category', 'status')
+            ->where('company', '!=', 'mbe')
+            ->where('status', 'activo')
             ->get();
 
         return view('exports.products', compact('products'));

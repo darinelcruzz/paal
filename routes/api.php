@@ -62,3 +62,13 @@ Route::group(['prefix' => 'monthly', 'as' => 'api.ingress.'], function () {
     Route::get('index/{date?}/{company?}/{type?}', usesas($ctrl, 'index'));
     Route::get('table/{type?}', usesas($ctrl, 'table'));
 });
+
+Route::group(['prefix' => 'movements', 'as' => 'api.movement.'], function () {
+    $ctrl = 'Api\MovementController';
+    Route::get('{type}/{id}', usesas($ctrl, 'index'));
+});
+
+Route::group(['prefix' => 'payments', 'as' => 'api.payment.'], function () {
+    $ctrl = 'Api\PaymentController';
+    Route::get('{id}', usesas($ctrl, 'index'));
+});

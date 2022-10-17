@@ -8,6 +8,7 @@
         <th>p. mayoreo</th>
         <th>familia</th>
         <th>categoría</th>
+        <th>estado</th>
     </tr>
     </thead>
     <tbody>
@@ -20,6 +21,7 @@
                 <td>{{ $product->wholesale_price }}</td>
                 <td>{{ $product->family }}</td>
                 <td>{{ $product->category }}</td>
+                <td>{{ $product->status }}</td>
             </tr>
         @endforeach
     </tbody>

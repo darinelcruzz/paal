@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Coffee;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
-use App\{Ingress, Product, Client, Payment, Log};
+use App\{Ingress, Product, Client, Payment, Log, Variable, Movement};
 use Alert;
 
 class IngressController extends Controller
@@ -14,11 +14,13 @@ class IngressController extends Controller
     {
         $date = dateFromRequest('Y-m');
 
-        $ingresses = Ingress::whereIn('company', ['coffee', 'sanson'])
+        $ingresses = Ingress::query()
+            ->select('id', 'folio', 'client_id', 'bought_at', 'invoice', 'status', 'amount', 'iva', 'company', 'created_at', 'quotation_id', 'method', 'type', 'rounding')
+            ->whereIn('company', ['coffee', 'sanson'])
             ->whereMonth('created_at', substr($date, 5, 7))
             ->whereYear('created_at', substr($date, 0, 4))
             ->orderByDesc('id')
-            ->with('client', 'movements.product', 'payments', 'quotation')
+            ->with('client:id,name', 'quotation:id', 'quotation.retainers:id,amount', 'retainers:id,folio')
             ->get();
 
         return view('coffee.ingresses.index', compact('ingresses', 'date'));
@@ -26,10 +28,11 @@ class IngressController extends Controller
 
     function create($type = null)
     {
-        $clients = Client::where('company', '!=', 'mbe')->get(['id', 'name', 'rfc'])->toJson();
-        $last_sale = Ingress::where('company', 'coffee')->get()->last();
+        $last_sale = Ingress::where('company', 'coffee')->latest()->first();
         $last_folio = $last_sale ? $last_sale->folio + 1: 1;
-        return view('coffee.ingresses.create', compact('clients', 'last_folio', 'type'));
+        $exchange = Variable::find(1)->value;
+        $promo = Variable::find(2)->value;
+        return view('coffee.ingresses.create', compact('last_folio', 'type', 'exchange', 'promo'));
     }
 
     function store(Request $request)

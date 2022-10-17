@@ -9,7 +9,7 @@ class SalesAndQuotationsComposer
 {
     function compose(View $view)
     {
-        $view->exchange = Variable::find(1)->value;
-        $view->promo = Variable::find(2)->value;
+        // $view->exchange = Variable::find(1)->value;
+        // $view->promo = Variable::find(2)->value;
     }
 }

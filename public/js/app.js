@@ -60266,10 +60266,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-	props: ['model'],
+	props: ['model', 'type'],
 	data: function data() {
 		return {
 			movements: [],
+			payments: [],
 			iva: 0,
 			rounding: 0
 		};
@@ -60282,13 +60283,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			}, 0);
 		},
 		total: function total() {
-			return this.subtotal + this.iva + this.rounding;
+			return this.subtotal + this.model.iva + this.model.rounding;
 		}
 	},
-	updated: function updated() {
-		this.movements = this.model.type == 'anticipo' ? this.model.quotation.movements : this.model.movements;
-		this.iva = this.model.type == 'anticipo' ? this.model.quotation.iva : this.model.iva;
-		this.rounding = this.model.type == 'anticipo' ? this.model.quotation.rounding : this.model.rounding;
+	watch: {
+		model: function model(oldVal, newVal) {
+			this.fetchMovements(this.type, this.model.id);
+			this.fetchPayments(this.model.id);
+		}
+	},
+	methods: {
+		fetchMovements: function fetchMovements(type, id) {
+			var _this = this;
+
+			axios.get('/api/movements/' + type + '/' + id).then(function (response) {
+				console.log('movements', response.data);
+				_this.movements = response.data;
+			});
+		},
+		fetchPayments: function fetchPayments(id) {
+			var _this2 = this;
+
+			axios.get('/api/payments/' + id).then(function (response) {
+				console.log('payments', response.data);
+				_this2.payments = response.data;
+			});
+		}
 	}
 });
 
@@ -60412,7 +60432,7 @@ var render = function() {
       ]
     ),
     _vm._v(" "),
-    _vm.model.payments
+    _vm.payments.length > 0
       ? _c(
           "table",
           {
@@ -60424,7 +60444,7 @@ var render = function() {
             _vm._v(" "),
             _c(
               "tbody",
-              _vm._l(_vm.model.payments, function(payment) {
+              _vm._l(_vm.payments, function(payment) {
                 return _c("tr", [
                   _vm._m(6, true),
                   _vm._v(" "),

@@ -169,7 +169,7 @@
             </solid-box>
 
             <modal title="Productos" color="{{ $color }}" id="quotation-modal">
-                <movements :model="model"></movements>
+                <movements :model="model" type="quotation"></movements>
             </modal>
         </div>
     </div>

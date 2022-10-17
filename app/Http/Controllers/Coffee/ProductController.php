@@ -15,7 +15,11 @@ class ProductController extends Controller
 {
     function index()
     {
-        $products = Product::where('company', '!=', 'mbe')->get();
+        $products = Product::query()
+            ->select('id', 'description', 'type', 'code', 'category', 'family', 'dollars', 'retail_price', 'wholesale_price')
+            ->where('company', '!=', 'mbe')
+            ->where('status', 'activo')
+            ->get();
         return view('coffee.products.index', compact('products'));
     }
 
