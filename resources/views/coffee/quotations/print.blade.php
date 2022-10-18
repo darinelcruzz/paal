@@ -32,8 +32,8 @@
                             <td width="60%">
                                 <big><b>COCINASPAAL</b></big>
                                 SUCURSAL CHIAPAS<br>
-                                16 Poniente Norte #138<br>
-                                Col. Las Arboledas, C.P. 29030 <br>
+                                16 Poniente Norte #138, 
+                                col. Las Arboledas, C.P. 29030 <br>
                                 <i class="fa fa-phone"></i> 01 (961) 121 34 04 &nbsp;&nbsp;&nbsp;&nbsp;
                                 <i class="fa fa-whatsapp"></i> 961 330 65 28<br>
                                 <i class="fa fa-envelope"></i> ventas@coffeedepotchiapas.com.mx <br>
@@ -108,8 +108,10 @@
                                     PRECIOS CON VIGENCIA DE 3 DÍAS HÁBILES. <br>
                                     EN CASO DE COMPRA, CONFIRMAR EXISTENCIAS DE LOS EQUIPOS O EN SU CASO DE NO TENER EXISTENCIA VERIFICAR LOS TIEMPOS DE ENTREGA.
                                 @else
-                                    PRECIOS CON VIGENCIA DE 3 DÍAS HÁBILES. <br>
-                                    EN CASO DE COMPRA, CONFIRMAR EXISTENCIAS DE LOS INSUMOS O EN SU CASO DE NO TENER EXISTENCIA VERIFICAR LOS TIEMPOS DE ENTREGA. PREGUNTA POR NUESTRAS PROMOCIONES EN MAYOREO.
+                                    <small>
+                                        PRECIOS CON VIGENCIA DE 3 DÍAS HÁBILES. <br>
+                                        EN CASO DE COMPRA, CONFIRMAR EXISTENCIAS DE LOS INSUMOS O EN SU CASO DE NO TENER EXISTENCIA VERIFICAR LOS TIEMPOS DE ENTREGA. PREGUNTA POR NUESTRAS PROMOCIONES EN MAYOREO.
+                                    </small>
                                 @endif
                             </td>
                         </tr>
