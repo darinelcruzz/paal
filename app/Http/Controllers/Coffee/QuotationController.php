@@ -80,7 +80,9 @@ class QuotationController extends Controller
     {
         $last_sale = Ingress::where('company', 'coffee')->get()->last();
         $last_folio = $last_sale ? $last_sale->folio + 1: 1;
-        return view('coffee.quotations.transform', compact('quotation', 'last_folio'));
+        $exchange = Variable::find(1)->value;
+        $promo = Variable::find(2)->value;
+        return view('coffee.quotations.transform', compact('quotation', 'last_folio', 'exchange', 'promo'));
     }
 
     function move(Quotation $quotation)
