@@ -44,7 +44,7 @@
 				<tr>
 					<td colspan="5"></td>
 					<th style="text-align: right;"><small>TOTAL</small></th>
-					<th style="text-align: right;">{{ total.toFixed(2) }}</th>
+					<th style="text-align: right;">{{ model.amount.toFixed(2) }}</th>
 				</tr>
 			</tfoot>
 		</table>

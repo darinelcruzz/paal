@@ -60425,7 +60425,7 @@ var render = function() {
             _vm._m(4),
             _vm._v(" "),
             _c("th", { staticStyle: { "text-align": "right" } }, [
-              _vm._v(_vm._s(_vm.total.toFixed(2)))
+              _vm._v(_vm._s(_vm.model.amount.toFixed(2)))
             ])
           ])
         ])

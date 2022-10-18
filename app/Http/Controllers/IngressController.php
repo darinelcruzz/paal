@@ -12,9 +12,11 @@ class IngressController extends Controller
         $date = $thisDate == null ? dateFromRequest('Y-m'): $thisDate;
         // dd($thisDate);
 
-        $ingresses = Ingress::whereYear('bought_at', substr($date, 0, 4))
+        $ingresses = Ingress::query()
+            ->select('id', 'bought_at', 'company', 'amount')
+            ->whereYear('bought_at', substr($date, 0, 4))
             ->whereMonth('bought_at', substr($date, 5, 7))
-            ->with('payments')
+            ->with('payments:id,cash,debit_card,credit_card,transfer,check,transfer,check,ingress_id')
             ->get();
 
         return view('paal.ingresses.index', compact('date', 'ingresses'));
