@@ -21,8 +21,10 @@ class IngressController extends Controller
     {
         $clients = Client::where('company', 'mbe')->pluck('name', 'id')->toArray();
         $isShifted = false;
+        $exchange = Variable::find(1)->value;
+        $promo = Variable::find(2)->value;
         $methods = ['efectivo' => 'Efectivo', 'transferencia' => 'Transferencia', 'cheque' => 'Cheque', 'tarjeta débito' => 'Tarjeta de débito', 'tarjeta crédito' => 'Tarjeta de crédito'];
-        return view('mbe.ingresses.create', compact('clients', 'methods', 'isShifted', 'type'));
+        return view('mbe.ingresses.create', compact('clients', 'methods', 'isShifted', 'type', 'exchange', 'promo'));
     }
 
     function shift($type = null)
