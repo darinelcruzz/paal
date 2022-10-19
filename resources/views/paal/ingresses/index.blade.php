@@ -35,6 +35,10 @@
                         </tr>
                     </thead>
 
+                    @php
+                        $total = $cocinas = $logistica = 0;
+                    @endphp
+
                     <tbody>
                         @foreach(['efectivo' => 'cash', 'tarjeta de crédito' => 'credit_card', 'tarjeta de débito' => 'debit_card', 'transferencia' => 'transfer', 'cheque' => 'check'] as $name => $column)
                         <tr>
@@ -43,15 +47,21 @@
                             <td style="text-align: right;">{{ number_format($ingresses->where('company', '!=', 'mbe')->sum(function ($i) use ($column) { return $i->payments->sum($column);}), 2) }}</td>
                             <td style="text-align: right;">{{ number_format($ingresses->where('company', 'mbe')->sum(function ($i) use ($column) { return $i->payments->sum($column);}), 2) }}</td>
                         </tr>
+
+                        @php
+                            $cocinas += $ingresses->where('company', '!=', 'mbe')->sum(function ($i) use ($column) { return $i->payments->sum($column);});
+                            $logistica += $ingresses->where('company', 'mbe')->sum(function ($i) use ($column) { return $i->payments->sum($column);});
+                        @endphp
+
                         @endforeach
                     </tbody>
 
                     <tfoot>
                         <tr>
                             <th style="text-align: right;"><small>SUMA</small></th>
-                            <th style="text-align: right;">{{ number_format($ingresses->sum('amount'), 2) }}</th>
-                            <th style="text-align: right;">{{ number_format($ingresses->where('company', '!=', 'mbe')->sum('amount'), 2) }}</th>
-                            <th style="text-align: right;">{{ number_format($ingresses->where('company', 'mbe')->sum('amount'), 2) }}</th>
+                            <th style="text-align: right;">{{ number_format($cocinas + $logistica, 2) }}</th>
+                            <th style="text-align: right;">{{ number_format($cocinas, 2) }}</th>
+                            <th style="text-align: right;">{{ number_format($logistica, 2) }}</th>
                         </tr>
                     </tfoot>
                 </table>                

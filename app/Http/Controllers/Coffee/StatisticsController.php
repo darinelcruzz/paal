@@ -13,45 +13,29 @@ class StatisticsController extends Controller
         $date = $date ?? ($request->date ?? date('Y-m'));
         $category = strtoupper($category);
 
-        $groups = Movement::whereYear('created_at', substr($date, 0, 4))
-            ->whereMonth('created_at', substr($date, 5, 2))
-            ->whereHasMorph('movable', Ingress::class, function ($query) {
-                $query->where('company', 'coffee')
+        $movements = Movement::query()
+            ->select('quantity', 'total', 'product_id')
+            ->whereHasMorph('movable', Ingress::class, function ($query) use ($date) {
+                $query->where('company', '!=', 'MBE')
+                    ->whereYear('bought_at', substr($date, 0, 4))
+                    ->whereMonth('bought_at', substr($date, 5, 2))
                     ->where('status', '!=', 'cancelado');
             })
             ->whereHas('product', function ($query) use ($category) {
-                return $query->when($category == 'TOTAL', function ($query) {
-                    $query->whereIn('category', ['INSUMOS', 'ACCESORIOS', 'VASOS', 'EQUIPO', 'REFACCIONES', 'BARRAS', 'CURSOS', 'OTROS'])
-                        ->where('company', 'COFFEE');
-                }, function ($query) use ($category) {
-                    $query->where('category', $category)
-                        ->where('company', 'coffee');
+                return $query->when($category != 'TOTAL', function ($query) use ($category) {
+                    $query->where('category', $category);
                 });
             })
-            ->with('product')
-            ->get()
-            ->groupBy($category == 'TOTAL' ? 'product.category': 'product.family')
+            ->with('product:id,category,family,description')
+            ->get();
+
+        $groups = $movements->groupBy($category == 'TOTAL' ? 'product.category': 'product.family')
             ->transform(function ($item, $key) {
                 return ['quantity' => $item->sum('quantity'), 'amount' => $item->sum('total')];
             })
             ->sortByDesc('quantity');
 
-        $topProducts = Movement::where('movable_type', 'App\Ingress')
-            ->whereYear('created_at', substr($date, 0, 4))
-            ->whereMonth('created_at', substr($date, 5, 2))
-            ->with('product')
-            ->whereHasMorph('movable', Ingress::class, function ($query) {
-                $query->where('company', 'coffee');
-            })
-            ->whereHas('product', function ($query) use ($category) {
-                return $query->when($category == 'TOTAL', function ($query) {
-                    $query->whereIn('category', ['INSUMOS', 'ACCESORIOS', 'VASOS', 'EQUIPO', 'REFACCIONES', 'BARRAS', 'CURSOS', 'OTROS']);
-                }, function ($query) use ($category) {
-                    $query->where('category', $category);
-                });
-            })
-            ->get()
-            ->groupBy('product.description')
+        $topProducts = $movements->groupBy('product.description')
             ->sortByDesc(function ($product, $key) {
                 return $product->sum('quantity');
             })
@@ -68,7 +52,7 @@ class StatisticsController extends Controller
     {
         $date = $request->date ?? date('Y-m');
 
-        $usualClients = Client::where('company', 'coffee')
+        $usualClients = Client::where('company', '!=', 'mbe')
             ->whereNotIn('id', [55, 333, 532, 568])
             ->whereHas('ingresses', function ($query) use ($date) {
                 $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', '>=', substr($date, 5, 2) - 2);

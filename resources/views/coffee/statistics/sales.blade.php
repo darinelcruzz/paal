@@ -84,14 +84,14 @@
             </div>
         </div>
 
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-md-12">
                 <solid-box title="{{ $category == 'TOTAL' ? 'CATEGORÍAS': 'FAMILIAS' }}" color="{{ ['TOTAL' => 'success', 'INSUMOS' => 'danger', 'ACCESORIOS' => 'warning', 'VASOS' => 'info', 'EQUIPO' => 'primary', 'REFACCIONES' => 'danger', 'BARRAS' => 'warning', 'CURSOS' => 'primary', 'OTROS' => 'default'][$category] }}">
-                    {{-- <div id="chart" style="height: 500px;"></div> --}}
+                    <div id="chart" style="height: 500px;"></div>
                     <categories-and-families-table type="{{ $category }}"></categories-and-families-table>
                 </solid-box>
             </div>
-        </div>
+        </div> --}}
         
     </div>
 

@@ -93,7 +93,9 @@ class QuotationController extends Controller
 
     function edit(Quotation $quotation)
     {
-        return view('coffee.quotations.edit', compact('quotation'));
+        $exchange = Variable::find(1)->value;
+        $promo = Variable::find(2)->value;
+        return view('coffee.quotations.edit', compact('quotation', 'exchange', 'promo'));
     }
 
     function update(Request $request, Quotation $quotation)

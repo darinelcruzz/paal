@@ -69,30 +69,20 @@ class ProductController extends Controller
 
     function amount($date, $category)
     {
-        if ($category != 'TOTAL') {
-            $movements = Movement::whereYear('created_at', substr($date, 0, 4))
-            ->whereMonth('created_at', substr($date, 5, 2))
-            ->whereHasMorph('movable', Ingress::class, function ($query) {
-                $query->where('company', 'coffee')
-                    ->where('status', '!=', 'cancelado');
-            })
-            ->whereHas('product', function ($query) use ($category) {
-                return $query->where('category', $category)
-                    ->where('company', 'coffee');
-            })
-            ->get();
-        } else {
-            $movements = Movement::whereYear('created_at', substr($date, 0, 4))
-            ->whereMonth('created_at', substr($date, 5, 2))
-            ->whereHasMorph('movable', Ingress::class, function ($query) {
-                $query->where('company', 'coffee')
-                    ->where('status', '!=', 'cancelado');
-            })
-            ->whereHas('product', function ($query) use ($category) {
-                return $query->whereIn('category', ['INSUMOS', 'ACCESORIOS', 'VASOS', 'EQUIPO', 'REFACCIONES', 'BARRAS', 'CURSOS', 'OTROS']);
-            })
-            ->get();
-        }
+        $movements = Movement::query()
+        ->select('quantity', 'total', 'product_id')
+        ->whereHasMorph('movable', Ingress::class, function ($query) use ($date) {
+            $query->where('company', '!=', 'MBE')
+                ->whereYear('bought_at', substr($date, 0, 4))
+                ->whereMonth('bought_at', substr($date, 5, 2))
+                ->where('status', '!=', 'cancelado');
+        })
+        ->whereHas('product', function ($query) use ($category) {
+            return $query->when($category != 'TOTAL', function ($query) use ($category) {
+                    $query->where('category', $category);
+                });
+        })
+        ->get();
 
         return ['quantity' => $movements->sum('quantity'), 'amount' => number_format($movements->sum('total'), 2)];
     }
