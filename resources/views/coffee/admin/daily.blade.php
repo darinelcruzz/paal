@@ -131,7 +131,7 @@
             {!! Form::close() !!}
 
             <modal :title="model.folio ?? ''" color="{{ $color }}" id="ingress-modal">
-                <movements :model="model"></movements>
+                <movements :model="model" type="ingress"></movements>
             </modal>
 
             {!! Form::open(['method' => 'POST', 'route' => 'coffee.invoice.create', 'files' => 'true']) !!}

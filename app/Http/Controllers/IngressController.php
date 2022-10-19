@@ -16,6 +16,7 @@ class IngressController extends Controller
             ->select('id', 'bought_at', 'company', 'amount')
             ->whereYear('bought_at', substr($date, 0, 4))
             ->whereMonth('bought_at', substr($date, 5, 7))
+            ->where('status', '!=', 'cancelado')
             ->with('payments:id,cash,debit_card,credit_card,transfer,check,transfer,check,ingress_id')
             ->get();
 
