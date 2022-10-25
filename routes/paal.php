@@ -124,6 +124,18 @@ Route::group(['prefix' => 'paal', 'as' => 'paal.'], function () {
 	    Route::get('/', usesas($ctrl, 'index'));
 	});
 
+	Route::group(['prefix' => 'tareas', 'as' => 'task.'], function () {
+	    $ctrl = 'Paal\TaskController';
+	    Route::get('agregar', usesas($ctrl, 'create'));
+	    Route::post('agregar', usesas($ctrl, 'store'));
+	    Route::get('editar/{task}', usesas($ctrl, 'edit'));
+	    Route::post('editar/{task}', usesas($ctrl, 'update'));
+	    Route::post('terminar/{task}/{thisDate?}', usesas($ctrl, 'complete'));
+	    Route::get('estado/{task}/{status}/{thisDate?}', usesas($ctrl, 'change'));
+	    Route::get('/{thisDate?}', usesas($ctrl, 'index'));
+	    Route::post('/{thisDate?}', usesas($ctrl, 'index'));
+	});
+
 	Route::get('tipo_de_cambio', function ()
 	{
 		return view('auth.exchange');

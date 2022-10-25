@@ -31,154 +31,129 @@
 
     <div class="row">
         <div class="col-md-12">
+            <solid-box title="Mis tareas" color="danger">
+                <data-table>
 
-            @if($mytasks->count() > 0)
+                    {{ drawHeader('iD', '<i class="fa fa-cogs"></i>', 'descripción', 'asignó', 'límite', 'terminó', 'estado', 'observaciones') }}
+                    
+                    <template slot="body">
+                        @foreach($mytasks as $task)
+                            <tr>
+                                <td>{{ $task->id }}</td>
+                                <td>
+                                    <dropdown color="danger" icon="cogs">
+                                        @if ($task->status != 'terminada' && $task->assigned_to == auth()->user()->id)
+                                            <li>
+                                                <a type="button" data-toggle="modal" data-target="#completeTask{{ $task->id }}">
+                                                    <i class="fa fa-check"></i> Terminar
+                                                </a>
+                                            </li>
+                                        @endif
 
-                <solid-box title="Mis tareas" color="success">
-                    <data-table>
+                                        @if ($task->status == 'terminada' && $task->assigned_by == auth()->user()->id)
+                                            <li>
+                                                <a type="button" data-toggle="modal" data-target="#rejectTask{{ $task->id }}">
+                                                    <i class="fa fa-times"></i> Rechazar
+                                                </a>
+                                            </li>
+                                            <ddi icon="check" text="Aceptar" to="{{ route('mbe.task.change', [$task, 'aceptada']) }}"></ddi>
+                                        @endif
+                                    </dropdown>
 
-                        {{ drawHeader('iD', '<i class="fa fa-cogs"></i>', 'descripción', 'asignó', 'límite', 'terminó', 'estado', 'observaciones') }}
-                        
-                        <template slot="body">
-                            @foreach($mytasks as $task)
-                                <tr>
-                                    <td>{{ $task->id }}</td>
-                                    <td>
-                                        <dropdown color="success" icon="cogs">
-                                            @if ($task->status != 'terminada' && $task->assigned_to == auth()->user()->id)
-                                                <li>
-                                                    <a type="button" data-toggle="modal" data-target="#completeTask{{ $task->id }}">
-                                                        <i class="fa fa-check"></i> Terminar
-                                                    </a>
-                                                </li>
-                                            @endif
+                                    <modal title="Razones" id="rejectTask{{ $task->id }}" color="#dd4b39">
+                                        @include('mbe.tasks._add_reasons')
+                                    </modal>
 
-                                            @if ($task->status == 'terminada' && $task->assigned_by == auth()->user()->id)
-                                                <li>
-                                                    <a type="button" data-toggle="modal" data-target="#rejectTask{{ $task->id }}">
-                                                        <i class="fa fa-times"></i> Rechazar
-                                                    </a>
-                                                </li>
-                                                <ddi icon="check" text="Aceptar" to="{{ route('mbe.task.change', [$task, 'aceptada']) }}"></ddi>
-                                            @endif
-                                        </dropdown>
-
-                                        <modal title="Razones" id="rejectTask{{ $task->id }}" color="#dd4b39">
-                                            @include('mbe.tasks._add_reasons')
-                                        </modal>
-
-                                        <modal title="Tarea terminada" id="completeTask{{ $task->id }}" color="#dd4b39">
-                                            @include('mbe.tasks._add_observations')
-                                        </modal>
-                                    </td>
-                                    <td>{{ $task->description }}</td>
-                                    <td>{{ $task->tasker->name }}</td>
-                                    <td style="{{ !$task->completed_at ? 'color: black;': ($task->onTime ? 'color: green;': 'color:red;') }}">
-                                        {{ $task->assigned_at ? date('d/m/y', strtotime($task->assigned_at)): '' }}
-                                    </td>
-                                    <td style="{{ $task->onTime ? 'color: green;': 'color:red;' }}">
-                                        {{ $task->completed_at ? date('d/m/y', strtotime($task->completed_at)): '' }}
-                                    </td>
-                                    <td>
-                                        <label class="label label-{{ $task->status_color }}">
-                                            {{ strtoupper($task->status) }} {{ $task->repetitions ? " ($task->repetitions)": '' }}
-                                        </label>
-                                    </td>
-                                    <td>{!! $task->observations !!}</td>
-                                </tr>
-                            @endforeach
-                        </template>
-                    </data-table>
-                </solid-box>
-            @endif
+                                    <modal title="Tarea terminada" id="completeTask{{ $task->id }}" color="#dd4b39">
+                                        @include('mbe.tasks._add_observations')
+                                    </modal>
+                                </td>
+                                <td>{{ $task->description }}</td>
+                                <td>{{ $task->tasker->name }}</td>
+                                <td style="{{ !$task->completed_at ? 'color: black;': ($task->onTime ? 'color: green;': 'color:red;') }}">
+                                    {{ $task->assigned_at ? date('d/m/y', strtotime($task->assigned_at)): '' }}
+                                </td>
+                                <td style="{{ $task->onTime ? 'color: green;': 'color:red;' }}">
+                                    {{ $task->completed_at ? date('d/m/y', strtotime($task->completed_at)): '' }}
+                                </td>
+                                <td>
+                                    <label class="label label-{{ $task->status_color }}">
+                                        {{ strtoupper($task->status) }} {{ $task->repetitions ? " ($task->repetitions)": '' }}
+                                    </label>
+                                </td>
+                                <td>{!! $task->observations !!}</td>
+                            </tr>
+                        @endforeach
+                    </template>
+                </data-table>
+            </solid-box>
         </div>
     </div>
 
-    @forelse($users as $user => $tasks)
-        <div class="row">
-            <div class="col-md-12">
-                <solid-box title="{{ $tasks->first()->user->name ?? 'SIN ASIGNAR' }}" color="{{ $loop->iteration % 2 == 0 ? 'danger': 'warning' }}" button {{ $loop->iteration == 1 ? '': ' collapsed'}}>
+    <div class="row">
+        <div class="col-md-12">
+            <solid-box title="Asignadas a otros" color="warning">
+            <data-table example="1">
 
-                    <div class="row">
-                        <div class="col-md-12">
-                            @include('coffee.tasks._indicators', ['buttonSize' => 'btn-xs'])
-                        </div>
-                    </div>
+                {{ drawHeader('iD', '<i class="fa fa-cogs"></i>', 'descripción', 'asignada a', 'límite', 'terminó', 'estado', 'observaciones') }}
 
-                    <br>
+                <template slot="body">
+                    @foreach($tasks as $task)
+                        <tr>
+                            <td>{{ $task->id }}</td>
+                            <td>
+                                <dropdown color="warning" icon="cogs">
+                                    @if (!$task->assigned_to)
+                                        <ddi icon="edit" text="Editar/Asignar" to="{{ route('coffee.task.edit', $task) }}"></ddi>
+                                    @endif
 
-                    <div class="row">
-                        <div class="col-md-12">
-                            <data-table example="1">
+                                    @if ($task->status != 'aceptada' && $task->assigned_to == auth()->user()->id)
+                                        <li>
+                                            <a type="button" data-toggle="modal" data-target="#completeTask{{ $task->id }}">
+                                                <i class="fa fa-check"></i> Terminar
+                                            </a>
+                                        </li>
+                                    @endif
 
-                                {{ drawHeader('iD', '<i class="fa fa-cogs"></i>', 'descripción', 'asignó', 'límite', 'terminó', 'estado', 'observaciones') }}
+                                    @if ($task->status == 'terminada' && $task->assigned_by == auth()->user()->id)
+                                        <li>
+                                            <a type="button" data-toggle="modal" data-target="#rejectTask{{ $task->id }}">
+                                                <i class="fa fa-eye"></i> Revisar
+                                            </a>
+                                        </li>
+                                        {{-- <ddi icon="check" text="Aceptar" to="{{ route('coffee.task.change', [$task, 'aceptada']) }}"></ddi> --}}
+                                    @endif
+                                </dropdown>
 
-                                <template slot="body">
-                                    @foreach($tasks as $task)
-                                        <tr>
-                                            <td>{{ $task->id }}</td>
-                                            <td>
-                                                <dropdown color="{{ $loop->parent->iteration % 2 == 0 ? 'danger': 'warning' }}" icon="cogs">
-                                                    @if (!$task->assigned_to)
-                                                        <ddi icon="edit" text="Editar/Asignar" to="{{ route('coffee.task.edit', $task) }}"></ddi>
-                                                    @endif
+                                <modal title="Razones" id="rejectTask{{ $task->id }}" color="#dd4b39">
+                                    @include('coffee.tasks._add_reasons')
+                                </modal>
 
-                                                    @if ($task->status != 'aceptada' && $task->assigned_to == auth()->user()->id)
-                                                        <li>
-                                                            <a type="button" data-toggle="modal" data-target="#completeTask{{ $task->id }}">
-                                                                <i class="fa fa-check"></i> Terminar
-                                                            </a>
-                                                        </li>
-                                                    @endif
-
-                                                    @if ($task->status == 'terminada' && $task->assigned_by == auth()->user()->id)
-                                                        <li>
-                                                            <a type="button" data-toggle="modal" data-target="#rejectTask{{ $task->id }}">
-                                                                <i class="fa fa-eye"></i> Revisar
-                                                            </a>
-                                                        </li>
-                                                        {{-- <ddi icon="check" text="Aceptar" to="{{ route('coffee.task.change', [$task, 'aceptada']) }}"></ddi> --}}
-                                                    @endif
-                                                </dropdown>
-
-                                                <modal title="Razones" id="rejectTask{{ $task->id }}" color="#dd4b39">
-                                                    @include('coffee.tasks._add_reasons')
-                                                </modal>
-
-                                                <modal title="Tarea terminada" id="completeTask{{ $task->id }}" color="#dd4b39">
-                                                    @include('coffee.tasks._add_observations')
-                                                </modal>
-                                            </td>
-                                            <td>{{ $task->description }}</td>
-                                            <td>{{ $task->tasker->name }}</td>
-                                            <td style="{{ !$task->completed_at ? 'color: black;': ($task->onTime ? 'color: green;': 'color:red;') }}">
-                                                {{ $task->assigned_at ? date('d/m/y', strtotime($task->assigned_at)): '' }}
-                                            </td>
-                                            <td style="{{ $task->onTime ? 'color: green;': 'color:red;' }}">
-                                                {{ $task->completed_at ? date('d/m/y', strtotime($task->completed_at)): '' }}
-                                            </td>
-                                            <td>
-                                                <label class="label label-{{ $task->status_color }}">
-                                                    {{ strtoupper($task->status) }} {{ $task->repetitions ? " ($task->repetitions)": '' }}
-                                                </label>
-                                            </td>
-                                            <td>{!! $task->observations !!}</td>
-                                        </tr>
-                                    @endforeach
-                                </template>                        
-                            </data-table>
-                            
-                        </div>
-                    </div>
-                    
-
-                </solid-box>
-            </div>
+                                <modal title="Tarea terminada" id="completeTask{{ $task->id }}" color="#dd4b39">
+                                    @include('coffee.tasks._add_observations')
+                                </modal>
+                            </td>
+                            <td>{{ $task->description }}</td>
+                            <td>{{ $task->user->name ?? 'no asignada' }}</td>
+                            <td style="{{ !$task->completed_at ? 'color: black;': ($task->onTime ? 'color: green;': 'color:red;') }}">
+                                {{ $task->assigned_at ? date('d/m/y', strtotime($task->assigned_at)): '' }}
+                            </td>
+                            <td style="{{ $task->onTime ? 'color: green;': 'color:red;' }}">
+                                {{ $task->completed_at ? date('d/m/y', strtotime($task->completed_at)): '' }}
+                            </td>
+                            <td>
+                                <label class="label label-{{ $task->status_color }}">
+                                    {{ strtoupper($task->status) }} {{ $task->repetitions ? " ($task->repetitions)": '' }}
+                                </label>
+                            </td>
+                            <td>{!! $task->observations !!}</td>
+                        </tr>
+                    @endforeach
+                </template>                        
+            </data-table>
+        </solid-box>
+            
         </div>
-    @empty
-        <h2>
-            <code>NO HAY TAREAS ASIGNADAS</code>
-        </h2>
-    @endforelse
+    </div>
 
 @endsection

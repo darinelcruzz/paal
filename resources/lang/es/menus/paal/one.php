@@ -48,6 +48,12 @@ return [
         ]
     ],
 
+    'tasks' => [
+        'title' => 'Tareas',
+        'icon' => 'fa fa-tasks',
+        'route' => 'paal.task.index'
+    ],
+
     'logs' => [
         'title' => 'Correciones',
         'icon' => 'fa fa-edit',

@@ -21,6 +21,7 @@ class Task extends Model
     {
     	return $this->belongsTo(User::class, 'assigned_to');
     }
+    
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
