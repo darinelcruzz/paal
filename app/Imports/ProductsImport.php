@@ -15,15 +15,8 @@ class ProductsImport implements ToCollection
 
             if ($product) {
                 $product->update([
-                    'type' => $row[1],
-                    'description' => $row[2],
-                    'code' => $row[3],
-                    'barcode' => $row[3],
-                    'retail_price' => $row[4],
-                    'wholesale_price' => $row[5],
-                    'family' => $row[6],
-                    'category' => $row[7],
-                    'status' => $row[8] == 0 ? 'descontinuado': 'activo',
+                    'category' => $row[6],
+                    'status' => $row[7],
                 ]);
             }
             
