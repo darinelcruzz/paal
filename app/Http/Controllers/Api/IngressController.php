@@ -15,8 +15,7 @@ class IngressController extends Controller
         if ($type != 'envíos') {
             $ingresses = Ingress::whereYear('bought_at', substr($date, 0, 4))
                 ->whereMonth('bought_at', substr($date, 5, 2))
-                ->where('company', '!=', 'mbe')
-                // ->where('company', 'sanson')
+                ->where('company', '!=', 'MBE')
                 ->where('status', '!=', 'cancelado')
                 ->with('payments')
                 ->get();
@@ -40,9 +39,10 @@ class IngressController extends Controller
                     return $ingress->type != 'anticipo' ? $ingress->amount - $ingress->retainers->sum('amount'): $ingress->amount;
                 }
             }) / $divisor;
+        } else {
+            return Shipping::monthly($date, $company)->count();
         }
 
-        return Shipping::monthly($date, $company)->count();;
     }
 
     function ingresses($date = null, $company = 'coffee', $type = 'varios')
@@ -59,28 +59,19 @@ class IngressController extends Controller
                 ->get()
                 ->sum(function ($ingress) use ($type) { 
                     return $ingress->movements->sum(function ($m) use ($ingress, $type) {
-                        if ($type == 'equipo') {
-                            return $m->product->type == 'EQUIPO' ? $m->real_amount: 0;
-                        } else {
-                            return $m->product->type == 'VARIOS' ? $m->real_amount: 0;
-                        }
+                        return $m->product->type == strtoupper($type) ? $m->total: 0;
                     }) + $ingress->rounding;
                 });
-        } else {
-            $projectSum = 0;
         }
-
-        $projectSum = 0;
 
         return Ingress::whereYear('bought_at', substr($date, 0, 4))
             ->whereMonth('bought_at', substr($date, 5, 7))
             ->where('company', '!=', 'mbe')
             ->where('status', '!=', 'cancelado')
-            ->when($type == 'depositado', function ($query) {
-                $query->with('payments');
-            }, function ($query) use ($type){
+            ->when($type != 'depositado', function ($query) use ($type){
                 $query->where('type', $type);
             })
+            ->with('payments')
             ->get()
             ->sum(function ($ingress) use ($type) {
                 if($type == 'depositado') {

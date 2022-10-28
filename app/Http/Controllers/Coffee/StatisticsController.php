@@ -26,12 +26,17 @@ class StatisticsController extends Controller
                     $query->where('category', $category);
                 });
             })
-            ->with('product:id,category,family,description')
+            ->with('product:id,category,family,description,iva')
             ->get();
+
+        // ddd($movements[0]);
 
         $groups = $movements->groupBy($category == 'TOTAL' ? 'product.category': 'product.family')
             ->transform(function ($item, $key) {
-                return ['quantity' => $item->sum('quantity'), 'amount' => $item->sum('total')];
+                return ['quantity' => $item->sum('quantity'), 'amount' => $item->sum(function ($i)
+                {
+                    return $i->total * (1 + $i->product->iva * 0.16);
+                })];
             })
             ->sortByDesc('quantity');
 

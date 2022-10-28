@@ -70,20 +70,24 @@ class ProductController extends Controller
     function amount($date, $category)
     {
         $movements = Movement::query()
-        ->select('quantity', 'total', 'product_id')
-        ->whereHasMorph('movable', Ingress::class, function ($query) use ($date) {
-            $query->where('company', '!=', 'MBE')
-                ->whereYear('bought_at', substr($date, 0, 4))
-                ->whereMonth('bought_at', substr($date, 5, 2))
-                ->where('status', '!=', 'cancelado');
-        })
-        ->whereHas('product', function ($query) use ($category) {
-            return $query->when($category != 'TOTAL', function ($query) use ($category) {
-                    $query->where('category', $category);
-                });
-        })
-        ->get();
+            ->select('quantity', 'total', 'product_id')
+            ->whereHasMorph('movable', Ingress::class, function ($query) use ($date) {
+                $query->where('company', '!=', 'MBE')
+                    ->whereYear('bought_at', substr($date, 0, 4))
+                    ->whereMonth('bought_at', substr($date, 5, 2))
+                    ->where('status', '!=', 'cancelado');
+            })
+            ->whereHas('product', function ($query) use ($category) {
+                return $query->when($category != 'TOTAL', function ($query) use ($category) {
+                        $query->where('category', $category);
+                    });
+            })
+            ->with('product:id,category,family,description,iva')
+            ->get();
 
-        return ['quantity' => $movements->sum('quantity'), 'amount' => number_format($movements->sum('total'), 2)];
+        return ['quantity' => $movements->sum('quantity'), 'amount' => number_format($movements->sum(function ($i)
+        {
+            return $i->total * (1 + $i->product->iva * 0.16);
+        }), 2)];
     }
 }
