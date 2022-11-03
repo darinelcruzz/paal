@@ -27,7 +27,10 @@ class Ingress extends Model
 
     function retainers()
     {
-        return $this->hasMany(Ingress::class, 'quotation_id', 'quotation_id')->where('type', 'anticipo')->where('status', '!=', 'cancelado');
+        return $this->hasMany(Ingress::class, 'quotation_id', 'quotation_id')
+            ->where('type', 'anticipo')
+            ->where('quotation_id', $this->quotation_id)
+            ->where('status', '!=', 'cancelado');
     }
 
     function payments()
