@@ -60432,7 +60432,7 @@ var render = function() {
       ]
     ),
     _vm._v(" "),
-    _vm.payments.length > 0
+    _vm.type != "quotation"
       ? _c(
           "table",
           {

@@ -49,7 +49,7 @@
 			</tfoot>
 		</table>
 
-		<table v-if="payments.length > 0" class="table table-bordered table-condensed table-hover table-striped">
+		<table v-if="type != 'quotation'" class="table table-bordered table-condensed table-hover table-striped">
 			<thead>
                 <tr>
                     <th>&nbsp;</th>
