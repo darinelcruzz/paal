@@ -50,6 +50,19 @@
                     </thead>
 
                     <tbody>
+                        @if($status == 'tarjeta')
+                         @php
+                         $ingresses = $ingresses->where('method', 'tarjeta débito');
+                         $ingresses2 = $ingresses->where('method', 'tarjeta crédito');
+                         @endphp
+                         <tr>
+                             <th colspan="5" style="text-align: center;"><small>DÉBITO</small></th>
+                         </tr>
+                        @else
+                            @php
+                            $ingresses2 = [];
+                            @endphp
+                        @endif
                         @foreach($ingresses as $ingress)
                             <tr>
                                 <td style="width: 10%">
@@ -82,6 +95,45 @@
                                 <td style="text-align: right">{{ number_format($ingress->amount, 2) }}</td>
                             </tr>
                         @endforeach
+
+                        @forelse($ingresses2 as $ingress)
+                            @if($loop->index == 0)
+                            <tr>
+                                 <th colspan="5" style="text-align: center;"><small>CRÉDITO</small></th>
+                             </tr>
+                            @endif
+                            <tr>
+                                <td style="width: 10%">
+                                    @if($ingress->invoice_id == null && $ingress->pay_method == 'efectivo' && $status == 'efectivo')
+                                        <input type="checkbox" name="sales[]" value="{{ $ingress->id }}" checked>
+                                    @elseif($ingress->invoice_id != null || $ingress->pinvoice_id != null)
+                                        <span style="color: green;"><i class='fa fa-check'></i></span>
+                                    @endif
+                                    {{ $ingress->folio }}
+                                </td>
+                                <td style="width: 5%">
+                                    <dropdown icon="cogs" color="{{ $color }}">
+                                        <li>
+                                            <a data-toggle="modal" data-target="#ingress-modal" v-on:click="upmodel({{ $ingress->toJson() }})">
+                                                <i class="fa fa-eye" aria-hidden="true"></i> Ver productos
+                                            </a>
+                                        </li>
+                                        @if ($ingress->invoice_id || $ingress->pinvoice_id)
+                                            {{-- <li><a href="{{ $ingress->xml }}" target="_blank"><i class="fa fa-file-code"></i> XML</a></li> --}}
+                                        @elseif($status != 'efectivo')
+                                            <li><a data-toggle="modal" data-target="#invoice-modal" v-on:click="upmodel({{ $ingress->toJson() }})"><i class="fa fa-plus"></i> Agregar FI</a></li>
+                                        @endif
+                                    </dropdown>
+                                </td>
+                                <td>
+                                    {{ $ingress->client->name }}
+                                </td>
+                                @if($status == 'factura') <td style="text-align: center">{{ ucfirst($ingress->pay_method) }}</td> @endif
+                                <td style="text-align: right">{{ number_format($ingress->iva, 2) }}</td>
+                                <td style="text-align: right">{{ number_format($ingress->amount, 2) }}</td>
+                            </tr>
+                        @empty
+                        @endforelse
                     </tbody>
 
                     <tfoot>

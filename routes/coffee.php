@@ -65,6 +65,7 @@ Route::group(['prefix' => 'cocinaspaal', 'as' => 'coffee.'], function () {
 	    Route::get('agregar/{type?}', usesas($ctrl, 'create'));
 	    Route::post('agregar', usesas($ctrl, 'store'));
 	    Route::get('numeros-de-serie/{ingress}', usesas($ctrl, 'update'));
+	    Route::post('agregar-sae/{ingress}', usesas($ctrl, 'update'));
 		Route::get('ticket/{ingress}', usesas($ctrl, 'ticket'));
 		Route::get('cancelar/{ingress}/{reasons}', usesas($ctrl, 'destroy'));
 		Route::get('{ingress}', usesas($ctrl, 'show'));

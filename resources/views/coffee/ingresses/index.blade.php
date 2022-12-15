@@ -73,6 +73,13 @@
                                                 <i class="fa fa-print" aria-hidden="true"></i> Imprimir
                                             </a>
                                         </li>
+                                        @if ($ingress->client_id != 532 && $ingress->sae == null)
+                                            <li>
+                                                <a data-toggle="modal" data-target="#sae-modal-{{ $ingress->id }}">
+                                                    <i class="fa fa-barcode" aria-hidden="true"></i> SAE
+                                                </a>
+                                            </li>
+                                        @endif
                                         @if(auth()->user()->level < 3)
                                             <ddi to="{{ route('coffee.payment.edit', $ingress) }}" icon="edit" text="Editar"></ddi>                                        
                                         @endif
@@ -84,15 +91,31 @@
                                             </li>
                                         @endif
                                     </dropdown>
+
+                                    <modal title="Venta {{ $ingress->folio }}" color="warning" id="sae-modal-{{ $ingress->id }}">
+                                        {!! Form::open(['method' => 'POST', 'route' => ['coffee.ingress.update', $ingress]]) !!}
+                                        
+                                            {!! Field::text('sae', ['label' => 'Folio', 'tpl' => 'withicon'], ['icon' => 'barcode']) !!}
+                                            <button type="submit" class="btn btn-sm btn-warning pull-right">AGREGAR</button>
+
+                                        {!! Form::close() !!}
+                                    </modal>
                                 </td>
                                 <td>{{ date('d/m/y', strtotime($ingress->bought_at)) }}</td>
                                 <td style="width: 30%">
                                     <a href="{{ route('coffee.client.show', [$ingress->client, 'ventas']) }}" target="_blank">
                                         {{ $ingress->quotation->client_name ?? $ingress->client->name }}
                                     </a>
+                                    @if($ingress->client_id == 532)
+                                    <code><i class="fa fa-circle"></i></code>
+                                    @elseif($ingress->sae != null)
+                                    <label class="label label-success" title="{{ $ingress->sae }}">
+                                        <small>SAE</small>
+                                    </label>
+                                    @endif
                                     @if($ingress->quotation)
                                     <span class="{{ $ingress->quotation->internet_type == '' ? '': 'badge bg-aqua' }} pull-right"><em>{{ $ingress->quotation->internet_type }}</em></span>
-                                    @endif
+                                    @endif                                    
                                 </td>
                                 <td style="text-align: center;">
                                     <label class="label label-default">

@@ -29,7 +29,10 @@ class StatisticsController extends Controller
             ->with('product:id,category,family,description,iva')
             ->get();
 
-        // ddd($movements[0]);
+        $notes = Ingress::whereYear('bought_at', substr($date, 0, 4))
+                    ->whereMonth('bought_at', substr($date, 5, 2))
+                    ->where('type', 'nota de crédito')
+                    ->sum('amount');
 
         $groups = $movements->groupBy($category == 'TOTAL' ? 'product.category': 'product.family')
             ->transform(function ($item, $key) {
@@ -50,7 +53,7 @@ class StatisticsController extends Controller
             ->take(5);
 
         // dd($groups);
-        return view('coffee.statistics.sales', compact('date', 'category', 'groups', 'topProducts'));
+        return view('coffee.statistics.sales', compact('date', 'category', 'groups', 'topProducts', 'notes'));
     }
 
     function clients(Request $request)

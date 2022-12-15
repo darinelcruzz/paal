@@ -15,7 +15,7 @@ class IngressController extends Controller
         $date = dateFromRequest('Y-m');
 
         $ingresses = Ingress::query()
-            ->select('id', 'folio', 'client_id', 'bought_at', 'invoice', 'status', 'amount', 'iva', 'company', 'created_at', 'quotation_id', 'method', 'type', 'rounding')
+            ->select('id', 'folio', 'client_id', 'bought_at', 'invoice', 'status', 'amount', 'iva', 'company', 'created_at', 'quotation_id', 'method', 'type', 'rounding', 'sae')
             ->whereIn('company', ['coffee', 'sanson'])
             ->whereMonth('created_at', substr($date, 5, 7))
             ->whereYear('created_at', substr($date, 0, 4))
@@ -77,8 +77,12 @@ class IngressController extends Controller
         return view('coffee.ingresses.show', compact('ingress'));
     }
 
-    function update(Ingress $ingress)
+    function update(Request $request, Ingress $ingress)
     {
+        if ($request->sae) {
+            $ingress->update(['sae' => $request->sae]);
+            return redirect(route('coffee.ingress.index'));
+        }
         return view('coffee.ingresses.update', compact('ingress'));
     }
 

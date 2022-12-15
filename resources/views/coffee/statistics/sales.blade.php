@@ -48,9 +48,14 @@
 
                         <tfoot>
                             <tr>
+                                <td><small>NOTAS DE CRÉDITO</small></td>
+                                <td style="text-align: center;"></td>
+                                <td style="text-align: right;">{{ number_format($notes, 2) }}</td>
+                            </tr>
+                            <tr>
                                 <th></th>
                                 <th style="text-align: center;">{{ $groups->sum('quantity') }}</th>
-                                <th style="text-align: right;">{{ number_format($groups->sum('amount'), 2) }}</th>
+                                <th style="text-align: right;">{{ number_format($groups->sum('amount') + $notes, 2) }}</th>
                             </tr>
                         </tfoot>
                     </table>

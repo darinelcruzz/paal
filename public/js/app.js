@@ -60262,8 +60262,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	props: ['model', 'type'],
@@ -60334,7 +60332,9 @@ var render = function() {
           "tbody",
           _vm._l(_vm.movements, function(movement, index) {
             return _c("tr", [
-              _c("td", [_vm._v(_vm._s(index + 1))]),
+              _c("td", { staticStyle: { "text-align": "center" } }, [
+                _vm._v(_vm._s(movement.quantity))
+              ]),
               _vm._v(" "),
               _c("td", [
                 _vm._v(
@@ -60344,10 +60344,6 @@ var render = function() {
               _vm._v(" "),
               _c("td", { staticStyle: { "text-align": "right" } }, [
                 _vm._v(_vm._s(movement.price.toFixed(2)))
-              ]),
-              _vm._v(" "),
-              _c("td", { staticStyle: { "text-align": "center" } }, [
-                _vm._v(_vm._s(movement.quantity))
               ]),
               _vm._v(" "),
               _c("td", { staticStyle: { "text-align": "right" } }, [
@@ -60386,7 +60382,7 @@ var render = function() {
         _vm._v(" "),
         _c("tfoot", [
           _c("tr", [
-            _c("td", { attrs: { colspan: "5" } }),
+            _c("td", { attrs: { colspan: "4" } }),
             _vm._v(" "),
             _vm._m(1),
             _vm._v(" "),
@@ -60397,7 +60393,7 @@ var render = function() {
           _vm._v(" "),
           _vm.model.iva > 0
             ? _c("tr", [
-                _c("td", { attrs: { colspan: "5" } }),
+                _c("td", { attrs: { colspan: "4" } }),
                 _vm._v(" "),
                 _vm._m(2),
                 _vm._v(" "),
@@ -60409,7 +60405,7 @@ var render = function() {
           _vm._v(" "),
           _vm.model.rounding != 0
             ? _c("tr", [
-                _c("td", { attrs: { colspan: "5" } }),
+                _c("td", { attrs: { colspan: "4" } }),
                 _vm._v(" "),
                 _vm._m(3),
                 _vm._v(" "),
@@ -60420,7 +60416,7 @@ var render = function() {
             : _vm._e(),
           _vm._v(" "),
           _c("tr", [
-            _c("td", { attrs: { colspan: "5" } }),
+            _c("td", { attrs: { colspan: "4" } }),
             _vm._v(" "),
             _vm._m(4),
             _vm._v(" "),
@@ -60517,16 +60513,14 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_c("small", [_vm._v("N°")])]),
+        _c("th", { staticStyle: { "text-align": "center" } }, [
+          _c("small", [_vm._v("CANT")])
+        ]),
         _vm._v(" "),
         _c("th", [_c("small", [_vm._v("DESCRIPCIÓN")])]),
         _vm._v(" "),
         _c("th", { staticStyle: { "text-align": "right" } }, [
           _c("small", [_vm._v("PRECIO")])
-        ]),
-        _vm._v(" "),
-        _c("th", { staticStyle: { "text-align": "center" } }, [
-          _c("small", [_vm._v("CANTIDAD")])
         ]),
         _vm._v(" "),
         _c("th", { staticStyle: { "text-align": "right" } }, [
