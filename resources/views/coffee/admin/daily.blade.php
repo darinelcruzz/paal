@@ -151,6 +151,10 @@
                         <i class="fa fa-file-invoice-dollar fa-2x"></i>
                     </a>
 
+                    <a href="{{ route('coffee.analysis.show', $date) }}" class="btn btn-default btn-sm" title="TODOS LOS PRODUCTOS" target="_blank">
+                        <i class="fa fa-print fa-2x"></i>
+                    </a>
+
                     <modal title="Agregar datos de la facturación" id="modal-cash" color="{{ $color }}">
 
                         <div class="row">

@@ -62,9 +62,24 @@ class SalesAnalysisController extends Controller
         //
     }
 
-    function show($id)
+    function show($date)
     {
-        //
+        $ingresses = Ingress::whereDate('created_at', $date)
+            ->where('status', '!=', 'cancelado')
+            ->whereCompany('coffee')
+            ->where('invoice', 'no')
+            ->where('method', 'efectivo')
+            ->pluck('id');
+
+        $movements = Movement::whereIn('movable_id', $ingresses)
+            ->where('movable_type', 'App\Ingress')
+            ->with('product')
+            ->get()
+            ->groupBy(['product.description', function ($item, $key) {
+                return (string) $item['price'];
+            }], $preserveKeys = true);
+
+        return view('coffee.analyses.show', compact('movements'));
     }
 
     function edit($id)
