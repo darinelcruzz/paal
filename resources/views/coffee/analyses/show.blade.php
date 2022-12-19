@@ -34,6 +34,10 @@
                     </tr>
                 </thead>
 
+                @php
+                    $total = 0;
+                @endphp
+
                 <tbody>
                     @foreach($movements as $description => $prices)
                         @foreach($prices as $price => $elements)
@@ -42,10 +46,28 @@
                             <td>{{ $description }}</td>
                             <td style="text-align: right;">{{ number_format($price, 2) }}</td>
                             <td style="text-align: right;">{{ number_format($elements->sum('quantity') * $price, 2) }}</td>
+                            @php
+                                $total += $elements->sum('quantity') * $price;
+                            @endphp
                         </tr>
                         @endforeach()
                     @endforeach()
                 </tbody>
+
+                <tfoot>
+                    <tr>
+                        <th style="text-align: right;" colspan="3"><small>SUBTOTAL</small></th>
+                        <th style="text-align: right;">{{ number_format($total + $rounding, 2) }}</th>
+                    </tr>
+                    <tr>
+                        <th style="text-align: right;" colspan="3"><small>I.V.A.</small></th>
+                        <th style="text-align: right;">{{ number_format($iva, 2) }}</th>
+                    </tr>
+                    <tr>
+                        <th style="text-align: right;" colspan="3"><small>TOTAL</small></th>
+                        <th style="text-align: right;">{{ number_format($total + $rounding + $iva, 2) }}</th>
+                    </tr>
+                </tfoot>
             </table>
         </div>
     </div>

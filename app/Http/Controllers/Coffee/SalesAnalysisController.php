@@ -68,10 +68,9 @@ class SalesAnalysisController extends Controller
             ->where('status', '!=', 'cancelado')
             ->whereCompany('coffee')
             ->where('invoice', 'no')
-            ->where('method', 'efectivo')
-            ->pluck('id');
+            ->where('method', 'efectivo');
 
-        $movements = Movement::whereIn('movable_id', $ingresses)
+        $movements = Movement::whereIn('movable_id', $ingresses->pluck('id'))
             ->where('movable_type', 'App\Ingress')
             ->with('product')
             ->get()
@@ -79,7 +78,10 @@ class SalesAnalysisController extends Controller
                 return (string) $item['price'];
             }], $preserveKeys = true);
 
-        return view('coffee.analyses.show', compact('movements'));
+        $iva = $ingresses->sum('iva');
+        $rounding = $ingresses->sum('rounding');
+
+        return view('coffee.analyses.show', compact('movements', 'iva', 'rounding'));
     }
 
     function edit($id)
