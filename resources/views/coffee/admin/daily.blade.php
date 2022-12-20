@@ -96,7 +96,7 @@
                                 <td style="text-align: right">{{ number_format($ingress->amount, 2) }}</td>
                             </tr>
                         @endforeach
-                        @if($ingresses1->count() > 0 && $status == 'tarjeta')
+                        @if(count($ingresses1) > 0 && $status == 'tarjeta')
                         <tr>
                             <th colspan="3"></th>
                             <th style="text-align: right;"><small><em>TOTAL DÉBITO</em></small></th>
