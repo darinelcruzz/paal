@@ -52,7 +52,7 @@
                     <tbody>
                         @if($status == 'tarjeta')
                          @php
-                         $ingresses = $ingresses->where('method', 'tarjeta débito');
+                         $ingresses1 = $ingresses->where('method', 'tarjeta débito');
                          $ingresses2 = $ingresses->where('method', 'tarjeta crédito');
                          @endphp
                          <tr>
@@ -60,10 +60,11 @@
                          </tr>
                         @else
                             @php
+                            $ingresses1 = $ingresses;
                             $ingresses2 = [];
                             @endphp
                         @endif
-                        @foreach($ingresses as $ingress)
+                        @foreach($ingresses1 as $ingress)
                             <tr>
                                 <td style="width: 10%">
                                     @if($ingress->invoice_id == null && $ingress->pay_method == 'efectivo' && $status == 'efectivo')
