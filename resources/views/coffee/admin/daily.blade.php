@@ -96,6 +96,13 @@
                                 <td style="text-align: right">{{ number_format($ingress->amount, 2) }}</td>
                             </tr>
                         @endforeach
+                        @if($ingresses1->count() > 0 && $status == 'tarjeta')
+                        <tr>
+                            <th colspan="3"></th>
+                            <th style="text-align: right;"><small><em>TOTAL DÉBITO</em></small></th>
+                            <th style="text-align: right;">{{ number_format($ingresses1->sum('amount'), 2) }}</th>
+                        </tr>
+                        @endif()
 
                         @forelse($ingresses2 as $ingress)
                             @if($loop->index == 0)
@@ -135,6 +142,14 @@
                             </tr>
                         @empty
                         @endforelse
+
+                        @if($ingresses2->count() > 0)
+                        <tr>
+                            <th colspan="3"></th>
+                            <th style="text-align: right;"><small><em>TOTAL CRÉDITO</em></small></th>
+                            <th style="text-align: right;">{{ number_format($ingresses2->sum('amount'), 2) }}</th>
+                        </tr>
+                        @endif()
                     </tbody>
 
                     <tfoot>
