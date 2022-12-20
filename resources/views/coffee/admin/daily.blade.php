@@ -143,7 +143,7 @@
                         @empty
                         @endforelse
 
-                        @if($ingresses2->count() > 0)
+                        @if(count($ingresses2) > 0)
                         <tr>
                             <th colspan="3"></th>
                             <th style="text-align: right;"><small><em>TOTAL CRÉDITO</em></small></th>
