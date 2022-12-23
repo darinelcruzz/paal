@@ -79,11 +79,18 @@ class IngressController extends Controller
 
     function update(Request $request, Ingress $ingress)
     {
-        if ($request->sae) {
-            $ingress->update(['sae' => $request->sae]);
-            return redirect(route('coffee.ingress.index'));
-        }
         return view('coffee.ingresses.update', compact('ingress'));
+    }
+
+    function updateSAE(Request $request, Ingress $ingress)
+    {
+        $validated = $request->validate([
+            'sae' => 'required'
+        ]);
+
+        $ingress->update($validated);
+
+        return redirect(route('coffee.ingress.index'));
     }
 
     function ticket(Ingress $ingress)

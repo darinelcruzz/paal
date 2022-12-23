@@ -93,7 +93,7 @@
                                     </dropdown>
 
                                     <modal title="Venta {{ $ingress->folio }}" color="warning" id="sae-modal-{{ $ingress->id }}">
-                                        {!! Form::open(['method' => 'POST', 'route' => ['coffee.ingress.update', $ingress]]) !!}
+                                        {!! Form::open(['method' => 'POST', 'route' => ['coffee.ingress.updateSAE', $ingress]]) !!}
                                         
                                             {!! Field::text('sae', ['label' => 'Folio', 'tpl' => 'withicon'], ['icon' => 'barcode']) !!}
                                             <button type="submit" class="btn btn-sm btn-warning pull-right">AGREGAR</button>
