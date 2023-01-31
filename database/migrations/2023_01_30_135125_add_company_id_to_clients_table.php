@@ -14,8 +14,8 @@ class AddCompanyIdToClientsTable extends Migration
     public function up()
     {
         Schema::table('clients', function (Blueprint $table) {
-            $table->foreignId('company_id');
-            $table->foreignId('store_id');
+            $table->foreignId('company_id')->default(1);
+            $table->foreignId('store_id')->default(1);
         });
     }
 

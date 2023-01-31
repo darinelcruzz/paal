@@ -14,8 +14,8 @@ class AddCompanyIdToEgressesTable extends Migration
     public function up()
     {
         Schema::table('egresses', function (Blueprint $table) {
-            $table->foreignId('company_id');
-            $table->foreignId('store_id');
+            $table->foreignId('company_id')->default(1);
+            // $table->foreignId('store_id')->default(1);
         });
     }
 
@@ -28,7 +28,7 @@ class AddCompanyIdToEgressesTable extends Migration
     {
         Schema::table('egresses', function (Blueprint $table) {
             $table->dropColumn('company_id');
-            $table->dropColumn('store_id');
+            // $table->dropColumn('store_id');
         });
     }
 }

@@ -17,7 +17,7 @@ class CreateStoresTable extends Migration
             $table->id();
 
             $table->string('name');
-            $table->foreignId('company_id');
+            $table->foreignId('company_id')->default(1);
             $table->string('address');
             $table->string('phone');
 
