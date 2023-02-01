@@ -95,7 +95,7 @@
 
                 <tbody>
                     @php
-                        $subtotal = $discounts = 0 
+                        $subtotal = $discounts = $quantity = 0 
                     @endphp
 
                     @foreach ($ingress->movements as $movement)
@@ -106,6 +106,7 @@
                             <td style="text-align: right">$ {{ number_format($movement->total, 2) }}</td>
                         </tr>
                         @php
+                            $quantity += $movement->quantity;
                             $subtotal += $movement->total;
                             $discounts += $movement->discount == 0 ? 0: 1;
                         @endphp
@@ -153,7 +154,8 @@
                 <tfoot>
                     @if ($ingress->iva > 0)
                         <tr>
-                            <th colspan="3" style="text-align: right">Subtotal</th>
+                            <td style="text-align: center;border-top: 1px solid black;">{{ $quantity }}</td>
+                            <th colspan="2" style="text-align: right">Subtotal</th>
                             <td style="text-align: right">$ {{ number_format($subtotal, 2) }}</td>
                         </tr>
                         <tr>
@@ -162,7 +164,8 @@
                         </tr>
                     @endif
                     <tr style="border:1px solid black">
-                        <th colspan="3" style="text-align: right">Total</th>
+                        @if($ingress->iva <= 0)<td style="text-align: center;border-top: 1px solid black;">{{ $quantity }}</td>@endif
+                        <th colspan="{{ $ingress->iva > 0 ? 3: 2 }}" style="text-align: right">Total</th>
                         <td style="text-align: right">$ {{ number_format($ingress->type == 'anticipo' ? $ingress->quotation->amount: $ingress->amount, 2) }}</td>
                     </tr>
                     @if ($ingress->retainer > 0)
