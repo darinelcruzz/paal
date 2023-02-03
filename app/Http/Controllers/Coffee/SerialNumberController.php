@@ -10,11 +10,9 @@ class SerialNumberController extends Controller
 {
     function index()
     {
-        $serial_numbers = SerialNumber::whereHas('product', function ($query) {
-            $query->where('company', 'COFFEE');
-        })
-        ->orderBy('purchased_at', 'asc')
-        ->get();
+        $serial_numbers = SerialNumber::latest()
+            ->orderBy('purchased_at', 'asc')
+            ->get();
 
         return view('coffee.serial_numbers.index', compact('serial_numbers'));
     }
