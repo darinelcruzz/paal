@@ -10,7 +10,9 @@ class SerialNumberController extends Controller
 {
     function index()
     {
-        $serial_numbers = SerialNumber::latest()
+        $serial_numbers = SerialNumber::query()
+            ->with('ingress:id,folio', 'product:id,description')
+            ->latest()
             ->orderBy('purchased_at', 'asc')
             ->get();
 
