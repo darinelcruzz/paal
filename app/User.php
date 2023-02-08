@@ -9,13 +9,21 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    protected $fillable = [
-        'name', 'email', 'password', 'company', 'username', 'level', 'telegram_user_id'
-    ];
+    protected $guarded = [];
 
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token'
     ];
+
+    function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
+
+    function store()
+    {
+        return $this->belongsTo(Store::class);
+    }
 
     function tasks()
     {

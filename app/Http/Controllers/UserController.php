@@ -2,21 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\{Company, Store, User};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use App\User;
 
 class UserController extends Controller
 {
     public function index()
     {
-        $users = User::all();
+        $users = User::with('company:id,name', 'store:id,name')->get();
         return view('paal.users.index', compact('users'));
     }
 
     public function create()
     {
-        return view('paal.users.create');
+        $companies = Company::pluck('name', 'id');
+        $stores1 = Store::whereCompanyId(1)->pluck('name', 'id');
+        $stores2 = Store::whereCompanyId(2)->pluck('name', 'id');
+        $stores3 = Store::whereCompanyId(3)->pluck('name', 'id');
+        return view('paal.users.create', compact('companies', 'stores1', 'stores2', 'stores3'));
     }
 
     public function store(Request $request)

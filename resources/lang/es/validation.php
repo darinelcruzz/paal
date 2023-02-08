@@ -158,6 +158,8 @@ return [
         'postcode' => 'código postal',
         'type' => 'tipo',
         'company' => 'empresa',
+        'company_id' => 'empresa',
+        'store_id' => 'tienda',
         'emission' => 'emisión',
         'expiration' => 'vencimiento',
         'retail_price' => 'precio menudeo',
