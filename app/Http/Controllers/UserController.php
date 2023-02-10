@@ -30,7 +30,8 @@ class UserController extends Controller
             'email' => 'required|unique:users',
             'username' => 'required|unique:users',
             'password' => 'required|confirmed',
-            'company' => 'required',
+            'company_id' => 'required',
+            'store_id' => 'required',
             'level' => 'required',
         ]);
 
@@ -39,7 +40,8 @@ class UserController extends Controller
             'email' => $request->email,
             'username' => $request->username,
             'password' => Hash::make($request->password),
-            'company' => $request->company,
+            'company_id' => $request->company_id,
+            'store_id' => $request->store_id,
             'level' => $request->level,
         ]);
 

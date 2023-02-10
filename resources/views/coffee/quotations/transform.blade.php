@@ -91,8 +91,10 @@
                     <input type="hidden" name="method" value="contado">
                     <input type="hidden" name="bought_at" value="{{ date('Y-m-d') }}">
                     <input type="hidden" name="paid_at" value="{{ date('Y-m-d') }}">
-                    <input type="hidden" name="company" value="coffee">
-                    <input type="hidden" name="user_id" value="{{ $quotation->user_id }}">
+                    <input type="hidden" name="company" value="cocinaspaal">
+                    <input type="hidden" name="company_id" value="2">
+                    <input type="hidden" name="store_id" value="{{ $user->store_id }}">
+                    <input type="hidden" name="user_id" value="{{ $user->id }}">
                     <input type="hidden" name="folio" value="{{ $last_folio }}">
                     <input type="hidden" name="quotation_id" value="{{ $quotation->id }}">
                     <input type="hidden" name="client_id" value="{{ $quotation->client_id }}">

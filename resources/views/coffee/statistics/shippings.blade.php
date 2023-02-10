@@ -126,13 +126,13 @@
                 </div>
             </div>
 
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-md-12">
                     <solid-box title="{{ strtoupper($company ?? 'TODOS') }}" color="{{ $color }}">
                         <div id="chart" style="height: 500px;"></div>
                     </solid-box>
                 </div>
-            </div>
+            </div> --}}
         </div>
 
         <div class="col-md-2">

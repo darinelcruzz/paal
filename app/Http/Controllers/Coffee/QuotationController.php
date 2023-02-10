@@ -11,15 +11,16 @@ class QuotationController extends Controller
 {
     function index(Request $request, $status, $type = null)
     {
+        $user = auth()->user();
         $date = isset($request->date) ? $request->date: date('Y-m');
-        $quotations = Quotation::monthly('coffee', $date, $type)->where('status', $status)->get();
-        $sales = Quotation::monthly('coffee', $date, $type)->where('status', $status)->has('sale')->count();
+        $quotations = Quotation::monthly($user->store_id, $date, $type)->where('status', $status)->get();
+        $sales = Quotation::monthly($user->store_id, $date, $type)->where('status', $status)->has('sale')->count();
         $color = $type ? ($type == 'formularios' ? 'primary': 'info') : 'warning';
         $total = count($quotations);
         $vias = [];
 
         if ($type == 'campañas') {
-            $vias = Quotation::monthly('coffee', $date, $type)->where('status', 'terminada')->get()->groupBy('via');
+            $vias = Quotation::monthly($user->store_id, $date, $type)->where('status', 'terminada')->get()->groupBy('via');
         }
 
         return view('coffee.quotations.index', compact('quotations', 'sales', 'total', 'date', 'type', 'color', 'vias', 'status'));
@@ -29,7 +30,8 @@ class QuotationController extends Controller
     {
         $exchange = Variable::find(1)->value;
         $promo = Variable::find(2)->value;
-        return view('coffee.quotations.create', compact('exchange', 'promo'));
+        $user = auth()->user();
+        return view('coffee.quotations.create', compact('exchange', 'promo', 'user'));
     }
 
     function store(Request $request)
@@ -41,6 +43,8 @@ class QuotationController extends Controller
             'iva' => 'required',
             'via' => 'sometimes|required',
             'company' => 'required',
+            'company_id' => 'required',
+            'store_id' => 'required',
             'type' => 'required',
             'client_name' => 'sometimes|required',
             'email' => 'sometimes|required',
@@ -78,11 +82,12 @@ class QuotationController extends Controller
 
     function transform(Quotation $quotation)
     {
-        $last_sale = Ingress::where('company', 'coffee')->get()->last();
+        $user = auth()->user();
+        $last_sale = Ingress::whereStoreId($user->store_id)->get()->last();
         $last_folio = $last_sale ? $last_sale->folio + 1: 1;
         $exchange = Variable::find(1)->value;
         $promo = Variable::find(2)->value;
-        return view('coffee.quotations.transform', compact('quotation', 'last_folio', 'exchange', 'promo'));
+        return view('coffee.quotations.transform', compact('quotation', 'last_folio', 'exchange', 'promo', 'user'));
     }
 
     function move(Quotation $quotation)

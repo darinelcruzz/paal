@@ -53,8 +53,10 @@
 
                     </form-wizard>
 
-                    <input type="hidden" name="company" value="coffee">
-                    <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+                    <input type="hidden" name="company" value="cocinaspaal">
+                    <input type="hidden" name="company_id" value="2">
+                    <input type="hidden" name="store_id" value="{{ $user->store_id }}">
+                    <input type="hidden" name="user_id" value="{{ $user->id }}">
 
                 {!! Form::close() !!}
             </solid-box>

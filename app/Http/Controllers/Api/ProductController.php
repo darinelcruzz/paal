@@ -69,12 +69,13 @@ class ProductController extends Controller
 
     function amount($date, $category)
     {
+        $user = auth()->user();
         $movements = Movement::query()
             ->select('quantity', 'total', 'product_id')
-            ->whereHasMorph('movable', Ingress::class, function ($query) use ($date) {
-                $query->where('company', '!=', 'MBE')
-                    ->whereYear('bought_at', substr($date, 0, 4))
+            ->whereHasMorph('movable', Ingress::class, function ($query) use ($date, $user) {
+                $query->whereYear('bought_at', substr($date, 0, 4))
                     ->whereMonth('bought_at', substr($date, 5, 2))
+                    ->where('store_id', $user->store_id)
                     ->where('status', '!=', 'cancelado');
             })
             ->whereHas('product', function ($query) use ($category) {

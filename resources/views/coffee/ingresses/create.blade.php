@@ -79,7 +79,9 @@
                     <input type="hidden" name="method" value="contado">
                     <input type="hidden" name="bought_at" value="{{ date('Y-m-d') }}">
                     <input type="hidden" name="company" value="coffee">
-                    <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+                    <input type="hidden" name="store_id" value="{{ $user->store_id }}">
+                    <input type="hidden" name="company_id" value="2">
+                    <input type="hidden" name="user_id" value="{{ $user->id }}">
                     <input type="hidden" name="folio" value="{{ $last_folio }}">
 
                 {!! Form::close() !!}

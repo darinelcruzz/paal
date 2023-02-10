@@ -1,8 +1,6 @@
 @extends('paal.root')
 
-@push('pageTitle')
-    Usuarios | Agregar
-@endpush
+@push('pageTitle', 'Usuarios | Agregar')
 
 @section('content')
     <div class="row">

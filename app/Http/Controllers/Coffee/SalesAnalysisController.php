@@ -11,22 +11,23 @@ class SalesAnalysisController extends Controller
     function index(Request $request)
     {
         $date = isset($request->date) ? $request->date: date('Y-m');
+        $user = auth()->user();
 
         $ingresses = Ingress::whereYear('bought_at', substr($date, 0, 4))
             ->whereMonth('bought_at', substr($date, 5, 2))
-            ->where('company', '!=', 'mbe')
+            ->whereStoreId($user->store_id)
             ->where('status', '!=', 'cancelado')
             ->get();
 
         $ingresses2 = Ingress::whereYear('bought_at', substr($date, 0, 4))
             ->whereMonth('bought_at', substr($date, 5, 2) - 1)
-            ->where('company', '!=', 'mbe')
+            ->whereStoreId($user->store_id)
             ->where('status', '!=', 'cancelado')
             ->get();
 
         $ingresses3 = Ingress::whereYear('bought_at', substr($date, 0, 4))
             ->whereMonth('bought_at', '!=', substr($date, 5, 2))
-            ->where('company', '!=', 'mbe')
+            ->whereStoreId($user->store_id)
             ->where('status', '!=', 'cancelado')
             ->get();
 
@@ -34,8 +35,8 @@ class SalesAnalysisController extends Controller
             ->whereYear('created_at', substr($date, 0, 4))
             ->whereMonth('created_at', substr($date, 5, 2))
             ->with('product')
-            ->whereHasMorph('movable', Ingress::class, function ($query) {
-                $query->where('company', '!=', 'mbe');
+            ->whereHasMorph('movable', Ingress::class, function ($query) use ($user){
+                $query->whereStoreId($user->store_id);
             })
             ->get()
             ->groupBy('product.description')

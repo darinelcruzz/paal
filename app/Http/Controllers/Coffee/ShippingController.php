@@ -10,22 +10,20 @@ class ShippingController extends Controller
 {
     function index(Request $request, $status)
     {
+        $user = auth()->user();
         $date = isset($request->date) ? $request->date: date('Y-m');
-
-        $shippings = Shipping::monthly($date)
+        $shippings = Shipping::monthly($date, $user->store_id)
             ->where('status', $status == 'todos' ? '!=': '=', $status)
             ->orderByDesc('id')
             ->get();
-
         return view('coffee.shippings.index', compact('shippings', 'date', 'status'));
     }
 
     function monthly(Request $request)
     {
+        $user = auth()->user();
         $date = isset($request->date) ? $request->date: date('Y-m');
-
-        $shippings = Shipping::monthly($date)->get();
-
+        $shippings = Shipping::monthly($date, $user->store_id)->get();
         return view('coffee.shippings.monthly', compact('shippings', 'date'));
     }
 

@@ -10,7 +10,9 @@ class SerialNumberController extends Controller
 {
     function index()
     {
+        $user = auth()->user();
         $serial_numbers = SerialNumber::query()
+            ->whereStoreId($user->store_id)
             ->with('ingress:id,folio', 'product:id,description')
             ->latest()
             ->orderBy('purchased_at', 'asc')
@@ -21,14 +23,18 @@ class SerialNumberController extends Controller
 
     function create()
     {
-        return view('coffee.serial_numbers.create');       
+        $user = auth()->user();
+        return view('coffee.serial_numbers.create', compact('user'));
     }
 
     function store(Request $request)
     {
+        // dd($request->all());
         $request->validate([
             'purchased_at' => 'required',
             'purchase_id' => 'required',
+            'company_id' => 'required',
+            'store_id' => 'required',
             'items' => 'required|array|min:1',
         ]);
 
@@ -36,6 +42,8 @@ class SerialNumberController extends Controller
             SerialNumber::create([
                 'product_id' => $item['product_id'],
                 'purchase_id' => $request->purchase_id,
+                'store_id' => $request->store_id,
+                'company_id' => $request->company_id,
                 'number' => $item['number'],
                 'purchased_at' => $request->purchased_at,
             ]);

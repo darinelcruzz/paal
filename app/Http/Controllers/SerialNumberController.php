@@ -9,7 +9,9 @@ class SerialNumberController extends Controller
 {
     function index()
     {
-        $serial_numbers = SerialNumber::latest()->orderByDesc('status', 'desc')
+        $user = auth()->user();
+        $serial_numbers = SerialNumber::whereStoreId($user->store_id)
+            ->latest()->orderByDesc('status', 'desc')
             ->get();
         return view('sanson.serial_numbers.index', compact('serial_numbers'));
     }

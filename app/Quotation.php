@@ -99,11 +99,11 @@ class Quotation extends Model
         return [658 => 'formulario', 659 => 'campaña'][$this->client_id] ?? '';
     }
 
-    function scopeMonthly($query, $company, $date, $type)
+    function scopeMonthly($query, $store, $date, $type)
     {
-        return $query->whereIn('company', ['coffee', 'sanson'])
-            ->whereMonth('created_at', substr($date, 5, 7))
+        return $query->whereMonth('created_at', substr($date, 5, 7))
             ->whereYear('created_at', substr($date, 0, 4))
+            ->whereStoreId($store)
             ->when($type, function ($query, $type) {
                 return $query->where('client_id', $type == 'formularios' ? 658: 659);
             }, function ($query) {

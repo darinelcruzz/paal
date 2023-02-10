@@ -15,6 +15,8 @@
                     </div>
                     <div class="col-md-6">
                         {!! Field::date('purchased_at', date('Y-m-d'), ['label' => 'Fecha de entrada','tpl' => 'withicon'], ['icon' => 'calendar']) !!}
+                        <input type="hidden" name="company_id" value="2">
+                        <input type="hidden" name="store_id" value="{{ $user->store_id }}">
                     </div>
                 </div>
 

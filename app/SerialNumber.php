@@ -22,4 +22,14 @@ class SerialNumber extends Model
     {
     	return $this->belongsTo(Purchase::class);
     }
+
+    function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
+
+    function store()
+    {
+        return $this->belongsTo(Store::class);
+    }
 }

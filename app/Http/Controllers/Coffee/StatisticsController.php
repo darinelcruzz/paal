@@ -12,13 +12,14 @@ class StatisticsController extends Controller
     {
         $date = $date ?? ($request->date ?? date('Y-m'));
         $category = strtoupper($category);
+        $user = auth()->user();
 
         $movements = Movement::query()
             ->select('quantity', 'total', 'product_id')
-            ->whereHasMorph('movable', Ingress::class, function ($query) use ($date) {
-                $query->where('company', '!=', 'MBE')
-                    ->whereYear('bought_at', substr($date, 0, 4))
+            ->whereHasMorph('movable', Ingress::class, function ($query) use ($date, $user) {
+                $query->whereYear('bought_at', substr($date, 0, 4))
                     ->whereMonth('bought_at', substr($date, 5, 2))
+                    ->where('store_id', $user->store_id)
                     ->where('status', '!=', 'cancelado');
             })
             ->whereHas('product', function ($query) use ($category) {
@@ -32,6 +33,7 @@ class StatisticsController extends Controller
         $notes = Ingress::whereYear('bought_at', substr($date, 0, 4))
                     ->whereMonth('bought_at', substr($date, 5, 2))
                     ->where('type', 'nota de crédito')
+                    ->where('store_id', $user->store_id)
                     ->sum('amount');
 
         $groups = $movements->groupBy($category == 'TOTAL' ? 'product.category': 'product.family')
@@ -59,22 +61,28 @@ class StatisticsController extends Controller
     function clients(Request $request)
     {
         $date = $request->date ?? date('Y-m');
+        $user = auth()->user();
 
         $usualClients = Client::where('company', '!=', 'mbe')
             ->whereNotIn('id', [55, 333, 532, 568])
-            ->whereHas('ingresses', function ($query) use ($date) {
-                $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', '>=', substr($date, 5, 2) - 2);
+            ->whereHas('ingresses', function ($query) use ($date, $user) {
+                $query->whereYear('bought_at', substr($date, 0, 4))
+                    ->whereMonth('bought_at', '>=', substr($date, 5, 2) - 2)
+                    ->whereStoreId($user->store_id);
             })
             ->pluck('id');
         
         $clientsComingBack = Client::where('company', 'coffee')
             ->whereNotIn('id', [55, 333, 532, 568])
-            ->whereHas('ingresses', function ($query) use ($date) {
-                $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', substr($date, 5, 2));
-            })->whereHas('ingresses', function ($query) use ($date) {
-                $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', '!=', substr($date, 5, 2) - 1);
-            })->whereHas('ingresses', function ($query) use ($date) {
-                $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', '!=', substr($date, 5, 2) - 2);
+            ->whereHas('ingresses', function ($query) use ($date, $user) {
+                $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', substr($date, 5, 2))
+                    ->whereStoreId($user->store_id);
+            })->whereHas('ingresses', function ($query) use ($date, $user) {
+                $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', '!=', substr($date, 5, 2) - 1)
+                    ->whereStoreId($user->store_id);
+            })->whereHas('ingresses', function ($query) use ($date, $user) {
+                $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', '!=', substr($date, 5, 2) - 2)
+                    ->whereStoreId($user->store_id);
             })
             ->with('latest_ingresses')
             ->get()
@@ -89,8 +97,10 @@ class StatisticsController extends Controller
             ->whereYear('created_at', date('Y'))
             ->whereMonth('created_at', date('m'))
             ->with('ingresses')
-            ->whereHas('ingresses', function ($query) use ($date) {
-                $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', substr($date, 5, 2));
+            ->whereHas('ingresses', function ($query) use ($date, $user) {
+                $query->whereYear('bought_at', substr($date, 0, 4))
+                    ->whereMonth('bought_at', substr($date, 5, 2))
+                    ->whereStoreId($user->store_id);
             })
             ->get()
             ->transform(function ($client, $key) {
@@ -102,18 +112,24 @@ class StatisticsController extends Controller
 
         $unusualClients = Client::where('company', 'coffee')
             ->whereNotIn('id', [55, 333, 532, 568])
-            ->whereDoesntHave('ingresses', function ($query) use ($date) {
-                $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', '>=', substr($date, 5, 2) - 3);
+            ->whereDoesntHave('ingresses', function ($query) use ($date, $user) {
+                $query->whereYear('bought_at', substr($date, 0, 4))
+                    ->whereMonth('bought_at', '>=', substr($date, 5, 2) - 3)
+                    ->whereStoreId($user->store_id);
             })
             ->count();
 
         $newUnusualClients = Client::where('company', 'coffee')
             ->whereNotIn('id', [55, 333, 532, 568])
             ->with('ingresses:id,amount,bought_at')
-            ->whereHas('ingresses', function ($query) use ($date) {
-                $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', '>=', substr($date, 5, 2) - 3);
-            })->whereDoesntHave('ingresses', function ($query) use ($date) {
-                $query->whereYear('bought_at', substr($date, 0, 4))->whereMonth('bought_at', '>=', substr($date, 5, 2));
+            ->whereHas('ingresses', function ($query) use ($date, $user) {
+                $query->whereYear('bought_at', substr($date, 0, 4))
+                    ->whereMonth('bought_at', '>=', substr($date, 5, 2) - 3)
+                    ->whereStoreId($user->store_id);
+            })->whereDoesntHave('ingresses', function ($query) use ($date, $user) {
+                $query->whereYear('bought_at', substr($date, 0, 4))
+                    ->whereMonth('bought_at', '>=', substr($date, 5, 2))
+                    ->whereStoreId($user->store_id);
             })
             ->get()
             ->transform(function ($client, $key) {
@@ -121,7 +137,7 @@ class StatisticsController extends Controller
             })
             ->sortByDesc('amount');
 
-        $topClients = Ingress::whereCompany('coffee')
+        $topClients = Ingress::whereStoreId($user->store_id)
             ->whereYear('bought_at', substr($date, 0, 4))
             ->whereMonth('bought_at', substr($date, 5, 2))
             ->whereNotIn('client_id', [55, 333, 532, 568])
@@ -139,23 +155,24 @@ class StatisticsController extends Controller
     function shippings(Request $request, $company = null, $date = null)
     {
         $date = $date ?? ($request->date ?? date('Y-m'));
+        $user = auth()->user();
 
         $shippings = Shipping::whereYear('created_at', substr($date, 0, 4))
             ->whereMonth('created_at', substr($date, 5, 2))
-            ->where('company', ($company == null ? '!=': '='), $company)
+            ->whereStoreId($user->store_id)
             ->whereHas('address')
             ->with('ingress:id,amount', 'address:id,city,state')
             ->get();
 
         $total = Shipping::whereYear('created_at', substr($date, 0, 4))
             ->whereMonth('created_at', substr($date, 5, 2))
-            ->whereNotNull('company')
+            ->whereStoreId($user->store_id)
             ->with('ingress:id,amount')
             ->get();
 
         $shippingsByCompany = Shipping::whereYear('created_at', substr($date, 0, 4))
             ->whereMonth('created_at', substr($date, 5, 2))
-            ->whereNotNull('company')
+            ->whereStoreId($user->store_id)
             ->whereHas('address')
             ->with('ingress:id,amount', 'address:id,city,state')
             ->get()
@@ -181,10 +198,12 @@ class StatisticsController extends Controller
     function places(Request $request)
     {
         $date = $request->date ?? date('Y-m');
+        $user = auth()->user();
 
         $ingresses = Ingress::whereYear('bought_at', substr($date, 0, 4))
             ->whereMonth('bought_at', substr($date, 5, 2))
             ->whereHas('client')
+            ->whereStoreId($user->store_id)
             ->with('client.shipping_address')
             ->get();
 

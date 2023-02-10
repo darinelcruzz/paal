@@ -12,11 +12,12 @@ class AdminController extends Controller
 {
     function daily(Request $request, $status = 'factura', $thisDate = null)
     {
+        $user = auth()->user();
         $date = $thisDate == null ? dateFromRequest(): $thisDate;
 
         $ingresses = Ingress::whereDate('created_at', $date)
             ->where('status', '!=', 'cancelado')
-            ->whereCompany('coffee')
+            ->whereStoreId($user->store_id)
             ->when($status == 'factura', function ($query) {
                 $query->where('invoice', '!=', 'no');
             }, function ($query) use ($status) {
@@ -27,7 +28,7 @@ class AdminController extends Controller
 
         $payments = Ingress::whereDate('created_at', $date)
             ->where('status', '!=', 'cancelado')
-            ->whereCompany('coffee')
+            ->whereStoreId($user->store_id)
             ->with('payments')
             ->get();
 
@@ -38,15 +39,16 @@ class AdminController extends Controller
 
     function index(Request $request)
     {
+        $user = auth()->user();
         $date = $this->getDate();
 
         $payments = Payment::from($date);
 
         $deposits = Payment::from($date)->where('type', '!=', 'contado')->get();
 
-        $invoiced = Ingress::from($date)->whereCompany('coffee')->where('invoice', '!=', 'no')->get();
+        $invoiced = Ingress::from($date)->whereStoreId($user->store_id)->where('invoice', '!=', 'no')->get();
 
-        $paid = Ingress::from($date)->whereCompany('coffee')->where('invoice', 'no')->get();
+        $paid = Ingress::from($date)->whereStoreId($user->store_id)->where('invoice', 'no')->get();
 
         return view('coffee.admin.index', compact('payments', 'paid', 'invoiced', 'deposits', 'date'));
     }
@@ -60,11 +62,12 @@ class AdminController extends Controller
     function invoices(Request $request, $thisDate = null)
     {
         $date = $thisDate == null ? dateFromRequest(): $thisDate;
+        $user = auth()->user();
 
         $invoices = Ingress::where('invoice_id', '!=', null)
             ->whereDate('created_at', $date)
             ->where('status', '!=', 'cancelado')
-            ->where('company', 'coffee')
+            ->whereStoreId($user->store_id)
             ->with('payments', 'movements.product')
             ->get();
 
@@ -73,11 +76,11 @@ class AdminController extends Controller
             ->where('invoice_id', null)
             ->whereDate('created_at', $date)
             ->where('status', '!=', 'cancelado')
-            ->where('company', 'coffee')
+            ->whereStoreId($user->store_id)
             ->with('payments', 'movements.product')
             ->get();
 
-        $deposits = Ingress::where('company', 'coffee')
+        $deposits = Ingress::whereStoreId($user->store_id)
             ->where('status', '!=', 'cancelado')
             ->whereMonth('created_at', substr($date, 5, 2))
             ->whereYear('created_at', substr($date, 0, 4))
@@ -92,7 +95,7 @@ class AdminController extends Controller
         $canceled = Ingress::where('invoice_id', '!=', null)
             ->whereDate('created_at', $date)
             ->where('status', 'cancelado')
-            ->where('company', 'coffee')
+            ->whereStoreId($user->store_id)
             ->get()
             ->groupBy('invoice_id');
 
@@ -120,22 +123,24 @@ class AdminController extends Controller
 
     function printDeposits($date)
     {
-        $invoices = Ingress::where(function ($query) use ($date) {
+        $user = auth()->user();
+
+        $invoices = Ingress::where(function ($query) use ($date, $user) {
                 $query->whereYear('created_at', substr($date, 0, 4))
                 ->whereMonth('created_at', substr($date, 5, 2))
                 ->where('invoice_id', '!=', null)
                 ->where('status', '!=', 'cancelado')
-                ->where('company', 'coffee')
+                ->whereStoreId($user->store_id)
                 ->whereHas('payments', function($query) {
                     $query->whereNull('cash_reference');
                 });
             })
-            ->orWhere(function ($query) use ($date) {
+            ->orWhere(function ($query) use ($date, $user) {
                 $query->whereYear('created_at', substr($date, 0, 4))
                 ->whereMonth('created_at', substr($date, 5, 2))
                 ->where('pinvoice_id', '!=', null)
                 ->where('status', '!=', 'cancelado')
-                ->where('company', 'coffee')
+                ->whereStoreId($user->store_id)
                 ->whereHas('payments', function($query) {
                     $query->whereNull('cash_reference');
                 });

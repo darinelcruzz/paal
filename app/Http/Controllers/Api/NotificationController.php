@@ -10,16 +10,18 @@ class NotificationController extends Controller
 {
     function shippings($company)
     {
+        $user = auth()->user();
     	return Shipping::whereStatus('pendiente')
-	        ->whereHas('ingress', function ($query) use ($company) {
-	            $query->where('company', $company);
+	        ->whereHas('ingress', function ($query) use ($user) {
+	            $query->whereStoreId($user->store_id);
 	        })
 	        ->count();
     }
 
     function egresses($company)
     {
-    	return Egress::whereCompany($company)
+        $user = auth()->user();
+    	return Egress::whereStoreId($user->store_id)
 	        ->where('status', '!=', 'pagado')
 	        ->where('status', '!=', 'eliminado')
 	        ->whereBetween('expiration', [now(), now()->addDays(3)])
@@ -28,16 +30,18 @@ class NotificationController extends Controller
 
     function numbers($company)
     {
+        $user = auth()->user();
         return 0;
     	return Ingress::all()
-	        ->where('company', $company)
+	        ->whereStoreId($user->store_id)
 	        ->where('are_serial_numbers_missing', true)
 	        ->count();
     }
 
     function tasks($company)
     {
-    	return Task::where('company', $company)
+        $user = auth()->user();
+    	return Task::whereStoreId($user->store_id)
     		->when(auth()->user()->id > 2, function ($query) {
     			$query->where('assigned_to', auth()->user()->id);
     		})
@@ -47,9 +51,10 @@ class NotificationController extends Controller
 
     function expired($company)
     {
-    	return Task::where('company', $company)
-    		->when(auth()->user()->id > 2, function ($query) {
-    			$query->where('assigned_to', auth()->user()->id);
+        $user = auth()->user();
+    	return Task::whereStoreId($user->store_id)
+    		->when($user->id > 2, function ($query) use ($user) {
+    			$query->where('assigned_to', $user->id);
     		})
     		->where('status', 'vencida')
     		->count();

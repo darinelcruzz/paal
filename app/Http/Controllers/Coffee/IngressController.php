@@ -16,7 +16,7 @@ class IngressController extends Controller
 
         $ingresses = Ingress::query()
             ->select('id', 'folio', 'client_id', 'bought_at', 'invoice', 'status', 'amount', 'iva', 'company', 'created_at', 'quotation_id', 'method', 'type', 'rounding', 'sae')
-            ->whereIn('company', ['coffee', 'sanson'])
+            ->whereStoreId(auth()->user()->store_id)
             ->whereMonth('created_at', substr($date, 5, 7))
             ->whereYear('created_at', substr($date, 0, 4))
             ->orderByDesc('id')
@@ -28,11 +28,16 @@ class IngressController extends Controller
 
     function create($type = null)
     {
-        $last_sale = Ingress::where('company', 'coffee')->latest()->first();
+        $user = auth()->user();
+        $last_sale = Ingress::query()
+            ->whereStoreId($user->store_id)
+            ->latest()
+            ->first();
+
         $last_folio = $last_sale ? $last_sale->folio + 1: 1;
         $exchange = Variable::find(1)->value;
         $promo = Variable::find(2)->value;
-        return view('coffee.ingresses.create', compact('last_folio', 'type', 'exchange', 'promo'));
+        return view('coffee.ingresses.create', compact('last_folio', 'type', 'exchange', 'promo', 'user'));
     }
 
     function store(Request $request)
@@ -46,13 +51,15 @@ class IngressController extends Controller
             'invoice' => 'required',
             'iva' => 'required',
             'company' => 'required',
+            'company_id' => 'required',
+            'store_id' => 'required',
             'type' => 'required',
             'bought_at' => 'required',
             'rounding' => 'required',
             'folio' => 'required',
        ]);
 
-        $last_sale = Ingress::where('company', 'coffee')->get()->last();
+        $last_sale = Ingress::whereStoreId($request->store_id)->latest()->first();
         $validated['folio'] = $last_sale ? $last_sale->folio + 1: 1;
 
         $ingress = Ingress::create($validated);
