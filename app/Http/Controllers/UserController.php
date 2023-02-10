@@ -10,7 +10,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::with('company:id,name', 'store:id,name')->get();
+        $users = User::with('enterprise:id,name', 'store:id,name')->get();
         return view('paal.users.index', compact('users'));
     }
 

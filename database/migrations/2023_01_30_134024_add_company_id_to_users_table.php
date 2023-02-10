@@ -14,8 +14,8 @@ class AddCompanyIdToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->foreignId('company_id')->default(1);
-            $table->foreignId('store_id')->default(1);
+            $table->foreignId('company_id')->default(2);
+            $table->foreignId('store_id')->default(2);
         });
     }
 

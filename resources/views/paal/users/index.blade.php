@@ -36,7 +36,7 @@
                             </td>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->username }}</td>
-                            <td>{{ ucfirst($user->company->name ?? '' ) }}</td>
+                            <td>{{ ucfirst($user->enterprise->name ?? '' ) }}</td>
                             <td>{{ ucfirst($user->store->name ?? '' ) }}</td>
                         </tr>
                         @endforeach

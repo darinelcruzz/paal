@@ -15,9 +15,9 @@ class User extends Authenticatable
         'password', 'remember_token'
     ];
 
-    function company()
+    function enterprise()
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(Company::class, 'company_id');
     }
 
     function store()
