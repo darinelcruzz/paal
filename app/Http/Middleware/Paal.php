@@ -15,7 +15,7 @@ class Paal
      */
     public function handle($request, Closure $next)
     {
-        if ($request->user()->company == 'paal' || $request->user()->company == 'paal+' || $request->user()->company == 'owner') {
+        if ($request->user()->store_id == 1 || $request->user()->level == 0) {
             return $next($request);
         }
 

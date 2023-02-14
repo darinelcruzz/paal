@@ -10,7 +10,7 @@ class ClientController extends Controller
 {
     function index($company)
     {
-        return Client::whereIn('company', ['coffee', 'sanson'])->orWhere('company', 'internet')->get(['id', 'name', 'rfc']);
+        return Client::whereStoreId(auth()->user()->store_id)->orWhere('company', 'internet')->get(['id', 'name', 'rfc']);
     }
 
     function addresses(Client $client)

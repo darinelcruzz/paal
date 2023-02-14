@@ -14,20 +14,24 @@ class ClientController extends Controller
 {
     function index()
     {
-        $clients = Client::where('company', 'coffee')
+        $user = auth()->user();
+
+        $clients = Client::whereStoreId($user->store_id)
             ->with('addresses')
             ->get();
+
         return view('coffee.clients.index', compact('clients'));
     }
 
     function create()
     {
+        $user = auth()->user();
         $states = State::selectRaw('UPPER(name) as uppercase, name')->pluck('uppercase', 'name')->toArray();
         $regimes = Variable::where('id', '>', 3)
             ->selectRaw('CONCAT(value, " - ", description) as name, id')
             ->pluck('name', 'id')
             ->toArray();
-        return view('coffee.clients.create', compact('states', 'regimes'));
+        return view('coffee.clients.create', compact('states', 'regimes', 'user'));
     }
 
     function store(Request $request)
@@ -38,9 +42,10 @@ class ClientController extends Controller
             'phone' => 'required',
             'rfc' => 'required|unique:clients',
             'tax_regime_id' => 'required',
+            // 'store_id' => 'required',
         ]);
 
-        $client = Client::create($request->except('items', 'shipping_address', 'businessname', 'contact'));
+        $client = Client::create($request->except('items', 'shipping_address', 'businessname', 'contact') + ['store_id' => 4]);
 
         foreach ($request->items as $item) {
             $client->addresses()->create($item + [

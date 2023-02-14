@@ -23,7 +23,7 @@ class IngressController extends Controller
             ->with('client:id,name', 'quotation:id', 'quotation.retainers:id,amount', 'retainers:id,folio')
             ->get();
 
-        return view('coffee.ingresses.index', compact('ingresses', 'date'));
+        return view('coffee.ingresses.index', compact('ingresses', 'date', 'user'));
     }
 
     function create($type = null)

@@ -8,7 +8,7 @@ class CoffeeDepot
 {
     function handle($request, Closure $next)
     {
-        if ($request->user()->company_id == 2 || $request->user()->company == 'owner') {
+        if ($request->user()->store_id == 2 || $request->user()->level <= 0) {
             return $next($request);
         }
 

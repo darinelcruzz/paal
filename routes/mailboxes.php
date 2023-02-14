@@ -1,5 +1,11 @@
 <?php
 
+Route::get('/cambiar-tienda/{store}', function ($store) {
+    $user = App\User::find(auth()->user()->id);
+    $user->update(['store_id' => $store]);
+    return redirect(route('coffee.index'));
+});
+
 Route::group(['prefix' => 'mbe', 'as' => 'mbe.'], function () {
 	
 	Route::get('/', usesas('Mailboxes\HomeController', 'index'));

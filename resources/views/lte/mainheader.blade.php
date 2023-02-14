@@ -26,18 +26,15 @@
 
           <ul class="dropdown-menu">
               <li class="user-footer">
-                @if(auth()->user()->company == 'owner' || (auth()->user()->company == 'paal+'))
+                @if(auth()->user()->level <= 1)
                   <a href="/cocinaspaal" class="btn btn-default" style="color: #f39c12;">COCINAS<b>PAAL</b></a>
                   <a href="/mbe" class="btn btn-default" style="color: #00a65a;">LOGÍSTICA<b>PAAL</b></a>
-                  <a href="/sanson" class="btn btn-default" style="color: #00c0ef;">SANSON</a>
                   <a href="/paal" class="btn btn-default" style="color: #3c8dbc;">PAAL</a>
-                @elseif(auth()->user()->company == 'both')
-                  <a href="/cocinaspaal" class="btn btn-default" style="color: #f39c12;">COCINAS<b>PAAL</b></a>
+                @elseif(auth()->user()->store_id == 3)
                   <a href="/mbe" class="btn btn-default" style="color: #00a65a;">LOGÍSTICA<b>PAAL</b></a>
-                  <a href="/sanson" class="btn btn-default" style="color: #00c0ef;">SANSON</a>
-                @elseif(auth()->user()->company == 'coffee')
+                  <a href="/cambiar-tienda/5" class="btn btn-default" style="color: #f39c20;">COCINAS<b>PAAL</b> | DIGITAL</a>
+                @elseif(auth()->user()->store_id == 2)
                   <a href="/cocinaspaal" class="btn btn-default" style="color: #f39c12;">COCINAS<b>PAAL</b></a>
-                  <a href="/sanson" class="btn btn-default" style="color: #00c0ef;">SANSON</a>
                 @endif
               </li>
           </ul>

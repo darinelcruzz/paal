@@ -8,7 +8,7 @@ class Admin
 {
     public function handle($request, Closure $next)
     {
-        if ($request->user()->company == 'owner') {
+        if ($request->user()->level == 0) {
             return $next($request);
         }
 

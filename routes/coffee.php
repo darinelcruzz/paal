@@ -6,6 +6,12 @@ Route::get('/insumos-a-varios', function ()
 	App\Quotation::whereIn('type', ['insumos', 'no equipo'])->update(['type' => 'varios']);
 });
 
+Route::get('/cambiar-tienda/{store}', function ($store) {
+    $user = App\User::find(auth()->user()->id);
+    $user->update(['store_id' => $store]);
+    return redirect(route('coffee.index'));
+});
+
 Route::group(['prefix' => 'cocinaspaal', 'as' => 'coffee.'], function () {
 
 	Route::get('/', usesas('Coffee\HomeController', 'index'));

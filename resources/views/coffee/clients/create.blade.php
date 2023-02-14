@@ -134,6 +134,8 @@
 
                     <hr>
                     <input type="hidden" name="company" value="coffee">
+                    <input type="hidden" name="company_id" value="2">
+                    <input type="hidden" name="store_id" value="{{ $user->store_id }}">
                     <button type="submit" class="btn btn-warning pull-right">AGREGAR</button>
 
                 {!! Form::close() !!}
