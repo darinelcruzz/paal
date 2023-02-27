@@ -30,6 +30,21 @@ class EgressController extends Controller
             ->orderByDesc('id')
             ->get();
 
+        $egresses2 = Egress::whereYear('emission', substr($date, 0, 4))
+            ->whereMonth('emission', substr($date, 5, 7))
+            ->where('check_id', null)
+            ->orWhere(function ($query) {
+                $query->where('check_id', null)
+                    ->where('status', '!=', 'pagado');
+            })
+            ->orWhere(function ($query) use ($date) {
+                $query->whereYear('payment_date', substr($date, 0, 4))
+                    ->whereMonth('payment_date', substr($date, 5, 7))
+                    ->where('check_id', null);
+            })
+            ->orderByDesc('id')
+            ->get();
+
         $checks = Check::from($date, 'charged_at')->get();
 
         $checkssum = $checks->sum(function ($product) {

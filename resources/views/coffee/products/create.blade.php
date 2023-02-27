@@ -22,6 +22,12 @@
 
                     <div class="row">
                         <div class="col-md-4">
+                            {!! Field::select('type', ['EQUIPO' => 'EQUIPO', 'VARIOS' => 'VARIOS'], null,
+                                ['tpl' => 'withicon', 'empty' => 'Elija tipo'],
+                                ['icon' => 'cube'])
+                            !!}
+                        </div>
+                        <div class="col-md-4">
                             {!! Field::select('category', $categories, null, 
                                 ['tpl' => 'withicon', 'empty' => 'Elija categoría', 'v-model' => 'provider'], 
                                 ['icon' => 'tag']) 
@@ -43,12 +49,6 @@
                             </div>
                             @endforeach
                         </div>
-                        <div class="col-md-4">
-                            {!! Field::select('type', ['EQUIPO' => 'EQUIPO', 'VARIOS' => 'VARIOS'], null, 
-                                ['tpl' => 'withicon', 'empty' => 'Elija tipo'], 
-                                ['icon' => 'cube']) 
-                            !!}  
-                        </div>
                     </div>
                     
                     <div class="row">
@@ -65,10 +65,10 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             {!! Field::number('wholesale_quantity', 0, ['label' => 'Cantidad mayoreo (dejar en 0 si no aplica)', 'tpl' => 'withicon', 'step' => '0.01', 'min' => '0'], ['icon' => 'boxes']) !!}
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             {!! Field::number('wholesale_price', 0, ['label' => 'Precio mayoreo (dejar en 0 si no aplica)', 'tpl' => 'withicon', 'step' => '0.01', 'min' => '0'], ['icon' => 'dollar']) !!}
                         </div>
                     </div>
