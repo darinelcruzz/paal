@@ -19,7 +19,7 @@
             <img src="{{ asset('img/user-admin.png') }}" class="user-image" alt="User Image">
             <span class="hidden-xs">
               @auth
-                {{ auth()->user()->name }}
+                {{ auth()->user()->store->name }} | {{ auth()->user()->name }}
               @endauth
             </span>
           </a>
@@ -27,6 +27,12 @@
           <ul class="dropdown-menu">
               <li class="user-footer">
                 @if(auth()->user()->level <= 1)
+                  <a href="/cocinaspaal/2" class="btn btn-default" style="color: #f39c12;">COCINAS<b>PAAL</b> | TUX</a>
+                  <a href="/cocinaspaal/4" class="btn btn-default" style="color: #f39c12;">COCINAS<b>PAAL</b> | MER</a>
+                  <a href="/cocinaspaal/5" class="btn btn-default" style="color: #f39c12;">COCINAS<b>PAAL</b> | DIG</a>
+                  <a href="/mbe" class="btn btn-default" style="color: #00a65a;">LOGÍSTICA<b>PAAL</b></a>
+                  <a href="/paal" class="btn btn-default" style="color: #3c8dbc;">PAAL</a>
+                @elseif(auth()->user()->store_id == 3)
                   <a href="/cocinaspaal" class="btn btn-default" style="color: #f39c12;">COCINAS<b>PAAL</b></a>
                   <a href="/mbe" class="btn btn-default" style="color: #00a65a;">LOGÍSTICA<b>PAAL</b></a>
                   <a href="/paal" class="btn btn-default" style="color: #3c8dbc;">PAAL</a>
