@@ -11,11 +11,12 @@ class IngressController extends Controller
     function index($date = null, $company = 'coffee', $type = 'total')
     {
         $date = $date ?? date('Y-m');
+        $user = auth()->user();
 
         if ($type != 'envíos') {
             $ingresses = Ingress::whereYear('bought_at', substr($date, 0, 4))
                 ->whereMonth('bought_at', substr($date, 5, 2))
-                ->where('company', '!=', 'MBE')
+                ->whereStoreId($user->store_id)
                 ->where('status', '!=', 'cancelado')
                 ->with('payments')
                 ->get();
