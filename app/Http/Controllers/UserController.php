@@ -50,7 +50,11 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        return view('paal.users.edit', compact('user'));
+        $companies = Company::pluck('name', 'id');
+        $stores1 = Store::whereCompanyId(1)->pluck('name', 'id');
+        $stores2 = Store::whereCompanyId(2)->pluck('name', 'id');
+        $stores3 = Store::whereCompanyId(3)->pluck('name', 'id');
+        return view('paal.users.edit', compact('user', 'companies', 'stores1', 'stores2', 'stores3'));
     }
 
     public function update(Request $request, User $user)
