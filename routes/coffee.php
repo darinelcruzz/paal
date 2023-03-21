@@ -14,7 +14,8 @@ Route::get('/cambiar-tienda/{store}', function ($store) {
 
 Route::group(['prefix' => 'cocinaspaal', 'as' => 'coffee.'], function () {
 
-	Route::get('/{store?}', usesas('Coffee\HomeController', 'index'));
+	Route::get('/', usesas('Coffee\HomeController', 'index'));
+	Route::get('/cambiar-tienda/{store?}', usesas('Coffee\HomeController', 'index'));
 
 	Route::get('get-methods', function () {
 		$ingresses = App\Ingress::whereCompany('coffee')->get();

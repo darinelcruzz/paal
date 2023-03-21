@@ -27,9 +27,9 @@
           <ul class="dropdown-menu">
               <li class="user-footer">
                 @if(auth()->user()->level <= 1)
-                  <a href="/cocinaspaal/2" class="btn btn-default" style="color: #f39c12;">COCINAS<b>PAAL</b> | TUX</a>
-                  <a href="/cocinaspaal/4" class="btn btn-default" style="color: #f39c12;">COCINAS<b>PAAL</b> | MER</a>
-                  <a href="/cocinaspaal/5" class="btn btn-default" style="color: #f39c12;">COCINAS<b>PAAL</b> | DIG</a>
+                  <a href="/cocinaspaal/cambiar-tienda/2" class="btn btn-default" style="color: #f39c12;">COCINAS<b>PAAL</b> | TUX</a>
+                  <a href="/cocinaspaal/cambiar-tienda/4" class="btn btn-default" style="color: #f39c12;">COCINAS<b>PAAL</b> | MER</a>
+                  <a href="/cocinaspaal/cambiar-tienda/5" class="btn btn-default" style="color: #f39c12;">COCINAS<b>PAAL</b> | DIG</a>
                   <a href="/mbe" class="btn btn-default" style="color: #00a65a;">LOGÍSTICA<b>PAAL</b></a>
                   <a href="/paal" class="btn btn-default" style="color: #3c8dbc;">PAAL</a>
                 @elseif(auth()->user()->store_id == 3)
@@ -38,7 +38,7 @@
                   <a href="/paal" class="btn btn-default" style="color: #3c8dbc;">PAAL</a>
                 @elseif(auth()->user()->store_id == 3)
                   <a href="/mbe" class="btn btn-default" style="color: #00a65a;">LOGÍSTICA<b>PAAL</b></a>
-                  <a href="/cambiar-tienda/5" class="btn btn-default" style="color: #f39c20;">COCINAS<b>PAAL</b> | DIGITAL</a>
+                  <a href="/cocinaspaal/cambiar-tienda/5" class="btn btn-default" style="color: #f39c20;">COCINAS<b>PAAL</b> | DIGITAL</a>
                 @elseif(auth()->user()->store_id == 2)
                   <a href="/cocinaspaal" class="btn btn-default" style="color: #f39c12;">COCINAS<b>PAAL</b></a>
                 @endif
