@@ -14,9 +14,11 @@ class IngressController extends Controller
     {
         $date = dateFromRequest('Y-m');
 
+        $user = auth()->user();
+
         $ingresses = Ingress::query()
             ->select('id', 'folio', 'client_id', 'bought_at', 'invoice', 'status', 'amount', 'iva', 'company', 'created_at', 'quotation_id', 'method', 'type', 'rounding', 'sae')
-            ->whereStoreId(auth()->user()->store_id)
+            ->whereStoreId($user->store_id)
             ->whereMonth('created_at', substr($date, 5, 7))
             ->whereYear('created_at', substr($date, 0, 4))
             ->orderByDesc('id')
