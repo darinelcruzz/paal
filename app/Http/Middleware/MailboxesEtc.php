@@ -15,7 +15,7 @@ class MailboxesEtc
      */
     public function handle($request, Closure $next)
     {
-        if ($request->user()->company <= 1 || $request->user()->store_id == 3) {
+        if ($request->user()->store_id == 3 || $request->user()->level == 0) {
             return $next($request);
         }
 
