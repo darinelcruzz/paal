@@ -104,11 +104,11 @@ class Quotation extends Model
         return $query->whereMonth('created_at', substr($date, 5, 7))
             ->whereYear('created_at', substr($date, 0, 4))
             ->whereStoreId($store)
-            ->when($type, function ($query, $type) {
+            ->when($type != null, function ($query, $type) {
                 return $query->where('client_id', $type == 'formularios' ? 658: 659);
             }, function ($query) {
                 return $query->whereNull('client_name');
             })
-            ->with('client', 'movements.product');
+            ->with('client:id,name', 'sale', 'retainers');
     }
 }
