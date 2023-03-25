@@ -86,7 +86,7 @@ class Quotation extends Model
 
     function getTypeLabelAttribute()
     {
-        return ['varios' => 'danger', 'insumos' => 'danger', 'no equipo' => 'danger', 'equipo' => 'warning', 'proyecto' => 'primary'][$this->type];
+        return ['varios' => 'danger', 'insumos' => 'danger', 'no equipo' => 'danger', 'equipo' => 'warning', 'proyecto' => 'primary', 'campañas' => 'info'][$this->type];
     }
 
     function getViaLabelAttribute()
@@ -101,14 +101,18 @@ class Quotation extends Model
 
     function scopeMonthly($query, $store, $date, $type)
     {
+        if ($type === null) {
+            return $query->whereMonth('created_at', substr($date, 5, 7))
+                ->whereYear('created_at', substr($date, 0, 4))
+                ->whereStoreId($store)
+                ->whereNotIn('client_id', [658, 659])
+                ->with('client:id,name', 'sale', 'retainers');
+        }
+        
         return $query->whereMonth('created_at', substr($date, 5, 7))
             ->whereYear('created_at', substr($date, 0, 4))
             ->whereStoreId($store)
-            ->when($type != null, function ($query, $type) {
-                return $query->where('client_id', $type == 'formularios' ? 658: 659);
-            }, function ($query) {
-                return $query->whereNull('client_name');
-            })
+            ->where('client_id', $type === 'campañas' ? 659: 658)
             ->with('client:id,name', 'sale', 'retainers');
     }
 }

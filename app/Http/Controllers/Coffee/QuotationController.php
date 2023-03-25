@@ -23,6 +23,7 @@ class QuotationController extends Controller
             $vias = Quotation::monthly($user->store_id, $date, $type)->where('status', 'terminada')->get()->groupBy('via');
         }
 
+        // dd($quotations);
         return view('coffee.quotations.index', compact('quotations', 'sales', 'total', 'date', 'type', 'color', 'vias', 'status'));
     }
 
