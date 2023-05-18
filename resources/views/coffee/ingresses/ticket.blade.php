@@ -29,22 +29,36 @@
 
 <body onload="window.print();">
 
-    <div class="row">
+    {{-- <div class="row">
         <div class="col-xs-10 col-xs-offset-1">
             <img width="200px" src="{{ asset('/img/cocinaspaal.png') }}">
         </div>
-    </div>
+    </div> --}}
 
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <p>
+                @if($ingress->store_id == 2)
+                <big><b>COFFEE DEPOT & SANSON SURESTE</b></big><br>
                 <big><b>SUCURSAL CHS</b></big><br>
                 16 Poniente Norte #138<br>
                 Col. Las Arboledas, C.P. 29030 <br>
                 Tuxtla Gutiérrez <br>
                 <i class="fas fa-phone"></i> 01 (961) 121 34 04 - <i class="fab fa-whatsapp"></i> 961 330 65 28 <br>
                 <i class="fas fa-envelope"></i> ventas@coffeedepotchiapas.com.mx <br>
-                {{-- <i class="fab fa-facebook"></i> Coffee Depot TGZ --}}
+                <img style="vertical-align: bottom;" width="100px" src="{{ asset('/img/cocinaspaallong.jpg') }}">                    
+                | <small>DISTRIBUIDOR AUTORIZADO</small><br>
+                @else
+                <big><b>COFFEE DEPOT & SANSON SURESTE</b></big><br>
+                <big><b>SUCURSAL MID</b></big><br>
+                Circuito Colonia (Calle 31) #87 x 20 y 18<br>
+                Col. Mexico Oriente, C.P. 97137<br>
+                Mérida, Yucatán <br>
+                <i class="fas fa-phone"></i> 999 926 8658 - <i class="fab fa-whatsapp"></i> 999 900 2523 <br>
+                <i class="fas fa-envelope"></i> merida@cocinaspaal.com <br>
+                <img style="vertical-align: bottom;" width="100px" src="{{ asset('/img/cocinaspaallong.jpg') }}">                    
+                | <small>DISTRIBUIDOR AUTORIZADO</small><br>
+                @endif
             </p>
         </div>
     </div>
