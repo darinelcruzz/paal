@@ -17,6 +17,7 @@ class IngressController extends Controller
             $ingresses = Ingress::whereYear('bought_at', substr($date, 0, 4))
                 ->whereMonth('bought_at', substr($date, 5, 2))
                 ->whereStoreId($user->store_id)
+                ->where('company', '!=', 'mbe')
                 ->where('status', '!=', 'cancelado')
                 ->with('payments')
                 ->get();
@@ -35,7 +36,7 @@ class IngressController extends Controller
                 } elseif ($type == 'parcial') {
                     return $ingress->payments->sum(function ($payment) {
                         return $payment->cash + $payment->check + $payment->credit_card + $payment->debit_card + $payment->transfer;
-                    }) - $ingress->shipping_cost;
+                    }) - $ingress->shipping_amount;
                 } elseif ($type == 'promedio') {
                     return $ingress->type != 'anticipo' ? $ingress->amount - $ingress->retainers->sum('amount'): $ingress->amount;
                 }

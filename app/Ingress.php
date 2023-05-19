@@ -75,8 +75,9 @@ class Ingress extends Model
 
     function getShippingCostAttribute()
     {
-        return $this->movements->sum(function ($m){
-            return $m->product->type == 'ENVIOS' ? $m->total: 0;
+        return $this->movements->where('product_id', '>=', 262)->where('product_id', '<=', 266)->sum(function ($m){
+            // return $m->product->type == 'ENVIOS' ? $m->total: 0;
+            return $m->total;
         });
     }
 

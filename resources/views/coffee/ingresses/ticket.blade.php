@@ -39,8 +39,8 @@
         <div class="col-md-6 col-md-offset-3">
             <p>
                 @if($ingress->store_id == 2)
-                <big><b>COFFEE DEPOT & SANSON SURESTE</b></big><br>
-                <big><b>SUCURSAL CHS</b></big><br>
+                <big><b>COFFEE DEPOT & SAN-SON SURESTE</b></big><br>
+                <big>SUCURSAL CHS</big><br>
                 16 Poniente Norte #138<br>
                 Col. Las Arboledas, C.P. 29030 <br>
                 Tuxtla Gutiérrez <br>
@@ -49,8 +49,8 @@
                 <img style="vertical-align: bottom;" width="100px" src="{{ asset('/img/cocinaspaallong.jpg') }}">                    
                 | <small>DISTRIBUIDOR AUTORIZADO</small><br>
                 @else
-                <big><b>COFFEE DEPOT & SANSON SURESTE</b></big><br>
-                <big><b>SUCURSAL MID</b></big><br>
+                <big><b>COFFEE DEPOT & SAN-SON SURESTE</b></big><br>
+                <big>SUCURSAL MID</big><br>
                 Circuito Colonia (Calle 31) #87 x 20 y 18<br>
                 Col. Mexico Oriente, C.P. 97137<br>
                 Mérida, Yucatán <br>
