@@ -67,7 +67,7 @@ class SalesAnalysisController extends Controller
     {
         $ingresses = Ingress::whereDate('created_at', $date)
             ->where('status', '!=', 'cancelado')
-            ->whereStoreId(2)
+            ->whereStoreId(auth()->user()->store_id)
             ->where('invoice', 'no')
             ->where('method', 'efectivo');
 

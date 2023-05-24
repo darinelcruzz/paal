@@ -22,6 +22,7 @@
             <div v-if="product.family == 'ENVÍOS'">
                 1
                 <input :name="'items[' + index + '][quantity]'" class="form-control input-sm" type="hidden" min="1" v-model.number="quantity" value="1">
+                <input name="pi_amount" type="hidden" :value="price.toFixed(decimalsToFix)">
             </div>
             <div v-else>
                 <input :name="'items[' + index + '][quantity]'" class="form-control input-sm" type="number" min="1" v-model.number="quantity" @change="updateTotal">

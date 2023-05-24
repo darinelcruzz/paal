@@ -36,7 +36,7 @@ class IngressController extends Controller
                 } elseif ($type == 'parcial') {
                     return $ingress->payments->sum(function ($payment) {
                         return $payment->cash + $payment->check + $payment->credit_card + $payment->debit_card + $payment->transfer;
-                    }) - $ingress->shipping_amount;
+                    }) - $ingress->pi_amount;
                 } elseif ($type == 'promedio') {
                     return $ingress->type != 'anticipo' ? $ingress->amount - $ingress->retainers->sum('amount'): $ingress->amount;
                 }
