@@ -34,7 +34,12 @@
                     <a href="/mbe" class="btn btn-default" style="color: #00a65a;">LOGÍSTICA<b>PAAL</b></a>
                     <a href="/paal" class="btn btn-default" style="color: #3c8dbc;">PAAL</a>
                   @else
-                    <a href="/cocinaspaal" class="btn btn-default" style="color: #f39c12;">COCINAS<b>PAAL</b></a>
+                    @if(auth()->user()->id == 4)
+                      <a href="/cocinaspaal/cambiar-tienda/2" class="btn btn-default" style="color: #f39c12;">COCINAS<b>PAAL</b> | TUX</a>
+                      <a href="/cocinaspaal/cambiar-tienda/4" class="btn btn-default" style="color: #f39c12;">COCINAS<b>PAAL</b> | MER</a>
+                    @else
+                      <a href="/cocinaspaal" class="btn btn-default" style="color: #f39c12;">COCINAS<b>PAAL</b></a>
+                    @endif
                   @endif
                 @elseif(str_contains(Route::currentRouteName(), 'paal') || str_contains(Route::currentRouteName(), 'mbe'))
                   @if(auth()->user()->level <= 1)
