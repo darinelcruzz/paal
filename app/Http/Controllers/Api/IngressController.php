@@ -50,11 +50,13 @@ class IngressController extends Controller
     function ingresses($date = null, $company = 'coffee', $type = 'varios')
     {
         $date = $date ?? date('Y-m');
+        $user = auth()->user();
 
         if ($type == 'varios' || $type == 'equipo') {
             $projectSum = Ingress::whereYear('bought_at', substr($date, 0, 4))
                 ->whereMonth('bought_at', substr($date, 5, 7))
                 ->where('company', '!=', 'mbe')
+                ->whereStoreId($user->store_id)
                 ->where('status', '!=', 'cancelado')
                 ->where('type', 'proyecto')
                 ->with('movements.product')
@@ -69,6 +71,7 @@ class IngressController extends Controller
         return Ingress::whereYear('bought_at', substr($date, 0, 4))
             ->whereMonth('bought_at', substr($date, 5, 7))
             ->where('company', '!=', 'mbe')
+            ->whereStoreId($user->store_id)
             ->where('status', '!=', 'cancelado')
             ->when($type != 'depositado', function ($query) use ($type){
                 $query->where('type', $type);
@@ -88,11 +91,14 @@ class IngressController extends Controller
     function payments($date = null, $company = 'coffee', $method = 'efectivo')
     {
         $date = $date ?? date('Y-m');
+        $user = auth()->user();
+
         $column = ['efectivo' => 'cash', 'transferencia' => 'transfer', 'cheque' => 'check', 'tarjeta de débito' => 'debit_card', 'tarjeta de crédito' => 'credit_card'][$method];
 
         return Ingress::whereYear('bought_at', substr($date, 0, 4))
             ->whereMonth('bought_at', substr($date, 5, 7))
-            ->where('company', $company)
+            // ->where('company', $company)
+            ->whereStoreId($user->store_id)
             // ->where('method', $method)
             ->where('status', '!=', 'cancelado')
             ->with('payments')
