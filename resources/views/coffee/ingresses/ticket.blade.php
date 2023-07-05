@@ -115,7 +115,10 @@
                     @foreach ($ingress->movements as $movement)
                         <tr>
                             <td style="text-align: center;">{{ $movement->quantity }}</td>
-                            <td>{{ $movement->description ?? $movement->product->description }}{{ $movement->discount != 0 ? '*': ''}}</td>
+                            <td>
+                                {{ $movement->description ?? $movement->product->description }}{{ $movement->discount != 0 ? '*': ''}} <br>
+                                <code>{{ $ingress->serial_numbers->where('product_id', $movement->product_id)->first()->number ?? '' }}</code>
+                            </td>
                             <td style="text-align: right">$ {{ number_format($movement->price, 2) }}</td>
                             <td style="text-align: right">$ {{ number_format($movement->total, 2) }}</td>
                         </tr>
@@ -212,6 +215,7 @@
                             <td style="text-align: right">$ {{ number_format($ingress->amount - $ingress->retainers->sum('amount'), 2) }}</td>
                         </tr>
                     @endif
+
                 </tfoot>
             </table>
         </div>
