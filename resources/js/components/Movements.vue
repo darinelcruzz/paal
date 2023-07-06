@@ -15,7 +15,12 @@
 			<tbody>
 				<tr v-for="(movement, index) in movements">
 					<td style="text-align: center;">{{ movement.quantity }}</td>
-					<td>{{ movement.description || movement.product.description }}</td>
+					<td>
+						{{ movement.description || movement.product.description }}<br>
+						<code v-if="numbers.find(element => element.product_id == movement.product_id)">
+							{{ numbers.find(element => element.product_id == movement.product_id).number }}
+						</code>
+					</td>
 					<td style="text-align: right;">{{ movement.price.toFixed(2) }}</td>
 					<td style="text-align: right;">{{ movement.discount.toFixed(2) }}</td>
 					<td style="text-align: right;">{{ (movement.quantity * movement.price * (1 - movement.discount/100) * movement.product.iva * 0.16).toFixed(2) }}</td>
@@ -84,6 +89,7 @@
 			return {
 				movements: [],
 				payments: [],
+				numbers: [],
 				iva: 0,
 				rounding: 0,
 			}
@@ -100,6 +106,7 @@
 	    	model(oldVal, newVal) {
 	    		this.fetchMovements(this.type, this.model.id);
 	    		this.fetchPayments(this.model.id);
+	    		this.fetchSerialNumbers(this.model.id);
 	    	}
 	    },
 	    methods: {
@@ -113,6 +120,12 @@
             	axios.get('/api/payments/' + id).then((response) => {
             		console.log('payments', response.data)
             		this.payments = response.data;
+            	});
+	        },
+	        fetchSerialNumbers(id) {
+            	axios.get('/api/serial-numbers/' + id).then((response) => {
+            		console.log('serial-numbers', response.data)
+            		this.numbers = response.data;
             	});
 	        }
 	    }

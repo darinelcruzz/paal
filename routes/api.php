@@ -72,3 +72,8 @@ Route::group(['prefix' => 'payments', 'as' => 'api.payment.'], function () {
     $ctrl = 'Api\PaymentController';
     Route::get('{id}', usesas($ctrl, 'index'));
 });
+
+Route::group(['prefix' => 'serial-numbers', 'as' => 'api.serial_numbers.'], function () {
+    $ctrl = 'Api\SerialNumberController';
+    Route::get('{id}', usesas($ctrl, 'index'));
+});

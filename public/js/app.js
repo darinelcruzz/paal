@@ -60262,6 +60262,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	props: ['model', 'type'],
@@ -60269,6 +60274,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		return {
 			movements: [],
 			payments: [],
+			numbers: [],
 			iva: 0,
 			rounding: 0
 		};
@@ -60288,6 +60294,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		model: function model(oldVal, newVal) {
 			this.fetchMovements(this.type, this.model.id);
 			this.fetchPayments(this.model.id);
+			this.fetchSerialNumbers(this.model.id);
 		}
 	},
 	methods: {
@@ -60305,6 +60312,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			axios.get('/api/payments/' + id).then(function (response) {
 				console.log('payments', response.data);
 				_this2.payments = response.data;
+			});
+		},
+		fetchSerialNumbers: function fetchSerialNumbers(id) {
+			var _this3 = this;
+
+			axios.get('/api/serial-numbers/' + id).then(function (response) {
+				console.log('serial-numbers', response.data);
+				_this3.numbers = response.data;
 			});
 		}
 	}
@@ -60338,8 +60353,26 @@ var render = function() {
               _vm._v(" "),
               _c("td", [
                 _vm._v(
-                  _vm._s(movement.description || movement.product.description)
-                )
+                  "\n\t\t\t\t\t\t" +
+                    _vm._s(movement.description || movement.product.description)
+                ),
+                _c("br"),
+                _vm._v(" "),
+                _vm.numbers.find(function(element) {
+                  return element.product_id == movement.product_id
+                })
+                  ? _c("code", [
+                      _vm._v(
+                        "\n\t\t\t\t\t\t\t" +
+                          _vm._s(
+                            _vm.numbers.find(function(element) {
+                              return element.product_id == movement.product_id
+                            }).number
+                          ) +
+                          "\n\t\t\t\t\t\t"
+                      )
+                    ])
+                  : _vm._e()
               ]),
               _vm._v(" "),
               _c("td", { staticStyle: { "text-align": "right" } }, [
@@ -62256,7 +62289,7 @@ var render = function() {
     _c("td", [
       _vm.product.family == "ENVÍOS"
         ? _c("div", [
-            _vm._v("\n                2\n                "),
+            _vm._v("\n                1\n                "),
             _c("input", {
               directives: [
                 {
