@@ -10,7 +10,13 @@ class RetainerController extends Controller
 {
     function create(Quotation $quotation)
     {
-        $last_sale = Ingress::where('company', 'coffee')->get()->last();
+        $user = auth()->user();
+        
+        $last_sale = Ingress::query()
+            ->whereStoreId($user->store_id)
+            ->latest()
+            ->first();
+
         $last_folio = $last_sale ? $last_sale->folio + 1: 1;
         return view('coffee.retainers.create', compact('quotation', 'last_folio'));
     }
