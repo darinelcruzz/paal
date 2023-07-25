@@ -12,7 +12,7 @@
                     
                     <div class="row">
                         <div class="col-md-6">
-                            {!! Field::text('invoice_id', ['tpl' => 'withicon'], ['icon' => 'list-ol']) !!}
+                            {!! Field::text('folio', $last_folio, ['tpl' => 'withicon', 'disabled'], ['icon' => 'list-ol']) !!}
                         </div>
                         <div class="col-md-6">
                             {!! Field::date('paid_at', date('Y-m-d'), ['label' => 'Fecha', 'tpl' => 'withicon'], ['icon' => 'calendar']) !!}
@@ -33,7 +33,7 @@
                     <payment-methods :top="{{ $quotation->debt }}"></payment-methods>
 
                     <input type="hidden" name="company" value="coffee">
-                    <input type="hidden" name="invoice" value="G01">
+                    <input type="hidden" name="invoice" value="no">
                     <input type="hidden" name="folio" value="{{ $last_folio }}">
                     <input type="hidden" name="client_id" value="{{ $quotation->client->id }}">
                     <input type="hidden" name="bought_at" value="{{ date('Y-m-d') }}">

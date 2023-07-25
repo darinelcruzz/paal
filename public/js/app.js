@@ -60267,6 +60267,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	props: ['model', 'type'],
@@ -60345,79 +60353,107 @@ var render = function() {
         _vm._v(" "),
         _c(
           "tbody",
-          _vm._l(_vm.movements, function(movement, index) {
-            return _c("tr", [
-              _c("td", { staticStyle: { "text-align": "center" } }, [
-                _vm._v(_vm._s(movement.quantity))
-              ]),
-              _vm._v(" "),
-              _c("td", [
-                _vm._v(
-                  "\n\t\t\t\t\t\t" +
-                    _vm._s(movement.description || movement.product.description)
-                ),
-                _c("br"),
+          [
+            _vm._l(_vm.movements, function(movement, index) {
+              return _c("tr", [
+                _c("td", { staticStyle: { "text-align": "center" } }, [
+                  _vm._v(_vm._s(movement.quantity))
+                ]),
                 _vm._v(" "),
-                _vm.numbers.find(function(element) {
-                  return element.product_id == movement.product_id
-                })
-                  ? _c("code", [
-                      _vm._v(
-                        "\n\t\t\t\t\t\t\t" +
-                          _vm._s(
-                            _vm.numbers.find(function(element) {
-                              return element.product_id == movement.product_id
-                            }).number
-                          ) +
-                          "\n\t\t\t\t\t\t"
+                _c("td", [
+                  _vm._v(
+                    "\n\t\t\t\t\t\t" +
+                      _vm._s(
+                        movement.description || movement.product.description
                       )
-                    ])
-                  : _vm._e()
-              ]),
-              _vm._v(" "),
-              _c("td", { staticStyle: { "text-align": "right" } }, [
-                _vm._v(_vm._s(movement.price.toFixed(2)))
-              ]),
-              _vm._v(" "),
-              _c("td", { staticStyle: { "text-align": "right" } }, [
-                _vm._v(_vm._s(movement.discount.toFixed(2)))
-              ]),
-              _vm._v(" "),
-              _c("td", { staticStyle: { "text-align": "right" } }, [
-                _vm._v(
-                  _vm._s(
-                    (
-                      movement.quantity *
-                      movement.price *
-                      (1 - movement.discount / 100) *
-                      movement.product.iva *
-                      0.16
-                    ).toFixed(2)
+                  ),
+                  _c("br"),
+                  _vm._v(" "),
+                  _vm.numbers.find(function(element) {
+                    return element.product_id == movement.product_id
+                  })
+                    ? _c("code", [
+                        _vm._v(
+                          "\n\t\t\t\t\t\t\t" +
+                            _vm._s(
+                              _vm.numbers.find(function(element) {
+                                return element.product_id == movement.product_id
+                              }).number
+                            ) +
+                            "\n\t\t\t\t\t\t"
+                        )
+                      ])
+                    : _vm._e()
+                ]),
+                _vm._v(" "),
+                _c("td", { staticStyle: { "text-align": "right" } }, [
+                  _vm._v(_vm._s(movement.price.toFixed(2)))
+                ]),
+                _vm._v(" "),
+                _c("td", { staticStyle: { "text-align": "right" } }, [
+                  _vm._v(_vm._s(movement.discount.toFixed(2)))
+                ]),
+                _vm._v(" "),
+                _c("td", { staticStyle: { "text-align": "right" } }, [
+                  _vm._v(
+                    _vm._s(
+                      (
+                        movement.quantity *
+                        movement.price *
+                        (1 - movement.discount / 100) *
+                        movement.product.iva *
+                        0.16
+                      ).toFixed(2)
+                    )
                   )
-                )
-              ]),
-              _vm._v(" "),
-              _c("td", { staticStyle: { "text-align": "right" } }, [
-                _vm._v(
-                  _vm._s(
-                    (
-                      movement.quantity *
-                      movement.price *
-                      (1 - movement.discount / 100)
-                    ).toFixed(2)
+                ]),
+                _vm._v(" "),
+                _c("td", { staticStyle: { "text-align": "right" } }, [
+                  _vm._v(
+                    _vm._s(
+                      (
+                        movement.quantity *
+                        movement.price *
+                        (1 - movement.discount / 100)
+                      ).toFixed(2)
+                    )
                   )
-                )
+                ])
               ])
-            ])
-          }),
-          0
+            }),
+            _vm._v(" "),
+            _vm.model.type == "anticipo"
+              ? _c("tr", [
+                  _c("td", [_vm._v("1")]),
+                  _vm._v(" "),
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _c("td", { staticStyle: { "text-align": "right" } }, [
+                    _vm._v(_vm._s(_vm.model.amount.toFixed(2)))
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticStyle: { "text-align": "right" } }, [
+                    _vm._v("0.00")
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticStyle: { "text-align": "right" } }, [
+                    _vm._v("0.00")
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticStyle: { "text-align": "right" } }, [
+                    _vm._v(_vm._s(_vm.model.amount.toFixed(2)))
+                  ])
+                ])
+              : _vm._e()
+          ],
+          2
         ),
         _vm._v(" "),
         _c("tfoot", [
           _c("tr", [
             _c("td", { attrs: { colspan: "4" } }),
             _vm._v(" "),
-            _vm._m(1),
+            _vm._m(2),
             _vm._v(" "),
             _c("td", { staticStyle: { "text-align": "right" } }, [
               _vm._v(_vm._s(_vm.subtotal.toFixed(2)))
@@ -60428,7 +60464,7 @@ var render = function() {
             ? _c("tr", [
                 _c("td", { attrs: { colspan: "4" } }),
                 _vm._v(" "),
-                _vm._m(2),
+                _vm._m(3),
                 _vm._v(" "),
                 _c("td", { staticStyle: { "text-align": "right" } }, [
                   _vm._v(_vm._s(_vm.model.iva.toFixed(2)))
@@ -60440,7 +60476,7 @@ var render = function() {
             ? _c("tr", [
                 _c("td", { attrs: { colspan: "4" } }),
                 _vm._v(" "),
-                _vm._m(3),
+                _vm._m(4),
                 _vm._v(" "),
                 _c("td", { staticStyle: { "text-align": "right" } }, [
                   _vm._v(_vm._s(_vm.model.rounding.toFixed(2)))
@@ -60451,7 +60487,7 @@ var render = function() {
           _c("tr", [
             _c("td", { attrs: { colspan: "4" } }),
             _vm._v(" "),
-            _vm._m(4),
+            _vm._m(5),
             _vm._v(" "),
             _c("th", { staticStyle: { "text-align": "right" } }, [
               _vm._v(_vm._s(_vm.model.amount.toFixed(2)))
@@ -60469,13 +60505,13 @@ var render = function() {
               "table table-bordered table-condensed table-hover table-striped"
           },
           [
-            _vm._m(5),
+            _vm._m(6),
             _vm._v(" "),
             _c(
               "tbody",
               _vm._l(_vm.payments, function(payment) {
                 return _c("tr", [
-                  _vm._m(6, true),
+                  _vm._m(7, true),
                   _vm._v(" "),
                   _c("td", [
                     _vm._v(
@@ -60569,6 +60605,12 @@ var staticRenderFns = [
         ])
       ])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [_c("small", [_vm._v("ANTICIPO DE COMPRAS")])])
   },
   function() {
     var _vm = this

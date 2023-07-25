@@ -19,7 +19,6 @@ class RetainerController extends Controller
     {
         $attributes = $request->validate([
             'amount' => 'required',
-            'invoice_id' => 'required',
             'paid_at' => 'required',
         ]);
 
@@ -36,6 +35,8 @@ class RetainerController extends Controller
             'card_number' => $request->card_number,
             'created_at' => $request->paid_at,
         ]);
+
+        $ingress->update(['method' => $ingress->pay_method]);
 
         return redirect(route('coffee.ingress.index'));
     }

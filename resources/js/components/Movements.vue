@@ -26,6 +26,14 @@
 					<td style="text-align: right;">{{ (movement.quantity * movement.price * (1 - movement.discount/100) * movement.product.iva * 0.16).toFixed(2) }}</td>
 					<td style="text-align: right;">{{ (movement.quantity * movement.price * (1 - movement.discount/100)).toFixed(2) }}</td>
 				</tr>
+				<tr v-if="model.type == 'anticipo'">
+					<td>1</td>
+					<td><small>ANTICIPO DE COMPRAS</small></td>
+					<td style="text-align: right;">{{ model.amount.toFixed(2) }}</td>
+					<td style="text-align: right;">0.00</td>
+					<td style="text-align: right;">0.00</td>
+					<td style="text-align: right;">{{ model.amount.toFixed(2) }}</td>
+				</tr>
 			</tbody>
 
 			<tfoot>
