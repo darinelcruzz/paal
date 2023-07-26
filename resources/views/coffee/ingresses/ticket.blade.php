@@ -129,6 +129,14 @@
                         @endphp
                     @endforeach
 
+                    @if($ingress->type == 'anticipo')
+                        <td>1</td>
+                        <td><small>ANTICIPO DE COMPRAS</small></td>
+                        <td style="text-align: right;">{{ number_format($ingress->amount, 2) }}</td>
+                        <td style="text-align: right;">{{ number_format($ingress->amount, 2) }}</td>                    
+                    @endif
+                </tr>
+
                     @if($ingress->products)
                         @foreach (unserialize($ingress->products) as $product)
                             <tr>
@@ -181,7 +189,9 @@
                         </tr>
                     @endif
                     <tr style="border:1px solid black">
-                        @if($ingress->iva <= 0)<td style="text-align: center;border-top: 1px solid black;">{{ $quantity }}</td>@endif
+                        @if($ingress->iva <= 0)
+                            <td style="text-align: center;border-top: 1px solid black;">{{ $quantity }}</td>
+                        @endif
                         <th colspan="{{ $ingress->iva > 0 ? 3: 2 }}" style="text-align: right">Total</th>
                         <td style="text-align: right">$ {{ number_format($ingress->type == 'anticipo' ? $ingress->quotation->amount: $ingress->amount, 2) }}</td>
                     </tr>
