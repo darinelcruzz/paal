@@ -17,9 +17,11 @@
 					<td style="text-align: center;">{{ movement.quantity }}</td>
 					<td>
 						{{ movement.description || movement.product.description }}<br>
-						<code v-if="numbers.find(element => element.product_id == movement.product_id)">
-							{{ numbers.find(element => element.product_id == movement.product_id).number }}
-						</code>
+						<div v-if="numbers.find(element => element.product_id == movement.product_id)">
+							<code v-for="number in numbers">
+								{{ number.number }},
+							</code>
+						</div>
 					</td>
 					<td style="text-align: right;">{{ movement.price.toFixed(2) }}</td>
 					<td style="text-align: right;">{{ movement.discount.toFixed(2) }}</td>

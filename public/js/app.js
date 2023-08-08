@@ -60275,6 +60275,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	props: ['model', 'type'],
@@ -60372,17 +60374,19 @@ var render = function() {
                   _vm.numbers.find(function(element) {
                     return element.product_id == movement.product_id
                   })
-                    ? _c("code", [
-                        _vm._v(
-                          "\n\t\t\t\t\t\t\t" +
-                            _vm._s(
-                              _vm.numbers.find(function(element) {
-                                return element.product_id == movement.product_id
-                              }).number
-                            ) +
-                            "\n\t\t\t\t\t\t"
-                        )
-                      ])
+                    ? _c(
+                        "div",
+                        _vm._l(_vm.numbers, function(number) {
+                          return _c("code", [
+                            _vm._v(
+                              "\n\t\t\t\t\t\t\t\t" +
+                                _vm._s(number.number) +
+                                ",\n\t\t\t\t\t\t\t"
+                            )
+                          ])
+                        }),
+                        0
+                      )
                     : _vm._e()
                 ]),
                 _vm._v(" "),
