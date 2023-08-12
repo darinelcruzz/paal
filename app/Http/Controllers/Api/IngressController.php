@@ -74,7 +74,11 @@ class IngressController extends Controller
             ->whereStoreId($user->store_id)
             ->where('status', '!=', 'cancelado')
             ->when($type != 'depositado', function ($query) use ($type){
-                $query->where('type', $type);
+                if ($type == 'equipo') {
+                    $query->whereIn('type', [$type, 'proyecto']);
+                } else {
+                    $query->where('type', $type);
+                }
             })
             ->with('payments')
             ->get()
