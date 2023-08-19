@@ -268,6 +268,7 @@
         <div class="col-md-12">
             <small style="font-weight: bold;">
                 FACTURACIÓN AL DÍA <br>
+                (SE MANDA EN 1 DIA HÁBIL AL CORREO ELECTRONICO PROPORCIONADO)
                 FAVOR DE SOLICITAR EN EL MOMENTO DE SU COMPRA, DE LO CONTRARIO SERÁ PARTE DE LA FACTURA GLOBAL DEL DÍA. <br>
                 VERIFICAR SUS DATOS YA QUE NO HABRÁ CANCELACIONES NI REFACTURACIÓN.
             </small>
