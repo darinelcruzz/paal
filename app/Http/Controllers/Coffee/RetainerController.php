@@ -18,11 +18,13 @@ class RetainerController extends Controller
             ->first();
 
         $last_folio = $last_sale ? $last_sale->folio + 1: 1;
-        return view('coffee.retainers.create', compact('quotation', 'last_folio'));
+        return view('coffee.retainers.create', compact('quotation', 'last_folio', 'user'));
     }
 
     function store(Request $request, Quotation $quotation)
     {
+        // dd($request->all());
+
         $attributes = $request->validate([
             'amount' => 'required',
             'paid_at' => 'required',

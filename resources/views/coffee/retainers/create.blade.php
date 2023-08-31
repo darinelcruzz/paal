@@ -33,6 +33,8 @@
                     <payment-methods :top="{{ $quotation->debt }}"></payment-methods>
 
                     <input type="hidden" name="company" value="coffee">
+                    <input type="hidden" name="company_id" value="2">
+                    <input type="hidden" name="store_id" value="{{ $user->store_id }}">
                     <input type="hidden" name="invoice" value="no">
                     <input type="hidden" name="folio" value="{{ $last_folio }}">
                     <input type="hidden" name="client_id" value="{{ $quotation->client->id }}">
