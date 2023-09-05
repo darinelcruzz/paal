@@ -73,7 +73,7 @@ class ClientController extends Controller
         $spanish = $model;
         $model = ['ventas' => 'App\Ingress', 'cotizaciones' => 'App\Quotation'][$model];
         $collection = $model::whereClientId($client->id)
-            ->whereCompany('coffee')
+            ->whereStoreId(auth()->user()->store_id)
             ->whereBetween($spanish == 'cotizaciones' ? 'created_at': 'bought_at', [$request->start ?? date('Y-m-d', time() - 60*60*24*30), $request->end ?? date('Y-m-d')])
             ->with('movements.product')
             ->get();
