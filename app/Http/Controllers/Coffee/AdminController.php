@@ -32,7 +32,7 @@ class AdminController extends Controller
             ->with('payments')
             ->get();
 
-        $notes = $ingresses->where('invoice', 'G02')->sum('amount');
+        $notes = $ingresses->where('invoice', 'G02');
 
         $color = ['factura' => 'primary', 'efectivo' => 'success', 'tarjeta' => 'warning', 'transferencia' => 'info'][$status];
 

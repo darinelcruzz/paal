@@ -240,12 +240,12 @@
         <div class="col-md-3">
             <money-box color="success" icon="fas fa-clock">
                 Total <br>
-                <b>$ {{ number_format($payments->sum(function ($ingress) { return $ingress->payments->sum(function ($py) { return $py->cash + $py->debit_card + $py->credit_card + $py->transfer + $py->check; }); }) + $notes, 2) }}</b>
+                <b>$ {{ number_format($payments->sum(function ($ingress) { return $ingress->payments->sum(function ($py) { return $py->cash + $py->debit_card + $py->credit_card + $py->transfer + $py->check; }); }) + $notes->sum('amount'), 2) }}</b>
             </money-box>
 
             <money-box color="warning" icon="far fa-money-bill-alt">
                 Efectivo <br>
-                <b>$ {{ number_format($payments->sum(function ($ingress) { return $ingress->payments->sum('cash');}) + $notes, 2) }}</b>
+                <b>$ {{ number_format($payments->sum(function ($ingress) { return $ingress->payments->sum('cash');}) + $notes->where('method', 'efectivo')->sum('amount'), 2) }}</b>
             </money-box>
 
             <money-box color="warning" icon="fa fa-credit-card">
