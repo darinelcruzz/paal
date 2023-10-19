@@ -20,6 +20,7 @@ class IngressObserver
                 'company' => $ingress->company,
                 'client_id' => $ingress->client_id,
                 'user_id' => auth()->user()->id,
+                'store_id' => auth()->user()->store_id,
                 'bought_at' => date('Y-m-d'),
                 'paid_at' => date('Y-m-d'),
                 'invoice' => 'G02',

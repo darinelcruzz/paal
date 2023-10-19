@@ -32,9 +32,11 @@ class AdminController extends Controller
             ->with('payments')
             ->get();
 
+        $notes = $ingresses->where('invoice', 'G02')->sum('amount');
+
         $color = ['factura' => 'primary', 'efectivo' => 'success', 'tarjeta' => 'warning', 'transferencia' => 'info'][$status];
 
-        return view('coffee.admin.daily', compact('date', 'ingresses', 'status', 'color', 'payments'));
+        return view('coffee.admin.daily', compact('date', 'ingresses', 'status', 'color', 'payments', 'notes'));
     }
 
     function index(Request $request)
