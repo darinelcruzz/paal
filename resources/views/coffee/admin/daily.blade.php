@@ -250,22 +250,22 @@
 
             <money-box color="warning" icon="fa fa-credit-card">
                 T. Débito <br>
-                <b>$ {{ number_format($payments->sum(function ($ingress) { return $ingress->payments->sum('debit_card');}), 2) }}</b>
+                <b>$ {{ number_format($payments->sum(function ($ingress) { return $ingress->payments->sum('debit_card');}) + $notes->where('method', 'tarjeta débito')->sum('amount'), 2) }}</b>
             </money-box>
 
             <money-box color="warning" icon="fab fa-cc-visa">
                 T. Crédito <br>
-                <b>$ {{ number_format($payments->sum(function ($ingress) { return $ingress->payments->sum('credit_card');}), 2) }}</b>
+                <b>$ {{ number_format($payments->sum(function ($ingress) { return $ingress->payments->sum('credit_card');}) + $notes->where('method', 'tarjeta crédito')->sum('amount'), 2) }}</b>
             </money-box>
 
             <money-box color="warning" icon="fas fa-exchange-alt">
                 Transferencia <br>
-                <b>$ {{ number_format($payments->sum(function ($ingress) { return $ingress->payments->sum('transfer');}), 2) }}</b>
+                <b>$ {{ number_format($payments->sum(function ($ingress) { return $ingress->payments->sum('transfer');}) + $notes->where('method', 'transferencia')->sum('amount'), 2) }}</b>
             </money-box>
 
             <money-box color="warning" icon="fas fa-money-check-alt">
                 Cheque <br>
-                <b>$ {{ number_format($payments->sum(function ($ingress) { return $ingress->payments->sum('check');}), 2) }}</b>
+                <b>$ {{ number_format($payments->sum(function ($ingress) { return $ingress->payments->sum('check');}) + $notes->where('method', 'cheque')->sum('amount'), 2) }}</b>
             </money-box>
         </div>
     </div>
