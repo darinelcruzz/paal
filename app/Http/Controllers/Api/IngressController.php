@@ -26,7 +26,7 @@ class IngressController extends Controller
 
             // return $ingresses->sum('amount') / $divisor;
 
-            return $ingresses->sum(function ($ingress) use ($type) {
+            return ($ingresses->sum(function ($ingress) use ($type) {
                 if ($type == 'total') {
                     return $ingress->payments->sum(function ($payment) {
                         return $payment->cash + $payment->check + $payment->credit_card + $payment->debit_card + $payment->transfer;
@@ -40,7 +40,7 @@ class IngressController extends Controller
                 } elseif ($type == 'promedio') {
                     return $ingress->type != 'anticipo' ? $ingress->amount - $ingress->retainers->sum('amount'): $ingress->amount;
                 }
-            }) / $divisor;
+            }) + $ingresses->where('type', 'nota de crédito')->sum('amount')) / $divisor;
         } else {
             return Shipping::monthly($date, $company)->count();
         }
