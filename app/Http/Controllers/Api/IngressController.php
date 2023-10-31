@@ -17,7 +17,6 @@ class IngressController extends Controller
             $ingresses = Ingress::whereYear('bought_at', substr($date, 0, 4))
                 ->whereMonth('bought_at', substr($date, 5, 2))
                 ->whereStoreId($user->store_id)
-                ->where('company', '!=', 'mbe')
                 ->where('status', '!=', 'cancelado')
                 ->with('payments')
                 ->get();
@@ -26,21 +25,17 @@ class IngressController extends Controller
 
             // return $ingresses->sum('amount') / $divisor;
 
-            return ($ingresses->sum(function ($ingress) use ($type) {
+            return $ingresses->sum(function ($ingress) use ($type) {
                 if ($type == 'total') {
-                    return $ingress->payments->sum(function ($payment) {
-                        return $payment->cash + $payment->check + $payment->credit_card + $payment->debit_card + $payment->transfer;
-                    });
+                    return $ingress->amount;
                 } elseif ($type == 'depositar') {
                     return $ingress->payments->where('cash_reference', null)->sum('cash');
                 } elseif ($type == 'parcial') {
-                    return $ingress->payments->sum(function ($payment) {
-                        return $payment->cash + $payment->check + $payment->credit_card + $payment->debit_card + $payment->transfer;
-                    }) - $ingress->pi_amount;
+                    return $ingress->amount;;
                 } elseif ($type == 'promedio') {
                     return $ingress->type != 'anticipo' ? $ingress->amount - $ingress->retainers->sum('amount'): $ingress->amount;
                 }
-            }) + $ingresses->where('type', 'nota de crédito')->sum('amount')) / $divisor;
+            }) / $divisor;
         } else {
             return Shipping::monthly($date, $company)->count();
         }

@@ -151,6 +151,18 @@
                         @endforeach
                     </tbody>
 
+                    <tfoot>
+                        <tr>
+                            <th colspan="4"><small>TOTALES</small></th>
+                            <td>V: {{ number_format($ingresses->where('type', 'varios')->sum('amount'), 2) }}</td>
+                            <td>E: {{ number_format($ingresses->where('type', 'equipo')->sum('amount'), 2) }}</td>
+                            <td>P: {{ number_format($ingresses->where('type', 'proyecto')->sum('amount'), 2) }}</td>
+                            <td>A: {{ number_format($ingresses->where('type', 'anticipo')->sum('amount'), 2) }}</td>
+                            <td>N: {{ number_format($ingresses->where('type', 'nota de crédito')->sum('amount'), 2) }}</td>
+                            <td>C: {{ number_format($ingresses->where('type', 'cancelado')->sum('amount'), 2) }}</td>
+                        </tr>
+                    </tfoot>
+
                 </table>
                 </div>
 
