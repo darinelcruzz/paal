@@ -33,6 +33,7 @@ class AdminController extends Controller
             ->get();
 
         $notes = $ingresses->where('invoice', 'G02');
+        // dd($notes);
 
         $color = ['factura' => 'primary', 'efectivo' => 'success', 'tarjeta' => 'warning', 'transferencia' => 'info'][$status];
 
