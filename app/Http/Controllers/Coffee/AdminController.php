@@ -32,8 +32,8 @@ class AdminController extends Controller
             ->with('payments')
             ->get();
 
-        $notes = $ingresses->where('invoice', 'G02');
-        // dd($notes);
+        $notes = $ingresses->where('method', 'like', "%$status%")->where('invoice', 'G02');
+        // dd($ingresses, $payments, $notes);
 
         $color = ['factura' => 'primary', 'efectivo' => 'success', 'tarjeta' => 'warning', 'transferencia' => 'info'][$status];
 
