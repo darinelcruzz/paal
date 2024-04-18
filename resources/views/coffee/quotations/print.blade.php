@@ -30,13 +30,23 @@
                                 <img width="100px" src="{{ asset('/img/cocinaspaal.png') }}">
                             </td>
                             <td width="60%">
-                                <big><b>COCINASPAAL</b></big>
-                                SUCURSAL CHIAPAS<br>
-                                16 Poniente Norte #138, 
-                                col. Las Arboledas, C.P. 29030 <br>
-                                <i class="fa fa-phone"></i> 01 (961) 121 34 04 &nbsp;&nbsp;&nbsp;&nbsp;
-                                <i class="fa fa-whatsapp"></i> 961 330 65 28<br>
+                                @if($quotation->store_id == 2)
+                                <big><b>COFFEE DEPOT & SAN-SON SURESTE</b></big><br>
+                                <big>SUCURSAL CHS</big><br>
+                                16 Poniente Norte #138<br>
+                                Col. Las Arboledas, C.P. 29030 <br>
+                                Tuxtla Gutiérrez <br>
+                                <i class="fa fa-phone"></i> 01 (961) 121 34 04 - <i class="fa fa-whatsapp"></i> 961 330 65 28 <br>
                                 <i class="fa fa-envelope"></i> ventas@coffeedepotchiapas.com.mx <br>
+                                @else
+                                <big><b>COFFEE DEPOT & SAN-SON SURESTE</b></big><br>
+                                <big>SUCURSAL MID</big><br>
+                                Circuito Colonia (Calle 31) #87 x 20 y 18<br>
+                                Col. Mexico Oriente, C.P. 97137<br>
+                                Mérida, Yucatán <br>
+                                <i class="fa fa-phone"></i> 999 926 8658 - <i class="fa fa-whatsapp"></i> 999 900 2523 <br>
+                                <i class="fa fa-envelope"></i> merida@cocinaspaal.com <br>
+                                @endif
                             </td>
                             <td>                                
                                 <table style="text-align: right">
