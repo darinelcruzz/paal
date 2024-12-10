@@ -13,7 +13,7 @@
 
                     <div class="row">
                         <div class="col-md-12">
-                            {!! Field::select('invoice', ['no' => 'No require factura', 'G01' => 'G01 Adquisición de mercancías', 'G03' => 'G03 Gastos en general', 'P01' => 'P01 Por definir', 'otro' => 'Otro'], $ingress->invoice,
+                            {!! Field::select('invoice', ['no' => 'No require factura', 'G01' => 'G01 Adquisición de mercancías', 'G03' => 'G03 Gastos en general', 'P01' => 'P01 Por definir','I08' => 'I08 Otra maquinaria y equipo', 'otro' => 'Otro'], $ingress->invoice,
                                 ['label' => 'Uso de CFDI', 'tpl' => 'withicon', 'empty' => 'Elegir uso de CFDI'],
                                 ['icon' => 'file-invoice'])
                             !!}
