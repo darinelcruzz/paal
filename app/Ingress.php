@@ -108,7 +108,13 @@ class Ingress extends Model
 
     function getCfdiAttribute()
     {
-        $descriptions = ['G01' => 'G01 Adquisición de mercancías', 'G02' => 'G02 Devoluciones, descuentos o bonificaciones', 'G03' => 'G03 Gastos en general', 'P01' => 'P01 Por definir'];
+        $descriptions = [
+            'G01' => 'G01 Adquisición de mercancías', 
+            'G02' => 'G02 Devoluciones, descuentos o bonificaciones', 
+            'G03' => 'G03 Gastos en general', 
+            'P01' => 'P01 Por definir',
+            'I08' => 'I08 Otra maquinaria y equipo',
+        ];
 
         return $descriptions[$this->invoice];
     }
