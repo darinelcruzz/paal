@@ -25,7 +25,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                {!! Field::select('invoice', ['no' => 'No require factura', 'G01' => 'G01 Adquisición de mercancías', 'G03' => 'G03 Gastos en general', 'P01' => 'P01 Por definir', 'otro' => 'Otro'], null,
+                                {!! Field::select('invoice', ['no' => 'No require factura', 'G01' => 'G01 Adquisición de mercancías', 'G03' => 'G03 Gastos en general', 'P01' => 'P01 Por definir','I08' => 'I08 Otra maquinaria y equipo', 'otro' => 'Otro'], null,
                                     ['label' => 'Uso de CFDI', 'tpl' => 'withicon', 'empty' => 'Elegir', 'v-model' => 'is_invoiced'],
                                     ['icon' => 'file-invoice'])
                                 !!}
