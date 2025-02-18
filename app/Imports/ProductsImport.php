@@ -12,12 +12,10 @@ class ProductsImport implements ToCollection
     {
         foreach ($rows->splice(1) as $row) {
 
-            if($product = Product::where('code', $row[0])->first()) {
+            if($product = Product::where('id', $row[0])->first()) {
 
                 $product->update([
-                    'wholesale_price' => $row[2],
-                    'retail_price' => $row[2],
-                    'maximum_discount' => $row[3] * 100
+                    'type' => $row[8],
                 ]);
 
             }
