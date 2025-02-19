@@ -14,24 +14,39 @@ class ProductsImport implements ToCollection
 
             if($product = Product::where('id', $row[0])->first()) {
 
-                $product->update([
-                    'type' => $row[8],
-                ]);
+                if ($row[8] == 'activo') {
+                    $product->update([
+                        'description' => $row[1],
+                        'code' => $row[2],
+                        'barcode' => $row[2],
+                        'retail_price' => $row[3],
+                        'wholesale_price' => $row[4],
+                        'maximum_discount' => $row[5],
+                        'family' => $row[6],
+                        'category' => $row[7],
+                        'type' => $row[8],
+                        'status' => 'activo',
+                    ]);
+                } else {
+                    $product->update(['status' => 'inactivo']);
+                }
 
+            } else {
+                Product::create([
+                    'description' => $row[1],
+                    'code' => $row[2],
+                    'barcode' => $row[2],
+                    'retail_price' => $row[3],
+                    'wholesale_price' => $row[4],
+                    'maximum_discount' => $row[5],
+                    'family' => $row[6],
+                    'category' => $row[7],
+                    'type' => $row[8],
+                    'iva' => 1,
+                    'wholesale_quantity' => 0,
+                ]);            
             }
 
-            // Product::create([
-            //     'description' => $row[0],
-            //     'code' => $row[1],
-            //     'type' => $row[2],
-            //     'category' => $row[3],
-            //     'family' => $row[4],
-            //     'wholesale_price' => $row[5] * 1.16,
-            //     'retail_price' => $row[5] * 1.16,
-            //     'barcode' => $row[1],
-            //     'wholesale_quantity' => 0,
-            //     'iva' => 1,
-            // ]);            
         }
     }
 }
