@@ -14,7 +14,7 @@ class ProductsImport implements ToCollection
 
             if($product = Product::where('id', $row[0])->first()) {
 
-                if ($row[8] == 'activo') {
+                if ($row[9] == 'activo') {
                     $product->update([
                         'description' => $row[1],
                         'code' => $row[2],
