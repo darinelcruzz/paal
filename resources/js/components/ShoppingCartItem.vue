@@ -30,7 +30,7 @@
         </td>
         <td>
             <input v-if="has_discount" :name="'items[' + index + '][discount]'" class="form-control input-sm" type="number" step="1" value="0"
-                min="0" :max="max_discount" v-model.number="discount" @change="updateTotal">
+                min="0" :max="product.maximum_discount" v-model.number="discount" @change="updateTotal">
 
             <input v-else :name="'items[' + index + '][discount]'" type="hidden" value="0">
         </td>

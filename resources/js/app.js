@@ -7,6 +7,7 @@
 
 require('./bootstrap');
 
+import Vue from 'vue';
 window.Vue = require('vue');
 
 import VueCurrencyFilter from 'vue-currency-filter';
@@ -37,61 +38,61 @@ Vue.use(VueFormWizard)
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
-Vue.component('solid-box', require('./components/lte/SolidBox.vue'));
-Vue.component('simple-box', require('./components/lte/SimpleBox.vue'));
-Vue.component('accordion', require('./components/lte/Accordion.vue'));
-Vue.component('accordion-item', require('./components/lte/AccordionItem.vue'));
-Vue.component('tab', require('./components/lte/TabPane.vue'));
-Vue.component('tabs', require('./components/lte/CustomTabs.vue'));
-Vue.component('carousel', require('./components/lte/Carousel.vue'));
-Vue.component('carousel-item', require('./components/lte/CarouselItem.vue'));
-Vue.component('data-table', require('./components/lte/DataTable.vue'));
-Vue.component('thumbnail', require('./components/lte/Thumbnail.vue'));
-Vue.component('tl-item', require('./components/lte/TimelineItem.vue'));
-Vue.component('tl-label', require('./components/lte/TimelineLabel.vue'));
-Vue.component('timeline', require('./components/lte/Timeline.vue'));
-Vue.component('profile', require('./components/lte/UserProfile.vue'));
-Vue.component('pitem', require('./components/lte/UserProfileItem.vue'));
-Vue.component('modal', require('./components/lte/Modal.vue'));
-Vue.component('modal-button', require('./components/lte/ModalButton.vue'));
-Vue.component('ptable', require('./components/lte/ProductTable.vue'));
-Vue.component('prow', require('./components/lte/ProductRow.vue'));
-Vue.component('dropdown', require('./components/lte/DropdownButton.vue'));
-Vue.component('ddi', require('./components/lte/DropdownItem.vue'));
-Vue.component('file-upload', require('./components/lte/FileUploadInput.vue'));
-Vue.component('pdf-button', require('./components/lte/FileUploadButton.vue'));
-Vue.component('dynamic-inputs', require('./components/lte/DynamicInputs.vue'));
-Vue.component('color-card', require('./components/lte/ColorCard.vue'));
-Vue.component('multiple-inputs', require('./components/lte/MultipleInputs.vue'));
-Vue.component('notifications', require('./components/lte/Notifications.vue'));
+Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('solid-box', require('./components/lte/SolidBox.vue').default);
+Vue.component('simple-box', require('./components/lte/SimpleBox.vue').default);
+Vue.component('accordion', require('./components/lte/Accordion.vue').default);
+Vue.component('accordion-item', require('./components/lte/AccordionItem.vue').default);
+Vue.component('tab', require('./components/lte/TabPane.vue').default);
+Vue.component('tabs', require('./components/lte/CustomTabs.vue').default);
+Vue.component('carousel', require('./components/lte/Carousel.vue').default);
+Vue.component('carousel-item', require('./components/lte/CarouselItem.vue').default);
+Vue.component('data-table', require('./components/lte/DataTable.vue').default);
+Vue.component('thumbnail', require('./components/lte/Thumbnail.vue').default);
+Vue.component('tl-item', require('./components/lte/TimelineItem.vue').default);
+Vue.component('tl-label', require('./components/lte/TimelineLabel.vue').default);
+Vue.component('timeline', require('./components/lte/Timeline.vue').default);
+Vue.component('profile', require('./components/lte/UserProfile.vue').default);
+Vue.component('pitem', require('./components/lte/UserProfileItem.vue').default);
+Vue.component('modal', require('./components/lte/Modal.vue').default);
+Vue.component('modal-button', require('./components/lte/ModalButton.vue').default);
+Vue.component('ptable', require('./components/lte/ProductTable.vue').default);
+Vue.component('prow', require('./components/lte/ProductRow.vue').default);
+Vue.component('dropdown', require('./components/lte/DropdownButton.vue').default);
+Vue.component('ddi', require('./components/lte/DropdownItem.vue').default);
+Vue.component('file-upload', require('./components/lte/FileUploadInput.vue').default);
+Vue.component('pdf-button', require('./components/lte/FileUploadButton.vue').default);
+Vue.component('dynamic-inputs', require('./components/lte/DynamicInputs.vue').default);
+Vue.component('color-card', require('./components/lte/ColorCard.vue').default);
+Vue.component('multiple-inputs', require('./components/lte/MultipleInputs.vue').default);
+Vue.component('notifications', require('./components/lte/Notifications.vue').default);
 
-Vue.component('add-product', require('./components/AddProductButton.vue'));
-Vue.component('p-table', require('./components/ProductsTable.vue'));
-Vue.component('seriable-products-list', require('./components/SeriableProductsList.vue'));
-Vue.component('seriable-products', require('./components/SeriableProducts.vue'));
-Vue.component('seriable-product', require('./components/SeriableProduct.vue'));
-Vue.component('p-row', require('./components/ProductRow.vue'));
-Vue.component('shopping-list', require('./components/ShoppingList.vue'));
-Vue.component('shopping-list-item', require('./components/ShoppingListItemTwo.vue'));
-Vue.component('shipping-list', require('./components/ShippingList.vue'));
-Vue.component('shipping-item', require('./components/ShippingItem.vue'));
-Vue.component('payment-methods', require('./components/PaymentMethods.vue'));
-Vue.component('payment-inputs', require('./components/PaymentInputs.vue'));
-Vue.component('client-select', require('./components/ClientSelect.vue'));
-Vue.component('provider-select', require('./components/ProviderSelect.vue'));
-Vue.component('money-box', require('./components/MoneyBox.vue'));
-Vue.component('movements', require('./components/Movements.vue'));
-Vue.component('sale-products-list', require('./components/SaleProductsList.vue'));
-Vue.component('info-box', require('./components/InfoBox.vue'));
-Vue.component('icon-box', require('./components/IconBox.vue'));
-Vue.component('conditioned-select', require('./components/ConditionedSelect.vue'));
-Vue.component('product-quantity-and-amount', require('./components/ProductQuantityAndAmount.vue'));
-Vue.component('categories-and-families-table', require('./components/CategoriesAndFamiliesTable.vue'));
+Vue.component('add-product', require('./components/AddProductButton.vue').default);
+Vue.component('p-table', require('./components/ProductsTable.vue').default);
+Vue.component('seriable-products-list', require('./components/SeriableProductsList.vue').default);
+Vue.component('seriable-products', require('./components/SeriableProducts.vue').default);
+Vue.component('seriable-product', require('./components/SeriableProduct.vue').default);
+Vue.component('p-row', require('./components/ProductRow.vue').default);
+Vue.component('shopping-list', require('./components/ShoppingList.vue').default);
+Vue.component('shopping-list-item', require('./components/ShoppingListItemTwo.vue').default);
+Vue.component('shipping-list', require('./components/ShippingList.vue').default);
+Vue.component('shipping-item', require('./components/ShippingItem.vue').default);
+Vue.component('payment-methods', require('./components/PaymentMethods.vue').default);
+Vue.component('payment-inputs', require('./components/PaymentInputs.vue').default);
+Vue.component('client-select', require('./components/ClientSelect.vue').default);
+Vue.component('provider-select', require('./components/ProviderSelect.vue').default);
+Vue.component('money-box', require('./components/MoneyBox.vue').default);
+Vue.component('movements', require('./components/Movements.vue').default);
+Vue.component('sale-products-list', require('./components/SaleProductsList.vue').default);
+Vue.component('info-box', require('./components/InfoBox.vue').default);
+Vue.component('icon-box', require('./components/IconBox.vue').default);
+Vue.component('conditioned-select', require('./components/ConditionedSelect.vue').default);
+Vue.component('product-quantity-and-amount', require('./components/ProductQuantityAndAmount.vue').default);
+Vue.component('categories-and-families-table', require('./components/CategoriesAndFamiliesTable.vue').default);
 
 // NEW ONES FOR SANSON
-Vue.component('shopping-cart', require('./components/ShoppingCart.vue'));
-Vue.component('shopping-cart-item', require('./components/ShoppingCartItem.vue'));
+Vue.component('shopping-cart', require('./components/ShoppingCart.vue').default);
+Vue.component('shopping-cart-item', require('./components/ShoppingCartItem.vue').default);
 
 const Bus = new Vue({});
 

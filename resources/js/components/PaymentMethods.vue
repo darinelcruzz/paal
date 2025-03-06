@@ -1,5 +1,14 @@
 <template>
 	<div>
+	    <!-- <div class="row">
+	        <div class="col-md-12">
+	        	<div class="checkbox">
+	        		<label class="pull-right">
+	        			<input type="checkbox" name="additional" :disabled="(check + cash) == 0" :checked="(check + cash) != 0"> ¿Descontar 2% extra?
+	        		</label>
+	        	</div>
+	        </div>
+	    </div> -->
 		<div class="row">
 	        <div class="col-md-6">
 	            <div v-if="amount != undefined" class="control-group">

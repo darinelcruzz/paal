@@ -35,6 +35,8 @@
             <div class="row">
                 <div class="col-md-7">
                     <a href="#" style="color: orange" :title="product.features"><b>{{ product.code }}</b></a>
+                    &nbsp;&nbsp;&nbsp;
+                    <a v-if="product.is_variable == 1 && product.type == 'EQUIPO'" href="#" style="color: teal" :title="product.features"><b>hasta {{ product.maximum_discount }} %</b></a>
                 </div>
                 <div class="col-md-5">
                     <span class="pull-right" style="color: red"><small>{{ product.family }}</small></span>
