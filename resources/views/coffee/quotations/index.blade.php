@@ -112,11 +112,11 @@
                                                 <ddi to="{{ route('coffee.quotation.edit', $quotation) }}" icon="edit" text="Editar"></ddi>
                                                 @if($status == 'terminada')
                                                     <ddi to="{{ route('coffee.retainer.create', $quotation) }}" icon="hand-holding-usd" text="Anticipo"></ddi>
-                                                    @if($quotation->type)
-                                                        <ddi to="{{ route('coffee.quotation.transform', [$quotation, $quotation->type]) }}" icon="mug-hot" text="Crear venta"></ddi>
-                                                    @else
-                                                        <ddi to="{{ route('coffee.quotation.transform', $quotation) }}" icon="mug-hot" text="Crear venta"></ddi>
-                                                    @endif
+                                                    <li>
+                                                        <a href="{{ route('coffee.quotation.transform', $quotation) }}">
+                                                            <i class="fa fa-mug-hot" aria-hidden="true"></i> Crear venta
+                                                        </a>
+                                                    </li>
                                                 @else
                                                     <ddi to="{{ route('coffee.quotation.move', $quotation) }}" icon="share" text="Hacer cotización"></ddi>
                                                 @endif

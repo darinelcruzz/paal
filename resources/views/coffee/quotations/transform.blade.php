@@ -24,20 +24,6 @@
                                     ['tpl' => 'withicon', 'disabled' => 'true','required' => 'true'],
                                     ['icon' => 'user'])
                                 !!}
-                                {{-- <div id="field_address_id" class="form-group">
-                                    <label for="address_id" class="control-label"><b>Entregar en</b></label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon">
-                                            <i class="fa fa-shipping-fast"></i>
-                                        </span>
-                                        <select id="address_id" name="address_id" class="form-control">
-                                            <option value="" selected="selected">Elegir dirección de entrega</option>
-                                            @foreach($quotation->client->addresses as $address)
-                                                <option value="{{ $address->id }}">{{ "$address->street, $address->city, $address->state" }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div> --}}
                             </div>
                             
                         </div>

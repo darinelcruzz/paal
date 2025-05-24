@@ -81,7 +81,7 @@ class QuotationController extends Controller
         return view('coffee.quotations.print', compact('quotation'));
     }
 
-    function transform(Quotation $quotation, $type = null)
+    function transform(Quotation $quotation)
     {
         $user = auth()->user();
         $last_sale = Ingress::whereStoreId($user->store_id)->get()->last();
