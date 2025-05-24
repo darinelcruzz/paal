@@ -112,7 +112,7 @@ Route::group(['prefix' => 'cocinaspaal', 'as' => 'coffee.'], function () {
 		Route::get('imprimir/{quotation}', usesas($ctrl, 'print'));
 		Route::get('descargar/{quotation}', usesas($ctrl, 'download'));
 		Route::get('mover/{quotation}', usesas($ctrl, 'move'));
-		Route::get('transformar/{quotation}/{type}', usesas($ctrl, 'transform'));
+		Route::get('transformar/{quotation}/{type?}', usesas($ctrl, 'transform'));
 		Route::get('ver/{quotation}', usesas($ctrl, 'show'));
 	    Route::get('/{status}/{type?}', usesas($ctrl, 'index'));
 	    Route::post('/{status}/{type?}', usesas($ctrl, 'index'));
