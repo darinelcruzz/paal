@@ -74,11 +74,7 @@
                                             <ddi to="{{ route('sanson.quotation.download', $quotation) }}" icon="file-pdf" text="Imprimir" target="_blank"></ddi>
                                             @if (!$quotation->is_canceled)
                                                 <ddi to="{{ route('sanson.quotation.edit', $quotation) }}" icon="edit" text="Editar"></ddi>
-                                                @if($quotation->type)
-                                                    <ddi to="{{ route('sanson.quotation.transform', [$quotation, $quotation->type]) }}" icon="mug-hot" text="Crear venta"></ddi>
-                                                @else
-                                                    <ddi to="{{ route('sanson.quotation.transform', $quotation) }}" icon="mug-hot" text="Crear venta"></ddi>
-                                                @endif
+                                                <ddi to="{{ route('sanson.quotation.transform', $quotation) }}" icon="mug-hot" text="Crear venta"></ddi>
                                             @endif
                                         </dropdown>
                                     </td>
