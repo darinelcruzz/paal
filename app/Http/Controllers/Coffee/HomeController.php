@@ -16,7 +16,7 @@ class HomeController extends Controller
 
             return back();
         }
-        Task::where('status', 'pendiente')->where('assigned_at', '<', date('Y-m-d'))->update(['status' => 'vencida']);
+        // Task::where('status', 'pendiente')->where('assigned_at', '<', date('Y-m-d'))->update(['status' => 'vencida']);
         return view('coffee.home');
     }
 }
