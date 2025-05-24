@@ -44,7 +44,7 @@ class IngressController extends Controller
 
     function store(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
         $validated = $this->validate($request, [
             'client_id' => 'required',
             'user_id' => 'required',
