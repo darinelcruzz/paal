@@ -84,20 +84,22 @@ class QuotationController extends Controller
     function transform(Quotation $quotation)
     {
         $user = auth()->user();
-        $last_sale = Ingress::whereStoreId($user->store_id)->get()->last();
+        $last_sale = Ingress::whereStoreId($user->store_id)->latest()->first();
         $last_folio = $last_sale ? $last_sale->folio + 1: 1;
-        $exchange = Variable::find(1)->value;
-        $promo = Variable::find(2)->value;
+        $variables = Variable::whereIn('id', [1, 2])->pluck('value', 'id');
+        $exchange = $variables[1] ?? null;
+        $promo = $variables[2] ?? null;
         return view('coffee.quotations.transform', compact('quotation', 'last_folio', 'exchange', 'promo', 'user'));
     }
 
     function alter(Quotation $quotation)
     {
         $user = auth()->user();
-        $last_sale = Ingress::whereStoreId($user->store_id)->get()->last();
+        $last_sale = Ingress::whereStoreId($user->store_id)->latest()->first();
         $last_folio = $last_sale ? $last_sale->folio + 1: 1;
-        $exchange = Variable::find(1)->value;
-        $promo = Variable::find(2)->value;
+        $variables = Variable::whereIn('id', [1, 2])->pluck('value', 'id');
+        $exchange = $variables[1] ?? null;
+        $promo = $variables[2] ?? null;
         return view('coffee.quotations.transform', compact('quotation', 'last_folio', 'exchange', 'promo', 'user'));
     }
 
