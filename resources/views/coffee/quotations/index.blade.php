@@ -113,7 +113,7 @@
                                                 @if($status == 'terminada')
                                                     <ddi to="{{ route('coffee.retainer.create', $quotation) }}" icon="hand-holding-usd" text="Anticipo"></ddi>
                                                     <li>
-                                                        <a href="{{ route('coffee.quotation.transform', $quotation) }}">
+                                                        <a href="{{ route('coffee.quotation.alter', $quotation) }}">
                                                             <i class="fa fa-mug-hot" aria-hidden="true"></i> Crear venta
                                                         </a>
                                                     </li>

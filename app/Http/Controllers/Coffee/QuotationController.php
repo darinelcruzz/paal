@@ -91,6 +91,16 @@ class QuotationController extends Controller
         return view('coffee.quotations.transform', compact('quotation', 'last_folio', 'exchange', 'promo', 'user'));
     }
 
+    function alter(Quotation $quotation)
+    {
+        $user = auth()->user();
+        $last_sale = Ingress::whereStoreId($user->store_id)->get()->last();
+        $last_folio = $last_sale ? $last_sale->folio + 1: 1;
+        $exchange = Variable::find(1)->value;
+        $promo = Variable::find(2)->value;
+        return view('coffee.quotations.transform', compact('quotation', 'last_folio', 'exchange', 'promo', 'user'));
+    }
+
     function move(Quotation $quotation)
     {
         $quotation->update(['status' => 'terminada']);
