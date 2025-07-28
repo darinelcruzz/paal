@@ -42,12 +42,15 @@
                     @foreach($movements as $description => $prices)
                         @foreach($prices as $price => $elements)
                         <tr>
+                            @php
+                                $discount = count($elements) === 1 ? $elements->sum('discount')/100: 0;
+                            @endphp
                             <td style="text-align: center;">{{ $elements->sum('quantity') }}</td>
                             <td>{{ $description }}</td>
-                            <td style="text-align: right;">{{ number_format($price, 2) }}</td>
-                            <td style="text-align: right;">{{ number_format($elements->sum('quantity') * $price, 2) }}</td>
+                            <td style="text-align: right;">{{ number_format($price * (1 - $discount), 2) }}</td>
+                            <td style="text-align: right;">{{ number_format($elements->sum('quantity') * $price * (1 - $discount), 2) }}</td>
                             @php
-                                $total += $elements->sum('quantity') * $price;
+                                $total += ($elements->sum('quantity') * $price) * (1 - $discount);
                             @endphp
                         </tr>
                         @endforeach()
